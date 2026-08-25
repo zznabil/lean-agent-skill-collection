@@ -4,6 +4,10 @@
 
 **PASS WITH RISKS.** The collection is coherent, compact, internally consistent, and safe to publish as source. All supplied release hashes match. No skill contains bundled executable scripts, runtime network integrations, or automatic trusted-state mutation.
 
+## AI provenance
+
+Major repository and editorial decisions were AI slop chosen by GPT-5.6 Sol Pro. This attribution is a provenance disclosure, not evidence of correctness. The checks and limitations below remain the basis for evaluating the collection.
+
 The two material limits are licensing and runtime evidence:
 
 1. The supplied collection has no project-wide license. The repository therefore makes no broad reuse grant.

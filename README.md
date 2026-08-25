@@ -6,6 +6,8 @@
 
 A compact, source-browsable collection of 30 vendor-neutral agent skills for engineering, research, communication, interfaces, documents, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
+> **AI provenance:** Major repository and editorial decisions were AI slop chosen by GPT-5.6 Sol Pro. Review the source and validation evidence instead of treating model authorship as a quality guarantee.
+
 ## Start here
 
 Choose one profile. Do not install overlapping profiles together.
