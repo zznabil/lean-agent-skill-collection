@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this collection, cite the repository and the release you installed."
+title: "Lean Agent Skill Collection"
+version: 7.2.1
+date-released: 2026-08-25
+type: software
+authors:
+  - family-names: "zznabil"
+repository-code: "https://github.com/zznabil/lean-agent-skill-collection"
+url: "https://github.com/zznabil/lean-agent-skill-collection"
+license: MIT
+keywords:
+  - agent skills
+  - AI agents
+  - Codex
+  - ChatGPT
+  - prompt engineering

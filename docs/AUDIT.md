@@ -6,11 +6,11 @@
 
 ## AI provenance
 
-This collection is AI slop because GPT-5.6 Sol Pro made most of its major decisions. Treat the model's decisions as untrusted and review them critically. The checks and limitations below remain the basis for evaluating the collection.
+GPT-5.6 Sol Pro assisted most major design and synthesis decisions in this collection. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
 The two material limits are licensing and runtime evidence:
 
-1. The supplied collection has no project-wide license. The repository therefore makes no broad reuse grant.
+1. V7.2.0 was published without a project-wide license. This was resolved for the repository and V7.2.1 packages by adopting MIT.
 2. Static checks cannot prove identical routing behavior across agent hosts. Each host must run live activation tests when routing matters.
 
 ## Scope
@@ -79,7 +79,7 @@ The main overlap is intentional and routed by scale: `implement` owns bounded ch
 
 | ID | Severity | Finding | Disposition |
 |---|---|---|---|
-| R1 | P1 | No project-wide license was included. | Documented. Do not imply open-source rights until the owner chooses a license. |
+| R1 | P1 | V7.2.0 did not include a project-wide license. | Resolved in V7.2.1 with MIT licensing in the repository and all packages. |
 | R2 | P2 | Static metadata cannot prove live host routing or cross-model independence. | Run host-specific activation tests after installation. |
 | R3 | P2 | Overlapping profiles duplicate authorities and can cause ambiguous routing. | Install one primary profile only. |
 | R4 | P3 | Package READMEs repeat two differently capitalized “v7.2 focus” headings. | Preserved to keep release bytes unchanged; repair in a future source release. |

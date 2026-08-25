@@ -6,7 +6,7 @@ Security fixes are accepted for the latest published profile version.
 
 ## Report a vulnerability
 
-Do not open a public issue for a vulnerability that could expose secrets, private data, or unsafe automatic actions. Use GitHub's private vulnerability reporting feature when it is enabled for this repository. Otherwise, contact the repository owner through their GitHub profile before sharing details.
+Do not open a public issue for a vulnerability that could expose secrets, private data, or unsafe automatic actions. Use [GitHub private vulnerability reporting](https://github.com/zznabil/lean-agent-skill-collection/security/advisories/new).
 
 Include the affected skill, exact lines, plausible abuse case, required permissions, and the smallest safe reproduction.
 

@@ -1,7 +1,8 @@
 {
   "package": "complete",
+  "scope": "static V7.2.0 package and source validation only; not live host-routing or behavioural validation",
   "plugin_name": "lean-agent-skills-complete",
-  "version": "7.2.0",
+  "version": "7.2.1",
   "skills_expected": 30,
   "skills_validated": 30,
   "manual_only_skills": [
@@ -55,7 +56,11 @@
   "new_automatic_mutations": 0,
   "new_provider_requirements": 0,
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "Live host-routing and behavioural validation were not performed.",
+    "Overlapping profiles must not be installed together.",
+    "This supplied V7.2.0 record predates the public deterministic V7.2.1 build recipe."
+  ],
   "passed": true,
   "skill_metadata": [
     {
@@ -269,7 +274,7 @@
       "allow_implicit_invocation": true
     }
   ],
-  "release": "v7.2",
+  "release": "v7.2.1",
   "changed_from_v7_1": [
     "experiment",
     "gauntlet-loop",

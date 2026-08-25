@@ -11,11 +11,38 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    name: Validate collection (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: PowerShell 7
+            os: ubuntu-latest
+            shell: pwsh
+          - name: Windows PowerShell 5.1
+            os: windows-latest
+            shell: powershell
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Validate skills and release artifacts
-        shell: pwsh
-        run: ./scripts/validate.ps1
+      - name: Build twice and prove reproducibility
+        shell: ${{ matrix.shell }}
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          foreach ($file in $files) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
+              throw "Non-deterministic output: $($file.Name)"
+            }
+          }
+      - name: Test validator rejection controls
+        shell: ${{ matrix.shell }}
+        run: ./scripts/test-validator.ps1
+      - name: Validate source and release artifacts
+        shell: ${{ matrix.shell }}
+        run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a

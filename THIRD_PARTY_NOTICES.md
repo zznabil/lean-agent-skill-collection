@@ -1,5 +1,7 @@
 # Third-party notices
 
+This file records material that was legally reused or adapted. Conceptual inspiration and research lineage that did not import source text or code are documented separately in the [project history](https://github.com/zznabil/lean-agent-skill-collection/blob/main/docs/HISTORY.md).
+
 V7.2 states that it absorbed selected mechanics from [`EveryInc/compound-engineering-plugin`](https://github.com/EveryInc/compound-engineering-plugin) version 3.23.3 at commit `871996c4e35512e3d33cdc9c2532395f7bf10831`.
 
 That upstream repository is licensed under the MIT License at the pinned revision:

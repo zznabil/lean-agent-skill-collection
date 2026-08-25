@@ -25,7 +25,7 @@ The collection is not a copy of any one framework. It synthesizes:
 - Superpowers, Compound Engineering, Addy Osmani's skills, Ultracode, and other independent projects;
 - HORIZON, AVO, ARC-AGI-3 harnesses, and other long-horizon agent research.
 
-> **AI-slop warning:** GPT-5.6 Sol Pro made most major decisions in this collection. This history records the lineage; it does not validate those decisions.
+> **AI provenance and review warning:** GPT-5.6 Sol Pro assisted most major design and synthesis decisions in this collection. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
 ## Decision vocabulary
 

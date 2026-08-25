@@ -1,0 +1,38 @@
+name: Host compatibility report
+description: Report activation, metadata, installation, or behaviour differences in an agent host.
+title: "[Host]: "
+labels: [compatibility]
+body:
+  - type: input
+    id: host
+    attributes:
+      label: Host and version
+      placeholder: Codex CLI 1.2.3 on Windows 11
+    validations:
+      required: true
+  - type: input
+    id: profile
+    attributes:
+      label: Installed profile and version
+      placeholder: Engineering 7.2.1
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Installation and reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Include sanitized logs or screenshots and whether the issue reproduces in a clean project.
+    validations:
+      required: true

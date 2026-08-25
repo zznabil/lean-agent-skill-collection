@@ -13,6 +13,6 @@ Contributions should keep skills small, vendor-neutral, and evidence-driven.
 
 Do not add dependencies, installers, hooks, automatic updates, external integrations, or trusted-state mutation without an explicit design and security review.
 
-## Licensing note
+## License
 
-This repository does not yet include a project-wide contribution license. Discuss material contributions with the owner before submitting them.
+By submitting a contribution, you agree to license it under the repository's [MIT License](LICENSE).

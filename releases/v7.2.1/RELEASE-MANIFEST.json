@@ -1,0 +1,16 @@
+{
+  "release": "v7.2.1",
+  "version": "7.2.1",
+  "scope": "deterministic package build and static validation; not live host-routing or behavioural validation",
+  "profiles": 6,
+  "unique_skills": 30,
+  "skill_content_changed_from_v7_2_0": false,
+  "archives": {
+    "gauntlet-loop-pack-openai-v7.2.1.zip": {"sha256": "4f9e2a5704513534d636f80649197fc7041fe2c4fefbafc90942a4add572369f", "bytes": 22696, "profile": "gauntlet"},
+    "get-it-done-pack-openai-v7.2.1.zip": {"sha256": "d368adf033a527d2da3b7dd6de7f4e88e549d45c603d96d5f0e5c6397e33a498", "bytes": 46495, "profile": "get-it-done"},
+    "lean-agent-skills-complete-openai-v7.2.1.zip": {"sha256": "d5d7f33a821e8c9e7e36b41a0da0c2ad2d77db59ebb1dfd44502df0a25b7c833", "bytes": 142426, "profile": "complete"},
+    "lean-agent-skills-core-openai-v7.2.1.zip": {"sha256": "8e5741dd1c1f800693d26348ad14b50b64c682c0a4d7142100f126ce5f623d6b", "bytes": 80630, "profile": "core"},
+    "lean-agent-skills-engineering-openai-v7.2.1.zip": {"sha256": "eef379976892c104f50d1efbac464d9b9a361e4f9aedc49229c87a9b199430d6", "bytes": 121775, "profile": "engineering"},
+    "user-facing-communication-mini-openai-v7.2.1.zip": {"sha256": "25ed43e4c52d1fdfbc71185d30df9c6d9aa885e35c9ef75db3ab00d68436caed", "bytes": 13546, "profile": "communication"}
+  }
+}

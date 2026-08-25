@@ -1,0 +1,42 @@
+name: Skill defect
+description: Report incomplete, incorrect, unsafe, or falsely triggered skill behaviour.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include secrets or private data. Use private vulnerability reporting for security issues.
+  - type: input
+    id: skill
+    attributes:
+      label: Affected skill
+      placeholder: skills/example/SKILL.md
+    validations:
+      required: true
+  - type: dropdown
+    id: defect
+    attributes:
+      label: Defect type
+      options:
+        - False activation
+        - Missed activation
+        - Incomplete workflow
+        - Incorrect instruction
+        - Unsafe behaviour
+        - Packaging or validation failure
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include the host, prompt, relevant project policy, expected result, and actual result.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Add minimal logs, screenshots, or links with sensitive data removed.
+    validations:
+      required: true

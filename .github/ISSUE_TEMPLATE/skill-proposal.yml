@@ -1,0 +1,38 @@
+name: Skill or capability proposal
+description: Propose adopting, merging, absorbing, or rejecting a capability.
+title: "[Proposal]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Distinct problem
+      description: What leading action is not already owned by an existing skill?
+    validations:
+      required: true
+  - type: dropdown
+    id: decision
+    attributes:
+      label: Proposed decision
+      options:
+        - Absorb into an existing skill
+        - Merge into an existing skill
+        - Adopt as a distinct skill
+        - Adopt upstream selectively
+        - Reject after review
+    validations:
+      required: true
+  - type: textarea
+    id: overlap
+    attributes:
+      label: Trigger and overlap analysis
+      description: Name overlapping skills and explain why this does not create competing authority.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and evaluation plan
+      description: Include sources, positive cases, negative cases, and the smallest verification plan.
+    validations:
+      required: true

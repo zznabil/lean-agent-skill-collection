@@ -1,5 +1,6 @@
 .audit-work/
 .agent-state/
+/artifacts/
 openai-native-skill-collections-v7.2-all/
 /openai-native-skill-collections-v7.2-all.zip
 *.tmp
