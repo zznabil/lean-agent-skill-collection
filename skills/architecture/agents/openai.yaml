@@ -1,0 +1,9 @@
+interface:
+  display_name: "Architecture"
+  short_description: "Design durable boundaries and shared action contracts"
+  default_prompt: "Use $architecture to design the smallest durable structure and interface contract for this change."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

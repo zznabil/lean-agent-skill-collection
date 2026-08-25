@@ -1,0 +1,34 @@
+source_skill,decision,lean_home,reason
+ce-ideate,ABSORB,reasoning; plan,Proposal framing only; no duplicate trigger
+ce-brainstorm,MERGE,grilling; plan,Exploration and requirements already owned
+ce-plan,MERGE_STRONGLY,plan,"Absorb output tiers, stable decisions, plan-as-guardrail"
+ce-pov,MERGE,reasoning; research; review,Decision synthesis overlaps
+ce-strategy,MERGE,plan; project-context,Strategy record and context overlap
+ce-work,MERGE,get-it-done; implement; test; release,Existing execution authority
+lfg,REJECT,get-it-done,Competing controller; push/PR autonomy too broad
+ce-worktree,MERGE,get-it-done/ORCHESTRATION.md,Isolation already covered
+ce-debug,MERGE,debug,Direct overlap
+ce-code-review,MERGE_STRONGLY,review; gauntlet-loop,Absorb identity receipts and live review evidence
+ce-doc-review,MERGE,review,Writing lane already exists
+ce-simplify-code,MERGE,review; implement,Maintainability lane already exists
+ce-optimize,ABSORB,experiment; get-it-done,Staged scoring and stability ladder
+ce-retune,ABSORB,skill-design,Noise-aware behavioral retuning
+ce-prototype,NO_CHANGE,prototype,Already covered
+ce-compound,ABSORB_STRONGLY,project-context,Verified solution-learning mode
+ce-compound-refresh,ABSORB,project-context,"Overlap, staleness, and supersession handling"
+ce-explain,MERGE,teach; repo-map; writing,Direct overlap
+ce-handoff,MERGE,handoff,Direct overlap
+ce-commit,MERGE,release,Direct overlap
+ce-commit-push-pr,MERGE_WITH_APPROVAL,release,Keep consequential approval boundary
+ce-babysit-pr,MERGE,monitor; triage; release,Existing monitoring lifecycle
+ce-resolve-pr-feedback,MERGE,review; release,Existing review-to-release flow
+ce-polish,MERGE,frontend; browser-automation; review,Existing real-artifact UI loop
+ce-dogfood,MERGE,browser-automation; gauntlet-loop,Real-user QA already covered
+ce-test-browser,MERGE,browser-automation,Direct overlap
+ce-test-xcode,OPTIONAL_ADDON,project-local only,Platform-specific; install only for Xcode work
+ce-product-pulse,REJECT_GLOBAL,project-local only,"Product analytics integration, not core doctrine"
+ce-sweep,REJECT_GLOBAL,project-local only,Connector-heavy feedback operation
+ce-riffrec-feedback-analysis,REJECT,none,Service-specific
+ce-proof,REJECT,none,External publishing integration
+ce-promote,REJECT,none,Promotion workflow
+ce-setup,REJECT_ROUTED,skill-design,Packaging checks belong in existing authority

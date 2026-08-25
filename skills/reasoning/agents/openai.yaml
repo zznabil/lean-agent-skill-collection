@@ -1,0 +1,9 @@
+interface:
+  display_name: "Reasoning"
+  short_description: "Apply focused mental models to hard decisions"
+  default_prompt: "Use $reasoning to analyze this decision with the smallest useful model set."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

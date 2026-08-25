@@ -1,0 +1,9 @@
+interface:
+  display_name: "CLI Design"
+  short_description: "Design reliable CLIs for humans and agents"
+  default_prompt: "Use $cli-design to design or review this CLI for reliable headless use."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

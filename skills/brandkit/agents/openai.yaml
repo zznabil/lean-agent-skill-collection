@@ -1,0 +1,9 @@
+interface:
+  display_name: "Brand Kit"
+  short_description: "Create a compact and coherent visual identity"
+  default_prompt: "Use $brandkit to create a compact visual identity for this product."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

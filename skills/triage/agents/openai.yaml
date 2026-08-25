@@ -1,0 +1,9 @@
+interface:
+  display_name: "Triage"
+  short_description: "Triage uncertain reports and live incidents"
+  default_prompt: "Use $triage to verify this report or incident and identify the safest next action."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

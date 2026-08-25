@@ -1,0 +1,107 @@
+{
+  "release": "v7.2",
+  "source_release": "v7.1",
+  "compound_source": {
+    "repository": "EveryInc/compound-engineering-plugin",
+    "commit": "871996c4e35512e3d33cdc9c2532395f7bf10831",
+    "version": "3.23.3"
+  },
+  "profiles": {
+    "core": {
+      "skills": 9,
+      "lines": 310,
+      "words": 4336,
+      "largest_lines": 67,
+      "passed": true
+    },
+    "engineering": {
+      "skills": 22,
+      "lines": 612,
+      "words": 7954,
+      "largest_lines": 67,
+      "passed": true
+    },
+    "complete": {
+      "skills": 30,
+      "lines": 762,
+      "words": 9684,
+      "largest_lines": 67,
+      "passed": true
+    },
+    "communication": {
+      "skills": 3,
+      "lines": 55,
+      "words": 486,
+      "largest_lines": 21,
+      "passed": true
+    },
+    "get-it-done": {
+      "skills": 3,
+      "lines": 148,
+      "words": 2118,
+      "largest_lines": 67,
+      "passed": true
+    },
+    "gauntlet": {
+      "skills": 1,
+      "lines": 67,
+      "words": 1047,
+      "largest_lines": 67,
+      "passed": true
+    }
+  },
+  "unique_skills": 30,
+  "new_routed_skills": 0,
+  "new_external_integrations": 0,
+  "new_automatic_mutations": 0,
+  "new_provider_requirements": 0,
+  "modified_skill_directories": [
+    "experiment",
+    "gauntlet-loop",
+    "get-it-done",
+    "plan",
+    "project-context",
+    "review",
+    "skill-design"
+  ],
+  "net_added_words_changed_runtime_docs": 348,
+  "archives": {
+    "lean-agent-skills-core-openai-v7.2.zip": {
+      "sha256": "506aa5f41a2cf7172d9f03fc8a59a38d028f7c69255a6b171dd8907019177201",
+      "bytes": 46210
+    },
+    "lean-agent-skills-engineering-openai-v7.2.zip": {
+      "sha256": "438e7e76fd56cd3b7f1989053a4a191b4d62d78936007144d92737e4b1b6963a",
+      "bytes": 77099
+    },
+    "lean-agent-skills-complete-openai-v7.2.zip": {
+      "sha256": "7fb60be30832ad956fdfaeda510986eb4633352ebab1bfadcc00c35669207740",
+      "bytes": 92967
+    },
+    "user-facing-communication-mini-openai-v7.2.zip": {
+      "sha256": "80b90c6d5d66dd024a4709cb046be295ebfdc960eb8959572bac97f6b3b46460",
+      "bytes": 8671
+    },
+    "get-it-done-pack-openai-v7.2.zip": {
+      "sha256": "95f352e6a299d3b7363529fddd4079187892e06695738f250dfe0ec9386d092a",
+      "bytes": 24806
+    },
+    "gauntlet-loop-pack-openai-v7.2.zip": {
+      "sha256": "7050df73ba12ee899993273f28c2143845a39cb76a64f590a1441db82b81d350",
+      "bytes": 10808
+    },
+    "lean-agent-skills-v7.1-to-v7.2-update-pack.zip": {
+      "sha256": "c602623fe2441f7dde960a6848fa7ddac849e2f5421e2a4c7df29eb6b4a25ed5",
+      "bytes": 113330
+    }
+  },
+  "checks": {
+    "cross_profile_byte_consistency": true,
+    "changed_runtime_word_budget_le_350": true,
+    "new_routed_skills_zero": true,
+    "external_integrations_zero": true,
+    "automatic_trusted_mutations_zero": true,
+    "profile_errors": []
+  },
+  "passed": true
+}

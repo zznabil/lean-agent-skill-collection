@@ -1,0 +1,9 @@
+interface:
+  display_name: "Office Files"
+  short_description: "Create and validate office documents and files"
+  default_prompt: "Use $office-files to create or repair this file and validate the result."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

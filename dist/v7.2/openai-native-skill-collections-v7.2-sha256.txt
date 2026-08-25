@@ -1,0 +1,10 @@
+9436649d376d0cb27a49f8ffe5ea25c75c2a792a5a121791f7ef1289c92050f1  compound-engineering-integration-v7.2-8pass-audit.md
+42b1ceb2b88b01dab12b4eaa311e2add322a3d790d4a585356df3b6dfa94ab22  compound-engineering-integration-v7.2-decisions.csv
+7050df73ba12ee899993273f28c2143845a39cb76a64f590a1441db82b81d350  gauntlet-loop-pack-openai-v7.2.zip
+95f352e6a299d3b7363529fddd4079187892e06695738f250dfe0ec9386d092a  get-it-done-pack-openai-v7.2.zip
+7fb60be30832ad956fdfaeda510986eb4633352ebab1bfadcc00c35669207740  lean-agent-skills-complete-openai-v7.2.zip
+506aa5f41a2cf7172d9f03fc8a59a38d028f7c69255a6b171dd8907019177201  lean-agent-skills-core-openai-v7.2.zip
+438e7e76fd56cd3b7f1989053a4a191b4d62d78936007144d92737e4b1b6963a  lean-agent-skills-engineering-openai-v7.2.zip
+c602623fe2441f7dde960a6848fa7ddac849e2f5421e2a4c7df29eb6b4a25ed5  lean-agent-skills-v7.1-to-v7.2-update-pack.zip
+a1ad3146913a8c3697ae34420a91fdadb534602466b6175d121ae8975e3f3369  openai-native-skill-collections-v7.2-validation.json
+80b90c6d5d66dd024a4709cb046be295ebfdc960eb8959572bac97f6b3b46460  user-facing-communication-mini-openai-v7.2.zip

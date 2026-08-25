@@ -1,0 +1,9 @@
+interface:
+  display_name: "Python"
+  short_description: "Build maintainable Python with the existing toolchain"
+  default_prompt: "Use $python to implement this in maintainable Python with the current toolchain."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

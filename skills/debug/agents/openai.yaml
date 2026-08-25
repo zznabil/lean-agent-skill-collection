@@ -1,0 +1,9 @@
+interface:
+  display_name: "Debug"
+  short_description: "Find root causes with reproducible feedback"
+  default_prompt: "Use $debug to reproduce, diagnose, and fix this defect with evidence."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

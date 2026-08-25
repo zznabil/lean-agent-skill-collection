@@ -1,0 +1,9 @@
+interface:
+  display_name: "Review"
+  short_description: "Inspect artifacts and operability against contracts"
+  default_prompt: "Use $review to independently inspect this artifact or repository against its real contract."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

@@ -1,0 +1,9 @@
+interface:
+  display_name: "Project Context"
+  short_description: "Capture project context or approved durable lessons"
+  default_prompt: "Use $project-context to capture verified project context or approved durable lessons."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

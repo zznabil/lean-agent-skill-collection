@@ -1,0 +1,9 @@
+interface:
+  display_name: "Prototype"
+  short_description: "Build a disposable prototype to answer one question"
+  default_prompt: "Use $prototype to build the smallest disposable test of this idea."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true

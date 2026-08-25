@@ -1,0 +1,9 @@
+interface:
+  display_name: "Handoff"
+  short_description: "Capture exact state for safe continuation"
+  default_prompt: "Use $handoff to capture the exact state and next action for continuation."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: false

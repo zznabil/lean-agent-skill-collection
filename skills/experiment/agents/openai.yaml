@@ -1,0 +1,9 @@
+interface:
+  display_name: "Experiment Design"
+  short_description: "Design controlled product or engineering experiments"
+  default_prompt: "Use $experiment to design a controlled experiment with a comparable baseline and decision rule."
+policy:
+  products:
+    - "CHAT"
+    - "CODEX"
+  allow_implicit_invocation: true
