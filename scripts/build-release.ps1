@@ -60,7 +60,7 @@ function New-DeterministicZip([string]$SourceDirectory, [string]$ZipPath) {
     $writer = New-Object IO.BinaryWriter($stream, (New-Object Text.UTF8Encoding($false)), $true)
     $records = New-Object System.Collections.Generic.List[object]
     try {
-        $files = @(Get-ChildItem -LiteralPath $SourceDirectory -Recurse -File | Sort-Object { Get-RelativePath $SourceDirectory $_.FullName })
+        $files = @(Get-ChildItem -LiteralPath $SourceDirectory -Recurse -File -Force | Sort-Object { Get-RelativePath $SourceDirectory $_.FullName })
         foreach ($file in $files) {
             $entryName = Get-RelativePath $SourceDirectory $file.FullName
             $nameBytes = [Text.Encoding]::UTF8.GetBytes($entryName)
@@ -126,7 +126,7 @@ function Get-ChecksumLines([string]$Directory, [string[]]$ExcludedRelativePaths)
         $excluded[$excludedPath.Replace('\', '/')] = $true
     }
     $lines = New-Object System.Collections.Generic.List[string]
-    $files = @(Get-ChildItem -LiteralPath $Directory -Recurse -File | Sort-Object { Get-RelativePath $Directory $_.FullName })
+    $files = @(Get-ChildItem -LiteralPath $Directory -Recurse -File -Force | Sort-Object { Get-RelativePath $Directory $_.FullName })
     foreach ($file in $files) {
         $relative = Get-RelativePath $Directory $file.FullName
         if (-not $excluded.ContainsKey($relative)) {
