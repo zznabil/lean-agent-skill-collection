@@ -8,6 +8,8 @@ A compact, source-browsable collection of 30 vendor-neutral agent skills for eng
 
 > **AI-slop warning:** This collection is AI slop because GPT-5.6 Sol Pro made most of its major decisions. Review everything critically; the model's involvement is not evidence of quality or correctness.
 
+Read the [project history](docs/HISTORY.md) for the path from a Pro-mode workaround, through a 139-to-29 lean refactor, to the current 30-skill V7.2 collection.
+
 ## Start here
 
 Choose one profile. Do not install overlapping profiles together.
