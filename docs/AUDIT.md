@@ -6,7 +6,7 @@
 
 ## AI provenance
 
-Major repository and editorial decisions were AI slop chosen by GPT-5.6 Sol Pro. This attribution is a provenance disclosure, not evidence of correctness. The checks and limitations below remain the basis for evaluating the collection.
+This collection is AI slop because GPT-5.6 Sol Pro made most of its major decisions. Treat the model's decisions as untrusted and review them critically. The checks and limitations below remain the basis for evaluating the collection.
 
 The two material limits are licensing and runtime evidence:
 
