@@ -7,7 +7,7 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 
 ## Import
 
-1. Inspect source, revision, license, trigger, files, tool assumptions, network use, state mutation, executable code, hooks, installers, automatic updates, permissions, and actual behavior.
+1. Inspect source, revision, license, trigger, files, tool assumptions, network use, state mutation, executable code, hooks, installers, automatic updates, permissions, and actual behavior. Select tools and standards from requirements and measured trials, not reputation or feature count.
 2. Distinguish a **skill** that changes agent behavior from a **runtime** that adds execution capability. Adopt a runtime separately only when the capability is real, needed, pinned, reviewable, and cannot be reproduced safely by existing host tools.
 3. Prefer a disposable project-local prompt, script, checker, or simulator before a global skill when the need is task-specific.
 4. **Adopt** a separate skill only for a distinct leading action and independent trigger.
@@ -17,7 +17,7 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 ## Stack and route
 
 1. Choose one primary skill whose leading action matches the request. Add another only for a distinct phase or independent review. Do not preload or chain a catalog by default.
-2. For a stack or runtime, record exact IDs, source revision or digest, host and scope, purpose, overlap decision, permissions, executable surfaces, update behavior, and rollback. Preview before applying. Structural validity does not prove semantic fit or safety. Read `PLAYBOOKS.md` when needed.
+2. For a stack or runtime, record exact IDs, source revision or digest, host and scope, purpose, overlap decision, permissions, executable surfaces, update behavior, and rollback. For a standard, record version, status, official source, review date, Lean home, and next review trigger. Preview before applying. Structural validity does not prove semantic fit, safety, or conformance. Read `PLAYBOOKS.md` when needed.
 
 ## Write or refactor
 
@@ -34,3 +34,5 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trusted-refinement, and runtime-safety tests; objective assertions; cost measurement; adapters; manifests; path checks; and clean extraction. Trusted doctrine MUST NOT self-modify during ordinary task execution. A proposed refinement needs a baseline, held-out or adversarial cases, a reviewed diff, explicit authorization, and rollback. Add words or infrastructure only when observed behavior justifies them.
 
 A good skill changes behavior with the fewest durable words. A good workflow makes mechanics deterministic without hiding cost, failure, or permission. Neither simulates authority or promises capabilities the host lacks.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

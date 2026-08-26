@@ -7,10 +7,12 @@ description: "Interview the user one decision at a time to stress-test a plan or
 
 1. Start with a working hypothesis: the decision, current understanding, missing fact, and why a wrong answer would matter.
 2. Ask one focused question at a time. Give a recommended default and its main tradeoff so the user can answer quickly.
-3. Challenge vague terms, hidden assumptions, conflicting constraints, missing failure behavior, and irreversible choices.
+3. Challenge vague terms, hidden assumptions, conflicting constraints, missing failure behavior, and irreversible choices. For conditional behavior, surface the event, active state, optional feature condition, unwanted condition, and required response.
 4. Use files, documentation, tools, and prior answers before asking. Do not make the user repeat accessible information.
 5. Record each resolved decision in the existing plan or decision artifact when requested.
 6. Stop when the remaining uncertainty is low-risk or implementation can proceed without dangerous guessing.
 7. Finish with a compact restatement of intent, non-goals, resolved decisions, assumptions, and the highest remaining risk.
 
 Do not conduct a broad interview when one fact is missing, repeat answered questions, or use questions to avoid a safe reversible assumption.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

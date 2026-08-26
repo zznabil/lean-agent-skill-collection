@@ -1,7 +1,7 @@
 interface:
   display_name: "Handoff"
   short_description: "Capture exact state for safe continuation"
-  default_prompt: "Use $handoff to capture the exact state and next action for continuation."
+  default_prompt: "Use $handoff to capture the exact state and next action for continuation. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

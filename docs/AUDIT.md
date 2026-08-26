@@ -1,21 +1,21 @@
-# V7.2 deep-dive audit
+# V7.4.1 release audit
 
 ## Decision
 
-**PASS WITH RISKS.** The collection is coherent, compact, internally consistent, and safe to publish as source. All supplied release hashes match. No skill contains bundled executable scripts, runtime network integrations, or automatic trusted-state mutation.
+**PASS WITH RISKS.** The integrated V7.4.1 source is structurally coherent and safe to package. Static validation covers source and generated archives; runtime host routing remains unverified. No skill contains bundled executable scripts, runtime network integrations, or automatic trusted-state mutation.
 
 ## AI provenance
 
-GPT-5.6 Sol Pro assisted most major design and synthesis decisions in this collection. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes the collection's origin, not its quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
 The two material limits are licensing and runtime evidence:
 
-1. V7.2.0 was published without a project-wide license. This was resolved for the repository and V7.2.1 packages by adopting MIT.
+1. The repository and generated V7.4.1 packages retain the MIT license.
 2. Static checks cannot prove identical routing behavior across agent hosts. Each host must run live activation tests when routing matters.
 
 ## Scope
 
-The audit covered all seven supplied archives:
+The audit covered the supplied V7.4.1 Complete profile archive and the six locally generated profile archives:
 
 | Package | Skills | Role | Result |
 |---|---:|---|---|
@@ -25,14 +25,15 @@ The audit covered all seven supplied archives:
 | Communication | 3 | Small prose and teaching profile | PASS |
 | Get It Done | 3 | Long-horizon execution stack | PASS |
 | Gauntlet Loop | 1 | Standalone adversarial QA | PASS |
-| V7.1 → V7.2 update | 6 profile overlays | Exact-version migration bundle | PASS |
+| V7.4.1 Complete source | 30 | Supplied canonical source archive | PASS |
+| Generated profiles | 6 | Deterministic repository builds | PASS |
 
 ## What was checked
 
 - 30 canonical skill directories and 30 matching `SKILL.md` frontmatter names.
 - 30 OpenAI adapters with Chat and Codex product metadata.
-- Plugin and validation JSON structure and version `7.2.0`.
-- Every declared inner archive SHA-256 hash and byte size.
+- Plugin, profile, citation, and package-validation metadata at version `7.4.1`.
+- The supplied archive checksum inventory and the generated release checksums.
 - ZIP entry path safety: no rooted paths or parent traversal.
 - Overlap design across profiles and standalone packs.
 - Permission language for publication, production, destructive work, credentials, and external communication.
@@ -47,7 +48,7 @@ The Complete profile is the source superset. Core and Engineering are curated su
 The collection separates three layers:
 
 1. `SKILL.md`: vendor-neutral trigger and workflow contract.
-2. Supporting Markdown: detailed lanes, state schemas, or playbooks for seven complex skills.
+2. Supporting Markdown: detailed assurance, lanes, state schemas, supply-chain guidance, asset cards, or playbooks for complex skills.
 3. `agents/openai.yaml`: thin product-specific display and invocation metadata.
 
 This separation is simple and portable. It also makes review easier because operational policy remains readable text rather than hidden code.
@@ -71,26 +72,25 @@ The main overlap is intentional and routed by scale: `implement` owns bounded ch
 - Completion claims require fresh evidence and disclose skipped work.
 - High-risk operations use prediction, read-back, rollback, and stop-on-mismatch rules.
 - The skills avoid provider lock-in in their primary instructions.
-- The largest primary skill stays at 67 lines, which limits context cost.
+- The largest primary skill is 73 lines, which limits context cost.
 - State-heavy workflows define schemas instead of relying on hidden conversation memory.
-- The update pack pins its source influence to an exact repository commit.
+- The supplied archive adds explicit assurance, asset-card, and supply-chain references without adding routed skills.
 
 ## Risks and limitations
 
 | ID | Severity | Finding | Disposition |
 |---|---|---|---|
-| R1 | P1 | V7.2.0 did not include a project-wide license. | Resolved in V7.2.1 with MIT licensing in the repository and all packages. |
-| R2 | P2 | Static metadata cannot prove live host routing or cross-model independence. | Run host-specific activation tests after installation. |
-| R3 | P2 | Overlapping profiles duplicate authorities and can cause ambiguous routing. | Install one primary profile only. |
-| R4 | P3 | Package READMEs repeat two differently capitalized “v7.2 focus” headings. | Preserved to keep release bytes unchanged; repair in a future source release. |
-| R5 | P3 | Distribution archives contain validation results but no reusable build recipe. | The repository adds a read-only validator; deterministic rebuild tooling remains future work. |
+| R1 | P2 | Static metadata cannot prove live host routing or cross-model independence. | Run host-specific activation tests after installation. |
+| R2 | P2 | Overlapping profiles duplicate authorities and can cause ambiguous routing. | Install one primary profile only. |
+| R3 | P2 | Supplied ZIP uses a different archive structure from repository-generated assets. | Record the supplied digest separately; verify generated assets independently and make no byte-reproduction claim. |
+| R4 | P3 | Archive metadata is supplied evidence, not runtime behavior proof. | Re-run repository source, package, and reproducibility gates. |
 
-## V7.2 change analysis
+## V7.4.1 change analysis
 
-V7.2 changes seven existing authorities without adding routed skills. It absorbs selected planning, evaluation, review-identity, experiment-stability, solution-learning, and residual-work controls from the pinned Compound Engineering source. It explicitly rejects broad autonomous push/PR behavior, automatic cross-provider review, phrase-triggered learning, connector-heavy workflows, and external publishing integrations.
+V7.4.1 changes existing authorities without adding routed skills. It keeps the supplied overlay behavior while repeating the presentation contract in every specialist skill and OpenAI adapter. It also adds targeted AI assurance, asset-card, and supply-chain references without bundling runtimes, hooks, installers, or external integrations.
 
-The change is conservative: 30 skills remain 30; 762 primary lines and 9,684 primary words are reported; the largest skill remains 67 lines; and changed neutral runtime documents add 348 net words.
+The change keeps 30 skills: 865 primary lines and 12,056 primary words are reported; the largest skill is 73 lines; 30 local overlay fallbacks and 30 adapter prompts are present.
 
 ## Verification boundary
 
-This audit is a static source and package audit. It does not claim that any particular model will invoke a skill correctly, obey every rule, or produce equal results across ChatGPT, Codex, or another host. Those are runtime properties and need host-specific tests.
+This audit is a static source and package audit. The supplied archive digest is 01696d376b534c386933d7378f60dd9e34ebae210f84f8153d9e2c92f3902269. Repository-generated assets are built by the inspected deterministic builder and may differ in ZIP structure; no byte reproduction is claimed. This audit does not claim that any model will invoke a skill correctly, obey every rule, or produce equal results across ChatGPT, Codex, or another host. Those are runtime properties and need host-specific tests.

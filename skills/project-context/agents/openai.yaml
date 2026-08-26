@@ -1,7 +1,7 @@
 interface:
   display_name: "Project Context"
-  short_description: "Capture project context or approved durable lessons"
-  default_prompt: "Use $project-context to capture verified project context or approved durable lessons."
+  short_description: "Capture context, AI asset cards, lessons, or retrospectives"
+  default_prompt: "Use $project-context to capture verified context, an AI asset card, approved lessons, or session improvements. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

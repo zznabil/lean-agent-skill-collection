@@ -21,9 +21,16 @@ if ($outputFullPath -eq $repoFullPath -or $outputFullPath -eq $pathRoot) {
 }
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-$fixedTimestamp = [DateTimeOffset]::Parse('2026-08-25T00:00:00Z')
+$fixedTimestamp = [DateTimeOffset]::Parse('2026-08-26T00:00:00Z')
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+function Get-Sha256File([string]$Path) {
+    $sha = [Security.Cryptography.SHA256]::Create()
+    $stream = [IO.File]::OpenRead($Path)
+    try { return [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+    finally { $stream.Dispose(); $sha.Dispose() }
+}
 
 function Write-Utf8File([string]$Path, [string]$Content) {
     $normalized = $Content.Replace("`r`n", "`n").TrimEnd("`r", "`n") + "`n"
@@ -130,7 +137,7 @@ function Get-ChecksumLines([string]$Directory, [string[]]$ExcludedRelativePaths)
     foreach ($file in $files) {
         $relative = Get-RelativePath $Directory $file.FullName
         if (-not $excluded.ContainsKey($relative)) {
-            $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $file.FullName).Hash.ToLowerInvariant()
+            $hash = (Get-Sha256File $file.FullName)
             $lines.Add("$hash  $relative")
         }
     }
@@ -138,7 +145,7 @@ function Get-ChecksumLines([string]$Directory, [string[]]$ExcludedRelativePaths)
 }
 
 function Get-ManualSkills([object[]]$Skills) {
-    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'wait-what')
+    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff')
     return @($Skills | Where-Object { $manualNames -contains [string]$_ })
 }
 
@@ -154,8 +161,10 @@ function Get-PackageBaseName([string]$Profile, [string]$Version) {
 function New-ProfileReadme([object]$Profile, [string]$Version) {
     $skills = @($Profile.skills | ForEach-Object { "``$_``" }) -join ', '
     $manual = @(Get-ManualSkills $Profile.skills | ForEach-Object { "``$_``" }) -join ', '
+    $engineeringShape = ''
     $engineeringLine = ''
     if ($Profile.include_engineering_core) {
+        $engineeringShape = "ENGINEERING-CORE.md`n"
         $engineeringLine = "- Keep ``ENGINEERING-CORE.md`` beside ``AGENTS.md`` for material engineering work.`n"
     }
     return @"
@@ -163,11 +172,16 @@ function New-ProfileReadme([object]$Profile, [string]$Version) {
 
 $($Profile.description)
 
+## V7.4.1 hotfix
+
+The global ``wait-what`` user-facing overlay remains active when any specialist skill is manually or automatically invoked. Each skill contains a compact local fallback, and every OpenAI adapter repeats the instruction for explicit selection.
+
 ## Package shape
 
 ``````text
 .codex-plugin/plugin.json
-LICENSE
+AGENTS.md
+${engineeringShape}LICENSE
 THIRD_PARTY_NOTICES.md
 skills/<skill>/SKILL.md
 skills/<skill>/agents/openai.yaml
@@ -209,7 +223,7 @@ function New-PackageValidationJson([string]$ProfileName, [object]$Profile, [stri
     $manual = @(Get-ManualSkills $Profile.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
     return @"
 {
-  "scope": "static package structure and inventory validation only; not live host-routing or behavioural validation",
+  "scope": "static package structure, inventory, and communication-overlay validation only; not live host-routing or behavioural validation",
   "package": $(ConvertTo-JsonString $ProfileName),
   "plugin_name": $(ConvertTo-JsonString ([string]$Profile.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
@@ -221,9 +235,17 @@ $manual
   "included_skills": [
 $skills
   ],
+  "communication_hotfix": {
+    "global_policy_inline": true,
+    "skill_local_fallbacks": $(@($Profile.skills).Count),
+    "openai_adapter_prompts": $(@($Profile.skills).Count),
+    "wait_what_implicit": true,
+    "common_sense_exceptions": true
+  },
   "warnings": [
     "Live host-routing and behavioural validation were not performed.",
-    "Overlapping profiles must not be installed together."
+    "Overlapping profiles must not be installed together.",
+    "Host custom instructions remain the strongest account-wide surface when available."
   ],
   "errors": [],
   "passed": true
@@ -270,7 +292,7 @@ foreach ($profileProperty in $profileProperties) {
 
     $archivePath = Join-Path $outputFullPath ($packageBaseName + '.zip')
     New-DeterministicZip $workDirectory $archivePath
-    $archiveHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $archivePath).Hash.ToLowerInvariant()
+    $archiveHash = (Get-Sha256File $archivePath)
     $archiveSize = (Get-Item -LiteralPath $archivePath).Length
     $archiveRecords.Add([pscustomobject]@{ Name = [IO.Path]::GetFileName($archivePath); Hash = $archiveHash; Bytes = $archiveSize; Profile = $profileName })
 
@@ -295,7 +317,8 @@ $manifest = @"
   "scope": "deterministic package build and static validation; not live host-routing or behavioural validation",
   "profiles": $($profileProperties.Count),
   "unique_skills": 30,
-  "skill_content_changed_from_v7_2_0": false,
+  "skill_content_changed_from_v7_2_0": true,
+  "communication_hotfix": true,
   "archives": {
 $($manifestArchiveLines -join "`n")
   }
@@ -307,7 +330,7 @@ Copy-Item -LiteralPath (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md') -Destinati
 Write-Utf8File (Join-Path $outputFullPath 'README.md') @"
 # Lean Agent Skill Collection $releaseName
 
-Publication-hardening release with no skill-content changes from V7.2.0.
+V7.4.1 hotfix: the global ``wait-what`` user-facing overlay remains active with every specialist skill.
 
 Choose one profile. Do not install overlapping profiles together. Verify downloads with ``CHECKSUMS.sha256`` and read ``LICENSE`` and ``THIRD_PARTY_NOTICES.md`` before redistribution.
 "@

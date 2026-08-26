@@ -1,7 +1,7 @@
 interface:
   display_name: "Triage"
   short_description: "Triage uncertain reports and live incidents"
-  default_prompt: "Use $triage to verify this report or incident and identify the safest next action."
+  default_prompt: "Use $triage to verify this report or incident and identify the safest next action. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

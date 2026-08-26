@@ -1,7 +1,7 @@
 interface:
   display_name: "Browser Automation"
   short_description: "Automate and QA browser journeys with evidence"
-  default_prompt: "Use $browser-automation to run this authorized browser workflow and verify the visible result."
+  default_prompt: "Use $browser-automation to run this authorized browser workflow and verify the visible result. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

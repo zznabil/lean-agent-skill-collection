@@ -1,7 +1,7 @@
 interface:
   display_name: "Teach"
   short_description: "Teach for durable understanding and practice"
-  default_prompt: "Use $teach to explain this for durable understanding and practice."
+  default_prompt: "Use $teach to explain this for durable understanding and practice. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

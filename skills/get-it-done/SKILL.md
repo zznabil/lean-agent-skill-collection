@@ -24,7 +24,7 @@ Own the outcome. Do not stop at a plan while a safe, useful action remains.
 3. Choose the smallest solution that satisfies the contract. Understand existing behavior before removing it.
 4. In a weakly tested or established area, add a characterization check before changing behavior. Otherwise establish a failing test, observable acceptance check, or rerunnable verification harness before a material change when practical.
 5. Work as a bounded experiment: hypothesis → smallest reversible change → measure → keep, repair, or revert. Before a costly, irreversible, external, or multi-step action, record the observable expected result; stop dependent steps on the first mismatch.
-6. Execute in bounded waves. After each wave, record changes, fresh evidence, remaining risk, and the exact next action. Do not repeat an unchanged check under unchanged conditions merely to look busy.
+6. Execute in bounded waves. After each wave, record changes, fresh evidence, remaining risk, and the exact next action. At meaningful milestones, MUST report current phase, passed and failed checks, highest-priority issue, next action, and budget through `wait-what`'s 20-cell progress format when the total is measurable. Do not repeat an unchanged check under unchanged conditions merely to look busy.
 7. When the same correction recurs, encode the rule in a test, linter, schema, contract, hook, or small script instead of adding more prose. Propose trusted automation before installing it.
 8. For staged or delegated work, apply `ORCHESTRATION.md`: prove coverage before fan-out, isolate ownership, use structured handoffs, verify every result, and keep one integrator. If a whole wave fails the same way, repair the contract, environment, or packet design before launching more workers.
 9. Use available compute, tools, and agents only where they add clear value. Do not invent quota data. Reserve enough budget for verification and integration.
@@ -32,7 +32,7 @@ Own the outcome. Do not stop at a plan while a safe, useful action remains.
 
 ## Verify
 
-1. Run the primary verifier and prove the load-bearing safety facts with the strongest feasible fresh evidence.
+1. Run the primary verifier and prove the load-bearing safety facts with the strongest feasible fresh evidence. Treat a prior pass as stale when the artifact or revision, verifier, relevant inputs, environment, entrypoint, or required dependencies changed.
 2. Run adjacent regression checks in proportion to risk.
 3. Inspect the real output: rendered interface, generated file, logs, data, cold startup path, or running behavior—not only source code.
 4. Attempt to disprove completion with a fresh review, counterexample, boundary case, alternate calculation, or threat check.
@@ -58,3 +58,5 @@ End in exactly one state:
 - `CANCELLED` — the user ended the run.
 
 Before the final report, re-run or re-measure every numeric claim and inspect the acceptance ledger and standing Definition of Done line by line. Every accepted residual issue needs one durable sink, an owner or revisit trigger, and explicit nonblocking acceptance; a material residual without that disposition remains open and prevents `DONE`. For engineering work, `DONE` also requires the integration, documentation, recovery, operations, and release evidence required by scope. MUST NOT report `DONE` for “should work,” partial test coverage, stale evidence, missing evidence, silent truncation, or unresolved blocking findings. MUST NOT report `INFEASIBLE` while a material untested assumption and a safe separating probe remain.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

@@ -21,3 +21,5 @@ Add at most one specialist model from `MODELS.md` when it changes the test, deci
 ## Output
 
 State the decision, load-bearing facts, assumptions, strongest counterargument, failure controls, and next falsifiable test. Show uncertainty as ranges or confidence when it matters.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

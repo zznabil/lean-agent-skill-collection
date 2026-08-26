@@ -9,7 +9,7 @@ Load only the section required by the task.
 3. Select exact non-redundant IDs. Record gaps instead of choosing a poor fit.
 4. Create a small manifest: collection identity, source revision or digest, target host and scope, project constraints, selected IDs, and why each is needed.
 5. Audit permissions, executable files, workflow source, hooks, installers, network calls, auto-update behavior, trusted-state mutation, licenses, dependencies, and trigger collisions.
-6. Validate and preview the installation plan before applying it. Do not install a full catalog merely because it is available.
+6. Validate and preview the installation plan before applying it. Do not install a full catalog merely because it is available. For standards, maintain a registry of version, status, official source, reviewed date, decision, Lean home, reused text, and next review trigger.
 
 ## Evaluation
 
@@ -21,7 +21,11 @@ Use three layers. A lower layer cannot prove a higher one.
 
 For each skill, include several natural positive prompts, several negative prompts, one edge or pressure case, and at least one behavioral case when the skill can materially change execution. Use objective assertions for verifiable outcomes and human or blinded review for subjective quality. Distinguish execution artifacts from conversation-only deliverables; do not use dialogue as an escape from testing a workflow that should act.
 
-Record pass rate, failures, token use, duration, and variance when exposed. Inspect non-discriminating tests, flaky cases, and quality gained per extra context. Revise the smallest material weakness, rerun the same cases, then expand the suite.
+Record pass rate, failures, token use, duration, and variance when exposed. For model-based evaluation, also record evaluator model or family, rubric or prompt, threshold, dataset revision, randomness, repetitions, visible or holdout class, and cost. For agent workflows with traces, distinguish end-outcome, trajectory, and individual tool-choice or argument evaluation. Inspect non-discriminating tests, flaky cases, and quality gained per extra context. Revise the smallest material weakness, rerun the same cases, then expand the suite.
+
+## Context economy
+
+A context pointer states what it reaches and the distinct branches that should load it. Use one trigger per real branch; synonyms do not create new branches. Treat the environment as the source of truth for cheap discoverable facts such as scripts, paths, and configuration. Document reasons, hidden conventions, and gotchas that inspection cannot reveal cheaply. Each ordered step needs a checkable completion criterion. Prefer positive target behavior; use prohibitions only for hard guardrails.
 
 ## Workflow authoring and review
 

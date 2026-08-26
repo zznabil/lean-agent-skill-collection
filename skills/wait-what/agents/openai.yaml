@@ -1,9 +1,9 @@
 interface:
   display_name: "Wait, What?"
-  short_description: "Re-pitch clearly with missing context restored"
-  default_prompt: "Use $wait-what to explain that again with the missing context and simpler wording."
+  short_description: "Global clear user-facing communication overlay"
+  default_prompt: "Apply $wait-what as the global user-facing overlay while completing the current task. Keep it active with every specialist skill for eligible chat prose."
 policy:
   products:
     - "CHAT"
     - "CODEX"
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

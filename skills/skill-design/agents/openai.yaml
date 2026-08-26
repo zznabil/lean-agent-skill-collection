@@ -1,7 +1,7 @@
 interface:
   display_name: "Skill Design"
   short_description: "Create, evaluate, and package lean agent skills"
-  default_prompt: "Use $skill-design to create, evaluate, or refactor the smallest effective skill set."
+  default_prompt: "Use $skill-design to create, evaluate, or refactor the smallest effective skill set. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

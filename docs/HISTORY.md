@@ -10,7 +10,7 @@ That first idea expanded into a large vendor-neutral collection, then into an ov
 
 The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to its current 30 skills.
 
-The Complete V7.2 profile contains 9,684 primary-skill words across 762 lines. No primary `SKILL.md` exceeds 67 lines.
+The Complete V7.4.1 profile contains 12,056 primary-skill words across 865 lines. No primary `SKILL.md` exceeds 73 lines.
 
 Since the lean refactor, the governing rule has been:
 
@@ -25,7 +25,7 @@ The collection is not a copy of any one framework. It synthesizes:
 - Superpowers, Compound Engineering, Addy Osmani's skills, Ultracode, and other independent projects;
 - HORIZON, AVO, ARC-AGI-3 harnesses, and other long-horizon agent research.
 
-> **AI provenance and review warning:** GPT-5.6 Sol Pro assisted most major design and synthesis decisions in this collection. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+> **AI provenance and review warning:** The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes the collection's origin, not its quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
 ## Decision vocabulary
 
@@ -255,7 +255,11 @@ Rejected elements included competing lifecycle aliases, the `lfg` controller, au
 
 The complete source decision map is retained in [`dist/v7.2/compound-engineering-integration-v7.2-decisions.csv`](../dist/v7.2/compound-engineering-integration-v7.2-decisions.csv).
 
-## Current state: V7.2
+### 13. V7.4.1: global communication overlay hotfix
+
+V7.4.1 keeps the 30-skill collection and adds a global `wait-what` presentation overlay to every specialist path. Each skill carries a local fallback, each OpenAI adapter repeats the prompt, and `wait-what` allows implicit invocation while four control skills remain manual-only.
+
+## Current state: V7.4.1
 
 ### Profiles
 
@@ -268,7 +272,7 @@ The complete source decision map is retained in [`dist/v7.2/compound-engineering
 | Get It Done Pack | 3 | `wait-what`, `get-it-done`, and `gauntlet-loop` |
 | Gauntlet Pack | 1 | Independent adversarial acceptance |
 
-The V7.2 validation records:
+The V7.4.1 validation records:
 
 ```text
 30 unique skills
@@ -278,9 +282,9 @@ The V7.2 validation records:
 0 new provider requirements
 
 Complete profile:
-762 primary lines
-9,684 primary words
-67-line largest SKILL.md
+865 primary lines
+12,056 primary words
+73-line largest SKILL.md
 ```
 
 ### The 30 current skills

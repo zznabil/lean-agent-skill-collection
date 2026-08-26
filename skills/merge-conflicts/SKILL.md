@@ -13,3 +13,5 @@ description: "Resolve merge, rebase, or cherry-pick conflicts by preserving inte
 6. Continue or complete the operation only when authorized. Never force-push or rewrite shared history without explicit approval.
 
 Report files resolved, decisions, commands, actual checks, remaining conflicts, and recovery command if the operation must pause.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

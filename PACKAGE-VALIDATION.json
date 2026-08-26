@@ -1,18 +1,17 @@
 {
+  "scope": "static package structure, inventory, and communication-overlay validation only; not live host-routing or behavioural validation",
   "package": "complete",
-  "scope": "static V7.2.0 package and source validation only; not live host-routing or behavioural validation",
   "plugin_name": "lean-agent-skills-complete",
-  "version": "7.2.1",
+  "version": "7.4.1",
   "skills_expected": 30,
   "skills_validated": 30,
   "manual_only_skills": [
     "gauntlet-loop",
     "get-it-done",
     "grilling",
-    "handoff",
-    "wait-what"
+    "handoff"
   ],
-  "implicit_skills": [
+  "included_skills": [
     "architecture",
     "brandkit",
     "browser-automation",
@@ -20,6 +19,10 @@
     "debug",
     "experiment",
     "frontend",
+    "gauntlet-loop",
+    "get-it-done",
+    "grilling",
+    "handoff",
     "implement",
     "merge-conflicts",
     "monitor",
@@ -37,257 +40,21 @@
     "teach",
     "test",
     "triage",
+    "wait-what",
     "writing"
   ],
-  "primary_skill_lines": 762,
-  "primary_skill_words": 9684,
-  "largest_primary_skill_lines": 67,
-  "runtime_public_urls": 0,
-  "neutral_provider_terms": {
-    "OpenAI": 0,
-    "Anthropic": 0,
-    "Claude": 0,
-    "Codex": 0,
-    "Gemini": 0,
-    "ChatGPT": 0
+  "communication_hotfix": {
+    "global_policy_inline": true,
+    "skill_local_fallbacks": 30,
+    "openai_adapter_prompts": 30,
+    "wait_what_implicit": true,
+    "common_sense_exceptions": true
   },
-  "new_routed_skills": 0,
-  "new_external_integrations": 0,
-  "new_automatic_mutations": 0,
-  "new_provider_requirements": 0,
-  "errors": [],
   "warnings": [
     "Live host-routing and behavioural validation were not performed.",
     "Overlapping profiles must not be installed together.",
-    "This supplied V7.2.0 record predates the public deterministic V7.2.1 build recipe."
+    "Host custom instructions remain the strongest account-wide surface when available."
   ],
-  "passed": true,
-  "skill_metadata": [
-    {
-      "name": "architecture",
-      "display_name": "Architecture",
-      "short_description": "Design durable boundaries and shared action contracts",
-      "default_prompt": "Use $architecture to design the smallest durable structure and interface contract for this change.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "brandkit",
-      "display_name": "Brand Kit",
-      "short_description": "Create a compact and coherent visual identity",
-      "default_prompt": "Use $brandkit to create a compact visual identity for this product.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "browser-automation",
-      "display_name": "Browser Automation",
-      "short_description": "Automate and QA browser journeys with evidence",
-      "default_prompt": "Use $browser-automation to run this authorized browser workflow and verify the visible result.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "cli-design",
-      "display_name": "CLI Design",
-      "short_description": "Design reliable CLIs for humans and agents",
-      "default_prompt": "Use $cli-design to design or review this CLI for reliable headless use.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "debug",
-      "display_name": "Debug",
-      "short_description": "Find root causes with reproducible feedback",
-      "default_prompt": "Use $debug to reproduce, diagnose, and fix this defect with evidence.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "experiment",
-      "display_name": "Experiment Design",
-      "short_description": "Design controlled product or engineering experiments",
-      "default_prompt": "Use $experiment to design a controlled experiment with a comparable baseline and decision rule.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "frontend",
-      "display_name": "Frontend",
-      "short_description": "Build polished interfaces from rendered evidence",
-      "default_prompt": "Use $frontend to design or improve this interface against rendered evidence.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "gauntlet-loop",
-      "display_name": "Gauntlet Loop",
-      "short_description": "Attack, repair, and retest high-risk artifacts",
-      "default_prompt": "Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop.",
-      "allow_implicit_invocation": false
-    },
-    {
-      "name": "get-it-done",
-      "display_name": "Get It Done",
-      "short_description": "Own long-horizon work through verified completion",
-      "default_prompt": "Use $get-it-done to own this outcome through verified completion.",
-      "allow_implicit_invocation": false
-    },
-    {
-      "name": "grilling",
-      "display_name": "Grilling",
-      "short_description": "Resolve important unknowns one question at a time",
-      "default_prompt": "Use $grilling to resolve the most important unknowns one question at a time.",
-      "allow_implicit_invocation": false
-    },
-    {
-      "name": "handoff",
-      "display_name": "Handoff",
-      "short_description": "Capture exact state for safe continuation",
-      "default_prompt": "Use $handoff to capture the exact state and next action for continuation.",
-      "allow_implicit_invocation": false
-    },
-    {
-      "name": "implement",
-      "display_name": "Implement",
-      "short_description": "Implement one bounded change and verify it",
-      "default_prompt": "Use $implement to complete and verify this bounded change.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "merge-conflicts",
-      "display_name": "Merge Conflicts",
-      "short_description": "Resolve conflicts without losing intended behavior",
-      "default_prompt": "Use $merge-conflicts to resolve these conflicts and verify integrated behavior.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "monitor",
-      "display_name": "Monitor",
-      "short_description": "Schedule bounded checks and report status changes",
-      "default_prompt": "Use $monitor to schedule this check and report meaningful changes.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "office-files",
-      "display_name": "Office Files",
-      "short_description": "Create and validate office documents and files",
-      "default_prompt": "Use $office-files to create or repair this file and validate the result.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "plan",
-      "display_name": "Plan",
-      "short_description": "Turn evidence into an executable work plan",
-      "default_prompt": "Use $plan to turn the current evidence into an executable plan.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "project-context",
-      "display_name": "Project Context",
-      "short_description": "Capture project context or approved durable lessons",
-      "default_prompt": "Use $project-context to capture verified project context or approved durable lessons.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "prototype",
-      "display_name": "Prototype",
-      "short_description": "Build a disposable prototype to answer one question",
-      "default_prompt": "Use $prototype to build the smallest disposable test of this idea.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "python",
-      "display_name": "Python",
-      "short_description": "Build maintainable Python with the existing toolchain",
-      "default_prompt": "Use $python to implement this in maintainable Python with the current toolchain.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "reasoning",
-      "display_name": "Reasoning",
-      "short_description": "Apply focused mental models to hard decisions",
-      "default_prompt": "Use $reasoning to analyze this decision with the smallest useful model set.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "release",
-      "display_name": "Release",
-      "short_description": "Prepare and verify a safe, reversible release",
-      "default_prompt": "Use $release to prepare and verify this release without publishing until authorized.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "repo-map",
-      "display_name": "Repository Map",
-      "short_description": "Explain verified repository structure and flows",
-      "default_prompt": "Use $repo-map to explain or map the verified structure and runtime flow of this repository.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "research",
-      "display_name": "Research",
-      "short_description": "Produce a current, source-backed research brief",
-      "default_prompt": "Use $research to investigate this question with current primary sources.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "review",
-      "display_name": "Review",
-      "short_description": "Inspect artifacts and operability against contracts",
-      "default_prompt": "Use $review to independently inspect this artifact or repository against its real contract.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "skill-design",
-      "display_name": "Skill Design",
-      "short_description": "Create, evaluate, and package lean agent skills",
-      "default_prompt": "Use $skill-design to create, evaluate, or refactor the smallest effective skill set.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "teach",
-      "display_name": "Teach",
-      "short_description": "Teach for durable understanding and practice",
-      "default_prompt": "Use $teach to explain this for durable understanding and practice.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "test",
-      "display_name": "Test",
-      "short_description": "Build deterministic tests and tight feedback loops",
-      "default_prompt": "Use $test to create the smallest reliable test and feedback loop.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "triage",
-      "display_name": "Triage",
-      "short_description": "Triage uncertain reports and live incidents",
-      "default_prompt": "Use $triage to verify this report or incident and identify the safest next action.",
-      "allow_implicit_invocation": true
-    },
-    {
-      "name": "wait-what",
-      "display_name": "Wait, What?",
-      "short_description": "Re-pitch clearly with missing context restored",
-      "default_prompt": "Use $wait-what to explain that again with the missing context and simpler wording.",
-      "allow_implicit_invocation": false
-    },
-    {
-      "name": "writing",
-      "display_name": "Writing",
-      "short_description": "Draft or edit clear prose for the intended audience",
-      "default_prompt": "Use $writing to draft or edit this prose for its audience and purpose.",
-      "allow_implicit_invocation": true
-    }
-  ],
-  "release": "v7.2.1",
-  "changed_from_v7_1": [
-    "experiment",
-    "gauntlet-loop",
-    "get-it-done",
-    "plan",
-    "project-context",
-    "review",
-    "skill-design"
-  ],
-  "engineering_core_changed_from_v7_1": false,
-  "compound_source": {
-    "repository": "EveryInc/compound-engineering-plugin",
-    "commit": "871996c4e35512e3d33cdc9c2532395f7bf10831",
-    "version": "3.23.3"
-  }
+  "errors": [],
+  "passed": true
 }

@@ -13,3 +13,5 @@ description: "Create a compact visual identity system with logo direction, typog
 6. Record usage rules and common misuse in one concise board or document.
 
 Do not imitate a living brand closely, claim trademark clearance, or use generated symbols without checking distinctiveness and production fit.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

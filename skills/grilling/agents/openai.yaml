@@ -1,7 +1,7 @@
 interface:
   display_name: "Grilling"
   short_description: "Resolve important unknowns one question at a time"
-  default_prompt: "Use $grilling to resolve the most important unknowns one question at a time."
+  default_prompt: "Use $grilling to resolve the most important unknowns one question at a time. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

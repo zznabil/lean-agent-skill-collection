@@ -17,3 +17,5 @@ Choose **report** for an ordinary bug or work item and **incident** for an activ
 6. Report reproduction, evidence, category, severity, confidence, dependencies, and next action.
 
 Do not change a tracker, close an item, notify others, or mutate production without authorization.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

@@ -1,7 +1,7 @@
 interface:
   display_name: "Review"
   short_description: "Inspect artifacts and operability against contracts"
-  default_prompt: "Use $review to independently inspect this artifact or repository against its real contract."
+  default_prompt: "Use $review to independently inspect this artifact or repository against its real contract. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

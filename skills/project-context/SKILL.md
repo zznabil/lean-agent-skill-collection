@@ -1,6 +1,6 @@
 ---
 name: project-context
-description: "Build or update compact project context, shared vocabulary, or explicitly requested durable lessons. Use for onboarding, stale CONTEXT.md or AGENTS.md, terminology drift, or user-authorized learning from accessible prior work."
+description: "Build or update compact project context, shared vocabulary, approved lessons, AI asset cards, or a session retrospective. Use for onboarding, stale context, terminology drift, model or dataset documentation, authorized learning, or environment improvement."
 ---
 
 # Project Context
@@ -25,6 +25,20 @@ Use only for a verified reusable resolution.
 3. Choose one sink: test/schema/lint for machine-checkable knowledge; repository document for maintainers; memory backend for private semantic knowledge. Do not duplicate.
 4. Propose the diff; write only with authorization.
 
+## AI asset-card mode
+
+For a consequential model, dataset, prompt, evaluator, or agent dependency, read `AI-ASSET-CARDS.md`. Record identity, use, provenance, data controls, evaluation and holdout status, limitations, monitoring, rollback, retirement, and evidence-invalidating changes.
+
+## Retrospective mode
+
+Use only when the user asks to review a completed session.
+
+1. Inspect the actual session record and resulting artifact.
+2. Find environment failures in navigation, information access, feedback loops, tool economy, instructions, and review coverage.
+3. Prefer the smallest durable correction: context pointer → documentation → test, lint, or schema → tool improvement → no change.
+4. Separate recurring evidence from a one-off failure. Remove or clarify no-op instructions before adding more steering text.
+5. Rank proposed changes by impact. Do not mutate trusted state or install automation without authorization.
+
 ## Learn mode
 
 Use only when the user asks to distill durable lessons or update trusted instructions.
@@ -38,3 +52,5 @@ Use only when the user asks to distill durable lessons or update trusted instruc
 7. Propose a compact diff first. Write trusted instructions or install automation only with explicit authorization. Do not claim background learning.
 
 Mark provenance and uncertainty. Output the changed or proposed path, supporting evidence, unresolved gaps, and permissions not granted.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

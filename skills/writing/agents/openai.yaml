@@ -1,7 +1,7 @@
 interface:
   display_name: "Writing"
   short_description: "Draft or edit clear prose for the intended audience"
-  default_prompt: "Use $writing to draft or edit this prose for its audience and purpose."
+  default_prompt: "Use $writing to draft or edit this prose for its audience and purpose. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

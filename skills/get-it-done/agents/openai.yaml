@@ -1,7 +1,7 @@
 interface:
   display_name: "Get It Done"
   short_description: "Own long-horizon work through verified completion"
-  default_prompt: "Use $get-it-done to own this outcome through verified completion."
+  default_prompt: "Use $get-it-done to own this outcome through verified completion. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

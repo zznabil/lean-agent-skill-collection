@@ -27,6 +27,12 @@ function Get-StreamHash([IO.Stream]$Stream) {
     finally { $sha.Dispose() }
 }
 
+function Get-FileSha256([string]$Path) {
+    $stream = [IO.File]::OpenRead($Path)
+    try { return Get-StreamHash $stream }
+    finally { $stream.Dispose() }
+}
+
 function Test-IsSymlinkAttributes([int]$ExternalAttributes) {
     $unsignedAttributes = [BitConverter]::ToUInt32([BitConverter]::GetBytes($ExternalAttributes), 0)
     return ((($unsignedAttributes -shr 16) -band 0xF000) -eq 0xA000)
@@ -60,7 +66,8 @@ function Test-MetadataContracts {
     if ($plugin.name -ne 'lean-agent-skills-complete' -or $plugin.skills -ne './skills/' -or $plugin.version -ne $profiles.version) { Add-Failure 'root plugin manifest does not match the release definition' }
     if ($profiles.release -ne ('v' + $profiles.version) -or @($profiles.profiles.PSObject.Properties).Count -ne 6) { Add-Failure 'release profile definition has an invalid version or profile count' }
     if ($citation -notmatch "(?m)^version:\s*$([regex]::Escape([string]$profiles.version))\s*$" -or $citation -notmatch '(?m)^license:\s*MIT\s*$') { Add-Failure 'CITATION.cff does not match release version and license' }
-    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, or version is inaccurate' }
+    $hotfix = $validation.communication_hotfix
+    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or -not $hotfix.global_policy_inline -or $hotfix.skill_local_fallbacks -ne 30 -or $hotfix.openai_adapter_prompts -ne 30 -or $hotfix.wait_what_implicit -ne $true -or $hotfix.common_sense_exceptions -ne $true) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, or communication-hotfix contract is inaccurate' }
     $licensePath = Join-Path $repoRoot 'LICENSE'
     if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
     if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
@@ -74,9 +81,9 @@ function Test-SkillTree([object]$Profiles) {
     $actual = @($skillDirs | ForEach-Object { $_.Name } | Sort-Object)
     if ($actual.Count -ne 30 -or (Compare-Object $expected $actual)) { Add-Failure 'canonical skill inventory does not match the Complete profile' }
     $supportFiles = @{
-        'frontend'=@('DIRECTIONS.md'); 'gauntlet-loop'=@('CRITIC-LANES.md','STATE-FORMAT.md');
-        'get-it-done'=@('ORCHESTRATION.md','STATE.md'); 'reasoning'=@('MODELS.md');
-        'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md')
+        'frontend'=@('DIRECTIONS.md'); 'gauntlet-loop'=@('AI-ASSURANCE.md','CRITIC-LANES.md','STATE-FORMAT.md');
+        'get-it-done'=@('ORCHESTRATION.md','STATE.md'); 'project-context'=@('AI-ASSET-CARDS.md'); 'reasoning'=@('MODELS.md');
+        'release'=@('SUPPLY-CHAIN.md'); 'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md')
     }
     foreach ($dir in $skillDirs) {
         $skillPath = Join-Path $dir.FullName 'SKILL.md'; $adapterPath = Join-Path $dir.FullName 'agents/openai.yaml'
@@ -92,13 +99,19 @@ function Test-SkillTree([object]$Profiles) {
         $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*".+\$' + [regex]::Escape($dir.Name) + '.+"\s*$'
         $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*".+"\s*$','(?m)^\s{2}short_description:\s*".+"\s*$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{4}-\s*"CHAT"\s*\r?\n\s{4}-\s*"CODEX"\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
         foreach ($rule in $rules) { if ($adapter -notmatch $rule) { Add-Failure "adapter schema failure for $($dir.Name)"; break } }
+        if ($dir.Name -ne 'wait-what' -and $text -notmatch '(?m)^\*\*User-facing overlay:\*\*') { Add-Failure "missing user-facing overlay fallback for $($dir.Name)" }
+        if ($adapter -notmatch 'global user-facing overlay') { Add-Failure "missing adapter overlay prompt for $($dir.Name)" }
+        $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff')
+        $allowImplicit = [regex]::Match($adapter, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$').Groups[1].Value
+        if (($manualNames -contains $dir.Name) -and $allowImplicit -ne 'false') { Add-Failure "manual skill allows implicit invocation: $($dir.Name)" }
+        if ($dir.Name -eq 'wait-what' -and $allowImplicit -ne 'true') { Add-Failure 'wait-what must allow implicit invocation' }
         if ($supportFiles.ContainsKey($dir.Name)) {
             foreach ($support in $supportFiles[$dir.Name]) {
                 if (-not (Test-Path -LiteralPath (Join-Path $dir.FullName $support)) -or $text -notmatch [regex]::Escape($support)) { Add-Failure "required support reference missing for $($dir.Name)/$support" }
             }
         }
     }
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support' })) { Add-Pass '30-skill inventory, frontmatter, strict adapters, and support references' }
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|overlay' })) { Add-Pass '30-skill inventory, frontmatter, adapters, local overlays, and support references' }
 }
 
 function Test-SourceIntegrity {
@@ -108,9 +121,9 @@ function Test-SourceIntegrity {
         if ($relative -in @('README.md','VALIDATION.json',('.codex-plugin'+[IO.Path]::DirectorySeparatorChar+'plugin.json'))) { continue }
         $path = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $path)) { Add-Failure "upstream checksum target missing: $relative"; continue }
-        if ((Get-FileHash -Algorithm SHA256 -LiteralPath $path).Hash.ToLowerInvariant() -ne $expected) { Add-Failure "upstream checksum mismatch: $relative" }
+        if ((Get-FileSha256 $path) -ne $expected) { Add-Failure "upstream checksum mismatch: $relative" }
     }
-    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'V7.2.0 skill and policy source integrity' }
+    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'V7.4.1 canonical source integrity' }
 }
 
 function Test-RepositoryHygiene {
@@ -176,13 +189,13 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$Profile,[st
 function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     if(-not(Test-Path -LiteralPath $Directory -PathType Container)){Add-Failure "artifact directory missing: $Directory";return}
     try{$manifest=Get-Content -Raw (Join-Path $Directory 'RELEASE-MANIFEST.json')|ConvertFrom-Json}catch{Add-Failure "release manifest parse failure";return}
-    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.skill_content_changed_from_v7_2_0 -ne $false){Add-Failure 'release manifest contract failure'}
+    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.skill_content_changed_from_v7_2_0 -ne $true -or $manifest.communication_hotfix -ne $true){Add-Failure 'release manifest contract failure'}
     $declared=@{}
     foreach($line in Get-Content (Join-Path $Directory 'CHECKSUMS.sha256')){if($line -match '^([0-9a-f]{64})\s+(.+)$'){$declared[$matches[2]]=$matches[1]}else{Add-Failure "malformed release checksum line: $line"}}
     foreach($property in @($Profiles.profiles.PSObject.Properties)){
         $archiveName=(Get-PackageBaseName $property.Name $Profiles.version)+'.zip';$archivePath=Join-Path $Directory $archiveName
         if(-not(Test-Path -LiteralPath $archivePath)){Add-Failure "missing profile archive $archiveName";continue}
-        $hash=(Get-FileHash -Algorithm SHA256 $archivePath).Hash.ToLowerInvariant()
+        $hash=(Get-FileSha256 $archivePath)
         if($declared[$archiveName] -ne $hash){Add-Failure "release checksum mismatch for $archiveName"}
         $record=$manifest.archives.PSObject.Properties[$archiveName].Value
         if(-not $record -or $record.sha256 -ne $hash -or $record.bytes -ne (Get-Item $archivePath).Length){Add-Failure "release manifest mismatch for $archiveName"}

@@ -1,6 +1,6 @@
 {
-  "version": "7.2.1",
-  "release": "v7.2.1",
+  "version": "7.4.1",
+  "release": "v7.4.1",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

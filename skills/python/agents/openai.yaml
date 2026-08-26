@@ -1,7 +1,7 @@
 interface:
   display_name: "Python"
   short_description: "Build maintainable Python with the existing toolchain"
-  default_prompt: "Use $python to implement this in maintainable Python with the current toolchain."
+  default_prompt: "Use $python to implement this in maintainable Python with the current toolchain. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

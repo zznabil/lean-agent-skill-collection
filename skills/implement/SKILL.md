@@ -14,7 +14,9 @@ description: "Implement a bounded change from a clear request, spec, or ticket. 
 7. At trust boundaries, validate untrusted input. Inspect a new dependency, lockfile change, transitive impact, and lifecycle scripts before adoption. Test material security or compatibility controls when relevant.
 8. Run focused checks after relevant state changes; do not repeat an unchanged check under unchanged conditions. Run the full relevant suite once the change is stable. Keep or revert the change based on measured evidence.
 9. When a defect pattern can recur, add the smallest durable guard: regression test, type, schema, lint rule, validation check, or approved hook.
-10. Inspect the final diff and real output. Remove debug code, temporary files, and accidental dependency changes.
+10. Inspect the final diff and real output. Remove debug code, temporary files, accidental dependency changes, narration comments, placeholders, unjustified type escapes, defensive branches with no real failure mode, needless pass-through wrappers, and avoidable deep nesting. Preserve justified trust-boundary checks, observable behavior, and local conventions; do not infer authorship from style.
 11. Report changed artifacts, requirement coverage, actual checks and outcomes, assumptions, residual risk, intentionally untouched relevant areas, and out-of-scope findings.
 
 MUST NOT weaken tests, change expected behavior to match a bug, or publish, push, deploy, or mutate production without authorization.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

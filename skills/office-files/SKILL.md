@@ -21,3 +21,5 @@ description: "Create, edit, inspect, convert, or repair DOCX, PDF, PPTX, and spr
 - **Spreadsheet:** formulas, types, references, named ranges, tables, filters, validation, charts, hidden sheets, recalculation, and error cells.
 
 Report output path, validation performed, active or external content found, and any feature that could not be preserved or verified.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

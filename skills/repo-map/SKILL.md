@@ -20,3 +20,5 @@ Choose **explain** for understanding and **map** for a durable orientation artif
 **Explain output:** overview, key concepts, how the flow works, where it lives, important gotchas, and evidence gaps.
 
 **Map output:** purpose, system shape, key paths and symbols, runtime flow, ownership boundaries, coverage count, risks, unknowns, and optional diagram source.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

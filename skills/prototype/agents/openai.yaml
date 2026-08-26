@@ -1,7 +1,7 @@
 interface:
   display_name: "Prototype"
   short_description: "Build a disposable prototype to answer one question"
-  default_prompt: "Use $prototype to build the smallest disposable test of this idea."
+  default_prompt: "Use $prototype to build the smallest disposable test of this idea. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

@@ -11,8 +11,8 @@ Record:
 - coverage manifest with slices or journeys, charter, anti-charter, dependencies, owners, status, verification tier, total target count, processed count, cap, and remainder;
 - completed, rejected, and reverted changes;
 - defect ledger with severity, evidence, owner, state, refutation result, and regression check;
-- evidence index with command or method, environment, result, artifact path, confidence, and time;
-- iteration count, used budget, remaining budget, no-progress count, and stop trigger;
+- evidence index with tested artifact or revision, command or rubric, verifier, environment, entrypoint, authentication context, coverage, result, artifact path, confidence, time, and current or stale state;
+- iteration count, used budget, remaining budget, no-progress count, stop trigger, and measured total/completed counts behind any displayed progress bar;
 - critic reports, identity receipts, live-topology evidence, uncertainty bias, independence level, failed or skipped critics, and preserved dissent;
 - known risks, exact stop reason, rollback, and one exact next action.
 

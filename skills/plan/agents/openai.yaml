@@ -1,7 +1,7 @@
 interface:
   display_name: "Plan"
   short_description: "Turn evidence into an executable work plan"
-  default_prompt: "Use $plan to turn the current evidence into an executable plan."
+  default_prompt: "Use $plan to turn the current evidence into an executable plan. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

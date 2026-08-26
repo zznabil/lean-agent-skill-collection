@@ -1,7 +1,7 @@
 interface:
   display_name: "Repository Map"
   short_description: "Explain verified repository structure and flows"
-  default_prompt: "Use $repo-map to explain or map the verified structure and runtime flow of this repository."
+  default_prompt: "Use $repo-map to explain or map the verified structure and runtime flow of this repository. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

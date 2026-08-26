@@ -14,3 +14,5 @@ description: "Design, implement, or test maintainable Python, including typing, 
 7. Run the configured formatter, linter, type checker, focused tests, and full relevant suite. Do not add or replace tools without evidence and approval.
 
 Report versions, files changed, commands and actual results, compatibility concerns, and residual risk.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

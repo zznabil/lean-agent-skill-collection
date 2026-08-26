@@ -1,7 +1,7 @@
 interface:
   display_name: "Brand Kit"
   short_description: "Create a compact and coherent visual identity"
-  default_prompt: "Use $brandkit to create a compact visual identity for this product."
+  default_prompt: "Use $brandkit to create a compact visual identity for this product. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

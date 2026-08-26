@@ -25,3 +25,5 @@ Use `DONE`, `PARTIAL`, or `BLOCKED`, then state:
 6. Make the handoff sufficient for a fresh agent to continue without rereading the full conversation.
 
 Do not mark unverified work complete. Redact secrets and unnecessary private data.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

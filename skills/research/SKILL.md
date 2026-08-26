@@ -19,3 +19,5 @@ description: "Investigate a question using current primary sources and produce a
 12. Stop when evidence answers the decision or further search has low value. State what remains unverified.
 
 Lead with the answer, then critical facts, evidence, implications, contradictions, uncertainty, and the next action. Never invent a citation, quote, test, access result, or completeness claim.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.

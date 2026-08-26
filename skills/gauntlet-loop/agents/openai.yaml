@@ -1,7 +1,7 @@
 interface:
   display_name: "Gauntlet Loop"
   short_description: "Attack, repair, and retest high-risk artifacts"
-  default_prompt: "Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop."
+  default_prompt: "Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop. Keep the global user-facing overlay active for eligible chat prose."
 policy:
   products:
     - "CHAT"

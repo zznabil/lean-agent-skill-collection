@@ -14,3 +14,5 @@ description: "Teach a concept or skill through a plain explanation, worked examp
 7. End with the key takeaway and one useful next exercise.
 
 For a quick explanation, answer directly and stop. Do not force a quiz, a full course, or unnecessary prerequisites.
+
+**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
