@@ -22,8 +22,9 @@ Use `DONE`, `PARTIAL`, or `BLOCKED`, then state:
 3. Record completed work, changed files, decisions, actual verification, failures, blockers, risks, rollback, and the exact next command or action.
 4. Name relevant areas intentionally left untouched and any out-of-scope concern that the next worker could mistake for an omission.
 5. Note relevant skills for the next session only when they add distinct value.
-6. Make the handoff sufficient for a fresh agent to continue without rereading the full conversation.
+6. Remove obsolete scratch detail, make the first-use path obvious, state whether user action is required, and make the handoff sufficient for a fresh agent to continue without rereading the full conversation.
 
 Do not mark unverified work complete. Redact secrets and unnecessary private data.
 
-**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
+
+**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.

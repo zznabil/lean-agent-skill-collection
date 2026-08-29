@@ -1,9 +1,9 @@
 interface:
-  display_name: "Test"
-  short_description: "Build tests and evaluate agent trajectories"
-  default_prompt: "Use $test to create the smallest reliable test or agent-evaluation feedback loop. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Test
+  short_description: Build tests and evaluate agent trajectories
+  default_prompt: Use $test to create the smallest reliable test or agent-evaluation feedback loop. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
+  - CHAT
+  - CODEX
   allow_implicit_invocation: true

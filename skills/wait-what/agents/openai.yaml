@@ -1,9 +1,9 @@
 interface:
-  display_name: "Wait, What?"
-  short_description: "Global clear user-facing communication overlay"
-  default_prompt: "Apply $wait-what as the global user-facing overlay while completing the current task. Keep it active with every specialist skill for eligible chat prose."
+  display_name: Wait, What?
+  short_description: Re-pitch confusing responses clearly
+  default_prompt: Use $wait-what to re-pitch the last substantive response with missing context restored, friendly STE-style prose, considerate follow-through, truthful progress where relevant, and explicit remaining user action when useful.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
-  allow_implicit_invocation: true
+  - CHAT
+  - CODEX
+  allow_implicit_invocation: false

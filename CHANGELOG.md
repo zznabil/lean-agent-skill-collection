@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.1.0 — 2026-08-29
+
+- Replace the V7.4.1 collection with the authoritative 23-skill V8.1.0 canon.
+- Retire `brandkit`, `frontend`, `monitor`, `prototype`, `python`, `reasoning`, and `repo-map`; their stable general mechanisms are removed, merged, or absorbed into remaining authorities as documented in the catalog.
+- Add global considerate-agency doctrine and ACT / ASK / DO NOT ACT initiative calibration without adding a routed skill.
+- Add 60 static considerate-agency scenarios, decision records, and a 16-pass source audit.
+- Keep six deployment profiles with no new dependency, service, hook, executable, or automatic trusted-state mutation.
+- Preserve the warning that the collection decisions are AI slop chosen by GPT-5.6 Sol Pro and require human review and host-specific testing.
+
 ## 7.4.1 — 2026-08-26
 
 - Import the supplied V7.4.1 Complete profile source and retain 30 skills.
@@ -25,4 +34,4 @@
 - Add source, integrity, safety, and provenance documentation.
 - Add a read-only PowerShell validation command.
 
-See [`docs/AUDIT.md`](docs/AUDIT.md) for the V7.4.1 release audit and historical analysis.
+See [`docs/AUDIT.md`](docs/AUDIT.md) for the V8.1.0 release audit and [`docs/HISTORY.md`](docs/HISTORY.md) for historical analysis.

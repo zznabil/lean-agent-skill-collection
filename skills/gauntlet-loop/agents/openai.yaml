@@ -1,9 +1,9 @@
 interface:
-  display_name: "Gauntlet Loop"
-  short_description: "Attack, repair, and retest high-risk artifacts"
-  default_prompt: "Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Gauntlet Loop
+  short_description: Attack, repair, and retest high-risk artifacts
+  default_prompt: Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
+  - CHAT
+  - CODEX
   allow_implicit_invocation: false

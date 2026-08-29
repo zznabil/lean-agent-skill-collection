@@ -1,48 +1,111 @@
 {
-  "version": "7.4.1",
-  "release": "v7.4.1",
+  "version": "8.1.0",
+  "release": "v8.1.0",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
       "title": "Lean Agent Skills Core",
-      "description": "Nine compact skills for communication, planning, research, review, and long-horizon execution.",
+      "description": "Eight compact skills for communication, planning, research, review, and long-horizon execution.",
       "include_engineering_core": true,
-      "skills": ["gauntlet-loop", "get-it-done", "handoff", "plan", "reasoning", "research", "review", "skill-design", "wait-what"]
+      "skills": [
+        "gauntlet-loop",
+        "get-it-done",
+        "handoff",
+        "plan",
+        "research",
+        "review",
+        "skill-design",
+        "wait-what"
+      ]
     },
     "engineering": {
       "plugin_name": "lean-agent-skills-engineering",
       "title": "Lean Agent Skills Engineering",
-      "description": "Twenty-two compact skills for reliable software and long-horizon agent work.",
+      "description": "Nineteen compact skills for reliable software and long-horizon agent work.",
       "include_engineering_core": true,
-      "skills": ["architecture", "browser-automation", "cli-design", "debug", "gauntlet-loop", "get-it-done", "handoff", "implement", "merge-conflicts", "plan", "project-context", "prototype", "python", "reasoning", "release", "repo-map", "research", "review", "skill-design", "test", "triage", "wait-what"]
+      "skills": [
+        "architecture",
+        "browser-automation",
+        "cli-design",
+        "debug",
+        "experiment",
+        "gauntlet-loop",
+        "get-it-done",
+        "handoff",
+        "implement",
+        "merge-conflicts",
+        "plan",
+        "project-context",
+        "release",
+        "research",
+        "review",
+        "skill-design",
+        "test",
+        "triage",
+        "wait-what"
+      ]
     },
     "complete": {
       "plugin_name": "lean-agent-skills-complete",
       "title": "Lean Agent Skills Complete",
-      "description": "Thirty compact skills for engineering, research, communication, documents, interfaces, and quality work.",
+      "description": "Twenty-three compact skills for engineering, research, communication, documents, experiments, and quality work.",
       "include_engineering_core": true,
-      "skills": ["architecture", "brandkit", "browser-automation", "cli-design", "debug", "experiment", "frontend", "gauntlet-loop", "get-it-done", "grilling", "handoff", "implement", "merge-conflicts", "monitor", "office-files", "plan", "project-context", "prototype", "python", "reasoning", "release", "repo-map", "research", "review", "skill-design", "teach", "test", "triage", "wait-what", "writing"]
+      "skills": [
+        "architecture",
+        "browser-automation",
+        "cli-design",
+        "debug",
+        "experiment",
+        "gauntlet-loop",
+        "get-it-done",
+        "grilling",
+        "handoff",
+        "implement",
+        "merge-conflicts",
+        "office-files",
+        "plan",
+        "project-context",
+        "release",
+        "research",
+        "review",
+        "skill-design",
+        "teach",
+        "test",
+        "triage",
+        "wait-what",
+        "writing"
+      ]
     },
     "communication": {
       "plugin_name": "user-facing-communication-mini",
       "title": "User-Facing Communication Mini",
       "description": "Three compact skills for clear replies, teaching, and prose artifacts.",
       "include_engineering_core": false,
-      "skills": ["teach", "wait-what", "writing"]
+      "skills": [
+        "teach",
+        "wait-what",
+        "writing"
+      ]
     },
     "get-it-done": {
       "plugin_name": "get-it-done-pack",
       "title": "Get It Done Pack",
-      "description": "Long-horizon execution, adversarial acceptance, and clear user-facing reporting.",
+      "description": "Long-horizon execution, adversarial acceptance, considerate follow-through, and clear reporting.",
       "include_engineering_core": true,
-      "skills": ["gauntlet-loop", "get-it-done", "wait-what"]
+      "skills": [
+        "gauntlet-loop",
+        "get-it-done",
+        "wait-what"
+      ]
     },
     "gauntlet": {
       "plugin_name": "gauntlet-loop-pack",
       "title": "Gauntlet Loop Pack",
       "description": "A bounded adversarial benchmark, repair, retest, and final-judge workflow.",
       "include_engineering_core": false,
-      "skills": ["gauntlet-loop"]
+      "skills": [
+        "gauntlet-loop"
+      ]
     }
   }
 }

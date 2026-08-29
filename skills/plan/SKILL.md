@@ -15,8 +15,9 @@ Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arb
 4. For independent capabilities, map owner, interface, dependencies, acceptance checks, and integration point. Prove coverage in both directions: every requirement maps to work, and every work item maps to a requirement or explicit enabling need.
 5. For shared surfaces, choose the smallest contract: none, a 5–12 line inline contract, or a full contract only when consumers, compatibility, migration, auth, data, CLI, API, or UI-flow risk justifies it. If no consumer, surface, check, deliverable, or blocker can be named, skip the ceremony.
 6. Select only quality attributes that can change the decision. For material risk, record cause → event → consequence, exposure, treatment, owner, trigger, and evidence. Resolve only blocking choices; use a conservative recorded default for minor reversible gaps.
-7. Prefer verified vertical slices ordered by dependency and risk. Preserve known behavior and include rollback for risky steps.
-8. Write locally by default. Mutate a remote tracker only with explicit authorization.
+7. For every unresolved consequential decision, recommend a default, state its main trade-off and what it blocks, and group tightly related questions. Do not ask the user to choose what current evidence already resolves.
+8. Prefer verified vertical slices ordered by dependency and risk. Preserve known behavior and include rollback for risky steps.
+9. Write locally by default. Mutate a remote tracker only with explicit authorization.
 
 ## Modes
 
@@ -29,4 +30,5 @@ Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arb
 
 Return one ordered artifact with traceability, dependencies, completion checks, rejected alternatives, disclosed remainder, and `Not doing`. A plan is a guardrail for outcomes and decisions, not line-by-line code choreography. Do not claim implementation occurred.
 
-**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
+
+**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.

@@ -1,96 +1,68 @@
-# V7.4.1 release audit
+# Lean Agent Skills V8.1.0 — 16-pass considerate-agency audit
 
-## Decision
+## Summary
 
-**PASS WITH RISKS.** The integrated V7.4.1 source is structurally coherent and safe to package. Static validation covers source and generated archives; runtime host routing remains unverified. No skill contains bundled executable scripts, runtime network integrations, or automatic trusted-state mutation.
+V8.1 keeps the V8 inventory and adds a global good-teammate doctrine without adding a routed skill. Static source, profile, and 60-scenario policy checks pass. Live OMP, Codex, ChatGPT, user satisfaction, latency, and token cost remain unmeasured.
 
-## AI provenance
+> **AI provenance and review warning:** The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes their origin, not their quality or correctness. Treat every skill as untrusted policy until it has been reviewed and tested in the target host and project.
 
-The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes the collection's origin, not its quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+```text
+Audit      [####################] 100% (16/16) complete
+Scenarios  [####################] 100% (60/60) classified
+Verdict:   PASS WITH LIVE-MEASUREMENT LIMITS
+```
 
-The two material limits are licensing and runtime evidence:
+## Results
 
-1. The repository and generated V7.4.1 packages retain the MIT license.
-2. Static checks cannot prove identical routing behavior across agent hosts. Each host must run live activation tests when routing matters.
+| Pass | Perspective | Result |
+|---:|---|---|
+| 1 | Source, version, licence, and package integrity | **PASS** |
+| 2 | Trigger precision and neighbouring-skill overlap | **PASS** |
+| 3 | Manual invocation and global user-facing overlay | **PASS** |
+| 4 | Execution completeness and graceful degradation | **PASS** |
+| 5 | Evidence integrity, anti-gaming, and freshness | **PASS** |
+| 6 | Safety, privacy, permissions, and external effects | **PASS** |
+| 7 | Context economy and hidden dependencies | **PASS WITH COST** |
+| 8 | Profiles, standalone use, and reproducible packaging | **PASS** |
+| 9 | Autonomous skill activation likelihood | **UNCHANGED; LIVE NOT MEASURED** |
+| 10 | Standards and practices in the correct context | **PASS** |
+| 11 | Activation frequency and over/under-triggering | **PASS WITH LIVE LIMIT** |
+| 12 | Host, context, and environment survival | **PASS WITH LIVE LIMIT** |
+| 13 | No-skill ablation | **POLICY PASS; LIVE NOT MEASURED** |
+| 14 | Usage and sunset | **PASS** |
+| 15 | Human effort and loop closure | **PASS STATIC** |
+| 16 | Initiative and restraint calibration | **PASS STATIC** |
 
-## Scope
+## ACT / ASK / DO NOT ACT
 
-The audit covered the supplied V7.4.1 Complete profile archive and the six locally generated profile archives:
+- **ACT:** obvious, low-cost, reversible, low-risk, in-scope follow-through with no new external effect.
+- **ASK:** preference-sensitive or consequential; do safe preparation, recommend a default, state the trade-off and exact decision.
+- **DO NOT ACT:** unrelated, speculative, surprising, broad cleanup, or low-value polish.
 
-| Package | Skills | Role | Result |
-|---|---:|---|---|
-| Core | 9 | General reasoning and execution foundation | PASS |
-| Engineering | 22 | Core plus software-delivery workflows | PASS |
-| Complete | 30 | Canonical superset | PASS |
-| Communication | 3 | Small prose and teaching profile | PASS |
-| Get It Done | 3 | Long-horizon execution stack | PASS |
-| Gauntlet Loop | 1 | Standalone adversarial QA | PASS |
-| V7.4.1 Complete source | 30 | Supplied canonical source archive | PASS |
-| Generated profiles | 6 | Deterministic repository builds | PASS |
+## Scenario corpus
 
-## What was checked
+- ACT: 20
+- ASK: 20
+- DO NOT ACT: 20
+- Static policy coverage: 60/60 PASS
+- Live agent result: NOT MEASURED
 
-- 30 canonical skill directories and 30 matching `SKILL.md` frontmatter names.
-- 30 OpenAI adapters with Chat and Codex product metadata.
-- Plugin, profile, citation, and package-validation metadata at version `7.4.1`.
-- The supplied archive checksum inventory and the generated release checksums.
-- ZIP entry path safety: no rooted paths or parent traversal.
-- Overlap design across profiles and standalone packs.
-- Permission language for publication, production, destructive work, credentials, and external communication.
-- References from primary skill files to their supporting Markdown files.
-- Absence of bundled shell scripts, installers, hooks, public runtime URLs, or connector requirements.
-- Pinned Compound Engineering provenance and its MIT license terms.
+## Size impact
 
-## Architecture
+```text
+Canonical skills: 23 → 23
+Primary SKILL.md lines: 808
+Primary SKILL.md words: 11991
+Largest primary skill: gauntlet-loop (117 lines)
+New routed skills: 0
+```
 
-The Complete profile is the source superset. Core and Engineering are curated subsets. The Communication, Get It Done, and Gauntlet packages are convenience slices and deliberately duplicate skills from larger profiles. Installing overlapping profiles would create duplicate routing authorities, so the packaging correctly warns against it.
+## Residual risks
 
-The collection separates three layers:
+1. A model can misclassify a preference-sensitive action as obvious follow-through.
+2. Local fallbacks intentionally add context to survive manual skill selection.
+3. Warmth and satisfaction require human review.
+4. Users differ in preferred initiative.
+5. Live host composition remains implementation-dependent.
 
-1. `SKILL.md`: vendor-neutral trigger and workflow contract.
-2. Supporting Markdown: detailed assurance, lanes, state schemas, supply-chain guidance, asset cards, or playbooks for complex skills.
-3. `agents/openai.yaml`: thin product-specific display and invocation metadata.
-
-This separation is simple and portable. It also makes review easier because operational policy remains readable text rather than hidden code.
-
-## Coverage analysis
-
-The 30 skills form six practical groups:
-
-- **Control and quality:** `get-it-done`, `gauntlet-loop`, `review`, `test`, `triage`, `handoff`.
-- **Engineering:** `architecture`, `implement`, `debug`, `python`, `cli-design`, `merge-conflicts`, `release`, `repo-map`.
-- **Product and interface:** `frontend`, `browser-automation`, `prototype`, `experiment`, `monitor`.
-- **Thinking and planning:** `reasoning`, `research`, `plan`, `grilling`, `project-context`.
-- **Content and artifacts:** `writing`, `teach`, `wait-what`, `office-files`, `brandkit`.
-- **Meta:** `skill-design`.
-
-The main overlap is intentional and routed by scale: `implement` owns bounded changes, while `get-it-done` owns long-horizon work; `review` is a direct read-only review, while `gauntlet-loop` is a costly iterative adversarial loop; `plan` creates an execution artifact, while `architecture` owns durable structural choices.
-
-## Strong points
-
-- Permission boundaries are repeated where mistakes would be costly.
-- Completion claims require fresh evidence and disclose skipped work.
-- High-risk operations use prediction, read-back, rollback, and stop-on-mismatch rules.
-- The skills avoid provider lock-in in their primary instructions.
-- The largest primary skill is 73 lines, which limits context cost.
-- State-heavy workflows define schemas instead of relying on hidden conversation memory.
-- The supplied archive adds explicit assurance, asset-card, and supply-chain references without adding routed skills.
-
-## Risks and limitations
-
-| ID | Severity | Finding | Disposition |
-|---|---|---|---|
-| R1 | P2 | Static metadata cannot prove live host routing or cross-model independence. | Run host-specific activation tests after installation. |
-| R2 | P2 | Overlapping profiles duplicate authorities and can cause ambiguous routing. | Install one primary profile only. |
-| R3 | P2 | Supplied ZIP uses a different archive structure from repository-generated assets. | Record the supplied digest separately; verify generated assets independently and make no byte-reproduction claim. |
-| R4 | P3 | Archive metadata is supplied evidence, not runtime behavior proof. | Re-run repository source, package, and reproducibility gates. |
-
-## V7.4.1 change analysis
-
-V7.4.1 changes existing authorities without adding routed skills. It keeps the supplied overlay behavior while repeating the presentation contract in every specialist skill and OpenAI adapter. It also adds targeted AI assurance, asset-card, and supply-chain references without bundling runtimes, hooks, installers, or external integrations.
-
-The change keeps 30 skills: 865 primary lines and 12,056 primary words are reported; the largest skill is 73 lines; 30 local overlay fallbacks and 30 adapter prompts are present.
-
-## Verification boundary
-
-This audit is a static source and package audit. The supplied archive digest is 01696d376b534c386933d7378f60dd9e34ebae210f84f8153d9e2c92f3902269. Repository-generated assets are built by the inspected deterministic builder and may differ in ZIP structure; no byte reproduction is claimed. This audit does not claim that any model will invoke a skill correctly, obey every rule, or produce equal results across ChatGPT, Codex, or another host. Those are runtime properties and need host-specific tests.
+Promote for controlled use and collect real examples before expanding the doctrine.

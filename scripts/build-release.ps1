@@ -21,7 +21,7 @@ if ($outputFullPath -eq $repoFullPath -or $outputFullPath -eq $pathRoot) {
 }
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-$fixedTimestamp = [DateTimeOffset]::Parse('2026-08-26T00:00:00Z')
+$fixedTimestamp = [DateTimeOffset]::Parse('2026-08-29T00:00:00Z')
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -145,7 +145,7 @@ function Get-ChecksumLines([string]$Directory, [string[]]$ExcludedRelativePaths)
 }
 
 function Get-ManualSkills([object[]]$Skills) {
-    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff')
+    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
     return @($Skills | Where-Object { $manualNames -contains [string]$_ })
 }
 
@@ -172,9 +172,9 @@ function New-ProfileReadme([object]$Profile, [string]$Version) {
 
 $($Profile.description)
 
-## V7.4.1 hotfix
+## V8.1.0 considerate agency
 
-The global ``wait-what`` user-facing overlay remains active when any specialist skill is manually or automatically invoked. Each skill contains a compact local fallback, and every OpenAI adapter repeats the instruction for explicit selection.
+The global user-facing and considerate-agency contracts remain active without routing another skill. The collection uses ACT, ASK, and DO NOT ACT to balance useful follow-through with permission and scope boundaries.
 
 ## Package shape
 
@@ -223,7 +223,7 @@ function New-PackageValidationJson([string]$ProfileName, [object]$Profile, [stri
     $manual = @(Get-ManualSkills $Profile.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
     return @"
 {
-  "scope": "static package structure, inventory, and communication-overlay validation only; not live host-routing or behavioural validation",
+  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
   "package": $(ConvertTo-JsonString $ProfileName),
   "plugin_name": $(ConvertTo-JsonString ([string]$Profile.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
@@ -235,17 +235,15 @@ $manual
   "included_skills": [
 $skills
   ],
-  "communication_hotfix": {
-    "global_policy_inline": true,
-    "skill_local_fallbacks": $(@($Profile.skills).Count),
-    "openai_adapter_prompts": $(@($Profile.skills).Count),
-    "wait_what_implicit": true,
-    "common_sense_exceptions": true
+  "considerate_agency": {
+    "global": true,
+    "local_fallbacks": $(@($Profile.skills | Where-Object { [string]$_ -ne 'wait-what' }).Count),
+    "adapters": $(@($Profile.skills).Count),
+    "act_ask_do_not_act": true
   },
   "warnings": [
-    "Live host-routing and behavioural validation were not performed.",
-    "Overlapping profiles must not be installed together.",
-    "Host custom instructions remain the strongest account-wide surface when available."
+    "Live model behaviour and human satisfaction were not measured.",
+    "Overlapping profiles must not be installed together."
   ],
   "errors": [],
   "passed": true
@@ -316,9 +314,9 @@ $manifest = @"
   "version": $(ConvertTo-JsonString $version),
   "scope": "deterministic package build and static validation; not live host-routing or behavioural validation",
   "profiles": $($profileProperties.Count),
-  "unique_skills": 30,
-  "skill_content_changed_from_v7_2_0": true,
-  "communication_hotfix": true,
+  "unique_skills": $(@($definition.profiles.complete.skills).Count),
+  "considerate_agency": true,
+  "skill_content_changed_from_v8_0_0": true,
   "archives": {
 $($manifestArchiveLines -join "`n")
   }
@@ -330,7 +328,7 @@ Copy-Item -LiteralPath (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md') -Destinati
 Write-Utf8File (Join-Path $outputFullPath 'README.md') @"
 # Lean Agent Skill Collection $releaseName
 
-V7.4.1 hotfix: the global ``wait-what`` user-facing overlay remains active with every specialist skill.
+V8.1.0 keeps the 23-skill V8 routing surface and adds considerate-agency doctrine, ACT / ASK / DO NOT ACT initiative calibration, and explicit follow-through boundaries.
 
 Choose one profile. Do not install overlapping profiles together. Verify downloads with ``CHECKSUMS.sha256`` and read ``LICENSE`` and ``THIRD_PARTY_NOTICES.md`` before redistribution.
 "@

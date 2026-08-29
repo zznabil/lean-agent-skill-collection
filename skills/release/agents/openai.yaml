@@ -1,9 +1,9 @@
 interface:
-  display_name: "Release"
-  short_description: "Prepare and verify a safe, reversible release"
-  default_prompt: "Use $release to prepare and verify this release without publishing until authorized. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Release
+  short_description: Prepare and verify a safe, reversible release
+  default_prompt: Use $release to prepare and verify this release without publishing until authorized. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
+  - CHAT
+  - CODEX
   allow_implicit_invocation: true

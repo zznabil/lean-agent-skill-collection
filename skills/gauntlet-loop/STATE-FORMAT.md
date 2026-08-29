@@ -10,9 +10,11 @@ Record:
 - artifact map and current checkpoint;
 - coverage manifest with slices or journeys, charter, anti-charter, dependencies, owners, status, verification tier, total target count, processed count, cap, and remainder;
 - completed, rejected, and reverted changes;
-- defect ledger with severity, evidence, owner, state, refutation result, and regression check;
+- defect ledger with severity, acceptance disposition (`blocking` or `nonblocking`), repair state (`open`, `fixed`, `blocked`, or `deferred`), evidence, owner, refutation result, and regression check;
 - evidence index with tested artifact or revision, command or rubric, verifier, environment, entrypoint, authentication context, coverage, result, artifact path, confidence, time, and current or stale state;
-- iteration count, used budget, remaining budget, no-progress count, stop trigger, and measured total/completed counts behind any displayed progress bar;
+- run state and artifact verdict as separate fields;
+- iteration count, used budget, remaining budget, no-progress count, and stop trigger;
+- for every displayed progress bar: track name, denominator definition, planned, processed/adjudicated, passed, failed, blocked, skipped, and not-tested counts;
 - critic reports, identity receipts, live-topology evidence, uncertainty bias, independence level, failed or skipped critics, and preserved dissent;
 - known risks, exact stop reason, rollback, and one exact next action.
 

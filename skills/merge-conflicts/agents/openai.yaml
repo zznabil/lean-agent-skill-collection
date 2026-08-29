@@ -1,9 +1,9 @@
 interface:
-  display_name: "Merge Conflicts"
-  short_description: "Resolve conflicts without losing intended behavior"
-  default_prompt: "Use $merge-conflicts to resolve these conflicts and verify integrated behavior. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Merge Conflicts
+  short_description: Resolve conflicts without losing intended behavior
+  default_prompt: Use $merge-conflicts to resolve these conflicts and verify integrated behavior. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
+  - CHAT
+  - CODEX
   allow_implicit_invocation: true

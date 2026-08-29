@@ -1,9 +1,0 @@
-interface:
-  display_name: "Frontend"
-  short_description: "Build polished interfaces from rendered evidence"
-  default_prompt: "Use $frontend to design or improve this interface against rendered evidence. Keep the global user-facing overlay active for eligible chat prose."
-policy:
-  products:
-    - "CHAT"
-    - "CODEX"
-  allow_implicit_invocation: true

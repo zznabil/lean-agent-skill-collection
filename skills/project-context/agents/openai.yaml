@@ -1,9 +1,9 @@
 interface:
-  display_name: "Project Context"
-  short_description: "Capture context, AI asset cards, lessons, or retrospectives"
-  default_prompt: "Use $project-context to capture verified context, an AI asset card, approved lessons, or session improvements. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Project Context & Map
+  short_description: Map repositories and manage durable context
+  default_prompt: Use $project-context to create the requested repository map, verified context, AI asset card, approved lesson, or retrospective. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
-  allow_implicit_invocation: true
+  - CHAT
+  - CODEX
+  allow_implicit_invocation: false

@@ -8,8 +8,16 @@ Use this only for material engineering work. It distills practical rules from re
 - A material requirement records an ID, source, observable statement, method, environment, pass threshold, and evidence location.
 - MUST NOT promote an inferred preference into a user requirement.
 - Report each check as `NOT TESTED`, `FAIL`, or `PASS`. “No issue seen” is not `PASS`.
+- Keep work completion, evidence coverage, and acceptance verdict separate. A fully completed verification run can still produce `FAIL`; a processed or blocked check is not a passed check.
 - A claim MUST NOT exceed its evidence. Record the tested artifact or revision, verifier or rubric, environment, entrypoint, authentication context, time, and coverage when they affect validity. Inventory is not execution; unit, harness, or auth-bypassed evidence is not deployed or production proof without demonstrated equivalence.
 - When several evidence types support a consequential claim, record a compact assurance case: claim, scope, argument, evidence, assumptions or defeaters, and status.
+
+
+## Decision discipline
+
+- Separate facts, constraints, assumptions, and desired outcome. Find the vital few causes or the bottleneck before broad work.
+- Use inversion or a pre-mortem for consequential change. Before removing an existing rule, workaround, or boundary, establish its purpose and dependencies.
+- Prefer reversible, boring, low-regret choices with the fewest assumptions and moving parts that satisfy the evidence. Do not add speculative generality.
 
 ## Completion and legacy safety
 

@@ -1,59 +1,45 @@
 {
-  "scope": "static package structure, inventory, and communication-overlay validation only; not live host-routing or behavioural validation",
+  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
   "package": "complete",
-  "plugin_name": "lean-agent-skills-complete",
-  "version": "7.4.1",
-  "skills_expected": 30,
-  "skills_validated": 30,
+  "version": "8.1.0",
+  "skills_expected": 23,
+  "skills_validated": 23,
   "manual_only_skills": [
     "gauntlet-loop",
     "get-it-done",
     "grilling",
-    "handoff"
+    "handoff",
+    "project-context",
+    "wait-what"
   ],
-  "included_skills": [
+  "implicitly_selectable_skills": [
     "architecture",
-    "brandkit",
     "browser-automation",
     "cli-design",
     "debug",
     "experiment",
-    "frontend",
-    "gauntlet-loop",
-    "get-it-done",
-    "grilling",
-    "handoff",
     "implement",
     "merge-conflicts",
-    "monitor",
     "office-files",
     "plan",
-    "project-context",
-    "prototype",
-    "python",
-    "reasoning",
     "release",
-    "repo-map",
     "research",
     "review",
     "skill-design",
     "teach",
     "test",
     "triage",
-    "wait-what",
     "writing"
   ],
-  "communication_hotfix": {
-    "global_policy_inline": true,
-    "skill_local_fallbacks": 30,
-    "openai_adapter_prompts": 30,
-    "wait_what_implicit": true,
-    "common_sense_exceptions": true
+  "considerate_agency": {
+    "global": true,
+    "local_fallbacks": 22,
+    "adapters": 23,
+    "act_ask_do_not_act": true
   },
   "warnings": [
-    "Live host-routing and behavioural validation were not performed.",
-    "Overlapping profiles must not be installed together.",
-    "Host custom instructions remain the strongest account-wide surface when available."
+    "Live model behaviour and human satisfaction were not measured.",
+    "Overlapping profiles must not be installed together."
   ],
   "errors": [],
   "passed": true

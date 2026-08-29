@@ -1,27 +1,27 @@
 # Lean Agent Skill Collection
 
-[![Release](https://img.shields.io/badge/release-v7.4.1-2563eb)](https://github.com/zznabil/lean-agent-skill-collection/releases/tag/v7.4.1)
-[![Skills](https://img.shields.io/badge/skills-30-0f766e)](skills)
+[![Version](https://img.shields.io/badge/version-v8.1.0-2563eb)](CHANGELOG.md)
+[![Skills](https://img.shields.io/badge/skills-23-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
-A compact, source-browsable collection of 30 vendor-neutral agent skills for engineering, research, communication, interfaces, documents, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
+A compact, source-browsable collection of 23 vendor-neutral agent skills for engineering, research, communication, documents, experiments, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
 > **AI provenance and review warning:** The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes the collection's origin, not its quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-Read the [project history](docs/HISTORY.md) for the path from a Pro-mode workaround, through a 139-to-29 lean refactor, to the current 30-skill V7.4.1 collection.
+V8.1.0 keeps the consolidated V8 routing surface and adds considerate-agency rules: inspect before asking, recommend useful defaults, complete obvious safe follow-through, close loops, and stop before initiative becomes scope creep. Read the [project history](docs/HISTORY.md) for the full lineage.
 
 ## Start here
 
 Choose one profile. Do not install overlapping profiles together.
 
-| Profile | Skills | Best for | Package |
+| Profile | Skills | Best for | Generated package |
 |---|---:|---|---|
-| Core | 9 | Planning, research, review, and long-running work | [ZIP](https://github.com/zznabil/lean-agent-skill-collection/releases/download/v7.4.1/lean-agent-skills-core-openai-v7.4.1.zip) |
-| Engineering | 22 | Software delivery and engineering operations | [ZIP](https://github.com/zznabil/lean-agent-skill-collection/releases/download/v7.4.1/lean-agent-skills-engineering-openai-v7.4.1.zip) |
-| Complete | 30 | The full collection | [ZIP](https://github.com/zznabil/lean-agent-skill-collection/releases/download/v7.4.1/lean-agent-skills-complete-openai-v7.4.1.zip) |
-| Communication | 3 | Clear replies, teaching, and writing | [ZIP](https://github.com/zznabil/lean-agent-skill-collection/releases/download/v7.4.1/user-facing-communication-mini-openai-v7.4.1.zip) |
-| Get It Done | 3 | Long-horizon execution and acceptance | [ZIP](https://github.com/zznabil/lean-agent-skill-collection/releases/download/v7.4.1/get-it-done-pack-openai-v7.4.1.zip) |
-| Gauntlet Loop | 1 | High-risk adversarial quality review | [ZIP](https://github.com/zznabil/lean-agent-skill-collection/releases/download/v7.4.1/gauntlet-loop-pack-openai-v7.4.1.zip) |
+| Core | 8 | Planning, research, review, and long-running work | `lean-agent-skills-core-openai-v8.1.0.zip` |
+| Engineering | 19 | Software delivery and engineering operations | `lean-agent-skills-engineering-openai-v8.1.0.zip` |
+| Complete | 23 | The full collection | `lean-agent-skills-complete-openai-v8.1.0.zip` |
+| Communication | 3 | Clear replies, teaching, and writing | `user-facing-communication-mini-openai-v8.1.0.zip` |
+| Get It Done | 3 | Long-horizon execution and acceptance | `get-it-done-pack-openai-v8.1.0.zip` |
+| Gauntlet Loop | 1 | High-risk adversarial quality review | `gauntlet-loop-pack-openai-v8.1.0.zip` |
 
 Browse the [skill catalog](docs/SKILL-CATALOG.md) before choosing a profile.
 
@@ -44,7 +44,7 @@ The `SKILL.md` files are vendor-neutral. Hosts other than ChatGPT or Codex can i
 ## Repository layout
 
 ```text
-skills/                 Canonical source for all 30 skills
+skills/                 Canonical source for all 23 skills
 .codex-plugin/          Complete-profile plugin manifest
 docs/                   Catalog, audit, and provenance
 dist/v7.2/              Historical V7.2.0 release snapshot
@@ -61,10 +61,10 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ```powershell
 ./scripts/build-release.ps1
 ./scripts/test-validator.ps1
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v7.4.1
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.1.0
 ```
 
-The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validator checks strict metadata fields, profile inventories, licensing, source hashes, communication-overlay contracts, package checksums, duplicate and case-colliding ZIP members, traversal, symlinks, executables, readable entries, local links, placeholders, and common secret patterns. It does not install or execute any skill.
+The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validator checks strict metadata fields, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, package checksums, duplicate and case-colliding ZIP members, traversal, symlinks, executables, readable entries, local links, placeholders, and common secret patterns. It does not install or execute any skill.
 
 ## Design principles
 
@@ -78,7 +78,7 @@ See the [deep-dive audit](docs/AUDIT.md) for findings, strengths, limitations, a
 
 ## Release integrity
 
-GitHub Releases are the canonical download location. Each release includes its SHA-256 inventory, manifest, root `PACKAGE-VALIDATION.json` record, license, notices, six profile packages, and master archive. The committed [`dist/v7.2`](dist/v7.2) directory is retained as a historical V7.2.0 snapshot; future binary releases are not accumulated on `main`.
+The source on `main` is canonical for V8.1.0. Release packages are reproducibly generated from that source and include SHA-256 inventories, a manifest, validation records, the license, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; binary builds are not accumulated on `main`.
 
 ## Security
 

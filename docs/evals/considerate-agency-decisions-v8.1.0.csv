@@ -1,0 +1,18 @@
+candidate,decision,destination,rationale
+New routed considerate-agent skill,REJECT,AGENTS.md,Cross-cutting collaboration behavior must not create another route.
+Global considerate-agency doctrine,ADOPT,AGENTS.md,Applies to virtually every eligible task and survives specialist routing.
+ACT / ASK / DO NOT ACT rule,ADOPT,AGENTS.md,Balances initiative with restraint.
+"Warm, calm presentation",MERGE,wait-what,Pleasant tone belongs to the user-facing authority.
+User-action status labels,ADOPT,wait-what + get-it-done,Makes loop closure explicit.
+Minimize babysitting,MERGE,get-it-done,Long-horizon owner should complete safe follow-through before asking.
+Stewardship pass,MERGE,implement,"Catches readiness, cleanup, use, and recovery details without broad scope."
+Decision-ready defaults,MERGE,plan + grilling,Reduces avoidable user decision effort.
+Fresh-agent usability,MERGE,handoff,A handoff should not require reconstruction.
+Human-friction review lane,ADOPT,review/LANES.md,Surfaces concrete user effort without making preference a blocker.
+First-use readiness,MERGE,release,A release is not complete if the user cannot find or use it.
+Local fallback sentence,ADOPT,22 specialist SKILL.md files,Protects behavior during explicit isolated skill selection.
+OpenAI adapter reinforcement,ADOPT,23 agents/openai.yaml files,Protects manual invocation on ChatGPT and Codex.
+Pass 15: human effort and loop closure,ADOPT,skill-design/PLAYBOOKS.md,Measures whether the agent reduces babysitting.
+Pass 16: initiative and restraint,ADOPT,skill-design/PLAYBOOKS.md,Tests proactive help without scope creep or unsafe autonomy.
+Automatic preference learning,REJECT,none,One-off behavior must not mutate trusted memory.
+Unbounded polish loop,REJECT,none,Pleasantness must not create endless work.

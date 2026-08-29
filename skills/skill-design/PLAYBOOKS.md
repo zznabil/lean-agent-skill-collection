@@ -23,6 +23,27 @@ For each skill, include several natural positive prompts, several negative promp
 
 Record pass rate, failures, token use, duration, and variance when exposed. For model-based evaluation, also record evaluator model or family, rubric or prompt, threshold, dataset revision, randomness, repetitions, visible or holdout class, and cost. For agent workflows with traces, distinguish end-outcome, trajectory, and individual tool-choice or argument evaluation. Inspect non-discriminating tests, flaky cases, and quality gained per extra context. Revise the smallest material weakness, rerun the same cases, then expand the suite.
 
+For a collection audit, also test **activation timing and frequency** across clear positives, ambiguous neighbours, negative prompts, routine no-skill prompts, repeated workload prompts, explicit selection, and each supported host surface. Record intended frequency, missed activation, wrong-primary selection, unnecessary activation, and the cost of each error. A manual-only skill should have zero autonomous activation by design. Treat lexical similarity as a collision screen, not a live routing probability.
+
+
+## No-skill ablation and sunset
+
+1. For each material skill change, compare the same task with the candidate skill, with no skill beyond trusted root policy, and with the nearest competing skill. Measure outcome quality, corrections, checks, tool choice, token or time cost, and false confidence when exposed.
+2. Record real use, successful examples, wrong activations, manual overrides, user satisfaction, maintenance cost, and the unique behavior the skill still owns.
+3. Put a skill into deletion review when it does not beat the no-skill baseline, another authority owns most of its behavior, it mainly repeats model defaults, its required runtime is absent from target hosts, or its false-activation cost exceeds demonstrated value.
+4. A skill with no material successful use across two releases SHOULD be retired, merged, or moved project-local unless a documented low-frequency high-impact case justifies it.
+
+
+## Considerate-agency evaluation
+
+### Pass 15 — Human effort and loop closure
+
+Compare candidate, no-skill baseline, and nearest competitor for avoidable questions, repeated context, user interventions, unresolved housekeeping, steps to first use, decision-ready responses, and loop closure. Verify that the artifact is easy to find, use, recover, and resume, and that remaining user action is explicit.
+
+### Pass 16 — Initiative and restraint calibration
+
+Test balanced **ACT**, **ASK**, and **DO NOT ACT** scenarios. Record missed follow-through, unnecessary questions, surprise actions, scope creep, unsafe autonomy, and correct-disposition rate. More proactive is not automatically better: the skill must complete obvious safe follow-through, recommend and ask on consequential choices, and refuse speculative or unrelated expansion.
+
 ## Context economy
 
 A context pointer states what it reaches and the distinct branches that should load it. Use one trigger per real branch; synonyms do not create new branches. Treat the environment as the source of truth for cheap discoverable facts such as scripts, paths, and configuration. Document reasons, hidden conventions, and gotchas that inspection cannot reveal cheaply. Each ordered step needs a checkable completion criterion. Prefer positive target behavior; use prohibitions only for hard guardrails.

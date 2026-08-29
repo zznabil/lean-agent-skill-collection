@@ -1,9 +1,9 @@
 interface:
-  display_name: "Implement"
-  short_description: "Implement one bounded change and verify it"
-  default_prompt: "Use $implement to complete and verify this bounded change. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Implement
+  short_description: Implement one bounded change and verify it
+  default_prompt: Use $implement to complete and verify this bounded change. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
+  - CHAT
+  - CODEX
   allow_implicit_invocation: true

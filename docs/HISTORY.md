@@ -8,9 +8,9 @@ The Lean Agent Skills collection began as a workaround for one narrow problem:
 
 That first idea expanded into a large vendor-neutral collection, then into an oversized `get-it-done` superskill with many required dependencies. The collection was reliable, but it was not lean.
 
-The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to its current 30 skills.
+The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to 30 skills. V8 consolidated seven more overlapping or project-local authorities, leaving the current 23-skill routing surface.
 
-The Complete V7.4.1 profile contains 12,056 primary-skill words across 865 lines. No primary `SKILL.md` exceeds 73 lines.
+The Complete V8.1.0 profile contains 11,991 primary-skill words across 808 lines. The largest primary `SKILL.md` has 117 lines.
 
 Since the lean refactor, the governing rule has been:
 
@@ -259,59 +259,62 @@ The complete source decision map is retained in [`dist/v7.2/compound-engineering
 
 V7.4.1 keeps the 30-skill collection and adds a global `wait-what` presentation overlay to every specialist path. Each skill carries a local fallback, each OpenAI adapter repeats the prompt, and `wait-what` allows implicit invocation while four control skills remain manual-only.
 
-## Current state: V7.4.1
+### 14. V8.0: authority consolidation
+
+V8 reduces the routing surface from 30 skills to 23. It removes project-local design and language authorities, merges prototype work into `experiment`, merges repository mapping into explicit `project-context` modes, and absorbs stable reasoning and interface mechanisms into the authorities that perform the work.
+
+Retired authorities are `brandkit`, `frontend`, `monitor`, `prototype`, `python`, `reasoning`, and `repo-map`. The change removes competing triggers; it does not prohibit project-local skills or host-native scheduling where those capabilities are needed.
+
+### 15. V8.1.0: considerate agency
+
+V8.1.0 keeps the same 23 skills and invocation policies. It adds a global considerate-agency contract, ACT / ASK / DO NOT ACT initiative calibration, explicit remaining-action labels, reconstruct-free handoffs, implementation stewardship, first-use release readiness, a human-friction review lane, and 60 static scenarios. It adds no dependency, service, hook, executable, or automatic trusted-state mutation.
+
+## Current state: V8.1.0
 
 ### Profiles
 
 | Profile | Skills | Purpose |
 |---|---:|---|
-| Core | 9 | Reasoning, research, planning, review, skill design, and long-horizon ownership |
-| Engineering | 22 | Core plus implementation, testing, debugging, architecture, release, CLI, and browser work |
-| Complete | 30 | Engineering plus frontend, experiments, grilling, documents, monitoring, teaching, writing, and branding |
+| Core | 8 | Research, planning, review, skill design, communication, and long-horizon ownership |
+| Engineering | 19 | Core plus implementation, testing, debugging, architecture, release, CLI, browser work, and experiments |
+| Complete | 23 | Engineering plus grilling, documents, teaching, and writing |
 | Communication Mini | 3 | `wait-what`, `teach`, and `writing` |
 | Get It Done Pack | 3 | `wait-what`, `get-it-done`, and `gauntlet-loop` |
 | Gauntlet Pack | 1 | Independent adversarial acceptance |
 
-The V7.4.1 validation records:
+The V8.1.0 validation records:
 
 ```text
-30 unique skills
+23 unique skills
 0 new routed skills
 0 new external integrations
 0 new automatic mutations
 0 new provider requirements
 
 Complete profile:
-865 primary lines
-12,056 primary words
-73-line largest SKILL.md
+808 primary lines
+11,991 primary words
+117-line largest SKILL.md
 ```
 
-### The 30 current skills
+### The 23 current skills
 
 ```text
 architecture
-brandkit
 browser-automation
 cli-design
 debug
 experiment
-frontend
 gauntlet-loop
 get-it-done
 grilling
 handoff
 implement
 merge-conflicts
-monitor
 office-files
 plan
 project-context
-prototype
-python
-reasoning
 release
-repo-map
 research
 review
 skill-design
@@ -426,7 +429,11 @@ ARC evidence-guided action doctrine
         ↓
 Compound Engineering planning and evaluation refinements
         ↓
-Lean Agent Skills V7.2
+30-skill V7.4.1 communication-overlay release
+        ↓
+V8 authority consolidation to 23 skills
+        ↓
+V8.1 considerate-agency doctrine
 ```
 
 ## Primary internal project records

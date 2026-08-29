@@ -1,9 +1,9 @@
 interface:
-  display_name: "Experiment Design"
-  short_description: "Design controlled product or engineering experiments"
-  default_prompt: "Use $experiment to design a controlled experiment with a comparable baseline and decision rule. Keep the global user-facing overlay active for eligible chat prose."
+  display_name: Experiment & Prototype
+  short_description: Design controlled experiments and disposable prototypes
+  default_prompt: Use $experiment to design a controlled experiment or disposable prototype with a comparable baseline and decision rule. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
 policy:
   products:
-    - "CHAT"
-    - "CODEX"
+  - CHAT
+  - CODEX
   allow_implicit_invocation: true

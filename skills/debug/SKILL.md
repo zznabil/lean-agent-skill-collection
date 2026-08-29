@@ -20,4 +20,5 @@ description: "Diagnose a hard defect or performance regression through a tight r
 
 If no truthful feedback loop can be built or bounded attempts do not converge, stop guessing. Report `BLOCKED` or `UNSTABLE`, what was tried, falsified paths, and the smallest missing artifact, access, permission, or separating test. Do not report `INFEASIBLE` while a material untested assumption and a safe probe remain.
 
-**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
+
+**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.

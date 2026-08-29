@@ -44,13 +44,33 @@ Freeze the benchmark version. Any change needs a reason, diff, authorization sou
 3. **Decompose:** map dependencies and write a coverage manifest before fan-out. Every required slice or journey appears exactly once. Verify counts, gaps, overlap, caps, and remainder. Give each shared or coupled area one owner.
 4. **Build:** make the smallest useful change. Avoid unrelated rewrites. Save diff and evidence.
 5. **Deterministic checks:** build, lint, test, measure, and reject hard-gate failures before subjective review.
-6. **Attack:** select only relevant lanes from `CRITIC-LANES.md`. For AI or agent systems, read `AI-ASSURANCE.md` and select only applicable versioned requirements and threat cases. For agentic artifacts with traces, distinguish end-outcome, full-trajectory, and individual tool-choice or argument evaluation. Keep finders and verifiers separate. Critics MUST inspect the real artifact, attempt refutation, and report reproducible findings. Preserve raw evidence separately from conclusions; mark material claims `VERIFIED`, `ASSUMED`, `REFUTED`, or `UNKNOWN`. When investigating cause, collect evidence before forming stories and assign one falsifier to each competing hypothesis.
+6. **Attack:** select only relevant lanes from `CRITIC-LANES.md`. For AI or agent systems, read `AI-ASSURANCE.md`, inspect the current AI asset card when available, and select only applicable versioned requirements and threat cases. For agentic artifacts with traces, distinguish end-outcome, full-trajectory, and individual tool-choice or argument evaluation. Keep finders and verifiers separate. Critics MUST inspect the real artifact, attempt refutation, and report reproducible findings. Preserve raw evidence separately from conclusions; mark material claims `VERIFIED`, `ASSUMED`, `REFUTED`, or `UNKNOWN`. When investigating cause, collect evidence before forming stories and assign one falsifier to each competing hypothesis.
 7. **Triage:** rank safety, data loss, hard gates, user blockers, correctness, regression risk, performance, maintainability, then polish. Choose the highest expected improvement per cost and risk. Set the default under uncertainty from the more costly error direction.
 8. **Repair:** fix one defect or tight cluster. Add regression coverage when practical.
 9. **Retest:** rerun the failed benchmark, adjacent checks, and relevant regression set with fresh evidence. Treat evidence as stale when the artifact or revision, verifier or rubric, relevant inputs, environment, entrypoint, authentication context, or required dependencies changed. For a multi-step procedure, stop dependent steps at the first material mismatch. Revert a change that makes the total result worse.
 10. **Barrier:** pipeline independent finding→verify paths. Wait for the whole field only when global deduplication, ranking, a join, convergence, or the judge requires it. Verify every manifest row and critic claim before carrying it forward.
 11. **Decide:** extend only while a material gap is fixable, the last round added verified progress, and budget remains. If a whole wave fails the same way, repair the shared contract or environment before another wave. Disclose every stopped, skipped, capped, or unprocessed item.
 12. **Final judge:** use a clean environment when practical; run integrated tests and journeys, inspect screenshots and diffs, verify benchmark integrity, standing completion, persistence, operations, rollback, stray files, debug settings, and secrets. When model and reality gates apply, both MUST pass. Check both directions: every acceptance claim has evidence, and every material benchmark appears in the decision.
+
+## Status model
+
+Track four axes separately:
+
+- **Run state:** `ACTIVE`, `COMPLETE`, `BLOCKED`, `BUDGET EXHAUSTED`, or `CANCELLED`.
+- **Artifact verdict:** `PASS`, `CONDITIONAL PASS`, `FAIL`, or `NOT JUDGED`.
+- **Finding severity:** `P0` through `P3` describes impact.
+- **Disposition:** `blocking` or `nonblocking`; repair state is recorded separately as `open`, `fixed`, `blocked`, or `deferred`.
+
+A severity does not decide disposition by itself. `P0` and `P1` are normally blocking. A `P2` MAY be blocking when the frozen benchmark, standing Definition of Done, or repair class requires `block now` or `fix before merge`; otherwise it is a nonblocking follow-up only when explicitly accepted and owned. Do not write the ambiguous phrase `P2 blocked`; write, for example, `P2 / blocking / repair blocked` or `P2 / nonblocking / follow-up`.
+
+Use verdicts as follows:
+
+- `PASS` — every hard gate passes, the acceptance threshold is met, and no blocking finding remains.
+- `CONDITIONAL PASS` — every hard gate passes and only explicitly accepted, owned, nonblocking residuals remain.
+- `FAIL` — a hard gate fails or a verified blocking finding remains.
+- `NOT JUDGED` — required evidence or coverage is unavailable and no verified failure is sufficient to decide `FAIL`.
+
+Run state explains why execution stopped. A verified blocking defect whose repair cannot proceed is `Verdict: FAIL` with `Run state: BLOCKED`. Missing required evidence is normally `Verdict: NOT JUDGED` with `Run state: BLOCKED`, unless the frozen benchmark explicitly defines missing evidence as failure. Budget exhaustion is likewise a run state: pair it with `FAIL` when a blocking failure is known, otherwise with `NOT JUDGED`.
 
 ## Default limits
 
@@ -62,12 +82,36 @@ Use `.gauntlet/state.md`, `.gauntlet/benchmarks.yaml`, `.gauntlet/defects.md`, a
 
 ## Progress
 
-At meaningful milestones, MUST use the 20-cell format `Progress: [############--------] 60% (6/10)`. For several stages, use one aligned line per stage. `#` is completed, `-` is remaining, and `✓` appears only at 100%. Derive values from durable state and round down. If no defensible total exists, report phase, evidence, highest-priority defect, next action, and budget without inventing a bar.
+Progress measures completion of a **named work track or coverage set**, not quality, success, or acceptance. At meaningful milestones use exactly 20 cells. During an ongoing run, the generic form is allowed:
 
-## Final decision
+```text
+Progress: [############--------] 60% (6/10)
+```
 
-End with `PASS`, `CONDITIONAL PASS`, `FAIL`, `BLOCKED`, or `BUDGET EXHAUSTED`. Lead with the decision, hard-gate status, model/reality gate status when applicable, standing completion status, before/after score, evidence, remaining defects, budget used, stable checkpoint, rollback, stop reason, confidence, and next highest-value issue.
+In a terminal report, label what the bar counts and report verdict separately:
+
+```text
+Audit     [####################] 100% (8/8) complete
+Verdict:  FAIL
+Checks:   7 PASS, 1 FAIL
+```
+
+`#` is completed and `-` is remaining. Derive values from durable state and round down. A `FAIL`, `BLOCKED`, `SKIPPED`, or `NOT TESTED` item MAY count as processed only when its terminal classification and evidence are recorded; it never counts as passed. Do not show a bare `Progress: 100%` beside a non-pass verdict. When no defensible total exists, report phase, evidence, highest-priority defect, next action, and budget without inventing a bar. Prefer the word `complete` rather than `✓` for a finished track when the artifact verdict is not `PASS`.
+
+## Final report
+
+Lead with these separate fields:
+
+```text
+Verdict: <PASS | CONDITIONAL PASS | FAIL | NOT JUDGED>
+Run state: <COMPLETE | BLOCKED | BUDGET EXHAUSTED | CANCELLED>
+<Named track> [####################] 100% (<processed>/<planned>) complete
+Hard gates: <passed>/<total> PASS
+Blocking findings: <count>
+```
+
+Then report model/reality gate status when applicable, standing completion status, before/after score, executed evidence, failed or unavailable checks, remaining defects, budget used, stable checkpoint, rollback, stop reason, confidence, and next highest-value issue.
 
 Re-run or re-measure every numeric claim in the final packet. If a metric was not actually measured, say `NOT MEASURED`; source inspection may identify potential impact but cannot create a measurement. No quality claim is valid without linked evidence. Mark unsupported claims `UNVERIFIED`.
 
-**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
+**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.

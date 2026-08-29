@@ -25,9 +25,10 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 2. Merge skills that always run together or differ only by tone, depth, style, checklist, standard, or orchestration branding.
 3. Treat the description as a routing interface and permanent context cost: state action, trigger, and any expensive anti-trigger; do not summarize the whole workflow.
 4. Keep `SKILL.md` executable and short. Move conditional detail to a small reference only when it saves repeated context. A standalone skill carries every required reference inside its directory; root doctrine cannot be a hidden dependency.
-5. Use capability language in the neutral skill and thin host adapters beside it.
-6. Include completion, permission, and failure rules only when they change execution. Every `MUST` should map to observable behavior, a check, a tool affordance, or an explicit decision rule. Remove motivational rules the environment cannot evaluate.
-7. Remove wrappers, aliases, promotion, reading lists, fake tools, and facts the environment can reveal directly.
+5. A cross-cutting mandate that must survive explicit skill selection MUST NOT depend only on another skill being co-loaded. Put its smallest sufficient fallback in the selected skill or in a trusted host-level policy.
+6. Use capability language in the neutral skill and thin host adapters beside it.
+7. Include completion, permission, and failure rules only when they change execution. Every `MUST` should map to observable behavior, a check, a tool affordance, or an explicit decision rule. Remove motivational rules the environment cannot evaluate.
+8. Remove wrappers, aliases, promotion, reading lists, fake tools, and facts the environment can reveal directly.
 
 ## Evaluate and package
 
@@ -35,4 +36,5 @@ Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trust
 
 A good skill changes behavior with the fewest durable words. A good workflow makes mechanics deterministic without hiding cost, failure, or permission. Neither simulates authority or promises capabilities the host lacks.
 
-**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
+
+**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.

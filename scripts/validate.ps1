@@ -66,8 +66,9 @@ function Test-MetadataContracts {
     if ($plugin.name -ne 'lean-agent-skills-complete' -or $plugin.skills -ne './skills/' -or $plugin.version -ne $profiles.version) { Add-Failure 'root plugin manifest does not match the release definition' }
     if ($profiles.release -ne ('v' + $profiles.version) -or @($profiles.profiles.PSObject.Properties).Count -ne 6) { Add-Failure 'release profile definition has an invalid version or profile count' }
     if ($citation -notmatch "(?m)^version:\s*$([regex]::Escape([string]$profiles.version))\s*$" -or $citation -notmatch '(?m)^license:\s*MIT\s*$') { Add-Failure 'CITATION.cff does not match release version and license' }
-    $hotfix = $validation.communication_hotfix
-    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or -not $hotfix.global_policy_inline -or $hotfix.skill_local_fallbacks -ne 30 -or $hotfix.openai_adapter_prompts -ne 30 -or $hotfix.wait_what_implicit -ne $true -or $hotfix.common_sense_exceptions -ne $true) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, or communication-hotfix contract is inaccurate' }
+    $agency = $validation.considerate_agency
+    $completeCount = @($profiles.profiles.complete.skills).Count
+    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, or considerate-agency contract is inaccurate' }
     $licensePath = Join-Path $repoRoot 'LICENSE'
     if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
     if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
@@ -79,10 +80,10 @@ function Test-SkillTree([object]$Profiles) {
     $skillDirs = @(Get-ChildItem -LiteralPath $skillRoot -Directory | Sort-Object Name)
     $expected = @($Profiles.profiles.complete.skills | ForEach-Object { [string]$_ } | Sort-Object)
     $actual = @($skillDirs | ForEach-Object { $_.Name } | Sort-Object)
-    if ($actual.Count -ne 30 -or (Compare-Object $expected $actual)) { Add-Failure 'canonical skill inventory does not match the Complete profile' }
+    if ($actual.Count -ne $expected.Count -or (Compare-Object $expected $actual)) { Add-Failure 'canonical skill inventory does not match the Complete profile' }
     $supportFiles = @{
-        'frontend'=@('DIRECTIONS.md'); 'gauntlet-loop'=@('AI-ASSURANCE.md','CRITIC-LANES.md','STATE-FORMAT.md');
-        'get-it-done'=@('ORCHESTRATION.md','STATE.md'); 'project-context'=@('AI-ASSET-CARDS.md'); 'reasoning'=@('MODELS.md');
+        'gauntlet-loop'=@('AI-ASSURANCE.md','CRITIC-LANES.md','STATE-FORMAT.md');
+        'get-it-done'=@('ORCHESTRATION.md','STATE.md'); 'project-context'=@('AI-ASSET-CARDS.md');
         'release'=@('SUPPLY-CHAIN.md'); 'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md')
     }
     foreach ($dir in $skillDirs) {
@@ -96,34 +97,39 @@ function Test-SkillTree([object]$Profiles) {
         $description = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^description:\s*["'']?(.+?)["'']?\s*$').Groups[1].Value.Trim()
         if ($name -ne $dir.Name -or [string]::IsNullOrWhiteSpace($description)) { Add-Failure "frontmatter failure for $($dir.Name)" }
         $adapter = Get-Content -Raw -LiteralPath $adapterPath
-        $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*".+\$' + [regex]::Escape($dir.Name) + '.+"\s*$'
-        $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*".+"\s*$','(?m)^\s{2}short_description:\s*".+"\s*$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{4}-\s*"CHAT"\s*\r?\n\s{4}-\s*"CODEX"\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
+        $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*.*\$' + [regex]::Escape($dir.Name) + '.+$'
+        $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*.+$','(?m)^\s{2}short_description:\s*.+$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{2}-\s*CHAT\s*\r?\n\s{2}-\s*CODEX\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
         foreach ($rule in $rules) { if ($adapter -notmatch $rule) { Add-Failure "adapter schema failure for $($dir.Name)"; break } }
-        if ($dir.Name -ne 'wait-what' -and $text -notmatch '(?m)^\*\*User-facing overlay:\*\*') { Add-Failure "missing user-facing overlay fallback for $($dir.Name)" }
-        if ($adapter -notmatch 'global user-facing overlay') { Add-Failure "missing adapter overlay prompt for $($dir.Name)" }
-        $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff')
+        if ($dir.Name -ne 'wait-what' -and $text -notmatch '(?m)^\*\*User-facing:\*\*') { Add-Failure "missing user-facing fallback for $($dir.Name)" }
+        if ($adapter -notmatch 'considerate-agency' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'considerate follow-through')) { Add-Failure "missing adapter considerate-agency reinforcement for $($dir.Name)" }
+        $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
         $allowImplicit = [regex]::Match($adapter, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$').Groups[1].Value
         if (($manualNames -contains $dir.Name) -and $allowImplicit -ne 'false') { Add-Failure "manual skill allows implicit invocation: $($dir.Name)" }
-        if ($dir.Name -eq 'wait-what' -and $allowImplicit -ne 'true') { Add-Failure 'wait-what must allow implicit invocation' }
+        if ($dir.Name -eq 'wait-what' -and $allowImplicit -ne 'false') { Add-Failure 'wait-what must require explicit invocation' }
         if ($supportFiles.ContainsKey($dir.Name)) {
             foreach ($support in $supportFiles[$dir.Name]) {
                 if (-not (Test-Path -LiteralPath (Join-Path $dir.FullName $support)) -or $text -notmatch [regex]::Escape($support)) { Add-Failure "required support reference missing for $($dir.Name)/$support" }
             }
         }
     }
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|overlay' })) { Add-Pass '30-skill inventory, frontmatter, adapters, local overlays, and support references' }
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, and support references" }
 }
 
 function Test-SourceIntegrity {
+    $manifestSkillPaths = New-Object System.Collections.Generic.List[string]
     foreach ($line in Get-Content -LiteralPath (Join-Path $repoRoot 'UPSTREAM-CHECKSUMS.sha256')) {
         if ($line -notmatch '^([0-9a-fA-F]{64})\s+(.+)$') { Add-Failure "malformed upstream checksum line: $line"; continue }
         $expected = $matches[1].ToLowerInvariant(); $relative = $matches[2].Trim().Replace('/', [IO.Path]::DirectorySeparatorChar)
-        if ($relative -in @('README.md','VALIDATION.json',('.codex-plugin'+[IO.Path]::DirectorySeparatorChar+'plugin.json'))) { continue }
+        if ($relative.StartsWith('skills' + [IO.Path]::DirectorySeparatorChar)) { $manifestSkillPaths.Add($relative.Replace('\', '/')) }
+        if ($relative -in @('README.md','PACKAGE-VALIDATION.json',('.codex-plugin'+[IO.Path]::DirectorySeparatorChar+'plugin.json'))) { continue }
         $path = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $path)) { Add-Failure "upstream checksum target missing: $relative"; continue }
         if ((Get-FileSha256 $path) -ne $expected) { Add-Failure "upstream checksum mismatch: $relative" }
     }
-    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'V7.4.1 canonical source integrity' }
+    $actualSkillPaths = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'skills') -Recurse -File | ForEach-Object { Get-RelativePath $repoRoot $_.FullName } | Sort-Object)
+    $expectedSkillPaths = @($manifestSkillPaths | Sort-Object)
+    if (Compare-Object $expectedSkillPaths $actualSkillPaths) { Add-Failure 'upstream checksum skill coverage does not match the canonical source tree' }
+    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'V8.1.0 canonical source integrity' }
 }
 
 function Test-RepositoryHygiene {
@@ -189,7 +195,7 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$Profile,[st
 function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     if(-not(Test-Path -LiteralPath $Directory -PathType Container)){Add-Failure "artifact directory missing: $Directory";return}
     try{$manifest=Get-Content -Raw (Join-Path $Directory 'RELEASE-MANIFEST.json')|ConvertFrom-Json}catch{Add-Failure "release manifest parse failure";return}
-    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.skill_content_changed_from_v7_2_0 -ne $true -or $manifest.communication_hotfix -ne $true){Add-Failure 'release manifest contract failure'}
+    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true){Add-Failure 'release manifest contract failure'}
     $declared=@{}
     foreach($line in Get-Content (Join-Path $Directory 'CHECKSUMS.sha256')){if($line -match '^([0-9a-f]{64})\s+(.+)$'){$declared[$matches[2]]=$matches[1]}else{Add-Failure "malformed release checksum line: $line"}}
     foreach($property in @($Profiles.profiles.PSObject.Properties)){

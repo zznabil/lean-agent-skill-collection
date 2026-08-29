@@ -1,6 +1,6 @@
 ---
 name: project-context
-description: "Build or update compact project context, shared vocabulary, approved lessons, AI asset cards, or a session retrospective. Use for onboarding, stale context, terminology drift, model or dataset documentation, authorized learning, or environment improvement."
+description: "Create or update durable project context; map or explain verified repository structure and flows; record approved lessons, AI asset cards, or retrospectives. Use only when the user explicitly requests one of these artifacts."
 ---
 
 # Project Context
@@ -15,6 +15,18 @@ Choose one mode. Do not learn automatically.
 4. Ask only for consequential information unavailable in the workspace.
 5. With permission, create or update one compact context file containing product outcome and users; domain terms; major modules, ownership, seams, and entry points; canonical startup and validation commands; invariants, compatibility rules, landmines, decision records, and unresolved high-impact questions.
 6. For a weakly tested established area, record current behavior and characterization coverage before recommending change. Use paths, symbols, and short verified digests instead of flooding context with whole files.
+
+
+## Map / Explain mode
+
+Use for repository orientation or a durable map.
+
+1. Define the question and smallest relevant scope.
+2. Inspect entry points, modules, interfaces, data stores, configuration, tests, deployment, and recent changes that affect that scope.
+3. Trace at least one real runtime or data flow from input to outcome.
+4. Distinguish observed facts, inferred links, and unknowns; link material claims to paths and symbols.
+5. For a broad repository, build a subsystem or file manifest before disjoint read-only exploration. Count coverage and disclose gaps, caps, failed explorers, and unprocessed remainder.
+6. Explain how the system works before criticizing it. Use a diagram only when it explains more clearly than a short list.
 
 ## Solution-learning mode
 
@@ -53,4 +65,5 @@ Use only when the user asks to distill durable lessons or update trusted instruc
 
 Mark provenance and uncertainty. Output the changed or proposed path, supporting evidence, unresolved gaps, and permissions not granted.
 
-**User-facing overlay:** For eligible substantive chat prose, MUST keep `wait-what` active: **Summary** and answer, result, or next action first; friendly ASD-STE100-inspired prose; vital facts, uncertainty, failed or skipped checks, and truthful progress; **TL;DR** last. Exclude brief acknowledgments and machine or requested-artifact formats.
+
+**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
