@@ -48,7 +48,22 @@ try {
     if (-not (Test-IsSymlinkAttributes $symlinkAttributes)) {
         throw 'Validator self-test did not detect Unix symlink mode attributes.'
     }
-    Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, and symlinks" -ForegroundColor Green
+    $masterDirectory = Join-Path $fixtureRoot 'master'
+    New-Item -ItemType Directory -Path $masterDirectory | Out-Null
+    [IO.File]::WriteAllText((Join-Path $masterDirectory 'expected.txt'), 'expected')
+    $masterPath = Join-Path $masterDirectory 'openai-native-skill-collections-v0.0.0-all.zip'
+    $masterStream = [IO.File]::Open($masterPath, [IO.FileMode]::Create)
+    try {
+        $masterArchive = New-Object IO.Compression.ZipArchive($masterStream, [IO.Compression.ZipArchiveMode]::Create, $false)
+        try { Add-Entry $masterArchive 'wrong-root/expected.txt' 'expected' $null }
+        finally { $masterArchive.Dispose() }
+    }
+    finally { $masterStream.Dispose() }
+    Test-MasterArchive $masterPath $masterDirectory '0.0.0'
+    if (-not ($failures | Where-Object { $_ -eq 'master archive inventory mismatch' })) {
+        throw 'Validator self-test did not reject a malformed master archive.'
+    }
+    Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
 }
 finally {
     $resolvedFixture = [IO.Path]::GetFullPath($fixtureRoot)

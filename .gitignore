@@ -1,10 +1,9 @@
 .audit-work/
 .agent-state/
 /artifacts/
-openai-native-skill-collections-v7.2-all/
-/openai-native-skill-collections-v7.2-all.zip
-/lean-agent-skills-complete-openai-v7.4.1.zip
-/openai-native-skill-collections-v8.1.0-all.zip
+/openai-native-skill-collections-v*-all/
+/openai-native-skill-collections-v*-all.zip
+/lean-agent-skills-complete-openai-v*.zip
 *.tmp
 Thumbs.db
 .DS_Store

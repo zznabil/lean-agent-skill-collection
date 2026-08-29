@@ -14,14 +14,12 @@ if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
     $OutputDirectory = Join-Path $repoRoot (Join-Path 'artifacts' $releaseName)
 }
 $outputFullPath = [IO.Path]::GetFullPath($OutputDirectory)
-$repoFullPath = [IO.Path]::GetFullPath($repoRoot)
-$pathRoot = [IO.Path]::GetPathRoot($outputFullPath)
-if ($outputFullPath -eq $repoFullPath -or $outputFullPath -eq $pathRoot) {
+$artifactsRoot = [IO.Path]::GetFullPath((Join-Path $repoRoot 'artifacts')).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+if (-not $outputFullPath.StartsWith($artifactsRoot, [StringComparison]::OrdinalIgnoreCase)) {
     throw "Refusing unsafe output directory: $outputFullPath"
 }
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-$fixedTimestamp = [DateTimeOffset]::Parse('2026-08-29T00:00:00Z')
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -149,28 +147,28 @@ function Get-ManualSkills([object[]]$Skills) {
     return @($Skills | Where-Object { $manualNames -contains [string]$_ })
 }
 
-function Get-PackageBaseName([string]$Profile, [string]$Version) {
-    switch ($Profile) {
+function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
+    switch ($ProfileDefinition) {
         'communication' { return "user-facing-communication-mini-openai-v$Version" }
         'get-it-done' { return "get-it-done-pack-openai-v$Version" }
         'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
-        default { return "lean-agent-skills-$Profile-openai-v$Version" }
+        default { return "lean-agent-skills-$ProfileDefinition-openai-v$Version" }
     }
 }
 
-function New-ProfileReadme([object]$Profile, [string]$Version) {
-    $skills = @($Profile.skills | ForEach-Object { "``$_``" }) -join ', '
-    $manual = @(Get-ManualSkills $Profile.skills | ForEach-Object { "``$_``" }) -join ', '
+function New-ProfileReadme([object]$ProfileDefinition, [string]$Version) {
+    $skills = @($ProfileDefinition.skills | ForEach-Object { "``$_``" }) -join ', '
+    $manual = @(Get-ManualSkills $ProfileDefinition.skills | ForEach-Object { "``$_``" }) -join ', '
     $engineeringShape = ''
     $engineeringLine = ''
-    if ($Profile.include_engineering_core) {
+    if ($ProfileDefinition.include_engineering_core) {
         $engineeringShape = "ENGINEERING-CORE.md`n"
         $engineeringLine = "- Keep ``ENGINEERING-CORE.md`` beside ``AGENTS.md`` for material engineering work.`n"
     }
     return @"
-# $($Profile.title) v$Version
+# $($ProfileDefinition.title) v$Version
 
-$($Profile.description)
+$($ProfileDefinition.description)
 
 ## V8.1.0 considerate agency
 
@@ -207,28 +205,28 @@ See ``PACKAGE-VALIDATION.json`` for static checks. Runtime activation depends on
 "@
 }
 
-function New-PluginJson([object]$Profile, [string]$Version) {
+function New-PluginJson([object]$ProfileDefinition, [string]$Version) {
     return @"
 {
-  "name": $(ConvertTo-JsonString ([string]$Profile.plugin_name)),
+  "name": $(ConvertTo-JsonString ([string]$ProfileDefinition.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
-  "description": $(ConvertTo-JsonString ([string]$Profile.description)),
+  "description": $(ConvertTo-JsonString ([string]$ProfileDefinition.description)),
   "skills": "./skills/"
 }
 "@
 }
 
-function New-PackageValidationJson([string]$ProfileName, [object]$Profile, [string]$Version) {
-    $skills = @($Profile.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
-    $manual = @(Get-ManualSkills $Profile.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
+function New-PackageValidationJson([string]$ProfileName, [object]$ProfileDefinition, [string]$Version) {
+    $skills = @($ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
+    $manual = @(Get-ManualSkills $ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
     return @"
 {
   "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
   "package": $(ConvertTo-JsonString $ProfileName),
-  "plugin_name": $(ConvertTo-JsonString ([string]$Profile.plugin_name)),
+  "plugin_name": $(ConvertTo-JsonString ([string]$ProfileDefinition.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
-  "skills_expected": $(@($Profile.skills).Count),
-  "skills_validated": $(@($Profile.skills).Count),
+  "skills_expected": $(@($ProfileDefinition.skills).Count),
+  "skills_validated": $(@($ProfileDefinition.skills).Count),
   "manual_only_skills": [
 $manual
   ],
@@ -237,8 +235,8 @@ $skills
   ],
   "considerate_agency": {
     "global": true,
-    "local_fallbacks": $(@($Profile.skills | Where-Object { [string]$_ -ne 'wait-what' }).Count),
-    "adapters": $(@($Profile.skills).Count),
+    "local_fallbacks": $(@($ProfileDefinition.skills | Where-Object { [string]$_ -ne 'wait-what' }).Count),
+    "adapters": $(@($ProfileDefinition.skills).Count),
     "act_ask_do_not_act": true
   },
   "warnings": [
@@ -262,19 +260,19 @@ $archiveRecords = New-Object System.Collections.Generic.List[object]
 $profileProperties = @($definition.profiles.PSObject.Properties | Sort-Object Name)
 foreach ($profileProperty in $profileProperties) {
     $profileName = $profileProperty.Name
-    $profile = $profileProperty.Value
+    $profileDefinition = $profileProperty.Value
     $packageBaseName = Get-PackageBaseName $profileName $version
     $packageDirectory = Join-Path $workDirectory $packageBaseName
     New-Item -ItemType Directory -Path (Join-Path $packageDirectory '.codex-plugin') -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $packageDirectory 'skills') -Force | Out-Null
 
     Copy-Item -LiteralPath (Join-Path $repoRoot 'AGENTS.md') -Destination $packageDirectory
-    if ($profile.include_engineering_core) {
+    if ($profileDefinition.include_engineering_core) {
         Copy-Item -LiteralPath (Join-Path $repoRoot 'ENGINEERING-CORE.md') -Destination $packageDirectory
     }
     Copy-Item -LiteralPath (Join-Path $repoRoot 'LICENSE') -Destination $packageDirectory
     Copy-Item -LiteralPath (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md') -Destination $packageDirectory
-    foreach ($skillName in @($profile.skills)) {
+    foreach ($skillName in @($profileDefinition.skills)) {
         $skillSource = Join-Path (Join-Path $repoRoot 'skills') ([string]$skillName)
         if (-not (Test-Path -LiteralPath $skillSource -PathType Container)) {
             throw "Profile '$profileName' references missing skill '$skillName'."
@@ -282,9 +280,9 @@ foreach ($profileProperty in $profileProperties) {
         Copy-Item -LiteralPath $skillSource -Destination (Join-Path $packageDirectory 'skills') -Recurse
     }
 
-    Write-Utf8File (Join-Path $packageDirectory '.codex-plugin/plugin.json') (New-PluginJson $profile $version)
-    Write-Utf8File (Join-Path $packageDirectory 'README.md') (New-ProfileReadme $profile $version)
-    Write-Utf8File (Join-Path $packageDirectory 'PACKAGE-VALIDATION.json') (New-PackageValidationJson $profileName $profile $version)
+    Write-Utf8File (Join-Path $packageDirectory '.codex-plugin/plugin.json') (New-PluginJson $profileDefinition $version)
+    Write-Utf8File (Join-Path $packageDirectory 'README.md') (New-ProfileReadme $profileDefinition $version)
+    Write-Utf8File (Join-Path $packageDirectory 'PACKAGE-VALIDATION.json') (New-PackageValidationJson $profileName $profileDefinition $version)
     $packageChecksums = Get-ChecksumLines $packageDirectory @('CHECKSUMS.sha256')
     Write-Utf8File (Join-Path $packageDirectory 'CHECKSUMS.sha256') ($packageChecksums -join "`n")
 

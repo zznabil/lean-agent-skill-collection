@@ -46,12 +46,12 @@ function Read-ZipEntryText([IO.Compression.ZipArchiveEntry]$Entry) {
     } finally { $stream.Dispose() }
 }
 
-function Get-PackageBaseName([string]$Profile, [string]$Version) {
-    switch ($Profile) {
+function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
+    switch ($ProfileDefinition) {
         'communication' { return "user-facing-communication-mini-openai-v$Version" }
         'get-it-done' { return "get-it-done-pack-openai-v$Version" }
         'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
-        default { return "lean-agent-skills-$Profile-openai-v$Version" }
+        default { return "lean-agent-skills-$ProfileDefinition-openai-v$Version" }
     }
 }
 
@@ -157,7 +157,7 @@ function Test-RepositoryHygiene {
     if (-not ($failures | Where-Object { $_ -match 'placeholder|secret|broken local link' })) { Add-Pass 'placeholder, secret-pattern, and local Markdown-link checks' }
 }
 
-function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$Profile,[string]$Version) {
+function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefinition,[string]$Version) {
     $archive = [IO.Compression.ZipFile]::OpenRead($Path)
     try {
         $exact = New-Object 'System.Collections.Generic.Dictionary[string,System.IO.Compression.ZipArchiveEntry]' ([StringComparer]::Ordinal)
@@ -175,7 +175,7 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$Profile,[st
             $root=(Get-PackageBaseName $ProfileName $Version)+'/'
             foreach($required in @('LICENSE','THIRD_PARTY_NOTICES.md','PACKAGE-VALIDATION.json','CHECKSUMS.sha256','.codex-plugin/plugin.json')) { if(-not $exact.ContainsKey($root+$required)){ Add-Failure "package $ProfileName lacks $required" } }
             $actualSkills=@($entries | ForEach-Object { if($_.FullName.Replace('\','/') -match ('^'+[regex]::Escape($root)+'skills/([^/]+)/SKILL\.md$')){$matches[1]} } | Sort-Object -Unique)
-            $expectedSkills=@($Profile.skills | ForEach-Object {[string]$_} | Sort-Object)
+            $expectedSkills=@($ProfileDefinition.skills | ForEach-Object {[string]$_} | Sort-Object)
             if(Compare-Object $expectedSkills $actualSkills){ Add-Failure "package $ProfileName skill inventory mismatch" }
             $checksumEntry=$exact[$root+'CHECKSUMS.sha256']
             if($checksumEntry){
@@ -188,6 +188,24 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$Profile,[st
                     if($actualHash -ne $expectedHash){Add-Failure "checksum mismatch in package ${ProfileName}: $targetName"}
                 }
             }
+        }
+    } finally { $archive.Dispose() }
+}
+
+function Test-MasterArchive([string]$Path,[string]$Directory,[string]$Version) {
+    $archive = [IO.Compression.ZipFile]::OpenRead($Path)
+    try {
+        $root = "openai-native-skill-collections-v$Version-all/"
+        $entries = @($archive.Entries | Where-Object { -not [string]::IsNullOrEmpty($_.Name) })
+        $actualNames = @($entries | ForEach-Object { $_.FullName.Replace('\','/') } | Sort-Object)
+        $expectedFiles = @(Get-ChildItem -LiteralPath $Directory -File | Where-Object { $_.FullName -ne $Path } | Sort-Object Name)
+        $expectedNames = @($expectedFiles | ForEach-Object { $root + $_.Name } | Sort-Object)
+        if (Compare-Object $expectedNames $actualNames) { Add-Failure 'master archive inventory mismatch'; return }
+        $byName = @{}; foreach ($entry in $entries) { $byName[$entry.FullName.Replace('\','/')] = $entry }
+        foreach ($file in $expectedFiles) {
+            $stream = $byName[$root + $file.Name].Open()
+            try { $actualHash = Get-StreamHash $stream } finally { $stream.Dispose() }
+            if ($actualHash -ne (Get-FileSha256 $file.FullName)) { Add-Failure "master archive hash mismatch for $($file.Name)" }
         }
     } finally { $archive.Dispose() }
 }
@@ -208,7 +226,7 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
         Test-ZipArchive $archivePath $property.Name $property.Value $Profiles.version
     }
     $master=Join-Path $Directory "openai-native-skill-collections-v$($Profiles.version)-all.zip"
-    if(-not(Test-Path -LiteralPath $master)){Add-Failure 'master release archive missing'}else{Test-ZipArchive $master $null $null $Profiles.version}
+    if(-not(Test-Path -LiteralPath $master)){Add-Failure 'master release archive missing'}else{Test-ZipArchive $master $null $null $Profiles.version;Test-MasterArchive $master $Directory $Profiles.version}
     if(-not($failures|Where-Object{$_ -match 'archive|ZIP|package|release manifest|release checksum|checksum in'})){Add-Pass 'release archives, inventories, licensing, hashes, paths, CRC reads, and executable/symlink checks'}
 }
 

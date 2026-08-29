@@ -23,6 +23,8 @@ jobs:
           ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
           ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
           $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw "Build output file counts differ" }
           foreach ($file in $files) {
             $other = Join-Path ./artifacts/repro-b $file.Name
             if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
@@ -50,6 +52,8 @@ jobs:
           ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
           ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
           $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw "Build output file counts differ" }
           foreach ($file in $files) {
             $other = Join-Path ./artifacts/repro-b $file.Name
             if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
