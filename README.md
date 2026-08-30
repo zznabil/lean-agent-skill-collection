@@ -62,6 +62,7 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ./scripts/build-release.ps1
 ./scripts/test-validator.ps1
 ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.3.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.3.0
 ```
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validator checks strict metadata fields, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, the human-usable-information reference, package checksums, duplicate and case-colliding ZIP members, traversal, symlinks, executables, readable entries, local links, placeholders, and common secret patterns. It does not install or execute any skill.
@@ -76,7 +77,7 @@ The builder produces all six profiles and a master archive with fixed entry orde
 - User information is judged by findability, understanding, action, recovery, and real task evidence—not readability alone.
 - Static validation is not proof of live routing, user comprehension, accessibility conformance, or formal standards conformance.
 
-See the [deep-dive audit](docs/AUDIT.md) for findings, strengths, limitations, and package relationships. [`PACKAGE-VALIDATION.json`](PACKAGE-VALIDATION.json) covers static source and package structure only; it is not a runtime-quality, usability, accessibility, or standards-conformance claim.
+See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REPOSITORY-AUDIT.md) for findings, limits, and package relationships. [`PACKAGE-VALIDATION.json`](PACKAGE-VALIDATION.json) covers static source and package structure only; it is not a runtime-quality, usability, accessibility, or standards-conformance claim.
 
 ## Release integrity
 
