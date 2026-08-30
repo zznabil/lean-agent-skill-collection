@@ -32,7 +32,7 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 
 ## Evaluate and package
 
-Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trusted-refinement, and runtime-safety tests; objective assertions; cost measurement; adapters; manifests; path checks; and clean extraction. Trusted doctrine MUST NOT self-modify during ordinary task execution. A proposed refinement needs a baseline, held-out or adversarial cases, a reviewed diff, explicit authorization, and rollback. Add words or infrastructure only when observed behavior justifies them.
+Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trusted-refinement, and runtime-safety tests; objective assertions; cost measurement; adapters; manifests; path checks; and clean extraction. For user-facing skills, include short-answer, procedure, error/recovery, interruption/reorientation, target-user, and over-simplification cases; readability alone is not task evidence. Trusted doctrine MUST NOT self-modify during ordinary task execution. A proposed refinement needs a baseline, held-out or adversarial cases, a reviewed diff, explicit authorization, and rollback. Add words or infrastructure only when observed behavior justifies them.
 
 A good skill changes behavior with the fewest durable words. A good workflow makes mechanics deterministic without hiding cost, failure, or permission. Neither simulates authority or promises capabilities the host lacks.
 

@@ -4,7 +4,9 @@ Use this only for material engineering work. It distils practical rules from rec
 
 ## Standards source map
 
-- **Communication:** ASD-STE100, ISO 24495-1 plain language, W3C COGA, Diátaxis, the Feynman method, and BCP 14.
+- **Communication:** ASD-STE100 Issue 9, ISO 24495-1 plain language, W3C COGA, Diátaxis, a Feynman-style explanation heuristic, and BCP 14.
+- **User information and cognitive accessibility:** IEC/IEEE 82079-1, ISO/IEC/IEEE 26514 and 26513, ISO/IEC 23859, ISO 21801-1, ISO 9241-112 and 9241-171, ISO/IEC 29138, and ISO 704.
+- **Learning:** CAST UDL Guidelines 3.0, the IES learning practice guide, cognitive-load reduction, worked examples, self-explanation, and retrieval practice.
 - **Requirements and risk:** ISO/IEC/IEEE 29148, EARS, ISO 31000, IEC 31010, and ISO/IEC/IEEE 16085.
 - **Quality and testing:** ISO/IEC 25010 and the ISO/IEC/IEEE 29119 series.
 - **Lifecycle and assurance:** ISO/IEC/IEEE 12207 and ISO/IEC/IEEE 15026-2 assurance cases.
@@ -68,6 +70,17 @@ Select only applicable **ISO/IEC 25010 quality attributes** that can change the 
 - safety.
 
 Hard gates MUST pass before soft polish can produce acceptance.
+
+## Human-usable information and cognitive accessibility
+
+- Apply **IEC/IEEE 82079-1:2019** and **ISO/IEC/IEEE 26514:2022** to substantial instructions and software user information: identify the intended user, task, context, information need, lifecycle, and delivery point.
+- Apply **ISO/IEC 23859:2023** to UI text and embedded help. Apply **ISO 21801-1:2020** and **ISO 9241-171:2025** when cognition, memory, attention, orientation, recovery, or wider software accessibility can block use.
+- For accessibility-sensitive work, map **ISO/IEC 29138-1/-4** as `user accessibility need → barrier → requirement → evidence`. Do not use one diagnosis as a proxy for all users.
+- Apply **ISO 704:2022** proportionally: use one preferred term per concept within a scope, define necessary terms once, and do not vary synonyms merely for style.
+- Task instructions SHOULD state purpose, prerequisites, ordered action, expected result, likely recovery, and material consequences. Errors SHOULD say what happened, what to do next, and whether work or data was preserved.
+- In multistep work, expose completed, current, and pending state where the medium permits it. Do not require users to remember hidden information from earlier steps unnecessarily.
+- Layer the essential path first; offer guided, alternative, or expert detail on demand. Treat **Inclusion Europe Easy-to-Read** as a specialized mode that requires intended-user co-review, not as a universal simplifier.
+- Evaluate important user information through the real task and intended audience. Readability formulas, CDC Clear Communication Index, or PEMAT-style checks are diagnostics; they do not replace findability, comprehension, action, recovery, and user-task evidence.
 
 ## Security and external effects
 

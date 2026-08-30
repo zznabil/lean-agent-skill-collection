@@ -1,7 +1,7 @@
 {
-  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour or formal standards conformance",
+  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.2.0",
+  "version": "8.3.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -41,12 +41,12 @@
     "global": true,
     "simple_turns_remain_short": true,
     "default_sources": [
-      "ASD-STE100",
+      "ASD-STE100 Issue 9",
       "ISO 24495-1",
       "W3C COGA"
     ],
     "conditional_sources": [
-      "Feynman explanation method",
+      "Feynman-style explanation heuristic",
       "Diataxis",
       "BCP 14 / RFC 2119 / RFC 8174"
     ]
@@ -54,10 +54,19 @@
   "explicit_standards": {
     "engineering_core_source_map": true,
     "standards_register": true,
+    "owning_skill_names": true,
     "formal_conformance_claimed": false
   },
+  "human_usable_information": {
+    "global_principles": true,
+    "conditional_reference": "skills/writing/USER-INFORMATION.md",
+    "target_user_task_validation_required_for_strong_claims": true,
+    "readability_alone_is_not_acceptance": true,
+    "easy_to_read_requires_intended_user_review": true,
+    "static_scenarios": 48
+  },
   "warnings": [
-    "Live model behaviour, routing, and human satisfaction were not measured.",
+    "Live model behaviour, routing, user comprehension, accessibility, task success, and human satisfaction were not measured.",
     "Named standards do not establish formal conformance.",
     "Overlapping profiles must not be installed together."
   ],

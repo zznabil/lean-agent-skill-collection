@@ -1,6 +1,8 @@
 {
-  "version": "8.2.0",
-  "release": "v8.2.0",
+  "version": "8.3.0",
+  "release": "v8.3.0",
+  "release_title": "Usable Instructions & Cognitive Accessibility",
+  "release_summary": "V8.3.0 keeps the 23-skill routing surface and improves substantial instructions, UI text, errors, help, onboarding, teaching, and accessibility evidence without making simple replies heavier.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -79,7 +81,7 @@
     "communication": {
       "plugin_name": "user-facing-communication-mini",
       "title": "User-Facing Communication Mini",
-      "description": "Three compact skills for adaptive clear replies, teaching, and prose artifacts.",
+      "description": "Three compact skills for adaptive clear replies, teaching, writing, and human-usable information.",
       "include_engineering_core": false,
       "skills": [
         "teach",

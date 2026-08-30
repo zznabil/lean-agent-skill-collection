@@ -12,12 +12,13 @@ Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arb
 1. Reconstruct the outcome, current state, constraints, non-goals, users, risks, and definition of done from the conversation and workspace.
 2. Verify consequential claims against files, behavior, documentation, tests, or data. Identify the riskiest unknown and the cheapest probe that can remove it.
 3. Apply **ISO/IEC/IEEE 29148-inspired requirements traceability**: express each material requirement as ID, source, observable statement, verification method, environment, and threshold. For event, state, option, or failure-dependent behavior, use **EARS** forms—`WHEN`, `WHILE`, `WHERE`, or `IF … THEN`—plus a **BCP 14** response. Do not promote an inferred preference into a requirement. In Durable artifacts, keep stable `REQ-#`, `UNIT-#`, and `DEC-#` identifiers; never silently renumber them. Mark examined decisions `SETTLED` and reopen only when new evidence invalidates them.
-4. For independent capabilities, map owner, interface, dependencies, acceptance checks, and integration point. Prove coverage in both directions: every requirement maps to work, and every work item maps to a requirement or explicit enabling need.
-5. For shared surfaces, choose the smallest contract: none, a 5–12 line inline contract, or a full contract only when consumers, compatibility, migration, auth, data, CLI, API, or UI-flow risk justifies it. If no consumer, surface, check, deliverable, or blocker can be named, skip the ceremony.
-6. Select only applicable **ISO/IEC 25010** quality attributes that can change the decision. For material risk, use an **ISO 31000 / IEC 31010 / ISO/IEC/IEEE 16085-inspired** record: cause → event → consequence, exposure, treatment, owner, trigger, and evidence. Resolve only blocking choices; use a conservative recorded default for minor reversible gaps.
-7. For every unresolved consequential decision, recommend a default, state its main trade-off and what it blocks, and group tightly related questions. Do not ask the user to choose what current evidence already resolves.
-8. Prefer verified vertical slices ordered by dependency and risk. Preserve known behavior and include rollback for risky steps.
-9. Write locally by default. Mutate a remote tracker only with explicit authorization.
+4. For accessibility-sensitive work, apply **ISO/IEC 29138-1:2018 and 29138-4:2026** as a lightweight needs map: `user accessibility need → barrier → requirement → evidence`. Do not treat one diagnosis or persona as a proxy for all users.
+5. For independent capabilities, map owner, interface, dependencies, acceptance checks, and integration point. Prove coverage in both directions: every requirement maps to work, and every work item maps to a requirement or explicit enabling need.
+6. For shared surfaces, choose the smallest contract: none, a 5–12 line inline contract, or a full contract only when consumers, compatibility, migration, auth, data, CLI, API, or UI-flow risk justifies it. If no consumer, surface, check, deliverable, or blocker can be named, skip the ceremony.
+7. Select only applicable **ISO/IEC 25010** quality attributes that can change the decision. For material risk, use an **ISO 31000 / IEC 31010 / ISO/IEC/IEEE 16085-inspired** record: cause → event → consequence, exposure, treatment, owner, trigger, and evidence. Resolve only blocking choices; use a conservative recorded default for minor reversible gaps.
+8. For every unresolved consequential decision, recommend a default, state its main trade-off and what it blocks, and group tightly related questions. Do not ask the user to choose what current evidence already resolves.
+9. Prefer verified vertical slices ordered by dependency and risk. Preserve known behavior and include rollback for risky steps.
+10. Write locally by default. Mutate a remote tracker only with explicit authorization.
 
 ## Modes
 

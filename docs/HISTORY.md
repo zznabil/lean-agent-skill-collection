@@ -282,7 +282,7 @@ V8.1.0 keeps the same 23 skills and invocation policies. It adds a global consid
 | Get It Done Pack | 3 | `wait-what`, `get-it-done`, and `gauntlet-loop` |
 | Gauntlet Pack | 1 | Independent adversarial acceptance |
 
-The V8.1.0 validation records:
+The V8.3.0 validation records:
 
 ```text
 23 unique skills
@@ -292,9 +292,10 @@ The V8.1.0 validation records:
 0 new provider requirements
 
 Complete profile:
-808 primary lines
-11,991 primary words
-117-line largest SKILL.md
+850 primary lines
+13,286 primary words
+119-line largest SKILL.md
+one conditional `writing/USER-INFORMATION.md` reference
 ```
 
 ### The 23 current skills
@@ -434,6 +435,10 @@ Compound Engineering planning and evaluation refinements
 V8 authority consolidation to 23 skills
         ↓
 V8.1 considerate-agency doctrine
+        ↓
+V8.2 explicit standards and adaptive prose
+        ↓
+V8.3 usable instructions and cognitive accessibility
 ```
 
 ## Primary internal project records
@@ -452,7 +457,7 @@ The earlier internal audits are historical project records and are not all inclu
 
 ## External sources
 
-Repositories and living specifications change over time. The historical review used versions available by August 25, 2026.
+Repositories and living specifications change over time. The historical review and current standards register use versions available through August 30, 2026.
 
 ### Communication, standards, and professional doctrine
 

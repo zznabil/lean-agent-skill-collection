@@ -1,4 +1,4 @@
-# Standards register — V8.2.0
+# Standards register — V8.3.0
 
 Public documentation for standards and engineering practices that influence Lean Agent Skills. Relevant source names are also placed beside the rules they inform in `AGENTS.md`, `ENGINEERING-CORE.md`, and owning skills. This register is not loaded automatically into agent context.
 
@@ -15,7 +15,7 @@ Public documentation for standards and engineering practices that influence Lean
 
 | Candidate | Version/status | Decision | Lean home | Reviewed | Next review | Official source |
 |---|---|---|---|---|---|---|
-| ASD-STE100 | Current public edition | Existing foundation | `wait-what` | 2026-08-26 | New major edition | [source](https://asd-ste100.org/) |
+| ASD-STE100 | Issue 9, January 2025 | Existing foundation; version pinned | `wait-what / AGENTS.md` | 2026-08-30 | Issue 10 or later | [source](https://asd-ste100.org/) |
 | BCP 14 (RFC 2119 + RFC 8174) | Stable RFCs | Existing foundation | `AGENTS.md / all skills` | 2026-08-26 | RFC update or interpretation change | [source](https://www.rfc-editor.org/info/rfc8174) |
 | ISO/IEC/IEEE 29148 | 2018 | Existing foundation | `ENGINEERING-CORE / plan` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/72089.html) |
 | ISO/IEC 25010 | 2023 | Existing foundation | `ENGINEERING-CORE / review / gauntlet-loop` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/78176.html) |
@@ -68,7 +68,7 @@ Public documentation for standards and engineering practices that influence Lean
 | ISO/IEC/IEEE 16085 software risk management | Current edition | Absorb | `plan / get-it-done` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/63787.html) |
 | ISO 9241-110 interaction principles | 2020 | Absorb selectively | `browser-automation / review` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/75258.html) |
 | ISO 9241-210 human-centred design | 2019 | Absorb selectively | `architecture / browser-automation` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/77520.html) |
-| ISO 9241-112 information presentation | 2017 | Absorb selectively | `browser-automation / office-files` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/64840.html) |
+| ISO 9241-112 information presentation | 2025, Edition 2 | Existing source updated | `browser-automation / office-files / review` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/87518.html) |
 | WAI-ARIA Authoring Practices Guide | Living W3C guide | Adopt upstream selectively | `browser-automation / review` | 2026-08-26 | Material W3C update | [source](https://www.w3.org/WAI/ARIA/apg/) |
 | NIST SP 800-61r3 incident response | Final | No major change; lineage | `triage/INCIDENT.md` | 2026-08-26 | New revision | [source](https://csrc.nist.gov/pubs/sp/800/61/r3/final) |
 | Google SRE blameless postmortems | Living practice | No major change; lineage | `triage/INCIDENT.md / project-context` | 2026-08-26 | Material practice update | [source](https://sre.google/sre-book/postmortem-culture/) |
@@ -96,7 +96,25 @@ Public documentation for standards and engineering practices that influence Lean
 | Safety-critical domain standards | Domain-specific | Project-local only | `Qualified domain workflow` | 2026-08-26 | Project enters regulated domain | Project-specific licensed source |
 | Organization-scale governance frameworks | Various | Reject globally | `Organization programme only` | 2026-08-26 | Specific organizational requirement | Project-specific licensed source |
 
-## V8.2 explicitness and activation policy
+| IEC/IEEE 82079-1 information for use | 2019, Edition 2; Edition 3 committee draft | Strongly absorb; track revision | `writing/USER-INFORMATION.md / office-files / cli-design` | 2026-08-30 | Edition 3 published | [source](https://www.iso.org/standard/71620.html) |
+| ISO/IEC/IEEE 26514 information for software users | 2022 | Strongly absorb | `writing / office-files / review` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/77451.html) |
+| ISO/IEC/IEEE 26513 testing and reviewing information for users | 2017 current; Edition 2 FDIS | Adopt review method selectively | `writing / review / gauntlet-loop` | 2026-08-30 | Edition 2 published | [source](https://www.iso.org/standard/89070.html) |
+| ISO/IEC 23859 easy-to-read UI text | 2023 | Strongly absorb | `wait-what / writing / browser-automation / review` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/77178.html) |
+| ISO 21801-1 cognitive accessibility | 2020; confirmed 2025 | Strongly absorb | `ENGINEERING-CORE / wait-what / writing / browser-automation / review` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/71711.html) |
+| ISO 9241-171 software accessibility | 2025, Edition 2 | Absorb selectively | `browser-automation / review / writing` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/86308.html) |
+| ISO/IEC 29138-1 user accessibility needs | 2018; confirmed | Absorb lightweight needs map | `plan / browser-automation / review / writing` | 2026-08-30 | Edition 2 published | [source](https://www.iso.org/standard/71953.html) |
+| ISO/IEC 29138-4 applying user accessibility needs | 2026 | Absorb lightweight needs map | `plan / browser-automation / review / writing` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/89285.html) |
+| ISO 704 terminology work | 2022, Edition 4 | Absorb one-concept/one-preferred-term rule | `wait-what / writing / review` | 2026-08-30 | New edition | [source](https://www.iso.org/standard/79077.html) |
+| CAST UDL Guidelines | 3.0, 2024 | Absorb selectively for learner variability | `teach` | 2026-08-30 | Material guidelines revision | [source](https://udlguidelines.cast.org/) |
+| IES Organizing Instruction and Study practice guide | 2007 | Absorb worked examples, graphics+words, retrieval and deep questions selectively | `teach` | 2026-08-30 | Replacement evidence synthesis | [source](https://ies.ed.gov/ncee/wwc/practiceguide/1) |
+| Cognitive-load segmentation | Established research practice | Absorb small rule set | `teach / writing / wait-what` | 2026-08-30 | Material evidence update | Research lineage in release decisions |
+| Worked examples and self-explanation | Established research practice | Adopt teaching pattern | `teach` | 2026-08-30 | Material evidence update | IES guide and primary research lineage |
+| Inclusion Europe Easy-to-Read | Living specialized guidance | Specialized mode only; intended-user co-review required | `writing/USER-INFORMATION.md / review` | 2026-08-30 | Rules or logo conditions change | [source](https://easy-to-read.inclusion-europe.eu/) |
+| CDC Clear Communication Index | Current research-based public-communication tool | Diagnostic only; no universal threshold | `writing/USER-INFORMATION.md / review` | 2026-08-30 | Material tool revision | [source](https://www.cdc.gov/ccindex/) |
+| PEMAT | Current AHRQ patient-material tool | Diagnostic only; domain-specific | `writing/USER-INFORMATION.md` | 2026-08-30 | Material tool revision | [source](https://www.ahrq.gov/health-literacy/patient-education/pemat.html) |
+| Feynman-style explanation | Informal heuristic; no canonical formal standard | Retain as conditional explanation pattern; correct provenance | `wait-what / teach` | 2026-08-30 | Better evidence or canonical source identified | No formal standard claimed |
+
+## V8.3 explicitness and activation policy
 
 - `AGENTS.md` names the global communication stack and compact engineering foundation once.
 - `ENGINEERING-CORE.md` maps engineering concerns to their principal standards and practices.
@@ -112,3 +130,11 @@ Public documentation for standards and engineering practices that influence Lean
 - No copied ISO clause library.
 - No organization maturity framework as default repository doctrine.
 - No compliance claim without a scoped audit against the authoritative standard and evidence.
+
+## V8.3 user-information policy
+
+- Simple replies remain short; the new layer activates for substantial instructions, UI text, errors, help, onboarding, manuals, forms, and teaching.
+- The core procedure contract is: intended user and task, purpose, prerequisites, action, expected result, recovery, consequences, orientation, and evidence.
+- Information is layered as essential, guided, and expert detail without hiding required steps.
+- A readability score is diagnostic only. Strong claims require the actual user task and intended audience; Easy-to-Read claims require intended-user co-review.
+- No routed skill, external runtime, compliance claim, or universal score threshold was added.

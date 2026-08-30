@@ -5,18 +5,18 @@ description: "Design or review a command-line interface that humans and agents c
 
 # CLI Design
 
-Treat the CLI as a stable interface, not terminal decoration.
+Treat the CLI as a stable interface, not terminal decoration. Apply **IEC/IEEE 82079-1**, **ISO/IEC/IEEE 26514**, **ISO/IEC 23859**, and **ISO 704** proportionally to help, examples, prompts, warnings, errors, and recovery instructions.
 
 ## Contract
 
 1. Start from the real human and automation jobs. Keep command and flag names predictable across the tool.
 2. When the CLI exposes a domain action also available through UI, HTTP, MCP, or jobs, reuse the same typed inputs, authorization, validation, idempotency, and error semantics. Keep CLI parsing and presentation as a thin adapter.
 3. Every required input MUST have a non-interactive flag, argument, environment variable, configuration field, or standard-input path. Interactive prompts MAY be a convenience, not the only path.
-4. Provide useful top-level help, command help, defaults, and copyable examples. A user SHOULD be able to discover the next valid command without external documentation.
+4. Provide useful top-level help, command help, defaults, prerequisites, and copyable examples. Show the expected result for consequential or non-obvious commands. A user SHOULD be able to discover the next valid command without external documentation.
 5. Write primary results to standard output and diagnostics to standard error. Use stable, documented exit codes.
 6. When tools consume the result, provide a structured output mode or a deliberately stable line format. Do not require color, cursor control, or a TTY.
 7. Support standard input and pipelines where they fit the job. Bound or paginate large output.
-8. Apply **RFC 9413-inspired strict boundary behavior**: accept only documented input variants, normalize once, and reject ambiguity. Fail fast with an actionable canonical error that names the invalid input and shows a correct invocation. MUST NOT hide partial failure behind exit code zero.
+8. Apply **RFC 9413-inspired strict boundary behavior**: accept only documented input variants, normalize once, and reject ambiguity. Fail fast with an actionable canonical error that names the invalid input, shows the next valid action, and states the state of partial work or data when relevant. MUST NOT hide partial failure behind exit code zero.
 9. Make retryable operations idempotent where practical. For consequential external mutations, support an idempotency mechanism or read-back check.
 10. Provide `--dry-run` for risky or broad changes when practical. Require an explicit confirmation flag such as `--yes` or `--force` for destructive actions; default to safety.
 11. Handle timeout, cancellation, interruption, cleanup, and partial state. Never print secrets or accept them through a command-line argument when a safer channel exists.
