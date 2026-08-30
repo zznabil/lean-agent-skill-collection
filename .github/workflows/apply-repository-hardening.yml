@@ -1,0 +1,57 @@
+name: Apply repository-integrity hardening
+
+on:
+  push:
+    branches:
+      - maintenance/v8.3-repository-hardening
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v8.3-repository-hardening
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out hardening branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: maintenance/v8.3-repository-hardening
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Apply repairs
+        run: python .github/apply-repository-hardening.py
+
+      - name: Build and validate twice
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          ./scripts/test-validator.ps1
+          ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+          ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+          $a = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $b = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($a.Count -ne $b.Count) { throw 'deterministic build file counts differ' }
+          foreach ($file in $a) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) { throw "non-deterministic output: $($file.Name)" }
+          }
+
+      - name: Commit repaired source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/apply-repository-hardening.py .github/workflows/apply-repository-hardening.yml
+          git add -A
+          git status --short
+          git commit -m "chore: harden V8.3 repository integrity"
+          git push origin HEAD:maintenance/v8.3-repository-hardening
