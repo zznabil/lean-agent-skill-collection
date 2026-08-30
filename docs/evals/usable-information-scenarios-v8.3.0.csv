@@ -1,0 +1,49 @@
+id,category,prompt,expected_primary_skill,expected_behaviour,must_not
+UI-01,proportionality,What does idempotent mean?,none,Short direct definition; optional one example,No manual or heavy framework
+UI-02,proportionality,Rewrite this one-line button label: Proceed operation,writing,Short concrete label,No long procedure
+UI-03,proportionality,Create a ten-page operator manual for this CLI,writing,Use USER-INFORMATION contract and task structure,No generic essay
+UI-04,proportionality,Thanks,none,Brief acknowledgment,No Summary/TL;DR ceremony
+UI-05,proportionality,Explain eventual consistency to a beginner,teach,Feynman-style explanation and example,No forced course or quiz unless useful
+UI-06,proportionality,Return JSON only,none,Exact machine format,No prose wrapper
+UI-07,proportionality,Write a legal notice,writing,Preserve legal precision and requested voice,No simplification that changes effect
+UI-08,proportionality,Summarize this completed audit,none,Substantive Summary/TL;DR with key evidence,No full raw ledger dump
+UI-09,procedure_error,Write setup instructions for a local server,writing,"Purpose, prerequisites, ordered actions, expected results, recovery",No hidden prerequisite
+UI-10,procedure_error,Rewrite an import wizard procedure,writing,Current position and completed/current/pending steps,No memory-only state
+UI-11,procedure_error,Write a data deletion confirmation,writing,Consequences before commitment and recovery limits,No vague irreversible action
+UI-12,procedure_error,Rewrite “Something went wrong” after save failure,writing,"State what happened, next action, and data preservation",No generic blame
+UI-13,procedure_error,Create password reset help,writing,"Task path, security boundary, likely failure recovery",No secret exposure
+UI-14,procedure_error,Write a CLI --help example for deployment,cli-design,"Copyable command, prerequisites, result and next valid action",No mandatory interactive prompt
+UI-15,procedure_error,Create onboarding instructions for a first-time user,writing,"Essential path first, guided detail later",No expert detail before core action
+UI-16,procedure_error,Write a troubleshooting flow for network failure,writing,Branch by observable condition; preserve work state,No guess-and-retry loop
+UI-17,cognitive_accessibility,Review a five-step checkout for ADHD interruption recovery,browser-automation,Test reorientation after distraction and visible state,No prose-only accessibility claim
+UI-18,cognitive_accessibility,Test a multistep form for visible progress and resume,browser-automation,Show complete/current/pending and saved state,No hidden progress
+UI-19,cognitive_accessibility,Review a flow where the user must remember a code from screen one on screen four,browser-automation,Expose needed value safely at decision point,No unnecessary memory demand
+UI-20,cognitive_accessibility,Run accessibility QA on an app used by people with cognitive disabilities,browser-automation,"Map user need to barrier, requirement and evidence",No diagnosis-as-universal-persona
+UI-21,cognitive_accessibility,The workflow times out after inactivity,browser-automation,Explain state preservation and resume path,No silent reset
+UI-22,cognitive_accessibility,Review error recovery after navigation away,browser-automation,Test actual resume and orientation,No source-only inference
+UI-23,cognitive_accessibility,Test a localized critical procedure in its interface,browser-automation,Re-test target language and audience,No assumption that English score transfers
+UI-24,cognitive_accessibility,Test whether an interface is accessible when the only current evidence is a readability score,browser-automation,Reject as insufficient; require task/user evidence,No accessibility pass from formula
+UI-25,terminology_layering,"This manual alternates job, task, work item, and ticket for one concept",writing,Choose one preferred term and define it,No decorative synonyms
+UI-26,terminology_layering,Write beginner and expert setup guidance,writing,Essential/guided/expert layers,No duplicate disconnected manuals by default
+UI-27,terminology_layering,A technical term is unavoidable,writing,Define near first use and keep stable,No inaccurate replacement
+UI-28,terminology_layering,The user asks for more detail,writing,Reveal guided or expert layer without rewriting core path,No all-or-nothing dump
+UI-29,terminology_layering,A safety warning conflicts with simpler prose,writing,Preserve exact risk and condition,No dangerous simplification
+UI-30,terminology_layering,Create UI copy for a domain with established vocabulary,writing,Use established accurate domain terms,No style-driven renaming
+UI-31,terminology_layering,Review a glossary,writing,Check concept-definition-designation consistency,No circular or synonym-only definitions
+UI-32,terminology_layering,Write embedded help for one control,writing,"Explain purpose, effect, consequence and next action",No full manual in tooltip
+UI-33,teaching,Teach subnetting to a novice,teach,Worked example before independent transfer task,No unsupported first performance
+UI-34,teaching,Explain why the algorithm step matters,teach,Self-explanation prompt on key mechanism,No rote copy only
+UI-35,teaching,Teach a skill for durable retention,teach,Conditional retrieval and spaced follow-up,No retrieval for one-off task only
+UI-36,teaching,A learner struggles with text-only explanation,teach,Offer one barrier-reducing alternate representation,No gratuitous format proliferation
+UI-37,teaching,Teach a complex workflow,teach,Signal structure and segment into manageable chunks,No split-attention overload
+UI-38,teaching,"After showing an example, verify learning",teach,Similar independent transfer task,No exact imitation counted as mastery
+UI-39,teaching,User asks for a quick fact,teach,Answer directly,No forced lesson or quiz
+UI-40,teaching,Learner makes one small error,teach,Correct smallest misunderstanding and adapt support,No restart of whole lesson
+UI-41,validation_special,Claim this UI text is easy to understand,review,Require intended task evidence; use checklist only as diagnostic,No claim from readability score
+UI-42,validation_special,Use the CDC Index on software help,review,Use diagnostic items but not universal 90 gate,No domain-threshold transplant
+UI-43,validation_special,Create Easy-to-Read information with the logo,review,Require intended-user proofreading and attribution,No unsupported label/logo
+UI-44,validation_special,Simplify this for intellectual-disability users,writing,Use specialized representation and preserve fuller access,No silent flattening of general version
+UI-45,validation_special,Review a finished safety manual,review,Independent review plus target-user task test,No author self-approval only
+UI-46,validation_special,Evaluate help after controlled interruption,review,Measure successful resume and orientation,No text metric substitute
+UI-47,validation_special,Measure instruction quality,review,Use find/understand/act/recover/error/help outcomes,No word count as main metric
+UI-48,validation_special,The target users cannot be recruited,review,State limitation and cap the claim,No fabricated intended-user validation

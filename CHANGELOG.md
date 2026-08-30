@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.3.0 — 2026-08-30
+
+- Keep the 23-skill V8 routing surface and all six deployment profiles.
+- Add human-usable information and cognitive-accessibility rules for substantial instructions, UI text, errors, help, manuals, onboarding, forms, and teaching.
+- Strongly absorb IEC/IEEE 82079-1:2019, ISO/IEC/IEEE 26514:2022, ISO/IEC 23859:2023, ISO 21801-1:2020, ISO 9241-171:2025, ISO/IEC 29138-1/-4, and ISO 704:2022 into their owning skills.
+- Add an ISO/IEC/IEEE 26513-inspired user-information review method while tracking Edition 2 at FDIS stage.
+- Add CAST UDL 3.0, the IES learning guide, cognitive-load reduction, worked examples, self-explanation, transfer, and conditional retrieval practice to `teach`.
+- Add `skills/writing/USER-INFORMATION.md` as one conditional reference; no routed skill, external dependency, hook, service, or automatic mutation is added.
+- Treat Inclusion Europe Easy-to-Read as a specialized intended-user-reviewed mode; keep CDC CCI and PEMAT as diagnostics rather than universal release scores.
+- Add 48 static scenarios and expand the audit to 18 passes. Live user comprehension, task success, accessibility, routing, latency, and satisfaction remain unmeasured.
+
 ## 8.2.0 — 2026-08-30
 
 - Keep the 23-skill V8 routing surface and all six deployment profiles.

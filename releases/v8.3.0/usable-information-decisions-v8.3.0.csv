@@ -1,0 +1,25 @@
+candidate,status,decision,lean_home,value,guardrail
+IEC/IEEE 82079-1:2019,Published; Edition 3 committee draft,STRONGLY ABSORB,writing/USER-INFORMATION.md; office-files; cli-design,"General information-for-use lifecycle, quality, action and empirical evaluation",Do not claim Edition 3 or full conformance
+ISO/IEC/IEEE 26514:2022,Published,STRONGLY ABSORB,writing; office-files; review,"Software-specific information needs, structure, delivery and maintenance",Keep software scope; no new routed skill
+ISO/IEC/IEEE 26513:2017 / Edition 2 FDIS,Published + final draft,ADOPT REVIEW METHOD SELECTIVELY,writing; review; gauntlet-loop,Independent testing and review of user information,Track final Edition 2; do not copy proprietary clauses
+ISO/IEC 23859:2023,Published,STRONGLY ABSORB,wait-what; writing; browser-automation; review,Exact missing object: easy-to-read and understand text in UIs,Task evidence outranks readability formulas
+ISO 21801-1:2020,Published; confirmed 2025,STRONGLY ABSORB,ENGINEERING-CORE; writing; browser; review,"Explicit cognitive accessibility, orientation, memory and recovery",Do not use one diagnosis as universal persona
+ISO 9241-171:2025,Published Edition 2,ABSORB SELECTIVELY,browser-automation; review; writing,Current software-accessibility guidance,Apply only to relevant interactive systems
+ISO 9241-112:2025,Published Edition 2,UPDATE EXISTING SOURCE,browser-automation; office-files; review,Current information-presentation principles,Replaces stale 2017 registry entry
+ISO/IEC 29138-1:2018 + 29138-4:2026,Published,ABSORB LIGHTWEIGHT NEEDS MAP,plan; browser; writing; review,"Trace user accessibility need to barrier, requirement and evidence",Not certification or a diagnosis checklist
+ISO 704:2022,Published Edition 4,ABSORB,wait-what; writing; review,One preferred term per concept and clear definitions,Preserve established accurate domain terms
+CAST UDL Guidelines 3.0,Living 2024 version,ABSORB SELECTIVELY,teach,Learner variability and alternate paths,Do not multiply formats or choices without a barrier
+IES Organizing Instruction and Study,Published practice guide,ABSORB SELECTIVELY,teach,"Worked examples, graphics+words, retrieval and deep questions",Use evidence ratings and current learner goal
+Cognitive-load segmentation,Established research,ABSORB,teach; writing; wait-what,"Signal structure, segment complexity, remove irrelevant load",Do not oversimplify away necessary distinctions
+Worked examples + self-explanation,Established research,ADOPT TEACHING PATTERN,teach,"Novice learning, mechanism understanding and transfer",Do not force quizzes on quick answers
+Retrieval practice,Established research,RETAIN CONDITIONALLY,teach,Durable retention,Activate only when retention is a real goal
+Inclusion Europe Easy-to-Read,Living specialized guidance,SPECIALIZED MODE ONLY,writing/USER-INFORMATION.md; review,Intellectual-disability inclusion and participatory validation,No claim/logo without intended-user proofreading
+CDC Clear Communication Index,Current public-health tool,DIAGNOSTIC ONLY,writing/USER-INFORMATION.md; review,"Main message, action, language, numbers, design and risk",Do not import 90 as universal software gate
+PEMAT,Current AHRQ tool,DIAGNOSTIC ONLY,writing/USER-INFORMATION.md,Separates understandability and actionability,Patient-material scope; no generic threshold
+ASD-STE100,"Issue 9, Jan 2025",UPDATE VERSION PIN,AGENTS; wait-what; standards register,Accurate provenance and current technical English cue,Issue 10 watch
+Feynman method,No canonical formal standard,RETAIN AS INFORMAL HEURISTIC,wait-what; teach,Useful mechanism/example/importance pattern,Do not present as accredited standard
+ISO 24495-2:2025 / 24495-3:2026,Published specialist plain-language parts,PROJECT-LOCAL,legal/scientific writing projects,Useful domain-specific guidance,Not generic runtime doctrine
+ISO/IEC/IEEE 26516:2026,Published,PROJECT-LOCAL,instructional-video projects,Video-specific user information,No value for text-first generic skills
+WAI-Adapt,Evolving W3C work,DEFER,standards register watch,Potential personalization semantics,Wait for stable version and implementation evidence
+GOV.UK / Microsoft / Google documentation guidance,Living vendor/public guidance,TACTICAL REFERENCE ONLY,project-local writing review,Concrete examples and style checks,Do not elevate to universal standard
+ISO 8601,Stable date/time representation,PROJECT-LOCAL,machine contracts and domain-specific UI,Unambiguous dates where required,Not a universal user-facing prose rule

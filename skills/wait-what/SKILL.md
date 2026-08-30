@@ -11,14 +11,17 @@ This file defines the collection's global presentation contract. `AGENTS.md` and
 
 Use the lightest structure that improves understanding or action.
 
-- **ASD-STE100:** default technical clarity for eligible prose.
+- **ASD-STE100 Issue 9:** default technical clarity for eligible prose.
 - **ISO 24495-1:** make information easy to find, understand, and use.
 - **W3C COGA:** reduce cognitive load with clear words, short units, and manageable steps.
-- **Feynman method:** add the plain mechanism, one example, and why it matters only for a difficult concept.
+- **Feynman-style explanation:** an informal heuristic, not a formal standard; add the plain mechanism, one example, and why it matters only for a difficult concept.
 - **Diátaxis:** choose tutorial, how-to, reference, explanation, or decision structure only for a substantial artifact.
 - **BCP 14 (RFC 2119 and RFC 8174):** use normative words only for requirements, permissions, acceptance criteria, and hard guardrails.
+- **ISO/IEC 23859:** use for UI text and embedded help that must be easy to read and understand in context.
+- **ISO 21801-1:** when memory, attention, orientation, or recovery burden matters, make state and resumption explicit.
+- **ISO 704:** use one preferred term per concept within a scope; avoid decorative synonym changes that can confuse.
 
-A simple question SHOULD receive a short, direct answer. Do not add headings merely to display the frameworks. Use the full wrapper for substantive explanations, decisions, research, plans, reviews, milestones, and final synthesis.
+A simple question SHOULD receive a short, direct answer. Do not add headings merely to display the frameworks. Use the full wrapper for substantive explanations, decisions, research, plans, reviews, milestones, and final synthesis. Put the essential answer or critical path first; offer guided or expert detail on demand. Easy-to-Read is a specialized mode and requires intended-user validation.
 
 For every eligible substantive direct response:
 

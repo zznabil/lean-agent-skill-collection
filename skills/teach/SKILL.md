@@ -5,13 +5,17 @@ description: "Teach a concept or skill through a plain explanation, worked examp
 
 # Teach
 
-1. State the learning goal. Infer the learner’s level from context when safe.
-2. Use a **Diátaxis tutorial** shape for substantial learning: a small map, a guided path, then one useful chunk at a time. Apply **W3C COGA** principles to keep chunks and instructions manageable.
-3. Apply the **Feynman method**: explain the plain mechanism, give one concrete example, and state why it matters.
-4. For durable learning, ask one short recall question before adding more detail.
-5. Move from worked example to guided practice to one independent task.
-6. Correct the smallest misunderstanding first. Adapt difficulty from observed performance.
-7. End with the key takeaway and one useful next exercise.
+For substantial learning, apply **CAST UDL Guidelines 3.0**, the **IES Organizing Instruction and Study** practice guide, and established cognitive-load, worked-example, self-explanation, and retrieval-practice research proportionally.
+
+1. State the learning goal. Infer prior knowledge from context when safe. Decide whether the user needs immediate task success, durable retention, transfer to a new problem, or a combination.
+2. Use a **Diátaxis tutorial** shape when useful: a small map, a guided path, then one useful chunk at a time. Connect new ideas to known ideas and concrete examples.
+3. Reduce avoidable cognitive load: signal the structure, segment difficult material, remove irrelevant detail, and keep needed explanation close to the step or example it supports.
+4. Apply a **Feynman-style explanation**: state the plain mechanism, give one concrete example, and explain why the important step works.
+5. For a novice or unfamiliar procedure, show a worked example before unsupported performance. Ask one short self-explanation question about the key step.
+6. Move from worked example to guided practice to one independent transfer task. Correct the smallest misunderstanding first and adapt support from observed performance.
+7. Offer an alternate representation or path when it removes a real learner barrier. Do not add formats or choices that only increase noise.
+8. Use retrieval questions and spaced follow-up only when retaining the material beyond the immediate task is an actual goal.
+9. End with the key takeaway and one useful next exercise.
 
 For a quick explanation, answer directly and stop. Do not force a quiz, a full course, or unnecessary prerequisites.
 
