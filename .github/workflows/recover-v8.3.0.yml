@@ -31,7 +31,8 @@ jobs:
           source_commit=698067464fd9c116f213ebec74507529d5e0d2fc
           work="$(mktemp -d)"
           trap 'rm -rf "$work"' EXIT
-          for index in $(seq -w 0 9); do
+          for number in $(seq 0 9); do
+            index="$(printf '%02d' "$number")"
             git show "$source_commit:.github/v8.3.0-overlay.part${index}.b64" >> "$work/overlay.b64"
           done
           base64 --decode "$work/overlay.b64" > "$work/overlay.tar.xz"
