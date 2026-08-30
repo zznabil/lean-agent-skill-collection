@@ -1,4 +1,4 @@
-# Repository integrity audit — V8.3.1
+# Repository integrity audit — V8.3.2
 
 ## Decision
 
@@ -24,9 +24,16 @@ The audit covered tracked source, metadata, profiles, skill packages, adapters, 
 6. Enforce the canonical `USER-INFORMATION.md`, CAST UDL, and 48-scenario names and counts.
 7. Run the repository audit in both PowerShell 7 and Windows PowerShell 5.1 CI jobs.
 
+## Profile composition
+
+- The standalone Communication profile contains `teach`, `wait-what`, and `writing`.
+- The Get It Done profile contains the full Communication profile plus `get-it-done` and `gauntlet-loop`.
+- The Gauntlet profile contains the full Communication profile plus `gauntlet-loop`.
+- CI compares these unions against the canonical profile lists and rejects missing or duplicate entries.
+
 ## Release gate
 
-V8.3.1 must be tagged from the exact merged commit. Release assets must be rebuilt from that tag, validated, checksummed, uploaded as a separate GitHub Release, and read back after publication. The published V8.3.0 release must remain unchanged.
+V8.3.2 must be tagged from the exact merged commit. Release assets must be rebuilt from that tag, validated, checksummed, uploaded as a separate GitHub Release, and read back after publication. The published V8.3.0 release must remain unchanged.
 
 ## Remaining limits
 

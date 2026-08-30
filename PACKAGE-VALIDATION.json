@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.3.1",
+  "version": "8.3.2",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -71,5 +71,27 @@
     "Overlapping profiles must not be installed together."
   ],
   "errors": [],
-  "passed": true
+  "passed": true,
+  "profile_composition": {
+    "communication_skills": [
+      "teach",
+      "wait-what",
+      "writing"
+    ],
+    "get_it_done_skills": [
+      "gauntlet-loop",
+      "get-it-done",
+      "teach",
+      "wait-what",
+      "writing"
+    ],
+    "gauntlet_skills": [
+      "gauntlet-loop",
+      "teach",
+      "wait-what",
+      "writing"
+    ],
+    "communication_embedded_in_get_it_done": true,
+    "communication_embedded_in_gauntlet": true
+  }
 }

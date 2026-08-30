@@ -77,6 +77,30 @@ $completeSkills = @($profiles.profiles.complete.skills | ForEach-Object { [strin
 if ($actualSkills.Count -ne 23) { Add-Failure "expected 23 canonical skills, found $($actualSkills.Count)" }
 if ((Compare-Object $actualSkills $completeSkills).Count -ne 0) { Add-Failure 'Complete profile does not match the canonical skills directory' }
 
+$communicationSkills = @($profiles.profiles.communication.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+$getItDoneSkills = @($profiles.profiles.'get-it-done'.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+$gauntletSkills = @($profiles.profiles.gauntlet.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+if ($communicationSkills.Count -ne 3) { Add-Failure "Communication profile must contain 3 unique skills; found $($communicationSkills.Count)" }
+if ($getItDoneSkills.Count -ne 5) { Add-Failure "Get It Done profile must contain 5 unique skills; found $($getItDoneSkills.Count)" }
+if ($gauntletSkills.Count -ne 4) { Add-Failure "Gauntlet profile must contain 4 unique skills; found $($gauntletSkills.Count)" }
+foreach ($skill in $communicationSkills) {
+    if (-not ($getItDoneSkills -contains $skill)) { Add-Failure "Get It Done profile lacks Communication skill: $skill" }
+    if (-not ($gauntletSkills -contains $skill)) { Add-Failure "Gauntlet profile lacks Communication skill: $skill" }
+}
+if (-not ($getItDoneSkills -contains 'get-it-done') -or -not ($getItDoneSkills -contains 'gauntlet-loop')) { Add-Failure 'Get It Done profile lacks a required task controller' }
+if (-not ($gauntletSkills -contains 'gauntlet-loop')) { Add-Failure 'Gauntlet profile lacks gauntlet-loop' }
+$composition = $package.profile_composition
+if ($null -eq $composition -or -not $composition.communication_embedded_in_get_it_done -or -not $composition.communication_embedded_in_gauntlet) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the communication-complete task-pack contract'
+} else {
+    $metadataCommunication = @($composition.communication_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+    $metadataGetItDone = @($composition.get_it_done_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+    $metadataGauntlet = @($composition.gauntlet_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+    if ((Compare-Object $communicationSkills $metadataCommunication).Count -ne 0) { Add-Failure 'Communication profile metadata differs from release-profiles.json' }
+    if ((Compare-Object $getItDoneSkills $metadataGetItDone).Count -ne 0) { Add-Failure 'Get It Done profile metadata differs from release-profiles.json' }
+    if ((Compare-Object $gauntletSkills $metadataGauntlet).Count -ne 0) { Add-Failure 'Gauntlet profile metadata differs from release-profiles.json' }
+}
+
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
 $scenarioPairs = @(
     @('docs/evals/usable-information-scenarios-v8.3.0.csv', 'releases/v8.3.0/usable-information-scenarios-v8.3.0.csv'),

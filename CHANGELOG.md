@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.3.2 — 2026-08-30
+
+- Keep all 23 canonical skills, all six profile names, and all skill instructions unchanged.
+- Merge the full Communication profile (`teach`, `wait-what`, and `writing`) into the Get It Done pack by set union, expanding it from 3 to 5 skills.
+- Merge the full Communication profile into the Gauntlet pack, expanding it from 1 to 4 skills.
+- Keep the standalone Communication profile available.
+- Add an explicit profile-composition contract and CI audit so either task pack cannot silently lose communication coverage.
+- Preserve V8.3.1 and all earlier tags and releases unchanged; publish V8.3.2 as a separate release.
+
 ## 8.3.1 — 2026-08-30
 
 - Keep all 23 V8.3 skills, six deployment profiles, and invocation policies unchanged.
