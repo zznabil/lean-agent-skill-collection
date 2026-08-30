@@ -1,0 +1,49 @@
+name: Fix repository hardening auditor
+
+on:
+  push:
+    branches:
+      - maintenance/v8.3-repository-hardening
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fix-repository-hardening-auditor
+  cancel-in-progress: false
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out hardening branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: maintenance/v8.3-repository-hardening
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Repair the PowerShell regex in the patch generator
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('.github/apply-repository-hardening.py')
+          text = path.read_text(encoding='utf-8')
+          old = "if ($text -match '(?m)[ `t]+$')"
+          new = 'if ($text -match "(?m)[ `t]+$")'
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one broken regex, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+
+      - name: Commit fix and remove this temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/fix-repository-hardening-auditor.yml
+          git add .github/apply-repository-hardening.py
+          git commit -m "fix: correct repository audit whitespace regex"
+          git push origin HEAD:maintenance/v8.3-repository-hardening
