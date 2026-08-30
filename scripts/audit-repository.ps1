@@ -60,7 +60,8 @@ if ($readme -notmatch "version-v$([regex]::Escape($version))-") { Add-Failure 'R
 if ($readme -notmatch "V$([regex]::Escape($version))") { Add-Failure 'README does not identify the current release' }
 
 $changelog = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'CHANGELOG.md')
-if ($changelog -notmatch "(?m)^##\s+$([regex]::Escape($version))\s+\u2014") { Add-Failure 'CHANGELOG has no current-version entry' }
+$changelogPattern = '(?m)^##\s+' + [regex]::Escape($version) + '\s+'
+if ($changelog -notmatch $changelogPattern) { Add-Failure 'CHANGELOG has no current-version entry' }
 
 $releaseNotesRelative = "releases/v$version/RELEASE-NOTES-v$version.md"
 $releaseNotesPath = Join-Path $RepositoryRoot $releaseNotesRelative
