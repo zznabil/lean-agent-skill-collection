@@ -24,7 +24,11 @@ jobs:
           persist-credentials: true
 
       - name: Patch release tooling and checksums
-        run: python .github/apply-v8.3.0.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .github/apply-v8.3.0.part*.b64 | base64 --decode > /tmp/apply-v8.3.0.py
+          python /tmp/apply-v8.3.0.py
 
       - name: Commit generated tooling updates
         shell: bash
@@ -32,8 +36,8 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/apply-v8.3.0.py .github/v8.3.0-overlay.part*.b64 .github/workflows/apply-v8.3.0.yml
-          rm -f .github/v8.3.0-overlay.tar.xz
+          git rm .github/apply-v8.3.0.part*.b64 .github/v8.3.0-overlay.part*.b64 .github/workflows/apply-v8.3.0.yml
+          rm -f .github/v8.3.0-overlay.tar.xz /tmp/apply-v8.3.0.py
           git add scripts/build-release.ps1 scripts/validate.ps1 docs/HISTORY.md UPSTREAM-CHECKSUMS.sha256
           git commit -m "build: align V8.3.0 packaging and validation"
           git push origin HEAD:release/v8.3.0-usable-information
