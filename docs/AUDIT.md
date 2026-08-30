@@ -1,10 +1,10 @@
-# Lean Agent Skills V8.3.1 — release audit
+# Lean Agent Skills V8.3.2 — release audit
 
 ## Decision
 
 **PASS STATIC — EMPIRICAL USER VALIDATION PENDING**
 
-V8.3.1 keeps all V8.3.0 skill content: 23 canonical skills, 17 implicitly selectable skills, 6 manual-only skills, and six deployment profiles. It adds repository-integrity hardening and no routed skill, dependency, service, runtime hook, executable skill payload, or automatic trusted-state mutation.
+V8.3.2 keeps all V8.3 skill content: 23 canonical skills, 17 implicitly selectable skills, 6 manual-only skills, and six deployment profiles. It changes only two profile inventories: Get It Done now contains 5 skills, and Gauntlet now contains 4. No routed skill, dependency, service, runtime hook, executable skill payload, or automatic trusted-state mutation is added.
 
 ```text
 Canonical skills:          23 → 23
@@ -57,6 +57,28 @@ The patch adds and validates:
 
 See [`REPOSITORY-AUDIT.md`](REPOSITORY-AUDIT.md) for the detailed repository findings and limits.
 
+## V8.3.2 communication-complete task packs
+
+The canonical Communication profile remains:
+
+```text
+teach
+wait-what
+writing
+```
+
+The task-pack unions are:
+
+```text
+Get It Done (5)
+= gauntlet-loop + get-it-done + teach + wait-what + writing
+
+Gauntlet (4)
+= gauntlet-loop + teach + wait-what + writing
+```
+
+The profile audit verifies both unions against the canonical Communication profile. Duplicate skill names are not allowed.
+
 ## Candidate synthesis
 
 Strongly absorbed:
@@ -97,4 +119,4 @@ Strong user-information claims require the real task and intended audience. Pref
 
 ## Release recommendation
 
-Publish V8.3.1 only from the exact merged commit after both CI jobs pass. Create an annotated tag, build fresh release assets, verify their checksums, and keep the V8.3.0 release unchanged.
+Publish V8.3.2 only from the exact merged commit after both CI jobs pass. Create an annotated tag, build fresh release assets, verify their checksums, and keep the V8.3.0 release unchanged.

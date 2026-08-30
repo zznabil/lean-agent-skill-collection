@@ -1,8 +1,8 @@
 {
-  "version": "8.3.1",
-  "release": "v8.3.1",
-  "release_title": "Repository Integrity Hardening",
-  "release_summary": "V8.3.1 keeps all 23 V8.3 skill behaviours and adds repository-level consistency, text-hygiene, evaluation-mirror, temporary-scaffold, and cross-platform CI checks.",
+  "version": "8.3.2",
+  "release": "v8.3.2",
+  "release_title": "Communication-Complete Task Packs",
+  "release_summary": "V8.3.2 keeps all 23 canonical skills and embeds the complete Communication profile into both the Get It Done and Gauntlet packs so their user-facing, teaching, writing, and human-usable-information behaviour is available without a second installation.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -92,21 +92,26 @@
     "get-it-done": {
       "plugin_name": "get-it-done-pack",
       "title": "Get It Done Pack",
-      "description": "Long-horizon execution, adversarial acceptance, considerate follow-through, explicit engineering sources, and clear reporting.",
+      "description": "Five compact skills for long-horizon execution, adversarial acceptance, adaptive communication, teaching, writing, and human-usable information.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
         "get-it-done",
-        "wait-what"
+        "teach",
+        "wait-what",
+        "writing"
       ]
     },
     "gauntlet": {
       "plugin_name": "gauntlet-loop-pack",
       "title": "Gauntlet Loop Pack",
-      "description": "A bounded adversarial benchmark, assurance, repair, retest, and final-judge workflow.",
+      "description": "Four compact skills for adversarial quality review plus adaptive communication, teaching, writing, and human-usable information.",
       "include_engineering_core": false,
       "skills": [
-        "gauntlet-loop"
+        "gauntlet-loop",
+        "teach",
+        "wait-what",
+        "writing"
       ]
     }
   }
