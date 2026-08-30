@@ -38,6 +38,9 @@ jobs:
       - name: Validate source and release artifacts
         shell: pwsh
         run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Audit repository integrity
+        shell: pwsh
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
 
   validate-windows-powershell:
     name: Validate collection (Windows PowerShell 5.1)
@@ -67,3 +70,6 @@ jobs:
       - name: Validate source and release artifacts
         shell: powershell
         run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Audit repository integrity
+        shell: powershell
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a

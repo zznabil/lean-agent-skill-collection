@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.3.1 — 2026-08-30
+
+- Keep all 23 V8.3 skills, six deployment profiles, and invocation policies unchanged.
+- Add `scripts/audit-repository.ps1` for cross-file version, inventory, evaluation-mirror, text-hygiene, support-reference, temporary-scaffold, and built-asset checks.
+- Run the repository-integrity audit on both PowerShell 7 and Windows PowerShell 5.1 in CI.
+- Correct stale README release wording and regenerate the affected source checksums.
+- Preserve the published V8.3.0 tag and release; V8.3.1 is a separate patch release with freshly built artifacts.
+- Add no routed skill, dependency, service, runtime hook, executable skill payload, or automatic trusted-state mutation.
+- Live OMP, Codex, ChatGPT, user-comprehension, accessibility, and formal-conformance claims remain outside static validation.
+
 ## 8.3.0 — 2026-08-30
 
 - Keep the 23-skill V8 routing surface and all six deployment profiles.

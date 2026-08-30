@@ -1,6 +1,6 @@
-# Lean Agent Skills V8.3.0 catalog
+# Lean Agent Skills V8.3.1 catalog
 
-V8.3.0 keeps 23 canonical skills and adds no routed skill. Human-usable information is a conditional layer inside the existing communication, teaching, interface, planning, review, and document authorities.
+V8.3.1 keeps the same 23 canonical skills, profiles, and invocation policy as V8.3.0. The patch adds repository-integrity checks; human-usable information remains a conditional layer inside the existing communication, teaching, interface, planning, review, and document authorities.
 
 | Skill | Profile role | Invocation | Principal explicit sources |
 |---|---|---|---|
