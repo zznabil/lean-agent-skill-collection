@@ -5,6 +5,8 @@ description: "Build or run authorized browser automation, real-user QA, data ent
 
 # Browser Automation
 
+For applicable interfaces, use **WCAG 2.2**, **WAI-ARIA Authoring Practices**, and **ISO 9241-110/210/112-inspired** human-centred interaction and information-presentation checks. Prefer native semantics before custom ARIA.
+
 1. Confirm the authorized site, account, environment, user promise, journeys, and allowed side effects.
 2. Use an isolated profile or clean context by default. Use a real signed-in profile only when required and authorized; do not copy cookies, tokens, or unrelated session data.
 3. Establish the real runtime path. Start permitted local services, then inspect the rendered page, accessibility tree, or screenshot before choosing selectors. Wait for a meaningful ready condition, not a fixed sleep.
@@ -19,4 +21,4 @@ description: "Build or run authorized browser automation, real-user QA, data ent
 Do not bypass access controls, anti-abuse systems, CAPTCHA, or consent. Do not purchase, publish, send, delete, or mutate production without explicit authorization.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

@@ -1,5 +1,7 @@
 # AI asset cards
 
+These compact records are informed by **ISO/IEC 5259**, **ISO/IEC 25012/25024**, **Model Cards**, **Data Cards**, **Datasheets for Datasets**, **FAIR principles**, and **ISO/IEC 42005** when impact assessment is warranted. They are transparency and evidence artifacts, not certification.
+
 Use this compact card for a consequential model, dataset, prompt, evaluator, agent, or retrieval asset. Keep one card per independently versioned asset when practical.
 
 ## Identity

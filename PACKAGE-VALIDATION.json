@@ -1,7 +1,7 @@
 {
-  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
+  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour or formal standards conformance",
   "package": "complete",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -37,8 +37,28 @@
     "adapters": 23,
     "act_ask_do_not_act": true
   },
+  "adaptive_prose": {
+    "global": true,
+    "simple_turns_remain_short": true,
+    "default_sources": [
+      "ASD-STE100",
+      "ISO 24495-1",
+      "W3C COGA"
+    ],
+    "conditional_sources": [
+      "Feynman explanation method",
+      "Diataxis",
+      "BCP 14 / RFC 2119 / RFC 8174"
+    ]
+  },
+  "explicit_standards": {
+    "engineering_core_source_map": true,
+    "standards_register": true,
+    "formal_conformance_claimed": false
+  },
   "warnings": [
-    "Live model behaviour and human satisfaction were not measured.",
+    "Live model behaviour, routing, and human satisfaction were not measured.",
+    "Named standards do not establish formal conformance.",
     "Overlapping profiles must not be installed together."
   ],
   "errors": [],

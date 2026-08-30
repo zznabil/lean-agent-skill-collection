@@ -5,6 +5,8 @@ description: "Design module boundaries, data ownership, interfaces, domain model
 
 # Architecture
 
+Use **ISO/IEC/IEEE 42010** to frame stakeholders, concerns, and viewpoints; a small **ATAM** scenario review for consequential quality trade-offs; and **ADR/MADR** for durable decisions. Use **OpenAPI**, **JSON Schema**, **RFC 9457**, **RFC 9413**, **AsyncAPI**, or **CloudEvents** only where the interface requires them.
+
 1. Define the outcome and only the constraints that can change the design: users, scale, latency, availability, consistency, security, budget, team capability, compatibility, and migration.
 2. Inspect the current system, callers, data ownership, interfaces, deployment, tests, incidents, and pain before proposing change.
 3. Name the dominant quality attributes. For a consequential trade-off, record stakeholder, scenario, required response, measure, and what worsens. When authority or untrusted data crosses a boundary, map the boundary, protected assets, and realistic abuse cases.
@@ -21,4 +23,4 @@ description: "Design module boundaries, data ownership, interfaces, domain model
 Deliver boundaries and data flow, key interfaces, decision table, migration, verification, operations, rollback, risks, and unresolved decisions. Do not refactor unrelated working code for aesthetic uniformity.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

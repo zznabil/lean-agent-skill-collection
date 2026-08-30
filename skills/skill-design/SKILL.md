@@ -7,7 +7,7 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 
 ## Import
 
-1. Inspect source, revision, license, trigger, files, tool assumptions, network use, state mutation, executable code, hooks, installers, automatic updates, permissions, and actual behavior. Select tools and standards from requirements and measured trials, not reputation or feature count.
+1. Inspect source, revision, license, trigger, files, tool assumptions, network use, state mutation, executable code, hooks, installers, automatic updates, permissions, and actual behavior. Apply **ISO/IEC 20741-inspired tool selection**: start from requirements and measured trials, not reputation or feature count.
 2. Distinguish a **skill** that changes agent behavior from a **runtime** that adds execution capability. Adopt a runtime separately only when the capability is real, needed, pinned, reviewable, and cannot be reproduced safely by existing host tools.
 3. Prefer a disposable project-local prompt, script, checker, or simulator before a global skill when the need is task-specific.
 4. **Adopt** a separate skill only for a distinct leading action and independent trigger.
@@ -37,4 +37,4 @@ Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trust
 A good skill changes behavior with the fewest durable words. A good workflow makes mechanics deterministic without hiding cost, failure, or permission. Neither simulates authority or promises capabilities the host lacks.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

@@ -1,0 +1,24 @@
+surface,decision,change,guardrail
+AGENTS.md,Adaptive prose + global foundation,"Name ASD-STE100, ISO 24495-1, W3C COGA, Feynman, Diátaxis, BCP 14; name compact engineering foundation",Global source visibility without standards soup
+ENGINEERING-CORE.md,Standards source map,Map concerns to named standards; repeat names beside load-bearing rules,Auditability and maintenance
+wait-what,Adaptive prose,"Default STE/plain-language/COGA; Feynman, Diátaxis, BCP 14 conditionally",Simple turns stay short
+writing,ISO 24495-1 + COGA + Diátaxis,Name document purpose and find-understand-use criteria,Substantial prose only
+teach,Feynman + COGA + Diátaxis,Name explanation and tutorial practices,No forced course for quick answers
+plan,ISO 29148 + EARS + BCP 14 + ISO 25010 + ISO 31000 family,"Name requirements, quality, and risk sources beside rules",No ceremonial syntax for trivial plans
+grilling,ISO 29148 + EARS + BCP 14,Name requirement-discovery sources,One decision at a time
+get-it-done,ISO 29148 + ISO 12207 + BCP 14,Name traceability and lifecycle floor,Long-horizon material work only
+gauntlet-loop,ISO 25010 + ISO 29119 + ISO 15026-2,"Name quality, verification, and assurance sources",High-risk measurable work only
+review,ISO 20246 + ISO 25010 + ISO 15026-2 + Google review practice,Name structured review and balanced approval bar,No perfection theatre
+test,ISO 29119 + TDD + test pyramid + TLA+ escalation,Name verification sources and escalation ladder,Formal methods conditional
+architecture,ISO 42010 + ATAM + ADR/MADR + interface standards,Name architecture and contract sources,Only relevant contracts
+browser-automation,WCAG 2.2 + WAI-ARIA APG + ISO 9241,Name interaction/accessibility sources,Applicable interfaces only
+implement,NIST SSDF + OWASP ASVS,Name secure-development sources at trust boundaries,Proportional security scope
+release,ISO 12207 + SemVer + Conventional Commits + SLSA/SPDX/CycloneDX/Reproducible Builds,Name lifecycle and supply-chain sources,Only adopted/project-relevant practices
+experiment,GQM + ISO 31000 + Chaos Engineering,"Name measurement, risk, and resilience sources",Chaos requires authorization
+triage,NIST SP 800-61r3 + Google SRE,Name incident and postmortem sources,Live incidents only
+project-context,ISO 5259 + ISO 25012/25024 + AI cards + FAIR + ISO 42005,Name AI/data evidence sources,Consequential AI assets only
+skill-design,ISO 20741 + standards registry,Name tool-selection source and explicit provenance policy,No catalogue dumping
+cli-design,RFC 9413,Name strict boundary source,No silent permissive guessing
+all specialist skills,Adaptive local fallback,"Name ASD-STE100, ISO 24495-1, COGA; conditional Feynman/Diátaxis/BCP 14",Manual invocation resilience
+OpenAI adapters,Adaptive prose reinforcement,Keep simple turns short; heavier structure only when useful,Host composition resilience
+docs/STANDARDS-REGISTER.md,Restore registry,"Record versions, decisions, homes, and review triggers",Documentation only; not auto-loaded

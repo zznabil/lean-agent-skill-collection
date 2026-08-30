@@ -1,7 +1,7 @@
 interface:
   display_name: Implement
   short_description: Implement one bounded change and verify it
-  default_prompt: Use $implement to complete and verify this bounded change. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
+  default_prompt: 'Use $implement to complete and verify this bounded change. Keep the global adaptive-prose and considerate-agency overlays active: simple turns stay short; heavier structure appears only when it improves understanding or action.'
 policy:
   products:
   - CHAT

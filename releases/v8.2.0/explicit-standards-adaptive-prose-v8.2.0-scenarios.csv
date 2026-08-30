@@ -1,0 +1,49 @@
+id,category,prompt,expected_behavior,standards_or_practices,activation_note
+1,adaptive-prose/simple,Is 172.16.0.0/20 private?,Short direct answer; no forced headings.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+2,adaptive-prose/simple,Do I need to restart Codex after changing this config?,One or two direct sentences; no Diátaxis or Feynman.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+3,adaptive-prose/simple,What does dogfooding mean?,Short definition and one example only.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+4,adaptive-prose/simple,Did the test pass?,Direct status; name missing evidence if unavailable.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+5,adaptive-prose/simple,Which file should I edit?,Direct path and one reason.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+6,adaptive-prose/simple,Thanks,Brief acknowledgment only.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+7,adaptive-prose/simple,Ask me the next subnetting quiz question.,One quiz prompt; no Summary/TL;DR.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+8,adaptive-prose/simple,What is the current phase?,Terse status; named progress only if measurable.,ASD-STE100; ISO 24495-1; W3C COGA,Heavy structure should not activate.
+9,adaptive-prose/substantive,Compare SQLite and PostgreSQL for this local-first desktop app.,"Summary, recommendation, trade-off, evidence, TL;DR.",ASD-STE100; ISO 24495-1; COGA; Feynman if needed,Full wrapper should activate.
+10,adaptive-prose/substantive,Explain why our retry logic can duplicate payments.,"Mechanism, concrete example, why it matters.",Feynman; ASD-STE100; BCP 14 for guardrails,Full wrapper should activate.
+11,adaptive-prose/substantive,Write a migration plan for the config format.,Executable plan with traceability and rollback.,ISO 29148; BCP 14; ISO 12207,Full wrapper should activate.
+12,adaptive-prose/substantive,Review this release candidate for production readiness.,Evidence-based verdict and applicable quality attributes.,ISO 25010; ISO 20246; ISO 15026-2,Full wrapper should activate.
+13,adaptive-prose/substantive,Summarize the completed audit and tell me what I must decide.,Completed-work brief with durable detail pointer.,ISO 24495-1; COGA; Diátaxis decision brief,Full wrapper should activate.
+14,adaptive-prose/substantive,Teach me OSPF areas from scratch.,Guided tutorial with chunks and recall.,Diátaxis tutorial; Feynman; COGA,Full wrapper should activate.
+15,adaptive-prose/substantive,Research whether this benchmark result is comparable.,Source-backed answer with regime disclosure.,Research practice; adaptive prose,Full wrapper should activate.
+16,adaptive-prose/substantive,Explain this architecture to a new maintainer.,"Explanation structure, paths, and real flow.",Diátaxis explanation; ISO 42010,Full wrapper should activate.
+17,adaptive-prose/mode,Draft acceptance criteria for save recovery.,Normative requirements with MUST/SHOULD/MAY and EARS branches.,BCP 14; EARS; ISO 29148,Frameworks activate by function.
+18,adaptive-prose/mode,Write a how-to guide for installing the plugin.,"Task-oriented steps, prerequisites, checks.",Diátaxis how-to; ISO 24495-1; COGA,Frameworks activate by function.
+19,adaptive-prose/mode,Write an API reference for the CLI output format.,Lookup-oriented exact contract.,Diátaxis reference; BCP 14 where normative,Frameworks activate by function.
+20,adaptive-prose/mode,Write an explanation of why the architecture uses SQLite.,"Context, mechanism, consequences; not a tutorial.",Diátaxis explanation; ADR/MADR,Frameworks activate by function.
+21,adaptive-prose/mode,Write a decision brief for choosing a deployment method.,"Options, recommendation, trade-offs, blocked work.",Diátaxis decision brief; considerate agency,Frameworks activate by function.
+22,adaptive-prose/mode,Create a beginner tutorial that ends with a working example.,Guided learning with a successful path.,Diátaxis tutorial; Feynman; COGA,Frameworks activate by function.
+23,adaptive-prose/mode,State the hard rules for production deployment.,Use normative uppercase words intentionally.,BCP 14,Frameworks activate by function.
+24,adaptive-prose/mode,Re-pitch the last dense answer.,"Restore context and simplify, not just shorten.",ASD-STE100; ISO 24495-1; COGA,Frameworks activate by function.
+25,standards/activation,Turn this fuzzy feature request into verifiable requirements.,Traceable requirements and conditional branches.,ISO 29148; EARS; BCP 14,Correct source should activate only in context.
+26,standards/activation,Select quality gates for a CLI release.,Only relevant quality attributes.,ISO 25010,Correct source should activate only in context.
+27,standards/activation,Design tests for interrupted-save recovery.,Requirement-to-evidence traceability and failure tests.,ISO 29119,Correct source should activate only in context.
+28,standards/activation,Define when this long-running feature is actually done.,Lifecycle completion beyond working code.,ISO 12207,Correct source should activate only in context.
+29,standards/activation,Prove the updater cannot corrupt existing projects.,Compact claim-argument-evidence packet.,ISO 15026-2,Correct source should activate only in context.
+30,standards/activation,Evaluate this architecture trade-off.,"Stakeholders, scenarios, measures, sensitivities.",ISO 42010; ATAM; ADR,Correct source should activate only in context.
+31,standards/activation,Threat-model this web upload flow.,Trust boundaries and applicable controls.,NIST SSDF; OWASP ASVS,Correct source should activate only in context.
+32,standards/activation,Audit keyboard and screen-reader behavior.,Real interaction evidence.,WCAG 2.2; WAI-ARIA APG; ISO 9241,Correct source should activate only in context.
+33,standards/activation,Define an HTTP error contract.,Problem Details and strict parsing.,RFC 9457; RFC 9413,Correct source should activate only in context.
+34,standards/activation,Define the event contract for this queue.,Versioned async contract.,AsyncAPI; CloudEvents,Correct source should activate only in context.
+35,standards/activation,Choose metrics for improving save reliability.,"Goal, questions, then metrics.",GQM,Correct source should activate only in context.
+36,standards/activation,Define a service reliability target.,"SLI, target, window, budget, action.",Google SRE SLO/error budget,Correct source should activate only in context.
+37,standards/activation,Add distributed tracing across API and job worker.,One correlation chain and semantic conventions.,W3C Trace Context; OpenTelemetry,Correct source should activate only in context.
+38,standards/activation,Prepare supply-chain evidence for a public release.,"Separate provenance, inventory, reproducibility, integrity.",SLSA; SPDX/CycloneDX; Reproducible Builds,Correct source should activate only in context.
+39,standards/activation,Review this MCP agent for security.,Select applicable AI-agent threats and controls.,NIST AI RMF; OWASP AISVS/LLMSVS; MITRE ATLAS,Correct source should activate only in context.
+40,standards/activation,Document the dataset and evaluator used by this agent.,Versioned data/evaluator cards and invalidation rules.,ISO 5259; Data Cards; FAIR,Correct source should activate only in context.
+41,standards/activation,Run a live incident response for a failing service.,"Mitigate, preserve evidence, verify recovery, postmortem.",NIST SP 800-61r3; Google SRE,Correct source should activate only in context.
+42,standards/activation,Choose a code-analysis tool for the project.,"Requirements and measured trial, not popularity.",ISO 20741,Correct source should activate only in context.
+43,standards/activation,Design a strict CLI input boundary.,Documented variants only; canonical errors.,RFC 9413,Correct source should activate only in context.
+44,standards/activation,Assess personal-data handling in this workflow.,"Purpose, minimization, access, retention, deletion.",ISO 31700-1,Correct source should activate only in context.
+45,standards/activation,Model a distributed retry state machine.,Escalate only if tests cannot cover state space.,TLA+ conditional; state-machine testing,Correct source should activate only in context.
+46,standards/activation,Run a resilience fault experiment in production.,ASK for authorization; define steady state and blast radius.,Chaos Engineering,Correct source should activate only in context.
+47,standards/activation,Score one developer using DORA metrics.,Reject misuse; explain team/system scope.,DORA rejected as individual score,Correct source should activate only in context.
+48,standards/activation,Make this tiny script SLSA compliant.,Reject unnecessary ceremony; explain scope.,SLSA conditional only,Correct source should activate only in context.

@@ -1,7 +1,7 @@
 interface:
   display_name: Plan
   short_description: Turn evidence into an executable work plan
-  default_prompt: Use $plan to turn the current evidence into an executable plan. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
+  default_prompt: 'Use $plan to turn the current evidence into an executable plan. Keep the global adaptive-prose and considerate-agency overlays active: simple turns stay short; heavier structure appears only when it improves understanding or action.'
 policy:
   products:
   - CHAT

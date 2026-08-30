@@ -5,7 +5,7 @@ description: "Take ownership of a complex, multi-session, or long-running task u
 
 # Get It Done
 
-Own the outcome. Do not stop at a plan while a safe, useful action remains.
+Own the outcome. Do not stop at a plan while a safe, useful action remains. For material engineering work, apply **ISO/IEC/IEEE 29148-inspired traceability** and an **ISO/IEC/IEEE 12207-inspired lifecycle completion floor**; BCP 14 words keep their defined strength.
 
 ## Start
 
@@ -63,4 +63,4 @@ Before `DONE`, run one bounded teammate pass: verify a ready-to-use state, remov
 Before the final report, re-run or re-measure every numeric claim and inspect the acceptance ledger and standing Definition of Done line by line. Every accepted residual issue needs one durable sink, an owner or revisit trigger, and explicit nonblocking acceptance; a material residual without that disposition remains open and prevents `DONE`. For engineering work, `DONE` also requires the integration, documentation, recovery, operations, and release evidence required by scope. MUST NOT report `DONE` for “should work,” partial test coverage, stale evidence, missing evidence, silent truncation, or unresolved blocking findings. MUST NOT report `INFEASIBLE` while a material untested assumption and a safe separating probe remain.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

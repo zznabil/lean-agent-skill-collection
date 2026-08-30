@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.2.0 — 2026-08-30
+
+- Keep the 23-skill V8 routing surface and all six deployment profiles.
+- Name the standards and professional practices explicitly in `AGENTS.md`, `ENGINEERING-CORE.md`, and their owning skills.
+- Add proportional user-facing prose: ASD-STE100, ISO 24495-1, and W3C COGA by default for eligible substantive prose; Feynman for difficult explanations; Diátaxis for substantial documents; BCP 14 for normative requirements.
+- Restore `docs/STANDARDS-REGISTER.md` with versions, stability, decisions, owners, and review triggers.
+- Add 48 adaptive-prose and standards-activation scenarios plus a 16-pass source audit.
+- Add no routed skill, dependency, service, hook, executable, or automatic trusted-state mutation.
+- Preserve the boundary that named standards are provenance anchors and do not establish formal conformance without scoped assessment and evidence.
+
 ## 8.1.0 — 2026-08-29
 
 - Replace the V7.4.1 collection with the authoritative 23-skill V8.1.0 canon.
@@ -7,7 +17,7 @@
 - Add global considerate-agency doctrine and ACT / ASK / DO NOT ACT initiative calibration without adding a routed skill.
 - Add 60 static considerate-agency scenarios, decision records, and a 16-pass source audit.
 - Keep six deployment profiles with no new dependency, service, hook, executable, or automatic trusted-state mutation.
-- Preserve the warning that the collection decisions are AI slop chosen by GPT-5.6 Sol Pro and require human review and host-specific testing.
+- Preserve the warning that the collection decisions are AI-assisted and require human review and host-specific testing.
 
 ## 7.4.1 — 2026-08-26
 
@@ -16,7 +26,7 @@
 - Add AI assurance, AI asset-card, and supply-chain references.
 - Update deterministic build and static validation contracts for V7.4.1.
 - Record the supplied archive digest separately; generated release assets are rebuilt by the repository builder and are not claimed byte-identical to it.
-- The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes origin, not quality or correctness.
+- The collection decisions are AI-assisted and require human review and host-specific testing.
 
 ## 7.2.1 — 2026-08-25
 
@@ -34,4 +44,4 @@
 - Add source, integrity, safety, and provenance documentation.
 - Add a read-only PowerShell validation command.
 
-See [`docs/AUDIT.md`](docs/AUDIT.md) for the V8.1.0 release audit and [`docs/HISTORY.md`](docs/HISTORY.md) for historical analysis.
+See [`docs/AUDIT.md`](docs/AUDIT.md) for the current release audit and [`docs/HISTORY.md`](docs/HISTORY.md) for historical analysis.
