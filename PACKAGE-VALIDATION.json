@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.3.0",
+  "version": "8.3.1",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
