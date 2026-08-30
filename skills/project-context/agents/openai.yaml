@@ -1,7 +1,7 @@
 interface:
   display_name: Project Context & Map
   short_description: Map repositories and manage durable context
-  default_prompt: Use $project-context to create the requested repository map, verified context, AI asset card, approved lesson, or retrospective. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
+  default_prompt: 'Use $project-context to create the requested repository map, verified context, AI asset card, approved lesson, or retrospective. Keep the global adaptive-prose and considerate-agency overlays active: simple turns stay short; heavier structure appears only when it improves understanding or action.'
 policy:
   products:
   - CHAT

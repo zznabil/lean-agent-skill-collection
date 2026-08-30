@@ -1,5 +1,7 @@
 # Supply-chain assurance
 
+Use **SLSA** for provenance claims, **SPDX or CycloneDX** for inventory, and **Reproducible Builds** for independent byte-level recreation. These answer different questions and do not prove correctness or security by themselves.
+
 Load only for a public, security-sensitive, distributed, or regulated release, or when the user explicitly asks for provenance, an SBOM, signing, or reproducibility.
 
 ## Questions and evidence

@@ -1,5 +1,7 @@
 # Live incident mode
 
+This mode is informed by **NIST SP 800-61r3** incident response and **Google SRE** incident-management and blameless-postmortem practice.
+
 The priority is to reduce harm and restore service safely, not to prove a root cause immediately.
 
 1. Confirm current impact, affected users or systems, start time, confidence, and evidence. Assign severity from observed harm, not urgency language.

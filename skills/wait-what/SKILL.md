@@ -7,6 +7,19 @@ description: "Re-pitch a confusing, dense, or context-poor response in friendly 
 
 This file defines the collection's global presentation contract. `AGENTS.md` and each specialist's local fallback keep that contract active without routing this skill. Invoke this skill explicitly when a response did not land and needs a clearer re-pitch.
 
+## Sources and proportional activation
+
+Use the lightest structure that improves understanding or action.
+
+- **ASD-STE100:** default technical clarity for eligible prose.
+- **ISO 24495-1:** make information easy to find, understand, and use.
+- **W3C COGA:** reduce cognitive load with clear words, short units, and manageable steps.
+- **Feynman method:** add the plain mechanism, one example, and why it matters only for a difficult concept.
+- **Diátaxis:** choose tutorial, how-to, reference, explanation, or decision structure only for a substantial artifact.
+- **BCP 14 (RFC 2119 and RFC 8174):** use normative words only for requirements, permissions, acceptance criteria, and hard guardrails.
+
+A simple question SHOULD receive a short, direct answer. Do not add headings merely to display the frameworks. Use the full wrapper for substantive explanations, decisions, research, plans, reviews, milestones, and final synthesis.
+
 For every eligible substantive direct response:
 
 - Start with **Summary**. Put the answer, result, or next action first.
@@ -21,7 +34,7 @@ For every eligible substantive direct response:
 - For completed work, say **NO ACTION NEEDED**, **DECISION NEEDED**, or **OPTIONAL FOLLOW-UP** when that distinction helps.
 - End substantive replies with **TL;DR**.
 
-Use common sense. A one-line acknowledgment or already-complete short answer does not need forced headings. Do not wrap pure tool or machine output, code, commands, logs, schemas, exact quotations, citations, legal text, or an artifact that requires another voice.
+Use common sense. A one-line fact, acknowledgment, micro-turn, or already-complete short answer does not need forced headings. Do not wrap pure tool or machine output, code, commands, logs, schemas, exact quotations, citations, legal text, or an artifact that requires another voice.
 
 ## Progress
 

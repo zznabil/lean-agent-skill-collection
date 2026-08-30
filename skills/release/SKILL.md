@@ -5,6 +5,8 @@ description: "Prepare and verify a software or artifact release, including versi
 
 # Release
 
+Use an **ISO/IEC/IEEE 12207-inspired lifecycle** for release, operation, maintenance, recovery, and retirement evidence. Apply **Semantic Versioning** and **Conventional Commits** only when the project adopts them. For consequential supply-chain claims, load `SUPPLY-CHAIN.md` for **SLSA**, **SPDX/CycloneDX**, artifact digests, and **Reproducible Builds**.
+
 1. Define scope, target version, supported environments, approvals, success signals, hard-block dimensions, hold conditions, rollback triggers, and rollback point.
 2. Follow repository versioning and commit conventions. Use SemVer or Conventional Commits only when adopted; do not create churn merely to conform.
 3. Derive notes from verified diffs and user-visible impact, not commit titles alone. Check both directions: every release-note claim traces to a change, and every breaking or material user-facing change appears or is explicitly excluded.
@@ -21,4 +23,4 @@ description: "Prepare and verify a software or artifact release, including versi
 14. Publish, tag, upload, notify, merge, or deploy only when authorized. Read back external state after the action.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

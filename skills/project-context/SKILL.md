@@ -39,7 +39,7 @@ Use only for a verified reusable resolution.
 
 ## AI asset-card mode
 
-For a consequential model, dataset, prompt, evaluator, or agent dependency, read `AI-ASSET-CARDS.md`. Record identity, use, provenance, data controls, evaluation and holdout status, limitations, monitoring, rollback, retirement, and evidence-invalidating changes.
+For a consequential model, dataset, prompt, evaluator, or agent dependency, read `AI-ASSET-CARDS.md`. Its source model is **ISO/IEC 5259**, **ISO/IEC 25012/25024**, **Model Cards**, **Data Cards**, **Datasheets for Datasets**, **FAIR principles**, and **ISO/IEC 42005** when impact assessment is warranted. Record identity, use, provenance, data controls, evaluation and holdout status, limitations, monitoring, rollback, retirement, and evidence-invalidating changes.
 
 ## Retrospective mode
 
@@ -66,4 +66,4 @@ Use only when the user asks to distill durable lessons or update trusted instruc
 Mark provenance and uncertainty. Output the changed or proposed path, supporting evidence, unresolved gaps, and permissions not granted.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

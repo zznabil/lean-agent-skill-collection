@@ -5,6 +5,8 @@ description: "Run a bounded adversarial quality loop with independent critics, f
 
 # Gauntlet Loop
 
+Select applicable **ISO/IEC 25010** quality attributes, use **ISO/IEC/IEEE 29119-inspired** verification traceability, and structure consequential claims as **ISO/IEC/IEEE 15026-2-inspired assurance cases**. Use applicable **OWASP ASVS**, **WCAG 2.2**, or `AI-ASSURANCE.md` requirements rather than generic quality labels.
+
 The builder MUST NOT finally approve its own work.
 
 ## Trigger
@@ -114,4 +116,4 @@ Then report model/reality gate status when applicable, standing completion statu
 
 Re-run or re-measure every numeric claim in the final packet. If a metric was not actually measured, say `NOT MEASURED`; source inspection may identify potential impact but cannot create a measurement. No quality claim is valid without linked evidence. Mark unsupported claims `UNVERIFIED`.
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

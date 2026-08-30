@@ -1,7 +1,7 @@
 interface:
   display_name: Release
   short_description: Prepare and verify a safe, reversible release
-  default_prompt: Use $release to prepare and verify this release without publishing until authorized. Keep the global user-facing and considerate-agency overlays active for eligible chat prose.
+  default_prompt: 'Use $release to prepare and verify this release without publishing until authorized. Keep the global adaptive-prose and considerate-agency overlays active: simple turns stay short; heavier structure appears only when it improves understanding or action.'
 policy:
   products:
   - CHAT

@@ -1,6 +1,6 @@
 {
-  "version": "8.1.0",
-  "release": "v8.1.0",
+  "version": "8.2.0",
+  "release": "v8.2.0",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -79,7 +79,7 @@
     "communication": {
       "plugin_name": "user-facing-communication-mini",
       "title": "User-Facing Communication Mini",
-      "description": "Three compact skills for clear replies, teaching, and prose artifacts.",
+      "description": "Three compact skills for adaptive clear replies, teaching, and prose artifacts.",
       "include_engineering_core": false,
       "skills": [
         "teach",
@@ -90,7 +90,7 @@
     "get-it-done": {
       "plugin_name": "get-it-done-pack",
       "title": "Get It Done Pack",
-      "description": "Long-horizon execution, adversarial acceptance, considerate follow-through, and clear reporting.",
+      "description": "Long-horizon execution, adversarial acceptance, considerate follow-through, explicit engineering sources, and clear reporting.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
@@ -101,7 +101,7 @@
     "gauntlet": {
       "plugin_name": "gauntlet-loop-pack",
       "title": "Gauntlet Loop Pack",
-      "description": "A bounded adversarial benchmark, repair, retest, and final-judge workflow.",
+      "description": "A bounded adversarial benchmark, assurance, repair, retest, and final-judge workflow.",
       "include_engineering_core": false,
       "skills": [
         "gauntlet-loop"

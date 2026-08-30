@@ -16,7 +16,7 @@ Treat the CLI as a stable interface, not terminal decoration.
 5. Write primary results to standard output and diagnostics to standard error. Use stable, documented exit codes.
 6. When tools consume the result, provide a structured output mode or a deliberately stable line format. Do not require color, cursor control, or a TTY.
 7. Support standard input and pipelines where they fit the job. Bound or paginate large output.
-8. Accept only documented input variants, normalize once, and reject ambiguity. Fail fast with an actionable canonical error that names the invalid input and shows a correct invocation. MUST NOT hide partial failure behind exit code zero.
+8. Apply **RFC 9413-inspired strict boundary behavior**: accept only documented input variants, normalize once, and reject ambiguity. Fail fast with an actionable canonical error that names the invalid input and shows a correct invocation. MUST NOT hide partial failure behind exit code zero.
 9. Make retryable operations idempotent where practical. For consequential external mutations, support an idempotency mechanism or read-back check.
 10. Provide `--dry-run` for risky or broad changes when practical. Require an explicit confirmation flag such as `--yes` or `--force` for destructive actions; default to safety.
 11. Handle timeout, cancellation, interruption, cleanup, and partial state. Never print secrets or accept them through a command-line argument when a safer channel exists.
@@ -39,4 +39,4 @@ Run the CLI from a clean non-interactive environment and check:
 Report the interface contract, examples, executed checks, unsupported cases, and remaining risk.
 
 
-**User-facing:** For eligible substantive chat, start with **Summary** and the result or next action; use friendly STE-style prose; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. For measurable multi-step work, use a truthful named 20-cell bar, e.g. `Audit [############--------] 60% (6/10)`, separate from verdict. Exclude brief, machine, and artifact formats. Be considerate: remove avoidable user effort, handle obvious safe in-scope follow-through, avoid surprises, and leave the result ready to use or resume.
+**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
