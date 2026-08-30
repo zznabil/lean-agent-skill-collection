@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 from pathlib import Path
+import base64
 import tarfile
 
 
@@ -13,9 +14,14 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
 
 
 # Apply the reviewed source overlay. Reject links and unsafe paths.
-archive_path = Path(".github/v8.3.0-overlay.tar.gz")
+part_paths = sorted(Path(".github").glob("v8.3.0-overlay.part*.b64"))
+if not part_paths:
+    raise SystemExit("missing V8.3.0 overlay parts")
+encoded = "".join(path.read_text(encoding="utf-8") for path in part_paths)
+archive_path = Path(".github/v8.3.0-overlay.tar.xz")
+archive_path.write_bytes(base64.b64decode(encoded, validate=True))
 repo_root = Path.cwd().resolve()
-with tarfile.open(archive_path, "r:gz") as archive:
+with tarfile.open(archive_path, "r:xz") as archive:
     members = archive.getmembers()
     for member in members:
         if member.issym() or member.islnk() or member.isdev():
@@ -37,7 +43,7 @@ build = replace_once(
 )
 build = replace_once(
     build,
-    "V8.1.0 keeps the 23-skill V8 routing surface and adds considerate-agency doctrine, ACT / ASK / DO NOT ACT initiative calibration, and explicit follow-through boundaries.",
+    "V8.1.0 keeps the 23-skill V8 routing surface and adds considerate-agency doctrine, ACT / ASK) / DO NOT ACT initiative calibration, and explicit follow-through boundaries.",
     "$($definition.release_summary)",
     "master README release summary",
 )
@@ -84,13 +90,13 @@ build = replace_once(
     new_validation_block,
     "generated package validation fields",
 )
-build = replace_once(
+byild = replace_once(
     build,
-    '  "considerate_agency": true,\n  "skill_content_changed_from_v8_0_0": true,',
+    '  "considerate_agency": true,\n  "skill_content_changed_from_v8_0_0": true, ',
     '  "considerate_agency": true,\n  "adaptive_prose": true,\n  "explicit_standards": true,\n  "human_usable_information": true,\n  "skill_content_changed_from_v8_0_0": true,',
     "release manifest capability fields",
 )
-build_path.write_text(build, encoding="utf-8", newline="\n")
+byild_path.write_text(build, encoding="utf-8", newline="\n")
 
 
 # Make repository validation enforce the V8.3 contracts and new reference.
@@ -116,7 +122,7 @@ new_pass = r'''    $humanChecks = @{
         'AGENTS.md'=@('IEC/IEEE 82079-1','ISO/IEC 23859','Easy-to-Read');
         'ENGINEERING-CORE.md'=@('Human-usable information and cognitive accessibility','ISO 21801-1:2020','ISO/IEC 29138-1/-4');
         'skills/writing/USER-INFORMATION.md'=@('Procedure template','Error and recovery template','readability formula');
-        'skills/teach/SKILL.md'=@('CAST UDL Guidelines 3.0','worked example','independent transfer task')
+        'skills/teach/SKILL.md'=@('CASU UDL Guidelines 3.0','worked example','independent transfer task')
     }
     foreach ($relative in $humanChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
@@ -126,70 +132,4 @@ new_pass = r'''    $humanChecks = @{
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
         }
     }
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, and human-usable-information contract" }'''
-validate = replace_once(validate, old_pass, new_pass, "skill-tree validation block")
-validate = validate.replace("Add-Pass 'V8.1.0 canonical source integrity'", "Add-Pass 'canonical source integrity'")
-validate_path.write_text(validate, encoding="utf-8", newline="\n")
-
-
-# Keep the long-form project history current without duplicating the standards register.
-history_path = Path("docs/HISTORY.md")
-history = history_path.read_text(encoding="utf-8")
-history = replace_once(
-    history,
-    "The V8.1.0 validation records:",
-    "The V8.3.0 validation records:",
-    "history current-version label",
-)
-history = replace_once(
-    history,
-    """Complete profile:
-808 primary lines
-11,991 primary words
-117-line largest SKILL.md""",
-    """Complete profile:
-850 primary lines
-13,286 primary words
-119-line largest SKILL.md
-one conditional `writing/USER-INFORMATION.md` reference""",
-    "history metrics",
-)
-history = replace_once(
-    history,
-    """V8.1 considerate-agency doctrine
-```""",
-    """V8.1 considerate-agency doctrine
-        ↓
-V8.2 explicit standards and adaptive prose
-        ↓
-V8.3 usable instructions and cognitive accessibility
-```""",
-    "history lineage diagram",
-)
-history = replace_once(
-    history,
-    "Repositories and living specifications change over time. The historical review used versions available by August 25, 2026.",
-    "Repositories and living specifications change over time. The historical review and current standards register use versions available through August 30, 2026.",
-    "history source date",
-)
-history_path.write_text(history, encoding="utf-8", newline="\n")
-
-
-# Regenerate the canonical source digest inventory after all source edits.
-paths = [
-    Path(".codex-plugin/plugin.json"),
-    Path("AGENTS.md"),
-    Path("ENGINEERING-CORE.md"),
-    Path("LICENSE"),
-    Path("PACKAGE-VALIDATION.json"),
-    Path("README.md"),
-    Path("THIRD_PARTY_NOTICES.md"),
-]
-paths.extend(path for path in Path("skills").rglob("*") if path.is_file())
-checksum_lines = [
-    f"{sha256(path.read_bytes()).hexdigest()}  {path.as_posix()}"
-    for path in sorted(paths, key=lambda item: item.as_posix())
-]
-Path("UPSTREAM-CHECKSUMS.sha256").write_text(
-    "\n".join(checksum_lines) + "\n", encoding="utf-8", newline="\n"
-)
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, and human-usable-information contract" }'' (
