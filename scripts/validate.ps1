@@ -67,8 +67,11 @@ function Test-MetadataContracts {
     if ($profiles.release -ne ('v' + $profiles.version) -or @($profiles.profiles.PSObject.Properties).Count -ne 6) { Add-Failure 'release profile definition has an invalid version or profile count' }
     if ($citation -notmatch "(?m)^version:\s*$([regex]::Escape([string]$profiles.version))\s*$" -or $citation -notmatch '(?m)^license:\s*MIT\s*$') { Add-Failure 'CITATION.cff does not match release version and license' }
     $agency = $validation.considerate_agency
+    $adaptive = $validation.adaptive_prose
+    $explicit = $validation.explicit_standards
+    $human = $validation.human_usable_information
     $completeCount = @($profiles.profiles.complete.skills).Count
-    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, or considerate-agency contract is inaccurate' }
+    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
     $licensePath = Join-Path $repoRoot 'LICENSE'
     if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
     if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
@@ -84,7 +87,8 @@ function Test-SkillTree([object]$Profiles) {
     $supportFiles = @{
         'gauntlet-loop'=@('AI-ASSURANCE.md','CRITIC-LANES.md','STATE-FORMAT.md');
         'get-it-done'=@('ORCHESTRATION.md','STATE.md'); 'project-context'=@('AI-ASSET-CARDS.md');
-        'release'=@('SUPPLY-CHAIN.md'); 'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md')
+        'release'=@('SUPPLY-CHAIN.md'); 'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md');
+        'writing'=@('USER-INFORMATION.md')
     }
     foreach ($dir in $skillDirs) {
         $skillPath = Join-Path $dir.FullName 'SKILL.md'; $adapterPath = Join-Path $dir.FullName 'agents/openai.yaml'
@@ -112,7 +116,21 @@ function Test-SkillTree([object]$Profiles) {
             }
         }
     }
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, and support references" }
+    $humanChecks = @{
+        'AGENTS.md'=@('IEC/IEEE 82079-1','ISO/IEC 23859','Easy-to-Read');
+        'ENGINEERING-CORE.md'=@('Human-usable information and cognitive accessibility','ISO 21801-1:2020','ISO/IEC 29138-1/-4');
+        'skills/writing/USER-INFORMATION.md'=@('Procedure template','Error and recovery template','readability formula');
+        'skills/teach/SKILL.md'=@('CAST UDL Guidelines 3.0','worked example','independent transfer task')
+    }
+    foreach ($relative in $humanChecks.Keys) {
+        $checkPath = Join-Path $repoRoot $relative
+        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "human-usable information file missing: $relative"; continue }
+        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        foreach ($needle in $humanChecks[$relative]) {
+            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
+        }
+    }
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, and human-usable-information contract" }
 }
 
 function Test-SourceIntegrity {
@@ -129,7 +147,7 @@ function Test-SourceIntegrity {
     $actualSkillPaths = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'skills') -Recurse -File | ForEach-Object { Get-RelativePath $repoRoot $_.FullName } | Sort-Object)
     $expectedSkillPaths = @($manifestSkillPaths | Sort-Object)
     if (Compare-Object $expectedSkillPaths $actualSkillPaths) { Add-Failure 'upstream checksum skill coverage does not match the canonical source tree' }
-    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'V8.1.0 canonical source integrity' }
+    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'canonical source integrity' }
 }
 
 function Test-RepositoryHygiene {

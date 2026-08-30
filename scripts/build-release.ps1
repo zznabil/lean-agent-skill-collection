@@ -170,9 +170,9 @@ function New-ProfileReadme([object]$ProfileDefinition, [string]$Version) {
 
 $($ProfileDefinition.description)
 
-## V8.1.0 considerate agency
+## $($definition.release_title)
 
-The global user-facing and considerate-agency contracts remain active without routing another skill. The collection uses ACT, ASK, and DO NOT ACT to balance useful follow-through with permission and scope boundaries.
+$($definition.release_summary)
 
 ## Package shape
 
@@ -219,6 +219,8 @@ function New-PluginJson([object]$ProfileDefinition, [string]$Version) {
 function New-PackageValidationJson([string]$ProfileName, [object]$ProfileDefinition, [string]$Version) {
     $skills = @($ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
     $manual = @(Get-ManualSkills $ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
+    $includesWriting = @($ProfileDefinition.skills) -contains 'writing'
+    $includesWritingJson = if ($includesWriting) { 'true' } else { 'false' }
     return @"
 {
   "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
@@ -238,6 +240,23 @@ $skills
     "local_fallbacks": $(@($ProfileDefinition.skills | Where-Object { [string]$_ -ne 'wait-what' }).Count),
     "adapters": $(@($ProfileDefinition.skills).Count),
     "act_ask_do_not_act": true
+  },
+  "adaptive_prose": {
+    "global": true,
+    "simple_turns_remain_short": true,
+    "heavy_structure_conditional": true
+  },
+  "explicit_standards": {
+    "engineering_core_source_map": true,
+    "owning_skill_names": true,
+    "formal_conformance_claimed": false
+  },
+  "human_usable_information": {
+    "global_principles": true,
+    "conditional_reference_included": $includesWritingJson,
+    "target_user_task_validation_required_for_strong_claims": true,
+    "readability_alone_is_not_acceptance": true,
+    "easy_to_read_requires_intended_user_review": true
   },
   "warnings": [
     "Live model behaviour and human satisfaction were not measured.",
@@ -314,6 +333,9 @@ $manifest = @"
   "profiles": $($profileProperties.Count),
   "unique_skills": $(@($definition.profiles.complete.skills).Count),
   "considerate_agency": true,
+  "adaptive_prose": true,
+  "explicit_standards": true,
+  "human_usable_information": true,
   "skill_content_changed_from_v8_0_0": true,
   "archives": {
 $($manifestArchiveLines -join "`n")
@@ -326,7 +348,7 @@ Copy-Item -LiteralPath (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md') -Destinati
 Write-Utf8File (Join-Path $outputFullPath 'README.md') @"
 # Lean Agent Skill Collection $releaseName
 
-V8.1.0 keeps the 23-skill V8 routing surface and adds considerate-agency doctrine, ACT / ASK / DO NOT ACT initiative calibration, and explicit follow-through boundaries.
+$($definition.release_summary)
 
 Choose one profile. Do not install overlapping profiles together. Verify downloads with ``CHECKSUMS.sha256`` and read ``LICENSE`` and ``THIRD_PARTY_NOTICES.md`` before redistribution.
 "@
