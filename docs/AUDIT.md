@@ -1,15 +1,15 @@
-# Lean Agent Skills V8.3.0 — 18-pass audit
+# Lean Agent Skills V8.3.1 — release audit
 
 ## Decision
 
 **PASS STATIC — EMPIRICAL USER VALIDATION PENDING**
 
-V8.3.0 keeps 23 canonical skills, 17 implicitly selectable skills, 6 manual-only skills, and six deployment profiles. It adds one conditional reference, `skills/writing/USER-INFORMATION.md`, and no routed skill, dependency, service, hook, executable, or automatic trusted-state mutation.
+V8.3.1 keeps all V8.3.0 skill content: 23 canonical skills, 17 implicitly selectable skills, 6 manual-only skills, and six deployment profiles. It adds repository-integrity hardening and no routed skill, dependency, service, runtime hook, executable skill payload, or automatic trusted-state mutation.
 
 ```text
 Canonical skills:          23 → 23
-Primary SKILL.md lines:    837 → 850
-Primary SKILL.md words: 12,622 → 13,286
+Primary SKILL.md lines:         850
+Primary SKILL.md words:      13,286
 Largest primary skill:     gauntlet-loop (119 lines)
 Static scenarios:          48
 Candidate decisions:       24
@@ -17,11 +17,13 @@ Candidate decisions:       24
 
 Live OMP, Codex, ChatGPT, comprehension, task success, accessibility, latency, and human satisfaction were not measured.
 
-## Passes
+## V8.3 behavioural audit
+
+The V8.3.0 18-pass behavioural audit remains applicable because V8.3.1 does not alter skill content or routing.
 
 | Pass | Perspective | Result |
 |---:|---|---|
-| 1 | Source, version, licence, and 23-skill inventory | PASS |
+| 1 | Source, licence, and 23-skill inventory | PASS |
 | 2 | Candidate provenance and current-edition check | PASS |
 | 3 | Adopt/absorb/project-local/reject boundaries | PASS |
 | 4 | No new routed skill or trigger collision | PASS |
@@ -39,6 +41,21 @@ Live OMP, Codex, ChatGPT, comprehension, task success, accessibility, latency, a
 | 16 | Context economy, profile consistency, and packaging | PASS STATIC |
 | 17 | Human-usable instructions and cognitive-accessibility coverage | PASS STATIC; LIVE USER TEST PENDING |
 | 18 | Instructional effectiveness and target-user validation | TEST DESIGN PASS; EMPIRICAL RESULT PENDING |
+
+## V8.3.1 repository hardening
+
+The patch adds and validates:
+
+- cross-file release-version and title consistency;
+- the 23-skill Complete-profile inventory;
+- the 48-row scenario corpus and release mirrors;
+- `skills/writing/USER-INFORMATION.md` reference closure;
+- UTF-8 without BOM, LF endings, no trailing whitespace, and final newlines;
+- rejection of temporary release/recovery scaffolds;
+- required built archives;
+- PowerShell 7 and Windows PowerShell 5.1 execution.
+
+See [`REPOSITORY-AUDIT.md`](REPOSITORY-AUDIT.md) for the detailed repository findings and limits.
 
 ## Candidate synthesis
 
@@ -64,24 +81,9 @@ Bounded or rejected globally:
 - WAI-Adapt remains deferred;
 - Feynman remains an informal heuristic, not a formal standard.
 
-## Activation model
-
-The new layer activates for substantial instructions, manuals, onboarding, UI text, forms, warnings, errors, recovery guidance, and teaching. A simple answer remains a simple answer. The expected information contract is:
-
-```text
-intended user and task
-→ purpose
-→ prerequisites
-→ action
-→ expected result
-→ recovery and data state
-→ material consequences
-→ orientation and next step
-```
-
 ## Evidence model
 
-Strong user-information claims require the real task and intended audience. The preferred outcome measures are findability, correct understanding, task completion, first-attempt success, interruption/error recovery, wording-attributable errors, help dependence, and cohort gaps. Readability formulas and checklist scores are diagnostics only.
+Strong user-information claims require the real task and intended audience. Preferred outcome measures remain findability, correct understanding, task completion, first-attempt success, interruption/error recovery, wording-attributable errors, help dependence, and cohort gaps. Readability formulas and checklist scores are diagnostics only.
 
 ## Residual risks
 
@@ -91,7 +93,8 @@ Strong user-information claims require the real task and intended audience. The 
 4. Cognitive accessibility varies by person and context; one persona cannot represent all users.
 5. ISO/IEC/IEEE 26513 Edition 2 and IEC/IEEE 82079-1 Edition 3 are not final.
 6. Live host routing and behavioural gain remain unmeasured.
+7. Static repository validation cannot prove future external-link availability.
 
-## Promotion recommendation
+## Release recommendation
 
-Open a draft PR for human review. Do not merge or publish until repository CI passes and the reviewer accepts the context increase and the specialized Easy-to-Read boundary.
+Publish V8.3.1 only from the exact merged commit after both CI jobs pass. Create an annotated tag, build fresh release assets, verify their checksums, and keep the V8.3.0 release unchanged.
