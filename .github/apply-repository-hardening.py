@@ -99,7 +99,7 @@ function Assert-TextFile([string]$RelativePath) {
     }
     $text = [System.Text.Encoding]::UTF8.GetString($bytes)
     if ($text.Contains("`r")) { Add-Failure "CR or CRLF line endings found: $RelativePath" }
-    if ($text -match '(?m)[ `t]+$') { Add-Failure "trailing whitespace found: $RelativePath" }
+    if ($text -match "(?m)[ `t]+$") { Add-Failure "trailing whitespace found: $RelativePath" }
     if ($bytes.Length -gt 0 -and $bytes[$bytes.Length - 1] -ne 0x0A) { Add-Failure "missing final newline: $RelativePath" }
     if ($text -match '(?m)^(<<<<<<<|=======|>>>>>>>)') { Add-Failure "merge-conflict marker found: $RelativePath" }
 }
