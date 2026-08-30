@@ -1,0 +1,38 @@
+name: Apply V8.3.0 repository tooling
+
+on:
+  push:
+    branches:
+      - release/v8.3.0-usable-information
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v8.3.0
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: release/v8.3.0-usable-information
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Patch release tooling and checksums
+        run: python .github/apply-v8.3.0.py
+
+      - name: Commit generated tooling updates
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/apply-v8.3.0.py .github/v8.3.0-overlay.tar.gz .github/workflows/apply-v8.3.0.yml
+          git add scripts/build-release.ps1 scripts/validate.ps1 docs/HISTORY.md UPSTREAM-CHECKSUMS.sha256
+          git commit -m "build: align V8.3.0 packaging and validation"
+          git push origin HEAD:release/v8.3.0-usable-information
