@@ -1,0 +1,48 @@
+name: Fix V8.4.0 proof-integrity applier
+
+on:
+  push:
+    branches:
+      - release/v8.4.0-proof-integrity
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fix-v8.4.0-proof-integrity-applier
+  cancel-in-progress: false
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out release branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: release/v8.4.0-proof-integrity
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Make historical-status wording explicit
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('.github/apply-v8.4.0.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'A worker status or old evidence record is a claim, not re-verification.'
+          new = "A worker's historical status or old evidence record is a claim, not re-verification."
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one wording match, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+
+      - name: Commit repair and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/fix-v8.4.0-applier.yml
+          git add .github/apply-v8.4.0.py
+          git commit -m "fix: make historical-status rule explicit"
+          git push origin HEAD:release/v8.4.0-proof-integrity
