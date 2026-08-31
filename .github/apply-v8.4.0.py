@@ -168,7 +168,7 @@ gid = replace_once(
 gid = replace_once(
     gid,
     "9. For staged or delegated work, apply `ORCHESTRATION.md`: prove coverage before fan-out, isolate ownership, use structured handoffs, verify every result, and keep one integrator. If a whole wave fails the same way, repair the contract, environment, or packet design before launching more workers.",
-    "9. For staged or delegated work, apply `ORCHESTRATION.md`: inventory the full contract before fan-out, isolate ownership, launch genuine parallel waves before waiting, use structured handoffs, re-execute each returned packet's current verifier in the parent context, and keep one integrator. A worker status or old evidence record is a claim, not re-verification. If a whole wave fails the same way, repair the contract, environment, or packet design before launching more workers.",
+    "9. For staged or delegated work, apply `ORCHESTRATION.md`: inventory the full contract before fan-out, isolate ownership, launch genuine parallel waves before waiting, use structured handoffs, re-execute each returned packet's current verifier in the parent context, and keep one integrator. A worker's historical status or old evidence record is a claim, not re-verification. If a whole wave fails the same way, repair the contract, environment, or packet design before launching more workers.",
     "get-it-done orchestration",
 )
 gid = replace_once(
