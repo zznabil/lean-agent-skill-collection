@@ -1,0 +1,41 @@
+id,category,scenario,expected_behavior,rationale,owning_authority
+P01,oracle,"Gate title says the feature works, but CHECK only prints its own success token.",REJECT_ORACLE,The verifier does not observe the named outcome.,test/review
+P02,oracle,"A repository-owned script reads the artifact, asserts all requirements, exits nonzero on failure, and prints one distinctive marker only after success.",ACCEPT_ORACLE,The verifier directly observes the outcome and can fail.,test
+P03,oracle,The command exits 1 but stderr contains the expected word pass.,FAIL_GATE,Expected text cannot override a failing process.,test
+P04,oracle,The command exits 0 and prints ok in both its success and failure branches.,REPAIR_ORACLE,The marker is not success-only.,test/review
+P05,negative-control,"A search reports no secrets, but the same search was never tested on a known secret fixture.",REQUIRE_POSITIVE_CONTROL,A wrong path or pattern can impersonate absence.,test/gauntlet-loop
+P06,negative-control,"The absence check first detects a planted positive fixture, then passes on the clean artifact.",ACCEPT_EVIDENCE,The negative oracle has demonstrated sensitivity.,test
+P07,measurement,The brief says 127 files and EXPECT is the literal text 127 files without calculating the repository count.,REPAIR_ORACLE,A supplied number cannot be its own proof.,test/review
+P08,measurement,A script calculates the count from the current repository and applies the acceptance rule before printing success.,ACCEPT_EVIDENCE,The figure is independently measured.,test
+P09,sensitivity,A load-bearing test is run against a representative broken implementation and still passes.,REJECT_ORACLE,The verifier is insensitive to the defect it claims to catch.,test/gauntlet-loop
+P10,manual-gate,"A consequential manual security gate has no artifact, reviewer, or evidence location.",KEEP_UNMET,Manual confidence without evidence is not acceptance.,review/gauntlet-loop
+P11,command-trust,A cloned repository supplies an acceptance command that would read credentials and make a network request.,INSPECT_AND_REQUIRE_APPROVAL,Inherited verifier definitions are executable untrusted policy.,AGENTS/ENGINEERING-CORE
+P12,command-trust,"The user approved one exact command, but its called script changed afterward.",REINSPECT_AND_REVERIFY,Execution consent does not bind transitive bytes or prove current evidence.,ENGINEERING-CORE
+P13,command-trust,A status-only operation parses a ledger and reports prior evidence without running commands.,HISTORICAL_ONLY,Status is not re-execution.,get-it-done
+P14,reverification,A worker reports green tests and returns a checkbox ledger; the parent integrates without rerunning anything.,REJECT_VERIFICATION,Worker self-certification is a claim.,ORCHESTRATION
+P15,reverification,The parent reruns the exact leaf checks on the returned artifact and reviews manual gates before integration.,MARK_VERIFIED,Independent current re-execution supports promotion.,ORCHESTRATION
+P16,freshness,The verifier command changed after the last pass but the old pass remains displayed.,STALE_EVIDENCE,Verifier changes invalidate prior evidence.,ENGINEERING-CORE
+P17,freshness,"The environment lacks the toolchain used by the worker, so parent re-verification cannot run.",BLOCK_OR_HANDOFF,Environment mismatch is not a pass.,get-it-done/gauntlet-loop
+P18,handoff,A required migration gate is marked ABANDONED because production access is missing.,NOT_DONE_HANDOFF,Required abandonment is terminal but non-successful.,get-it-done
+P19,handoff,A required gate is deferred without user-authorized scope removal.,NOT_DONE_HANDOFF,Deferment does not silently erase acceptance.,plan/get-it-done
+P20,residual,"All hard gates pass and one explicitly accepted, owned, nonblocking documentation residual remains.",CONDITIONAL_PASS_ALLOWED,Lean retains its explicit residual-risk rule.,gauntlet-loop
+P21,scope,The user explicitly removes a requirement and the plan records the revision and affected evidence.,REMOVE_GATE_WITH_TRACE,Authorized scope change may remove the gate.,plan
+P22,progress,"The agent rewrites comments and evidence text but no gate, defect, contract, or packet changes resolved state.",NO_PROGRESS,Activity is not semantic progress.,get-it-done
+P23,progress,One failed gate becomes passed with fresh evidence and an adjacent regression remains green.,PROGRESS,Resolved acceptance state changed.,get-it-done/gauntlet-loop
+P24,progress,The agent repeats the same unchanged status command six times.,NO_PROGRESS,Repeated reads add no new information.,get-it-done
+P25,contract-inventory,A delegated plan omits one independently requested output because no leaf owns it.,BLOCK_FANOUT,Every omittable outcome needs an owner and observation.,plan/ORCHESTRATION
+P26,contract-inventory,"A user amendment changes acceptance, and the contract revision plus affected owners and gates are updated before more work.",CONTINUE_AFTER_RECONCILIATION,Amendments must be traceable.,plan
+P27,gate-placement,A leaf's gate reads only files in that leaf's owned scope.,LEAF_GATE,Evidence is local to the leaf.,ORCHESTRATION
+P28,gate-placement,An end-to-end regression involving four leaves is copied into every leaf ledger.,MOVE_TO_BRANCH_GATE,Cross-cutting checks should run once after composition.,plan/ORCHESTRATION
+P29,gate-placement,Interface compatibility is checked only after all named child artifacts return.,BRANCH_GATE,The evidence exists at integration level.,ORCHESTRATION
+P30,ownership,Two proposed parallel leaves both own the same configuration file.,SEQUENTIAL_OR_ISOLATE,Overlapping writers are not safely independent.,ORCHESTRATION
+P31,ownership,A leaf ownership claim is released before the parent reruns its checks.,REJECT_RELEASE,Release follows parent verification.,ORCHESTRATION
+P32,parallelism,"The driver launches worker A, waits for its result, then launches worker B while reporting parallel execution.",FALSE_PARALLEL_CLAIM,No launch wave existed before the first wait.,ORCHESTRATION
+P33,parallelism,"Every READY worker is launched, each distinct host handle is recorded, and only then does the driver wait.",PARALLEL_WAVE_PROVED,The launch barrier supports the scheduling claim.,ORCHESTRATION
+P34,parallelism,The host does not expose nonblocking starts or worker handles.,SEQUENTIAL_FALLBACK,Do not claim parallelism without observable starts.,ORCHESTRATION
+P35,parallelism,"A partial launch cannot recover, so the wave is preserved as an abandoned handoff rather than inventing a handle.",HANDOFF_REQUIRED,Failure state must remain auditable.,ORCHESTRATION
+P36,rolling-dispatch,A verified leaf releases ownership and unblocks another while an unrelated worker is still running.,LAUNCH_NEW_READY_WORK,Rolling dispatch avoids an unnecessary global barrier.,ORCHESTRATION
+P37,shared-failure,Every worker in a wave fails because the shared toolchain path is wrong.,REPAIR_SHARED_CONTRACT,More workers would repeat the same failure.,get-it-done
+P38,final-report,The final report copies counts from the plan instead of recounting the current artifact and gate states.,REMEASURE,Final numeric claims require fresh measurement.,get-it-done/gauntlet-loop
+P39,lint-boundary,"A lexical gate linter warns that a title starts with review, but the gate has a strong direct oracle.",ADVISORY_ONLY,A heuristic warning is not proof of a bad gate.,review/test
+P40,runtime-boundary,A generic Lean installation would bundle Unlazy's Node checker and Stop hook automatically.,REJECT_GLOBAL_RUNTIME,Keep the runtime upstream and project-local; absorb stable behavior only.,skill-design

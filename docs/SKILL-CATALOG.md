@@ -1,6 +1,6 @@
-# Lean Agent Skills V8.3.2 catalog
+# Lean Agent Skills V8.4.0 catalog
 
-V8.3.2 keeps the same 23 canonical skills and invocation policy. The standalone Communication profile remains available, and its three skills are also included in the Get It Done and Gauntlet packs.
+V8.4.0 keeps the same 23 canonical skills, six profiles, and invocation policy. It adds proof-integrity and verified-orchestration rules to existing authorities; the Unlazy runtime remains upstream and project-local.
 
 | Skill | Profile role | Invocation | Principal explicit sources |
 |---|---|---|---|
@@ -10,7 +10,7 @@ V8.3.2 keeps the same 23 canonical skills and invocation policy. The standalone 
 | `debug` | engineering, complete | implicit | Evidence-first debugging practices |
 | `experiment` | engineering, complete | implicit | GQM; ISO 31000; Chaos Engineering when authorized |
 | `gauntlet-loop` | core, engineering, complete, get-it-done, gauntlet | manual | ISO 25010; ISO 29119; ISO 15026-2; user-information, ASVS, WCAG, and AI-assurance lanes as applicable |
-| `get-it-done` | core, engineering, complete, get-it-done | manual | ISO 29148; ISO 12207; BCP 14 |
+| `get-it-done` | core, engineering, complete, get-it-done | manual | ISO 29148; ISO 12207; BCP 14; Unlazy-informed proof integrity |
 | `grilling` | complete | manual | ISO 29148; EARS; BCP 14 |
 | `handoff` | core, engineering, complete | manual | Durable-state and structured-handoff practice |
 | `implement` | engineering, complete | implicit | NIST SSDF; OWASP ASVS |
@@ -23,7 +23,7 @@ V8.3.2 keeps the same 23 canonical skills and invocation policy. The standalone 
 | `review` | core, engineering, complete | implicit | ISO 20246; ISO 25010; ISO 15026-2; IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859; Google code-review practice |
 | `skill-design` | core, engineering, complete | implicit | ISO 20741; structural/routing/behavioural evaluation; task-based user-information evaluation |
 | `teach` | complete, communication, get-it-done, gauntlet | implicit | CAST UDL 3.0; IES practice guide; Feynman; COGA; Diátaxis; cognitive load; worked examples; self-explanation; retrieval |
-| `test` | engineering, complete | implicit | ISO 29119; TDD; test pyramid; property/state-machine testing; TLA+ escalation |
+| `test` | engineering, complete | implicit | ISO 29119; TDD; test pyramid; property/state-machine testing; TLA+ escalation; oracle calibration |
 | `triage` | engineering, complete | implicit | NIST SP 800-61r3; Google SRE |
 | `wait-what` | core, engineering, complete, communication, get-it-done, gauntlet | manual | ASD-STE100 Issue 9; ISO 24495-1; W3C COGA; ISO/IEC 23859; ISO 21801-1; ISO 704; Diátaxis; BCP 14 |
 | `writing` | complete, communication, get-it-done, gauntlet | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859; ISO 21801-1; ISO 9241-112/171; ISO/IEC 29138; ISO 704; ISO 24495-1; COGA; Diátaxis |

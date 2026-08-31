@@ -101,6 +101,24 @@ if ($null -eq $composition -or -not $composition.communication_embedded_in_get_i
     if ((Compare-Object $gauntletSkills $metadataGauntlet).Count -ne 0) { Add-Failure 'Gauntlet profile metadata differs from release-profiles.json' }
 }
 
+
+$proof = $package.proof_integrity
+if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.4 proof-integrity contract'
+} else {
+    $proofScenarioRelative = [string]$proof.scenario_file
+    $proofScenarioPath = Join-Path $RepositoryRoot $proofScenarioRelative.Replace('/', [IO.Path]::DirectorySeparatorChar)
+    $proofMirrorRelative = 'releases/v8.4.0/proof-integrity-scenarios-v8.4.0.csv'
+    $proofMirrorPath = Join-Path $RepositoryRoot $proofMirrorRelative.Replace('/', [IO.Path]::DirectorySeparatorChar)
+    if (-not (Test-Path -LiteralPath $proofScenarioPath -PathType Leaf)) { Add-Failure "proof-integrity scenario file missing: $proofScenarioRelative" }
+    elseif (-not (Test-Path -LiteralPath $proofMirrorPath -PathType Leaf)) { Add-Failure "proof-integrity release mirror missing: $proofMirrorRelative" }
+    else {
+        $proofScenarioCount = @(Import-Csv -LiteralPath $proofScenarioPath).Count
+        if ($proofScenarioCount -ne [int]$proof.static_scenarios) { Add-Failure "proof-integrity metadata says $($proof.static_scenarios) but CSV contains $proofScenarioCount rows" }
+        if ((Get-Sha256 $proofScenarioPath) -ne (Get-Sha256 $proofMirrorPath)) { Add-Failure 'proof-integrity scenario mirror drift' }
+    }
+}
+
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
 $scenarioPairs = @(
     @('docs/evals/usable-information-scenarios-v8.3.0.csv', 'releases/v8.3.0/usable-information-scenarios-v8.3.0.csv'),
@@ -140,7 +158,7 @@ foreach ($pattern in $temporaryPatterns) {
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
-    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md',
+    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md',
     'scripts/audit-repository.ps1'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
@@ -166,7 +184,7 @@ if ($ArtifactsDirectory) {
 }
 
 if ($failures.Count -eq 0) {
-    Add-Pass 'repository metadata, current release, 23-skill inventory, evaluation mirrors, text hygiene, and temporary-file checks'
+    Add-Pass 'repository metadata, current release, 23-skill inventory, profile composition, proof-integrity scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
     if ($ArtifactsDirectory) { Add-Pass 'expected release archives are present' }
     foreach ($pass in $passes) { Write-Host "PASS: $pass" }
     exit 0

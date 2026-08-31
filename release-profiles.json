@@ -1,8 +1,8 @@
 {
-  "version": "8.3.2",
-  "release": "v8.3.2",
-  "release_title": "Communication-Complete Task Packs",
-  "release_summary": "V8.3.2 keeps all 23 canonical skills and embeds the complete Communication profile into both the Get It Done and Gauntlet packs so their user-facing, teaching, writing, and human-usable-information behaviour is available without a second installation.",
+  "version": "8.4.0",
+  "release": "v8.4.0",
+  "release_title": "Proof Integrity & Verified Orchestration",
+  "release_summary": "V8.4.0 keeps the 23-skill routing surface and absorbs selected Unlazy 2.1.0 mechanisms for falsifiable acceptance gates, parent re-verification, honest handoff states, ownership-safe fan-out, launch barriers, and semantic progress.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

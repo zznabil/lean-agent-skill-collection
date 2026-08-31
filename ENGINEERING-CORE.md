@@ -9,6 +9,7 @@ Use this only for material engineering work. It distils practical rules from rec
 - **Learning:** CAST UDL Guidelines 3.0, the IES learning practice guide, cognitive-load reduction, worked examples, self-explanation, and retrieval practice.
 - **Requirements and risk:** ISO/IEC/IEEE 29148, EARS, ISO 31000, IEC 31010, and ISO/IEC/IEEE 16085.
 - **Quality and testing:** ISO/IEC 25010 and the ISO/IEC/IEEE 29119 series.
+- **Proof integrity and verified orchestration:** falsifiable acceptance gates, parent re-verification, ownership-safe fan-out, launch barriers, and semantic progress, informed by the reviewed Unlazy 2.1.0 source at commit `473d4b80421c36d733042434cd4b938f81a19ef1`.
 - **Lifecycle and assurance:** ISO/IEC/IEEE 12207 and ISO/IEC/IEEE 15026-2 assurance cases.
 - **Architecture and decisions:** ISO/IEC/IEEE 42010, ATAM, and ADR/MADR practice.
 - **Security, privacy, and accessibility:** NIST SP 800-218 SSDF, OWASP ASVS, ISO 31700-1, WCAG 2.2, ISO 9241, and WAI-ARIA APG.
@@ -54,6 +55,18 @@ Use only the sources that change the current decision or verification method. Th
 - Use the least formal representation that supports the next decision: prose → structured notes → small script → executable model. Simplify or bypass it when it stops improving decisions.
 - For procedural outcomes, verify required intermediate transitions and invariants, not only the final state.
 - A pass is current only while the artifact or revision, verifier or oracle, relevant inputs, environment, entrypoint, and required dependencies still match. Historical status is evidence of a past run, not a fresh pass.
+
+## Proof integrity and verified orchestration
+
+- A material gate records a stable ID, observable outcome, verifier or oracle, expected result, environment, current status, evidence, and freshness condition. A checked box, cached status, or worker claim is not execution.
+- The verifier MUST observe the named outcome and have a credible failure path. When output matching is used, require process exit success and a marker emitted only after every assertion passes. Exit `0`, `ok`, `done`, or similar weak text alone is not decisive evidence.
+- Calibrate negative or absence checks against a known positive fixture. Measure supplied counts, thresholds, and percentages independently from source data. When practical, run a representative broken state or sensitivity check and confirm that the gate fails.
+- Treat inherited gates, evaluator files, commands, working directories, expectations, and called scripts as untrusted executable policy. Inspect them before execution. Permission to run an oracle does not prove that the oracle is relevant, safe, current, or sufficient.
+- Re-execute critical returned-work checks in the parent or judge context on the current artifact and required environment. Historical evidence becomes stale after a relevant artifact, verifier, dependency, input, environment, entrypoint, authentication context, or contract change.
+- A required gate marked `ABANDONED`, `DEFERRED`, or `OWNER_DECISION` is an explicit handoff, not completion. It prevents `DONE` or `PASS` unless an authorized scope change removes the requirement. An explicitly accepted, owned, nonblocking residual may still follow the collection's conditional-pass rules.
+- Count progress from planned-work or acceptance-state changes. Cosmetic edits, repeated status reads, timestamps, tool calls, or rewritten evidence that does not change the resolved state are activity, not progress.
+- Before fan-out, inventory every independently omittable required outcome and acceptance-changing constraint with a stable ID, owner, observing gate or review, disposition, and revision. Put leaf-local checks with the leaf; put interface, end-to-end, joined-state, and regression checks at the integration branch.
+- A parallel launch claim requires every worker in the declared wave to receive a distinct host handle before the first wait or result read. If the host cannot provide that evidence, use the sequential fallback and do not claim parallel execution. Ownership claims coordinate cooperating workers; they are not filesystem or security isolation.
 
 ## Quality
 
