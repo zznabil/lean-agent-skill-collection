@@ -23,6 +23,15 @@ Apply **ISO/IEC/IEEE 29119-inspired verification traceability**: requirement →
 4. For a load-bearing guard, prove sensitivity when practical: remove or reverse the fix, confirm failure, restore it, then confirm pass.
 5. Run adjacent and full relevant suites before completion. Do not rerun an unchanged test under unchanged conditions and expect new information.
 
+## Calibrate the verifier
+
+- Make the verifier read the artifact, service, or measurement named by the requirement. A command that merely prints its own expected token is not proof.
+- When matching output, require a zero exit and a success-only marker printed after every assertion passes. Weak words such as `ok`, `done`, or `pass` are insufficient when failure output can contain them too.
+- Before trusting a negative or absence check, run the same logic against a known positive fixture and confirm that it detects the positive case. A missing file, wrong path, empty input, or malformed pattern can otherwise look like valid absence.
+- Calculate supplied numbers from source data. Do not copy a requested count or threshold into the expected output and call agreement a measurement.
+- For a load-bearing verifier, test sensitivity with a representative broken implementation or reversed condition when practical. If the verifier still passes, repair the verifier before using it as acceptance evidence.
+- Treat stored status and earlier evidence as historical. Re-run after the tested artifact, verifier, relevant inputs, dependency, environment, entrypoint, or required toolchain changes.
+
 ## Evidence and quality
 
 Record requirement, condition, environment, expected result, actual result, evidence, and `NOT TESTED`, `FAIL`, or `PASS`. A result becomes stale after a relevant artifact, revision, input, verifier, dependency, or environment change; rerun before treating it as a current pass.

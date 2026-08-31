@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.4.0 — 2026-08-31
+
+- Keep all 23 canonical skills, all six profiles, and all invocation policies.
+- Re-audit `Leonxlnx/unlazy` at commit `473d4b80421c36d733042434cd4b938f81a19ef1`; add no routed skill and vendor none of its Node runtime, checker, dispatcher, installer, approval store, or Stop hook.
+- Strongly absorb falsifiable gate authoring, positive controls for absence tests, independent measurement of supplied numbers, representative-broken-state sensitivity, and status-versus-re-execution discipline.
+- Add parent re-verification, revisioned contract inventories, exact ownership claim/release semantics, launch-wave barriers, rolling dispatch, and leaf-local versus branch-integration gate placement.
+- Treat required abandonment, deferment, or owner-decision states as visible non-completion unless an authorized scope change removes the requirement; preserve Lean's explicit nonblocking residual rule.
+- Count progress from resolved acceptance, contract, defect, packet, or dispatch state rather than cosmetic activity.
+- Add 40 static proof-integrity scenarios and expand the release audit to 20 passes.
+
 ## 8.3.2 — 2026-08-30
 
 - Keep all 23 canonical skills, all six profile names, and all skill instructions unchanged.

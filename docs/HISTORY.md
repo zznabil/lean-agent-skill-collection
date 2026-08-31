@@ -10,7 +10,7 @@ That first idea expanded into a large vendor-neutral collection, then into an ov
 
 The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to 30 skills. V8 consolidated seven more overlapping or project-local authorities, leaving the current 23-skill routing surface.
 
-The Complete V8.1.0 profile contains 11,991 primary-skill words across 808 lines. The largest primary `SKILL.md` has 117 lines.
+At V8.1.0, the Complete profile contained 11,991 primary-skill words across 808 lines. Those figures are a historical size checkpoint, not the current release inventory.
 
 Since the lean refactor, the governing rule has been:
 
@@ -25,7 +25,7 @@ The collection is not a copy of any one framework. It synthesizes:
 - Superpowers, Compound Engineering, Addy Osmani's skills, Ultracode, and other independent projects;
 - HORIZON, AVO, ARC-AGI-3 harnesses, and other long-horizon agent research.
 
-> **AI provenance and review warning:** The collection decisions are AI slop chosen by GPT-5.6 Sol Pro. This describes the collection's origin, not its quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+> **AI provenance and review warning:** The collection decisions were heavily AI-assisted, including by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
 ## Decision vocabulary
 
@@ -172,7 +172,7 @@ Five official Cursor plugins were reviewed.
 | `pstack` | Selective absorb | Falsifiable completion, risky unknown first, verification harness, keep/revert experiments | Competing skill matrix and arbitrary gates |
 | `orchestrate` | Conditional absorb | Shallow task graphs, isolated workers, one owner, handoffs, read-only verification | Cursor SDK, cloud-only workers, external chat integration |
 
-`cli-design` was the only distinct routed capability that survived. The collection moved from 29 skills to 30 and has remained there.
+`cli-design` was the only distinct routed capability that survived. The collection moved from 29 skills to 30; V8 later consolidated it to 23.
 
 ### 7. V5: the 14-repository synthesis
 
@@ -269,7 +269,29 @@ Retired authorities are `brandkit`, `frontend`, `monitor`, `prototype`, `python`
 
 V8.1.0 keeps the same 23 skills and invocation policies. It adds a global considerate-agency contract, ACT / ASK / DO NOT ACT initiative calibration, explicit remaining-action labels, reconstruct-free handoffs, implementation stewardship, first-use release readiness, a human-friction review lane, and 60 static scenarios. It adds no dependency, service, hook, executable, or automatic trusted-state mutation.
 
-## Current state: V8.1.0
+### 16. V8.2.0: explicit standards and adaptive prose
+
+V8.2.0 made the standards lineage visible in `AGENTS.md`, `ENGINEERING-CORE.md`, and the owning skills while keeping simple answers short. It restored the standards register and kept source names as provenance anchors rather than unsupported compliance claims.
+
+### 17. V8.3.0: usable information and cognitive accessibility
+
+V8.3.0 moved beyond readable sentences toward information that intended users can find, understand, act on, and recover with. It added task-ready instructions, cognitive-accessibility rules, interruption recovery, selective UDL, intended-user validation boundaries, and one conditional `USER-INFORMATION.md` reference without adding a routed skill.
+
+### 18. V8.3.1: repository integrity
+
+V8.3.1 added cross-file version, scenario, mirror, text-hygiene, archive, and repository-consistency checks on PowerShell 7 and Windows PowerShell 5.1. It changed repository assurance, not skill behavior.
+
+### 19. V8.3.2: communication-complete task packs
+
+V8.3.2 retained the standalone Communication profile and included its `teach`, `wait-what`, and `writing` authorities in both the Get It Done and Gauntlet packages. The canonical skill count remained 23.
+
+### 20. V8.4.0: Unlazy re-audit and proof integrity
+
+Lean had already reviewed the original Unlazy project during V5. The later Unlazy source at commit `473d4b80421c36d733042434cd4b938f81a19ef1` added materially stronger proof and orchestration mechanisms: executable acceptance ledgers, parent re-verification, gate-quality linting, scoped ownership, launch waves, rolling dispatch, leaf-versus-branch gate placement, semantic no-progress detection, and explicit command approval boundaries.
+
+The re-audit again rejected a separate `unlazy` skill and runtime. The Node checker, approval store, dispatcher, installer, hooks, host adapters, and platform process management remain upstream and project-local. Lean absorbed only the stable behavioral rules into `ENGINEERING-CORE`, `plan`, `test`, `get-it-done`, `gauntlet-loop`, `review`, and `skill-design`. See [`UNLAZY-REVIEW-v8.4.0.md`](UNLAZY-REVIEW-v8.4.0.md).
+
+## Current state: V8.4.0
 
 ### Profiles
 
@@ -278,245 +300,27 @@ V8.1.0 keeps the same 23 skills and invocation policies. It adds a global consid
 | Core | 8 | Research, planning, review, skill design, communication, and long-horizon ownership |
 | Engineering | 19 | Core plus implementation, testing, debugging, architecture, release, CLI, browser work, and experiments |
 | Complete | 23 | Engineering plus grilling, documents, teaching, and writing |
-| Communication Mini | 3 | `wait-what`, `teach`, and `writing` |
-| Get It Done Pack | 3 | `wait-what`, `get-it-done`, and `gauntlet-loop` |
-| Gauntlet Pack | 1 | Independent adversarial acceptance |
+| Communication | 3 | Adaptive communication, teaching, writing, and human-usable information |
+| Get It Done | 5 | Long-horizon execution, Gauntlet, and the complete Communication trio |
+| Gauntlet | 4 | Adversarial acceptance and the complete Communication trio |
 
-The V8.3.0 validation records:
-
-```text
-23 unique skills
-0 new routed skills
-0 new external integrations
-0 new automatic mutations
-0 new provider requirements
-
-Complete profile:
-850 primary lines
-13,286 primary words
-119-line largest SKILL.md
-one conditional `writing/USER-INFORMATION.md` reference
-```
-
-### The 23 current skills
+### Current architecture
 
 ```text
-architecture
-browser-automation
-cli-design
-debug
-experiment
-gauntlet-loop
-get-it-done
-grilling
-handoff
-implement
-merge-conflicts
-office-files
-plan
-project-context
-release
-research
-review
-skill-design
-teach
-test
-triage
-wait-what
-writing
+AGENTS.md
+→ global communication, initiative, routing, trust, and proof-integrity policy
+
+ENGINEERING-CORE.md
+→ conditional cross-cutting engineering doctrine
+
+23 SKILL.md authorities
+→ one leading action each
+
+agents/openai.yaml
+→ thin ChatGPT and Codex adapters
+
+release-profiles.json
+→ six deterministic package inventories
 ```
 
-## Design principles that survived every revision
-
-### 1. One primary skill by default
-
-Do not activate an entire stack merely because several skills might be relevant. Add another only for a distinct phase, specialist operation, or independent review.
-
-### 2. One authority per leading action
-
-```text
-plan the work              → plan
-own the outcome            → get-it-done
-implement a bounded change → implement
-test behaviour             → test
-review independently       → review
-attack final acceptance    → gauntlet-loop
-```
-
-Aliases should not compete for the same job.
-
-### 3. Builders do not approve themselves
-
-Builders can run local checks. Final high-risk acceptance belongs to an independent critic or fresh-context judge.
-
-### 4. Evidence outranks prose
-
-```text
-claim
-→ check
-→ actual result
-→ evidence
-```
-
-A confident summary is not proof.
-
-### 5. Raw evidence is not memory
-
-```text
-raw evidence → ground truth
-playbook     → compact, revisable interpretation
-scratchpad   → temporary reasoning
-```
-
-### 6. Formalize only when it pays
-
-```text
-prose
-→ structured notes
-→ small task-local script
-→ executable model
-```
-
-Do not start with the most complicated representation.
-
-### 7. External specialists stay upstream
-
-Fast-changing React, Cloudflare, WinUI, and similar platform knowledge should normally be installed only in projects that use those platforms.
-
-### 8. Trusted doctrine does not silently rewrite itself
-
-Refinement requires evidence, comparison with the current version, negative and held-out tests, review, authorization, and rollback.
-
-### 9. Consequential actions require authorization and recovery
-
-A generic request is not automatic permission to push, publish, deploy, buy, delete, change production, alter machine configuration, or send private material to another provider.
-
-### 10. Bloat is a reliability defect
-
-Every permanent instruction consumes routing attention, context, maintenance effort, conflict surface, and debugging capacity. A new rule or file must earn that cost.
-
-## Lineage in one diagram
-
-```text
-GPT-5.6 Sol Pro-mode idea
-        ↓
-vendor-neutral pro-mode
-        ↓
-large 138-skill ecosystem
-        ↓
-get-it-done superskill
-        ↓
-separate gauntlet-loop
-        ↓
-Matt Pocock-inspired lean overhaul
-        ↓
-29 authoritative skills
-        ↓
-professional engineering doctrine
-        ↓
-OpenAI-native adapters and plugin packages
-        ↓
-cli-design added from Cursor research
-        ↓
-30-skill stable architecture
-        ↓
-external-project deep-dives
-        ↓
-mechanisms absorbed without adding triggers
-        ↓
-HORIZON/AVO plugin deliberately rejected
-        ↓
-ARC evidence-guided action doctrine
-        ↓
-Compound Engineering planning and evaluation refinements
-        ↓
-30-skill V7.4.1 communication-overlay release
-        ↓
-V8 authority consolidation to 23 skills
-        ↓
-V8.1 considerate-agency doctrine
-        ↓
-V8.2 explicit standards and adaptive prose
-        ↓
-V8.3 usable instructions and cognitive accessibility
-```
-
-## Primary internal project records
-
-- *Eight-pass comprehensive audit—Vendor-neutral agent skills* (2026).
-- *Gauntlet Loop eight-pass audit* (2026).
-- *Lean Agent Skills—Eight-pass audit* (2026).
-- *Lean Agent Skills V2—Standards integration audit* (2026).
-- *OpenAI-native skill collections V3—Eight-pass audit* (2026).
-- *Fourteen-repository deep-dive and V5 integration audit* (2026).
-- *Addy Osmani Agent Skills deep-dive and V6 integration audit* (2026).
-- *ARC top scorers V7.1 integration audit* (2026).
-- [*Compound Engineering integration—V7.2 eight-pass audit*](../dist/v7.2/compound-engineering-integration-v7.2-8pass-audit.md) (2026).
-
-The earlier internal audits are historical project records and are not all included in this repository snapshot.
-
-## External sources
-
-Repositories and living specifications change over time. The historical review and current standards register use versions available through August 30, 2026.
-
-### Communication, standards, and professional doctrine
-
-- [ASD-STE100 Simplified Technical English](https://asd-ste100.org/)
-- [RFC 2119](https://doi.org/10.17487/RFC2119) and [RFC 8174](https://doi.org/10.17487/RFC8174)
-- [ISO/IEC/IEEE 29148:2018](https://www.iso.org/standard/72089.html)
-- [ISO/IEC 25010:2023](https://www.iso.org/standard/78176.html)
-- [ISO/IEC/IEEE 29119 series](https://committee.iso.org/sites/jtc1sc7/home/projects/flagship-standards/isoiecieee-29119-series.html)
-- [ISO/IEC/IEEE 12207:2026](https://www.iso.org/standard/90219.html)
-- [NIST AI RMF 1.0](https://www.nist.gov/itl/ai-risk-management-framework)
-- [NIST SSDF 1.1](https://doi.org/10.6028/NIST.SP.800-218)
-- [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
-- [OWASP LLMSVS](https://owasp.org/www-project-llm-verification-standard/LLMSVS-v2.0-en.html)
-- [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
-- [Architectural Decision Records](https://adr.github.io/)
-- [OpenAPI Specification](https://spec.openapis.org/oas/v3.2.0.html)
-- [JSON Schema](https://json-schema.org/specification)
-- [Semantic Versioning](https://semver.org/)
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
-- [Matt Pocock's Skills](https://github.com/mattpocock/skills)
-
-### Agent skills and engineering frameworks
-
-- [Anthropic Skills](https://github.com/anthropics/skills)
-- [Builder.io Agent Native](https://github.com/BuilderIO/agent-native)
-- [Cloudflare Skills](https://github.com/cloudflare/skills)
-- [Cursor Plugins](https://github.com/cursor/plugins)
-- [Every Inc. Compound Engineering Plugin](https://github.com/EveryInc/compound-engineering-plugin)
-- [Ultracode Workflows](https://github.com/hesreallyhim/ultracode-workflows)
-- [Plugin Ultracode](https://github.com/just-every/plugin-ultracode)
-- [Taste Skill](https://github.com/leonxlnx/taste-skill)
-- [Unlazy](https://github.com/Leonxlnx/unlazy)
-- [Microsoft Windows Development Skills](https://github.com/microsoft/win-dev-skills)
-- [Superpowers](https://github.com/obra/superpowers)
-- [OpenAI Build Skills](https://developers.openai.com/codex/build-skills)
-- [OpenAI Plugins](https://github.com/openai/plugins)
-- [Addy Osmani Agent Skills](https://github.com/addyosmani/agent-skills)
-- [Ultracode Skill](https://github.com/PabloNAX/ultracode-skill)
-- [How](https://github.com/poteto/how)
-- [Ray Fernando Skills](https://github.com/RayFernando1337/rayfernando-skills)
-- [Agentic Awesome Skills](https://github.com/sickn33/agentic-awesome-skills)
-- [Awesome Cursor Skills](https://github.com/spencerpauly/awesome-cursor-skills)
-- [Vercel Agent Skills](https://github.com/vercel-labs/agent-skills)
-
-### Long-horizon and ARC-AGI-3 research
-
-- [ARC-AGI community leaderboard](https://arcprize.org/leaderboard/community)
-- [arc-code](https://github.com/jerber/arc-code)
-- [Retrodict](https://github.com/ryanbbrown/Retrodict)
-- [AVO](https://arxiv.org/abs/2603.24517)
-- [arc-skill](https://github.com/pbshgthm/arc-skill)
-- [VISTA](https://vista-research.github.io/)
-- [Tycho](https://arxiv.org/abs/2607.28287)
-- [Prime Agent](https://www.primeintellect.ai/blog/prime-agent)
-- [OpenWorld](https://github.com/quome-cloud/openworld)
-- [Executable world models, simplification, and verification for ARC-AGI-3](https://arxiv.org/abs/2607.15439)
-- [Agentic hardware design as repository-level code evolution](https://arxiv.org/abs/2606.28279)
-- [Schema harness](https://schema-harness.github.io/)
-
-## In one sentence
-
-> Keep one authority per job. Prefer evidence over self-report. Absorb mechanisms, not frameworks. Add a skill only when it owns a truly distinct action.
+The collection still follows the lean rule: do not add a routed skill when an existing authority can absorb the distinct useful mechanism.

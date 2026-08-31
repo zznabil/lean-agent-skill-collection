@@ -251,6 +251,12 @@ $skills
     "owning_skill_names": true,
     "formal_conformance_claimed": false
   },
+  "proof_integrity": {
+    "global_principles": true,
+    "oracle_must_be_falsifiable": true,
+    "status_is_not_reexecution": true,
+    "required_gate_abandonment_is_not_completion": true
+  },
   "human_usable_information": {
     "global_principles": true,
     "conditional_reference_included": $includesWritingJson,
@@ -336,6 +342,7 @@ $manifest = @"
   "adaptive_prose": true,
   "explicit_standards": true,
   "human_usable_information": true,
+  "proof_integrity": true,
   "skill_content_changed_from_v8_0_0": true,
   "archives": {
 $($manifestArchiveLines -join "`n")

@@ -70,8 +70,9 @@ function Test-MetadataContracts {
     $adaptive = $validation.adaptive_prose
     $explicit = $validation.explicit_standards
     $human = $validation.human_usable_information
+    $proof = $validation.proof_integrity
     $completeCount = @($profiles.profiles.complete.skills).Count
-    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
+    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48 -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier -or $proof.scenario_file -ne 'docs/evals/proof-integrity-scenarios-v8.4.0.csv' -or $proof.static_scenarios -ne 40) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
     $licensePath = Join-Path $repoRoot 'LICENSE'
     if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
     if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
@@ -130,7 +131,24 @@ function Test-SkillTree([object]$Profiles) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
         }
     }
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, and human-usable-information contract" }
+    $proofChecks = @{
+        'AGENTS.md'=@('representative broken state','historical state, not re-execution');
+        'ENGINEERING-CORE.md'=@('Proof integrity and verified orchestration','known positive fixture','before the first wait');
+        'skills/test/SKILL.md'=@('Calibrate the verifier','known positive fixture','representative broken implementation');
+        'skills/get-it-done/SKILL.md'=@('verifier or oracle','historical status');
+        'skills/get-it-done/ORCHESTRATION.md'=@('before the first wait','Leaf gate','ownership claim');
+        'skills/gauntlet-loop/SKILL.md'=@('representative broken state','re-execute the current critical oracles');
+        'skills/review/LANES.md'=@('Proof integrity and acceptance gates','positive controls for absence tests')
+    }
+    foreach ($relative in $proofChecks.Keys) {
+        $checkPath = Join-Path $repoRoot $relative
+        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proof-integrity file missing: $relative"; continue }
+        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        foreach ($needle in $proofChecks[$relative]) {
+            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proof-integrity contract missing '$needle' in $relative" }
+        }
+    }
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information|proof-integrity' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, human-usable-information, and proof-integrity contracts" }
 }
 
 function Test-SourceIntegrity {
@@ -231,7 +249,7 @@ function Test-MasterArchive([string]$Path,[string]$Directory,[string]$Version) {
 function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     if(-not(Test-Path -LiteralPath $Directory -PathType Container)){Add-Failure "artifact directory missing: $Directory";return}
     try{$manifest=Get-Content -Raw (Join-Path $Directory 'RELEASE-MANIFEST.json')|ConvertFrom-Json}catch{Add-Failure "release manifest parse failure";return}
-    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true){Add-Failure 'release manifest contract failure'}
+    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true){Add-Failure 'release manifest contract failure'}
     $declared=@{}
     foreach($line in Get-Content (Join-Path $Directory 'CHECKSUMS.sha256')){if($line -match '^([0-9a-f]{64})\s+(.+)$'){$declared[$matches[2]]=$matches[1]}else{Add-Failure "malformed release checksum line: $line"}}
     foreach($property in @($Profiles.profiles.PSObject.Properties)){

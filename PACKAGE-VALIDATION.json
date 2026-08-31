@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.3.2",
+  "version": "8.4.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -67,7 +67,8 @@
   },
   "warnings": [
     "Live model behaviour, routing, user comprehension, accessibility, task success, and human satisfaction were not measured.",
-    "Named standards do not establish formal conformance.",
+    "Named standards and project influences do not establish formal conformance.",
+    "The Unlazy runtime, checker, installer, approval store, dispatch recorder, and Stop hook are not bundled.",
     "Overlapping profiles must not be installed together."
   ],
   "errors": [],
@@ -93,5 +94,17 @@
     ],
     "communication_embedded_in_get_it_done": true,
     "communication_embedded_in_gauntlet": true
+  },
+  "proof_integrity": {
+    "global_principles": true,
+    "source_project": "Leonxlnx/unlazy",
+    "source_commit": "473d4b80421c36d733042434cd4b938f81a19ef1",
+    "runtime_vendored": false,
+    "oracle_must_be_falsifiable": true,
+    "status_is_not_reexecution": true,
+    "required_gate_abandonment_is_not_completion": true,
+    "native_parallel_claim_requires_launch_barrier": true,
+    "scenario_file": "docs/evals/proof-integrity-scenarios-v8.4.0.csv",
+    "static_scenarios": 40
   }
 }
