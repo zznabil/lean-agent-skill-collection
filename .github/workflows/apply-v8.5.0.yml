@@ -1,9 +1,6 @@
 name: Apply V8.5.0 proportional rigor
 
 on:
-  push:
-    branches:
-      - release/v8.5.0-proportional-rigor
   workflow_dispatch:
 
 permissions:
