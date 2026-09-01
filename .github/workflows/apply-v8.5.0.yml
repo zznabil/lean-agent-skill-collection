@@ -60,6 +60,16 @@ jobs:
               "proof-integrity scenarios, evaluation mirrors",''',
                   'repository-audit pass-text call',
               ),
+              (
+                  'choose the smallest **complete** solution, not the fewest lines.',
+                  'choose the smallest complete solution, not the fewest lines.',
+                  'plain smallest-complete-solution contract',
+              ),
+              (
+                  '- Do not delete or simplify mission-critical complexity, security, validation, error handling, data integrity, accessibility, compatibility, or explicit behavior merely to reduce code or ceremony.\n',
+                  '- Do not delete or simplify mission-critical complexity, security, validation, error handling, data integrity, accessibility, compatibility, or explicit behavior merely to reduce code or ceremony. Use `BUILD HARD` when that complexity is required by the mission rather than accidental scaffolding.\n',
+                  'BUILD HARD core boundary',
+              ),
           ]
           for old, new, label in repairs:
               if text.count(old) != 1:
@@ -126,7 +136,7 @@ jobs:
           checks = {
               'lean-agent-skills-complete-openai-v8.5.0.zip': {
                   'AGENTS.md': ['Proportional scrutiny and momentum', 'smallest complete solution'],
-                  'ENGINEERING-CORE.md': ['Minimum sufficient scrutiny and work', 'one consolidated question'],
+                  'ENGINEERING-CORE.md': ['Minimum sufficient scrutiny and work', 'one consolidated question', 'BUILD HARD'],
                   'skills/implement/SKILL.md': ['correctness → safety', 'DIRECT'],
                   'skills/test/SKILL.md': ['minimum sufficient evidence'],
                   'skills/review/SKILL.md': ['ALREADY LEAN'],
