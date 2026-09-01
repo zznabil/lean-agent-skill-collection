@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.5.0",
+  "version": "8.5.1",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -121,5 +121,9 @@
     "no_new_routed_skill": true,
     "scenario_file": "docs/evals/proportional-rigor-scenarios-v8.5.0.csv",
     "static_scenarios": 48
+  },
+  "maintenance": {
+    "skill_behavior_changed_from_v8_5_0": false,
+    "windows_powershell_5_1_utf8_validation": true
   }
 }

@@ -1,6 +1,6 @@
-# Lean Agent Skills V8.5.0 catalog
+# Lean Agent Skills V8.5.1 catalog
 
-V8.5.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Proportional rigor is a global and owning-skill rule, not a new route: small work uses DIRECT, consequential work escalates to DEEP, and Gauntlet remains the bounded ADVERSARIAL ceiling.
+V8.5.1 keeps the same 23 canonical skills, six profiles, invocation policy, and proportional-rigor behavior as V8.5.0. The patch changes repository validation portability only: small work still uses DIRECT, consequential work escalates to DEEP, and Gauntlet remains the bounded ADVERSARIAL ceiling.
 
 | Skill | Profile role | Invocation | Principal explicit sources |
 |---|---|---|---|

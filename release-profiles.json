@@ -1,8 +1,8 @@
 {
-  "version": "8.5.0",
-  "release": "v8.5.0",
-  "release_title": "Minimum Sufficient Scrutiny & Momentum",
-  "release_summary": "V8.5.0 keeps the 23-skill routing surface and adds proportional rigor: Direct, Standard, Deep, and Adversarial modes; a necessity-and-reuse ladder; minimum sufficient evidence; bounded autonomy; and explicit anti-underbuilding safeguards.",
+  "version": "8.5.1",
+  "release": "v8.5.1",
+  "release_title": "Validator Portability Repair",
+  "release_summary": "V8.5.1 keeps all V8.5.0 skill and profile behavior unchanged and fixes UTF-8-safe repository validation on Windows PowerShell 5.1.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
