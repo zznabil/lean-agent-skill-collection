@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git rm .github/apply-v8.6.0.py .github/workflows/apply-v8.6.0.yml
+          git rm -f .github/apply-v8.6.0.py .github/workflows/apply-v8.6.0.yml
           git add -A
           git diff --cached --check
 
