@@ -4,7 +4,7 @@ Use this only when the task has several meaningful stages or genuinely independe
 
 ## Modes
 
-- **Direct:** one bounded task, no orchestration artifacts unless they add evidence.
+- **Direct:** one bounded task with one foreground owner and one decisive check. No manifest, durable state, subagent, branch tree, handoff, barrier, or orchestration artifact unless new evidence makes it necessary.
 - **Staged:** several dependent phases executed sequentially with durable state and explicit checkpoints.
 - **Delegated:** independent packets use native agents or a trusted workflow runtime; the parent keeps the critical path, integration, and final verification.
 
@@ -23,7 +23,7 @@ Before fan-out, inventory every independently omittable required outcome and eve
 
 ## Protocol
 
-1. Discover serially before decomposition. Inspect scope, interfaces, data shape, likely overlap, current verifier commands, and the parent critical path.
+1. Discover serially before decomposition. Inspect scope, interfaces, data shape, likely overlap, current verifier commands, and the parent critical path. Fan out only when expected time, coverage, or independence benefit exceeds briefing, coordination, re-verification, and integration cost; agent availability alone is not a reason.
 2. Place checks where their evidence lives. A leaf gate reads only that leaf's owned artifact. Interface compatibility, end-to-end behavior, joined-state invariants, and cross-leaf regressions belong in the branch or integration gate and run once there.
 3. Choose the smallest contract: `none` for a trivial packet, `inline` for ordinary separate scopes, or `full` only for shared public surfaces, migrations, auth, data contracts, or overlapping writers. If no consumer, surface, check, deliverable, or blocker can be named, keep it inline or skip it.
 4. Write one shallow manifest: qualified packet ID, charter, anti-charter, exact scope, owned paths, input, structured output, owner, dependencies, shared surfaces, local gate, integration gate, verification tier, and integration point. Prove that the manifest and contract inventory cover the target with no gap, duplicate, or hidden remainder.

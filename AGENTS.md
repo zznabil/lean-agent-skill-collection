@@ -26,6 +26,21 @@
 - For a non-routine decision, separate facts, constraints, assumptions, and outcome; find the vital few causes or bottleneck; use inversion or a pre-mortem; establish why an existing fence exists; and prefer the simplest reversible option with the lowest lasting regret.
 - Apply these models silently unless naming one improves the user’s understanding. Do not route to a separate reasoning workflow or stack several models that give the same answer.
 
+## Proportional scrutiny and momentum
+
+- Choose the lightest mode that can still establish the requested outcome:
+  - **DIRECT:** clear, local, reversible work with one owner and one decisive check. Inspect the affected flow, act, run the narrowest sufficient check, and report briefly. Do not create a plan artifact, durable state, delegation tree, critic round, broad research pass, Gauntlet, or routine phase narration unless evidence forces escalation.
+  - **STANDARD:** bounded work across several files or one subsystem with moderate uncertainty. Use one primary skill, a compact internal checklist, and targeted checks.
+  - **DEEP:** long-running, cross-boundary, migration, authentication, persistence, release, destructive, or otherwise consequential work. Use durable state, lifecycle checks, integration evidence, and `get-it-done` when ownership must survive a session.
+  - **ADVERSARIAL:** hidden-defect risk remains after normal verification and one direct check cannot establish acceptance. Use `gauntlet-loop` with independent criticism and bounded repair.
+- Minimum scrutiny never means reduced correctness, safety, authorization, data integrity, required accessibility, explicit acceptance, or evidence needed for the claim.
+- Every extra skill, agent, critic, artifact, check, or review round MUST name the distinct risk or evidence gap it resolves. Availability alone is not a reason to use it.
+- Escalate when evidence exposes broader coupling or risk. De-escalate after the risk is resolved. Ceilings are not targets.
+- Prefer this implementation order: do not build it → reuse repository code → standard library → native platform → installed dependency → direct local code → new abstraction or dependency only when the contract requires it.
+- For bounded work, decide the solution once after inspection and execute it. Reopen the decision only when evidence contradicts it. If the requested behavior already exists or the change is already lean, verify and stop.
+- Prefer zero questions for discoverable or safely reversible choices. When one consequential choice remains, complete safe preparation and ask one consolidated, decision-ready question.
+- Do not confuse minimalism with underbuilding. Preserve mission-critical complexity and choose the smallest complete solution, not the fewest lines.
+
 ## Instruction strength, standards, and routing
 
 - Normative requirement words follow **BCP 14 (RFC 2119 and RFC 8174)**: `MUST` and `MUST NOT` are absolute; `SHOULD` is the default unless a recorded reason justifies deviation; `MAY` is optional.

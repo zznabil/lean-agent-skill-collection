@@ -119,6 +119,31 @@ if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project
     }
 }
 
+
+$rigor = $package.proportional_rigor
+$expectedModes = @('ADVERSARIAL','DEEP','DIRECT','STANDARD')
+if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.no_new_routed_skill) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.5 proportional-rigor contract'
+} else {
+    $actualModes = @($rigor.modes | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+    if ((Compare-Object $expectedModes $actualModes).Count -ne 0) { Add-Failure 'proportional-rigor mode inventory is inaccurate' }
+    $rigorScenarioRelative = [string]$rigor.scenario_file
+    $rigorScenarioPath = Join-Path $RepositoryRoot $rigorScenarioRelative.Replace('/', [IO.Path]::DirectorySeparatorChar)
+    $rigorMirrorRelative = 'releases/v8.5.0/proportional-rigor-scenarios-v8.5.0.csv'
+    $rigorMirrorPath = Join-Path $RepositoryRoot $rigorMirrorRelative.Replace('/', [IO.Path]::DirectorySeparatorChar)
+    if (-not (Test-Path -LiteralPath $rigorScenarioPath -PathType Leaf)) { Add-Failure "proportional-rigor scenario file missing: $rigorScenarioRelative" }
+    elseif (-not (Test-Path -LiteralPath $rigorMirrorPath -PathType Leaf)) { Add-Failure "proportional-rigor release mirror missing: $rigorMirrorRelative" }
+    else {
+        $rigorRows = @(Import-Csv -LiteralPath $rigorScenarioPath)
+        if ($rigorRows.Count -ne [int]$rigor.static_scenarios) { Add-Failure "proportional-rigor metadata says $($rigor.static_scenarios) but CSV contains $($rigorRows.Count) rows" }
+        if (@($rigorRows.id | Sort-Object -Unique).Count -ne $rigorRows.Count) { Add-Failure 'proportional-rigor scenario IDs are not unique' }
+        foreach ($mode in $expectedModes) {
+            if (@($rigorRows | Where-Object { $_.expected_mode -eq $mode }).Count -ne 12) { Add-Failure "proportional-rigor scenario corpus must contain 12 $mode cases" }
+        }
+        if ((Get-Sha256 $rigorScenarioPath) -ne (Get-Sha256 $rigorMirrorPath)) { Add-Failure 'proportional-rigor scenario mirror drift' }
+    }
+}
+
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
 $scenarioPairs = @(
     @('docs/evals/usable-information-scenarios-v8.3.0.csv', 'releases/v8.3.0/usable-information-scenarios-v8.3.0.csv'),
@@ -158,7 +183,7 @@ foreach ($pattern in $temporaryPatterns) {
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
-    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md',
+    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md',
     'scripts/audit-repository.ps1'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
@@ -184,7 +209,7 @@ if ($ArtifactsDirectory) {
 }
 
 if ($failures.Count -eq 0) {
-    Add-Pass 'repository metadata, current release, 23-skill inventory, profile composition, proof-integrity scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
+    Add-Pass 'repository metadata, current release, 23-skill inventory, profile composition, proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
     if ($ArtifactsDirectory) { Add-Pass 'expected release archives are present' }
     foreach ($pass in $passes) { Write-Host "PASS: $pass" }
     exit 0

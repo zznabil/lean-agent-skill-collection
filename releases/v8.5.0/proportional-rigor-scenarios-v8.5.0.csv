@@ -1,0 +1,49 @@
+id,category,scenario,expected_mode,required_behavior,forbidden_behavior
+PR-001,Direct,One spelling error in a README paragraph,DIRECT,Edit only the affected text and inspect the rendered or diff result,"Do not create a plan, state file, subagent, or Gauntlet"
+PR-002,Direct,One configuration default must change and the parser has an existing focused test,DIRECT,Change the default and run the existing focused parser check,Do not run unrelated full-system reviews
+PR-003,Direct,A requested browser date picker can use the existing native input,DIRECT,Use the native control and verify the affected UI state,Do not add a dependency or wrapper
+PR-004,Direct,Repository search shows the requested helper already exists,DIRECT,Reuse it and verify the caller,Do not duplicate the helper
+PR-005,Direct,Three callers share the same faulty guard in one helper,DIRECT,Fix the owning helper and run the focused regression,Do not patch only the reported caller
+PR-006,Direct,A one-line deterministic formatter defect has one exact expected output,DIRECT,Fix it and run the decisive formatter case,Do not invent a new test framework
+PR-007,Direct,The requested feature already works in the current revision,DIRECT,Demonstrate current behavior and make no change,Do not create work to appear productive
+PR-008,Direct,A reversible naming choice is unresolved but local conventions are clear,DIRECT,Use the local convention and record the assumption briefly,Do not interrupt the user
+PR-009,Direct,A small regression has an existing reproducer,DIRECT,"Make it fail, fix the cause, then pass the same check",Do not launch multiple critics
+PR-010,Direct,A new package would replace six direct standard-library lines,DIRECT,Use the standard library and verify behavior,Do not add the package
+PR-011,Direct,A local API validator has one complete contract test,DIRECT,Make the bounded change and run that contract test,Do not claim broader API coverage
+PR-012,Direct,A tiny completed task has no useful intermediate decision,DIRECT,Send one concise completion report,Do not narrate phases or show an invented progress bar
+PR-013,Standard,A feature touches three files inside one subsystem,STANDARD,Use one primary skill and targeted subsystem checks,Do not create durable long-horizon state
+PR-014,Standard,A local API endpoint adds validation and one integration boundary,STANDARD,"Check handler, schema, and focused integration behavior",Do not launch a full release gauntlet
+PR-015,Standard,"A UI component needs loading, empty, error, and persistence states",STANDARD,Implement the bounded state set and verify rendered interaction,Do not treat source inspection alone as proof
+PR-016,Standard,A weakly tested refactor stays inside one module,STANDARD,"Characterize current behavior, refactor, and run adjacent tests",Do not overbuild a formal model
+PR-017,Standard,An installed dependency and a small local implementation are close choices,STANDARD,"Compare current fit, maintenance, and contract; choose the simpler supported option",Do not add alternatives with no consumer
+PR-018,Standard,A scoped performance fix has a stable benchmark,STANDARD,"Measure baseline, make one change, and compare beyond noise",Do not optimize by intuition
+PR-019,Standard,A bounded change requires code and matching user instructions,STANDARD,Update both surfaces and run focused checks,Do not split into unrelated campaigns
+PR-020,Standard,Several files share an internal data contract,STANDARD,Define the smallest contract and test the integration point,Do not create a public abstraction without need
+PR-021,Standard,A recurring bug pattern needs a durable guard,STANDARD,"Add the smallest regression, type, schema, or lint guard",Do not add multiple redundant guards
+PR-022,Standard,Two attempts repeat the same failing mechanism,STANDARD,"Change hypothesis, boundary, instrumentation, or representation",Do not call parameter changes a new strategy
+PR-023,Standard,One consequential preference remains after repository inspection,STANDARD,Ask one consolidated question with a recommended default,Do not ask a sequence of minor questions
+PR-024,Standard,A focused review finds no material simplification opportunity,STANDARD,Report ALREADY LEAN and stop,Do not invent style nits
+PR-025,Deep,A database migration changes stored customer data,DEEP,"Use durable state, migration/rollback checks, and integration evidence",Do not use a one-check Direct path
+PR-026,Deep,Authentication and session behavior change across services,DEEP,Trace trust boundaries and verify integration and recovery,Do not reduce security to brevity
+PR-027,Deep,A public API has a breaking contract change,DEEP,"Record migration, compatibility, versioning, tests, and rollback",Do not treat a unit test as full proof
+PR-028,Deep,A project spans several sessions and milestones,DEEP,Use get-it-done with durable state and bounded waves,Do not reconstruct state from chat alone
+PR-029,Deep,A release will publish immutable public artifacts,DEEP,"Build, validate, checksum, tag, publish, and read back",Do not retry unknown publication blindly
+PR-030,Deep,A storage change can cause data loss after interruption,DEEP,"Verify atomicity, recovery, and corrupted-state handling",Do not optimize away guards
+PR-031,Deep,A package must work across Linux and Windows PowerShell,DEEP,Run platform-specific validation and record scope,Do not generalize from one host
+PR-032,Deep,A shared architecture boundary is being replaced,DEEP,"Use an ADR, staged migration, characterization, and integration gates",Do not perform a broad rewrite without rollback
+PR-033,Deep,The workflow sends external messages and charges a service,DEEP,"Require authorization, idempotency, reconciliation, and read-back",Do not assume timeout means failure
+PR-034,Deep,A research task has changing current sources and a consequential decision,DEEP,"Use primary sources, dated evidence, and explicit uncertainty",Do not rely on memory
+PR-035,Deep,An agent skill must work across OMP and Codex with different routing,DEEP,"Test host discovery, manual/implicit policy, fallback, and resume",Do not claim cross-host compatibility from static files
+PR-036,Deep,"A feature crosses UI, API, storage, and operations",DEEP,Plan vertical slices and verify branch-level integration,Do not delegate overlapping ownership
+PR-037,Adversarial,A payment flow can duplicate charges under retry,ADVERSARIAL,Freeze hard gates and attack idempotency and unknown outcomes,Do not accept happy-path evidence
+PR-038,Adversarial,A security-critical release changes authorization,ADVERSARIAL,Use independent security criticism and real boundary tests,Do not let the builder self-approve
+PR-039,Adversarial,A desktop app loses saved state after reload,ADVERSARIAL,"Test launch, save, close, reopen, interruption, and recovery",Do not accept source review alone
+PR-040,Adversarial,A UI must match supplied reference screenshots across viewports,ADVERSARIAL,"Use rendered screenshots, interaction journeys, and regression checks",Do not optimize only a static image
+PR-041,Adversarial,The user explicitly requests hidden tests and red-team-until-acceptance,ADVERSARIAL,Separate visible repair feedback from holdout judgment,Do not expose and overfit all holdouts
+PR-042,Adversarial,An agent repeatedly claims completion from stored status,ADVERSARIAL,Re-execute current oracles and attack false-pass paths,Do not trust checkboxes or worker reports
+PR-043,Adversarial,A migration must prove rollback under partial failure,ADVERSARIAL,Inject bounded failure and verify restore and data integrity,Do not test destructive paths in production
+PR-044,Adversarial,A latency SLO must improve without accuracy regression,ADVERSARIAL,"Use comparable measurements, guardrails, noise, and holdout checks",Do not cherry-pick one fast run
+PR-045,Adversarial,A benchmark may be gamed by weakening assertions,ADVERSARIAL,"Audit benchmark changes, use sensitivity checks, and preserve holdouts",Do not change the bar to match the implementation
+PR-046,Adversarial,A consequential analytical report uses disputed calculations,ADVERSARIAL,"Independently recalculate, inspect sources, and preserve caveats",Do not accept persuasive prose as evidence
+PR-047,Adversarial,A concurrency race can corrupt shared state,ADVERSARIAL,"Use stress, state/invariant checks, failure injection, and independent review",Do not declare absence from a few clean runs
+PR-048,Adversarial,An accessibility-critical journey affects users with cognitive barriers,ADVERSARIAL,Test real task find-understand-act-recover outcomes with relevant evidence,Do not use readability score alone

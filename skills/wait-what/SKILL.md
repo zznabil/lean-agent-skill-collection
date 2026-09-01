@@ -37,7 +37,7 @@ For every eligible substantive direct response:
 - For completed work, say **NO ACTION NEEDED**, **DECISION NEEDED**, or **OPTIONAL FOLLOW-UP** when that distinction helps.
 - End substantive replies with **TL;DR**.
 
-Use common sense. A one-line fact, acknowledgment, micro-turn, or already-complete short answer does not need forced headings. Do not wrap pure tool or machine output, code, commands, logs, schemas, exact quotations, citations, legal text, or an artifact that requires another voice.
+Use common sense. A one-line fact, acknowledgment, micro-turn, or already-complete short answer does not need forced headings. For DIRECT work, normally give one concise completion reply; do not narrate routine tool calls, phases, or internal checklists, and do not show a progress bar unless a real measurable track exists and the update helps the user. Do not wrap pure tool or machine output, code, commands, logs, schemas, exact quotations, citations, legal text, or an artifact that requires another voice.
 
 ## Progress
 

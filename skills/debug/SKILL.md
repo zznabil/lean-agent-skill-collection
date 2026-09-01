@@ -10,10 +10,10 @@ description: "Diagnose a hard defect or performance regression through a tight r
 3. Collect facts before a story: observed behavior, revision, environment, inputs, logs, config, dependencies, and timing. Separate raw evidence from interpretation and keep a compact revisable playbook when the investigation is long.
 4. For an intermittent failure, classify the changing dimension: timing, environment, state, data, dependency, or revision. Vary one factor and record conditions or seed.
 5. Minimize the reproduction until each remaining element is necessary.
-6. Generate three to five genuinely different hypotheses with checkable predictions. Before buying a new live probe, retrodict each hypothesis against existing logs, traces, failures, and known-good runs; use live action only to separate the survivors.
+6. For a simple DIRECT defect, begin with the one or two cheapest plausible hypotheses. Generate three to five genuinely different hypotheses only when the problem is costly, intermittent, or multi-causal. Before buying a new live probe, retrodict each hypothesis against existing logs, traces, failures, and known-good runs; use live action only to separate the survivors.
 7. Assign one focused falsification attempt to each surviving hypothesis when the problem is costly or multi-causal. Do not ask one reviewer to pick a favorite story.
 8. Test one variable at a time with targeted, labeled instrumentation. Use revision bisect when known-good and known-bad boundaries exist.
-9. Do not rerun an unchanged verifier under unchanged conditions and expect new information. Change the hypothesis, state, instrumentation, environment, or representation first.
+9. Do not rerun an unchanged verifier under unchanged conditions and expect new information. After two materially similar failed attempts, change the hypothesis, boundary, instrumentation, environment, or representation; changing only a parameter inside the same failed mechanism is not a new strategy.
 10. If deep search inside the current model finds nothing, challenge the boundary, representation, or supposedly verified rule. Search exhaustion and timeouts do not establish impossibility.
 11. Fix the smallest surviving cause, add regression coverage at a real boundary, rerun the original and adjacent checks, remove probes, and record evidence and remaining uncertainty.
 12. Derive confidence from the outcome: one survivor with rivals falsified is stronger than several survivors; zero survivors means the cause is unknown, not that the first theory wins.

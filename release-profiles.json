@@ -1,8 +1,8 @@
 {
-  "version": "8.4.0",
-  "release": "v8.4.0",
-  "release_title": "Proof Integrity & Verified Orchestration",
-  "release_summary": "V8.4.0 keeps the 23-skill routing surface and absorbs selected Unlazy 2.1.0 mechanisms for falsifiable acceptance gates, parent re-verification, honest handoff states, ownership-safe fan-out, launch barriers, and semantic progress.",
+  "version": "8.5.0",
+  "release": "v8.5.0",
+  "release_title": "Minimum Sufficient Scrutiny & Momentum",
+  "release_summary": "V8.5.0 keeps the 23-skill routing surface and adds proportional rigor: Direct, Standard, Deep, and Adversarial modes; a necessity-and-reuse ladder; minimum sufficient evidence; bounded autonomy; and explicit anti-underbuilding safeguards.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

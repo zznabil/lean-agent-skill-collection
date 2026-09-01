@@ -1,4 +1,4 @@
-# Repository integrity audit — V8.4.0
+# Repository integrity audit — V8.5.0
 
 ## Decision
 
@@ -38,9 +38,16 @@ The audit covered tracked source, metadata, profiles, skill packages, adapters, 
 - Required proof-integrity phrases are checked in `AGENTS.md`, `ENGINEERING-CORE.md`, `test`, `get-it-done`, `ORCHESTRATION.md`, `gauntlet-loop`, and `review`.
 - No Unlazy checker, dispatcher, installer, Stop hook, approval store, or Node runtime is required by any Lean profile.
 
+## Proportional-rigor source checks
+
+- Package metadata declares DIRECT, STANDARD, DEEP, and ADVERSARIAL modes and the 48-row canonical scenario file.
+- The scenario corpus is counted from the CSV and compared byte-for-byte with its release mirror.
+- Required mode and anti-underbuilding phrases are checked in `AGENTS.md`, `ENGINEERING-CORE.md`, `plan`, `implement`, `test`, `review`, `debug`, `get-it-done`, `ORCHESTRATION.md`, `gauntlet-loop`, and `wait-what`.
+- The 23-skill inventory and all six profiles remain unchanged.
+
 ## Release gate
 
-V8.4.0 must be tagged from the exact merged commit. Release assets must be rebuilt from that tag, validated, checksummed, uploaded as a separate GitHub Release, and read back after publication. The published V8.3.0 release must remain unchanged.
+V8.5.0 must be tagged from the exact merged commit. Release assets must be rebuilt from that tag, validated, checksummed, uploaded as a separate GitHub Release, and read back after publication. The published V8.3.0 release must remain unchanged.
 
 ## Remaining limits
 
