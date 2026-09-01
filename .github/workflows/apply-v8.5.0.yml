@@ -1,0 +1,132 @@
+name: Apply V8.5.0 bounded action and momentum
+
+on:
+  push:
+    branches:
+      - release/v8.5.0-bounded-action-momentum
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v8.5.0-bounded-action-momentum
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out release branch with history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: release/v8.5.0-bounded-action-momentum
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Apply reviewed V8.5.0 update
+        shell: bash
+        run: python .github/apply-v8.5.0.py
+
+      - name: Remove temporary update scaffolding
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/apply-v8.5.0.py .github/workflows/apply-v8.5.0.yml
+          git add -A
+          git diff --cached --check
+
+      - name: Build twice and prove deterministic output
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw 'Build output file counts differ' }
+          foreach ($file in $files) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
+              throw "Non-deterministic output: $($file.Name)"
+            }
+          }
+
+      - name: Test validator rejection controls
+        shell: pwsh
+        run: ./scripts/test-validator.ps1
+
+      - name: Validate source and release artifacts
+        shell: pwsh
+        run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+      - name: Audit repository and bounded-action contracts
+        shell: pwsh
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+      - name: Verify bounded-action scenario corpus and package content
+        shell: python
+        run: |
+          import csv
+          import zipfile
+          from pathlib import Path
+
+          rows = list(csv.DictReader(Path('docs/evals/bounded-action-scenarios-v8.5.0.csv').open(encoding='utf-8', newline='')))
+          ids = {row['id'] for row in rows}
+          if len(rows) != 48 or len(ids) != 48:
+              raise SystemExit(f'expected 48 unique scenarios, found {len(rows)} rows and {len(ids)} ids')
+          categories = {row['category'] for row in rows}
+          required_categories = {
+              'tiny reversible fix', 'reversible implementation', 'consequential action',
+              'planning saturation', 'research saturation', 'review saturation',
+              'gauntlet anti-trigger', 'gauntlet stop', 'gauntlet continuation',
+              'bounded loop', 'iteration quality'
+          }
+          missing = required_categories - categories
+          if missing:
+              raise SystemExit(f'missing bounded-action scenario categories: {sorted(missing)}')
+
+          root = Path('artifacts/repro-a')
+          checks = {
+              'get-it-done-pack-openai-v8.5.0.zip': {
+                  'skills/get-it-done/SKILL.md': ['Action threshold', 'Repeated planning, research, review'],
+                  'skills/gauntlet-loop/SKILL.md': ['Anti-over-scrutiny', 'not a perfection loop'],
+                  'skills/writing/SKILL.md': ['User-facing'],
+              },
+              'gauntlet-loop-pack-openai-v8.5.0.zip': {
+                  'skills/gauntlet-loop/SKILL.md': ['Anti-over-scrutiny', 'not a perfection loop'],
+                  'skills/writing/SKILL.md': ['User-facing'],
+              },
+              'lean-agent-skills-complete-openai-v8.5.0.zip': {
+                  'skills/plan/SKILL.md': ['Start threshold'],
+                  'skills/research/SKILL.md': ['Decision saturation'],
+                  'skills/review/SKILL.md': ['Stop rule'],
+                  'skills/test/SKILL.md': ['Minimum sufficient proof'],
+              },
+          }
+          for filename, required_files in checks.items():
+              with zipfile.ZipFile(root / filename) as archive:
+                  names = archive.namelist()
+                  for suffix, needles in required_files.items():
+                      matches = [name for name in names if name.endswith(suffix)]
+                      if len(matches) != 1:
+                          raise SystemExit(f'{filename}: expected one {suffix}, found {matches}')
+                      text = archive.read(matches[0]).decode('utf-8')
+                      for needle in needles:
+                          if needle not in text:
+                              raise SystemExit(f'{filename}: {suffix} lacks {needle!r}')
+              print(f'{filename}: bounded-action checks passed')
+
+      - name: Commit validated V8.5.0 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "feat: add bounded action and momentum"
+          git push origin HEAD:release/v8.5.0-bounded-action-momentum
