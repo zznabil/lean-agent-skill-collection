@@ -1,6 +1,6 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.5.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.5.1-2563eb)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-23-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
@@ -8,7 +8,7 @@ A compact, source-browsable collection of 23 vendor-neutral agent skills for eng
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-V8.5.0 keeps the 23-skill architecture and adds proportional rigor: DIRECT for small decisive work, STANDARD for bounded subsystem work, DEEP for long-running or consequential work, and ADVERSARIAL only when hidden-defect risk justifies Gauntlet. It also adds a necessity-and-reuse ladder, minimum sufficient evidence, quiet Direct execution, and hard anti-underbuilding floors. Read the [minimum-scrutiny review](docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md), [Unlazy re-audit](docs/UNLAZY-REVIEW-v8.4.0.md), [project history](docs/HISTORY.md), and [repository audit](docs/REPOSITORY-AUDIT.md).
+V8.5.1 keeps every V8.5.0 skill, profile, and invocation rule unchanged. It repairs repository validation on Windows PowerShell 5.1 by reading UTF-8 contract files explicitly and avoiding a parser-sensitive Unicode literal. The proportional-rigor system remains: DIRECT for small decisive work, STANDARD for bounded subsystem work, DEEP for long-running or consequential work, and ADVERSARIAL only when hidden-defect risk justifies Gauntlet. Read the [minimum-scrutiny review](docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md), [Unlazy re-audit](docs/UNLAZY-REVIEW-v8.4.0.md), [project history](docs/HISTORY.md), and [repository audit](docs/REPOSITORY-AUDIT.md).
 
 ## Start here
 
@@ -16,12 +16,12 @@ Choose one profile. Do not install overlapping profiles together.
 
 | Profile | Skills | Best for | Generated package |
 |---|---:|---|---|
-| Core | 8 | Planning, research, review, and long-running work | `lean-agent-skills-core-openai-v8.5.0.zip` |
-| Engineering | 19 | Software delivery and engineering operations | `lean-agent-skills-engineering-openai-v8.5.0.zip` |
-| Complete | 23 | The full collection | `lean-agent-skills-complete-openai-v8.5.0.zip` |
-| Communication | 3 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.5.0.zip` |
-| Get It Done | 5 | Long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.5.0.zip` |
-| Gauntlet Loop | 4 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.5.0.zip` |
+| Core | 8 | Planning, research, review, and long-running work | `lean-agent-skills-core-openai-v8.5.1.zip` |
+| Engineering | 19 | Software delivery and engineering operations | `lean-agent-skills-engineering-openai-v8.5.1.zip` |
+| Complete | 23 | The full collection | `lean-agent-skills-complete-openai-v8.5.1.zip` |
+| Communication | 3 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.5.1.zip` |
+| Get It Done | 5 | Long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.5.1.zip` |
+| Gauntlet Loop | 4 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.5.1.zip` |
 
 The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated.
 
@@ -64,8 +64,8 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ```powershell
 ./scripts/build-release.ps1
 ./scripts/test-validator.ps1
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.5.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.5.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.5.1
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.5.1
 ```
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill.
@@ -85,7 +85,7 @@ See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REP
 
 ## Release integrity
 
-The source on `main` is canonical for V8.5.0. Release packages are reproducibly generated from the tagged source and include SHA-256 inventories, a manifest, validation records, the license, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The source on `main` is canonical for V8.5.1. Release packages are reproducibly generated from the tagged source and include SHA-256 inventories, a manifest, validation records, the license, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
 
 ## Security
 
