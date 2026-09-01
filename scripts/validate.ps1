@@ -127,7 +127,7 @@ function Test-SkillTree([object]$Profiles) {
     foreach ($relative in $humanChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "human-usable information file missing: $relative"; continue }
-        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
         foreach ($needle in $humanChecks[$relative]) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
         }
@@ -144,7 +144,7 @@ function Test-SkillTree([object]$Profiles) {
     foreach ($relative in $proofChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proof-integrity file missing: $relative"; continue }
-        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
         foreach ($needle in $proofChecks[$relative]) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proof-integrity contract missing '$needle' in $relative" }
         }
@@ -166,7 +166,7 @@ function Test-SkillTree([object]$Profiles) {
     foreach ($relative in $rigorChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proportional-rigor file missing: $relative"; continue }
-        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
         foreach ($needle in $rigorChecks[$relative]) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proportional-rigor contract missing '$needle' in $relative" }
         }
