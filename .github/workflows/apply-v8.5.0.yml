@@ -25,11 +25,24 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Decode and apply reviewed patch
+      - name: Decode, repair, and apply reviewed patch
         shell: bash
         run: |
           set -euo pipefail
           cat .github/v8.5.0-patch.part*.b64 | tr -d '\r\n' | base64 --decode | gzip --decompress > /tmp/apply-v8.5.0.py
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('/tmp/apply-v8.5.0.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''validator = replace_once(
+              "$manifest.proof_integrity -ne $true)",'''
+          new = '''validator = replace_once(
+              validator,
+              "$manifest.proof_integrity -ne $true)",'''
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one validator-call repair, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+          PY
           python /tmp/apply-v8.5.0.py
 
       - name: Remove temporary patch scaffolding
