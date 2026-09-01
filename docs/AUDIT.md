@@ -1,14 +1,14 @@
-# Lean Agent Skills V8.5.0 — 22-pass release audit
+# Lean Agent Skills V8.5.1 — 22-pass release audit
 
 ## Decision
 
 **PASS STATIC — LIVE HOST AND TASK OUTCOMES PENDING**
 
-V8.5.0 keeps 23 canonical skills, 17 implicitly selectable skills, 6 manual-only skills, and six deployment profiles. It adds no route, dependency, service, hook, installer, executable skill payload, or automatic trusted-state mutation.
+V8.5.1 keeps the 23 canonical skills, 17 implicitly selectable skills, 6 manual-only skills, six deployment profiles, and all V8.5.0 behavior. It changes only repository validation portability: UTF-8 contract files are read explicitly on both supported PowerShell hosts, and a parser-sensitive Unicode needle is constructed safely.
 
 ## Proportional-rigor synthesis
 
-The release converts the false choice between “scrutinize everything” and “move fast and hope” into four evidence-selected modes:
+The release preserves the four evidence-selected modes introduced in V8.5.0:
 
 - DIRECT: inspect → act → decisive check → brief result.
 - STANDARD: bounded subsystem work with one primary skill and targeted checks.
@@ -16,6 +16,12 @@ The release converts the false choice between “scrutinize everything” and �
 - ADVERSARIAL: independent attack only when one normal check is insufficient.
 
 Minimum rigor does not lower correctness, safety, authorization, data integrity, required accessibility, compatibility, explicit acceptance, or proof needed for the claim.
+
+## V8.5.1 maintenance repair
+
+- `scripts/validate.ps1` reads the human-information, proof-integrity, and proportional-rigor contract files through explicit UTF-8 decoding.
+- The U+2192 phrase used by two proportional-rigor checks is built with `[char]0x2192`, avoiding Windows PowerShell 5.1 source-decoding ambiguity.
+- No skill, route, profile, package membership, acceptance rule, or user-facing behavior changed.
 
 ## Audit passes
 
@@ -42,13 +48,13 @@ Minimum rigor does not lower correctness, safety, authorization, data integrity,
 | 19 | Existing proof-integrity and parent re-verification preservation | PASS STATIC |
 | 20 | Existing human-usable-information and cognitive-accessibility preservation | PASS STATIC |
 | 21 | 48-case scenario coverage and release mirror | PASS STATIC |
-| 22 | Deterministic builds, archive validation, PowerShell 7, and Windows PowerShell 5.1 | PASS CI REQUIRED |
+| 22 | Deterministic builds, archive validation, PowerShell 7, and Windows PowerShell 5.1 | PASS CI |
 
 ## Candidate decisions
 
-Strongly absorbed: Ponytail, Quickflow, do-it, and Small Correct Diff mechanisms.
+Strongly absorbed in V8.5.0: Ponytail, Quickflow, do-it, and Small Correct Diff mechanisms.
 
-Selectively absorbed: Scalpel, Just Do It, Plow Ahead, Requirement Zero, Ralph, and GSD Pi mechanisms.
+Selectively absorbed in V8.5.0: Scalpel, Just Do It, Plow Ahead, Requirement Zero, Ralph, and GSD Pi mechanisms.
 
 Rejected for the stable core: separate routes, personas, source runtimes, hook stacks, mandatory routers, universal benchmark promises, blanket test skipping, and Caveman's prose/context compression and commercial runtime surface.
 
