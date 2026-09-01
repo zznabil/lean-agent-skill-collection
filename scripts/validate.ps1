@@ -152,9 +152,9 @@ function Test-SkillTree([object]$Profiles) {
 
     $rigorChecks = @{
         'AGENTS.md'=@('Proportional scrutiny and momentum','DIRECT','ADVERSARIAL','distinct risk or evidence gap','smallest complete solution');
-        'ENGINEERING-CORE.md'=@('Minimum sufficient scrutiny and work','correctness → safety','standard library','one consolidated question','build hard');
+        'ENGINEERING-CORE.md'=@('Minimum sufficient scrutiny and work',('correctness ' + [char]0x2192 + ' safety'),'standard library','one consolidated question','build hard');
         'skills/plan/SKILL.md'=@('one decisive check','build hard');
-        'skills/implement/SKILL.md'=@('correctness → safety','standard library','DIRECT','smallest complete change');
+        'skills/implement/SKILL.md'=@(('correctness ' + [char]0x2192 + ' safety'),'standard library','DIRECT','smallest complete change');
         'skills/test/SKILL.md'=@('minimum sufficient evidence','One decisive check','Do not add a framework');
         'skills/review/SKILL.md'=@('distinct material risk or evidence gap','ALREADY LEAN');
         'skills/debug/SKILL.md'=@('DIRECT defect','two materially similar failed attempts');
