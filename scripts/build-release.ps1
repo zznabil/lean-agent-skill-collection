@@ -257,6 +257,14 @@ $skills
     "status_is_not_reexecution": true,
     "required_gate_abandonment_is_not_completion": true
   },
+  "proportional_rigor": {
+    "global_principles": true,
+    "modes": ["DIRECT", "STANDARD", "DEEP", "ADVERSARIAL"],
+    "direct_for_single_decisive_check": true,
+    "extra_scrutiny_requires_distinct_evidence_gap": true,
+    "safety_and_correctness_floor_immutable": true,
+    "no_new_routed_skill": true
+  },
   "human_usable_information": {
     "global_principles": true,
     "conditional_reference_included": $includesWritingJson,
@@ -343,6 +351,7 @@ $manifest = @"
   "explicit_standards": true,
   "human_usable_information": true,
   "proof_integrity": true,
+  "proportional_rigor": true,
   "skill_content_changed_from_v8_0_0": true,
   "archives": {
 $($manifestArchiveLines -join "`n")

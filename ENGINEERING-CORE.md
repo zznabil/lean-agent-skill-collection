@@ -10,6 +10,7 @@ Use this only for material engineering work. It distils practical rules from rec
 - **Requirements and risk:** ISO/IEC/IEEE 29148, EARS, ISO 31000, IEC 31010, and ISO/IEC/IEEE 16085.
 - **Quality and testing:** ISO/IEC 25010 and the ISO/IEC/IEEE 29119 series.
 - **Proof integrity and verified orchestration:** falsifiable acceptance gates, parent re-verification, ownership-safe fan-out, launch barriers, and semantic progress, informed by the reviewed Unlazy 2.1.0 source at commit `473d4b80421c36d733042434cd4b938f81a19ef1`.
+- **Proportional rigor and momentum:** minimum sufficient scrutiny, necessity-first scope, reuse-before-code, bounded autonomy, and fast paths informed by reviewed Ponytail, Quickflow, do-it, Just Do It, Plow Ahead, Scalpel, Small Correct Diff, Requirement Zero, Ralph, GSD Pi, and Caveman sources.
 - **Lifecycle and assurance:** ISO/IEC/IEEE 12207 and ISO/IEC/IEEE 15026-2 assurance cases.
 - **Architecture and decisions:** ISO/IEC/IEEE 42010, ATAM, and ADR/MADR practice.
 - **Security, privacy, and accessibility:** NIST SP 800-218 SSDF, OWASP ASVS, ISO 31700-1, WCAG 2.2, ISO 9241, and WAI-ARIA APG.
@@ -34,6 +35,19 @@ Use only the sources that change the current decision or verification method. Th
 - Separate facts, constraints, assumptions, and desired outcome. Find the vital few causes or the bottleneck before broad work.
 - Use inversion or a pre-mortem for consequential change. Before removing an existing rule, workaround, or boundary, establish its purpose and dependencies.
 - Prefer reversible, boring, low-regret choices with the fewest assumptions and moving parts that satisfy the evidence. Do not add speculative generality.
+
+## Minimum sufficient scrutiny and work
+
+- Optimize in this order: **correctness → safety → explicit contract and architecture → simplicity → diff size → lines of code**. A smaller wrong or incomplete change is worse than a larger correct one.
+- Before adding code or process, ask: does this need to exist; does the repository already contain it; can the standard library, native platform, or an installed dependency do it; can a direct local change solve it; only then add a new abstraction or dependency.
+- Use **DIRECT** for clear local reversible work with one decisive check; **STANDARD** for bounded multi-file work; **DEEP** for long-running or consequential cross-boundary work; and **ADVERSARIAL** only when hidden-defect risk survives normal verification.
+- In DIRECT mode, one foreground owner inspects, acts, checks, and reports. Do not create durable state, a plan file, delegation, critics, broad research, repeated checkpoints, or a progress bar merely because the host supports them.
+- Use the narrowest current evidence that fully proves the claim. One check is enough only when it observes the complete outcome and has a credible failure path. Collapse equivalent checks; broaden only when another boundary or risk remains unproved.
+- Resolve ordinary ambiguity from current code, documentation, behavior, tests, and reversible defaults. Ask at most one consolidated question when a consequential preference, permission, or unavailable fact remains.
+- Fix the root cause at the shared owning location when evidence identifies it. Do not patch one symptom while leaving the same defect in equivalent callers.
+- After repeated failures from the same hypothesis or strategy, change the hypothesis, boundary, instrumentation, or representation. Parameter tweaks inside the same failed mechanism are not a new strategy.
+- Stop when the contract is met with fresh evidence and no material unresolved risk remains. “Already exists,” “already lean,” and “no change needed” are valid outcomes.
+- Do not delete or simplify mission-critical complexity, security, validation, error handling, data integrity, accessibility, compatibility, or explicit behavior merely to reduce code or ceremony. Use `BUILD HARD` when that complexity is required by the mission rather than accidental scaffolding.
 
 ## Completion and legacy safety
 

@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -106,5 +106,20 @@
     "native_parallel_claim_requires_launch_barrier": true,
     "scenario_file": "docs/evals/proof-integrity-scenarios-v8.4.0.csv",
     "static_scenarios": 40
+  },
+  "proportional_rigor": {
+    "global_principles": true,
+    "modes": [
+      "DIRECT",
+      "STANDARD",
+      "DEEP",
+      "ADVERSARIAL"
+    ],
+    "direct_for_single_decisive_check": true,
+    "extra_scrutiny_requires_distinct_evidence_gap": true,
+    "safety_and_correctness_floor_immutable": true,
+    "no_new_routed_skill": true,
+    "scenario_file": "docs/evals/proportional-rigor-scenarios-v8.5.0.csv",
+    "static_scenarios": 48
   }
 }

@@ -5,12 +5,12 @@ description: "Turn evidence and resolved decisions into an executable proposal, 
 
 # Plan
 
-Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arbiter**. Choose output depth first: **Direct** (a few sentences), **Brief** (bounded units, files, and checks in chat), or **Durable** (a versioned artifact for high-risk, multi-session, or headless work).
+Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arbiter**. Choose output depth first: **Direct** (a few sentences), **Brief** (bounded units, files, and checks in chat), or **Durable** (a versioned artifact for high-risk, multi-session, or headless work). When implementation is also requested and the task is clear, local, reversible, and proved by one decisive check, use Direct and proceed without creating a separate plan artifact.
 
 ## Common process
 
 1. Reconstruct the outcome, current state, constraints, non-goals, users, risks, and definition of done from the conversation and workspace.
-2. Verify consequential claims against files, behavior, documentation, tests, or data. Identify the riskiest unknown and the cheapest probe that can remove it.
+2. Verify consequential claims against files, behavior, documentation, tests, or data. Identify the riskiest unknown and the cheapest probe that can remove it. Run one quick necessity check: delete, reduce, defer, build, or build hard. Do not turn this into a mandatory verdict ceremony for obvious work; mission-critical complexity may be the correct `build hard` result.
 3. Apply **ISO/IEC/IEEE 29148-inspired requirements traceability**: express each material requirement as ID, source, observable statement, verification method, environment, and threshold. For event, state, option, or failure-dependent behavior, use **EARS** forms—`WHEN`, `WHILE`, `WHERE`, or `IF … THEN`—plus a **BCP 14** response. Do not promote an inferred preference into a requirement. In Durable artifacts, keep stable `REQ-#`, `UNIT-#`, and `DEC-#` identifiers; never silently renumber them. Mark examined decisions `SETTLED` and reopen only when new evidence invalidates them.
 4. For accessibility-sensitive work, apply **ISO/IEC 29138-1:2018 and 29138-4:2026** as a lightweight needs map: `user accessibility need → barrier → requirement → evidence`. Do not treat one diagnosis or persona as a proxy for all users.
 5. For independent capabilities, map owner, interface, dependencies, acceptance checks, and integration point. For Durable or delegated work, maintain a revisioned contract inventory: every independently omittable required outcome and every acceptance-changing constraint gets a stable ID, owner, observing gate or manual review, disposition, and revision. `ABANDONED`, `DEFERRED`, and `OWNER_DECISION` remain non-completion unless an authorized scope change removes the requirement. Prove coverage in both directions: every requirement maps to work, and every work item maps to a requirement or explicit enabling need.
@@ -29,7 +29,7 @@ Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arb
 - **Refactor:** measured pain, characterization coverage, seam, behavior-preserving slices, compatibility, migration, verification, and rollback. Compare no change, local change, and broader change.
 - **Arbiter:** normalize competing plans, hide author identity when practical, score against one rubric, preserve strong dissent, then adopt, hybridize, or reject. Tie-break by user fit, correctness, evidence, simplicity, rollback, then cost.
 
-Return one ordered artifact with traceability, dependencies, completion checks, rejected alternatives, disclosed remainder, and `Not doing`. A plan is a guardrail for outcomes and decisions, not line-by-line code choreography. Do not claim implementation occurred.
+Return the lightest useful planning output with traceability, dependencies, completion checks, rejected alternatives, disclosed remainder, and `Not doing` when those fields matter. A Direct plan MAY be only the chosen approach and decisive check. A plan is a guardrail for outcomes and decisions, not line-by-line code choreography. Do not claim implementation occurred.
 
 
 **User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

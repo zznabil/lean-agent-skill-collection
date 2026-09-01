@@ -324,3 +324,9 @@ release-profiles.json
 ```
 
 The collection still follows the lean rule: do not add a routed skill when an existing authority can absorb the distinct useful mechanism.
+
+### 19. V8.5.0: minimum sufficient scrutiny and momentum
+
+V8.5.0 studied the opposite failure mode from Gauntlet bloat: small work becoming a ceremony of plans, agents, critics, state files, broad tests, and repeated status narration. Ponytail, Quickflow, do-it, Small Correct Diff, Scalpel, Just Do It, Plow Ahead, Requirement Zero, Ralph, GSD Pi, and Caveman were compared as subtraction-first, speed-first, or low-ceremony approaches.
+
+No new route survived. Lean retained four evidence-selected modes—DIRECT, STANDARD, DEEP, and ADVERSARIAL—plus a necessity/reuse/stdlib/native ladder, one decisive-check rule, one-question maximum for unresolved consequential choices, strategy shifts after repeated same-class failure, and `ALREADY LEAN` as a valid review outcome. It rejected unsafe underbuilding, blanket test skipping, personas, duplicate controllers, runtimes, hooks, commercial surfaces, and benchmark promises that did not transfer across harnesses.

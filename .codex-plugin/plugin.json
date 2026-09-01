@@ -1,6 +1,6 @@
 {
   "name": "lean-agent-skills-complete",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "description": "Twenty-three compact skills for engineering, research, communication, documents, experiments, and quality work.",
   "skills": "./skills/"
 }

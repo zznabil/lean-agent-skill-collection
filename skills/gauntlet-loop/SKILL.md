@@ -13,14 +13,14 @@ The builder MUST NOT finally approve its own work.
 
 Run when the user asks for a gauntlet, independent critics, red-team-until-acceptance, benchmark-and-repair, release readiness, real UI testing, hidden tests, or repeated evidence-driven improvement.
 
-An orchestrator may invoke it only when all are true:
+An orchestrator MUST NOT invoke it for DIRECT work. Before invocation, record the material risk or evidence gap that a normal focused review and one decisive check cannot resolve. It may invoke Gauntlet only when all are true:
 
 - a meaningful artifact exists;
 - acceptance can be judged against evidence;
 - one direct test is not enough;
 - at least two material risks exist, such as costly failure, several journeys, visual quality, integration, persistence, security, recovery, or supplied references.
 
-Do not auto-run it for factual questions, trivial rewrites, one-line fixes, tiny scripts, formatting, or work whose extra review costs more than the likely gain.
+Do not auto-run it for factual questions, trivial rewrites, one-line fixes, tiny scripts, formatting, or work whose extra review costs more than the likely gain. Every critic and lane must map to a distinct material risk or evidence gap; overlapping critics are not extra assurance.
 
 ## Roles
 
@@ -51,7 +51,7 @@ Freeze the benchmark version. Any change needs a reason, diff, authorization sou
 8. **Repair:** fix one defect or tight cluster. Add regression coverage when practical.
 9. **Retest:** rerun the failed benchmark, adjacent checks, and relevant regression set with fresh evidence. Treat evidence as stale when the artifact or revision, verifier or rubric, relevant inputs, environment, entrypoint, authentication context, or required dependencies changed. For a multi-step procedure, stop dependent steps at the first material mismatch. Revert a change that makes the total result worse.
 10. **Barrier:** pipeline independent finding→verify paths. Wait for the whole field only when global deduplication, ranking, a join, convergence, or the judge requires it. Verify every manifest row and critic claim before carrying it forward.
-11. **Decide:** extend only while a material gap is fixable, the last round added verified progress, and budget remains. If a whole wave fails the same way, repair the shared contract or environment before another wave. Disclose every stopped, skipped, capped, or unprocessed item.
+11. **Decide:** after all hard gates pass, run one focused clean counterexample or integration pass and stop unless a named unresolved risk justifies another round. Extend only while a material gap is fixable, the last round added verified progress, and budget remains. If a whole wave fails the same way, repair the shared contract or environment before another wave. Disclose every stopped, skipped, capped, or unprocessed item.
 12. **Final judge:** use a clean environment when practical; re-execute the current critical oracles rather than trusting status records; run integrated tests and journeys; inspect screenshots and diffs; and verify benchmark integrity, standing completion, persistence, operations, rollback, stray files, debug settings, and secrets. When model and reality gates apply, both MUST pass. Check both directions: every acceptance claim has evidence, and every material benchmark appears in the decision.
 
 ## Status model

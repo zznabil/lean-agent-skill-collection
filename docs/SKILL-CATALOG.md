@@ -1,6 +1,6 @@
-# Lean Agent Skills V8.4.0 catalog
+# Lean Agent Skills V8.5.0 catalog
 
-V8.4.0 keeps the same 23 canonical skills, six profiles, and invocation policy. It adds proof-integrity and verified-orchestration rules to existing authorities; the Unlazy runtime remains upstream and project-local.
+V8.5.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Proportional rigor is a global and owning-skill rule, not a new route: small work uses DIRECT, consequential work escalates to DEEP, and Gauntlet remains the bounded ADVERSARIAL ceiling.
 
 | Skill | Profile role | Invocation | Principal explicit sources |
 |---|---|---|---|
@@ -13,14 +13,14 @@ V8.4.0 keeps the same 23 canonical skills, six profiles, and invocation policy. 
 | `get-it-done` | core, engineering, complete, get-it-done | manual | ISO 29148; ISO 12207; BCP 14; Unlazy-informed proof integrity |
 | `grilling` | complete | manual | ISO 29148; EARS; BCP 14 |
 | `handoff` | core, engineering, complete | manual | Durable-state and structured-handoff practice |
-| `implement` | engineering, complete | implicit | NIST SSDF; OWASP ASVS |
+| `implement` | engineering, complete | implicit | NIST SSDF; OWASP ASVS; proportional-rigor and smallest-correct-diff practice |
 | `merge-conflicts` | engineering, complete | implicit | Three-way merge and verification practice |
 | `office-files` | complete | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514; ISO 9241-112:2025; format-aware validation |
 | `plan` | core, engineering, complete | implicit | ISO 29148; EARS; BCP 14; ISO 25010; ISO 31000 family; ISO/IEC 29138-1/-4 |
 | `project-context` | engineering, complete | manual | ISO 5259; ISO 25012/25024; Model/Data Cards; FAIR; ISO 42005 |
 | `release` | engineering, complete | implicit | ISO 12207; SemVer; Conventional Commits; SLSA/SPDX/CycloneDX/Reproducible Builds |
 | `research` | core, engineering, complete | implicit | Primary-source and benchmark-regime disclosure practice |
-| `review` | core, engineering, complete | implicit | ISO 20246; ISO 25010; ISO 15026-2; IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859; Google code-review practice |
+| `review` | core, engineering, complete | implicit | ISO 20246; ISO 25010; ISO 15026-2; user-information sources; Google code-review; evidence-backed simplification |
 | `skill-design` | core, engineering, complete | implicit | ISO 20741; structural/routing/behavioural evaluation; task-based user-information evaluation |
 | `teach` | complete, communication, get-it-done, gauntlet | implicit | CAST UDL 3.0; IES practice guide; Feynman; COGA; Diátaxis; cognitive load; worked examples; self-explanation; retrieval |
 | `test` | engineering, complete | implicit | ISO 29119; TDD; test pyramid; property/state-machine testing; TLA+ escalation; oracle calibration |

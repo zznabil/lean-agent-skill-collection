@@ -5,15 +5,15 @@ description: "Design or improve automated tests and test-first feedback loops. U
 
 # Test
 
-Apply **ISO/IEC/IEEE 29119-inspired verification traceability**: requirement → test condition → expected result → actual result → evidence. Use **TDD** and the practical **test pyramid** proportionally; escalate from invariants and state tables to property/state-machine tests or **TLA+** only when state-space risk justifies it.
+Apply **ISO/IEC/IEEE 29119-inspired verification traceability**: requirement → test condition → expected result → actual result → evidence. Use **TDD** and the practical **test pyramid** proportionally; escalate from invariants and state tables to property/state-machine tests or **TLA+** only when state-space risk justifies it. Seek minimum sufficient evidence: the fewest non-redundant checks that fully observe the claim and its material failure paths.
 
 ## Choose the signal
 
 1. Discover the repository’s actual test framework, commands, fixtures, and conventions before adding another stack.
-2. Start from an observable requirement and the cheapest boundary that proves it: unit for local logic, integration for real boundaries, and end-to-end only for critical journeys.
+2. Start from an observable requirement and the cheapest boundary that proves it: unit for local logic, integration for real boundaries, and end-to-end only for critical journeys. One decisive check is enough when it proves the whole claim; collapse equivalent checks instead of collecting ceremonial green output.
 3. In a weakly tested established area, write characterization tests before refactoring behavior.
 4. For a bug, first make a regression test fail for the reported behavior when practical.
-5. Every critical requirement MUST have a verification method. Every meaningful fixed defect SHOULD gain regression coverage when practical. For state-heavy or concurrent behavior, escalate only as needed: invariant → state table → property or state-machine test → formal model.
+5. Every critical requirement MUST have a verification method. Every meaningful fixed defect SHOULD gain regression coverage when practical. Do not add a framework, fixture layer, or broad suite for a tiny change unless the current repository and risk justify it. Public contracts, shared state, persistence, concurrency, authentication, security, migration, compatibility, and release boundaries normally require broader evidence. For state-heavy or concurrent behavior, escalate only as needed: invariant → state table → property or state-machine test → formal model.
 
 ## Red–green–refactor
 

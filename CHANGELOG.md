@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.5.0 — 2026-09-01
+
+- Keep all 23 canonical skills, all six profiles, and all invocation policies; add no routed skill or runtime dependency.
+- Add four scrutiny modes: DIRECT, STANDARD, DEEP, and ADVERSARIAL.
+- Strongly absorb necessity-first scope, reuse/stdlib/native-before-code, minimum sufficient evidence, one consolidated question, quiet foreground execution, root-cause repair, and `ALREADY LEAN` stopping behavior.
+- Preserve correctness, safety, authorization, data integrity, accessibility, compatibility, explicit behavior, and claim-specific evidence as non-negotiable floors.
+- Require every extra skill, agent, critic, artifact, check, or review round to close a distinct material risk or evidence gap.
+- Add 48 proportional-rigor scenarios and expand the release audit to 22 passes.
+- Review Ponytail, Quickflow, do-it, Just Do It, Plow Ahead, Scalpel, Small Correct Diff, Requirement Zero, Ralph, GSD Pi, and Caveman; retain mechanisms rather than runtimes, personas, benchmark promises, hooks, or commercial surfaces.
+
 ## 8.4.0 — 2026-08-31
 
 - Keep all 23 canonical skills, all six profiles, and all invocation policies.
