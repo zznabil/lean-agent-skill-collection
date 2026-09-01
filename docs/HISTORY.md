@@ -330,3 +330,25 @@ The collection still follows the lean rule: do not add a routed skill when an ex
 V8.5.0 studied the opposite failure mode from Gauntlet bloat: small work becoming a ceremony of plans, agents, critics, state files, broad tests, and repeated status narration. Ponytail, Quickflow, do-it, Small Correct Diff, Scalpel, Just Do It, Plow Ahead, Requirement Zero, Ralph, GSD Pi, and Caveman were compared as subtraction-first, speed-first, or low-ceremony approaches.
 
 No new route survived. Lean retained four evidence-selected modes—DIRECT, STANDARD, DEEP, and ADVERSARIAL—plus a necessity/reuse/stdlib/native ladder, one decisive-check rule, one-question maximum for unresolved consequential choices, strategy shifts after repeated same-class failure, and `ALREADY LEAN` as a valid review outcome. It rejected unsafe underbuilding, blanket test skipping, personas, duplicate controllers, runtimes, hooks, commercial surfaces, and benchmark promises that did not transfer across harnesses.
+
+## V8.6.0 — Outcome-First Communication & Quiet Execution
+
+V8.6.0 reviewed `NousResearch/hermes-agent` at commit `18a76be124d7c16ed98b629a358b23fef76a7f46`. It retained portable behavior rather than runtime machinery.
+
+Absorbed:
+
+- response length and structure matched to the task;
+- deep enough internal inspection with concise external reporting;
+- outcome, fresh verification, and remaining action for completed work;
+- explicit anti-filler, anti-restatement, anti-process-replay, and anti-sycophancy rules;
+- tool-intent closure and conditional batching of independent lookups;
+- user or host presentation precedence without weakening the truth contract.
+
+Rejected:
+
+- copying the full system prompt;
+- bundling Hermes profiles, memory, caching, continuation, computer-use, or automatic skill mutation;
+- claiming equivalent live enforcement;
+- adding a new routed style skill.
+
+The release kept 23 skills and six profiles and added 48 static delivery scenarios.

@@ -1,7 +1,7 @@
 interface:
   display_name: Wait, What?
   short_description: Re-pitch confusing responses clearly
-  default_prompt: Use $wait-what to re-pitch the last response with context restored. Apply ASD-STE100, ISO 24495-1 plain language, and W3C COGA proportionally; add Feynman, Diátaxis, or BCP 14 only when useful. Keep simple answers short, preserve considerate follow-through, and report truthful progress where relevant.
+  default_prompt: Use $wait-what to re-pitch the last response with context restored and the outcome first. Match reply weight to the ask; remove filler, request restatement, process replay, and duplicate conclusions; preserve material context, uncertainty, verification, and considerate follow-through.
 policy:
   products:
   - CHAT

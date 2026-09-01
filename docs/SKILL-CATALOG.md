@@ -1,6 +1,6 @@
-# Lean Agent Skills V8.5.1 catalog
+# Lean Agent Skills V8.6.0 catalog
 
-V8.5.1 keeps the same 23 canonical skills, six profiles, invocation policy, and proportional-rigor behavior as V8.5.0. The patch changes repository validation portability only: small work still uses DIRECT, consequential work escalates to DEEP, and Gauntlet remains the bounded ADVERSARIAL ceiling.
+V8.6.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
 
 | Skill | Profile role | Invocation | Principal explicit sources |
 |---|---|---|---|

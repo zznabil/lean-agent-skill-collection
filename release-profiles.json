@@ -1,8 +1,8 @@
 {
-  "version": "8.5.1",
-  "release": "v8.5.1",
-  "release_title": "Validator Portability Repair",
-  "release_summary": "V8.5.1 keeps all V8.5.0 skill and profile behavior unchanged and fixes UTF-8-safe repository validation on Windows PowerShell 5.1.",
+  "version": "8.6.0",
+  "release": "v8.6.0",
+  "release_title": "Outcome-First Communication & Quiet Execution",
+  "release_summary": "V8.6.0 keeps all 23 skills and six profiles while refining delivery: match response weight to the task, investigate enough internally, execute instead of merely promising, and report outcome, verification, and remaining action without replaying routine process.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -81,7 +81,7 @@
     "communication": {
       "plugin_name": "user-facing-communication-mini",
       "title": "User-Facing Communication Mini",
-      "description": "Three compact skills for adaptive clear replies, teaching, writing, and human-usable information.",
+      "description": "Three compact skills for outcome-first replies, adaptive clear writing, teaching, and human-usable information.",
       "include_engineering_core": false,
       "skills": [
         "teach",
@@ -92,7 +92,7 @@
     "get-it-done": {
       "plugin_name": "get-it-done-pack",
       "title": "Get It Done Pack",
-      "description": "Five compact skills for long-horizon execution, adversarial acceptance, adaptive communication, teaching, writing, and human-usable information.",
+      "description": "Five compact skills for long-horizon execution, adversarial acceptance, outcome-first communication, teaching, writing, and human-usable information.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
@@ -105,7 +105,7 @@
     "gauntlet": {
       "plugin_name": "gauntlet-loop-pack",
       "title": "Gauntlet Loop Pack",
-      "description": "Four compact skills for adversarial quality review plus adaptive communication, teaching, writing, and human-usable information.",
+      "description": "Four compact skills for adversarial quality review plus outcome-first communication, teaching, writing, and human-usable information.",
       "include_engineering_core": false,
       "skills": [
         "gauntlet-loop",

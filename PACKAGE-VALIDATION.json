@@ -1,7 +1,7 @@
 {
-  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, human-usable-information, and archive validation; not live host behaviour or formal conformance",
+  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance",
   "package": "complete",
-  "version": "8.5.1",
+  "version": "8.6.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -69,6 +69,7 @@
     "Live model behaviour, routing, user comprehension, accessibility, task success, and human satisfaction were not measured.",
     "Named standards and project influences do not establish formal conformance.",
     "The Unlazy runtime, checker, installer, approval store, dispatch recorder, and Stop hook are not bundled.",
+    "Hermes runtime continuation, tool schemas, profiles, memory, caching, and computer-use enforcement are not bundled or claimed equivalent.",
     "Overlapping profiles must not be installed together."
   ],
   "errors": [],
@@ -123,7 +124,25 @@
     "static_scenarios": 48
   },
   "maintenance": {
-    "skill_behavior_changed_from_v8_5_0": false,
-    "windows_powershell_5_1_utf8_validation": true
+    "windows_powershell_5_1_utf8_validation": true,
+    "skill_behavior_changed_from_v8_5_1": true
+  },
+  "outcome_first_delivery": {
+    "global_principles": true,
+    "source_project": "NousResearch/hermes-agent",
+    "source_commit": "18a76be124d7c16ed98b629a358b23fef76a7f46",
+    "runtime_vendored": false,
+    "response_weight_matching": true,
+    "internal_depth_external_brevity": true,
+    "quiet_completion": true,
+    "act_or_state_blocker": true,
+    "no_process_replay": true,
+    "anti_filler": true,
+    "anti_sycophancy": true,
+    "explicit_user_or_host_style_override": true,
+    "summary_tldr_distinct_when_used": true,
+    "parallel_independent_lookups_when_supported": true,
+    "scenario_file": "docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv",
+    "static_scenarios": 48
   }
 }

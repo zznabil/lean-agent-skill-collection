@@ -144,6 +144,31 @@ if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_fo
     }
 }
 
+
+
+$delivery = $package.outcome_first_delivery
+if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.6 outcome-first delivery contract'
+} else {
+    $deliveryScenarioRelative = [string]$delivery.scenario_file
+    $deliveryScenarioPath = Join-Path $RepositoryRoot $deliveryScenarioRelative.Replace('/', [IO.Path]::DirectorySeparatorChar)
+    $deliveryMirrorRelative = 'releases/v8.6.0/outcome-first-delivery-scenarios-v8.6.0.csv'
+    $deliveryMirrorPath = Join-Path $RepositoryRoot $deliveryMirrorRelative.Replace('/', [IO.Path]::DirectorySeparatorChar)
+    if (-not (Test-Path -LiteralPath $deliveryScenarioPath -PathType Leaf)) { Add-Failure "outcome-first scenario file missing: $deliveryScenarioRelative" }
+    elseif (-not (Test-Path -LiteralPath $deliveryMirrorPath -PathType Leaf)) { Add-Failure "outcome-first release mirror missing: $deliveryMirrorRelative" }
+    else {
+        $deliveryRows = @(Import-Csv -LiteralPath $deliveryScenarioPath)
+        if ($deliveryRows.Count -ne [int]$delivery.static_scenarios) { Add-Failure "outcome-first metadata says $($delivery.static_scenarios) but CSV contains $($deliveryRows.Count) rows" }
+        if (@($deliveryRows.id | Sort-Object -Unique).Count -ne $deliveryRows.Count) { Add-Failure 'outcome-first scenario IDs are not unique' }
+        $requiredCategories = @('blocked_action','completed_action','correction','decision','execution','explanation','host_override','micro_turn','simple_fact','uncertainty','user_override')
+        $actualCategories = @($deliveryRows.category | Sort-Object -Unique)
+        foreach ($category in $requiredCategories) {
+            if (-not ($actualCategories -contains $category)) { Add-Failure "outcome-first scenario corpus lacks category: $category" }
+        }
+        if ((Get-Sha256 $deliveryScenarioPath) -ne (Get-Sha256 $deliveryMirrorPath)) { Add-Failure 'outcome-first scenario mirror drift' }
+    }
+}
+
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
 $scenarioPairs = @(
     @('docs/evals/usable-information-scenarios-v8.3.0.csv', 'releases/v8.3.0/usable-information-scenarios-v8.3.0.csv'),
@@ -183,7 +208,7 @@ foreach ($pattern in $temporaryPatterns) {
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
-    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md',
+    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
     'scripts/audit-repository.ps1'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })

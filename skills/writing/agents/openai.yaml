@@ -1,7 +1,7 @@
 interface:
   display_name: Writing
   short_description: Draft or edit clear prose and user information for its task
-  default_prompt: 'Use $writing to draft or edit this prose or user information for its audience, task, and purpose. Keep the global adaptive-prose and considerate-agency overlays active: simple turns stay short; heavier structure appears only when it improves understanding or action.'
+  default_prompt: 'Use $writing to draft or edit this prose or user information for its audience, task, and purpose. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action.'
 policy:
   products:
   - CHAT

@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.6.0 — 2026-09-01
+
+- Keep all 23 canonical skills, six profiles, package composition, and invocation policies.
+- Add outcome-first response sizing: match length and structure to the weight of the ask.
+- Separate deep internal investigation from concise external reporting.
+- For completed work, report outcome, fresh verification, remaining risk or action, and a durable evidence pointer instead of replaying routine process.
+- Add explicit anti-filler, anti-restatement, anti-process-narration, anti-duplicate-summary, plain-uncertainty, and evidence-based agreement rules.
+- Require stated tool intent to become execution or a blocker statement; batch independent read-only work when the host safely supports it.
+- Allow an explicit user or host presentation contract to replace default Summary/TL;DR headings without removing truth, evidence, blockers, or necessary meaning.
+- Add a Hermes integration guide, a pinned Hermes prompt review, and 48 outcome-first delivery scenarios.
+- Vendor no Hermes runtime, profile, memory, caching, continuation, computer-use, or skill-mutation code; claim no runtime equivalence.
+
 ## 8.5.1 — 2026-09-01
 
 - Keep all 23 V8.5.0 skills, all six profiles, and every invocation and acceptance rule unchanged.

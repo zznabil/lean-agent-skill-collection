@@ -265,6 +265,15 @@ $skills
     "safety_and_correctness_floor_immutable": true,
     "no_new_routed_skill": true
   },
+  "outcome_first_delivery": {
+    "global_principles": true,
+    "response_weight_matching": true,
+    "internal_depth_external_brevity": true,
+    "quiet_completion": true,
+    "act_or_state_blocker": true,
+    "summary_tldr_distinct_when_used": true,
+    "runtime_equivalence_claimed": false
+  },
   "human_usable_information": {
     "global_principles": true,
     "conditional_reference_included": $includesWritingJson,
@@ -352,6 +361,7 @@ $manifest = @"
   "human_usable_information": true,
   "proof_integrity": true,
   "proportional_rigor": true,
+  "outcome_first_delivery": true,
   "skill_content_changed_from_v8_0_0": true,
   "archives": {
 $($manifestArchiveLines -join "`n")
