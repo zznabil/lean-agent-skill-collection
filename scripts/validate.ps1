@@ -127,7 +127,7 @@ function Test-SkillTree([object]$Profiles) {
     foreach ($relative in $humanChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "human-usable information file missing: $relative"; continue }
-        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
         foreach ($needle in $humanChecks[$relative]) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
         }
@@ -144,7 +144,7 @@ function Test-SkillTree([object]$Profiles) {
     foreach ($relative in $proofChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proof-integrity file missing: $relative"; continue }
-        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
         foreach ($needle in $proofChecks[$relative]) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proof-integrity contract missing '$needle' in $relative" }
         }
@@ -152,9 +152,9 @@ function Test-SkillTree([object]$Profiles) {
 
     $rigorChecks = @{
         'AGENTS.md'=@('Proportional scrutiny and momentum','DIRECT','ADVERSARIAL','distinct risk or evidence gap','smallest complete solution');
-        'ENGINEERING-CORE.md'=@('Minimum sufficient scrutiny and work','correctness → safety','standard library','one consolidated question','build hard');
+        'ENGINEERING-CORE.md'=@('Minimum sufficient scrutiny and work',('correctness ' + [char]0x2192 + ' safety'),'standard library','one consolidated question','build hard');
         'skills/plan/SKILL.md'=@('one decisive check','build hard');
-        'skills/implement/SKILL.md'=@('correctness → safety','standard library','DIRECT','smallest complete change');
+        'skills/implement/SKILL.md'=@(('correctness ' + [char]0x2192 + ' safety'),'standard library','DIRECT','smallest complete change');
         'skills/test/SKILL.md'=@('minimum sufficient evidence','One decisive check','Do not add a framework');
         'skills/review/SKILL.md'=@('distinct material risk or evidence gap','ALREADY LEAN');
         'skills/debug/SKILL.md'=@('DIRECT defect','two materially similar failed attempts');
@@ -166,7 +166,7 @@ function Test-SkillTree([object]$Profiles) {
     foreach ($relative in $rigorChecks.Keys) {
         $checkPath = Join-Path $repoRoot $relative
         if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proportional-rigor file missing: $relative"; continue }
-        $checkText = Get-Content -Raw -LiteralPath $checkPath
+        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
         foreach ($needle in $rigorChecks[$relative]) {
             if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proportional-rigor contract missing '$needle' in $relative" }
         }
