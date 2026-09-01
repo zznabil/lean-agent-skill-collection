@@ -32,16 +32,40 @@ jobs:
           cat .github/v8.5.0-patch.part*.b64 | tr -d '\r\n' | base64 --decode | gzip --decompress > /tmp/apply-v8.5.0.py
           python - <<'PY'
           from pathlib import Path
+
           path = Path('/tmp/apply-v8.5.0.py')
           text = path.read_text(encoding='utf-8')
-          old = '''validator = replace_once(
-              "$manifest.proof_integrity -ne $true)",'''
-          new = '''validator = replace_once(
+          repairs = [
+              (
+                  '''validator = replace_once(
+              "$manifest.proof_integrity -ne $true)",''',
+                  '''validator = replace_once(
               validator,
-              "$manifest.proof_integrity -ne $true)",'''
-          if text.count(old) != 1:
-              raise SystemExit(f'expected one validator-call repair, found {text.count(old)}')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+              "$manifest.proof_integrity -ne $true)",''',
+                  'validator release-manifest call',
+              ),
+              (
+                  '''repo_audit_script = replace_once(
+              "'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md',",''',
+                  '''repo_audit_script = replace_once(
+              repo_audit_script,
+              "'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md',",''',
+                  'repository-audit text-files call',
+              ),
+              (
+                  '''repo_audit_script = replace_once(
+              "proof-integrity scenarios, evaluation mirrors",''',
+                  '''repo_audit_script = replace_once(
+              repo_audit_script,
+              "proof-integrity scenarios, evaluation mirrors",''',
+                  'repository-audit pass-text call',
+              ),
+          ]
+          for old, new, label in repairs:
+              if text.count(old) != 1:
+                  raise SystemExit(f'{label}: expected one repair target, found {text.count(old)}')
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
           PY
           python /tmp/apply-v8.5.0.py
 
