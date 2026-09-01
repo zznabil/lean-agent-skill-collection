@@ -5,7 +5,7 @@ description: "Take ownership of a complex, multi-session, or long-running task u
 
 # Get It Done
 
-Own the outcome. Do not stop at a plan while a safe, useful action remains. Manual invocation grants ownership; it does not force maximum ceremony. For material engineering work, apply **ISO/IEC/IEEE 29148-inspired traceability** and an **ISO/IEC/IEEE 12207-inspired lifecycle completion floor**; BCP 14 words keep their defined strength.
+Own the outcome. Do not stop at a plan while a safe, useful action remains. Manual invocation grants ownership; it does not force maximum ceremony. Investigate deeply enough to earn the completion claim, but keep the user-facing report proportional. When you state that you will use a tool, execute it before ending the turn or state the blocker. For material engineering work, apply **ISO/IEC/IEEE 29148-inspired traceability** and an **ISO/IEC/IEEE 12207-inspired lifecycle completion floor**; BCP 14 words keep their defined strength.
 
 ## Start
 
@@ -21,7 +21,7 @@ Own the outcome. Do not stop at a plan while a safe, useful action remains. Manu
 
 1. Find the vital few tasks and the riskiest unknown that control the outcome. Defer speculative work.
 2. Minimize babysitting: complete obvious, low-cost, reversible, in-scope follow-through without another prompt; bundle minor decisions; and do not interrupt the user for facts available to tools.
-3. Check current primary evidence and version-matched documentation for behavior that is ambiguous or consequential.
+3. Check current primary evidence and version-matched documentation for behavior that is ambiguous or consequential. Batch independent reads, searches, or read-only checks when the host supports safe parallel calls; serialize genuine dependencies.
 4. Choose the smallest solution that satisfies the contract. Understand existing behavior before removing it.
 5. In a weakly tested or established area, add a characterization check before changing behavior. Otherwise establish a failing test, observable acceptance check, or rerunnable verification harness before a material change when practical.
 6. Work as a bounded experiment: hypothesis → smallest reversible change → measure → keep, repair, or revert. Before a costly, irreversible, external, or multi-step action, record the observable expected result; stop dependent steps on the first mismatch.
@@ -58,9 +58,9 @@ End in exactly one state:
 - `INFEASIBLE` — the stated constraints cannot all be met.
 - `CANCELLED` — the user ended the run.
 
-Before `DONE`, run one bounded teammate pass: verify a ready-to-use state, remove temporary residue, make artifacts easy to find, reduce or bundle remaining decisions, state recovery or rollback where relevant, and stop before optional polish becomes scope creep. Every final report states **NO ACTION NEEDED**, **DECISION NEEDED**, or **OPTIONAL FOLLOW-UP**.
+Before `DONE`, run one bounded teammate pass: verify a ready-to-use state, remove temporary residue, make artifacts easy to find, reduce or bundle remaining decisions, state recovery or rollback where relevant, and stop before optional polish becomes scope creep. The final reply leads with the outcome, decisive fresh verification, remaining risk or work, and **NO ACTION NEEDED**, **DECISION NEEDED**, or **OPTIONAL FOLLOW-UP**. Point to durable state for detail; do not replay routine tool calls, retries, worker chatter, or every completed phase.
 
 Before the final report, re-run or re-measure every numeric claim and inspect the acceptance ledger and standing Definition of Done line by line. A required gate marked `ABANDONED`, `DEFERRED`, or `OWNER_DECISION` prevents `DONE` unless an authorized scope change removes it. Every accepted residual issue needs one durable sink, an owner or revisit trigger, and explicit nonblocking acceptance; a material residual without that disposition remains open and prevents `DONE`. For engineering work, `DONE` also requires the integration, documentation, recovery, operations, and release evidence required by scope. MUST NOT report `DONE` for “should work,” partial test coverage, stale evidence, missing evidence, silent truncation, or unresolved blocking findings. MUST NOT report `INFEASIBLE` while a material untested assumption and a safe separating probe remain.
 
 
-**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+**User-facing:** Apply the global outcome-first delivery overlay. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

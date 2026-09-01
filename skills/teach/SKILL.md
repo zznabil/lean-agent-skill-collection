@@ -17,9 +17,9 @@ For substantial learning, apply **CAST UDL Guidelines 3.0**, the **IES Organizin
 8. Use retrieval questions and spaced follow-up only when retaining the material beyond the immediate task is an actual goal.
 9. End with the key takeaway and one useful next exercise.
 
-For a quick explanation, answer directly and stop. Do not force a quiz, a full course, or unnecessary prerequisites.
+For a quick explanation, answer directly and stop. Match depth to the learner's question and observed need. Do not force a quiz, a full course, or unnecessary prerequisites; concise delivery does not excuse shallow preparation or an inaccurate explanation.
 
 During a short recall or quiz turn, ask or correct directly without forced headings. Use the full wrapper for substantive lesson chunks and the final synthesis.
 
 
-**User-facing:** Apply the global adaptive-prose overlay. Simple turns stay short. For substantive chat, use **Summary** and the answer/result first; apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally; state vital facts, uncertainty, and failed or skipped checks; end with **TL;DR**. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+**User-facing:** Apply the global outcome-first delivery overlay. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.

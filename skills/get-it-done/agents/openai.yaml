@@ -1,7 +1,7 @@
 interface:
   display_name: Get It Done
   short_description: Own long-horizon work through verified completion
-  default_prompt: 'Use $get-it-done to own this outcome through verified completion. Keep the global adaptive-prose and considerate-agency overlays active: simple turns stay short; heavier structure appears only when it improves understanding or action.'
+  default_prompt: 'Use $get-it-done to own this outcome through verified completion. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action.'
 policy:
   products:
   - CHAT
