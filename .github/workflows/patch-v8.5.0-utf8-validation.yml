@@ -1,0 +1,58 @@
+name: Patch V8.5.0 UTF-8 validation
+
+on:
+  push:
+    branches:
+      - fix/v8.5.0-release-blockers
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: patch-v8.5.0-utf8-validation
+  cancel-in-progress: false
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repair branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: fix/v8.5.0-release-blockers
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Read contract files as UTF-8 on every PowerShell host
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('scripts/validate.ps1')
+          text = path.read_text(encoding='utf-8')
+          old = '$checkText = Get-Content -Raw -LiteralPath $checkPath'
+          new = '$checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)'
+          count = text.count(old)
+          if count != 3:
+              raise SystemExit(f'expected three contract-file reads, found {count}')
+          path.write_text(text.replace(old, new), encoding='utf-8', newline='\n')
+
+      - name: Validate patched source on PowerShell 7
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repaired
+          ./scripts/test-validator.ps1
+          ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repaired
+          ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repaired
+
+      - name: Commit validator repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/validate.ps1
+          git commit -m "fix: read validation contract files as UTF-8"
+          git push origin HEAD:fix/v8.5.0-release-blockers
