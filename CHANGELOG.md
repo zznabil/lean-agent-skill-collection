@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.5.1 — 2026-09-01
+
+- Keep all 23 V8.5.0 skills, all six profiles, and every invocation and acceptance rule unchanged.
+- Read validated Markdown contracts explicitly as UTF-8 on PowerShell 7 and Windows PowerShell 5.1.
+- Construct the U+2192 validation needle without a parser-sensitive source literal.
+- Preserve the V8.5.0 proportional-rigor behavior while publishing the cross-platform validator repair as a separate immutable patch release.
+
 ## 8.5.0 — 2026-09-01
 
 - Keep all 23 canonical skills, all six profiles, and all invocation policies; add no routed skill or runtime dependency.
