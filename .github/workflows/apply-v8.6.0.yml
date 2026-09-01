@@ -25,6 +25,19 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
+      - name: Preserve the V8.5 DIRECT-mode contract in the generated source
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('.github/apply-v8.6.0.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'A simple question SHOULD receive a short direct answer. Put the essential answer first; offer guided or expert detail when it changes understanding or action. Easy-to-Read is a specialized mode and requires intended-user validation.'
+          new = 'A simple question SHOULD receive a short direct answer. For DIRECT work, normally give one concise completion reply and stop after the decisive check. Put the essential answer first; offer guided or expert detail when it changes understanding or action. Easy-to-Read is a specialized mode and requires intended-user validation.'
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one wait-what sentence to patch; found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+
       - name: Apply reviewed V8.6.0 source update
         shell: bash
         run: python .github/apply-v8.6.0.py
