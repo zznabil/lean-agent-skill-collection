@@ -1,0 +1,129 @@
+name: Apply V8.5.0 proportional rigor
+
+on:
+  push:
+    branches:
+      - release/v8.5.0-proportional-rigor
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v8.5.0-proportional-rigor
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out release branch with history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: release/v8.5.0-proportional-rigor
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Decode and apply reviewed patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 --decode .github/v8.5.0-patch.py.gz.b64 | gzip --decompress > /tmp/apply-v8.5.0.py
+          python /tmp/apply-v8.5.0.py
+
+      - name: Remove temporary patch scaffolding
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/v8.5.0-patch.py.gz.b64 .github/workflows/apply-v8.5.0.yml
+          git add -A
+          git diff --cached --check
+
+      - name: Build twice and prove deterministic output
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw 'Build output file counts differ' }
+          foreach ($file in $files) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
+              throw "Non-deterministic output: $($file.Name)"
+            }
+          }
+
+      - name: Test validator rejection controls
+        shell: pwsh
+        run: ./scripts/test-validator.ps1
+
+      - name: Validate source and release artifacts
+        shell: pwsh
+        run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+      - name: Audit repository and proportional-rigor contracts
+        shell: pwsh
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+      - name: Verify scenario corpus and packaged behavior
+        shell: python
+        run: |
+          import csv
+          import zipfile
+          from collections import Counter
+          from pathlib import Path
+
+          scenario_path = Path('docs/evals/proportional-rigor-scenarios-v8.5.0.csv')
+          rows = list(csv.DictReader(scenario_path.open(encoding='utf-8', newline='')))
+          if len(rows) != 48 or len({row['id'] for row in rows}) != 48:
+              raise SystemExit('proportional-rigor corpus must have 48 unique cases')
+          counts = Counter(row['expected_mode'] for row in rows)
+          if counts != Counter({'DIRECT': 12, 'STANDARD': 12, 'DEEP': 12, 'ADVERSARIAL': 12}):
+              raise SystemExit(f'unexpected mode distribution: {counts}')
+          mirror = Path('releases/v8.5.0/proportional-rigor-scenarios-v8.5.0.csv')
+          if scenario_path.read_bytes() != mirror.read_bytes():
+              raise SystemExit('scenario release mirror differs from canonical corpus')
+
+          root = Path('artifacts/repro-a')
+          checks = {
+              'lean-agent-skills-complete-openai-v8.5.0.zip': {
+                  'AGENTS.md': ['Proportional scrutiny and momentum', 'smallest complete solution'],
+                  'ENGINEERING-CORE.md': ['Minimum sufficient scrutiny and work', 'one consolidated question'],
+                  'skills/implement/SKILL.md': ['correctness → safety', 'DIRECT'],
+                  'skills/test/SKILL.md': ['minimum sufficient evidence'],
+                  'skills/review/SKILL.md': ['ALREADY LEAN'],
+              },
+              'get-it-done-pack-openai-v8.5.0.zip': {
+                  'skills/get-it-done/SKILL.md': ['does not force maximum ceremony', 'one work wave'],
+                  'skills/get-it-done/ORCHESTRATION.md': ['one decisive check', 'agent availability alone is not a reason'],
+              },
+              'gauntlet-loop-pack-openai-v8.5.0.zip': {
+                  'skills/gauntlet-loop/SKILL.md': ['MUST NOT invoke it for DIRECT work', 'distinct material risk or evidence gap'],
+              },
+          }
+          for filename, required in checks.items():
+              with zipfile.ZipFile(root / filename) as archive:
+                  names = archive.namelist()
+                  for suffix, needles in required.items():
+                      matches = [name for name in names if name.endswith(suffix)]
+                      if len(matches) != 1:
+                          raise SystemExit(f'{filename}: expected one {suffix}, found {matches}')
+                      text = archive.read(matches[0]).decode('utf-8')
+                      for needle in needles:
+                          if needle not in text:
+                              raise SystemExit(f'{filename}: {suffix} lacks {needle!r}')
+              print(f'{filename}: proportional-rigor checks passed')
+
+      - name: Commit validated V8.5.0 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "feat: add minimum sufficient scrutiny and momentum"
+          git push origin HEAD:release/v8.5.0-proportional-rigor
