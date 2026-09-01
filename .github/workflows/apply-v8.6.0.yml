@@ -1,0 +1,124 @@
+name: Apply V8.6.0 outcome-first delivery
+
+on:
+  push:
+    branches:
+      - release/v8.6.0-outcome-first-quiet-execution
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v8.6.0-outcome-first-delivery
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out release branch with full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: release/v8.6.0-outcome-first-quiet-execution
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Apply reviewed V8.6.0 source update
+        shell: bash
+        run: python .github/apply-v8.6.0.py
+
+      - name: Remove temporary update scaffolding and stage source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/apply-v8.6.0.py .github/workflows/apply-v8.6.0.yml
+          git add -A
+          git diff --cached --check
+
+      - name: Verify V8.6.0 invariants
+        shell: python
+        run: |
+          import csv
+          import json
+          from pathlib import Path
+
+          root = Path.cwd()
+          profiles = json.loads((root / 'release-profiles.json').read_text(encoding='utf-8'))
+          package = json.loads((root / 'PACKAGE-VALIDATION.json').read_text(encoding='utf-8'))
+          skills = sorted(p.name for p in (root / 'skills').iterdir() if p.is_dir())
+          if profiles['version'] != '8.6.0' or profiles['release'] != 'v8.6.0':
+              raise SystemExit('release metadata is not V8.6.0')
+          if len(skills) != 23 or sorted(profiles['profiles']['complete']['skills']) != skills:
+              raise SystemExit('23-skill inventory changed')
+          if len(profiles['profiles']) != 6:
+              raise SystemExit('six-profile inventory changed')
+
+          delivery = package.get('outcome_first_delivery', {})
+          if delivery.get('source_commit') != '18a76be124d7c16ed98b629a358b23fef76a7f46':
+              raise SystemExit('Hermes source pin is missing')
+          if delivery.get('runtime_vendored') is not False:
+              raise SystemExit('Hermes runtime must not be vendored')
+
+          scenario_path = root / delivery['scenario_file']
+          rows = list(csv.DictReader(scenario_path.open(encoding='utf-8', newline='')))
+          if len(rows) != 48 or len({row['id'] for row in rows}) != 48:
+              raise SystemExit('outcome-first scenario corpus must contain 48 unique IDs')
+          mirror = root / 'releases/v8.6.0/outcome-first-delivery-scenarios-v8.6.0.csv'
+          if scenario_path.read_bytes() != mirror.read_bytes():
+              raise SystemExit('outcome-first scenario mirror differs')
+
+          fallback_count = 0
+          adapter_count = 0
+          for skill in skills:
+              body = (root / 'skills' / skill / 'SKILL.md').read_text(encoding='utf-8')
+              adapter = (root / 'skills' / skill / 'agents' / 'openai.yaml').read_text(encoding='utf-8')
+              if skill != 'wait-what':
+                  if 'global outcome-first delivery overlay' not in body:
+                      raise SystemExit(f'{skill}: missing local outcome-first fallback')
+                  fallback_count += 1
+              if 'outcome-first' not in adapter and 'outcome first' not in adapter:
+                  raise SystemExit(f'{skill}: missing outcome-first adapter reinforcement')
+              adapter_count += 1
+          if fallback_count != 22 or adapter_count != 23:
+              raise SystemExit(f'overlay coverage mismatch: fallbacks={fallback_count}, adapters={adapter_count}')
+
+      - name: Build twice and prove deterministic output
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw 'Build output file counts differ' }
+          foreach ($file in $files) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
+              throw "Non-deterministic output: $($file.Name)"
+            }
+          }
+
+      - name: Test validator rejection controls
+        shell: pwsh
+        run: ./scripts/test-validator.ps1
+
+      - name: Validate source and release artifacts
+        shell: pwsh
+        run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+      - name: Audit repository and release contracts
+        shell: pwsh
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+      - name: Commit validated V8.6.0 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "feat: add outcome-first communication and quiet execution"
+          git push origin HEAD:release/v8.6.0-outcome-first-quiet-execution
