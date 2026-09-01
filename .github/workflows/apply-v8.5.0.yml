@@ -1,9 +1,6 @@
 name: Apply V8.5.0 proportional rigor
 
 on:
-  push:
-    branches:
-      - release/v8.5.0-proportional-rigor
   workflow_dispatch:
 
 permissions:
@@ -29,14 +26,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base64 --decode .github/v8.5.0-patch.py.gz.b64 | gzip --decompress > /tmp/apply-v8.5.0.py
+          cat .github/v8.5.0-patch.part*.b64 | tr -d '\r\n' | base64 --decode | gzip --decompress > /tmp/apply-v8.5.0.py
           python /tmp/apply-v8.5.0.py
 
       - name: Remove temporary patch scaffolding
         shell: bash
         run: |
           set -euo pipefail
-          git rm .github/v8.5.0-patch.py.gz.b64 .github/workflows/apply-v8.5.0.yml
+          git rm .github/v8.5.0-patch.py.gz.b64 .github/v8.5.0-patch.part*.b64 .github/workflows/apply-v8.5.0.yml
           git add -A
           git diff --cached --check
 
@@ -51,9 +48,7 @@ jobs:
           foreach ($file in $files) {
             $other = Join-Path ./artifacts/repro-b $file.Name
             if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
-            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
-              throw "Non-deterministic output: $($file.Name)"
-            }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) { throw "Non-deterministic output: $($file.Name)" }
           }
 
       - name: Test validator rejection controls
