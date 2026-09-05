@@ -1,7 +1,7 @@
 interface:
   display_name: Wait, What?
   short_description: Re-pitch confusing responses clearly
-  default_prompt: Use $wait-what to re-pitch the last response with context restored and the outcome first. Match reply weight to the ask; remove filler, request restatement, process replay, and duplicate conclusions; preserve material context, uncertainty, verification, and considerate follow-through.
+  default_prompt: Use $wait-what to re-pitch the last response with context restored and the outcome first. Match reply weight to the ask; remove filler, request restatement, process replay, and duplicate conclusions; preserve material context, uncertainty, verification, and considerate follow-through. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.
 policy:
   products:
   - CHAT

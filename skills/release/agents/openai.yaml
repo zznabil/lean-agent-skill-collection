@@ -1,7 +1,7 @@
 interface:
   display_name: Release
   short_description: Prepare and verify a safe, reversible release
-  default_prompt: 'Use $release to prepare and verify this release without publishing until authorized. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action.'
+  default_prompt: 'Use $release to prepare and verify this release without publishing until authorized. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
 policy:
   products:
   - CHAT

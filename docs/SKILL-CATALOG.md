@@ -1,6 +1,8 @@
-# Lean Agent Skills V8.6.0 catalog
+# Lean Agent Skills V8.7.0 catalog
 
-V8.6.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
+V8.7.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
+
+The direct-claims overlay is present in every profile and standalone skill fallback. It changes reporting, not specialist routing or acceptance criteria.
 
 | Skill | Profile role | Invocation | Principal explicit sources |
 |---|---|---|---|
