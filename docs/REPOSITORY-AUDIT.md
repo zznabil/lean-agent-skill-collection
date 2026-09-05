@@ -1,4 +1,4 @@
-# Repository integrity audit — V8.6.0
+# Repository integrity audit — V8.7.0
 
 ## Decision
 
@@ -30,6 +30,10 @@ The validator requires:
 - distinct Summary and TL;DR jobs when both are used;
 - no new routed style skill;
 - no vendored Hermes runtime.
+
+## V8.7 direct-claims checks
+
+Source and generated ZIP validation checks the directness and uncertainty/meaning guard clauses, all local fallbacks, adapters, and declared metadata. The 32 authored fixtures have unique IDs, complete fields, four covered categories, and an exact release mirror. Positive and fourteen negative controls test the structural guards. None of these checks establishes live model adherence.
 
 ## Release gate
 

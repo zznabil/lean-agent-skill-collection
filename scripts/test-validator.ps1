@@ -63,6 +63,31 @@ try {
     if (-not ($failures | Where-Object { $_ -eq 'master archive inventory mismatch' })) {
         throw 'Validator self-test did not reject a malformed master archive.'
     }
+    # These controls test policy-presence and metadata guards, not live prose quality.
+    $baselineText = [IO.File]::ReadAllText((Join-Path $repoRoot 'AGENTS.md'), [Text.Encoding]::UTF8)
+    $baselineMetadata = [IO.File]::ReadAllText((Join-Path $repoRoot 'PACKAGE-VALIDATION.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json
+    $failures.Clear()
+    Test-DirectClaimsText $baselineText 'positive control'
+    Test-DirectClaimsMetadata $baselineMetadata.direct_claims 'positive control'
+    if ($failures.Count -ne 0) { throw 'Direct-claims positive controls failed' }
+    $mutationCount = 0
+    foreach ($needle in @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')) {
+        $failures.Clear()
+        Test-DirectClaimsText ($baselineText.Replace($needle, 'removed guard')) 'negative control'
+        if ($failures.Count -eq 0) { throw "Direct-claims guard failed to detect removal: $needle" }
+        $mutationCount++
+    }
+    foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route','runtime_enforcement','live_host_evaluated')) {
+        $failures.Clear()
+        $bad = ($baselineMetadata.direct_claims | ConvertTo-Json | ConvertFrom-Json)
+        $bad.$name = -not [bool]$bad.$name
+        Test-DirectClaimsMetadata $bad 'negative control'
+        if ($failures.Count -eq 0) { throw "Direct-claims metadata guard failed to detect mutation: $name" }
+        $mutationCount++
+    }
+    $failures.Clear()
+    if ($mutationCount -ne 14) { throw 'Direct-claims negative-control count drifted' }
+    Write-Host "PASS: direct-claims positive controls and 14 deliberate policy/metadata mutations" -ForegroundColor Green
     Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
 }
 finally {

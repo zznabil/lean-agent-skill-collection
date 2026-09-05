@@ -352,3 +352,7 @@ Rejected:
 - adding a new routed style skill.
 
 The release kept 23 skills and six profiles and added 48 static delivery scenarios.
+
+## V8.7.0 — Direct Claims & Accountable Reporting
+
+On 6 September 2026, the user's anti-litotes candidate was absorbed as scoped anti-evasion guidance across the existing profiles. The implementation preserves genuine uncertainty, semantic strength, exact sources, and permission boundaries. It adds no route or runtime. See the [decision record](DIRECT-CLAIMS-REVIEW-v8.7.0.md); the supplied Astra documentation view failed retrieval and supports no model-specific claim.

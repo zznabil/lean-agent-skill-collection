@@ -169,6 +169,31 @@ if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.sourc
     }
 }
 
+$direct = $package.direct_claims
+if ($null -eq $direct -or -not $direct.preserve_uncertainty -or -not $direct.preserve_semantics -or -not $direct.no_blanket_word_ban -or $direct.live_host_evaluated -ne $false) {
+    Add-Failure 'direct-claims contract or evidence-limit declaration missing'
+}
+$directRelative = 'docs/evals/direct-claims-scenarios-v8.7.0.csv'
+$directMirror = 'releases/v8.7.0/direct-claims-scenarios-v8.7.0.csv'
+$directPath = Join-Path $RepositoryRoot $directRelative
+$directMirrorPath = Join-Path $RepositoryRoot $directMirror
+if ($direct.scenario_file -ne $directRelative -or $direct.static_scenarios -ne 32) { Add-Failure 'direct-claims scenario metadata differs from the declared corpus' }
+if (-not (Test-Path -LiteralPath $directPath) -or -not (Test-Path -LiteralPath $directMirrorPath)) { Add-Failure 'direct-claims scenario or release mirror is missing' }
+else {
+    $directRows = @(Import-Csv -LiteralPath $directPath -Encoding UTF8)
+    if ($directRows.Count -ne 32 -or @($directRows.id | Sort-Object -Unique).Count -ne 32) { Add-Failure 'direct-claims corpus must have 32 unique IDs' }
+    foreach ($category in @('DIRECT','UNCERTAINTY','OWNERSHIP','PRESERVE')) {
+        if (@($directRows | Where-Object { $_.category -eq $category }).Count -ne 8) { Add-Failure "direct-claims corpus must contain 8 $category fixtures" }
+    }
+    foreach ($row in $directRows) {
+        foreach ($field in @('id','category','context','observation','expected_response','rejected_response','reason')) {
+            if ([string]::IsNullOrWhiteSpace([string]$row.$field)) { Add-Failure "direct-claims fixture $($row.id) lacks $field" }
+        }
+        if ($row.expected_response -eq $row.rejected_response) { Add-Failure "direct-claims fixture $($row.id) has identical positive and negative examples" }
+    }
+    if ((Get-Sha256 $directPath) -ne (Get-Sha256 $directMirrorPath)) { Add-Failure 'direct-claims scenario mirror drift' }
+}
+
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
 $scenarioPairs = @(
     @('docs/evals/usable-information-scenarios-v8.3.0.csv', 'releases/v8.3.0/usable-information-scenarios-v8.3.0.csv'),

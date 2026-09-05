@@ -55,6 +55,22 @@ function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
     }
 }
 
+function Test-DirectClaimsText([string]$Text, [string]$Label) {
+    $needles = @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')
+    foreach ($needle in $needles) {
+        if ($Text.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) { Add-Failure "direct-claims policy missing '$needle' in $Label" }
+    }
+}
+
+function Test-DirectClaimsMetadata([object]$Contract, [string]$Label) {
+    foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route')) {
+        if ($null -eq $Contract -or $Contract.$name -ne $true) { Add-Failure "direct-claims metadata must enable $name in $Label" }
+    }
+    foreach ($name in @('runtime_enforcement','live_host_evaluated')) {
+        if ($null -eq $Contract -or $Contract.$name -ne $false) { Add-Failure "direct-claims metadata must not claim $name in $Label" }
+    }
+}
+
 function Test-MetadataContracts {
     try {
         $plugin = Get-Content -Raw (Join-Path $repoRoot '.codex-plugin/plugin.json') | ConvertFrom-Json
@@ -75,6 +91,7 @@ function Test-MetadataContracts {
     $delivery = $validation.outcome_first_delivery
     $completeCount = @($profiles.profiles.complete.skills).Count
     if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48 -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier -or $proof.scenario_file -ne 'docs/evals/proof-integrity-scenarios-v8.4.0.csv' -or $proof.static_scenarios -ne 40 -or -not $rigor.global_principles -or @($rigor.modes).Count -ne 4 -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.no_new_routed_skill -or $rigor.scenario_file -ne 'docs/evals/proportional-rigor-scenarios-v8.5.0.csv' -or $rigor.static_scenarios -ne 48 -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported -or $delivery.scenario_file -ne 'docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv' -or $delivery.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
+    Test-DirectClaimsMetadata $validation.direct_claims 'source metadata'
     $licensePath = Join-Path $repoRoot 'LICENSE'
     if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
     if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
@@ -98,12 +115,14 @@ function Test-SkillTree([object]$Profiles) {
         if (-not (Test-Path -LiteralPath $skillPath -PathType Leaf)) { Add-Failure "missing skills/$($dir.Name)/SKILL.md"; continue }
         if (-not (Test-Path -LiteralPath $adapterPath -PathType Leaf)) { Add-Failure "missing adapter for $($dir.Name)"; continue }
         $text = Get-Content -Raw -LiteralPath $skillPath
+        Test-DirectClaimsText $text ('skills/' + $dir.Name + '/SKILL.md')
         $frontmatter = [regex]::Match($text, '(?s)\A---\r?\n(.*?)\r?\n---\r?\n')
         if (-not $frontmatter.Success) { Add-Failure "invalid frontmatter for $($dir.Name)"; continue }
         $name = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^name:\s*["'']?([^"''\r\n]+)').Groups[1].Value.Trim()
         $description = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^description:\s*["'']?(.+?)["'']?\s*$').Groups[1].Value.Trim()
         if ($name -ne $dir.Name -or [string]::IsNullOrWhiteSpace($description)) { Add-Failure "frontmatter failure for $($dir.Name)" }
         $adapter = Get-Content -Raw -LiteralPath $adapterPath
+        if ($adapter -notmatch 'Use direct claims; preserve genuine uncertainty and meaning') { Add-Failure "direct-claims adapter reminder missing for $($dir.Name)" }
         $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*.*\$' + [regex]::Escape($dir.Name) + '.+$'
         $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*.+$','(?m)^\s{2}short_description:\s*.+$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{2}-\s*CHAT\s*\r?\n\s{2}-\s*CODEX\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
         foreach ($rule in $rules) { if ($adapter -notmatch $rule) { Add-Failure "adapter schema failure for $($dir.Name)"; break } }
@@ -119,6 +138,9 @@ function Test-SkillTree([object]$Profiles) {
                 if (-not (Test-Path -LiteralPath (Join-Path $dir.FullName $support)) -or $text -notmatch [regex]::Escape($support)) { Add-Failure "required support reference missing for $($dir.Name)/$support" }
             }
         }
+    }
+    foreach ($relative in @('AGENTS.md','ENGINEERING-CORE.md')) {
+        Test-DirectClaimsText ([IO.File]::ReadAllText((Join-Path $repoRoot $relative), [Text.Encoding]::UTF8)) $relative
     }
     $humanChecks = @{
         'AGENTS.md'=@('IEC/IEEE 82079-1','ISO/IEC 23859','Easy-to-Read');
@@ -257,6 +279,19 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
             $actualSkills=@($entries | ForEach-Object { if($_.FullName.Replace('\','/') -match ('^'+[regex]::Escape($root)+'skills/([^/]+)/SKILL\.md$')){$matches[1]} } | Sort-Object -Unique)
             $expectedSkills=@($ProfileDefinition.skills | ForEach-Object {[string]$_} | Sort-Object)
             if(Compare-Object $expectedSkills $actualSkills){ Add-Failure "package $ProfileName skill inventory mismatch" }
+            $directMetadataEntry = $exact[$root+'PACKAGE-VALIDATION.json']
+            if ($directMetadataEntry) {
+                try {
+                    $directMetadata = (Read-ZipEntryText $directMetadataEntry) | ConvertFrom-Json
+                    Test-DirectClaimsMetadata $directMetadata.direct_claims ("package " + $ProfileName)
+                } catch { Add-Failure "direct-claims package metadata parse failure: $ProfileName" }
+            }
+            $directTargets = @('AGENTS.md') + @($ProfileDefinition.skills | ForEach-Object { 'skills/' + [string]$_ + '/SKILL.md' })
+            foreach ($relative in $directTargets) {
+                $policyEntry = $exact[$root+$relative]
+                if ($policyEntry) { Test-DirectClaimsText (Read-ZipEntryText $policyEntry) ("package $ProfileName/$relative") }
+                else { Add-Failure "direct-claims package policy file missing: $ProfileName/$relative" }
+            }
             $checksumEntry=$exact[$root+'CHECKSUMS.sha256']
             if($checksumEntry){
                 foreach($line in (Read-ZipEntryText $checksumEntry)-split '\r?\n'){

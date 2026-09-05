@@ -1,7 +1,7 @@
 {
-  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance",
+  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.6.0",
+  "version": "8.7.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -70,7 +70,8 @@
     "Named standards and project influences do not establish formal conformance.",
     "The Unlazy runtime, checker, installer, approval store, dispatch recorder, and Stop hook are not bundled.",
     "Hermes runtime continuation, tool schemas, profiles, memory, caching, and computer-use enforcement are not bundled or claimed equivalent.",
-    "Overlapping profiles must not be installed together."
+    "Overlapping profiles must not be installed together.",
+    "Direct-claims fixtures are authored expectations, not live agent outputs. String-presence guards do not prove semantic compliance."
   ],
   "errors": [],
   "passed": true,
@@ -125,7 +126,8 @@
   },
   "maintenance": {
     "windows_powershell_5_1_utf8_validation": true,
-    "skill_behavior_changed_from_v8_5_1": true
+    "skill_behavior_changed_from_v8_5_1": true,
+    "skill_behavior_changed_from_v8_6_0": true
   },
   "outcome_first_delivery": {
     "global_principles": true,
@@ -144,5 +146,17 @@
     "parallel_independent_lookups_when_supported": true,
     "scenario_file": "docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv",
     "static_scenarios": 48
+  },
+  "direct_claims": {
+    "global_principles": true,
+    "preserve_uncertainty": true,
+    "preserve_semantics": true,
+    "evidence_based_ownership": true,
+    "no_blanket_word_ban": true,
+    "no_new_route": true,
+    "runtime_enforcement": false,
+    "live_host_evaluated": false,
+    "scenario_file": "docs/evals/direct-claims-scenarios-v8.7.0.csv",
+    "static_scenarios": 32
   }
 }
