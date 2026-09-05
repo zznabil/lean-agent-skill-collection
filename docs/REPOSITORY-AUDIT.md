@@ -2,7 +2,7 @@
 
 ## Decision
 
-**PASS after static and cross-platform validation, with live-host limits.**
+This record defines release acceptance. Executed results belong to the exact source revision's CI and publication readback; static checks do not establish live-host behaviour.
 
 ## Current invariants
 
@@ -37,7 +37,7 @@ Source and generated ZIP validation checks the directness and uncertainty/meanin
 
 ## Release gate
 
-Tag V8.6.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
+Tag V8.7.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
 
 ## Remaining limits
 
