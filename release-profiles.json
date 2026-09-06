@@ -1,8 +1,8 @@
 {
-  "version": "8.6.0",
-  "release": "v8.6.0",
-  "release_title": "Outcome-First Communication & Quiet Execution",
-  "release_summary": "V8.6.0 keeps all 23 skills and six profiles while refining delivery: match response weight to the task, investigate enough internally, execute instead of merely promising, and report outcome, verification, and remaining action without replaying routine process.",
+  "version": "8.7.0",
+  "release": "v8.7.0",
+  "release_title": "Direct Claims & Accountable Reporting",
+  "release_summary": "V8.7.0 adds direct, evidence-calibrated claims and accountable reporting across all six profiles. It rejects evasive understatement while preserving genuine uncertainty, precise meaning, and permission boundaries; no skill or runtime is added.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

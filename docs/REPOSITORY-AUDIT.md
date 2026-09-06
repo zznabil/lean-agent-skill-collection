@@ -1,8 +1,8 @@
-# Repository integrity audit — V8.6.0
+# Repository integrity audit — V8.7.0
 
 ## Decision
 
-**PASS after static and cross-platform validation, with live-host limits.**
+This record defines release acceptance. Executed results belong to the exact source revision's CI and publication readback; static checks do not establish live-host behaviour.
 
 ## Current invariants
 
@@ -31,9 +31,13 @@ The validator requires:
 - no new routed style skill;
 - no vendored Hermes runtime.
 
+## V8.7 direct-claims checks
+
+Source and generated ZIP validation checks the directness and uncertainty/meaning guard clauses, all local fallbacks, adapters, and declared metadata. The 32 authored fixtures have unique IDs, complete fields, four covered categories, and an exact release mirror. Positive and fourteen negative controls test the structural guards. None of these checks establishes live model adherence.
+
 ## Release gate
 
-Tag V8.6.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
+Tag V8.7.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
 
 ## Remaining limits
 

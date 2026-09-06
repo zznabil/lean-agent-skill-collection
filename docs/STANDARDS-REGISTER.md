@@ -1,4 +1,4 @@
-# Standards register — V8.3.0
+# Standards register — V8.7.0
 
 Public documentation for standards and engineering practices that influence Lean Agent Skills. Relevant source names are also placed beside the rules they inform in `AGENTS.md`, `ENGINEERING-CORE.md`, and owning skills. This register is not loaded automatically into agent context.
 
@@ -138,3 +138,7 @@ Public documentation for standards and engineering practices that influence Lean
 - Information is layered as essential, guided, and expert detail without hiding required steps.
 - A readability score is diagnostic only. Strong claims require the actual user task and intended audience; Easy-to-Read claims require intended-user co-review.
 - No routed skill, external runtime, compliance claim, or universal score threshold was added.
+
+## V8.7 scoped direct-claims practice
+
+Reviewed 2026-09-06. Reuse the existing W3C COGA foundation: Avoid Double Negatives and Use Literal Language. Use the OpenAI GPT-5.6 response-style guidance and the dated Model Spec as supporting practices, not new global standards. Preserve genuine uncertainty and source meaning. Litotes-adjacent hedging is an informal project label. See [decision, retrieval limits, and primary sources](DIRECT-CLAIMS-REVIEW-v8.7.0.md). Re-review if those sources change materially or live testing exposes loss of meaning. This entry does not revalidate the older register entries.

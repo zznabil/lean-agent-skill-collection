@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.7.0 — 2026-09-06
+
+- Preserve all 23 skills, six profiles, package membership, and invocation policies.
+- Add anti-litotes and anti-evasive-hedging guidance for operational and evaluative prose; preserve genuine uncertainty, evidence strength, precise negation, quotations, and requested artifact voice.
+- Require evidenced ownership of agent errors, actual gate status, known impact, and correction or the next safe action; retain permission boundaries.
+- Apply the rule through AGENTS.md, wait-what, all 22 local fallbacks, all 23 adapters, engineering doctrine, and internal status/handoff instructions.
+- Add 32 authored scenario fixtures, source/package policy guards, and deliberate missing-guard/metadata mutation controls. These do not prove live model behaviour.
+- Record OpenAI GPT-5.6 and W3C source support; the supplied Astra documentation view could not be retrieved and is not used as evidence.
+
 ## 8.6.0 — 2026-09-01
 
 - Keep all 23 canonical skills, six profiles, package composition, and invocation policies.

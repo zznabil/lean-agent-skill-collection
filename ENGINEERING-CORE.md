@@ -30,6 +30,12 @@ Use only the sources that change the current decision or verification method. Th
 - A claim MUST NOT exceed its evidence. Record the tested artifact or revision, verifier or rubric, environment, entrypoint, authentication context, time, and coverage when they affect validity. Inventory is not execution; unit, harness, or auth-bypassed evidence is not deployed or production proof without demonstrated equivalence.
 - When several evidence types support a consequential claim, use an **ISO/IEC/IEEE 15026-2-inspired assurance case**: claim, scope, argument, evidence, assumptions or defeaters, and status.
 
+## Accountable status and handoff
+
+State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+
+For agent-to-agent reports, retain the actual gate state, evidence, known actor, and next action. Separate an observed failure from an unknown cause. Neither a more confident sentence nor a more polite one can convert missing evidence into a pass. This applies to worker summaries and durable ledgers as well as the final reply.
+
 ## Decision discipline
 
 - Separate facts, constraints, assumptions, and desired outcome. Find the vital few causes or the bottleneck before broad work.
