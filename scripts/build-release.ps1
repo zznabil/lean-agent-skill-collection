@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $definitionPath = Join-Path $repoRoot 'release-profiles.json'
-$definition = Get-Content -Raw -LiteralPath $definitionPath | ConvertFrom-Json
+$definition = Get-Content -Raw -Encoding UTF8 -LiteralPath $definitionPath | ConvertFrom-Json
 $version = [string]$definition.version
 $releaseName = [string]$definition.release
 
@@ -17,6 +17,17 @@ $outputFullPath = [IO.Path]::GetFullPath($OutputDirectory)
 $artifactsRoot = [IO.Path]::GetFullPath((Join-Path $repoRoot 'artifacts')).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 if (-not $outputFullPath.StartsWith($artifactsRoot, [StringComparison]::OrdinalIgnoreCase)) {
     throw "Refusing unsafe output directory: $outputFullPath"
+}
+
+$ancestor = $outputFullPath
+while ($ancestor) {
+    if (Test-Path -LiteralPath $ancestor) {
+        $item = Get-Item -Force -LiteralPath $ancestor
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Refusing linked output path: $ancestor" }
+    }
+    $parent = Split-Path -Parent $ancestor
+    if ($parent -eq $ancestor) { break }
+    $ancestor = $parent
 }
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
@@ -36,6 +47,7 @@ function Write-Utf8File([string]$Path, [string]$Content) {
 }
 
 function ConvertTo-JsonString([string]$Value) {
+    if ($Value -match '[\x00-\x1F]') { throw 'Control character in generated JSON string' }
     return '"' + $Value.Replace('\', '\\').Replace('"', '\"') + '"'
 }
 
@@ -143,7 +155,7 @@ function Get-ChecksumLines([string]$Directory, [string[]]$ExcludedRelativePaths)
 }
 
 function Get-ManualSkills([object[]]$Skills) {
-    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
+    $manualNames = @('gauntlet-loop', 'get-it-done', 'handoff', 'wait-what')
     return @($Skills | Where-Object { $manualNames -contains [string]$_ })
 }
 
@@ -197,11 +209,17 @@ Manual-only skills in this package: $manual
 
 Install this ZIP as a skills-only plugin where supported, or copy the directories under ``skills/`` into a user or repository skill directory.
 
-- Keep ``AGENTS.md`` in the trusted project root.
+- Merge relevant ``AGENTS.md`` guidance into the intended trusted project scope after reviewing the diff; do not blindly overwrite existing policy.
 $engineeringLine- Do not install overlapping profiles together.
 - Other agent hosts can ignore ``agents/openai.yaml`` and use the same ``SKILL.md`` files.
 
-See ``PACKAGE-VALIDATION.json`` for static checks. Runtime activation depends on the installed host and available tools.
+``PACKAGE-VALIDATION.json`` declares the build inventory, not a passing test result. Check CI execution evidence separately. No live model improvement or cross-host activation equivalence is claimed.
+
+## Upgrade from V8
+
+Replace the previous Lean profile rather than overlaying this ZIP. Remove only the six retired Lean-owned skill directories after backing up local changes: ``architecture``, ``cli-design``, ``grilling``, ``merge-conflicts``, ``project-context``, ``triage``. Their mechanisms now belong to ``plan``, ``implement``, ``handoff`` and ``debug``. Do not delete unrelated user skills or overwrite a trusted project policy without reviewing its diff.
+
+A package's root policy is not automatically injected by every host. Confirm the actual skill source and loaded instructions. Publication does not update local installations.
 "@
 }
 
@@ -217,88 +235,32 @@ function New-PluginJson([object]$ProfileDefinition, [string]$Version) {
 }
 
 function New-PackageValidationJson([string]$ProfileName, [object]$ProfileDefinition, [string]$Version) {
-    $skills = @($ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
-    $manual = @(Get-ManualSkills $ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
-    $includesWriting = @($ProfileDefinition.skills) -contains 'writing'
-    $includesWritingJson = if ($includesWriting) { 'true' } else { 'false' }
+    $skills = @($ProfileDefinition.skills | ForEach-Object { ConvertTo-JsonString ([string]$_) }) -join ', '
+    $manual = @(Get-ManualSkills $ProfileDefinition.skills | ForEach-Object { ConvertTo-JsonString ([string]$_) }) -join ', '
+    $engineering = ([bool]$ProfileDefinition.include_engineering_core).ToString().ToLowerInvariant()
     return @"
 {
-  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
+  "schema_version": 2,
+  "scope": "build inventory declaration; validation results belong in the CI execution record",
   "package": $(ConvertTo-JsonString $ProfileName),
-  "plugin_name": $(ConvertTo-JsonString ([string]$ProfileDefinition.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
-  "skills_expected": $(@($ProfileDefinition.skills).Count),
-  "skills_validated": $(@($ProfileDefinition.skills).Count),
-  "manual_only_skills": [
-$manual
-  ],
-  "included_skills": [
-$skills
-  ],
-  "considerate_agency": {
-    "global": true,
-    "local_fallbacks": $(@($ProfileDefinition.skills | Where-Object { [string]$_ -ne 'wait-what' }).Count),
-    "adapters": $(@($ProfileDefinition.skills).Count),
-    "act_ask_do_not_act": true
-  },
-  "adaptive_prose": {
-    "global": true,
-    "simple_turns_remain_short": true,
-    "heavy_structure_conditional": true
-  },
-  "explicit_standards": {
-    "engineering_core_source_map": true,
-    "owning_skill_names": true,
-    "formal_conformance_claimed": false
-  },
-  "proof_integrity": {
-    "global_principles": true,
-    "oracle_must_be_falsifiable": true,
-    "status_is_not_reexecution": true,
-    "required_gate_abandonment_is_not_completion": true
-  },
-  "proportional_rigor": {
-    "global_principles": true,
-    "modes": ["DIRECT", "STANDARD", "DEEP", "ADVERSARIAL"],
-    "direct_for_single_decisive_check": true,
-    "extra_scrutiny_requires_distinct_evidence_gap": true,
-    "safety_and_correctness_floor_immutable": true,
-    "no_new_routed_skill": true
-  },
-  "outcome_first_delivery": {
-    "global_principles": true,
-    "response_weight_matching": true,
-    "internal_depth_external_brevity": true,
-    "quiet_completion": true,
-    "act_or_state_blocker": true,
-    "summary_tldr_distinct_when_used": true,
-    "runtime_equivalence_claimed": false
-  },
-  "direct_claims": {
-      "global_principles": true,
-      "preserve_uncertainty": true,
-      "preserve_semantics": true,
-      "evidence_based_ownership": true,
-      "no_blanket_word_ban": true,
-      "no_new_route": true,
-      "runtime_enforcement": false,
-      "live_host_evaluated": false
-  },
-  "human_usable_information": {
-    "global_principles": true,
-    "conditional_reference_included": $includesWritingJson,
-    "target_user_task_validation_required_for_strong_claims": true,
-    "readability_alone_is_not_acceptance": true,
-    "easy_to_read_requires_intended_user_review": true
-  },
-  "warnings": [
-    "Live model behaviour and human satisfaction were not measured.",
-    "Overlapping profiles must not be installed together."
-  ],
-  "errors": [],
-  "passed": true
+  "included_skills": [$skills],
+  "manual_only_skills": [$manual],
+  "include_engineering_core": $engineering,
+  "behavioural_evaluation": "not_run"
 }
 "@
+}
+
+foreach ($profile in $definition.profiles.PSObject.Properties) {
+    $names = @($profile.Value.skills)
+    if ($names.Count -ne @($names | Sort-Object -Unique).Count) { throw "Duplicate profile skill: $($profile.Name)" }
+    foreach ($name in $names) {
+        if ([string]$name -notmatch '^[a-z][a-z0-9-]*$' -or -not (Test-Path -LiteralPath (Join-Path $repoRoot "skills/$name/SKILL.md"))) { throw "Invalid profile skill: $name" }
+    }
+}
+foreach ($item in Get-ChildItem -LiteralPath (Join-Path $repoRoot 'skills') -Force -Recurse) {
+    if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Refusing linked skill content: $($item.FullName)" }
 }
 
 if (Test-Path -LiteralPath $outputFullPath) {
@@ -362,18 +324,11 @@ $manifest = @"
 {
   "release": $(ConvertTo-JsonString $releaseName),
   "version": $(ConvertTo-JsonString $version),
-  "scope": "deterministic package build and static validation; not live host-routing or behavioural validation",
+  "scope": "deterministic build inventory; not a validation result or live model evaluation",
   "profiles": $($profileProperties.Count),
   "unique_skills": $(@($definition.profiles.complete.skills).Count),
-  "considerate_agency": true,
-  "adaptive_prose": true,
-  "explicit_standards": true,
-  "human_usable_information": true,
-  "proof_integrity": true,
-  "proportional_rigor": true,
-  "outcome_first_delivery": true,
-  "direct_claims": true,
-  "skill_content_changed_from_v8_0_0": true,
+  "schema_version": 2,
+  "behavioural_evaluation": "not_run",
   "archives": {
 $($manifestArchiveLines -join "`n")
   }

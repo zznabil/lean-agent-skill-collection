@@ -1,21 +1,18 @@
-# Gauntlet state format
+# Acceptance record
 
-Record:
+Keep one lead-owned `.gauntlet/state.md`; add separate evidence files only when useful. Record:
 
-- mission, scope, non-goals, assumptions, permissions, and current phase;
-- benchmark version, task-gate status, and standing Definition of Done when one exists;
-- acceptance ledger with requirement, observable outcome, verifier or oracle, expected result, actual result, environment, calibration or sensitivity evidence, evidence path, disposition, status, and current or stale state;
-- belief ledger with `VERIFIED`, `ASSUMED`, `REFUTED`, or `UNKNOWN` state, provenance, counterexamples, and revisit condition;
-- model-gate and reality-gate status when simulated or model-derived work is in scope;
-- artifact map and current checkpoint;
-- coverage manifest with slices or journeys, charter, anti-charter, dependencies, owners, status, verification tier, total target count, processed count, cap, and remainder;
-- completed, rejected, and reverted changes;
-- defect ledger with severity, acceptance disposition (`blocking` or `nonblocking`), repair state (`open`, `fixed`, `blocked`, or `deferred`), evidence, owner, refutation result, and regression check;
-- evidence index with tested artifact or revision, command or rubric, verifier, environment, entrypoint, authentication context, coverage, result, artifact path, confidence, time, and current or stale state;
-- run state and artifact verdict as separate fields;
-- iteration count, used budget, remaining budget, semantic no-progress count, last resolved gate/contract/defect/coverage state change, and stop trigger;
-- for every displayed progress bar: track name, denominator definition, planned, processed/adjudicated, passed, failed, blocked, skipped, and not-tested counts;
-- critic reports, identity receipts, live-topology evidence, uncertainty bias, independence level, failed or skipped critics, and preserved dissent;
-- known risks, exact stop reason, rollback, and one exact next action.
+- Goal, scope/non-goals, approval, artifact checkpoint and frozen benchmark version.
+- Required gates: source, observable outcome, verifier, expected/actual result, environment, evidence, calibration and freshness.
+- Coverage: required slices, owner, processed/total, failed, blocked, skipped and unread remainder.
+- Findings: evidence, severity P0-P3, blocking/nonblocking disposition, repair state, owner and regression check.
+- Critics/judge: actual identity and context boundary when known, inspected artifact, live handle or receipt, independence limits and dissent.
+- Budget, repair rounds, meaningful no-progress count, decisions, recovery and exact next action.
 
-Store evidence and decisions, not hidden reasoning or secrets. One lead writes durable state. Reconcile artifact drift before resuming.
+Run state is ACTIVE, COMPLETE, BLOCKED, BUDGET EXHAUSTED or CANCELLED. Artifact verdict is PASS, CONDITIONAL PASS, FAIL or NOT JUDGED. These axes are independent. COMPLETE can accompany FAIL. Severity measures impact, not automatically blocking status.
+
+PASS requires current passing evidence for every hard gate and no blocker. CONDITIONAL PASS permits only explicitly accepted, owned nonblocking residuals outside hard gates. A verified hard failure decides FAIL. Otherwise missing required evidence means NOT JUDGED. Abandoned, deferred or owner-decision required work remains non-passing until an authorised scope amendment removes it; record that amendment rather than rewriting history.
+
+Revalidate affected evidence after artifact, input, verifier, environment, dependency or entry-point changes. Preserve unknown causes and raw evidence separately from conclusions. For AI-derived outputs, record model and reality gates when applicable. Store no secrets or hidden reasoning.
+
+V8 ledgers are historical records: preserve unresolved gates and benchmark changes when resuming; do not auto-upgrade their verdict or delete their evidence to fit this smaller format.

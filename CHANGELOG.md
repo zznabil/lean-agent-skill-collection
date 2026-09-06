@@ -1,5 +1,27 @@
 # Changelog
 
+## 9.0.1 - 2026-09-07
+
+### Lean Standards, Explicit Behaviour
+
+- Ship the 17-skill V9 consolidation; V9.0.0 was a local unreleased candidate.
+- Reconcile all 97 register entries to concrete local triggers, behaviours and source references, retaining source-review dates and adoption decisions.
+- Restore ASD-STE100-inspired clarity, ISO 24495-1 and W3C COGA globally with a minimal standalone fallback; restore scoped engineering, accessibility, teaching and documentation provenance.
+- Preserve excluded, watched and deferred sources without introducing global governance or compliance claims.
+- Add ownership, missing-trigger/behaviour/source and standalone-fallback regression controls; retain all six profiles and both required CI hosts.
+- Publication requires protected PR/main checks and asset readback; live model evaluations remain unrun.
+
+## 9.0.0 - 2026-09-06 (unreleased candidate)
+
+### Smallest Complete Solution
+
+- Breaking consolidation to 17 skills and six profiles; retain the full communication trio in both task packs.
+- Rewrite standing policy, roots and adapters around precise triggers, actual authority, complete outcomes and conditional detail.
+- Absorb architecture/interviewing into plan, CLI/conflicts into implement, triage into debug and project context into handoff.
+- Remove duplicated global prose, mandatory wrappers/progress bars and named scrutiny-mode ceremony; retain safety and evidence safeguards.
+- Replace self-awarded package PASS metadata with inventory declarations; verify exact packaged bytes and full checksum coverage.
+- Add migration, measured size comparison and 64 authored routing/behaviour scenarios; live model outcomes remain unmeasured.
+
 ## 8.7.0 — 2026-09-06
 
 - Preserve all 23 skills, six profiles, package membership, and invocation policies.

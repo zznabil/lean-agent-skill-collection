@@ -1,0 +1,55 @@
+{
+  "baseline_commit": "71e5c44e97be8fd2808288de57ea574cc3c252e2",
+  "candidate_version": "9.0.1",
+  "method": "UTF-8 bytes and Python str.split whitespace words; full skills tree includes roots, adapters and references; not tokenizer counts or runtime measurements",
+  "baseline": {
+    "skills": 23,
+    "agents": {
+      "bytes": 11244,
+      "words": 1629
+    },
+    "engineering_core": {
+      "bytes": 18252,
+      "words": 2576
+    },
+    "skill_roots": {
+      "bytes": 124525,
+      "words": 17558
+    },
+    "adapters": {
+      "bytes": 15237,
+      "words": 1935
+    },
+    "all_skill_files": {
+      "bytes": 189705,
+      "words": 26175
+    },
+    "description_characters": 4668,
+    "max_description_characters": 269
+  },
+  "candidate": {
+    "skills": 17,
+    "agents": {
+      "bytes": 3439,
+      "words": 487
+    },
+    "engineering_core": {
+      "bytes": 3859,
+      "words": 530
+    },
+    "skill_roots": {
+      "bytes": 37269,
+      "words": 5165
+    },
+    "adapters": {
+      "bytes": 4526,
+      "words": 498
+    },
+    "all_skill_files": {
+      "bytes": 88530,
+      "words": 11914
+    },
+    "description_characters": 1899,
+    "max_description_characters": 128
+  }
+}

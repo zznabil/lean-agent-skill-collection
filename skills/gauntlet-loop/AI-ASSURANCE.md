@@ -37,3 +37,8 @@ Prefer deterministic checks for contracts, permissions, schemas, and exact outpu
 ## Final decision
 
 A final pass requires evidence for applicable hard gates, real tool and environment behavior, sensitive-data boundaries, recovery, and the complete critical journey. Unsupported claims remain `UNVERIFIED`; missing access is `BLOCKED`; bounded non-convergence is `FAIL` or `BUDGET EXHAUSTED`, not success.
+
+## Standards in use
+
+- For material AI-system acceptance, record intended use, affected people, lifecycle risks and responsibility; select scoped checks across data, model, prompts, tools, deployment and monitoring. (NIST AI RMF / GenAI Profile; NIST SP 800-218A; ISO/IEC 5338).
+- When AI tools or models cross trust boundaries, derive concrete threat cases from the selected baseline and verify injection resistance, permissions, data handling and failure containment; a threat list is not a pass. (OWASP LLMSVS; NIST AI 100-2e2025; OWASP AISVS; OWASP Agentic Top 10; MITRE ATLAS).

@@ -2,19 +2,7 @@
 
 Use this reference for substantial instructions, manuals, onboarding, embedded help, forms, warnings, UI text, errors, recovery guidance, or other information that users must act on. It is conditional detail, not a reason to expand a simple reply.
 
-## Source roles
-
-- **IEC/IEEE 82079-1:2019:** general information-for-use quality, process, and empirical evaluation. Edition 3 is under development.
-- **ISO/IEC/IEEE 26514:2022:** software-specific user-information needs, structure, content, format, delivery, and maintenance.
-- **ISO/IEC/IEEE 26513:2017:** testing and reviewing information for users. Edition 2 is at final-draft stage; re-review when published.
-- **ISO/IEC 23859:2023:** written UI text that is easy to read and understand, including creation, adaptation, and evaluation.
-- **ISO 21801-1:2020:** cognitive accessibility across systems.
-- **ISO 9241-112:2025** and **ISO 9241-171:2025:** information presentation and accessible software.
-- **ISO/IEC 29138-1:2018** and **ISO/IEC 29138-4:2026:** user accessibility needs and their application to requirements and evaluation.
-- **ISO 704:2022:** concepts, terms, designations, and definitions.
-- **ASD-STE100 Issue 9**, **ISO 24495-1**, and **W3C COGA:** technical clarity, plain-language usability, and cognitive readability.
-
-These are independently summarized influences. Use the authoritative source for regulated work or a conformance claim.
+The source editions in the register remain historically reviewed; these are independent summaries, not licensed normative text or a conformance claim.
 
 ## Precedence
 
@@ -115,3 +103,12 @@ Include     → outcome gaps between target and general users
 Use independent review for consequential information. The CDC Clear Communication Index can diagnose main-message, action, language, number, design, and risk issues. PEMAT-style review can separate understandability from actionability. Do not import their domain-specific score threshold as a universal software release gate.
 
 A readability formula measures surface text features. It does not prove findability, comprehension, actionability, recovery, accessibility, or task success.
+
+## Standards in use
+
+- For substantial user instructions or help, identify audience and task; provide prerequisites, action, expected result, consequences and recovery, then review or test the actual task with intended users as risk warrants. (IEC/IEEE 82079-1; ISO/IEC/IEEE 26514; ISO/IEC/IEEE 26513).
+- For UI text or cognitive-accessibility barriers, use concrete labels, visible task state, recoverable steps and resumable instructions; evaluate the rendered context and needed alternate representations. (ISO/IEC 23859; ISO 21801-1; ISO 9241-171).
+- When an accessibility need affects a journey, trace need to barrier, requirement and observed evidence; do not assume one diagnosis describes all users. (ISO/IEC 29138-1; ISO/IEC 29138-4).
+- When naming concepts or controls, use one preferred term per concept within scope and explain unavoidable terminology at first use. (ISO 704).
+- Only when Easy-to-Read is requested or justified by the audience, use a dedicated representation and intended-user co-review; do not claim the rules or use the logo without the required proofreading and attribution. (Inclusion Europe Easy-to-Read).
+- For public or patient information within each tool's domain, use the appropriate diagnostic to inspect clarity and actionability; do not transfer domain scores into universal software release gates. (CDC Clear Communication Index; AHRQ PEMAT).

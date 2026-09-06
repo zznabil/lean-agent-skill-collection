@@ -39,3 +39,7 @@ Signing, tagging, uploading, attesting, or changing a release channel is an exte
 ## Stop conditions
 
 Return `BLOCKED` or `NO-GO` when required provenance is missing, the source or builder cannot be identified, a clean rebuild materially differs without explanation, the SBOM omits required scope, or publication would exceed the evidence. Report unavailable checks rather than inventing a pass.
+
+## Standards in use
+
+- When the release requires provenance, an SBOM or reproducibility, record exact inputs and build identity; use the supported SPDX or CycloneDX format for the required inventory and compare independent builds before claiming reproducibility. (SLSA; SPDX; CycloneDX; Reproducible Builds).
