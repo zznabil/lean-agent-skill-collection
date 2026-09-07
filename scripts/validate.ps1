@@ -1,20 +1,26 @@
 [CmdletBinding()]
-param(
-    [string]$ArtifactsDirectory,
-    [switch]$FunctionsOnly
-)
-
+param([string]$ArtifactsDirectory, [switch]$FunctionsOnly)
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $failures = New-Object System.Collections.Generic.List[string]
-$passes = New-Object System.Collections.Generic.List[string]
 $quietFailures = $false
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-function Add-Failure([string]$Message) { $failures.Add($Message); if (-not $quietFailures) { Write-Host "FAIL: $Message" -ForegroundColor Red } }
-function Add-Pass([string]$Message) { $passes.Add($Message); Write-Host "PASS: $Message" -ForegroundColor Green }
-
+function Add-Failure([string]$Message) {
+    $failures.Add($Message)
+    if (-not $quietFailures) { Write-Host "FAIL: $Message" }
+}
+function Read-Text([string]$Path) { return [IO.File]::ReadAllText($Path, [Text.Encoding]::UTF8) }
+function Assert-Same([object[]]$Expected, [object[]]$Actual, [string]$Label) {
+    if ($Expected.Count -ne $Actual.Count) { Add-Failure "$Label mismatch"; return }
+    if ($Expected.Count -gt 0 -and (Compare-Object @($Expected | Sort-Object) @($Actual | Sort-Object))) { Add-Failure "$Label mismatch" }
+}
+function Get-SourceFiles {
+    return @(Get-ChildItem -LiteralPath $repoRoot -File -Recurse -Force | Where-Object {
+        $relative = Get-RelativePath $repoRoot $_.FullName
+        $relative -notmatch '^(\.git($|/)|artifacts/|\.agent-state/|\.audit-work/)'
+    })
+}
 function Get-RelativePath([string]$BasePath, [string]$Path) {
     $baseUri = New-Object Uri(([IO.Path]::GetFullPath($BasePath).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar))
     $pathUri = New-Object Uri([IO.Path]::GetFullPath($Path))
@@ -55,300 +61,237 @@ function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
     }
 }
 
-function Test-DirectClaimsText([string]$Text, [string]$Label) {
-    $needles = @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')
-    foreach ($needle in $needles) {
-        if ($Text.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) { Add-Failure "direct-claims policy missing '$needle' in $Label" }
-    }
-}
-
-function Test-DirectClaimsMetadata([object]$Contract, [string]$Label) {
-    foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route')) {
-        if ($null -eq $Contract -or $Contract.$name -ne $true) { Add-Failure "direct-claims metadata must enable $name in $Label" }
-    }
-    foreach ($name in @('runtime_enforcement','live_host_evaluated')) {
-        if ($null -eq $Contract -or $Contract.$name -ne $false) { Add-Failure "direct-claims metadata must not claim $name in $Label" }
-    }
-}
 
 function Test-MetadataContracts {
     try {
-        $plugin = Get-Content -Raw (Join-Path $repoRoot '.codex-plugin/plugin.json') | ConvertFrom-Json
-        $profiles = Get-Content -Raw (Join-Path $repoRoot 'release-profiles.json') | ConvertFrom-Json
-        $citation = Get-Content -Raw (Join-Path $repoRoot 'CITATION.cff')
-        $validation = Get-Content -Raw (Join-Path $repoRoot 'PACKAGE-VALIDATION.json') | ConvertFrom-Json
-    } catch { Add-Failure "metadata parse failure: $($_.Exception.Message)"; return $null }
-
-    if ($plugin.name -ne 'lean-agent-skills-complete' -or $plugin.skills -ne './skills/' -or $plugin.version -ne $profiles.version) { Add-Failure 'root plugin manifest does not match the release definition' }
-    if ($profiles.release -ne ('v' + $profiles.version) -or @($profiles.profiles.PSObject.Properties).Count -ne 6) { Add-Failure 'release profile definition has an invalid version or profile count' }
-    if ($citation -notmatch "(?m)^version:\s*$([regex]::Escape([string]$profiles.version))\s*$" -or $citation -notmatch '(?m)^license:\s*MIT\s*$') { Add-Failure 'CITATION.cff does not match release version and license' }
-    $agency = $validation.considerate_agency
-    $adaptive = $validation.adaptive_prose
-    $explicit = $validation.explicit_standards
-    $human = $validation.human_usable_information
-    $proof = $validation.proof_integrity
-    $rigor = $validation.proportional_rigor
-    $delivery = $validation.outcome_first_delivery
-    $completeCount = @($profiles.profiles.complete.skills).Count
-    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48 -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier -or $proof.scenario_file -ne 'docs/evals/proof-integrity-scenarios-v8.4.0.csv' -or $proof.static_scenarios -ne 40 -or -not $rigor.global_principles -or @($rigor.modes).Count -ne 4 -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.no_new_routed_skill -or $rigor.scenario_file -ne 'docs/evals/proportional-rigor-scenarios-v8.5.0.csv' -or $rigor.static_scenarios -ne 48 -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported -or $delivery.scenario_file -ne 'docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv' -or $delivery.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
-    Test-DirectClaimsMetadata $validation.direct_claims 'source metadata'
-    $licensePath = Join-Path $repoRoot 'LICENSE'
-    if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
-    if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse|direct-claims' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
+        $profiles = (Read-Text (Join-Path $repoRoot 'release-profiles.json')) | ConvertFrom-Json
+        $contract = (Read-Text (Join-Path $repoRoot 'PACKAGE-VALIDATION.json')) | ConvertFrom-Json
+        $plugin = (Read-Text (Join-Path $repoRoot '.codex-plugin/plugin.json')) | ConvertFrom-Json
+    } catch { Add-Failure 'metadata parse failure'; return $null }
+    if ($profiles.version -notmatch '^9\.\d+\.\d+$' -or $profiles.release -ne "v$($profiles.version)") { Add-Failure 'release identity mismatch' }
+    if ($plugin.version -ne $profiles.version -or $plugin.name -ne 'lean-agent-skills-complete' -or $plugin.skills -ne './skills/') { Add-Failure 'plugin identity mismatch' }
+    if ($contract.version -ne $profiles.version -or $contract.schema_version -ne 2 -or $contract.behavioural_evaluation -ne 'not_run' -or $contract.PSObject.Properties.Name -contains 'passed') { Add-Failure 'source contract misstates evidence or version' }
+    $counts = @{ complete=17; engineering=14; core=8; communication=3; 'get-it-done'=5; gauntlet=4 }
+    Assert-Same @($counts.Keys) @($profiles.profiles.PSObject.Properties.Name) 'profile names'
+    $complete = @($profiles.profiles.complete.skills)
+    if ($complete.Count -ne $contract.skills_expected -or $complete.Count -gt 19) { Add-Failure 'skill count violates declaration or ceiling' }
+    foreach ($p in $profiles.profiles.PSObject.Properties) {
+        $names = @($p.Value.skills)
+        if ($names.Count -ne @($names | Sort-Object -Unique).Count) { Add-Failure "duplicate profile member: $($p.Name)" }
+        if ($names.Count -ne $counts[$p.Name]) { Add-Failure "profile count mismatch: $($p.Name)" }
+        foreach ($name in $names) { if ($complete -notcontains $name) { Add-Failure "unknown profile member: $name" } }
+        $needsCore = $p.Name -in @('complete','engineering','core','get-it-done')
+        if ($p.Value.include_engineering_core -ne $needsCore) { Add-Failure "engineering-core inclusion mismatch: $($p.Name)" }
+    }
+    Assert-Same @($complete | Where-Object { $_ -notin @('teach','writing','office-files') }) @($profiles.profiles.engineering.skills) 'engineering inventory'
+    Assert-Same @('gauntlet-loop','get-it-done','handoff','plan','research','review','skill-design','wait-what') @($profiles.profiles.core.skills) 'core inventory'
+    $trio = @('teach','wait-what','writing')
+    Assert-Same $trio @($profiles.profiles.communication.skills) 'communication inventory'
+    Assert-Same ($trio + @('get-it-done','gauntlet-loop')) @($profiles.profiles.'get-it-done'.skills) 'task-pack inventory'
+    Assert-Same ($trio + @('gauntlet-loop')) @($profiles.profiles.gauntlet.skills) 'gauntlet inventory'
+    Assert-Same @('gauntlet-loop','get-it-done','handoff','wait-what') @($contract.manual_only_skills) 'manual-only inventory'
+    $citation = Read-Text (Join-Path $repoRoot 'CITATION.cff')
+    if ($citation -notmatch ("(?m)^version: " + [regex]::Escape($profiles.version) + '$') -or $citation -notmatch '(?m)^license: MIT$') { Add-Failure 'citation version or licence mismatch' }
     return $profiles
 }
 
 function Test-SkillTree([object]$Profiles) {
-    $skillRoot = Join-Path $repoRoot 'skills'
-    $skillDirs = @(Get-ChildItem -LiteralPath $skillRoot -Directory | Sort-Object Name)
-    $expected = @($Profiles.profiles.complete.skills | ForEach-Object { [string]$_ } | Sort-Object)
-    $actual = @($skillDirs | ForEach-Object { $_.Name } | Sort-Object)
-    if ($actual.Count -ne $expected.Count -or (Compare-Object $expected $actual)) { Add-Failure 'canonical skill inventory does not match the Complete profile' }
-    $supportFiles = @{
-        'gauntlet-loop'=@('AI-ASSURANCE.md','CRITIC-LANES.md','STATE-FORMAT.md');
-        'get-it-done'=@('ORCHESTRATION.md','STATE.md'); 'project-context'=@('AI-ASSET-CARDS.md');
-        'release'=@('SUPPLY-CHAIN.md'); 'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md');
-        'writing'=@('USER-INFORMATION.md')
-    }
-    foreach ($dir in $skillDirs) {
-        $skillPath = Join-Path $dir.FullName 'SKILL.md'; $adapterPath = Join-Path $dir.FullName 'agents/openai.yaml'
-        if (-not (Test-Path -LiteralPath $skillPath -PathType Leaf)) { Add-Failure "missing skills/$($dir.Name)/SKILL.md"; continue }
-        if (-not (Test-Path -LiteralPath $adapterPath -PathType Leaf)) { Add-Failure "missing adapter for $($dir.Name)"; continue }
-        $text = Get-Content -Raw -LiteralPath $skillPath
-        Test-DirectClaimsText $text ('skills/' + $dir.Name + '/SKILL.md')
-        $frontmatter = [regex]::Match($text, '(?s)\A---\r?\n(.*?)\r?\n---\r?\n')
-        if (-not $frontmatter.Success) { Add-Failure "invalid frontmatter for $($dir.Name)"; continue }
-        $name = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^name:\s*["'']?([^"''\r\n]+)').Groups[1].Value.Trim()
-        $description = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^description:\s*["'']?(.+?)["'']?\s*$').Groups[1].Value.Trim()
-        if ($name -ne $dir.Name -or [string]::IsNullOrWhiteSpace($description)) { Add-Failure "frontmatter failure for $($dir.Name)" }
-        $adapter = Get-Content -Raw -LiteralPath $adapterPath
-        if ($adapter -notmatch 'Use direct claims; preserve genuine uncertainty and meaning') { Add-Failure "direct-claims adapter reminder missing for $($dir.Name)" }
-        $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*.*\$' + [regex]::Escape($dir.Name) + '.+$'
-        $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*.+$','(?m)^\s{2}short_description:\s*.+$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{2}-\s*CHAT\s*\r?\n\s{2}-\s*CODEX\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
-        foreach ($rule in $rules) { if ($adapter -notmatch $rule) { Add-Failure "adapter schema failure for $($dir.Name)"; break } }
-        if ($dir.Name -ne 'wait-what' -and $text -notmatch '(?m)^\*\*User-facing:\*\*') { Add-Failure "missing user-facing fallback for $($dir.Name)" }
-        if ($adapter -notmatch 'outcome-first' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'outcome first')) { Add-Failure "missing adapter outcome-first reinforcement for $($dir.Name)" }
-        if ($adapter -notmatch 'considerate-agency' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'considerate follow-through')) { Add-Failure "missing adapter considerate-agency reinforcement for $($dir.Name)" }
-        $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
-        $allowImplicit = [regex]::Match($adapter, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$').Groups[1].Value
-        if (($manualNames -contains $dir.Name) -and $allowImplicit -ne 'false') { Add-Failure "manual skill allows implicit invocation: $($dir.Name)" }
-        if ($dir.Name -eq 'wait-what' -and $allowImplicit -ne 'false') { Add-Failure 'wait-what must require explicit invocation' }
-        if ($supportFiles.ContainsKey($dir.Name)) {
-            foreach ($support in $supportFiles[$dir.Name]) {
-                if (-not (Test-Path -LiteralPath (Join-Path $dir.FullName $support)) -or $text -notmatch [regex]::Escape($support)) { Add-Failure "required support reference missing for $($dir.Name)/$support" }
+    $contract = (Read-Text (Join-Path $repoRoot 'PACKAGE-VALIDATION.json')) | ConvertFrom-Json
+    $limits = $contract.limits
+    # Ceilings themselves are guarded: changing the declaration cannot silently disable the budget.
+    if ($limits.max_skills -ne 19 -or $limits.agents_words -gt 550 -or $limits.engineering_words -gt 600 -or $limits.skill_words -gt 400 -or $limits.description_characters -gt 170 -or $limits.adapter_prompt_characters -gt 100) { Add-Failure 'instruction budget contract widened' }
+    $dirs = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'skills') -Directory)
+    Assert-Same @($Profiles.profiles.complete.skills) @($dirs.Name) 'canonical skill inventory'
+    foreach ($dir in $dirs) {
+        $path = Join-Path $dir.FullName 'SKILL.md'
+        $adapterPath = Join-Path $dir.FullName 'agents/openai.yaml'
+        if (-not (Test-Path $path) -or -not (Test-Path $adapterPath)) { Add-Failure "missing skill or adapter: $($dir.Name)"; continue }
+        $text = Read-Text $path
+        $match = [regex]::Match($text, '(?s)\A---\nname: ([a-z][a-z0-9-]*)\ndescription: "([^"\r\n]+)"\n---\n')
+        if (-not $match.Success -or $match.Groups[1].Value -ne $dir.Name) { Add-Failure "frontmatter mismatch: $($dir.Name)" }
+        if ($match.Groups[2].Value.Length -gt $limits.description_characters) { Add-Failure "description budget exceeded: $($dir.Name)" }
+        if (@($text.Trim() -split '\s+').Count -gt $limits.skill_words) { Add-Failure "skill budget exceeded: $($dir.Name)" }
+        $adapter = Read-Text $adapterPath
+        $a = [regex]::Match($adapter, '(?s)\Ainterface:\n  display_name: "[^"\n]+"\n  short_description: "([^"\n]+)"\n  default_prompt: "([^"\n]+)"\npolicy:\n  allow_implicit_invocation: (true|false)\n\z')
+        if (-not $a.Success) { Add-Failure "adapter schema mismatch: $($dir.Name)"; continue }
+        $expectedImplicit = -not (@($contract.manual_only_skills) -contains $dir.Name)
+        if ($a.Groups[3].Value -ne $expectedImplicit.ToString().ToLowerInvariant()) { Add-Failure "manual invocation mismatch: $($dir.Name)" }
+        if ($a.Groups[1].Value -ne $match.Groups[2].Value -or $a.Groups[2].Value -ne ('Use $' + $dir.Name + ' for this task.') -or $a.Groups[2].Value.Length -gt $limits.adapter_prompt_characters) { Add-Failure "adapter content mismatch: $($dir.Name)" }
+        # Standalone local references must stay within this skill, not depend on another profile.
+        foreach ($file in Get-ChildItem $dir.FullName -Filter '*.md' -Recurse) {
+            foreach ($link in [regex]::Matches((Read-Text $file.FullName), '\[[^\]]+\]\(([^)]+)\)')) {
+                $target = $link.Groups[1].Value.Split('#')[0]
+                if (-not $target -or $target -match '^https?://') { continue }
+                $resolved = [IO.Path]::GetFullPath((Join-Path $file.DirectoryName $target))
+                if (-not $resolved.StartsWith($dir.FullName + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $resolved -PathType Leaf)) { Add-Failure "standalone reference invalid: $($dir.Name)/$target" }
             }
         }
     }
-    foreach ($relative in @('AGENTS.md','ENGINEERING-CORE.md')) {
-        Test-DirectClaimsText ([IO.File]::ReadAllText((Join-Path $repoRoot $relative), [Text.Encoding]::UTF8)) $relative
+    foreach ($record in @(@('AGENTS.md',[int]$limits.agents_words),@('ENGINEERING-CORE.md',[int]$limits.engineering_words))) {
+        if (@((Read-Text (Join-Path $repoRoot $record[0])).Trim() -split '\s+').Count -gt $record[1]) { Add-Failure "root budget exceeded: $($record[0])" }
     }
-    $humanChecks = @{
-        'AGENTS.md'=@('IEC/IEEE 82079-1','ISO/IEC 23859','Easy-to-Read');
-        'ENGINEERING-CORE.md'=@('Human-usable information and cognitive accessibility','ISO 21801-1:2020','ISO/IEC 29138-1/-4');
-        'skills/writing/USER-INFORMATION.md'=@('Procedure template','Error and recovery template','readability formula');
-        'skills/teach/SKILL.md'=@('CAST UDL Guidelines 3.0','worked example','independent transfer task')
-    }
-    foreach ($relative in $humanChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "human-usable information file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $humanChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
-        }
-    }
-    $proofChecks = @{
-        'AGENTS.md'=@('representative broken state','historical state, not re-execution');
-        'ENGINEERING-CORE.md'=@('Proof integrity and verified orchestration','known positive fixture','before the first wait');
-        'skills/test/SKILL.md'=@('Calibrate the verifier','known positive fixture','representative broken implementation');
-        'skills/get-it-done/SKILL.md'=@('verifier or oracle','historical status');
-        'skills/get-it-done/ORCHESTRATION.md'=@('before the first wait','Leaf gate','ownership claim');
-        'skills/gauntlet-loop/SKILL.md'=@('representative broken state','re-execute the current critical oracles');
-        'skills/review/LANES.md'=@('Proof integrity and acceptance gates','positive controls for absence tests')
-    }
-    foreach ($relative in $proofChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proof-integrity file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $proofChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proof-integrity contract missing '$needle' in $relative" }
-        }
-    }
-
-    $rigorChecks = @{
-        'AGENTS.md'=@('Proportional scrutiny and momentum','DIRECT','ADVERSARIAL','distinct risk or evidence gap','smallest complete solution');
-        'ENGINEERING-CORE.md'=@('Minimum sufficient scrutiny and work',('correctness ' + [char]0x2192 + ' safety'),'standard library','one consolidated question','build hard');
-        'skills/plan/SKILL.md'=@('one decisive check','build hard');
-        'skills/implement/SKILL.md'=@(('correctness ' + [char]0x2192 + ' safety'),'standard library','DIRECT','smallest complete change');
-        'skills/test/SKILL.md'=@('minimum sufficient evidence','One decisive check','Do not add a framework');
-        'skills/review/SKILL.md'=@('distinct material risk or evidence gap','ALREADY LEAN');
-        'skills/debug/SKILL.md'=@('DIRECT defect','two materially similar failed attempts');
-        'skills/get-it-done/SKILL.md'=@('does not force maximum ceremony','Direct mode normally has one work wave');
-        'skills/get-it-done/ORCHESTRATION.md'=@('one decisive check','agent availability alone is not a reason');
-        'skills/gauntlet-loop/SKILL.md'=@('MUST NOT invoke it for DIRECT work','distinct material risk or evidence gap');
-        'skills/wait-what/SKILL.md'=@('For DIRECT work','do not narrate routine tool calls')
-    }
-    foreach ($relative in $rigorChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proportional-rigor file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $rigorChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proportional-rigor contract missing '$needle' in $relative" }
-        }
-    }
-
-    $deliveryChecks = @{
-        'AGENTS.md'=@('Global outcome-first delivery overlay','Internal investigation and external brevity are separate','Do not announce an action and then stop before acting','TL;DR MUST NOT merely repeat the Summary','Agree or disagree because evidence supports the conclusion','batch them');
-        'skills/wait-what/SKILL.md'=@('Match the response to the weight of the ask','Investigate enough internally to be right','Do not narrate routine tool calls','Agree because evidence supports the claim','execute it before ending','Quiet completed-work brief');
-        'skills/get-it-done/SKILL.md'=@('Investigate deeply enough to earn the completion claim','execute it before ending the turn or state the blocker','do not replay routine tool calls');
-        'skills/gauntlet-loop/SKILL.md'=@('Keep the user-facing packet outcome-first','instead of replaying each critic round');
-        'skills/review/SKILL.md'=@('Do not open with praise','narrate the review process');
-        'skills/writing/SKILL.md'=@('Match length and structure to the audience','generic praise','not a narration of how it was drafted');
-        'skills/teach/SKILL.md'=@('Match depth to the learner','concise delivery does not excuse shallow preparation')
-    }
-    foreach ($relative in $deliveryChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "outcome-first delivery file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $deliveryChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "outcome-first delivery contract missing '$needle' in $relative" }
-        }
-    }
-
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information|proof-integrity|proportional-rigor|outcome-first delivery|direct-claims' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, human-usable-information, proof-integrity, proportional-rigor, and outcome-first-delivery contracts" }
 }
 
 function Test-SourceIntegrity {
-    $manifestSkillPaths = New-Object System.Collections.Generic.List[string]
-    foreach ($line in Get-Content -LiteralPath (Join-Path $repoRoot 'UPSTREAM-CHECKSUMS.sha256')) {
-        if ($line -notmatch '^([0-9a-fA-F]{64})\s+(.+)$') { Add-Failure "malformed upstream checksum line: $line"; continue }
-        $expected = $matches[1].ToLowerInvariant(); $relative = $matches[2].Trim().Replace('/', [IO.Path]::DirectorySeparatorChar)
-        if ($relative.StartsWith('skills' + [IO.Path]::DirectorySeparatorChar)) { $manifestSkillPaths.Add($relative.Replace('\', '/')) }
-        if ($relative -in @('README.md','PACKAGE-VALIDATION.json',('.codex-plugin'+[IO.Path]::DirectorySeparatorChar+'plugin.json'))) { continue }
+    $manifest = Join-Path $repoRoot 'UPSTREAM-CHECKSUMS.sha256'
+    $seen = @{}
+    foreach ($line in (Read-Text $manifest) -split '\r?\n') {
+        if (-not $line) { continue }
+        if ($line -notmatch '^([0-9a-f]{64})  ([^\r\n]+)$') { Add-Failure 'malformed source checksum'; continue }
+        $hash = $matches[1]; $relative = $matches[2]
+        if ($seen.ContainsKey($relative)) { Add-Failure "duplicate source checksum: $relative" }
+        $seen[$relative] = $true
+        if ($relative -match '(^/|:|\\)' -or $relative.Split('/') -contains '..') { Add-Failure "unsafe source checksum path: $relative"; continue }
         $path = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $path)) { Add-Failure "upstream checksum target missing: $relative"; continue }
-        if ((Get-FileSha256 $path) -ne $expected) { Add-Failure "upstream checksum mismatch: $relative" }
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf) -or (Get-FileSha256 $path) -ne $hash) { Add-Failure "source checksum mismatch: $relative" }
     }
-    $actualSkillPaths = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'skills') -Recurse -File | ForEach-Object { Get-RelativePath $repoRoot $_.FullName } | Sort-Object)
-    $expectedSkillPaths = @($manifestSkillPaths | Sort-Object)
-    if (Compare-Object $expectedSkillPaths $actualSkillPaths) { Add-Failure 'upstream checksum skill coverage does not match the canonical source tree' }
-    if (-not ($failures | Where-Object { $_ -match 'upstream checksum' })) { Add-Pass 'canonical source integrity' }
+    $actual = @(Get-SourceFiles | ForEach-Object { Get-RelativePath $repoRoot $_.FullName } | Where-Object { $_ -ne 'UPSTREAM-CHECKSUMS.sha256' })
+    Assert-Same $actual @($seen.Keys) 'source checksum coverage'
 }
 
 function Test-RepositoryHygiene {
-    $excludedPrefixes = @('.git/','dist/','artifacts/','.audit-work/','.agent-state/')
-    $files = @(Get-ChildItem -LiteralPath $repoRoot -Recurse -File | Where-Object {
-        $relative = Get-RelativePath $repoRoot $_.FullName; $excluded = $false
-        foreach ($prefix in $excludedPrefixes) { if ($relative.StartsWith($prefix)) { $excluded = $true } }
-        -not $excluded -and $_.Extension -in @('.md','.json','.yaml','.yml','.ps1','.cff','.sha256')
-    })
-    $secretPatterns = @('ghp_[A-Za-z0-9]{20,}','github_pat_[A-Za-z0-9_]{20,}','AKIA[0-9A-Z]{16}','-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----')
-    $placeholderPattern = '(?i)\b(' + ((@(('TO'+'DO'),('T'+'BD'),('FIX'+'ME'),('X'+'XX'))) -join '|') + ')\b'
-    foreach ($file in $files) {
-        $text = Get-Content -Raw -LiteralPath $file.FullName; $relative = Get-RelativePath $repoRoot $file.FullName
-        if ($text -match $placeholderPattern) { Add-Failure "placeholder marker in $relative" }
-        foreach ($pattern in $secretPatterns) { if ($text -match $pattern) { Add-Failure "possible secret in $relative" } }
+    foreach ($file in Get-SourceFiles) {
+        $relative = Get-RelativePath $repoRoot $file.FullName
+        if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) { Add-Failure "linked source: $relative" }
+        if ($relative -match '^\.github/.*(snapshot|publish-v|overlay|apply-v|recover-v)') { Add-Failure "operational scaffold in canonical source: $relative" }
+        if ($file.Extension -notin @('.md','.json','.yaml','.yml','.ps1','.cff','.sha256','.csv')) { continue }
+        $bytes = [IO.File]::ReadAllBytes($file.FullName)
+        $decoder = New-Object Text.UTF8Encoding($false, $true)
+        try { $text = $decoder.GetString($bytes) } catch { Add-Failure "invalid UTF-8: $relative"; continue }
+        if ($text.StartsWith([string][char]0xFEFF, [StringComparison]::Ordinal) -or $text.Contains("`r") -or ($bytes.Length -gt 0 -and $bytes[-1] -ne 10)) { Add-Failure "text encoding or newline mismatch: $relative" }
+        if ($text -match '(?m)^(<<<<<<<|=======|>>>>>>>)' -or $text -match '(?m)[ \t]+$') { Add-Failure "text hygiene mismatch: $relative" }
+        foreach ($pattern in @('ghp_[A-Za-z0-9]{20,}','github_pat_[A-Za-z0-9_]{20,}','AKIA[0-9A-Z]{16}','-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----')) { if ($text -match $pattern) { Add-Failure "possible secret: $relative" } }
         if ($file.Extension -eq '.md') {
-            foreach ($match in [regex]::Matches($text, '\[[^\]]+\]\(([^)]+)\)')) {
-                $target = $match.Groups[1].Value
-                if ($target -match '^(https?://|mailto:|#)') { continue }
-                $pathPart = $target.Split('#')[0].Replace('/', [IO.Path]::DirectorySeparatorChar)
-                if (-not [string]::IsNullOrWhiteSpace($pathPart) -and -not (Test-Path -LiteralPath (Join-Path $file.DirectoryName $pathPart))) { Add-Failure "broken local link '$target' in $relative" }
+            foreach ($link in [regex]::Matches($text, '\[[^\]]+\]\(([^)]+)\)')) {
+                $target = $link.Groups[1].Value.Split('#')[0]
+                if (-not $target -or $target -match '^(https?://|mailto:)') { continue }
+                if (-not (Test-Path -LiteralPath (Join-Path $file.DirectoryName $target))) { Add-Failure "broken local link: $relative -> $target" }
             }
         }
     }
-    if (-not ($failures | Where-Object { $_ -match 'placeholder|secret|broken local link' })) { Add-Pass 'placeholder, secret-pattern, and local Markdown-link checks' }
+}
+
+# Empty or malformed manifests must produce ordinary rejection evidence, not a null-record exception.
+function Test-PackageChecksums([string]$ManifestText, [object]$Entries, [string]$Root, [string[]]$Expected, [string]$ProfileName) {
+    $seen = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
+    foreach ($line in ($ManifestText -split '\r?\n')) {
+        if (-not $line) { continue }
+        $match = [regex]::Match($line, '^([0-9a-f]{64})  (.+)$')
+        if (-not $match.Success) { Add-Failure "malformed package checksum: $ProfileName"; continue }
+        $hash = $match.Groups[1].Value
+        $relative = $match.Groups[2].Value
+        if ($seen.ContainsKey($relative)) { Add-Failure "duplicate package checksum: $relative"; continue }
+        $seen.Add($relative, $hash)
+        if (-not $Entries.ContainsKey($Root+$relative)) { Add-Failure "checksum target missing: $relative"; continue }
+        $stream = $Entries[$Root+$relative].Open()
+        try { $actual = Get-StreamHash $stream } finally { $stream.Dispose() }
+        if ($actual -ne $hash) { Add-Failure "package checksum mismatch: $relative" }
+    }
+    # Explicit arrays avoid pipeline scalar/null shape changes in both supported PowerShell hosts.
+    [object[]]$expectedNames = @($Expected | Where-Object { $_ -ne 'CHECKSUMS.sha256' })
+    [object[]]$actualNames = @($seen.Keys | ForEach-Object { [string]$_ })
+    Assert-Same $expectedNames $actualNames "package checksum coverage: $ProfileName"
 }
 
 function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefinition,[string]$Version) {
     $archive = [IO.Compression.ZipFile]::OpenRead($Path)
     try {
         $exact = New-Object 'System.Collections.Generic.Dictionary[string,System.IO.Compression.ZipArchiveEntry]' ([StringComparer]::Ordinal)
-        $caseFolded=@{}; $entries=@($archive.Entries | Where-Object { -not [string]::IsNullOrEmpty($_.Name) })
-        foreach ($entry in $entries) {
-            $name=$entry.FullName.Replace('\','/'); $lower=$name.ToLowerInvariant()
-            if ($exact.ContainsKey($name)) { Add-Failure "duplicate ZIP member '$name'" } else { $exact.Add($name,$entry) }
-            if ($caseFolded.ContainsKey($lower) -and $caseFolded[$lower] -cne $name) { Add-Failure "case-colliding ZIP members '$($caseFolded[$lower])' and '$name'" } else { $caseFolded[$lower]=$name }
-            if ($name.StartsWith('/') -or $name -match '^[A-Za-z]:' -or $name.Split('/') -contains '..') { Add-Failure "unsafe ZIP path '$name'" }
-            if (Test-IsSymlinkAttributes ([int]$entry.ExternalAttributes)) { Add-Failure "symlink ZIP member '$name'" }
-            if ([IO.Path]::GetExtension($name).ToLowerInvariant() -in @('.exe','.dll','.com','.bat','.cmd','.sh','.ps1','.msi','.jar')) { Add-Failure "executable ZIP member '$name'" }
-            $stream=$entry.Open(); try { $buffer=New-Object byte[] 8192; while($stream.Read($buffer,0,$buffer.Length)-gt 0){} } catch { Add-Failure "unreadable or CRC-invalid ZIP member '$name'" } finally { $stream.Dispose() }
+        $folded = @{}
+        foreach ($entry in $archive.Entries) {
+            $name = $entry.FullName
+            if ($exact.ContainsKey($name)) { Add-Failure "duplicate ZIP member: $name" } else { $exact.Add($name,$entry) }
+            if ($folded.ContainsKey($name) -and $folded[$name] -cne $name) { Add-Failure "case-colliding ZIP members: $name" } else { $folded[$name]=$name }
+            if ($name -match '(^/|:|\\)' -or $name.Split('/') -contains '..' -or $name.Split('/') -contains '.') { Add-Failure "unsafe ZIP path: $name" }
+            if (Test-IsSymlinkAttributes ([int]$entry.ExternalAttributes)) { Add-Failure "symlink ZIP member: $name" }
+            if ([IO.Path]::GetExtension($name).ToLowerInvariant() -in @('.exe','.dll','.com','.bat','.cmd','.sh','.ps1','.msi','.jar')) { Add-Failure "executable ZIP member: $name" }
+            if ($entry.Length -gt 100MB) { Add-Failure "oversized ZIP member: $name"; continue }
+            $stream=$entry.Open(); try { $buffer=New-Object byte[] 8192; while($stream.Read($buffer,0,$buffer.Length)-gt 0){} } catch { Add-Failure "unreadable ZIP member: $name" } finally { $stream.Dispose() }
         }
-        if ($ProfileName) {
-            $root=(Get-PackageBaseName $ProfileName $Version)+'/'
-            foreach($required in @('LICENSE','THIRD_PARTY_NOTICES.md','PACKAGE-VALIDATION.json','CHECKSUMS.sha256','.codex-plugin/plugin.json')) { if(-not $exact.ContainsKey($root+$required)){ Add-Failure "package $ProfileName lacks $required" } }
-            $actualSkills=@($entries | ForEach-Object { if($_.FullName.Replace('\','/') -match ('^'+[regex]::Escape($root)+'skills/([^/]+)/SKILL\.md$')){$matches[1]} } | Sort-Object -Unique)
-            $expectedSkills=@($ProfileDefinition.skills | ForEach-Object {[string]$_} | Sort-Object)
-            if(Compare-Object $expectedSkills $actualSkills){ Add-Failure "package $ProfileName skill inventory mismatch" }
-            $directMetadataEntry = $exact[$root+'PACKAGE-VALIDATION.json']
-            if ($directMetadataEntry) {
-                try {
-                    $directMetadata = (Read-ZipEntryText $directMetadataEntry) | ConvertFrom-Json
-                    Test-DirectClaimsMetadata $directMetadata.direct_claims ("package " + $ProfileName)
-                } catch { Add-Failure "direct-claims package metadata parse failure: $ProfileName" }
-            }
-            $directTargets = @('AGENTS.md') + @($ProfileDefinition.skills | ForEach-Object { 'skills/' + [string]$_ + '/SKILL.md' })
-            foreach ($relative in $directTargets) {
-                $policyEntry = $exact[$root+$relative]
-                if ($policyEntry) { Test-DirectClaimsText (Read-ZipEntryText $policyEntry) ("package $ProfileName/$relative") }
-                else { Add-Failure "direct-claims package policy file missing: $ProfileName/$relative" }
-            }
-            $checksumEntry=$exact[$root+'CHECKSUMS.sha256']
-            if($checksumEntry){
-                foreach($line in (Read-ZipEntryText $checksumEntry)-split '\r?\n'){
-                    if([string]::IsNullOrWhiteSpace($line)){continue}
-                    if($line -notmatch '^([0-9a-f]{64})\s+(.+)$'){Add-Failure "malformed checksum in package $ProfileName";continue}
-                    $expectedHash=$matches[1]; $targetName=$matches[2]; $targetEntry=$exact[$root+$targetName]
-                    if(-not $targetEntry){Add-Failure "checksum target missing in package ${ProfileName}: $targetName";continue}
-                    $targetStream=$targetEntry.Open(); try{$actualHash=Get-StreamHash $targetStream}finally{$targetStream.Dispose()}
-                    if($actualHash -ne $expectedHash){Add-Failure "checksum mismatch in package ${ProfileName}: $targetName"}
-                }
-            }
+        if (-not $ProfileName) { return }
+        $root=(Get-PackageBaseName $ProfileName $Version)+'/'
+        $source = @('AGENTS.md','LICENSE','THIRD_PARTY_NOTICES.md')
+        if ($ProfileDefinition.include_engineering_core) { $source += 'ENGINEERING-CORE.md' }
+        foreach ($skill in $ProfileDefinition.skills) { $source += @(Get-ChildItem (Join-Path $repoRoot "skills/$skill") -Recurse -File -Force | ForEach-Object { Get-RelativePath $repoRoot $_.FullName }) }
+        $expected = @($source + @('README.md','PACKAGE-VALIDATION.json','CHECKSUMS.sha256','.codex-plugin/plugin.json'))
+        Assert-Same @($expected | ForEach-Object { $root + $_ }) @($exact.Keys) "package inventory: $ProfileName"
+        foreach ($relative in $source) {
+            if (-not $exact.ContainsKey($root+$relative)) { continue }
+            $stream=$exact[$root+$relative].Open()
+            try { $hash=Get-StreamHash $stream } finally { $stream.Dispose() }
+            if ($hash -ne (Get-FileSha256 (Join-Path $repoRoot $relative))) { Add-Failure "package source mismatch: $ProfileName/$relative" }
         }
+        if ($exact.ContainsKey($root+'PACKAGE-VALIDATION.json')) {
+            try {
+                $meta = (Read-ZipEntryText $exact[$root+'PACKAGE-VALIDATION.json']) | ConvertFrom-Json
+                if ($meta.version -ne $Version -or $meta.package -ne $ProfileName -or $meta.schema_version -ne 2 -or $meta.behavioural_evaluation -ne 'not_run' -or $meta.PSObject.Properties.Name -contains 'passed' -or $meta.include_engineering_core -ne $ProfileDefinition.include_engineering_core) { Add-Failure "package metadata mismatch: $ProfileName" }
+                Assert-Same @($ProfileDefinition.skills) @($meta.included_skills) "package declared skills: $ProfileName"
+                Assert-Same @($ProfileDefinition.skills | Where-Object { $_ -in @('gauntlet-loop','get-it-done','handoff','wait-what') }) @($meta.manual_only_skills) "package manual skills: $ProfileName"
+                $plugin = (Read-ZipEntryText $exact[$root+'.codex-plugin/plugin.json']) | ConvertFrom-Json
+                if ($plugin.version -ne $Version -or $plugin.name -ne $ProfileDefinition.plugin_name -or $plugin.skills -ne './skills/') { Add-Failure "package plugin mismatch: $ProfileName" }
+            } catch { Add-Failure "package metadata parse failure: $ProfileName" }
+        }
+        $manifestText = ''
+        if ($exact.ContainsKey($root+'CHECKSUMS.sha256')) {
+            $manifestText = Read-ZipEntryText $exact[$root+'CHECKSUMS.sha256']
+        }
+        Test-PackageChecksums $manifestText $exact $root $expected $ProfileName
     } finally { $archive.Dispose() }
 }
 
 function Test-MasterArchive([string]$Path,[string]$Directory,[string]$Version) {
-    $archive = [IO.Compression.ZipFile]::OpenRead($Path)
+    $archive=[IO.Compression.ZipFile]::OpenRead($Path)
     try {
-        $root = "openai-native-skill-collections-v$Version-all/"
-        $entries = @($archive.Entries | Where-Object { -not [string]::IsNullOrEmpty($_.Name) })
-        $actualNames = @($entries | ForEach-Object { $_.FullName.Replace('\','/') } | Sort-Object)
-        $expectedFiles = @(Get-ChildItem -LiteralPath $Directory -File | Where-Object { $_.FullName -ne $Path } | Sort-Object Name)
-        $expectedNames = @($expectedFiles | ForEach-Object { $root + $_.Name } | Sort-Object)
-        if (Compare-Object $expectedNames $actualNames) { Add-Failure 'master archive inventory mismatch'; return }
-        $byName = @{}; foreach ($entry in $entries) { $byName[$entry.FullName.Replace('\','/')] = $entry }
-        foreach ($file in $expectedFiles) {
-            $stream = $byName[$root + $file.Name].Open()
-            try { $actualHash = Get-StreamHash $stream } finally { $stream.Dispose() }
-            if ($actualHash -ne (Get-FileSha256 $file.FullName)) { Add-Failure "master archive hash mismatch for $($file.Name)" }
+        $root="openai-native-skill-collections-v$Version-all/"
+        $files=@(Get-ChildItem -LiteralPath $Directory -File | Where-Object { $_.FullName -ne $Path })
+        Assert-Same @($files | ForEach-Object { $root+$_.Name }) @($archive.Entries.FullName) 'master archive inventory'
+        foreach ($file in $files) {
+            $entry=$archive.GetEntry($root+$file.Name)
+            if (-not $entry) { continue }
+            $stream=$entry.Open(); try { $hash=Get-StreamHash $stream } finally { $stream.Dispose() }
+            if ($hash -ne (Get-FileSha256 $file.FullName)) { Add-Failure "master archive hash mismatch: $($file.Name)" }
         }
     } finally { $archive.Dispose() }
 }
 
 function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
-    if(-not(Test-Path -LiteralPath $Directory -PathType Container)){Add-Failure "artifact directory missing: $Directory";return}
-    try{$manifest=Get-Content -Raw (Join-Path $Directory 'RELEASE-MANIFEST.json')|ConvertFrom-Json}catch{Add-Failure "release manifest parse failure";return}
-    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true){Add-Failure 'release manifest contract failure'}
-    if ($manifest.direct_claims -ne $true) { Add-Failure 'release manifest direct-claims flag missing' }
+    try { $manifest=(Read-Text (Join-Path $Directory 'RELEASE-MANIFEST.json')) | ConvertFrom-Json } catch { Add-Failure 'release manifest parse failure'; return }
+    $version=$Profiles.version
+    if ($manifest.version -ne $version -or $manifest.release -ne $Profiles.release -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne 17 -or $manifest.schema_version -ne 2 -or $manifest.behavioural_evaluation -ne 'not_run') { Add-Failure 'release manifest contract mismatch' }
+    $expected=@('CHECKSUMS.sha256','RELEASE-MANIFEST.json','README.md','LICENSE','THIRD_PARTY_NOTICES.md',"openai-native-skill-collections-v$version-all.zip")
+    $archives=@($Profiles.profiles.PSObject.Properties | ForEach-Object { (Get-PackageBaseName $_.Name $version)+'.zip' })
+    Assert-Same ($expected+$archives) @(Get-ChildItem $Directory -File | ForEach-Object Name) 'release asset inventory'
+    Assert-Same $archives @($manifest.archives.PSObject.Properties.Name) 'release manifest inventory'
     $declared=@{}
-    foreach($line in Get-Content (Join-Path $Directory 'CHECKSUMS.sha256')){if($line -match '^([0-9a-f]{64})\s+(.+)$'){$declared[$matches[2]]=$matches[1]}else{Add-Failure "malformed release checksum line: $line"}}
-    foreach($property in @($Profiles.profiles.PSObject.Properties)){
-        $archiveName=(Get-PackageBaseName $property.Name $Profiles.version)+'.zip';$archivePath=Join-Path $Directory $archiveName
-        if(-not(Test-Path -LiteralPath $archivePath)){Add-Failure "missing profile archive $archiveName";continue}
-        $hash=(Get-FileSha256 $archivePath)
-        if($declared[$archiveName] -ne $hash){Add-Failure "release checksum mismatch for $archiveName"}
-        $record=$manifest.archives.PSObject.Properties[$archiveName].Value
-        if(-not $record -or $record.sha256 -ne $hash -or $record.bytes -ne (Get-Item $archivePath).Length){Add-Failure "release manifest mismatch for $archiveName"}
-        Test-ZipArchive $archivePath $property.Name $property.Value $Profiles.version
+    foreach ($line in (Read-Text (Join-Path $Directory 'CHECKSUMS.sha256')) -split '\r?\n') {
+        if (-not $line) { continue }
+        if ($line -notmatch '^([0-9a-f]{64})  (.+)$') { Add-Failure 'malformed release checksum'; continue }
+        if ($declared.ContainsKey($matches[2])) { Add-Failure 'duplicate release checksum' }
+        $declared[$matches[2]]=$matches[1]
     }
-    $master=Join-Path $Directory "openai-native-skill-collections-v$($Profiles.version)-all.zip"
-    if(-not(Test-Path -LiteralPath $master)){Add-Failure 'master release archive missing'}else{Test-ZipArchive $master $null $null $Profiles.version;Test-MasterArchive $master $Directory $Profiles.version}
-    if(-not($failures|Where-Object{$_ -match 'archive|ZIP|package|release manifest|release checksum|checksum in'})){Add-Pass 'release archives, inventories, licensing, hashes, paths, CRC reads, and executable/symlink checks'}
+    Assert-Same $archives @($declared.Keys) 'release checksum coverage'
+    foreach ($p in $Profiles.profiles.PSObject.Properties) {
+        $name=(Get-PackageBaseName $p.Name $version)+'.zip';$path=Join-Path $Directory $name
+        if (-not (Test-Path $path)) { Add-Failure "missing release archive: $name"; continue }
+        $hash=Get-FileSha256 $path;$record=$manifest.archives.PSObject.Properties[$name].Value
+        if ($declared[$name] -ne $hash -or $record.sha256 -ne $hash -or $record.bytes -ne (Get-Item $path).Length -or $record.profile -ne $p.Name) { Add-Failure "release digest or metadata mismatch: $name" }
+        Test-ZipArchive $path $p.Name $p.Value $version
+    }
+    $master=Join-Path $Directory "openai-native-skill-collections-v$version-all.zip"
+    if (Test-Path $master) { Test-ZipArchive $master $null $null $version; Test-MasterArchive $master $Directory $version }
 }
+
+. (Join-Path $PSScriptRoot 'standards-contract.ps1')
 
 if (-not $FunctionsOnly) {
     $profiles=Test-MetadataContracts
-    if($profiles){Test-SkillTree $profiles;Test-SourceIntegrity;Test-RepositoryHygiene;if(-not[string]::IsNullOrWhiteSpace($ArtifactsDirectory)){Test-ReleaseArtifacts ([IO.Path]::GetFullPath($ArtifactsDirectory)) $profiles}}
-    if($failures.Count -gt 0){Write-Host "`nValidation failed with $($failures.Count) issue(s)." -ForegroundColor Red;exit 1}
-    Write-Host "`nValidation passed with $($passes.Count) check groups." -ForegroundColor Green
+    if ($profiles) {
+        Test-SkillTree $profiles
+        Test-StandardsContracts
+        Test-SourceIntegrity
+        Test-RepositoryHygiene
+        if ($ArtifactsDirectory) { Test-ReleaseArtifacts ([IO.Path]::GetFullPath($ArtifactsDirectory)) $profiles }
+    }
+    if ($failures.Count) { throw "Validation failed: $($failures.Count) issue(s)" }
+    Write-Host 'PASS: source, declared contracts and supplied archives; live model behaviour NOT TESTED'
 }

@@ -1,162 +1,27 @@
 {
-  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims policy presence and fixture integrity, not semantic or model-behaviour proof",
-  "package": "complete",
-  "version": "8.7.0",
-  "skills_expected": 23,
-  "skills_validated": 23,
+  "schema_version": 2,
+  "version": "9.0.1",
+  "scope": "declared structural contract; not a validation result or live model evaluation",
+  "skills_expected": 17,
   "manual_only_skills": [
     "gauntlet-loop",
     "get-it-done",
-    "grilling",
     "handoff",
-    "project-context",
     "wait-what"
   ],
-  "implicitly_selectable_skills": [
-    "architecture",
-    "browser-automation",
-    "cli-design",
-    "debug",
-    "experiment",
-    "implement",
-    "merge-conflicts",
-    "office-files",
-    "plan",
-    "release",
-    "research",
-    "review",
-    "skill-design",
-    "teach",
-    "test",
-    "triage",
-    "writing"
-  ],
-  "considerate_agency": {
-    "global": true,
-    "local_fallbacks": 22,
-    "adapters": 23,
-    "act_ask_do_not_act": true
+  "limits": {
+    "max_skills": 19,
+    "agents_words": 550,
+    "engineering_words": 600,
+    "skill_words": 400,
+    "description_characters": 170,
+    "adapter_prompt_characters": 100
   },
-  "adaptive_prose": {
-    "global": true,
-    "simple_turns_remain_short": true,
-    "default_sources": [
-      "ASD-STE100 Issue 9",
-      "ISO 24495-1",
-      "W3C COGA"
-    ],
-    "conditional_sources": [
-      "Feynman-style explanation heuristic",
-      "Diataxis",
-      "BCP 14 / RFC 2119 / RFC 8174"
-    ]
-  },
-  "explicit_standards": {
-    "engineering_core_source_map": true,
-    "standards_register": true,
-    "owning_skill_names": true,
-    "formal_conformance_claimed": false
-  },
-  "human_usable_information": {
-    "global_principles": true,
-    "conditional_reference": "skills/writing/USER-INFORMATION.md",
-    "target_user_task_validation_required_for_strong_claims": true,
-    "readability_alone_is_not_acceptance": true,
-    "easy_to_read_requires_intended_user_review": true,
-    "static_scenarios": 48
-  },
-  "warnings": [
-    "Live model behaviour, routing, user comprehension, accessibility, task success, and human satisfaction were not measured.",
-    "Named standards and project influences do not establish formal conformance.",
-    "The Unlazy runtime, checker, installer, approval store, dispatch recorder, and Stop hook are not bundled.",
-    "Hermes runtime continuation, tool schemas, profiles, memory, caching, and computer-use enforcement are not bundled or claimed equivalent.",
-    "Overlapping profiles must not be installed together.",
-    "Direct-claims fixtures are authored expectations, not live agent outputs. String-presence guards do not prove semantic compliance."
-  ],
-  "errors": [],
-  "passed": true,
-  "profile_composition": {
-    "communication_skills": [
-      "teach",
-      "wait-what",
-      "writing"
-    ],
-    "get_it_done_skills": [
-      "gauntlet-loop",
-      "get-it-done",
-      "teach",
-      "wait-what",
-      "writing"
-    ],
-    "gauntlet_skills": [
-      "gauntlet-loop",
-      "teach",
-      "wait-what",
-      "writing"
-    ],
-    "communication_embedded_in_get_it_done": true,
-    "communication_embedded_in_gauntlet": true
-  },
-  "proof_integrity": {
-    "global_principles": true,
-    "source_project": "Leonxlnx/unlazy",
-    "source_commit": "473d4b80421c36d733042434cd4b938f81a19ef1",
-    "runtime_vendored": false,
-    "oracle_must_be_falsifiable": true,
-    "status_is_not_reexecution": true,
-    "required_gate_abandonment_is_not_completion": true,
-    "native_parallel_claim_requires_launch_barrier": true,
-    "scenario_file": "docs/evals/proof-integrity-scenarios-v8.4.0.csv",
-    "static_scenarios": 40
-  },
-  "proportional_rigor": {
-    "global_principles": true,
-    "modes": [
-      "DIRECT",
-      "STANDARD",
-      "DEEP",
-      "ADVERSARIAL"
-    ],
-    "direct_for_single_decisive_check": true,
-    "extra_scrutiny_requires_distinct_evidence_gap": true,
-    "safety_and_correctness_floor_immutable": true,
-    "no_new_routed_skill": true,
-    "scenario_file": "docs/evals/proportional-rigor-scenarios-v8.5.0.csv",
-    "static_scenarios": 48
-  },
-  "maintenance": {
-    "windows_powershell_5_1_utf8_validation": true,
-    "skill_behavior_changed_from_v8_5_1": true,
-    "skill_behavior_changed_from_v8_6_0": true
-  },
-  "outcome_first_delivery": {
-    "global_principles": true,
-    "source_project": "NousResearch/hermes-agent",
-    "source_commit": "18a76be124d7c16ed98b629a358b23fef76a7f46",
-    "runtime_vendored": false,
-    "response_weight_matching": true,
-    "internal_depth_external_brevity": true,
-    "quiet_completion": true,
-    "act_or_state_blocker": true,
-    "no_process_replay": true,
-    "anti_filler": true,
-    "anti_sycophancy": true,
-    "explicit_user_or_host_style_override": true,
-    "summary_tldr_distinct_when_used": true,
-    "parallel_independent_lookups_when_supported": true,
-    "scenario_file": "docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv",
-    "static_scenarios": 48
-  },
-  "direct_claims": {
-    "global_principles": true,
-    "preserve_uncertainty": true,
-    "preserve_semantics": true,
-    "evidence_based_ownership": true,
-    "no_blanket_word_ban": true,
-    "no_new_route": true,
-    "runtime_enforcement": false,
-    "live_host_evaluated": false,
-    "scenario_file": "docs/evals/direct-claims-scenarios-v8.7.0.csv",
-    "static_scenarios": 32
-  }
+  "behavioural_evaluation": "not_run",
+  "formal_conformance_claimed": false,
+  "scenarios": "docs/evals/v9-scenarios.json",
+  "migration": "docs/MIGRATION-v9.md",
+  "standards_coverage": "docs/STANDARDS-COVERAGE.json",
+  "standards_scenarios": "docs/evals/standards-v9.0.1.json",
+  "standards_applications": "docs/STANDARDS-APPLICATIONS.json"
 }

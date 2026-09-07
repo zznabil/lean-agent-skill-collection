@@ -1,26 +1,26 @@
 ---
 name: release
-description: "Prepare and verify a software or artifact release, including version, changelog, build, package, checksums, migration notes, staged rollout, operations evidence, and rollback. Publish only with explicit authorization."
+description: "Prepare and verify a versioned release; publish and clean up only within the approval already granted."
 ---
 
 # Release
 
-Use an **ISO/IEC/IEEE 12207-inspired lifecycle** for release, operation, maintenance, recovery, and retirement evidence. Apply **Semantic Versioning** and **Conventional Commits** only when the project adopts them. For consequential supply-chain claims, load `SUPPLY-CHAIN.md` for **SLSA**, **SPDX/CycloneDX**, artifact digests, and **Reproducible Builds**.
+Inspect the current branch, version, open work and repository release policy. Establish the exact authorised disposition: prepare, PR, merge, tag, publish or deploy. Reuse standing approval within scope; do not stop for another approval when it is already granted.
 
-1. Define scope, target version, supported environments, approvals, success signals, hard-block dimensions, hold conditions, rollback triggers, and rollback point.
-2. Follow repository versioning and commit conventions. Use SemVer or Conventional Commits only when adopted; do not create churn merely to conform.
-3. Derive notes from verified diffs and user-visible impact, not commit titles alone. Check both directions: every release-note claim traces to a change, and every breaking or material user-facing change appears or is explicitly excluded.
-4. Confirm version consistency, compatibility and migration notes, dependencies, licenses, generated artifacts, and clean working state. For public or high-assurance releases, read `SUPPLY-CHAIN.md`. For a consequential AI asset, verify its current asset card and every evidence-invalidating change. For migrations, verify the sequence and recovery path; destructive contraction comes last.
-5. Run the project-defined build, test, static, security, packaging, install, startup, and smoke gates that apply. Record each dimension as `PASS`, `CONCERN`, `BLOCKER`, `NOT APPLICABLE`, or `CANNOT CHECK`; never guess a pass.
-6. Independently confirm a proposed blocker against the actual artifact and release scope before issuing `NO-GO`. A pre-existing or disproved issue is not a release blocker.
-7. In a clean environment when practical, install the package and execute the critical user or operator journey.
-8. For critical production paths, verify the operator questions, telemetry, alert, runbook, and rollback signal required by scope. Test instrumentation instead of assuming it works.
-9. Use staged or feature-gated rollout when blast radius justifies it. Advance, hold, or roll back from measured comparison with baseline, not generic thresholds.
-10. Inspect archives, permissions, stray files, debug settings, secrets, reproducibility, checksums, and applicable provenance or inventory evidence. Keep integrity, provenance, dependency risk, and correctness separate.
-11. Verify branch base and final diff, then state the authorized disposition: review, merge, retain, or discard.
-12. Confirm first-use readiness: the artifact is easy to locate; install or use instructions and required configuration are sufficient; rollback or recovery is clear; and the user is told whether any action remains.
-13. Produce a release packet with decision, version, changes, upgrade steps, known issues, evidence, skipped checks, artifacts, checksums, applicable provenance or SBOM locations, rollout and monitoring, rollback, branch disposition, approval state, and user-action status.
-14. Publish, tag, upload, notify, merge, or deploy only when authorized. Read back external state after the action.
+Choose an unused version; preserve earlier tags and releases. Derive notes, breaking changes, migration and limitations from the diff. Check metadata, licences, profiles, artifacts and recovery together.
 
+Run every required gate on the latest candidate and supported environments. Review the diff and actual package contents. Confirm checks can fail meaningfully; a build-generated declaration is not a test result. Do not weaken branch protection or bypass a failed or missing required check.
 
-**User-facing:** Apply the global outcome-first delivery overlay. State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+Merge only the reviewed head after required PR checks pass. Read back the merge revision and verify required exact-main checks. Build and tag that exact source using the repository's tag policy. Publish only after authorised gates pass; inspect external state after ambiguous writes before retrying.
+
+Report version, user-visible change, migration, actual checks, skipped checks and artifact locations. Distinguish built, merged, tagged, uploaded and publicly released. A signed tag, reproducible build and correct program are separate claims. Failure at a required gate means blocked delivery, not permission to manufacture a pass.
+
+For published assets, verify inventory, paths, digests and the practical first-use journey. Download draft assets and compare bytes and contents before publication; repeat public readback and verify the tag target. Remove only identified, completed temporary branches after checking their heads and unmerged work.
+
+For user-facing prose, use clear words, visible next actions and preserved meaning and uncertainty (ASD-STE100-inspired; ISO 24495-1; W3C COGA). Respect the requested artifact voice.
+
+For required provenance, SBOM or reproducible-build evidence, use [SUPPLY-CHAIN.md](SUPPLY-CHAIN.md).
+
+## Standards in use
+
+- When preparing a versioned release, classify compatibility under the project-adopted version scheme and write an accurate change summary; use commit conventions only where the project adopts them. (Semantic Versioning; Conventional Commits).

@@ -2,17 +2,9 @@
 
 Load only for an AI model, agent, MCP system, RAG workflow, evaluator, memory system, or tool-using application. Select versioned requirements and threat cases that match the actual architecture; do not paste an entire catalogue into the benchmark.
 
-## Source hierarchy
+For material AI-system acceptance, record intended use, affected people, lifecycle risks and responsibility; select scoped checks across data, model, prompts, tools, deployment and monitoring. (NIST AI RMF / GenAI Profile; NIST SP 800-218A; ISO/IEC 5338).
 
-Use current official sources where applicable:
-
-1. Explicit user and product requirements.
-2. NIST AI RMF and the Generative AI Profile for risk framing.
-3. NIST SP 800-218A for secure AI-system development.
-4. NIST adversarial-machine-learning taxonomy for evasion, poisoning, privacy, and misuse threats.
-5. OWASP AISVS and LLMSVS for testable security requirements.
-6. OWASP Agentic Top 10 for agent-specific failure patterns.
-7. MITRE ATLAS for adversary tactics, techniques, mitigations, and cases.
+When AI tools or models cross trust boundaries, derive concrete threat cases from the selected baseline and verify injection resistance, permissions, data handling and failure containment; a threat list is not a pass. (OWASP LLMSVS; NIST AI 100-2e2025; OWASP AISVS; OWASP Agentic Top 10; MITRE ATLAS).
 
 Record the source version, requirement or technique ID, applicability decision, verification method, evidence, and status. Do not claim compliance with an entire standard from selected checks.
 

@@ -1,21 +1,15 @@
-# Get It Done state schema
+# Long-task checkpoint
 
-Keep one human-readable file. Replace it atomically when possible.
+Use one file at `.agent-state/get-it-done/<goal-id>.md` when a session may end or work needs durable ownership. Tiny tasks need no file. Keep these fields, merging sections when that is clearer:
 
-- **Goal:** observable outcome, source requirements, primary verifier, and proof threshold.
-- **Scope:** included work, non-goals, constraints, permissions, irreversible gates, and the standing Definition of Done when one exists.
-- **Baseline:** current behavior, failures, artifact fingerprint, environment, unrelated local work, and load-bearing safety facts.
-- **Evidence layers:** raw append-only or immutable records; a compact playbook of `VERIFIED`, `ASSUMED`, `REFUTED`, and `UNKNOWN` claims with provenance and revisit conditions; and a temporary scratchpad for current work.
-- **Execution:** direct, staged, or delegated mode; trusted runtime or host capability; source revision or digest when executable workflow code is used.
-- **Acceptance ledger:** requirement ID, source, observable outcome, verifier or oracle, expected result, actual result, environment, status, evidence path, confidence, calibration result, and current or stale state.
-- **Contract:** `none`, `inline`, or `full`; current revision; every independently omittable required outcome or acceptance-changing constraint; stable ID, owner, observing gate or manual review, disposition, consumers, shared surfaces, deliverables, blocking conditions, and version.
-- **Plan:** vital few tasks, riskiest unknown, next cheapest separating test, relevant quality attributes, dependencies, owners, and budget.
-- **Coverage manifest:** qualified packet or journey ID, charter, anti-charter, exact scope, owned paths, ownership claim and release state, owner, dependencies, planned launch wave, host handle when available, `WAITING`/`READY`/`IN-FLIGHT`/`VERIFIED`/`ABANDONED` status, local verifier, integration verifier, handoff path, total target count, processed count, and disclosed remainder.
-- **Progress:** completed waves with semantic gate, contract, packet, defect, or dispatch-state changes; changed artifacts; expected and actual results for consequential actions; fresh evidence; mismatches; refutations; skipped work; and stale results. Metadata-only edits, repeated status reads, timestamps, and tool calls are not progress. For every user-facing bar, store the track name, denominator definition, planned, processed, passed, failed, blocked, skipped, and not-tested counts. Progress is not acceptance.
-- **Decision log:** append compact rows such as `time | decision or check | evidence | result | next action`. Record decisions and checkpoints, not a transcript.
-- **Open:** defects, blockers, risks, approvals, unverified or untested assumptions, and intentionally deferred areas with one durable sink, owner or revisit trigger, and acceptance status.
-- **Human effort:** avoidable questions resolved, safe follow-through completed, bundled decisions, teammate-pass result, and final user action as `NONE`, `DECISION NEEDED`, or `OPTIONAL FOLLOW-UP`.
-- **Resume:** current phase, last stable checkpoint, workspace drift, stop trigger (`dry`, `cap`, `budget`, `approval`, `unstable`, or external blocker), and one exact next action or separating test.
-- **Result:** terminal state, task-gate status, standing completion status, numeric claims re-measured, operations evidence, rollback, and unprocessed remainder.
+- Goal, scope/non-goals, authority, current artifact revision and state.
+- Required outcomes: ID, owner, observable check, expected result, actual result, evidence and whether current or stale.
+- Decisions and assumptions that affect the next action; source and revisit trigger.
+- Work completed, pending dependencies, budget used/remaining and meaningful no-progress count.
+- Blockers, accepted nonblocking residuals with owner/revisit condition, recovery point and exact next action.
 
-Store conclusions and evidence, not hidden reasoning or secrets. One coordinator writes this file. Reconcile workspace drift before resuming.
+States are DONE, PAUSED_LIMITS, NEEDS_APPROVAL, BLOCKED, UNSTABLE, INFEASIBLE and CANCELLED; use ACTIVE while working. DONE requires every required outcome and gate. Deferred or abandoned required work remains unfinished until an authorised scope change removes it. INFEASIBLE needs affirmative evidence, not merely a timeout or exhausted search.
+
+One owner writes the checkpoint. Reconcile the latest request and artifact drift before resuming. Recheck affected stale evidence. Store decisions and receipts, not hidden reasoning, secrets or fabricated progress. A processed count may include explicitly classified failures or blockers; it never implies they passed.
+
+V8 state files remain historical inputs. Read their existing fields, preserve unresolved gates and authority, then migrate only when resuming that task; do not silently declare their status vocabulary equivalent.
