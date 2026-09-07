@@ -17,4 +17,4 @@ Return the proposed change, key decisions, checks and material open question. Ke
 
 For user-facing prose, use clear words, visible next actions and preserved meaning and uncertainty (ASD-STE100-inspired; ISO 24495-1; W3C COGA). Respect the requested artifact voice.
 
-For material shared contracts, architecture, user-journey design or operations, use [ARCHITECTURE.md](ARCHITECTURE.md). For consequential requirement, risk or acceptance gaps, use [REQUIREMENTS.md](REQUIREMENTS.md).
+For material shared contracts, architecture, user-journey design or operations, use [ARCHITECTURE.md](ARCHITECTURE.md). When drafting or changing requirements, acceptance criteria or consequential risk decisions, use [REQUIREMENTS.md](REQUIREMENTS.md), even when the desired outcome is already known.

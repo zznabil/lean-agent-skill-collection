@@ -22,5 +22,6 @@
   "scenarios": "docs/evals/v9-scenarios.json",
   "migration": "docs/MIGRATION-v9.md",
   "standards_coverage": "docs/STANDARDS-COVERAGE.json",
-  "standards_scenarios": "docs/evals/standards-v9.0.1.json"
+  "standards_scenarios": "docs/evals/standards-v9.0.1.json",
+  "standards_applications": "docs/STANDARDS-APPLICATIONS.json"
 }

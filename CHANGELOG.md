@@ -4,6 +4,8 @@
 
 ### Lean Standards, Explicit Behaviour
 
+- Follow-up PR: make API, security, UI, AI/data and lifecycle checks available during direct implementation, testing and experiments; restore concrete EARS syntax and consolidate repeated guidance.
+- Add 64 authored task/near-miss application fixtures covering the 97 preserved register decisions, plus structural route and mechanism rejection controls; no live-model or conformance claim.
 - Ship the 17-skill V9 consolidation; V9.0.0 was a local unreleased candidate.
 - Reconcile all 97 register entries to concrete local triggers, behaviours and source references, retaining source-review dates and adoption decisions.
 - Restore ASD-STE100-inspired clarity, ISO 24495-1 and W3C COGA globally with a minimal standalone fallback; restore scoped engineering, accessibility, teaching and documentation provenance.

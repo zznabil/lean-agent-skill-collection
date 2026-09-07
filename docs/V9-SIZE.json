@@ -30,24 +30,24 @@
   "candidate": {
     "skills": 17,
     "agents": {
-      "bytes": 3439,
-      "words": 487
+      "bytes": 3626,
+      "words": 513
     },
     "engineering_core": {
       "bytes": 3859,
       "words": 530
     },
     "skill_roots": {
-      "bytes": 37269,
-      "words": 5165
+      "bytes": 37058,
+      "words": 5110
     },
     "adapters": {
       "bytes": 4526,
       "words": 498
     },
     "all_skill_files": {
-      "bytes": 88530,
-      "words": 11914
+      "bytes": 94473,
+      "words": 12635
     },
     "description_characters": 1899,
     "max_description_characters": 128

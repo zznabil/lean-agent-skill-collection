@@ -148,6 +148,24 @@ try {
     Write-Text $registerPath ($registerText.Replace('[AGENTS.md](../AGENTS.md)','[Wrong](../ENGINEERING-CORE.md)'))
     Expect-Rejection 'stale register owner' { Test-StandardsContracts } 'standards register owner mismatch'
     Write-Text $registerPath $registerText
+    # Changing a task trigger while retaining the valid link must still be rejected.
+    $applicationPath=Join-Path $repoRoot 'docs/STANDARDS-APPLICATIONS.json';$applicationText=Read-Text $applicationPath
+    Write-Text $skillPath ($skillText.Replace('For changes to API/event contracts, security, personal data, user interfaces or instructions, AI, persistent state, operations or regulated behaviour,','Only for a formal architecture review,'))
+    Expect-Rejection 'narrowed direct-task trigger with retained link' { Test-StandardsContracts } 'standards application activation missing'
+    Write-Text $skillPath $skillText
+    $earsPath=Join-Path $repoRoot 'skills/plan/REQUIREMENTS.md';$earsText=Read-Text $earsPath
+    Write-Text $earsPath ($earsText.Replace('When <event>, the <system> shall <response>.','Event rule omitted.'))
+    Expect-Rejection 'missing concrete EARS mechanism' { Test-StandardsContracts } 'standards application mechanism missing'
+    Write-Text $earsPath $earsText
+    Edit-Json $applicationPath { param($x) ($x.routes | Where-Object { $_.owner -eq 'skills/implement/BOUNDARIES.md' }).entrypoint='skills/plan/SKILL.md' }
+    Expect-Rejection 'cross-profile direct-task route' { Test-StandardsContracts } 'standards application cross-profile route'
+    Write-Text $applicationPath $applicationText
+    Edit-Json $applicationPath { param($x) foreach ($case in $x.cases) { $case.standards=@($case.standards | Where-Object { $_ -ne 'S69' }) } }
+    Expect-Rejection 'missing application coverage' { Test-StandardsContracts } 'standards application source coverage'
+    Write-Text $applicationPath $applicationText
+    Edit-Json $applicationPath { param($x) ($x.cases | Where-Object { $_.id -eq 'A49' }).standards += 'S71' }
+    Expect-Rejection 'activate excluded source in direct task' { Test-StandardsContracts } 'standards application promotes inactive source'
+    Write-Text $applicationPath $applicationText
     $repoRoot=$originalRoot
 
     $profileName='communication';$profile=$profiles.profiles.communication
@@ -159,6 +177,9 @@ try {
     Copy-Item $originalZip $zip -Force
     Rewrite-ZipEntry $zip ($packageName+'/CHECKSUMS.sha256') ''
     Expect-Rejection 'empty package checksums' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package checksum coverage'
+    Copy-Item $originalZip $zip -Force
+    Rewrite-ZipEntry $zip ($packageName+'/CHECKSUMS.sha256') "malformed`n"
+    Expect-Rejection 'malformed package checksums' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'malformed package checksum'
     Copy-Item $originalZip $zip -Force
     Rewrite-ZipEntry $zip ($packageName+'/skills/teach/SKILL.md') '' -Delete
     Expect-Rejection 'missing packaged skill' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package inventory'

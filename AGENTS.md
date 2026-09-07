@@ -33,4 +33,4 @@ Lead with the useful result or artifact. Investigate enough; report only decisio
 - For user-facing prose, use common concrete words, one consistent term per concept and small coherent sections; preserve meaning, warnings and the requested voice. (ASD-STE100-inspired clarity; ISO 24495-1; W3C COGA).
 - For normative requirements, use MUST/MUST NOT for obligations/prohibitions, SHOULD for a default whose exceptions need justification and MAY for permission; uppercase alone carries these meanings. (BCP 14: RFC 2119 / RFC 8174).
 
-These guides do not establish standards conformance.
+The BCP 14 convention applies when authoring normative requirements under that convention, not to every uppercase word in retrieved material. Lowercase words keep their ordinary meaning. These guides do not establish standards conformance.

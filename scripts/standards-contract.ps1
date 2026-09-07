@@ -71,4 +71,63 @@ function Test-StandardsContracts {
             if ($case.expect -eq $case.reject) { Add-Failure 'standards scenario does not discriminate' }
         }
     } catch { Add-Failure 'standards scenario parse failure' }
+    Test-StandardsApplications $entries
+}
+
+# Check declared local routing and counterexample fixtures, not their model execution.
+function Test-StandardsApplications([object[]]$Entries) {
+    try {
+        $applications=(Read-Text (Join-Path $repoRoot 'docs/STANDARDS-APPLICATIONS.json')) | ConvertFrom-Json
+    } catch { Add-Failure 'standards application parse failure'; return }
+    $routes=@($applications.routes); $cases=@($applications.cases)
+    if ($applications.schema_version -ne 1 -or $applications.status -ne 'authored_not_executed') { Add-Failure 'standards application evidence mismatch' }
+    if ($cases.Count -ne 64 -or @($cases.id | Sort-Object -Unique).Count -ne $cases.Count) { Add-Failure 'standards application case inventory' }
+    $byId=@{}; $byRoute=@{}; $used=@{}; $canonical=@{}
+    foreach ($entry in $Entries) { $byId[[string]$entry.id]=$entry }
+    foreach ($route in $routes) {
+        $key=[string]$route.id
+        if ($byRoute.ContainsKey($key)) { Add-Failure 'standards application duplicate route'; continue }
+        $byRoute[$key]=$route
+        $owner=[string]$route.owner; $from=[string]$route.entrypoint
+        if ($owner -notmatch '^(AGENTS\.md|ENGINEERING-CORE\.md|skills/[a-z-]+/[A-Z][A-Z0-9-]*\.md|docs/STANDARDS-REGISTER\.md)$') { Add-Failure "standards application owner invalid: $key"; continue }
+        if (-not (Test-Path -LiteralPath (Join-Path $repoRoot $owner) -PathType Leaf)) { Add-Failure "standards application owner missing: $key"; continue }
+        if ($owner -eq 'docs/STANDARDS-REGISTER.md') {
+            if ($from -or $route.activation) { Add-Failure "standards application inactive route: $key" }
+            continue
+        }
+        $expectedFrom=$owner
+        if ($owner -eq 'ENGINEERING-CORE.md') { $expectedFrom='AGENTS.md' }
+        elseif ($owner -match '^skills/') { $expectedFrom=($owner -replace '/[^/]+$','/SKILL.md') }
+        if ($from -cne $expectedFrom) { Add-Failure "standards application cross-profile route: $key"; continue }
+        if ($from -ne $owner) {
+            $rootText=Read-Text (Join-Path $repoRoot $from)
+            $activation=[string]$route.activation
+            $name=Split-Path -Leaf $owner
+            $link='['+$name+']('+$name+')'
+            if ($owner -eq 'ENGINEERING-CORE.md') { $link=$name }
+            if ([string]::IsNullOrWhiteSpace($activation) -or $activation.IndexOf($link,[StringComparison]::Ordinal) -lt 0 -or $rootText.IndexOf($activation,[StringComparison]::Ordinal) -lt 0) { Add-Failure "standards application activation missing: $key" }
+        } elseif ($route.activation) { Add-Failure "standards application unexpected loader: $key" }
+    }
+    foreach ($case in $cases) {
+        foreach ($field in @('id','route','anchor','positive','expect','negative','reject')) {
+            if ([string]::IsNullOrWhiteSpace([string]$case.$field)) { Add-Failure 'standards application field missing' }
+        }
+        if ($case.positive -ceq $case.negative -or $case.expect -ceq $case.reject) { Add-Failure "standards application near miss missing: $($case.id)" }
+        if (-not $byRoute.ContainsKey([string]$case.route)) { Add-Failure "standards application route missing: $($case.id)"; continue }
+        $route=$byRoute[[string]$case.route]; $owner=[string]$route.owner
+        if ($owner -notmatch '^(AGENTS\.md|ENGINEERING-CORE\.md|skills/[a-z-]+/[A-Z][A-Z0-9-]*\.md|docs/STANDARDS-REGISTER\.md)$') { continue }
+        $path=Join-Path $repoRoot $owner
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { continue }
+        if ((Read-Text $path).IndexOf([string]$case.anchor,[StringComparison]::Ordinal) -lt 0) { Add-Failure "standards application mechanism missing: $($case.id)" }
+        $ids=@($case.standards)
+        if (-not $ids.Count -or @($ids | Sort-Object -Unique).Count -ne $ids.Count) { Add-Failure "standards application duplicate or empty sources: $($case.id)" }
+        foreach ($id in $ids) {
+            if (-not $byId.ContainsKey([string]$id)) { Add-Failure "standards application unknown source: $id"; continue }
+            $entry=$byId[[string]$id]; $used[[string]$id]=$true
+            if ($entry.owner -ceq $owner) { $canonical[[string]$id]=$true }
+            if ($entry.mode -in @('excluded','watch','deferred') -and $owner -ne 'docs/STANDARDS-REGISTER.md') { Add-Failure "standards application promotes inactive source: $id" }
+        }
+    }
+    Assert-Same @($Entries.id) @($used.Keys) 'standards application source coverage'
+    Assert-Same @($Entries.id) @($canonical.Keys) 'standards application canonical coverage'
 }

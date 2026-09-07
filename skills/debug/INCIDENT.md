@@ -1,6 +1,10 @@
 # Live incident mode
 
-This mode is informed by **NIST SP 800-61r3** incident response and **Google SRE** incident-management and blameless-postmortem practice.
+During an incident and its follow-up, stabilise within authority, preserve evidence, separate facts from causes and record a blameless timeline with owned corrective actions. (NIST SP 800-61r3; Google SRE blameless postmortems).
+
+For vulnerability prioritisation without an active incident, use only the prioritisation rule below; do not start incident command or mutate production.
+
+When prioritising a vulnerability, use the project's CVSS input alongside exposure, exploitation and business impact; the score alone does not decide urgency. (CVSS 4.0).
 
 The priority is to reduce harm and restore service safely, not to prove a root cause immediately.
 
@@ -14,8 +18,3 @@ The priority is to reduce harm and restore service safely, not to prove a root c
 8. Write a blameless review: impact, timeline, detection, mitigation, root cause and confidence, falsified alternatives, contributing conditions, what worked, what failed, and corrective actions with owner, due condition, and verification.
 
 Do not expose secrets or private user data in timelines or reports. Do not test destructive scenarios against production by default.
-
-## Standards in use
-
-- During an incident and its follow-up, stabilise within authority, preserve evidence, separate facts from causes and record a blameless timeline with owned corrective actions. (NIST SP 800-61r3; Google SRE blameless postmortems).
-- When prioritising a vulnerability, use the project's CVSS input alongside exposure, exploitation and business impact; the score alone does not decide urgency. (CVSS 4.0).
