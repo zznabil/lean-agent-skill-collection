@@ -1,6 +1,6 @@
 # AI asset cards
 
-These compact records are informed by **ISO/IEC 5259**, **ISO/IEC 25012/25024**, **Model Cards**, **Data Cards**, **Datasheets for Datasets**, **FAIR principles**, and **ISO/IEC 42005** when impact assessment is warranted. They are transparency and evidence artifacts, not certification.
+When handing off model or dataset assets, document identity, intended and excluded uses, provenance, access/licence, evaluation and limits; make metadata findable and reusable without implying that protected data must be public. (Model Cards; Data Cards; Datasheets for Datasets; FAIR). These records are not certification.
 
 Use this compact card for a consequential model, dataset, prompt, evaluator, agent, or retrieval asset. Keep one card per independently versioned asset when practical.
 
@@ -16,6 +16,8 @@ Use this compact card for a consequential model, dataset, prompt, evaluator, age
 
 ## Provenance and data
 
+For datasets supporting a material decision or AI system, record intended use, provenance, quality dimensions, measured limitations and leakage checks; scope every quality measure to the task. (ISO/IEC 5259; ISO/IEC 25012; ISO/IEC 25024).
+
 - Source, collection or generation method, transformations, filtering, annotation, and approval.
 - Data composition, splits, exclusions, duplicates, leakage controls, sensitive attributes, access, retention, and deletion.
 - For retrieved data, authority, freshness, licence, citation, and embedded-instruction boundary.
@@ -28,15 +30,11 @@ Use this compact card for a consequential model, dataset, prompt, evaluator, age
 
 ## Limitations and impact
 
+When an AI change can affect people, record affected groups, foreseeable benefits and harms, mitigations, owner and revisit conditions. (ISO/IEC 42005).
+
 - Known failure modes, uncertainty, affected users or groups, foreseeable misuse, human recourse, and residual risk.
 - Assumptions, mitigations, monitoring signals, incident trigger, rollback, and retirement condition.
 
 ## Change control
 
 Update the card when the asset, provider, prompt, data, evaluator, tool permissions, or deployment context changes materially. Preserve prior versions. Do not promote an undocumented asset into a consequential workflow or claim that the card itself proves safety, fairness, quality, or compliance.
-
-## Standards in use
-
-- For datasets supporting a material decision or AI system, record intended use, provenance, quality dimensions, measured limitations and leakage checks; scope every quality measure to the task. (ISO/IEC 5259; ISO/IEC 25012; ISO/IEC 25024).
-- When handing off model or dataset assets, document identity, intended and excluded uses, provenance, access/licence, evaluation and limits; make metadata findable and reusable without implying that protected data must be public. (Model Cards; Data Cards; Datasheets for Datasets; FAIR).
-- When an AI change can affect people, record affected groups, foreseeable benefits and harms, mitigations, owner and revisit conditions. (ISO/IEC 42005).

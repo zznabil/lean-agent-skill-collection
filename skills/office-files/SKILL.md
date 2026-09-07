@@ -13,13 +13,11 @@ Make the smallest complete edit with a format-aware tool. Reopen the result. Ren
 
 For DOCX, check headings, lists, tables, sections, page breaks and image placement. For PDF, check pages, text, images, links, forms and required accessibility. For PPTX, check size, theme, alignment, overflow, notes and media. For spreadsheets, check formulas, references, types, ranges, validation, recalculation and error cells rather than only displayed values.
 
-For instructions or forms, verify users can find prerequisites, actions, expected results and recovery. A clean layout alone does not establish usability.
+For instructions or forms, identify the audience and task; place prerequisites and consequences before action, then expected results, data state and recovery. Use consistent terms and trace accessibility needs to barriers and checks; evaluate with intended users when the claim requires it. A clean layout is not user testing. (IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859/29138; ISO 21801-1; ISO 704).
 
 Deliver a link or exact location to the actual output, the checks performed and any important unsupported feature, active content or verification limit. Never invent a download path or claim a file was updated when only a local copy changed.
 
 For user-facing prose, use clear words, visible next actions and preserved meaning and uncertainty (ASD-STE100-inspired; ISO 24495-1; W3C COGA). Respect the requested artifact voice.
 
-## Standards in use
-
-- When presentation affects use, check hierarchy, grouping, labels and orientation in the rendered artifact, not only its source. (ISO 9241-112).
-- Only when signed media provenance is required, use the supported provenance workflow and verify signatures and scope; provenance does not prove the content is true. (C2PA (project-local)).
+When presentation affects use, check hierarchy, grouping, labels and orientation in the rendered artifact, not only its source. (ISO 9241-112).
+Only when signed media provenance is required, use the supported provenance workflow and verify signatures and scope; provenance does not prove the content is true. (C2PA (project-local)).

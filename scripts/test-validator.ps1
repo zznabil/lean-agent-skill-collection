@@ -79,6 +79,27 @@ try {
         Copy-Item -LiteralPath $file.FullName -Destination $destination
     }
     $repoRoot=$sourceCopy
+    # Git control files and directories are not source; similarly named files still are.
+    $gitControlPath=Join-Path $repoRoot '.git'
+    foreach ($kind in @('file','directory')) {
+        if ($kind -eq 'file') {
+            Write-Text $gitControlPath "gitdir: ../repository/.git/worktrees/fixture`n"
+        } else {
+            New-Item -ItemType Directory -Path $gitControlPath | Out-Null
+            Write-Text (Join-Path $gitControlPath 'HEAD') "ref: refs/heads/fixture`n"
+        }
+        $failures.Clear()
+        Test-SourceIntegrity
+        Test-RepositoryHygiene
+        if ($failures.Count) { throw "Git control $kind positive control failed: $($failures -join '; ')" }
+        Remove-Item -LiteralPath $gitControlPath -Recurse -Force
+        Write-Host "PASS positive control: Git control $kind excluded from source"
+    }
+    $nearGitPath=Join-Path $repoRoot '.git-fixture.txt'
+    Write-Text $nearGitPath "Unlisted source must remain visible.`n"
+    Expect-Rejection 'Git-prefix source stays covered' { Test-SourceIntegrity } 'source checksum coverage'
+    Remove-Item -LiteralPath $nearGitPath -Force
+    $failures.Clear()
     $profilePath=Join-Path $repoRoot 'release-profiles.json';$profileText=Read-Text $profilePath
     Edit-Json $profilePath { param($x) $x.profiles.communication.skills += 'teach' }
     Expect-Rejection 'duplicate profile member' { $null=Test-MetadataContracts } 'duplicate profile member'
@@ -148,6 +169,24 @@ try {
     Write-Text $registerPath ($registerText.Replace('[AGENTS.md](../AGENTS.md)','[Wrong](../ENGINEERING-CORE.md)'))
     Expect-Rejection 'stale register owner' { Test-StandardsContracts } 'standards register owner mismatch'
     Write-Text $registerPath $registerText
+    # Changing a task trigger while retaining the valid link must still be rejected.
+    $applicationPath=Join-Path $repoRoot 'docs/STANDARDS-APPLICATIONS.json';$applicationText=Read-Text $applicationPath
+    Write-Text $skillPath ($skillText.Replace('For changes to API/event contracts, security, personal data, user interfaces or instructions, AI, persistent state, operations or regulated behaviour,','Only for a formal architecture review,'))
+    Expect-Rejection 'narrowed direct-task trigger with retained link' { Test-StandardsContracts } 'standards application activation missing'
+    Write-Text $skillPath $skillText
+    $earsPath=Join-Path $repoRoot 'skills/plan/REQUIREMENTS.md';$earsText=Read-Text $earsPath
+    Write-Text $earsPath ($earsText.Replace('When <event>, the <system> shall <response>.','Event rule omitted.'))
+    Expect-Rejection 'missing concrete EARS mechanism' { Test-StandardsContracts } 'standards application mechanism missing'
+    Write-Text $earsPath $earsText
+    Edit-Json $applicationPath { param($x) ($x.routes | Where-Object { $_.owner -eq 'skills/implement/BOUNDARIES.md' }).entrypoint='skills/plan/SKILL.md' }
+    Expect-Rejection 'cross-profile direct-task route' { Test-StandardsContracts } 'standards application cross-profile route'
+    Write-Text $applicationPath $applicationText
+    Edit-Json $applicationPath { param($x) foreach ($case in $x.cases) { $case.standards=@($case.standards | Where-Object { $_ -ne 'S69' }) } }
+    Expect-Rejection 'missing application coverage' { Test-StandardsContracts } 'standards application source coverage'
+    Write-Text $applicationPath $applicationText
+    Edit-Json $applicationPath { param($x) ($x.cases | Where-Object { $_.id -eq 'A49' }).standards += 'S71' }
+    Expect-Rejection 'activate excluded source in direct task' { Test-StandardsContracts } 'standards application promotes inactive source'
+    Write-Text $applicationPath $applicationText
     $repoRoot=$originalRoot
 
     $profileName='communication';$profile=$profiles.profiles.communication
@@ -159,6 +198,9 @@ try {
     Copy-Item $originalZip $zip -Force
     Rewrite-ZipEntry $zip ($packageName+'/CHECKSUMS.sha256') ''
     Expect-Rejection 'empty package checksums' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package checksum coverage'
+    Copy-Item $originalZip $zip -Force
+    Rewrite-ZipEntry $zip ($packageName+'/CHECKSUMS.sha256') "malformed`n"
+    Expect-Rejection 'malformed package checksums' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'malformed package checksum'
     Copy-Item $originalZip $zip -Force
     Rewrite-ZipEntry $zip ($packageName+'/skills/teach/SKILL.md') '' -Delete
     Expect-Rejection 'missing packaged skill' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package inventory'

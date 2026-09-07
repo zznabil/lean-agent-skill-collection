@@ -8,6 +8,8 @@ All 97 standards-register entries have explicit local ownership. Concrete trigge
 
 ASD-STE100-inspired clarity, ISO 24495-1 plain language and W3C COGA are restored to global communication. A one-sentence standalone fallback protects hosts that do not inject AGENTS.md. Feynman-style explanation, Diataxis, BCP 14, accessibility, assurance, API and lifecycle guidance activate only when their task needs them. No new routed skill, runtime, hook or external dependency is added.
 
+Validation also supports linked Git worktrees: the `.git` control file and ordinary `.git/` directory are excluded from source discovery, while similarly named source files remain covered. Positive controls and a near-miss rejection check guard this boundary.
+
 ## Packages and migration
 
 Six profiles: Complete 17, Engineering 14, Core 8, Communication 3, Get It Done 5, Gauntlet 4. Both task packs retain the full communication trio. Install one profile per scope. Publication does not update local trusted instructions or installed skills. Read docs/MIGRATION-v9.md and review the AGENTS.md diff before replacing an installation.
