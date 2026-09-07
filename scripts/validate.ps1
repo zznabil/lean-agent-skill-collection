@@ -158,7 +158,7 @@ function Test-RepositoryHygiene {
         $bytes = [IO.File]::ReadAllBytes($file.FullName)
         $decoder = New-Object Text.UTF8Encoding($false, $true)
         try { $text = $decoder.GetString($bytes) } catch { Add-Failure "invalid UTF-8: $relative"; continue }
-        if ($text.StartsWith([string][char]0xFEFF) -or $text.Contains("`r") -or ($bytes.Length -gt 0 -and $bytes[-1] -ne 10)) { Add-Failure "text encoding or newline mismatch: $relative" }
+        if ($text.StartsWith([string][char]0xFEFF, [StringComparison]::Ordinal) -or $text.Contains("`r") -or ($bytes.Length -gt 0 -and $bytes[-1] -ne 10)) { Add-Failure "text encoding or newline mismatch: $relative" }
         if ($text -match '(?m)^(<<<<<<<|=======|>>>>>>>)' -or $text -match '(?m)[ \t]+$') { Add-Failure "text hygiene mismatch: $relative" }
         foreach ($pattern in @('ghp_[A-Za-z0-9]{20,}','github_pat_[A-Za-z0-9_]{20,}','AKIA[0-9A-Z]{16}','-----BEGIN (RSA|OPENSSH|EC) PRIVATE KEY-----')) { if ($text -match $pattern) { Add-Failure "possible secret: $relative" } }
         if ($file.Extension -eq '.md') {
