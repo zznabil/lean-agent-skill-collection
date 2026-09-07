@@ -171,6 +171,28 @@ function Test-RepositoryHygiene {
     }
 }
 
+# Empty or malformed manifests must produce ordinary rejection evidence, not a null-record exception.
+function Test-PackageChecksums([string]$ManifestText, [object]$Entries, [string]$Root, [string[]]$Expected, [string]$ProfileName) {
+    $seen = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
+    foreach ($line in ($ManifestText -split '\r?\n')) {
+        if (-not $line) { continue }
+        $match = [regex]::Match($line, '^([0-9a-f]{64})  (.+)$')
+        if (-not $match.Success) { Add-Failure "malformed package checksum: $ProfileName"; continue }
+        $hash = $match.Groups[1].Value
+        $relative = $match.Groups[2].Value
+        if ($seen.ContainsKey($relative)) { Add-Failure "duplicate package checksum: $relative"; continue }
+        $seen.Add($relative, $hash)
+        if (-not $Entries.ContainsKey($Root+$relative)) { Add-Failure "checksum target missing: $relative"; continue }
+        $stream = $Entries[$Root+$relative].Open()
+        try { $actual = Get-StreamHash $stream } finally { $stream.Dispose() }
+        if ($actual -ne $hash) { Add-Failure "package checksum mismatch: $relative" }
+    }
+    # Explicit arrays avoid pipeline scalar/null shape changes in both supported PowerShell hosts.
+    [object[]]$expectedNames = @($Expected | Where-Object { $_ -ne 'CHECKSUMS.sha256' })
+    [object[]]$actualNames = @($seen.Keys | ForEach-Object { [string]$_ })
+    Assert-Same $expectedNames $actualNames "package checksum coverage: $ProfileName"
+}
+
 function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefinition,[string]$Version) {
     $archive = [IO.Compression.ZipFile]::OpenRead($Path)
     try {
@@ -209,21 +231,11 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
                 if ($plugin.version -ne $Version -or $plugin.name -ne $ProfileDefinition.plugin_name -or $plugin.skills -ne './skills/') { Add-Failure "package plugin mismatch: $ProfileName" }
             } catch { Add-Failure "package metadata parse failure: $ProfileName" }
         }
-        $seen = @{}
+        $manifestText = ''
         if ($exact.ContainsKey($root+'CHECKSUMS.sha256')) {
-            foreach ($line in (Read-ZipEntryText $exact[$root+'CHECKSUMS.sha256']) -split '\r?\n') {
-                if (-not $line) { continue }
-                if ($line -notmatch '^([0-9a-f]{64})  (.+)$') { Add-Failure "malformed package checksum: $ProfileName"; continue }
-                $hash=$matches[1];$relative=$matches[2]
-                if ($seen.ContainsKey($relative)) { Add-Failure "duplicate package checksum: $relative" }
-                $seen[$relative]=$true
-                if (-not $exact.ContainsKey($root+$relative)) { Add-Failure "checksum target missing: $relative"; continue }
-                $stream=$exact[$root+$relative].Open()
-                try { $actual=Get-StreamHash $stream } finally { $stream.Dispose() }
-                if ($actual -ne $hash) { Add-Failure "package checksum mismatch: $relative" }
-            }
+            $manifestText = Read-ZipEntryText $exact[$root+'CHECKSUMS.sha256']
         }
-        Assert-Same @($expected | Where-Object { $_ -ne 'CHECKSUMS.sha256' }) @($seen.Keys) "package checksum coverage: $ProfileName"
+        Test-PackageChecksums $manifestText $exact $root $expected $ProfileName
     } finally { $archive.Dispose() }
 }
 
