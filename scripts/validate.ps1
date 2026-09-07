@@ -18,7 +18,7 @@ function Assert-Same([object[]]$Expected, [object[]]$Actual, [string]$Label) {
 function Get-SourceFiles {
     return @(Get-ChildItem -LiteralPath $repoRoot -File -Recurse -Force | Where-Object {
         $relative = Get-RelativePath $repoRoot $_.FullName
-        $relative -notmatch '^(\.git/|artifacts/|\.agent-state/|\.audit-work/)'
+        $relative -notmatch '^(\.git($|/)|artifacts/|\.agent-state/|\.audit-work/)'
     })
 }
 function Get-RelativePath([string]$BasePath, [string]$Path) {

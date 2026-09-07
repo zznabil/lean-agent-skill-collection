@@ -79,6 +79,27 @@ try {
         Copy-Item -LiteralPath $file.FullName -Destination $destination
     }
     $repoRoot=$sourceCopy
+    # Git control files and directories are not source; similarly named files still are.
+    $gitControlPath=Join-Path $repoRoot '.git'
+    foreach ($kind in @('file','directory')) {
+        if ($kind -eq 'file') {
+            Write-Text $gitControlPath "gitdir: ../repository/.git/worktrees/fixture`n"
+        } else {
+            New-Item -ItemType Directory -Path $gitControlPath | Out-Null
+            Write-Text (Join-Path $gitControlPath 'HEAD') "ref: refs/heads/fixture`n"
+        }
+        $failures.Clear()
+        Test-SourceIntegrity
+        Test-RepositoryHygiene
+        if ($failures.Count) { throw "Git control $kind positive control failed: $($failures -join '; ')" }
+        Remove-Item -LiteralPath $gitControlPath -Recurse -Force
+        Write-Host "PASS positive control: Git control $kind excluded from source"
+    }
+    $nearGitPath=Join-Path $repoRoot '.git-fixture.txt'
+    Write-Text $nearGitPath "Unlisted source must remain visible.`n"
+    Expect-Rejection 'Git-prefix source stays covered' { Test-SourceIntegrity } 'source checksum coverage'
+    Remove-Item -LiteralPath $nearGitPath -Force
+    $failures.Clear()
     $profilePath=Join-Path $repoRoot 'release-profiles.json';$profileText=Read-Text $profilePath
     Edit-Json $profilePath { param($x) $x.profiles.communication.skills += 'teach' }
     Expect-Rejection 'duplicate profile member' { $null=Test-MetadataContracts } 'duplicate profile member'
