@@ -1,11 +1,32 @@
-# V9 assurance scope
+# Lean Agent Skills V8.7.0 — release audit
 
-This file describes the checks, not an assertion that an unbuilt revision passed. The exact CI run and release readback are the execution evidence.
+## Evidence boundary
 
-The structural gate checks 17 canonical skills, six non-overlapping installation profiles, communication-complete task packs, manual adapter policy, metadata identity, instruction budgets and skill-local references. It compares packaged policy and skill bytes with source, exact file/checksum inventories, release manifest hashes and the master archive. Damaged controls exercise rejection paths independently of a successful build.
+This is the scoped source-review and release acceptance record. Exact-commit CI and publication readback provide execution results; this document is not a live model-evaluation report. The 32 fixtures are authored expectations, not 32 successful agent runs.
 
-PowerShell 7 and Windows PowerShell 5.1 must each build twice, compare every output, run validator controls, validate source/packages and run the repository audit. PR evidence does not substitute for exact-main evidence.
+## Review perspectives
 
-The evaluator also distinguishes generated declarations from actual results: package metadata contains no pre-awarded pass. Authored scenarios are not executed agent tests. No live adherence, routing, task-success, token-saving, user-satisfaction, accessibility-conformance or cross-host-equivalence claim is established by these checks.
+| Pass | Perspective | Acceptance evidence |
+|---:|---|---|
+| 1 | Trigger and scope | Operational/evaluative prose covered; casual language and requested artifacts protected |
+| 2 | Truth and certainty | Genuine uncertainty and evidence scope/degree retained |
+| 3 | Logical meaning | Precise negation and statistical/legal/source distinctions preserved |
+| 4 | Accountability | Actual agent action and correction explicit; unknown actor stays unknown |
+| 5 | Safety | Recovery remains within existing permissions; no unauthorised action implied |
+| 6 | Global and standalone operation | AGENTS, wait-what, 22 fallbacks, and 23 adapters carry the rule |
+| 7 | Internal handoff | Worker status and ledgers retain observed failures and unknown causes |
+| 8 | Regression boundary | Existing modes, status model, evidence rules, prose sources, and requested wrappers retained |
+| 9 | Lean packaging | 23 skills and six profile inventories unchanged; no runtime or routed skill added |
+| 10 | Source attribution | W3C/OpenAI support scoped; informal term and failed Astra retrieval disclosed |
+| 11 | Validator sensitivity | Positive controls plus 14 deliberate missing-clause/metadata mutations must pass |
+| 12 | Release integrity | PR and exact-main CI on both PowerShell hosts; tagged-source assets and downloaded byte equality required |
 
-The V9 design was reviewed against the V8.7 source and the safeguard ownership table in [V9-DESIGN.md](V9-DESIGN.md). That is an author review, not an independent model evaluation. Historical audits remain available in earlier tags and versioned release records.
+## Automated gates
+
+Run deterministic double builds, validator rejection controls, source/package validation, and repository auditing on PowerShell 7 and Windows PowerShell 5.1. Validate 32 unique nonempty fixtures, category coverage, and byte-identical release mirror. Inspect every generated profile's direct-claims metadata and policy contents.
+
+String-presence checks protect distribution integrity but do not prove that an agent obeys the text. No independent-agent review, live OMP/Codex/Hermes/ChatGPT A/B, user comprehension, or formal conformance is claimed.
+
+## Release rule
+
+Merge only after the current PR revision passes both hosts. Wait for exact merged-commit CI before creating a new annotated tag. Build assets from that commit, publish without overwriting an earlier version, download all assets, compare bytes, and read back the tag and release. Remove only this release's temporary branches after success.

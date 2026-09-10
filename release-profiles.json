@@ -1,13 +1,13 @@
 {
-  "version": "9.0.1",
-  "release": "v9.0.1",
-  "release_title": "Lean Standards, Explicit Behaviour",
-  "release_summary": "Seventeen focused skills with scoped standards: concrete triggers, behaviours and short source references. Preserve correctness, authority, accessible communication and evidence without repeated explanations.",
+  "version": "8.7.0",
+  "release": "v8.7.0",
+  "release_title": "Direct Claims & Accountable Reporting",
+  "release_summary": "V8.7.0 adds direct, evidence-calibrated claims and accountable reporting across all six profiles. It rejects evasive understatement while preserving genuine uncertainty, precise meaning, and permission boundaries; no skill or runtime is added.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
       "title": "Lean Agent Skills Core",
-      "description": "8 focused skills for planning, research, review and sustained work.",
+      "description": "Eight compact skills for communication, planning, research, review, and long-horizon execution.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
@@ -23,46 +23,57 @@
     "engineering": {
       "plugin_name": "lean-agent-skills-engineering",
       "title": "Lean Agent Skills Engineering",
-      "description": "14 focused skills for software changes, verification and delivery.",
+      "description": "Nineteen compact skills for reliable software and long-horizon agent work.",
       "include_engineering_core": true,
       "skills": [
+        "architecture",
         "browser-automation",
+        "cli-design",
         "debug",
         "experiment",
         "gauntlet-loop",
         "get-it-done",
         "handoff",
         "implement",
+        "merge-conflicts",
         "plan",
+        "project-context",
         "release",
         "research",
         "review",
         "skill-design",
         "test",
+        "triage",
         "wait-what"
       ]
     },
     "complete": {
       "plugin_name": "lean-agent-skills-complete",
       "title": "Lean Agent Skills Complete",
-      "description": "17 focused skills for engineering, research, communication and artifacts.",
+      "description": "Twenty-three compact skills for engineering, research, communication, documents, experiments, and quality work.",
       "include_engineering_core": true,
       "skills": [
+        "architecture",
         "browser-automation",
+        "cli-design",
         "debug",
         "experiment",
         "gauntlet-loop",
         "get-it-done",
+        "grilling",
         "handoff",
         "implement",
+        "merge-conflicts",
         "office-files",
         "plan",
+        "project-context",
         "release",
         "research",
         "review",
         "skill-design",
         "teach",
         "test",
+        "triage",
         "wait-what",
         "writing"
       ]
@@ -70,7 +81,7 @@
     "communication": {
       "plugin_name": "user-facing-communication-mini",
       "title": "User-Facing Communication Mini",
-      "description": "3 focused skills for clear explanations, teaching and writing.",
+      "description": "Three compact skills for outcome-first replies, adaptive clear writing, teaching, and human-usable information.",
       "include_engineering_core": false,
       "skills": [
         "teach",
@@ -81,7 +92,7 @@
     "get-it-done": {
       "plugin_name": "get-it-done-pack",
       "title": "Get It Done Pack",
-      "description": "5 focused skills for sustained work with acceptance and communication.",
+      "description": "Five compact skills for long-horizon execution, adversarial acceptance, outcome-first communication, teaching, writing, and human-usable information.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
@@ -94,7 +105,7 @@
     "gauntlet": {
       "plugin_name": "gauntlet-loop-pack",
       "title": "Gauntlet Loop Pack",
-      "description": "4 focused skills for bounded acceptance with teaching and writing.",
+      "description": "Four compact skills for adversarial quality review plus outcome-first communication, teaching, writing, and human-usable information.",
       "include_engineering_core": false,
       "skills": [
         "gauntlet-loop",

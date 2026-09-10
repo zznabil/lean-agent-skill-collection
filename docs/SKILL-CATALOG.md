@@ -1,43 +1,31 @@
-# Skill catalogue - V9.0.1
+# Lean Agent Skills V8.7.0 catalog
 
-One primary procedure at a time. Conditional references live inside their owning skill; do not load every reference in advance.
+V8.7.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
 
-| Skill | Trigger |
-|---|---|
-| [browser-automation](../skills/browser-automation/SKILL.md) | Run authorised browser actions or user-journey checks with stable locators and read-back of the actual result. |
-| [debug](../skills/debug/SKILL.md) | Diagnose a defect, performance regression or incident; classify incomplete reports before attempting a fix. |
-| [experiment](../skills/experiment/SKILL.md) | Compare a hypothesis or prototype against a controlled baseline with decision-relevant measures and a stopping rule. |
-| [gauntlet-loop](../skills/gauntlet-loop/SKILL.md) | Run an explicitly requested bounded adversarial acceptance loop when ordinary verification leaves material hidden-defect risk. |
-| [get-it-done](../skills/get-it-done/SKILL.md) | Own an explicitly requested long-running task through implementation, verification and authorised delivery. |
-| [handoff](../skills/handoff/SKILL.md) | Record an explicitly requested status, session handoff or durable project context with verified state and the exact next action. |
-| [implement](../skills/implement/SKILL.md) | Implement a bounded code change or refactor; resolve conflicts or CLI behaviour when those are part of the change. |
-| [office-files](../skills/office-files/SKILL.md) | Create, edit or repair documents, presentations, PDFs and spreadsheets; validate the final file and required visual fidelity. |
-| [plan](../skills/plan/SKILL.md) | Plan a multi-step change, architecture decision or unresolved requirement; do not implement a plan-only request. |
-| [release](../skills/release/SKILL.md) | Prepare and verify a versioned release; publish and clean up only within the approval already granted. |
-| [research](../skills/research/SKILL.md) | Answer an evidence-dependent question from the requested sources, matching the relevant version, date and scope. |
-| [review](../skills/review/SKILL.md) | Review a change or artifact for evidence-backed defects and acceptance; remain read-only unless repair is requested. |
-| [skill-design](../skills/skill-design/SKILL.md) | Create, consolidate or evaluate an agent skill with a precise trigger, minimal instructions and testable boundaries. |
-| [teach](../skills/teach/SKILL.md) | Teach or practise a concept using a plain mechanism, worked example and support matched to the learner. |
-| [test](../skills/test/SKILL.md) | Create or repair tests and verification gates for an observable requirement, regression or risky boundary. |
-| [wait-what](../skills/wait-what/SKILL.md) | Re-explain or simplify a confusing answer when the user explicitly asks for a clearer version. |
-| [writing](../skills/writing/SKILL.md) | Draft or edit prose for its audience and purpose while preserving source meaning and the requested voice. |
+The direct-claims overlay is present in every profile and standalone skill fallback. It changes reporting, not specialist routing or acceptance criteria.
 
-## Profiles
-
-**Lean Agent Skills Core (8):** `gauntlet-loop`, `get-it-done`, `handoff`, `plan`, `research`, `review`, `skill-design`, `wait-what`.
-
-**Lean Agent Skills Engineering (14):** `browser-automation`, `debug`, `experiment`, `gauntlet-loop`, `get-it-done`, `handoff`, `implement`, `plan`, `release`, `research`, `review`, `skill-design`, `test`, `wait-what`.
-
-**Lean Agent Skills Complete (17):** `browser-automation`, `debug`, `experiment`, `gauntlet-loop`, `get-it-done`, `handoff`, `implement`, `office-files`, `plan`, `release`, `research`, `review`, `skill-design`, `teach`, `test`, `wait-what`, `writing`.
-
-**User-Facing Communication Mini (3):** `teach`, `wait-what`, `writing`.
-
-**Get It Done Pack (5):** `gauntlet-loop`, `get-it-done`, `teach`, `wait-what`, `writing`.
-
-**Gauntlet Loop Pack (4):** `gauntlet-loop`, `teach`, `wait-what`, `writing`.
-
-## Boundaries
-
-The OpenAI adapters mark get-it-done, gauntlet-loop, handoff and wait-what manual-only. This does not prove enforcement by every host. Global clear reporting does not require routing through wait-what. A plan-only request does not authorise implementation, and a handoff does not authorise rewriting trusted policy.
-
-See [migration](MIGRATION-v9.md) for retired routes and [design](V9-DESIGN.md) for evidence limits.
+| Skill | Profile role | Invocation | Principal explicit sources |
+|---|---|---|---|
+| `architecture` | engineering, complete | implicit | ISO 42010; ATAM; ADR/MADR; OpenAPI/JSON Schema; RFC 9457/9413; AsyncAPI/CloudEvents |
+| `browser-automation` | engineering, complete | implicit | WCAG 2.2; WAI-ARIA APG; ISO 9241-110/112/171; ISO 21801-1; ISO/IEC 23859 and 29138 |
+| `cli-design` | engineering, complete | implicit | RFC 9413; IEC/IEEE 82079-1-inspired actionable help and recovery |
+| `debug` | engineering, complete | implicit | Evidence-first debugging practices |
+| `experiment` | engineering, complete | implicit | GQM; ISO 31000; Chaos Engineering when authorized |
+| `gauntlet-loop` | core, engineering, complete, get-it-done, gauntlet | manual | ISO 25010; ISO 29119; ISO 15026-2; user-information, ASVS, WCAG, and AI-assurance lanes as applicable |
+| `get-it-done` | core, engineering, complete, get-it-done | manual | ISO 29148; ISO 12207; BCP 14; Unlazy-informed proof integrity |
+| `grilling` | complete | manual | ISO 29148; EARS; BCP 14 |
+| `handoff` | core, engineering, complete | manual | Durable-state and structured-handoff practice |
+| `implement` | engineering, complete | implicit | NIST SSDF; OWASP ASVS; proportional-rigor and smallest-correct-diff practice |
+| `merge-conflicts` | engineering, complete | implicit | Three-way merge and verification practice |
+| `office-files` | complete | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514; ISO 9241-112:2025; format-aware validation |
+| `plan` | core, engineering, complete | implicit | ISO 29148; EARS; BCP 14; ISO 25010; ISO 31000 family; ISO/IEC 29138-1/-4 |
+| `project-context` | engineering, complete | manual | ISO 5259; ISO 25012/25024; Model/Data Cards; FAIR; ISO 42005 |
+| `release` | engineering, complete | implicit | ISO 12207; SemVer; Conventional Commits; SLSA/SPDX/CycloneDX/Reproducible Builds |
+| `research` | core, engineering, complete | implicit | Primary-source and benchmark-regime disclosure practice |
+| `review` | core, engineering, complete | implicit | ISO 20246; ISO 25010; ISO 15026-2; user-information sources; Google code-review; evidence-backed simplification |
+| `skill-design` | core, engineering, complete | implicit | ISO 20741; structural/routing/behavioural evaluation; task-based user-information evaluation |
+| `teach` | complete, communication, get-it-done, gauntlet | implicit | CAST UDL 3.0; IES practice guide; Feynman; COGA; Diátaxis; cognitive load; worked examples; self-explanation; retrieval |
+| `test` | engineering, complete | implicit | ISO 29119; TDD; test pyramid; property/state-machine testing; TLA+ escalation; oracle calibration |
+| `triage` | engineering, complete | implicit | NIST SP 800-61r3; Google SRE |
+| `wait-what` | core, engineering, complete, communication, get-it-done, gauntlet | manual | ASD-STE100 Issue 9; ISO 24495-1; W3C COGA; ISO/IEC 23859; ISO 21801-1; ISO 704; Diátaxis; BCP 14 |
+| `writing` | complete, communication, get-it-done, gauntlet | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859; ISO 21801-1; ISO 9241-112/171; ISO/IEC 29138; ISO 704; ISO 24495-1; COGA; Diátaxis |

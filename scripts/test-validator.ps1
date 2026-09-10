@@ -1,221 +1,99 @@
 [CmdletBinding()]
-param([string]$ArtifactsDirectory = (Join-Path (Split-Path -Parent $PSScriptRoot) 'artifacts/repro-a'))
+param()
+
 $ErrorActionPreference = 'Stop'
-. (Join-Path $PSScriptRoot 'validate.ps1') -ArtifactsDirectory $ArtifactsDirectory -FunctionsOnly
-$originalRoot = $repoRoot
-$work = Join-Path ([IO.Path]::GetTempPath()) ('lean-validator-' + [guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Path $work | Out-Null
+. (Join-Path $PSScriptRoot 'validate.ps1') -FunctionsOnly
 $quietFailures = $true
-$controls = 0
-function Expect-Rejection([string]$Name, [scriptblock]$Check, [string]$Message) {
-    $failures.Clear()
-    & $Check
-    if (-not ($failures | Where-Object { $_ -match $Message })) { throw "Control failed to detect ${Name}: $($failures -join '; ')" }
-    $script:controls++
-    Write-Host "PASS negative control: $Name"
-}
-function Write-Text([string]$Path,[string]$Text) { [IO.File]::WriteAllText($Path,$Text,(New-Object Text.UTF8Encoding($false))) }
-function Edit-Json([string]$Path,[scriptblock]$Edit) {
-    $value=(Read-Text $Path) | ConvertFrom-Json
-    & $Edit $value
-    Write-Text $Path (($value | ConvertTo-Json -Depth 20) + "`n")
-}
-function New-Zip([string]$Path,[string[]]$Names,[switch]$Symlink) {
-    $archive=[IO.Compression.ZipFile]::Open($Path,[IO.Compression.ZipArchiveMode]::Create)
+
+$fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) ('lean-agent-validator-' + [Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $fixtureRoot -Force | Out-Null
+Add-Type -AssemblyName System.IO.Compression
+
+function Add-Entry([IO.Compression.ZipArchive]$Archive, [string]$Name, [string]$Content, [Nullable[int]]$ExternalAttributes) {
+    $entry = $Archive.CreateEntry($Name)
+    if ($null -ne $ExternalAttributes) { $entry.ExternalAttributes = $ExternalAttributes.Value }
+    $stream = $entry.Open()
     try {
-        foreach ($name in $Names) {
-            $entry=$archive.CreateEntry($name)
-            if ($Symlink) { $entry.ExternalAttributes = [BitConverter]::ToInt32([BitConverter]::GetBytes([uint32]2684354560),0) }
-            $stream=$entry.Open();try {$bytes=[Text.Encoding]::UTF8.GetBytes('fixture');$stream.Write($bytes,0,$bytes.Length)}finally{$stream.Dispose()}
-        }
-    } finally { $archive.Dispose() }
+        $bytes = [Text.Encoding]::UTF8.GetBytes($Content)
+        $stream.Write($bytes, 0, $bytes.Length)
+    }
+    finally { $stream.Dispose() }
 }
-function Rewrite-ZipEntry([string]$Path,[string]$Name,[string]$Text,[switch]$Delete) {
-    $archive=[IO.Compression.ZipFile]::Open($Path,[IO.Compression.ZipArchiveMode]::Update)
-    try {
-        $entry=$archive.GetEntry($Name)
-        if ($entry) { $entry.Delete() }
-        if (-not $Delete) {
-            $entry=$archive.CreateEntry($Name);$stream=$entry.Open()
-            try {$bytes=[Text.Encoding]::UTF8.GetBytes($Text);$stream.Write($bytes,0,$bytes.Length)} finally {$stream.Dispose()}
-        }
-    } finally { $archive.Dispose() }
-}
+
 try {
-    # Positive controls run the same observers against real source and real built packages.
-    $profiles=Test-MetadataContracts
-    Test-SkillTree $profiles
-    Test-StandardsContracts
-    Test-SourceIntegrity
-    Test-RepositoryHygiene
-    Test-ReleaseArtifacts $ArtifactsDirectory $profiles
-    if ($failures.Count) { throw "Positive source/package control failed: $($failures -join '; ')" }
-    Write-Host 'PASS positive control: actual source and all built packages'
-    foreach ($case in @(
-        @('traversal',@('root/../escape.txt'),'unsafe ZIP path'),
-        @('absolute',@('/escape.txt'),'unsafe ZIP path'),
-        @('drive',@('C:/escape.txt'),'unsafe ZIP path'),
-        @('backslash',@('root\escape.txt'),'unsafe ZIP path'),
-        @('duplicate',@('root/a.txt','root/a.txt'),'duplicate ZIP member'),
-        @('case collision',@('root/A.txt','root/a.txt'),'case-colliding ZIP members'),
-        @('executable',@('root/run.ps1'),'executable ZIP member')
-    )) {
-        $zip=Join-Path $work ($controls.ToString()+'.zip')
-        New-Zip $zip $case[1]
-        Expect-Rejection $case[0] { Test-ZipArchive $zip $null $null '9.0.0' } $case[2]
-    }
-    $zip=Join-Path $work 'symlink.zip';New-Zip $zip @('root/link') -Symlink
-    Expect-Rejection 'symlink' { Test-ZipArchive $zip $null $null '9.0.0' } 'symlink ZIP member'
-    $masterDir=Join-Path $work 'master';New-Item -ItemType Directory $masterDir | Out-Null
-    Write-Text (Join-Path $masterDir 'expected.txt') 'expected'
-    $zip=Join-Path $masterDir 'master.zip';New-Zip $zip @('wrong-root/expected.txt')
-    Expect-Rejection 'master root' { Test-MasterArchive $zip $masterDir '9.0.0' } 'master archive inventory'
-
-    $sourceCopy=Join-Path $work 'source';New-Item -ItemType Directory $sourceCopy | Out-Null
-    foreach ($file in Get-SourceFiles) {
-        $relative=Get-RelativePath $originalRoot $file.FullName
-        $destination=Join-Path $sourceCopy $relative
-        New-Item -ItemType Directory (Split-Path -Parent $destination) -Force | Out-Null
-        Copy-Item -LiteralPath $file.FullName -Destination $destination
-    }
-    $repoRoot=$sourceCopy
-    # Git control files and directories are not source; similarly named files still are.
-    $gitControlPath=Join-Path $repoRoot '.git'
-    foreach ($kind in @('file','directory')) {
-        if ($kind -eq 'file') {
-            Write-Text $gitControlPath "gitdir: ../repository/.git/worktrees/fixture`n"
-        } else {
-            New-Item -ItemType Directory -Path $gitControlPath | Out-Null
-            Write-Text (Join-Path $gitControlPath 'HEAD') "ref: refs/heads/fixture`n"
+    $fixturePath = Join-Path $fixtureRoot 'unsafe.zip'
+    $fileStream = [IO.File]::Open($fixturePath, [IO.FileMode]::Create)
+    try {
+        $archive = New-Object IO.Compression.ZipArchive($fileStream, [IO.Compression.ZipArchiveMode]::Create, $false)
+        try {
+            Add-Entry $archive 'root/../escape.txt' 'escape' $null
+            Add-Entry $archive 'root/Case.txt' 'one' $null
+            Add-Entry $archive 'root/case.txt' 'two' $null
+            Add-Entry $archive 'root/run.ps1' 'Write-Host unsafe' $null
+            $symlinkMode = [uint32]::Parse('A0000000', [Globalization.NumberStyles]::HexNumber)
+            $symlinkAttributes = [BitConverter]::ToInt32([BitConverter]::GetBytes($symlinkMode), 0)
+            Add-Entry $archive 'root/link' 'target' $symlinkAttributes
         }
-        $failures.Clear()
-        Test-SourceIntegrity
-        Test-RepositoryHygiene
-        if ($failures.Count) { throw "Git control $kind positive control failed: $($failures -join '; ')" }
-        Remove-Item -LiteralPath $gitControlPath -Recurse -Force
-        Write-Host "PASS positive control: Git control $kind excluded from source"
+        finally { $archive.Dispose() }
     }
-    $nearGitPath=Join-Path $repoRoot '.git-fixture.txt'
-    Write-Text $nearGitPath "Unlisted source must remain visible.`n"
-    Expect-Rejection 'Git-prefix source stays covered' { Test-SourceIntegrity } 'source checksum coverage'
-    Remove-Item -LiteralPath $nearGitPath -Force
-    $failures.Clear()
-    $profilePath=Join-Path $repoRoot 'release-profiles.json';$profileText=Read-Text $profilePath
-    Edit-Json $profilePath { param($x) $x.profiles.communication.skills += 'teach' }
-    Expect-Rejection 'duplicate profile member' { $null=Test-MetadataContracts } 'duplicate profile member'
-    Write-Text $profilePath $profileText
-    Edit-Json $profilePath { param($x) $x.profiles.gauntlet.skills = @('gauntlet-loop','teach','writing','research') }
-    Expect-Rejection 'missing communication member' { $null=Test-MetadataContracts } 'gauntlet inventory'
-    Write-Text $profilePath $profileText
-    Edit-Json $profilePath { param($x) $x.profiles.communication.include_engineering_core=$true }
-    Expect-Rejection 'wrong core inclusion' { $null=Test-MetadataContracts } 'engineering-core inclusion'
-    Write-Text $profilePath $profileText
-    $contractPath=Join-Path $repoRoot 'PACKAGE-VALIDATION.json';$contractText=Read-Text $contractPath
-    Edit-Json $contractPath { param($x) $x | Add-Member -NotePropertyName passed -NotePropertyValue $true }
-    Expect-Rejection 'self-awarded pass' { $null=Test-MetadataContracts } 'misstates evidence'
-    Write-Text $contractPath $contractText
-    Edit-Json $contractPath { param($x) $x.limits.skill_words=9000 }
-    Expect-Rejection 'widened instruction budget' { Test-SkillTree $profiles } 'budget contract widened'
-    Write-Text $contractPath $contractText
-    $rootPath=Join-Path $repoRoot 'AGENTS.md';$rootText=Read-Text $rootPath
-    Write-Text $rootPath ($rootText + (' excess' * 600) + "`n")
-    Expect-Rejection 'overlong root' { Test-SkillTree $profiles } 'root budget exceeded'
-    Write-Text $rootPath $rootText
-    $skillPath=Join-Path $repoRoot 'skills/implement/SKILL.md';$skillText=Read-Text $skillPath
-    Write-Text $skillPath ($skillText + "`n[Missing](missing.md)`n")
-    Expect-Rejection 'missing standalone reference' { Test-SkillTree $profiles } 'standalone reference invalid'
-    Write-Text $skillPath ($skillText + "`n[Outside](../../AGENTS.md)`n")
-    Expect-Rejection 'hidden cross-profile dependency' { Test-SkillTree $profiles } 'standalone reference invalid'
-    Write-Text $skillPath $skillText
-    $adapterPath=Join-Path $repoRoot 'skills/gauntlet-loop/agents/openai.yaml';$adapterText=Read-Text $adapterPath
-    Write-Text $adapterPath ($adapterText.Replace('allow_implicit_invocation: false','allow_implicit_invocation: true'))
-    Expect-Rejection 'manual-only regression' { Test-SkillTree $profiles } 'manual invocation mismatch'
-    Write-Text $adapterPath $adapterText
-    Write-Text $rootPath ($rootText + "`nChanged source.`n")
-    Expect-Rejection 'changed source' { Test-SourceIntegrity } 'source checksum mismatch'
-    Write-Text $rootPath $rootText
-    $extra=Join-Path $repoRoot 'unexpected.txt';Write-Text $extra 'extra'
-    Expect-Rejection 'unlisted source' { Test-SourceIntegrity } 'source checksum coverage'
-    Remove-Item $extra
-    $hashPath=Join-Path $repoRoot 'UPSTREAM-CHECKSUMS.sha256';$hashText=Read-Text $hashPath
-    Write-Text $hashPath ($hashText + (($hashText -split "`n")[0]) + "`n")
-    Expect-Rejection 'duplicate source checksum' { Test-SourceIntegrity } 'duplicate source checksum'
-    Write-Text $hashPath $hashText
-    $coveragePath=Join-Path $repoRoot 'docs/STANDARDS-COVERAGE.json';$coverageText=Read-Text $coveragePath
-    $coverage=$coverageText | ConvertFrom-Json
-    $first=$coverage.entries[0]
-    $ownerPath=Join-Path $repoRoot $first.owner;$ownerText=Read-Text $ownerPath
-    foreach ($field in @('trigger','behaviour','reference')) {
-        Write-Text $ownerPath ($ownerText.Replace([string]$first.$field,'REMOVED'))
-        Expect-Rejection ("missing standards "+$field) { Test-StandardsContracts } ("standards "+$field+" missing")
-        Write-Text $ownerPath $ownerText
-    }
-    Edit-Json $coveragePath { param($x) $x.entries=@($x.entries | Select-Object -Skip 1) }
-    Expect-Rejection 'missing standards row' { Test-StandardsContracts } 'standards coverage'
-    Write-Text $coveragePath $coverageText
-    Edit-Json $coveragePath { param($x) $x.entries[1]=$x.entries[0] }
-    Expect-Rejection 'duplicate standards row' { Test-StandardsContracts } 'duplicate standards coverage'
-    Write-Text $coveragePath $coverageText
-    Edit-Json $coveragePath { param($x) ($x.entries | Where-Object { $_.candidate -eq 'OWASP SAMM' }).mode='scoped' }
-    Expect-Rejection 'activate excluded standard' { Test-StandardsContracts } 'standards scope promotion'
-    Write-Text $coveragePath $coverageText
-    Edit-Json $coveragePath { param($x) $x.entries[0].owner='skills/absent/SKILL.md' }
-    Expect-Rejection 'missing standards owner' { Test-StandardsContracts } 'standards owner missing'
-    Write-Text $coveragePath $coverageText
-    Write-Text $skillPath ($skillText.Replace('ASD-STE100-inspired','REMOVED'))
-    Expect-Rejection 'missing specialist fallback' { Test-StandardsContracts } 'standalone communication fallback missing'
-    Write-Text $skillPath $skillText
-    $registerPath=Join-Path $repoRoot 'docs/STANDARDS-REGISTER.md';$registerText=Read-Text $registerPath
-    Write-Text $registerPath ($registerText.Replace('[AGENTS.md](../AGENTS.md)','[Wrong](../ENGINEERING-CORE.md)'))
-    Expect-Rejection 'stale register owner' { Test-StandardsContracts } 'standards register owner mismatch'
-    Write-Text $registerPath $registerText
-    # Changing a task trigger while retaining the valid link must still be rejected.
-    $applicationPath=Join-Path $repoRoot 'docs/STANDARDS-APPLICATIONS.json';$applicationText=Read-Text $applicationPath
-    Write-Text $skillPath ($skillText.Replace('For changes to API/event contracts, security, personal data, user interfaces or instructions, AI, persistent state, operations or regulated behaviour,','Only for a formal architecture review,'))
-    Expect-Rejection 'narrowed direct-task trigger with retained link' { Test-StandardsContracts } 'standards application activation missing'
-    Write-Text $skillPath $skillText
-    $earsPath=Join-Path $repoRoot 'skills/plan/REQUIREMENTS.md';$earsText=Read-Text $earsPath
-    Write-Text $earsPath ($earsText.Replace('When <event>, the <system> shall <response>.','Event rule omitted.'))
-    Expect-Rejection 'missing concrete EARS mechanism' { Test-StandardsContracts } 'standards application mechanism missing'
-    Write-Text $earsPath $earsText
-    Edit-Json $applicationPath { param($x) ($x.routes | Where-Object { $_.owner -eq 'skills/implement/BOUNDARIES.md' }).entrypoint='skills/plan/SKILL.md' }
-    Expect-Rejection 'cross-profile direct-task route' { Test-StandardsContracts } 'standards application cross-profile route'
-    Write-Text $applicationPath $applicationText
-    Edit-Json $applicationPath { param($x) foreach ($case in $x.cases) { $case.standards=@($case.standards | Where-Object { $_ -ne 'S69' }) } }
-    Expect-Rejection 'missing application coverage' { Test-StandardsContracts } 'standards application source coverage'
-    Write-Text $applicationPath $applicationText
-    Edit-Json $applicationPath { param($x) ($x.cases | Where-Object { $_.id -eq 'A49' }).standards += 'S71' }
-    Expect-Rejection 'activate excluded source in direct task' { Test-StandardsContracts } 'standards application promotes inactive source'
-    Write-Text $applicationPath $applicationText
-    $repoRoot=$originalRoot
+    finally { $fileStream.Dispose() }
 
-    $profileName='communication';$profile=$profiles.profiles.communication
-    $packageName=(Get-PackageBaseName $profileName $profiles.version)
-    $originalZip=Join-Path $ArtifactsDirectory ($packageName+'.zip')
-    $zip=Join-Path $work 'changed.zip';Copy-Item $originalZip $zip
-    Rewrite-ZipEntry $zip ($packageName+'/AGENTS.md') "Changed instructions.`n"
-    Expect-Rejection 'changed packaged policy' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package source mismatch'
-    Copy-Item $originalZip $zip -Force
-    Rewrite-ZipEntry $zip ($packageName+'/CHECKSUMS.sha256') ''
-    Expect-Rejection 'empty package checksums' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package checksum coverage'
-    Copy-Item $originalZip $zip -Force
-    Rewrite-ZipEntry $zip ($packageName+'/CHECKSUMS.sha256') "malformed`n"
-    Expect-Rejection 'malformed package checksums' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'malformed package checksum'
-    Copy-Item $originalZip $zip -Force
-    Rewrite-ZipEntry $zip ($packageName+'/skills/teach/SKILL.md') '' -Delete
-    Expect-Rejection 'missing packaged skill' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package inventory'
-    Copy-Item $originalZip $zip -Force
-    Rewrite-ZipEntry $zip ($packageName+'/unexpected.md') 'extra'
-    Expect-Rejection 'unlisted packaged file' { Test-ZipArchive $zip $profileName $profile $profiles.version } 'package inventory'
+    Test-ZipArchive $fixturePath $null $null '0.0.0'
+    $requiredFindings = @('unsafe ZIP path', 'case-colliding ZIP members', 'executable ZIP member')
+    foreach ($finding in $requiredFindings) {
+        if (-not ($failures | Where-Object { $_ -match [regex]::Escape($finding) })) {
+            throw "Validator self-test did not detect: $finding"
+        }
+    }
+    if (-not (Test-IsSymlinkAttributes $symlinkAttributes)) {
+        throw 'Validator self-test did not detect Unix symlink mode attributes.'
+    }
+    $masterDirectory = Join-Path $fixtureRoot 'master'
+    New-Item -ItemType Directory -Path $masterDirectory | Out-Null
+    [IO.File]::WriteAllText((Join-Path $masterDirectory 'expected.txt'), 'expected')
+    $masterPath = Join-Path $masterDirectory 'openai-native-skill-collections-v0.0.0-all.zip'
+    $masterStream = [IO.File]::Open($masterPath, [IO.FileMode]::Create)
+    try {
+        $masterArchive = New-Object IO.Compression.ZipArchive($masterStream, [IO.Compression.ZipArchiveMode]::Create, $false)
+        try { Add-Entry $masterArchive 'wrong-root/expected.txt' 'expected' $null }
+        finally { $masterArchive.Dispose() }
+    }
+    finally { $masterStream.Dispose() }
+    Test-MasterArchive $masterPath $masterDirectory '0.0.0'
+    if (-not ($failures | Where-Object { $_ -eq 'master archive inventory mismatch' })) {
+        throw 'Validator self-test did not reject a malformed master archive.'
+    }
+    # These controls test policy-presence and metadata guards, not live prose quality.
+    $baselineText = [IO.File]::ReadAllText((Join-Path $repoRoot 'AGENTS.md'), [Text.Encoding]::UTF8)
+    $baselineMetadata = [IO.File]::ReadAllText((Join-Path $repoRoot 'PACKAGE-VALIDATION.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json
     $failures.Clear()
-    Test-MetadataContracts | Out-Null
-    Test-SkillTree $profiles
-    Test-StandardsContracts
-    Test-SourceIntegrity
-    Test-ReleaseArtifacts $ArtifactsDirectory $profiles
-    if ($failures.Count) { throw "Restored positive control failed: $($failures -join '; ')" }
-    Write-Host "PASS: $controls isolated rejection controls and restored positive controls; not live model evaluation"
-} finally {
-    $repoRoot=$originalRoot
-    if ($work -and (Split-Path -Leaf $work) -match '^lean-validator-[a-f0-9]{32}$') { Remove-Item -LiteralPath $work -Recurse -Force }
+    Test-DirectClaimsText $baselineText 'positive control'
+    Test-DirectClaimsMetadata $baselineMetadata.direct_claims 'positive control'
+    if ($failures.Count -ne 0) { throw 'Direct-claims positive controls failed' }
+    $mutationCount = 0
+    foreach ($needle in @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')) {
+        $failures.Clear()
+        Test-DirectClaimsText ($baselineText.Replace($needle, 'removed guard')) 'negative control'
+        if ($failures.Count -eq 0) { throw "Direct-claims guard failed to detect removal: $needle" }
+        $mutationCount++
+    }
+    foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route','runtime_enforcement','live_host_evaluated')) {
+        $failures.Clear()
+        $bad = ($baselineMetadata.direct_claims | ConvertTo-Json | ConvertFrom-Json)
+        $bad.$name = -not [bool]$bad.$name
+        Test-DirectClaimsMetadata $bad 'negative control'
+        if ($failures.Count -eq 0) { throw "Direct-claims metadata guard failed to detect mutation: $name" }
+        $mutationCount++
+    }
+    $failures.Clear()
+    if ($mutationCount -ne 14) { throw 'Direct-claims negative-control count drifted' }
+    Write-Host "PASS: direct-claims positive controls and 14 deliberate policy/metadata mutations" -ForegroundColor Green
+    Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
+}
+finally {
+    $resolvedFixture = [IO.Path]::GetFullPath($fixtureRoot)
+    $resolvedTemp = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
+    if ($resolvedFixture.StartsWith($resolvedTemp) -and (Split-Path $resolvedFixture -Leaf) -like 'lean-agent-validator-*') {
+        Remove-Item -LiteralPath $resolvedFixture -Recurse -Force
+    }
 }
