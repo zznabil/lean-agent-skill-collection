@@ -1,6 +1,9 @@
 interface:
-  display_name: "Review"
-  short_description: "Review a change or artifact for evidence-backed defects and acceptance; remain read-only unless repair is requested."
-  default_prompt: "Use $review for this task."
+  display_name: Review
+  short_description: Inspect artifacts and operability against contracts
+  default_prompt: 'Use $review to independently inspect this artifact or repository against its real contract. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
 policy:
+  products:
+  - CHAT
+  - CODEX
   allow_implicit_invocation: true

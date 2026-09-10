@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, release/v9.0.1-standards]
+    branches: [main]
 
 permissions:
   contents: read
@@ -17,14 +17,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Record validation source
-        shell: pwsh
-        run: |
-          $revision = git rev-parse HEAD
-          if ($LASTEXITCODE -ne 0) { throw 'Cannot identify checked-out source' }
-          $validator = git hash-object scripts/validate.ps1
-          if ($LASTEXITCODE -ne 0) { throw 'Cannot identify validator source' }
-          Write-Host "Validation source: $revision; validator blob: $validator"
       - name: Build twice and prove reproducibility
         shell: pwsh
         run: |
@@ -57,14 +49,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Record validation source
-        shell: powershell
-        run: |
-          $revision = git rev-parse HEAD
-          if ($LASTEXITCODE -ne 0) { throw 'Cannot identify checked-out source' }
-          $validator = git hash-object scripts/validate.ps1
-          if ($LASTEXITCODE -ne 0) { throw 'Cannot identify validator source' }
-          Write-Host "Validation source: $revision; validator blob: $validator"
       - name: Build twice and prove reproducibility
         shell: powershell
         run: |

@@ -356,12 +356,3 @@ The release kept 23 skills and six profiles and added 48 static delivery scenari
 ## V8.7.0 — Direct Claims & Accountable Reporting
 
 On 6 September 2026, the user's anti-litotes candidate was absorbed as scoped anti-evasion guidance across the existing profiles. The implementation preserves genuine uncertainty, semantic strength, exact sources, and permission boundaries. It adds no route or runtime. See the [decision record](DIRECT-CLAIMS-REVIEW-v8.7.0.md); the supplied Astra documentation view failed retrieval and supports no model-specific claim.
-
-
-## V9.0.0 candidate - 6 September 2026
-
-The authorised breaking consolidation reduces 23 routes to 17. See [V9-DESIGN.md](V9-DESIGN.md) for its design decisions. This candidate was not published. Prior entries retain their historical meaning.
-
-## V9.0.1 - 7 September 2026
-
-The standards repair preserves the 17-route structure and reconciles all 97 register entries to explicit scope, behaviour and provenance. See [V9.0.1-DESIGN.md](V9.0.1-DESIGN.md) for the current design and verification limits.

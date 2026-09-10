@@ -1,9 +1,44 @@
-# Repository integrity - V9
+# Repository integrity audit — V8.7.0
 
-Source identity and release profile inventories come from the exact reviewed revision. `UPSTREAM-CHECKSUMS.sha256` now lists every tracked source file except itself, including hidden configuration, scripts, documentation and intentionally retained historical artifacts. Temporary `.git`, `artifacts`, `.audit-work` and `.agent-state` directories are not source. An unlisted source file or duplicate checksum fails validation; there are no unchecked README or metadata exceptions.
+## Decision
 
-Hashes establish agreement with the manifest, not its authenticity. The release process therefore also checks the exact merge revision, required CI, annotated tag target and downloaded assets. A deterministic build is not proof of model obedience or program correctness.
+This record defines release acceptance. Executed results belong to the exact source revision's CI and publication readback; static checks do not establish live-host behaviour.
 
-The repository audit verifies current version surfaces, 64 uniquely identified authored V9 scenarios, live scenario owners and historical fixture mirrors. It does not convert scenario counts into pass rates. UTF-8, newline, local-reference and secret-pattern checks are structural safeguards, not exhaustive security audits.
+## Current invariants
 
-Operational source-transfer and publication workflows belong only on temporary operations branches. They must not enter canonical main. Published release history remains unchanged. Review [migration](MIGRATION-v9.md) before replacing an installation; no local installation is changed by repository publication.
+- 23 canonical skills and six profiles.
+- The Complete profile matches the skill tree.
+- Communication remains embedded in Get It Done and Gauntlet packs.
+- All 22 specialist skills retain a local outcome-first fallback.
+- All 23 OpenAI adapters retain the delivery overlay.
+- The 48-case V8.6 scenario corpus is unique and mirrored in the release directory.
+- Existing V8.3 user-information, V8.4 proof-integrity, and V8.5 proportional-rigor corpora remain present and mirrored.
+- Deterministic builds and archive checks remain required on PowerShell 7 and Windows PowerShell 5.1.
+
+## V8.6 source checks
+
+The validator requires:
+
+- response-weight matching;
+- internal depth separated from external brevity;
+- outcome, fresh verification, and remaining action;
+- no routine process replay;
+- tool intent followed by execution or a blocker;
+- evidence-based agreement and plain uncertainty;
+- conditional safe batching of independent lookups;
+- explicit user or host presentation precedence;
+- distinct Summary and TL;DR jobs when both are used;
+- no new routed style skill;
+- no vendored Hermes runtime.
+
+## V8.7 direct-claims checks
+
+Source and generated ZIP validation checks the directness and uncertainty/meaning guard clauses, all local fallbacks, adapters, and declared metadata. The 32 authored fixtures have unique IDs, complete fields, four covered categories, and an exact release mirror. Positive and fourteen negative controls test the structural guards. None of these checks establishes live model adherence.
+
+## Release gate
+
+Tag V8.7.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
+
+## Remaining limits
+
+Repository validation cannot prove live model compliance, task-completion improvement, user satisfaction, or runtime equivalence across agent hosts.

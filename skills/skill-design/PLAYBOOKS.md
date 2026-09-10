@@ -1,21 +1,78 @@
-# Conditional skill-maintenance notes
+# Skill design playbooks
 
-## Candidate selection
+Load only the section required by the task.
 
-Inspect the actual source and pinned revision, not only its marketing description. Record the distinct capability, existing owner, licence and dependency or runtime cost. Absorb the useful mechanism when no separate trigger is needed. Review scripts, hooks, installers, network calls, updates and trusted-state writes before execution. Keep a small source/decision record; do not install a catalogue merely because it exists.
+## Stack selection
+
+1. Inspect the project and name the capability areas that matter.
+2. Search several plausible candidates per area when available; read the actual skill, not only its title.
+3. Select exact non-redundant IDs. Record gaps instead of choosing a poor fit.
+4. Create a small manifest: collection identity, source revision or digest, target host and scope, project constraints, selected IDs, and why each is needed.
+5. Audit permissions, executable files, workflow source, hooks, installers, network calls, auto-update behavior, trusted-state mutation, licenses, dependencies, and trigger collisions.
+6. Validate and preview the installation plan before applying it. Do not install a full catalog merely because it is available. For standards, maintain a registry of version, status, official source, reviewed date, decision, Lean home, reused text, and next review trigger.
 
 ## Evaluation
 
-Keep three layers separate: structural validity, actual trigger selection and end-to-end behaviour. Use positive, negative, near-neighbour, manual-call, missing-tool and interruption cases. A string match or simulated conversation does not prove live workflow execution.
+Use three layers. A lower layer cannot prove a higher one.
 
-Compare the candidate, previous version, no-skill control and nearest competing owner with the same tasks, model, tools and authority. Calibrate the observer with known-good and representative broken cases. Record actual outcomes, repeated corrections, unnecessary activation, questions, user effort, tokens, time and cost when exposed. For model judging, retain the actual evaluator, rubric, threshold, dataset revision, randomness, repetitions, selection rules and uncertainty. Separate task completion, trajectory and tool-argument quality.
+1. **Structural:** frontmatter, names, paths, adapters, references, declared dependencies, package shape, and command or manifest parity.
+2. **Trigger and routing:** realistic positive prompts, negative prompts owned by another skill, anti-trigger cases, and description-collision checks. Lexical ranking is a cheap approximation, not semantic proof.
+3. **Behavioral:** fresh-context candidate versus no skill, or new version versus previous version, using the real artifact and tool trace when execution matters. When delegation or cross-host behavior matters, run a live topology cell and record host, requested and actual model or verified family, tool trace, Git or filesystem artifacts, and failures. A simulated prompt proves routing only.
 
-Keep held-out cases genuinely held out and disclose public fixtures. A manual-only route should not activate autonomously; test this in each actual host rather than infer it from YAML. Consider removal when a skill has no distinct demonstrated value, creates costly false activations or mainly repeats host behaviour. A rare consequential safeguard can justify retention even without frequent use.
+For each skill, include several natural positive prompts, several negative prompts, one edge or pressure case, and at least one behavioral case when the skill can materially change execution. Use objective assertions for verifiable outcomes and human or blinded review for subjective quality. Before trusting an evaluator, calibrate it with a known-good case and a representative broken or misrouted case; use a positive control for absence claims; calculate supplied figures independently; and rerun the current evaluator rather than accepting a stored status line. Distinguish execution artifacts from conversation-only deliverables; do not use dialogue as an escape from testing a workflow that should act.
+
+Record pass rate, failures, token use, duration, and variance when exposed. For model-based evaluation, also record evaluator model or family, rubric or prompt, threshold, dataset revision, randomness, repetitions, visible or holdout class, and cost. For agent workflows with traces, distinguish end-outcome, trajectory, and individual tool-choice or argument evaluation. Inspect non-discriminating tests, flaky cases, and quality gained per extra context. Revise the smallest material weakness, rerun the same cases, then expand the suite.
+
+For a collection audit, also test **activation timing and frequency** across clear positives, ambiguous neighbours, negative prompts, routine no-skill prompts, repeated workload prompts, explicit selection, and each supported host surface. Record intended frequency, missed activation, wrong-primary selection, unnecessary activation, and the cost of each error. A manual-only skill should have zero autonomous activation by design. Treat lexical similarity as a collision screen, not a live routing probability.
+
+
+## No-skill ablation and sunset
+
+1. For each material skill change, compare the same task with the candidate skill, with no skill beyond trusted root policy, and with the nearest competing skill. Measure outcome quality, corrections, checks, tool choice, token or time cost, and false confidence when exposed.
+2. Record real use, successful examples, wrong activations, manual overrides, user satisfaction, maintenance cost, and the unique behavior the skill still owns.
+3. Put a skill into deletion review when it does not beat the no-skill baseline, another authority owns most of its behavior, it mainly repeats model defaults, its required runtime is absent from target hosts, or its false-activation cost exceeds demonstrated value.
+4. A skill with no material successful use across two releases SHOULD be retired, merged, or moved project-local unless a documented low-frequency high-impact case justifies it.
+
+
+## Considerate-agency evaluation
+
+### Pass 15 — Human effort and loop closure
+
+Compare candidate, no-skill baseline, and nearest competitor for avoidable questions, repeated context, user interventions, unresolved housekeeping, steps to first use, decision-ready responses, and loop closure. Verify that the artifact is easy to find, use, recover, and resume, and that remaining user action is explicit.
+
+### Pass 16 — Initiative and restraint calibration
+
+Test balanced **ACT**, **ASK**, and **DO NOT ACT** scenarios. Record missed follow-through, unnecessary questions, surprise actions, scope creep, unsafe autonomy, and correct-disposition rate. More proactive is not automatically better: the skill must complete obvious safe follow-through, recommend and ask on consequential choices, and refuse speculative or unrelated expansion.
+
+## Context economy
+
+A context pointer states what it reaches and the distinct branches that should load it. Use one trigger per real branch; synonyms do not create new branches. Treat the environment as the source of truth for cheap discoverable facts such as scripts, paths, and configuration. Document reasons, hidden conventions, and gotchas that inspection cannot reveal cheaply. Each ordered step needs a checkable completion criterion. Prefer positive target behavior; use prohibitions only for hard guardrails.
+
+## Workflow authoring and review
+
+1. First decide whether a reusable workflow is justified. Keep an ordinary prompt or one agent when work is short, tightly sequential, or cannot be partitioned without duplicated context.
+2. Frame `input → work or judgment → structured trustworthy result`. Record population, dependence, trust asymmetry, mutation, and the highest-cost failure before choosing agent count.
+3. Design the dataflow before prompts. For every stage, name input, judgment versus mechanics, output contract, concurrency, and failure meaning.
+4. Pipeline per-item dependencies. Add a barrier only for global dedupe, ranking, joins, convergence, or a judge; document why it is required.
+5. Give parallel agents a charter and anti-charter. Keep counting, slicing, stable-key dedupe, vote tallies, and cap enforcement in deterministic code; use agents for reading and judgment.
+6. Put a structured schema at every cross-agent boundary. Treat child results as nullable. Return uncertainty, failed stages, stop reason, caps, and unprocessed remainder.
+7. Every loop needs a convergence signal, hard cap, budget guard, and honest non-converged result. Destructive behavior defaults to report-only, uses one owner when edits overlap, and is verified globally afterward.
+8. Review workflow source statically. Do not import, compile, evaluate, or run an untrusted script merely to inspect or diagram it. Pin trusted source and revision before execution.
+9. Test direct, staged, delegated, approval, fallback, failed-child, interrupted-resume, cap, no-progress, and adversarial cases. Compare useful quality against the simplest direct baseline.
 
 ## Trusted refinement
 
-Capture a repeatable failure and the smallest proposed correction. Estimate noise before retuning, freeze the improvement criterion and review the exact diff, permissions and rollback. Do not let a skill approve its own trusted-policy promotion from the same task reward. Apply only within explicit approval and keep or roll back based on relevant evidence.
+1. Keep the trusted base doctrine immutable during ordinary task execution.
+2. Capture the recurring failure, the smallest proposed correction, and the evidence that it should generalize. Before retuning, repeat the unchanged version to estimate noise and pre-register the improvement bar.
+3. Compare the proposed version with the current version or a no-skill baseline on original, negative, held-out, and adversarial cases.
+4. Review the exact diff, permission impact, trigger changes, and rollback before writing trusted state.
+5. Apply only with explicit authorization. Measure the result, then keep or roll back. A skill MUST NOT approve its own promotion from the same task reward.
 
-## Packaging
+## Packaging and compatibility
 
-Keep one vendor-neutral root and thin optional adapters. Bundle required references inside the skill, with clear load conditions. Test standalone and profile copies. Check exact inventories, descriptions, adapter policy, missing references, duplicate/case-colliding paths, traversal, symlinks, executable payloads and secrets. Compare built bytes with source. A host may ignore adapter metadata or assemble root instructions differently; report that boundary rather than claim portable enforcement.
+1. Keep one vendor-neutral `SKILL.md` as the authority. Add optional host adapters and plugin manifests without duplicating behavior.
+2. Bundle required references and assets inside the skill directory. Test the skill both inside the collection and as a standalone copy.
+3. Validate frontmatter, names, descriptions, invocation policy, products, references, relative paths, required assets, and declared dependencies.
+4. Test cold discovery, explicit invocation, intended implicit invocation, anti-trigger cases, missing tools, malformed input, interruption, and graceful degradation.
+5. Check archives for traversal, duplicates, case collisions, symlinks, executable payloads, broken references, and secrets.
+6. Rebuild deterministically when practical, extract into a clean directory, and compare the extracted bytes to the source tree.

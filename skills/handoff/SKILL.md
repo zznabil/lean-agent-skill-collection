@@ -1,22 +1,32 @@
 ---
 name: handoff
-description: "Record an explicitly requested status, session handoff or durable project context with verified state and the exact next action."
+description: "Create a concise status recap or durable handoff. Use after substantial work, before interruption, or when another session needs the exact current state and next action."
 ---
 
 # Handoff
 
-Use for a requested recap, transfer or durable context update, not automatic rewriting of trusted instructions after every task.
+Choose one mode.
 
-For a quick status, state DONE, PARTIAL or BLOCKED, what exists, what was actually verified and the next action when work remains.
+## Quick status
 
-For a session handoff, preserve the goal, scope, authority, current revision or checkpoint, decisions, changed artifacts, actual checks, unfinished required work, known risks and exact next action. Link to durable evidence instead of copying transcripts. Identify relevant areas intentionally untouched so the next worker does not mistake them for omissions.
+Use `DONE`, `PARTIAL`, or `BLOCKED`, then state:
 
-Label observed, inferred and unknown facts. Old test results and worker reports remain historical until the affected evidence is rechecked. Keep failure, uncertainty about cause and responsibility separate. A prose rewrite cannot upgrade a verdict.
+- **Result:** what exists now.
+- **Verified:** checks actually run and outcomes.
+- **Next:** one action only when work remains.
 
-Remove obsolete scratch detail, secrets and unnecessary personal information. Store decisions and evidence, not hidden reasoning. Make the result usable by a fresh worker without rereading the full conversation, and say whether the user must act.
+## Durable handoff
 
-For persistent project knowledge, read [CONTEXT.md](CONTEXT.md). A handoff does not itself authorise changes to global memory, AGENTS.md, installed skills or other trusted sources.
+1. State the goal, scope, constraints, current revision or checkpoint, and terminal or pause state.
+2. Reference existing specs, diffs, issues, logs, and artifacts by path. Do not copy large content already stored elsewhere.
+3. Record completed work, changed files, decisions, actual verification, failures, blockers, risks, rollback, and the exact next command or action.
+4. Name relevant areas intentionally left untouched and any out-of-scope concern that the next worker could mistake for an omission.
+5. Note relevant skills for the next session only when they add distinct value.
+6. Remove obsolete scratch detail, make the first-use path obvious, state whether user action is required, and make the handoff sufficient for a fresh agent to continue without rereading the full conversation.
 
-For user-facing prose, use clear words, visible next actions and preserved meaning and uncertainty (ASD-STE100-inspired; ISO 24495-1; W3C COGA). Respect the requested artifact voice.
+Do not mark unverified work complete. Redact secrets and unnecessary private data.
 
-For model or dataset handoffs, quality or impact records, use [AI-ASSET-CARDS.md](AI-ASSET-CARDS.md).
+
+For status records and handoffs, separate observed failure from unknown cause. Preserve failed, untested, and partially completed states. Record the responsible actor only when evidenced and the next safe action; a prose rewrite cannot upgrade the verdict.
+
+**User-facing:** Apply the global outcome-first delivery overlay. State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
