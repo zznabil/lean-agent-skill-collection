@@ -12,7 +12,12 @@ Preserve each existing rule's trigger, actor, action, object, scope, requirement
 
 Use this shape when a rule contains a consequential choice:
 
-> When <observable condition>, <actor> MUST/SHOULD/MAY <action on a named object>. Verify <observable result>. If <failure or unknown result>, <permitted recovery or stop>. Exception: <existing authorised exception>.
+```text
+When <observable condition>, <actor> MUST/SHOULD/MAY <action on a named object>.
+Verify <observable result>.
+If <failure or unknown result>, <permitted recovery or stop>.
+Exception: <existing authorised exception>.
+```
 
 Use only the fields the rule actually needs. Do not invent thresholds, permissions or failure modes to fill a template. In ordinary prose, use ordinary verbs; BCP 14 wording belongs to normative requirements. Preserve the original strength: a MUST is not a SHOULD, an exception is not a default, and untested is not passed.
 

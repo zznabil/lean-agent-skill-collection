@@ -118,7 +118,7 @@ function Expect-Rejection([string]$Name,[scriptblock]$Action) {
 $contractPath=Join-Path $root 'docs/evals/prose-preservation-v8.8.0.json'
 $contractBytes=[IO.File]::ReadAllBytes($contractPath)
 # This pins the reviewed baseline and declared edits; fixture drift requires an explicit diff.
-$contractHash='cc8c9889a5dad89947a5761975247affb1528cc4ed50b523f5f70b713d7a265c'
+$contractHash='a0d20f2545eaff88de78d7b20d770af8e98c62bb626861ddd04125fce26a6a33'
 Assert-Frozen 'prose preservation contract' $contractBytes $contractHash
 $contract=([Text.Encoding]::UTF8.GetString($contractBytes)) | ConvertFrom-Json
 if ($contract.baseline_tree -cne 'e31c085a149438668815e00155359af5e596707d' -or $contract.version -cne '8.8.0' -or @($contract.files.PSObject.Properties).Count -ne 25) { throw 'PRESERVATION: unexpected baseline or scope' }
