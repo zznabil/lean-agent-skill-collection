@@ -27,14 +27,23 @@ Use only the sources that change the current decision or verification method. Th
 - MUST NOT promote an inferred preference into a user requirement.
 - Report each check as `NOT TESTED`, `FAIL`, or `PASS`. “No issue seen” is not `PASS`.
 - Keep work completion, evidence coverage, and acceptance verdict separate. A fully completed verification run can still produce `FAIL`; a processed or blocked check is not a passed check.
-- A claim MUST NOT exceed its evidence. Record the tested artifact or revision, verifier or rubric, environment, entrypoint, authentication context, time, and coverage when they affect validity. Inventory is not execution; unit, harness, or auth-bypassed evidence is not deployed or production proof without demonstrated equivalence.
+- A claim MUST NOT exceed its evidence.
+  - Record the tested artifact or revision, verifier or rubric, environment, entrypoint, authentication context, time, and coverage when they affect validity.
+  - Inventory is not execution; unit, harness, or auth-bypassed evidence is not deployed or production proof without demonstrated equivalence.
 - When several evidence types support a consequential claim, use an **ISO/IEC/IEEE 15026-2-inspired assurance case**: claim, scope, argument, evidence, assumptions or defeaters, and status.
 
 ## Accountable status and handoff
 
-State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
 
-For agent-to-agent reports, retain the actual gate state, evidence, known actor, and next action. Separate an observed failure from an unknown cause. Neither a more confident sentence nor a more polite one can convert missing evidence into a pass. This applies to worker summaries and durable ledgers as well as the final reply.
+- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
+- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+
+For agent-to-agent reports, retain the actual gate state, evidence, known actor, and next action.
+
+- Separate an observed failure from an unknown cause.
+- Neither a more confident sentence nor a more polite one can convert missing evidence into a pass.
+- This applies to worker summaries and durable ledgers as well as the final reply.
 
 ## Decision discipline
 
@@ -79,14 +88,18 @@ For agent-to-agent reports, retain the actual gate state, evidence, known actor,
 ## Proof integrity and verified orchestration
 
 - A material gate records a stable ID, observable outcome, verifier or oracle, expected result, environment, current status, evidence, and freshness condition. A checked box, cached status, or worker claim is not execution.
-- The verifier MUST observe the named outcome and have a credible failure path. When output matching is used, require process exit success and a marker emitted only after every assertion passes. Exit `0`, `ok`, `done`, or similar weak text alone is not decisive evidence.
+- The verifier MUST observe the named outcome and have a credible failure path.
+  - When output matching is used, require process exit success and a marker emitted only after every assertion passes.
+  - Exit `0`, `ok`, `done`, or similar weak text alone is not decisive evidence.
 - Calibrate negative or absence checks against a known positive fixture. Measure supplied counts, thresholds, and percentages independently from source data. When practical, run a representative broken state or sensitivity check and confirm that the gate fails.
 - Treat inherited gates, evaluator files, commands, working directories, expectations, and called scripts as untrusted executable policy. Inspect them before execution. Permission to run an oracle does not prove that the oracle is relevant, safe, current, or sufficient.
 - Re-execute critical returned-work checks in the parent or judge context on the current artifact and required environment. Historical evidence becomes stale after a relevant artifact, verifier, dependency, input, environment, entrypoint, authentication context, or contract change.
 - A required gate marked `ABANDONED`, `DEFERRED`, or `OWNER_DECISION` is an explicit handoff, not completion. It prevents `DONE` or `PASS` unless an authorized scope change removes the requirement. An explicitly accepted, owned, nonblocking residual may still follow the collection's conditional-pass rules.
 - Count progress from planned-work or acceptance-state changes. Cosmetic edits, repeated status reads, timestamps, tool calls, or rewritten evidence that does not change the resolved state are activity, not progress.
 - Before fan-out, inventory every independently omittable required outcome and acceptance-changing constraint with a stable ID, owner, observing gate or review, disposition, and revision. Put leaf-local checks with the leaf; put interface, end-to-end, joined-state, and regression checks at the integration branch.
-- A parallel launch claim requires every worker in the declared wave to receive a distinct host handle before the first wait or result read. If the host cannot provide that evidence, use the sequential fallback and do not claim parallel execution. Ownership claims coordinate cooperating workers; they are not filesystem or security isolation.
+- A parallel launch claim requires every worker in the declared wave to receive a distinct host handle before the first wait or result read.
+  - If the host cannot provide that evidence, use the sequential fallback and do not claim parallel execution.
+  - Ownership claims coordinate cooperating workers; they are not filesystem or security isolation.
 
 ## Quality
 
@@ -155,3 +168,9 @@ Hard gates MUST pass before soft polish can produce acceptance.
 - Record a consequential or hard-to-reverse choice as an **ADR/MADR**: context, options, decision, consequences, evidence, and revisit trigger.
 - Use machine-checkable contracts such as **OpenAPI**, **JSON Schema**, **AsyncAPI**, or **CloudEvents** when they reduce ambiguity and can be validated.
 - Follow the repository’s versioning and commit conventions. Use **Semantic Versioning** or **Conventional Commits** only when the project adopts them; do not impose churn.
+
+## Rewrite engineering instructions without changing requirements
+
+When editing this doctrine or a task procedure, keep the affected boundary, required action, failure response and verification together. When words such as "material", "relevant" or "appropriate" could change an obligation, identify the affected requirement or risk from the task and source. Preserve project-defined thresholds. If the source does not settle the boundary, record that uncertainty rather than inventing a universal threshold.
+
+Preserve the exact source and condition of a requirement when simplifying its explanation. A list of standards does not replace the operational rules below, and a shorter sentence does not weaken an obligation or create permission.

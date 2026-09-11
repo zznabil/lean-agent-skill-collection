@@ -1,3 +1,11 @@
+# V8.8.0 prose-preservation acceptance
+
+Use [the V8.8.0 design](PROSE-CLARITY-v8.8.0.md) for the current change, source walkthroughs, frozen baseline, reconstruction checks and evidence limits. Existing V8.7 checks remain required; add `scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a` on both PowerShell hosts. Execution results belong to the exact CI revision, not this document.
+
+No live model performance or conformance result is asserted. The earlier record below remains historical context for the inherited checks.
+
+---
+
 # Repository integrity audit — V8.7.0
 
 ## Decision

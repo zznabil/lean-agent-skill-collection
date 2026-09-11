@@ -11,3 +11,4 @@
 *.sha256 text eol=lf
 LICENSE text eol=lf
 *.zip binary
+/dist/v7.2/*.txt text eol=lf

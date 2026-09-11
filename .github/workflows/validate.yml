@@ -41,6 +41,9 @@ jobs:
       - name: Audit repository integrity
         shell: pwsh
         run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Verify prose preservation and packaged standalone instructions
+        shell: pwsh
+        run: ./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a
 
   validate-windows-powershell:
     name: Validate collection (Windows PowerShell 5.1)
@@ -73,3 +76,6 @@ jobs:
       - name: Audit repository integrity
         shell: powershell
         run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Verify prose preservation and packaged standalone instructions
+        shell: powershell
+        run: ./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a

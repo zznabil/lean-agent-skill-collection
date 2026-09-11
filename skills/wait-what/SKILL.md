@@ -41,15 +41,24 @@ Depth is earned when the user asks for it, the concept must be taught, the decis
 
 ## Direct claims, not evasive understatement
 
-State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
+
+- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
+- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
 
 - For operational or evaluative prose, prefer a literal statement to a negated opposite. Name the actual defect or outcome instead of cushioning it. Do not change the evidence's strength, scope, or degree merely to remove a negative.
 - An observed failure MUST be reported as failure. Uncertainty about cause belongs in a separate clause: `The test failed. The cause is unknown.` Keep `NOT TESTED`, `FAIL`, and `PASS` distinct.
-- When the agent caused an error, identify the action or mistaken claim in first person, its known impact, and the repair plus fresh check, or the exact next safe action. When cause or actor is unknown, say so. Avoid passive blame hiding, invented responsibility, repeated apologies, or a declaration of ownership with no follow-through.
-- Retain useful uncertainty and precise negation: `not verified`, `cannot rule out`, `not statistically significant`, and `MUST NOT` can carry essential meaning. `Not proven safe` MUST NOT become `unsafe`; `not useless` MUST NOT become `good`. Do not ban words such as `not`, `may`, or `could`.
+- When the agent caused an error, identify the action or mistaken claim in first person, its known impact, and the repair plus fresh check, or the exact next safe action.
+  - When cause or actor is unknown, say so.
+  - Avoid passive blame hiding, invented responsibility, repeated apologies, or a declaration of ownership with no follow-through.
+- Retain useful uncertainty and precise negation: `not verified`, `cannot rule out`, `not statistically significant`, and `MUST NOT` can carry essential meaning. `Not proven safe` MUST NOT become `unsafe`; `not useless` MUST NOT become `good`.
+  - Do not ban words such as `not`, `may`, or `could`.
 - Preserve exact quotations, source terminology, legal or scientific findings, code, logs, schemas, and a requested creative voice. Explain a source separately rather than silently rewriting it. Be respectful and specific, not harsh or overconfident.
 
-Apply W3C COGA's **Avoid Double Negatives** and **Use Literal Language** patterns proportionally. These are supplemental accessibility guidance, not a new conformance claim. The project uses *litotes-adjacent hedging* as an informal label for evasive cushioning, not an industry standard or a test of AI authorship.
+Apply W3C COGA's **Avoid Double Negatives** and **Use Literal Language** patterns proportionally.
+
+- These are supplemental accessibility guidance, not a new conformance claim.
+- The project uses *litotes-adjacent hedging* as an informal label for evasive cushioning, not an industry standard or a test of AI authorship.
 
 Examples below are hypothetical and require the stated evidence:
 
@@ -76,7 +85,11 @@ Use the lightest structure that improves understanding or action.
 - **ISO 21801-1:** make state, memory burden, interruption, and resumption explicit when they matter.
 - **ISO 704:** use one preferred term per concept within a scope.
 
-A simple question SHOULD receive a short direct answer. For DIRECT work, normally give one concise completion reply and stop after the decisive check. Put the essential answer first; offer guided or expert detail when it changes understanding or action. Easy-to-Read is a specialized mode and requires intended-user validation.
+A simple question SHOULD receive a short direct answer.
+
+- For DIRECT work, normally give one concise completion reply and stop after the decisive check.
+- Put the essential answer first; offer guided or expert detail when it changes understanding or action.
+- Easy-to-Read is a specialized mode and requires intended-user validation.
 
 ## Summary and TL;DR
 
@@ -86,7 +99,10 @@ When no explicit user or host presentation contract says otherwise, use the subs
 - **Body:** only the evidence and context needed to understand or act.
 - **TL;DR:** one compact retrieval line that helps later scanning.
 
-An explicit user or host presentation preference MAY require, rename, or omit the headings. It MUST NOT remove accuracy, necessary meaning, material uncertainty, verification status, blockers, or required next actions. When Summary and TL;DR are both used, they MUST NOT be copies of each other.
+An explicit user or host presentation preference MAY require, rename, or omit the headings.
+
+- It MUST NOT remove accuracy, necessary meaning, material uncertainty, verification status, blockers, or required next actions.
+- When Summary and TL;DR are both used, they MUST NOT be copies of each other.
 
 Do not force headings into one-line facts, acknowledgements, single questions, pure tool output, code, commands, logs, schemas, exact quotations, citations, legal text, or an artifact that requires another voice.
 
@@ -106,7 +122,12 @@ Verdict:  FAIL
 Checks:   7 PASS, 1 FAIL
 ```
 
-`#` is completed and `-` is remaining. Derive values from durable state and round down. A `FAIL`, `BLOCKED`, `SKIPPED`, or `NOT TESTED` item MAY count as processed only when its terminal classification and evidence are recorded; it never counts as passed. Do not show a bare `Progress: 100%` beside a non-pass verdict. When no defensible total exists, report phase, evidence, highest-priority defect, next action, and budget without inventing a bar.
+`#` is completed and `-` is remaining.
+
+- Derive values from durable state and round down.
+- A `FAIL`, `BLOCKED`, `SKIPPED`, or `NOT TESTED` item MAY count as processed only when its terminal classification and evidence are recorded; it never counts as passed.
+- Do not show a bare `Progress: 100%` beside a non-pass verdict.
+- When no defensible total exists, report phase, evidence, highest-priority defect, next action, and budget without inventing a bar.
 
 ## Quiet completed-work brief
 
@@ -119,3 +140,9 @@ When detailed process already exists in a durable artifact, return only the usef
 - **DETAIL:** link or path to the full record when useful.
 
 Drop empty fields. Do not replay routine reads, commands, retries, elapsed-time narration, or internal phase history unless the user asks or the detail explains a material failure.
+
+## Re-pitch an instruction without weakening it
+
+When the confusing text is an instruction for a person or an agent, preserve who acts, when the rule applies, what object changes, how completion is checked and what happens on failure. Retain MUST/SHOULD/MAY strength, exact negation, source links, named resources, exceptions and permission boundaries. A clearer re-pitch must not convert a required check into optional advice.
+
+Resolve an unclear pronoun or qualifier from the supplied source and task context. When the missing meaning cannot be recovered, state the ambiguity and the decision needed. Do not manufacture a rule or silently select a more convenient interpretation. Give one worked example only when it makes a difficult branch concrete; preserve the other branches too.
