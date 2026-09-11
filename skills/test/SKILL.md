@@ -5,15 +5,23 @@ description: "Design or improve automated tests and test-first feedback loops. U
 
 # Test
 
-Apply **ISO/IEC/IEEE 29119-inspired verification traceability**: requirement → test condition → expected result → actual result → evidence. Use **TDD** and the practical **test pyramid** proportionally; escalate from invariants and state tables to property/state-machine tests or **TLA+** only when state-space risk justifies it. Seek minimum sufficient evidence: the fewest non-redundant checks that fully observe the claim and its material failure paths.
+Apply **ISO/IEC/IEEE 29119-inspired verification traceability**: requirement → test condition → expected result → actual result → evidence.
+
+- Use **TDD** and the practical **test pyramid** proportionally; escalate from invariants and state tables to property/state-machine tests or **TLA+** only when state-space risk justifies it.
+- Seek minimum sufficient evidence: the fewest non-redundant checks that fully observe the claim and its material failure paths.
 
 ## Choose the signal
 
 1. Discover the repository’s actual test framework, commands, fixtures, and conventions before adding another stack.
-2. Start from an observable requirement and the cheapest boundary that proves it: unit for local logic, integration for real boundaries, and end-to-end only for critical journeys. One decisive check is enough when it proves the whole claim; collapse equivalent checks instead of collecting ceremonial green output.
+2. Start from an observable requirement and the cheapest boundary that proves it: unit for local logic, integration for real boundaries, and end-to-end only for critical journeys.
+   - One decisive check is enough when it proves the whole claim; collapse equivalent checks instead of collecting ceremonial green output.
 3. In a weakly tested established area, write characterization tests before refactoring behavior.
 4. For a bug, first make a regression test fail for the reported behavior when practical.
-5. Every critical requirement MUST have a verification method. Every meaningful fixed defect SHOULD gain regression coverage when practical. Do not add a framework, fixture layer, or broad suite for a tiny change unless the current repository and risk justify it. Public contracts, shared state, persistence, concurrency, authentication, security, migration, compatibility, and release boundaries normally require broader evidence. For state-heavy or concurrent behavior, escalate only as needed: invariant → state table → property or state-machine test → formal model.
+5. Every critical requirement MUST have a verification method.
+   - Every meaningful fixed defect SHOULD gain regression coverage when practical.
+   - Do not add a framework, fixture layer, or broad suite for a tiny change unless the current repository and risk justify it.
+   - Public contracts, shared state, persistence, concurrency, authentication, security, migration, compatibility, and release boundaries normally require broader evidence.
+   - For state-heavy or concurrent behavior, escalate only as needed: invariant → state table → property or state-machine test → formal model.
 
 ## Red–green–refactor
 
@@ -42,10 +50,26 @@ Record requirement, condition, environment, expected result, actual result, evid
 - Add boundary, invalid-input, failure, retry, cancellation, persistence, and concurrency cases according to risk.
 - Keep end-to-end suites small, deterministic, and clean-state capable.
 - Browser or desktop regression tests SHOULD use stable semantic locators and preserve the visible expected result.
-- For agentic systems with traces, evaluate three scopes when useful: end outcome or task completion; trajectory, plan, and step efficiency; and individual tool choice and arguments. Prefer deterministic checks. For model-scored metrics, record evaluator model, rubric, threshold, dataset revision, randomness, repetitions, variance, visible or holdout class, and cost.
+- For agentic systems with traces, evaluate three scopes when useful: end outcome or task completion; trajectory, plan, and step efficiency; and individual tool choice and arguments.
+  - Prefer deterministic checks.
+  - For model-scored metrics, record evaluator model, rubric, threshold, dataset revision, randomness, repetitions, variance, visible or holdout class, and cost.
 - MUST NOT delete a difficult test, weaken an assertion, or report partial execution as a full pass without an explicit reason.
 
 Output strategy, traceability, changed files, commands, actual results, uncovered risk, and flaky or unavailable environment.
 
 
-**User-facing:** Apply the global outcome-first delivery overlay. State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+**User-facing:**
+
+- Apply the global outcome-first delivery overlay.
+- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
+- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
+- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+- Match reply length and structure to the weight of the ask.
+- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
+- Simple turns stay short.
+- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
+- Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally.
+- Add Feynman, Diátaxis, or BCP 14 only when their function applies.
+- Use truthful named 20-cell progress separate from verdict.
+- Preserve machine and artifact formats.
+- Be considerate, avoid surprise scope, and leave the result ready to use or resume.

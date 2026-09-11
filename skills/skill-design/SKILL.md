@@ -17,24 +17,63 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 ## Stack and route
 
 1. Choose one primary skill whose leading action matches the request. Add another only for a distinct phase or independent review. Do not preload or chain a catalog by default.
-2. For a stack or runtime, record exact IDs, source revision or digest, host and scope, purpose, overlap decision, permissions, executable surfaces, update behavior, and rollback. For a standard, record version, status, official source, review date, Lean home, and next review trigger. Preview before applying. Structural validity does not prove semantic fit, safety, or conformance. Read `PLAYBOOKS.md` when needed.
+2. For a stack or runtime, record exact IDs, source revision or digest, host and scope, purpose, overlap decision, permissions, executable surfaces, update behavior, and rollback.
+   - For a standard, record version, status, official source, review date, Lean home, and next review trigger.
+   - Preview before applying.
+   - Structural validity does not prove semantic fit, safety, or conformance.
+   - Read `PLAYBOOKS.md` when needed.
 
 ## Write or refactor
 
 1. Inspect the existing format, names, references, and real host constraints. Start with an outcome spine: result, next consumer, observable done condition, and non-obvious intent. Classify guidance as an invariant, default, or heuristic; do not make every preference mandatory.
-2. Merge skills that always run together or differ only by tone, depth, style, checklist, standard, or orchestration branding.
+2. Treat a proposed skill merge as a behavioural change.
+   - Before merging skills that appear to run together or differ only by tone, depth, style, checklist, standard, or orchestration branding, compare their triggers, mandates, references, standalone entry points, authority and completion rules.
+   - Merge only within the authorised scope and after the required preservation checks pass.
 3. Treat the description as a routing interface and permanent context cost: state action, trigger, and any expensive anti-trigger; do not summarize the whole workflow.
-4. Keep `SKILL.md` executable and short. Move conditional detail to a small reference only when it saves repeated context. A standalone skill carries every required reference inside its directory; root doctrine cannot be a hidden dependency.
+4. Keep `SKILL.md` complete and easy to execute.
+   - Reduce avoidable wording, not required decisions.
+   - Move conditional detail to a local reference only when the task's trigger reliably loads it before it is needed; measure any claimed context saving in the actual loaded task.
+   - A standalone skill carries every required reference inside its directory; root doctrine cannot be a hidden dependency.
 5. A cross-cutting mandate that must survive explicit skill selection MUST NOT depend only on another skill being co-loaded. Put its smallest sufficient fallback in the selected skill or in a trusted host-level policy.
 6. Use capability language in the neutral skill and thin host adapters beside it.
 7. Include completion, permission, and failure rules only when they change execution. Every `MUST` should map to observable behavior, a check, a tool affordance, or an explicit decision rule. Remove motivational rules the environment cannot evaluate.
-8. Remove wrappers, aliases, promotion, reading lists, fake tools, and facts the environment can reveal directly.
+8. Remove promotional filler, fake-tool claims, and facts the environment can reveal directly.
+   - Before removing a wrapper, alias, or reading-list entry, establish why it exists and what depends on it.
+   - Retain every entry that carries a required rule, supported capability, source reference, or standalone loading path; propose any behavioural removal separately.
 
 ## Evaluate and package
 
-Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trusted-refinement, and runtime-safety tests; objective assertions; cost measurement; adapters; manifests; path checks; and clean extraction. For user-facing skills, include short-answer, procedure, error/recovery, interruption/reorientation, target-user, and over-simplification cases; readability alone is not task evidence. Trusted doctrine MUST NOT self-modify during ordinary task execution. A proposed refinement needs a baseline, held-out or adversarial cases, a reviewed diff, explicit authorization, and rollback. Add words or infrastructure only when observed behavior justifies them.
+Use `PLAYBOOKS.md` for structural, routing, behavioral, workflow-topology, trusted-refinement, and runtime-safety tests; objective assertions; cost measurement; adapters; manifests; path checks; and clean extraction.
 
-A good skill changes behavior with the fewest durable words. A good workflow makes mechanics deterministic without hiding cost, failure, or permission. Neither simulates authority or promises capabilities the host lacks.
+- For user-facing skills, include short-answer, procedure, error/recovery, interruption/reorientation, target-user, and over-simplification cases; readability alone is not task evidence.
+- Trusted doctrine MUST NOT self-modify during ordinary task execution.
+- A proposed refinement needs a baseline, held-out or adversarial cases, a reviewed diff, explicit authorization, and rollback.
+- Add words or infrastructure only when observed behavior justifies them.
+
+A good skill uses the fewest durable words that preserve its complete behavioural contract, including triggers, required actions, exceptions, evidence and recovery.
+
+- A good workflow makes mechanics deterministic without hiding cost, failure, or permission.
+- Neither simulates authority or promises capabilities the host lacks.
 
 
-**User-facing:** Apply the global outcome-first delivery overlay. State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+## Preservation-first instruction editing
+
+Before rewriting agent-facing rules or user-facing delivery guidance, read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md). Preserve the task contract and its loading paths before reducing wording. A compact replacement must still name the applicable trigger, action, exception, evidence and failure response.
+
+Inspect the old and proposed instructions in both directions. Keep standards-register decisions, source links, named resources and local fallbacks available at the entry points that need them. Treat changed descriptions, aliases, controller topology, invocation policy and completion criteria as separate behavioural changes, not automatic consequences of a prose edit.
+
+**User-facing:**
+
+- Apply the global outcome-first delivery overlay.
+- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
+- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
+- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+- Match reply length and structure to the weight of the ask.
+- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
+- Simple turns stay short.
+- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
+- Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally.
+- Add Feynman, Diátaxis, or BCP 14 only when their function applies.
+- Use truthful named 20-cell progress separate from verdict.
+- Preserve machine and artifact formats.
+- Be considerate, avoid surprise scope, and leave the result ready to use or resume.

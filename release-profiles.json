@@ -1,8 +1,8 @@
 {
-  "version": "8.7.0",
-  "release": "v8.7.0",
-  "release_title": "Direct Claims & Accountable Reporting",
-  "release_summary": "V8.7.0 adds direct, evidence-calibrated claims and accountable reporting across all six profiles. It rejects evasive understatement while preserving genuine uncertainty, precise meaning, and permission boundaries; no skill or runtime is added.",
+  "version": "8.8.0",
+  "release": "v8.8.0",
+  "release_title": "Explicit Instructions, Clearer Prose",
+  "release_summary": "Preserve all 23 skills and explicit contracts while making agent-facing and user-facing instructions easier to follow. Clarify actions, conditions, exceptions, evidence and recovery without deleting standards or loading paths.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

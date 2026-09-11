@@ -10,7 +10,9 @@ Choose one mode. Do not learn automatically.
 ## Workspace mode
 
 1. Inspect trusted project instructions, architecture records, source, tests, commands, and domain language before asking questions.
-2. Maintain three logical layers: **evidence** for lossless or queryable source records; **playbook** for compact `VERIFIED`, `ASSUMED`, `REFUTED`, and `UNKNOWN` claims with provenance and revisit conditions; and **scratchpad** for current tentative work. Use separate files only when volume warrants it. The evidence layer remains authoritative.
+2. Maintain three logical layers: **evidence** for lossless or queryable source records; **playbook** for compact `VERIFIED`, `ASSUMED`, `REFUTED`, and `UNKNOWN` claims with provenance and revisit conditions; and **scratchpad** for current tentative work.
+   - Use separate files only when volume warrants it.
+   - The evidence layer remains authoritative.
 3. Separate trusted constraints, observed source/tests/runtime, documentation claims, and inference. Surface conflicts instead of silently choosing.
 4. Ask only for consequential information unavailable in the workspace.
 5. With permission, create or update one compact context file containing product outcome and users; domain terms; major modules, ownership, seams, and entry points; canonical startup and validation commands; invariants, compatibility rules, landmines, decision records, and unresolved high-impact questions.
@@ -39,7 +41,10 @@ Use only for a verified reusable resolution.
 
 ## AI asset-card mode
 
-For a consequential model, dataset, prompt, evaluator, or agent dependency, read `AI-ASSET-CARDS.md`. Its source model is **ISO/IEC 5259**, **ISO/IEC 25012/25024**, **Model Cards**, **Data Cards**, **Datasheets for Datasets**, **FAIR principles**, and **ISO/IEC 42005** when impact assessment is warranted. Record identity, use, provenance, data controls, evaluation and holdout status, limitations, monitoring, rollback, retirement, and evidence-invalidating changes.
+For a consequential model, dataset, prompt, evaluator, or agent dependency, read `AI-ASSET-CARDS.md`.
+
+- Its source model is **ISO/IEC 5259**, **ISO/IEC 25012/25024**, **Model Cards**, **Data Cards**, **Datasheets for Datasets**, **FAIR principles**, and **ISO/IEC 42005** when impact assessment is warranted.
+- Record identity, use, provenance, data controls, evaluation and holdout status, limitations, monitoring, rollback, retirement, and evidence-invalidating changes.
 
 ## Retrospective mode
 
@@ -66,4 +71,18 @@ Use only when the user asks to distill durable lessons or update trusted instruc
 Mark provenance and uncertainty. Output the changed or proposed path, supporting evidence, unresolved gaps, and permissions not granted.
 
 
-**User-facing:** Apply the global outcome-first delivery overlay. State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility. Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice. Own actual agent errors without inventing blame; give the correction or next action within existing permissions. Match reply length and structure to the weight of the ask. Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process. Simple turns stay short. For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion. Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally. Add Feynman, Diátaxis, or BCP 14 only when their function applies. Use truthful named 20-cell progress separate from verdict. Preserve machine and artifact formats. Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+**User-facing:**
+
+- Apply the global outcome-first delivery overlay.
+- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
+- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
+- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
+- Match reply length and structure to the weight of the ask.
+- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
+- Simple turns stay short.
+- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
+- Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally.
+- Add Feynman, Diátaxis, or BCP 14 only when their function applies.
+- Use truthful named 20-cell progress separate from verdict.
+- Preserve machine and artifact formats.
+- Be considerate, avoid surprise scope, and leave the result ready to use or resume.

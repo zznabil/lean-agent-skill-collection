@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.7.0",
+  "version": "8.8.0",
   "skills_expected": 23,
   "skills_validated": 23,
   "manual_only_skills": [
@@ -158,5 +158,11 @@
     "live_host_evaluated": false,
     "scenario_file": "docs/evals/direct-claims-scenarios-v8.7.0.csv",
     "static_scenarios": 32
+  },
+  "prose_preservation": {
+    "contract": "docs/evals/prose-preservation-v8.8.0.json",
+    "baseline_commit": "b55974b291218862c26b36c6d9d6682a3db097d4",
+    "live_host_evaluated": false,
+    "formal_conformance_claimed": false
   }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.8.0 — 2026-09-11
+
+### Explicit Instructions, Clearer Prose
+
+- Preserve the restored V8.7 architecture: 23 skills, six profiles, descriptions, invocation policies, workflow states, standards register, source references and standalone communication coverage.
+- Segment dense agent-facing and user-facing instruction blocks, keeping conditions and recovery next to the action and preserving existing source order.
+- Apply writing, wait-what and teach principles to instruction authoring without mandatory lessons, quizzes or simultaneous skill loading.
+- Clarify four skill-design rules: treat merging as a behavioural change, keep reference-loading conditions explicit, preserve required resources, and minimise words only within the complete contract.
+- Add a pinned textual-preservation contract and damaged-fixture tests alongside the unchanged legacy gates; distinguish text preservation, package integrity and unrun live-model evaluation.
+
 ## 8.7.0 — 2026-09-06
 
 - Preserve all 23 skills, six profiles, package membership, and invocation policies.
