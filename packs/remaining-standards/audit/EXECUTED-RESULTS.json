@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-13",
+  "platform": "Linux",
+  "python": "3.13.5",
+  "test_result": "PASS",
+  "tests_executed": 24,
+  "deliberate_damage_controls": 21,
+  "positive_source_controls": 2,
+  "zip_roundtrip_reproducibility_controls": 1,
+  "model_evaluations": 0,
+  "authored_model_cases": 210,
+  "pdf_copies_parsed": 26,
+  "pdf_unique_covers_visually_inspected": 24,
+  "markdown_roots_checked": 70,
+  "source_run_log": "TEST-RUN.txt",
+  "scope": "Structural/source identity, rendering-shape, portable verifier rejection and ZIP integrity only. No live model calls, formal clause assessment, independent human approval or hosted CI for these new routines."
+}
