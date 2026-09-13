@@ -1,0 +1,14 @@
+{
+  "branch": "ops/remaining-standards-sources-20260913",
+  "run": 34746189242,
+  "result": "success",
+  "readback_branches": [
+    "main",
+    "feat/user-facing-standards-pack"
+  ],
+  "main": "58b4369205d7689b2c46cdf4b4ac3801164e95ed",
+  "pr16_head": "93ac875fd4d86bde7855340290a103916448edfb",
+  "canonical_source_changed": false,
+  "new_pr_opened": false,
+  "released": false
+}
