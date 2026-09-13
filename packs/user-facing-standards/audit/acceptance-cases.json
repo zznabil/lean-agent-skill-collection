@@ -1,0 +1,574 @@
+{
+  "status": "authored_not_executed",
+  "model_calls": 0,
+  "purpose": "Human/agent task probes, not empirical pass rates. Three contrasting cases per skill.",
+  "cases": [
+    {
+      "id": "standard-asd-ste100-01",
+      "skill": "standard-asd-ste100",
+      "prompt": "Rewrite: The client SHOULD retry once. It MUST NOT retry after cancellation.",
+      "expected_observable_result": "Retain recommendation, one-retry bound and prohibition; flag a vocabulary conflict instead of changing authority.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-asd-ste100-02",
+      "skill": "standard-asd-ste100",
+      "prompt": "Make this fully STE-compliant without the dictionary.",
+      "expected_observable_result": "Perform only supported edits; identify unchecked vocabulary and withhold a full-conformance claim.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-asd-ste100-03",
+      "skill": "standard-asd-ste100",
+      "prompt": "Write a playful birthday poem.",
+      "expected_observable_result": "Do not impose the technical-English skill without an explicit applicable request.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-bcp14-01",
+      "skill": "standard-bcp14",
+      "prompt": "Change SHOULD to MUST because stronger wording is clearer.",
+      "expected_observable_result": "Reject the unauthorised change in obligation; request the policy decision if it is actually desired.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-bcp14-02",
+      "skill": "standard-bcp14",
+      "prompt": "A requirement permits an optional extension. Review compatibility.",
+      "expected_observable_result": "Check both implementations with and without the extension, rather than treating optionality as arbitrary incompatibility.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-bcp14-03",
+      "skill": "standard-bcp14",
+      "prompt": "Translate a casual sentence containing “must”.",
+      "expected_observable_result": "Do not apply BCP 14 to a document that has not adopted its normative convention.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-wcag22-01",
+      "skill": "standard-wcag22",
+      "prompt": "Our scanner has zero errors. Certify WCAG 2.2 AA.",
+      "expected_observable_result": "Withhold full conformance without complete-process/manual and applicable criterion evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-wcag22-02",
+      "skill": "standard-wcag22",
+      "prompt": "Review this drag-only control against 2.5.7.",
+      "expected_observable_result": "Inspect actual non-drag operation and criterion exceptions in the running control.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-wcag22-03",
+      "skill": "standard-wcag22",
+      "prompt": "Improve the tone of a birthday invitation.",
+      "expected_observable_result": "Do not start a WCAG assessment for unrelated prose.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-w3c-coga-01",
+      "skill": "guidance-w3c-coga",
+      "prompt": "Make these recovery instructions shorter by removing the data-state paragraph.",
+      "expected_observable_result": "Retain data-state information when it changes safe recovery.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-w3c-coga-02",
+      "skill": "guidance-w3c-coga",
+      "prompt": "The interface passed COGA, so mark it WCAG compliant.",
+      "expected_observable_result": "Separate supplemental usability evidence from normative WCAG conformance.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-w3c-coga-03",
+      "skill": "guidance-w3c-coga",
+      "prompt": "Give all users the same ADHD-specific interface.",
+      "expected_observable_result": "Identify actual varied needs instead of equating a diagnosis with a universal profile.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-diataxis-01",
+      "skill": "practice-diataxis",
+      "prompt": "Convert a working recovery guide into a tutorial for branding consistency.",
+      "expected_observable_result": "Preserve the task-oriented how-to unless the audience and learning objective actually change.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-diataxis-02",
+      "skill": "practice-diataxis",
+      "prompt": "The parameter table lacks defaults and exceptions.",
+      "expected_observable_result": "Repair reference completeness rather than replace it with introductory explanation.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-diataxis-03",
+      "skill": "practice-diataxis",
+      "prompt": "Answer one simple factual question.",
+      "expected_observable_result": "Do not create four documentation sections for a one-line need.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-wai-aria-apg-01",
+      "skill": "guidance-wai-aria-apg",
+      "prompt": "This div now has role=button, so keyboard access is fixed.",
+      "expected_observable_result": "Check focus and event behaviour; prefer a native button when appropriate.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-wai-aria-apg-02",
+      "skill": "guidance-wai-aria-apg",
+      "prompt": "Review a combobox without opening its APG pattern.",
+      "expected_observable_result": "Retrieve the specific pattern or identify the pattern-dependent checks as unverified.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-wai-aria-apg-03",
+      "skill": "guidance-wai-aria-apg",
+      "prompt": "Review static spelling in a plain text paragraph.",
+      "expected_observable_result": "Do not add ARIA or initiate a widget redesign.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-24495-1-01",
+      "skill": "standard-iso-24495-1",
+      "prompt": "Shorten this procedure by deleting its exception.",
+      "expected_observable_result": "Preserve the exception; simplify only the wording that does not carry required meaning.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-24495-1-02",
+      "skill": "standard-iso-24495-1",
+      "prompt": "The reading-level score improved; certify the standard.",
+      "expected_observable_result": "Separate the score from demonstrated findability, understanding, use and full clause evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-24495-1-03",
+      "skill": "standard-iso-24495-1",
+      "prompt": "Write dialogue in the character’s requested voice.",
+      "expected_observable_result": "Do not impose a plain-language technical style on a different requested artifact without cause.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-110-01",
+      "skill": "standard-iso-9241-110",
+      "prompt": "The new UI removes Cancel to make the flow shorter.",
+      "expected_observable_result": "Inspect controllability and permitted reversal before accepting the change.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-110-02",
+      "skill": "standard-iso-9241-110",
+      "prompt": "A user made an error; show a generic failure toast.",
+      "expected_observable_result": "Identify the affected state and usable correction path instead of hiding the cause.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-110-03",
+      "skill": "standard-iso-9241-110",
+      "prompt": "Correct a spelling error in a static heading.",
+      "expected_observable_result": "Do not redesign the entire interaction for a bounded spelling change.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-210-01",
+      "skill": "standard-iso-9241-210",
+      "prompt": "Approve a redesign because the developers prefer it.",
+      "expected_observable_result": "Require user/task evidence for claims about user benefit; label preference separately.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-210-02",
+      "skill": "standard-iso-9241-210",
+      "prompt": "We have interviews but no user requirements or task tests.",
+      "expected_observable_result": "Trace research into requirements and observable evaluation instead of calling the cycle complete.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-210-03",
+      "skill": "standard-iso-9241-210",
+      "prompt": "Fix a known local typo with no interaction impact.",
+      "expected_observable_result": "Avoid manufacturing a full user-research programme for that bounded correction.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-112-01",
+      "skill": "standard-iso-9241-112",
+      "prompt": "Remove unit labels from a dashboard to reduce clutter.",
+      "expected_observable_result": "Keep units and measure meanings available where users interpret the values.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-112-02",
+      "skill": "standard-iso-9241-112",
+      "prompt": "The HTML is valid, so enlarged presentation is correct.",
+      "expected_observable_result": "Inspect the rendered enlarged/reflowed state rather than relying on source validity.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-112-03",
+      "skill": "standard-iso-9241-112",
+      "prompt": "Assess a backend algorithm with no user presentation.",
+      "expected_observable_result": "Do not apply this visual information-presentation routine to unrelated internals.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iec-ieee-82079-1-01",
+      "skill": "standard-iec-ieee-82079-1",
+      "prompt": "Write safety warnings without product hazard information.",
+      "expected_observable_result": "Flag missing authoritative hazard data instead of inventing safe operating limits.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iec-ieee-82079-1-02",
+      "skill": "standard-iec-ieee-82079-1",
+      "prompt": "A product update changed a connector; retain the old manual unchanged.",
+      "expected_observable_result": "Trace the affected installation/use instructions and require revision evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iec-ieee-82079-1-03",
+      "skill": "standard-iec-ieee-82079-1",
+      "prompt": "Draft an unrelated informal invitation.",
+      "expected_observable_result": "Do not invoke a full product-information lifecycle workflow.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-ieee-26514-01",
+      "skill": "standard-iso-ieee-26514",
+      "prompt": "Update software help from old screenshots only.",
+      "expected_observable_result": "Check current software labels and behaviour; flag what cannot be verified.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-ieee-26514-02",
+      "skill": "standard-iso-ieee-26514",
+      "prompt": "An example command was copied but never executed.",
+      "expected_observable_result": "Do not claim successful first use; report the untested example.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-ieee-26514-03",
+      "skill": "standard-iso-ieee-26514",
+      "prompt": "Write a hardware-only service manual.",
+      "expected_observable_result": "Use the appropriate product-information source rather than mislabelling it software-user documentation.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-ieee-26513-01",
+      "skill": "standard-iso-ieee-26513",
+      "prompt": "Declare the guide usable from a readability formula alone.",
+      "expected_observable_result": "Treat that measure as limited evidence; inspect and test the actual task.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-ieee-26513-02",
+      "skill": "standard-iso-ieee-26513",
+      "prompt": "Review a correction using an old PDF from before the edit.",
+      "expected_observable_result": "Require the current delivered artifact and identify stale evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-ieee-26513-03",
+      "skill": "standard-iso-ieee-26513",
+      "prompt": "Treat an FDIS draft as the published current edition.",
+      "expected_observable_result": "Keep draft and published editions distinct and identify the edition actually assessed.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-23859-01",
+      "skill": "standard-iso-23859",
+      "prompt": "Replace a permanent-delete warning with “Continue?” for brevity.",
+      "expected_observable_result": "Preserve the consequence and specific action before commitment.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-23859-02",
+      "skill": "standard-iso-23859",
+      "prompt": "Localise “may fail” as “fails”.",
+      "expected_observable_result": "Retain uncertainty and distinguish the known result from a possible result.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-23859-03",
+      "skill": "standard-iso-23859",
+      "prompt": "Rewrite a long conceptual textbook chapter.",
+      "expected_observable_result": "Do not claim a UI-text-specific assessment covers a different medium.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-21801-1-01",
+      "skill": "standard-iso-21801-1",
+      "prompt": "Hide the current step and completed choices to simplify the screen.",
+      "expected_observable_result": "Preserve orientation and necessary state for resumption.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-21801-1-02",
+      "skill": "standard-iso-21801-1",
+      "prompt": "One user has a diagnosis; assume identical needs for everyone.",
+      "expected_observable_result": "Derive requirements from actual varied user needs and task evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-21801-1-03",
+      "skill": "standard-iso-21801-1",
+      "prompt": "Claim this proves an LLM has human working-memory limits.",
+      "expected_observable_result": "Separate human-accessibility evidence from an untested agent-cognition claim.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-171-01",
+      "skill": "standard-iso-9241-171",
+      "prompt": "Certify native-software accessibility from a WCAG contrast scan.",
+      "expected_observable_result": "Assess the actual platform/task scope and source requirements; do not substitute a narrow web scan.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-171-02",
+      "skill": "standard-iso-9241-171",
+      "prompt": "One screen-reader/browser combination passed.",
+      "expected_observable_result": "Report that exact environment and retain untested combinations.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-9241-171-03",
+      "skill": "standard-iso-9241-171",
+      "prompt": "Review the internal quality of an assistive-technology product itself.",
+      "expected_observable_result": "Do not assume this software-accessibility routine supplies all requirements for the assistive technology.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-29138-1-01",
+      "skill": "standard-iso-29138-1",
+      "prompt": "Map needs using only a list of product features.",
+      "expected_observable_result": "Separate user needs and barriers from chosen implementation features.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-29138-1-02",
+      "skill": "standard-iso-29138-1",
+      "prompt": "Assign an ISO catalogue number from memory.",
+      "expected_observable_result": "Use the authorised catalogue or use an explicitly local identifier.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-29138-1-03",
+      "skill": "standard-iso-29138-1",
+      "prompt": "Collect medical diagnoses that the design task does not require.",
+      "expected_observable_result": "Use relevant need/context evidence without unnecessary sensitive-data collection.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-29138-4-01",
+      "skill": "standard-iso-29138-4",
+      "prompt": "Close every need because all rows have a proposed feature.",
+      "expected_observable_result": "Require outcome evidence rather than equating a proposal with satisfaction.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-29138-4-02",
+      "skill": "standard-iso-29138-4",
+      "prompt": "Remove an uncovered need to make coverage 100%.",
+      "expected_observable_result": "Keep the gap visible unless a justified authorised scope decision excludes it.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-29138-4-03",
+      "skill": "standard-iso-29138-4",
+      "prompt": "Start implementation before there is any user-needs input.",
+      "expected_observable_result": "Identify the missing mapping input; do not manufacture user evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-704-01",
+      "skill": "standard-iso-704",
+      "prompt": "Replace verification, validation and review with check everywhere.",
+      "expected_observable_result": "Preserve distinct defined concepts; only unify actual synonyms within scope.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-704-02",
+      "skill": "standard-iso-704",
+      "prompt": "An acronym has two meanings in one procedure.",
+      "expected_observable_result": "Resolve and label the intended concept from the source or flag ambiguity.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "standard-iso-704-03",
+      "skill": "standard-iso-704",
+      "prompt": "Rename public API identifiers solely for prose variety.",
+      "expected_observable_result": "Preserve exact identifiers and compatibility unless their change is authorised.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-cast-udl-01",
+      "skill": "guidance-cast-udl",
+      "prompt": "Require every learner to watch, listen, read and take a quiz for a simple definition.",
+      "expected_observable_result": "Select options for a demonstrated access need; do not create compulsory multi-format work.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-cast-udl-02",
+      "skill": "guidance-cast-udl",
+      "prompt": "Remove reasoning from the objective because the learner cannot handwrite quickly.",
+      "expected_observable_result": "Change an unnecessary response-method constraint, not the intended reasoning objective.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-cast-udl-03",
+      "skill": "guidance-cast-udl",
+      "prompt": "Claim the one-page organiser proves universal accessibility.",
+      "expected_observable_result": "Identify the limited source and require context-specific learner evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-ies-study-01",
+      "skill": "practice-ies-study",
+      "prompt": "Schedule one long session and claim durable retention.",
+      "expected_observable_result": "Consider spaced retrieval for the retention goal; distinguish planned practice from demonstrated retention.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-ies-study-02",
+      "skill": "practice-ies-study",
+      "prompt": "Rate every technique in the guide as strong evidence.",
+      "expected_observable_result": "Keep the specific Moderate, Low and Strong classifications from the source.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-ies-study-03",
+      "skill": "practice-ies-study",
+      "prompt": "Answer a one-sentence reference question.",
+      "expected_observable_result": "Do not impose a study plan, retrieval quiz or spaced schedule without a learning need.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-cognitive-load-01",
+      "skill": "practice-cognitive-load",
+      "prompt": "Cut the warning paragraph to reduce cognitive load.",
+      "expected_observable_result": "Preserve consequential warnings and move them to the relevant decision point.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-cognitive-load-02",
+      "skill": "practice-cognitive-load",
+      "prompt": "Impose exactly five chunks for all readers.",
+      "expected_observable_result": "Choose coherent segmentation based on task dependencies and actual reader needs.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-cognitive-load-03",
+      "skill": "practice-cognitive-load",
+      "prompt": "Claim that shorter agent prompts prove lower human-like cognitive load.",
+      "expected_observable_result": "Require separate execution evidence and avoid the unsupported cognition equivalence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-worked-examples-01",
+      "skill": "practice-worked-examples",
+      "prompt": "The learner copied the answer; report independent mastery.",
+      "expected_observable_result": "Withhold that claim until a separate relevant performance or transfer attempt.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-worked-examples-02",
+      "skill": "practice-worked-examples",
+      "prompt": "Simplify an example by omitting its limiting condition.",
+      "expected_observable_result": "Retain the condition or explicitly restrict the example’s scope.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-worked-examples-03",
+      "skill": "practice-worked-examples",
+      "prompt": "Use teaching principles while editing an agent workflow.",
+      "expected_observable_result": "Use execution examples when helpful, without forcing the human user into a lesson or quiz.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-easy-to-read-01",
+      "skill": "guidance-easy-to-read",
+      "prompt": "Add the Easy-to-Read logo to an AI-only rewrite.",
+      "expected_observable_result": "Withhold the logo and approval claim until current conditions and intended-user review are evidenced.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-easy-to-read-02",
+      "skill": "guidance-easy-to-read",
+      "prompt": "Replace a precise safety limit with “not too much”.",
+      "expected_observable_result": "Preserve the exact actionable limit and explain it clearly.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "guidance-easy-to-read-03",
+      "skill": "guidance-easy-to-read",
+      "prompt": "Use Easy-to-Read as a mandatory style for every adult reader.",
+      "expected_observable_result": "Keep this specialised mode conditional on actual audience/task needs.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "diagnostic-cdc-cci-01",
+      "skill": "diagnostic-cdc-cci",
+      "prompt": "Award 100 because no obvious jargon appears.",
+      "expected_observable_result": "Read and score the actual applicable items with evidence and the correct denominator.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "diagnostic-cdc-cci-02",
+      "skill": "diagnostic-cdc-cci",
+      "prompt": "The score is 92, so approve an unverified medical claim.",
+      "expected_observable_result": "Keep factual and safety verification separate from the communication diagnostic.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "diagnostic-cdc-cci-03",
+      "skill": "diagnostic-cdc-cci",
+      "prompt": "Use the score as a mandatory gate for all source-code commits.",
+      "expected_observable_result": "Do not globalise a public-communication diagnostic beyond the adopted task scope.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "diagnostic-ahrq-pemat-01",
+      "skill": "diagnostic-ahrq-pemat",
+      "prompt": "Average two PEMAT scales and report a passing overall score.",
+      "expected_observable_result": "Report separate understandability and actionability scores; do not invent an overall threshold.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "diagnostic-ahrq-pemat-02",
+      "skill": "diagnostic-ahrq-pemat",
+      "prompt": "Mark an absent applicable action instruction N/A.",
+      "expected_observable_result": "Use N/A only where the actual form permits it; document the applicable rating.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "diagnostic-ahrq-pemat-03",
+      "skill": "diagnostic-ahrq-pemat",
+      "prompt": "The material scores highly, so certify its clinical safety.",
+      "expected_observable_result": "Require separate clinical evidence and maintain the tool’s communication-only scope.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-feynman-01",
+      "skill": "practice-feynman",
+      "prompt": "Explain a mechanism using an analogy that fails in the important edge case.",
+      "expected_observable_result": "Expose the analogy’s limit and preserve the actual condition.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-feynman-02",
+      "skill": "practice-feynman",
+      "prompt": "The reader says OK; declare deep understanding.",
+      "expected_observable_result": "Do not infer mastery from agreement without relevant performance evidence.",
+      "status": "authored_not_executed"
+    },
+    {
+      "id": "practice-feynman-03",
+      "skill": "practice-feynman",
+      "prompt": "Return the value of a single configuration setting.",
+      "expected_observable_result": "Answer directly instead of imposing an explanation lesson.",
+      "status": "authored_not_executed"
+    }
+  ]
+}

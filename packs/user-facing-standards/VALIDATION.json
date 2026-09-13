@@ -1,0 +1,17 @@
+{
+  "status": "declared_contract_not_execution_evidence",
+  "skills": 27,
+  "skill_line_limit_exclusive": 100,
+  "description_limit_characters": 60,
+  "publisher_document_copies": 19,
+  "pdf_file_copies": 3,
+  "unique_pdf_documents": 1,
+  "register_entries": 97,
+  "selected_register_entries": 27,
+  "authored_cases": 81,
+  "live_model_evaluation": "not_run",
+  "formal_conformance_claimed": false,
+  "check_command": "python audit/validate_bundle.py",
+  "tests_command": "python audit/test_validate_bundle.py",
+  "history": "audit/PERSONAL-PROTOTYPE-VALIDATION.json describes only the earlier personal-study archive, including its now-excluded CAST PDF."
+}
