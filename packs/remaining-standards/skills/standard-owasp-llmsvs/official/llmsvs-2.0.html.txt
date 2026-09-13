@@ -1,0 +1,848 @@
+<h1 id="llmsvs-v20--owasp-large-language-model-security-verification-standard-llmsvs">LLMSVS v2.0 — OWASP Large Language Model Security Verification Standard (LLMSVS)</h1>
+
+<p><strong>Publication year:</strong> 2026</p>
+
+<p>This document is the Markdown edition of the OWASP LLMSVS English release. It carries forward the full verification requirement set from the initial 0.1 release (February 2024) through version 2.0, organized for web rendering, version control, and derivative builds.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#frontispiece">Frontispiece</a>
+    <ul>
+      <li><a href="#about-the-standard">About the standard</a></li>
+      <li><a href="#copyright-and-license">Copyright and license</a></li>
+      <li><a href="#project-leads">Project leads</a></li>
+      <li><a href="#major-supporters-and-sponsors">Major supporters and sponsors</a></li>
+    </ul>
+  </li>
+  <li><a href="#preface">Preface</a></li>
+  <li><a href="#utilizing-the-llmsvs">Utilizing the LLMSVS</a>
+    <ul>
+      <li><a href="#security-verification-layers">Security verification layers</a></li>
+      <li><a href="#assumptions">Assumptions</a></li>
+      <li><a href="#owasp-asvs-cross-references">OWASP ASVS cross-references</a></li>
+    </ul>
+  </li>
+  <li><a href="#assessment-and-certification">Assessment and certification</a>
+    <ul>
+      <li><a href="#owasps-stance-on-llmsvs-certifications-and-trust-marks">OWASP’s stance on LLMSVS certifications and trust marks</a></li>
+      <li><a href="#guidance-for-certifying-organizations">Guidance for certifying organizations</a></li>
+    </ul>
+  </li>
+  <li><a href="#v1-secure-configuration-and-maintenance">V1. Secure configuration and maintenance</a></li>
+  <li><a href="#v2-model-lifecycle">V2. Model lifecycle</a></li>
+  <li><a href="#v3-real-time-learning">V3. Real time learning</a></li>
+  <li><a href="#v4-model-memory-and-storage">V4. Model memory and storage</a></li>
+  <li><a href="#v5-secure-llm-integration">V5. Secure LLM integration</a></li>
+  <li><a href="#v6-agents-and-plugins">V6. Agents and plugins</a></li>
+  <li><a href="#v7-dependency-and-component">V7. Dependency and component</a></li>
+  <li><a href="#v8-monitoring-and-anomaly-detection">V8. Monitoring and anomaly detection</a></li>
+  <li><a href="#appendix-a-glossary">Appendix A: Glossary</a></li>
+</ul>
+
+<hr />
+
+<h2 id="frontispiece">Frontispiece</h2>
+
+<h3 id="about-the-standard">About the standard</h3>
+
+<p>The Large Language Model Security Verification Standard is a list of specific AI and LLM security requirements or tests that can be used by architects, developers, testers, security professionals, tool vendors, and consumers to define, build, test and verify secure LLM driven applications.</p>
+
+<h3 id="copyright-and-license">Copyright and license</h3>
+
+<p>Copyright © 2008–2026 The OWASP Foundation. This document is released under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. For any reuse or distribution, you must make clear to others the license terms of this work.</p>
+
+<h3 id="project-leads">Project leads</h3>
+
+<ul>
+  <li>Vandana Verma Sehgal</li>
+  <li>Elliot Ward</li>
+</ul>
+
+<hr />
+
+<h2 id="preface">Preface</h2>
+
+<p>Welcome to version 2.0 of the OWASP Large Language Model Security Verification Standard (LLMSVS), which provides a framework for evaluating the security of applications and systems that integrate Large Language Models (LLMs). This release builds on the initial 0.1 publication and subsequent community feedback.</p>
+
+<p><strong>Changes in this edition (v2.0):</strong> publication year and copyright notice are updated; front matter and table of contents are aligned with the frontispiece; editorial corrections apply across the requirement text (for example “completions” instead of “compilations,” standard hyphenation). <strong>Technical updates</strong> include: an <a href="#owasp-asvs-cross-references">OWASP ASVS cross-references</a> subsection mapping ASVS 4.0.3 citations to ASVS 5.0.0 equivalents; clarified requirement <strong>5.10</strong> on safe error handling and logging versus client exposure; requirement <strong>5.5</strong> extended with optional structured-output guidance; clarified control objectives for <strong>V3</strong> (real-time learning scope), <strong>V4</strong> (RAG-style retrieval), and <strong>V6</strong> (tools and protocol-based connectors); and <strong>Appendix A</strong> glossary additions (indirect prompt injection, retrieval-augmented generation, tool calling). The numbered verification requirements (V1–V8) and their identifiers match the verification set carried forward from the initial 0.1 release.</p>
+
+<p>The LLMSVS aims to offer clear and practical guidelines that apply universally and assist developers, architects, security professionals, vendors, and researchers in securing LLM-powered systems.</p>
+
+<p>The LLMSVS is the result of a collaborative effort drawing on the expertise of professionals across various sectors. It addresses the unique security challenges presented by LLMs, focusing on functional and non-functional security aspects. This version continues to lay the foundation for an adapting set of guidelines shaped by ongoing feedback and the changing dynamics of LLMs, emerging Artificial Intelligence (AI) technologies, and advances in cybersecurity.</p>
+
+<p>The standard will continue to evolve based on contributions from the community and advancements in the field. We recognize that there is no one-size-fits-all security solution, especially in a field as emergent as AI, and we anticipate the need for regular updates and refinements.</p>
+
+<p>We invite the broader community to participate in developing and enhancing the LLMSVS. We value the diverse perspectives and expertise each participant brings to this project. Your feedback and contributions are crucial to ensuring the standard remains relevant and practical.</p>
+
+<p>We’d like to thank the contributors for their valuable input and look forward to your continued support and involvement in developing the LLMSVS.</p>
+
+<hr />
+
+<h2 id="utilizing-the-llmsvs">Utilizing the LLMSVS</h2>
+
+<p>The OWASP LLMSVS serves several key purposes:</p>
+
+<ul>
+  <li><strong>Assisting development teams:</strong> guide teams in developing and maintaining secure LLM-powered applications.</li>
+  <li><strong>Framework for security teams:</strong> assist security teams in setting requirements, guiding security audits, and conducting penetration tests against LLM-powered systems.</li>
+  <li><strong>Aligning security benchmarks:</strong> establish a common ground for security service providers, vendors, and clients regarding security expectations.</li>
+</ul>
+
+<h3 id="security-verification-layers">Security verification layers</h3>
+
+<p>The LLMSVS categorizes security verification into three distinct levels, each tailored to different levels of security assurance:</p>
+
+<ol>
+  <li><strong>LLMSVS Level 1 — Basic security:</strong> This level is aimed at applications with lower security risk and focuses on fundamental security controls for any LLM-powered system.</li>
+  <li><strong>LLMSVS Level 2 — Moderate security:</strong> This level is ideal for applications handling sensitive data, offering a balanced approach to security that meets the needs of most applications. These applications may range from personal assistants, APIs processing customer data, or systems processing internal company data.</li>
+  <li><strong>LLMSVS Level 3 — High assurance security:</strong> This level provides the most extensive security measures for the most critical applications involving sensitive data or high-value transactions. These applications may range from business critical applications that are essential for business operation, systems which handle financial transactions, or systems which fall under specific industry regulations such as those which process patient or healthcare data.</li>
+</ol>
+
+<p>Each level of the LLMSVS provides a set of specific security requirements, mapping these to essential security features and practices necessary for building and operating robust LLM-powered applications. This approach equips developers, architects, and security professionals with practical and actionable guidelines. Whether building, enhancing, or evaluating the security of these applications, the LLMSVS provides a clear roadmap for all stakeholders involved in the life cycle of LLM-powered systems.</p>
+
+<h3 id="assumptions">Assumptions</h3>
+
+<p>When utilizing the LLMSVS, it’s important to keep in mind the following assumptions:</p>
+
+<ul>
+  <li>The LLMSVS is not a replacement for adhering to secure development best practices, such as secure coding or a Secure Software Development Life Cycle (SSDLC). These practices should be integrally adopted throughout your development efforts, with the LLMSVS serving to augment them specifically for LLM-powered applications.</li>
+  <li>The LLMSVS is not intended to substitute for comprehensive risk assessments or in-depth security reviews. Rather, it serves as a guide to address potential security vulnerabilities specific to LLM-powered applications. Employing the LLMSVS should complement, not replace, these crucial security practices to ensure a more thorough evaluation and mitigation of risks.</li>
+</ul>
+
+<p>While the LLMSVS offers a comprehensive framework for enhancing the security of LLM-powered applications, it cannot ensure complete security. It should be viewed as a foundational set of security requirements, with additional protective measures taken as needed to mitigate specific LLM risks and threats.</p>
+
+<h3 id="owasp-asvs-cross-references">OWASP ASVS cross-references</h3>
+
+<p>Several LLMSVS requirements refer to the <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP Application Security Verification Standard (ASVS)</a> for controls that apply to the wider application as well as to LLM integration. Original citations in this document use <strong>ASVS 4.0.3</strong> section numbering. <strong>ASVS 5.0.0</strong> reorganized some material; assessors should satisfy the <strong>intent</strong> of each LLMSVS requirement using the ASVS edition their organization has adopted. The following mapping is illustrative for <strong>ASVS 5.0.0</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>ASVS 4.0.3 (cited in LLMSVS)</th>
+      <th>ASVS 5.0.0 (illustrative equivalent)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Service credentials, API keys, and secret handling for integrations</td>
+      <td>Chapter <strong>V2</strong>, <strong>V2.10</strong> “Service Authentication”</td>
+      <td>Chapter <strong>V13</strong>, <strong>V13.3</strong> “Secret Management” and <strong>V13.2</strong> “Backend Communication Configuration”</td>
+    </tr>
+    <tr>
+      <td>Parameterized queries and database injection prevention when untrusted data (including LLM output) influences queries</td>
+      <td>Chapter <strong>V5</strong>, <strong>V5.3.4</strong></td>
+      <td>Chapter <strong>V1</strong>, <strong>V1.2.4</strong> “Injection Prevention”</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="assessment-and-certification">Assessment and certification</h2>
+
+<h3 id="owasps-stance-on-llmsvs-certifications-and-trust-marks">OWASP’s stance on LLMSVS certifications and trust marks</h3>
+
+<p>OWASP, as a vendor-neutral not-for-profit organization, does not currently certify any vendors, verifiers or software.</p>
+
+<p>All such assurance assertions, trust marks, or certifications are not officially vetted, registered, or certified by OWASP, so an organization relying upon such a view needs to be cautious of the trust placed in any third party or trust mark claiming (LLM)SVS certification.</p>
+
+<p>This should not inhibit organizations from offering such assurance services, as long as they do not claim official OWASP certification.</p>
+
+<h3 id="guidance-for-certifying-organizations">Guidance for certifying organizations</h3>
+
+<p>For Large Language Model Security Verification Standard (LLMSVS) compliance, an “open book” review is recommended, granting assessors access to essential resources such as system architects, developers, project documentation, source code, and authenticated interfaces, including access to at least one account for each user role.</p>
+
+<p>It is important to note that the LLMSVS only covers the security requirements pertaining to LLM usage and integration. It does not cover general application security controls (for example web services) which are not specific to an LLM-powered system. Any additional systems and non-LLM properties should be verified against appropriate standards, such as the <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP ASVS</a>.</p>
+
+<p>Certification reports should clearly define the verification scope, particularly noting any exclusions, and summarize findings with details on both passed and failed tests, including guidance for addressing failures. Industry-standard practice requires detailed documentation of the verification process, including work papers, screenshots, scripts for issue replication, and electronic testing records such as proxy logs. Automated tool results alone are insufficient; documentation must provide conclusive evidence of thorough and rigorous testing of all controls. In case of disputes, sufficient evidence should be present to verify that each verified control has indeed been tested.</p>
+
+<hr />
+
+<h2 id="v1-secure-configuration-and-maintenance">V1. Secure configuration and maintenance</h2>
+
+<h3 id="control-objective">Control objective</h3>
+
+<p>Ensure that LLMs, hosted by a model provider or self-hosted, are configured and maintained securely to prevent unauthorized access and leakage of sensitive information.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.1</td>
+      <td>Identify any components that store secrets, like API keys, for third-party systems, like hosted LLMs and vector databases, and ensure the secure handling of these credentials according to OWASP ASVS requirements for service credentials and secrets (see <a href="#owasp-asvs-cross-references">OWASP ASVS cross-references</a>).</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>1.2</td>
+      <td>For self-hosted LLMs, ensure they are appropriately segregated within the network to prevent direct exposure to end-users unless such access is required.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>1.3</td>
+      <td>Maintain an up-to-date inventory of all LLM instances and apply regular updates and patches to self-hosted models.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>1.4</td>
+      <td>Perform and document regular configuration reviews for configuration settings associated with the LLM-powered system.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v2-model-lifecycle">V2. Model lifecycle</h2>
+
+<h3 id="control-objective-1">Control objective</h3>
+
+<p>Ensure that the Machine Learning (ML) lifecycle for models used within LLM-powered systems considers the various security threats from dataset curation, model training, and validation.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2.1</td>
+      <td>Ensure that the lifecycle of machine learning models is integrated into the existing Secure Software Development Lifecycle (SSDLC). Defined processes should exist and be available for each stage of the lifecycle of ML models.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.2</td>
+      <td>Document user stories defining the requirements and use cases for any new ML model being produced.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.3</td>
+      <td>Ensure that model training resources and datasets are acquired from trustworthy sources and validated for correctness or free from malicious data.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.4</td>
+      <td>Ensure that model training resources and datasets are properly secured from unauthorized modification once acquired.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.5</td>
+      <td>Ensure that the source of any training resources and datasets is documented.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.6</td>
+      <td>Ensure that any data cleaning or other modifications to the original training resources are tracked and auditable to reduce the risk of data poisoning from an insider threat.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.7</td>
+      <td>Ensure that the intellectual property rights of model training resources and datasets are checked to avoid potential license or copyright infringement issues. Ensure this process is documented and auditable.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.8</td>
+      <td>Ensure that model training resources are audited for sensitive data (such as PII, internal company data, etc.) and cleaned before training to mitigate sensitive data exposure in model responses.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.9</td>
+      <td>Ensure secure acquisition and storage of foundational or pre-trained models.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.10</td>
+      <td>Where possible, prefer secure model formats such as SafeTensors over formats that use unsafe serialization, like PyTorch’s Pickle format.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.11</td>
+      <td>Ensure that foundational models are fine-tuned to limit irrelevant data points which may lead to poor model performance.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.12</td>
+      <td>Check regulatory obligations to ensure compliance when handling and processing model training data.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.13</td>
+      <td>Ensure that a ML Bill-of-Materials (BOM) is produced for each model.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.14</td>
+      <td>Consider watermarking techniques for model responses when model theft is a concern, or the output of the model needs to be identifiable.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.15</td>
+      <td>Ensure tooling to detect biases and ensure fairness are integrated into the ML models lifecycle.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.16</td>
+      <td>Ensure security tooling to detect LLM vulnerabilities such as injection attacks, jailbreak attempts and other abuse are integrated into the ML models lifecycle.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.17</td>
+      <td>Before a model is finalized for deployment, conduct a thorough risk assessment to understand potential security, ethical, and operational risks. This assessment should guide the decision-making process regarding the deployment of the model.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>2.18</td>
+      <td>Ensure there is a clear plan for decommissioning models that are no longer in use. This includes securely erasing data, model parameters, and any sensitive information associated with the model to prevent unauthorized access or misuse.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v3-real-time-learning">V3. Real time learning</h2>
+
+<h3 id="control-objective-2">Control objective</h3>
+
+<p>Establish controls to reduce the risks associated with real time learning within LLM systems, where the models are continuously fine-tuned based on user interactions in real time. This chapter addresses <strong>ongoing or near-real-time updates to model behavior or weights</strong> driven by live user data; it is distinct from conversational or long-term memory (see V4) and from batch or periodic training governed under V2, unless that training is applied continuously in production from user interactions at short intervals.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3.1</td>
+      <td>Define clear terms of use and guidelines for interacting with the model and make users aware of acceptable and unacceptable behaviors.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>3.2</td>
+      <td>Ensure continuous monitoring of the model’s performance and interactions. This includes logging all inputs and outputs (where appropriate, with consideration to the potential sensitivity of the data) in real time to quickly identify and address any inappropriate or unexpected behavior.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>3.3</td>
+      <td>Create clear protocols for immediate intervention in case the model starts displaying undesirable behavior. This should include the ability to quickly take the system offline if necessary.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>3.4</td>
+      <td>Regularly analyze user interactions to identify and mitigate attempts to manipulate the model into inappropriate behavior.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>3.5</td>
+      <td>Consider using an incremental learning approach where the model can be updated in increments with human approval.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v4-model-memory-and-storage">V4. Model memory and storage</h2>
+
+<h3 id="control-objective-3">Control objective</h3>
+
+<p>Ensure that mechanisms providing “memory” or additional knowledge not included during the training phase handle that information safely. This includes typical <strong>retrieval-augmented generation (RAG)</strong> patterns in which retrieved documents or embeddings are supplied as context to the model.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4.1</td>
+      <td>Ensure that mechanisms that implement “Conversational memory” do not mistakenly mix up prior prompts for other users.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>4.2</td>
+      <td>Ensure that mechanisms which support “long-term” storage appropriately segregate user data to ensure it is not possible to retrieve data pertaining to other users, or inject false records for other users.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>4.3</td>
+      <td>Ensure that controls exist to detect leakage of sensitive data from internal knowledge bases provided as additional context to the LLM. It should not be possible to coerce the LLM into leaking the contents of the knowledge base.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>4.4</td>
+      <td>Ensure that external storage components such as vector databases and caches require authentication for consumers.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>4.5</td>
+      <td>Enforce the principle of least privilege for accessing production storage components, such as vector databases and caches.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>4.6</td>
+      <td>When updating embeddings within a knowledge base, ensure that an adversary is not able to inject arbitrary documents or otherwise insert false information into the knowledge base.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v5-secure-llm-integration">V5. Secure LLM integration</h2>
+
+<h3 id="control-objective-4">Control objective</h3>
+
+<p>Establish controls that enable safe interactions and operations between application components and LLMs.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5.1</td>
+      <td>Ensure that prompts to LLMs are issued from a trusted server-side component.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.2</td>
+      <td>Ensure that prompts to LLMs are constructed server-side, rather than accepting the complete prompt directly from the client.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.3</td>
+      <td>Consider the use of redundant LLM accounts and providers to avoid single points of failure and ensure application availability.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.4</td>
+      <td>Ensure that credentials for LLM providers are securely handled according to OWASP ASVS requirements for service credentials and secrets (see <a href="#owasp-asvs-cross-references">OWASP ASVS cross-references</a>).</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.5</td>
+      <td>Ensure that the output format and properties of the data returned from the LLM match the expected structure and properties. Specifically, when a response is expected in JSON, the result should not only be in valid JSON format, but also undergo schema validation to ensure it contains all the expected JSON fields and does not include any unnecessary or extraneous properties. Where the provider supports structured outputs, constrained decoding, or similar mechanisms, consider using them as defense in depth alongside schema validation.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.6</td>
+      <td>Ensure that the output language of the LLM response matches the expected language.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.7</td>
+      <td>Consider using canary tokens in LLM prompts and check whether LLM completions contain the canary word to detect prompt leakage attacks.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.8</td>
+      <td>Check the entropy of LLM responses to detect encoded data which aims to circumvent additional checks, such as bypassing canary tokens.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.9</td>
+      <td>Perform length checks on LLM completions to verify that the response length is within an expected range. For example, a response that is significantly longer than the normal output length might indicate the completion is including additional, unexpected data.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.10</td>
+      <td>Ensure that client-facing responses from LLM interactions do not expose raw provider errors, stack traces, or other detailed diagnostics that could leak prompts, credentials, or internal implementation details. Present generic or sanitized messages to end users while retaining structured server-side logging for operations and security monitoring, without writing secrets or full sensitive prompts to untrusted or broadly accessible logs.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.11</td>
+      <td>Ensure that appropriate LLM guards are used to scan prompts and completions to help detect potential prompt injection attacks.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.12</td>
+      <td>Ensure that all prompts are considered to be untrusted and subjected to any deployed security controls. Reflecting stored data, data from third-party APIs, or the response from previous prompt completions may lead to indirect prompt injections and must be subjected to the same controls as prompts containing direct user input.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.13</td>
+      <td>Ensure that the output of LLM completions is considered to be untrusted by any subsequent system. For example, if using the LLM response within a SQL query, the query should not be constructed by concatenating parts of the LLM response; follow OWASP ASVS requirements for injection prevention (see <a href="#owasp-asvs-cross-references">OWASP ASVS cross-references</a>) and use parameterized queries, ORMs, or equivalent protections.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.14</td>
+      <td>Ensure that systems that result in LLM calls have appropriate API rate limiting to avoid excessive calls to LLMs, which may result in unexpected and excessive LLM costs.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.15</td>
+      <td>Ensure that cost alerts are active within LLM provider configurations to be alerted when costs exceed expectations.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.16</td>
+      <td>Define baselines for normal LLM interactions and monitor and alert when abnormal LLM interactions are detected.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>5.17</td>
+      <td>Ensure any functionality that allows anonymous users to preview features is properly restricted to allow only the necessary features.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v6-agents-and-plugins">V6. Agents and plugins</h2>
+
+<h3 id="control-objective-5">Control objective</h3>
+
+<p>The autonomous nature of agent-based systems—including use of <strong>tools</strong>, <strong>plugins</strong>, and protocol-based remote connectors (for example Model Context Protocol servers)—presents new risks and can increase the impact of attacks such as prompt injection. These controls aim to reduce the risk associated with autonomous LLM components to an acceptable level.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6.1</td>
+      <td>Ensure that agent-based solutions only expose access to the agent tools and plugins required for the current task. When multiple agent-supported tasks exist, it should not be possible for a given task to leverage tools or plugins used by another task.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.2</td>
+      <td>Ensure that custom plugins and agent tools follow existing SSDLC processes.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.3</td>
+      <td>Ensure third-party plugins and toolkits are properly vetted according to existing Third-party risk management processes.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.4</td>
+      <td>Ensure that the parameters for agent tools and plugins are validated prior to execution. Typical checks should include type checks at minimum, in addition to any more specific validation.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.5</td>
+      <td>Ensure that credentials for third-party services consumed by agent tools and plugins are securely handled according to OWASP ASVS requirements for service credentials and secrets (see <a href="#owasp-asvs-cross-references">OWASP ASVS cross-references</a>).</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.6</td>
+      <td>Ensure that agent and plugin frameworks contain hooks that allow the raw prompts and completions to be intercepted, enabling LLM guards to operate, and enabling proper monitoring, troubleshooting, and auditing.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.7</td>
+      <td>Ensure that custom built plugins consider the scope of the currently authenticated principal. Plugins should not be able to access more than what the current principal is authorized to access.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.8</td>
+      <td>Ensure that the host that executes agent tools and plugins is appropriately segregated from other internal components. Certain internal services might need to be queried, but firewall rules should enforce that unrelated services are not reachable.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.9</td>
+      <td>Ensure that the host that executes agent tools and plugins is appropriately restricted from making arbitrary egress network requests. Only traffic for required APIs and services should be allowed to help increase the difficulty of data exfiltration from autonomous agents.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.10</td>
+      <td>Ensure that API tokens for third-party services are scoped to the minimum required by the agent or plugin. For example, an agent designed to read messages from a specific Slack channel should not be able to read messages from other channels or post messages.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.11</td>
+      <td>Consider manual approval, sometimes referred to as “human in the loop,” for sensitive operations before autonomous agents can continue execution.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>6.12</td>
+      <td>Ensure that agents are executed in a sandboxed ephemeral environment to reduce the risk of agent prompts which result in code execution due to software defects.</td>
+      <td> </td>
+      <td> </td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v7-dependency-and-component">V7. Dependency and component</h2>
+
+<h3 id="control-objective-6">Control objective</h3>
+
+<p>Ensure that third-party components and dependencies are safely handled to reduce supply chain risk.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7.1</td>
+      <td>Utilize Software Composition Analysis (SCA) tools to identify and remediate known vulnerabilities within third-party components used in LLM-powered applications.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>7.2</td>
+      <td>Ensure that all third-party LLM components are acquired from a trusted source.</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>7.3</td>
+      <td>Ensure a defined vulnerability and patch management process exists for third-party components.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>7.4</td>
+      <td>Ensure that a Software Bill of Materials (SBOM) exists cataloging third-party components, licenses, and versions.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>7.5</td>
+      <td>Where unsafe PyTorch models are required, ensure the model is scanned for potentially dangerous Python imports.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>7.6</td>
+      <td>When hosting LLM components within private package registries, ensure the setup is not susceptible to Dependency Confusion attacks.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="v8-monitoring-and-anomaly-detection">V8. Monitoring and anomaly detection</h2>
+
+<h3 id="control-objective-7">Control objective</h3>
+
+<p>Continuously monitor the use of LLM-powered applications to detect anomalous behavior or outputs that could indicate security incidents or system misuse.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Requirement</th>
+      <th>L1</th>
+      <th>L2</th>
+      <th>L3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8.1</td>
+      <td>Continuously monitor the usage patterns of LLM applications for anomalies that could indicate security incidents, such as unexpected spikes in usage or deviations from typical output patterns.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>8.2</td>
+      <td>Establish logging and alerting mechanisms for events that could suggest prompt leaks, such as the appearance of canary tokens (see 5.7) in logs or unexpected language patterns.</td>
+      <td> </td>
+      <td>✓</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="appendix-a-glossary">Appendix A: Glossary</h2>
+
+<ul>
+  <li><strong>Large Language Model (LLM)</strong> — A type of artificial intelligence model designed to understand, generate, and interact with human language, based on vast amounts of text data. LLMs can perform a variety of language tasks like translation, summarization, and question answering.</li>
+  <li><strong>Prompt Injection</strong> — A technique where an attacker intentionally crafts inputs (or “prompts”) to manipulate or exploit the behavior of an LLM. This can involve inserting misleading, biased, or malicious information in a prompt to influence the model’s output.</li>
+  <li><strong>Indirect Prompt Injection</strong> — An attack where untrusted content reaches the model <strong>without</strong> being supplied directly as the end user’s current message—for example via retrieved documents, tool outputs, email bodies, web pages, or stored data that is later included in context—causing the model to follow attacker-chosen instructions or to leak or misuse data.</li>
+  <li><strong>LLM Agent</strong> — A software entity or bot that utilizes a Large Language Model to perform tasks, answer queries, or interact in conversations, often designed to automate certain functions or provide user assistance.</li>
+  <li><strong>Tool Calling (Function Calling)</strong> — A pattern where the model emits structured requests to invoke application-defined or third-party capabilities (tools, APIs, or functions), which execute outside the model and whose results may be fed back into the conversation. Security depends on validation, authorization, and least privilege for each tool.</li>
+  <li><strong>Model Poisoning</strong> — A malicious attempt to influence or corrupt a machine learning model’s training data, causing it to learn incorrect, biased, or harmful behaviors.</li>
+  <li><strong>Natural Language Processing (NLP)</strong> — The field of computer science and artificial intelligence focused on enabling computers to understand, interpret, and generate human language.</li>
+  <li><strong>Transformer Architecture</strong> — A neural network architecture used in many modern LLMs. It is known for its ability to handle sequential data and its effectiveness in tasks involving natural language.</li>
+  <li><strong>Tokenization</strong> — The process of converting text into smaller units (tokens), such as words, characters, or subwords, which can be used as input for language models.</li>
+  <li><strong>Fine-Tuning</strong> — The process of taking a pre-trained model and further training it on a specific dataset to specialize it for particular tasks or domains.</li>
+  <li><strong>Retrieval-Augmented Generation (RAG)</strong> — An architecture where relevant documents or passages are retrieved (often from a vector store or search index) and provided as context to an LLM to improve factual grounding. RAG introduces supply-chain, access-control, and prompt-injection risks in the retrieval path and in how retrieved text is combined with user input.</li>
+  <li><strong>Data Privacy</strong> — Concerns related to the handling, processing, and storage of sensitive or personal information by language models, especially when dealing with user inputs.</li>
+  <li><strong>Bias in AI</strong> — The phenomenon where AI models, including LLMs, exhibit biased behavior, often as a result of biased training data or algorithms.</li>
+  <li><strong>Adversarial Attack</strong> — A strategy where attackers create inputs to deceive AI models into making errors. This is particularly concerning in security-sensitive applications of LLMs.</li>
+  <li><strong>Principle of Least Privilege</strong> — A security concept that involves granting users or systems the minimal level of access or permissions necessary to perform their tasks. This principle helps minimize potential damage from accidents or malicious attacks by limiting access rights for users to the bare minimum necessary to complete their duties.</li>
+</ul>
+

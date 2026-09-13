@@ -1,0 +1,357 @@
+{
+  "parser": "markdown-it-py CommonMark, installed authoring environment only",
+  "result": "PASS",
+  "skills": [
+    {
+      "skill": "guard-agent-observability",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guard-dora-metrics",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guard-organisation-governance",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guard-owasp-samm",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guard-postel-principle",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guard-safety-critical-standards",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "watch-iso-25059",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-cisa-secure-by-design",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-mitre-atlas",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-nist-adversarial-ml",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-nist-ai-rmf",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-opentelemetry",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-owasp-agentic-top10",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "guidance-rfc9413",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-adr",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-atam",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-blameless-postmortems",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-chaos-engineering",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-data-cards",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-datasheets",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-ears",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-fair",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-gherkin",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-gqm",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-model-cards",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-property-based-testing",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-reproducible-builds",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-sre-error-budgets",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-test-pyramid",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "practice-tla-plus",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-asyncapi",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-c2pa",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-cloudevents",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-conventional-commits",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-cvss4",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-cyclonedx",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iec-31010",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-12207",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-15026-2",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-16085",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-20246",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-20741",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-25010",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-25012",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-25024",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-29119",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-29148",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-31000",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-31700-1",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-42005",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-42010",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-5055",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-5259",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-iso-5338",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-json-schema",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-nist-ai-ssdf",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-nist-digital-identity",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-nist-incident-response",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-nist-ssdf",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-openapi",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-owasp-aisvs",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-owasp-asvs",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-owasp-llmsvs",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-rfc9457",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-sarif",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-semver",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-slsa",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-software-carbon-intensity",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-spdx",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    },
+    {
+      "skill": "standard-w3c-trace-context",
+      "raw_html_tokens": 0,
+      "ordered_procedure_items": 10
+    }
+  ],
+  "limit": "Literal-template visibility and ordered-list structure only, not model comprehension."
+}
