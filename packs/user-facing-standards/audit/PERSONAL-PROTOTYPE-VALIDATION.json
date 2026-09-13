@@ -1,0 +1,148 @@
+{
+  "status": "structural_checks_passed; live_behaviour_not_tested",
+  "date": "2026-09-13",
+  "skills": 27,
+  "new_skills": 26,
+  "unchanged_asd_pilot": true,
+  "line_range": [
+    43,
+    99
+  ],
+  "description_limit_characters": 60,
+  "selected_register_entries": 27,
+  "unselected_register_entries": 70,
+  "iso_iec_ieee_source_gated_routines": 13,
+  "publisher_document_copies": 20,
+  "pdf_file_copies": 4,
+  "unique_pdf_documents": 2,
+  "pdf_inspection": [
+    {
+      "file": "skills/guidance-cast-udl/references/cast-udl3-organizer.pdf",
+      "pages": 1,
+      "sha256": "b1373877826c6f301309a0256c866941c2f590a255aeaf8fccb0d1d9cbf98b4a",
+      "all_pages_parse": true,
+      "embedded_files": 0,
+      "encrypted": false,
+      "sample_pages_rendered": true,
+      "scope": "file structure and sampled visual inspection, not document accessibility certification"
+    },
+    {
+      "file": "skills/practice-cognitive-load/references/ies-organizing-instruction-2007.pdf",
+      "pages": 63,
+      "sha256": "5e6a7602f80c3856875e5461aab1b1d20404dcf8dd761d34b9cd8698b9196154",
+      "all_pages_parse": true,
+      "embedded_files": 0,
+      "encrypted": false,
+      "sample_pages_rendered": true,
+      "scope": "file structure and sampled visual inspection, not document accessibility certification"
+    },
+    {
+      "file": "skills/practice-ies-study/references/ies-organizing-instruction-2007.pdf",
+      "pages": 63,
+      "sha256": "5e6a7602f80c3856875e5461aab1b1d20404dcf8dd761d34b9cd8698b9196154",
+      "all_pages_parse": true,
+      "embedded_files": 0,
+      "encrypted": false,
+      "sample_pages_rendered": true,
+      "scope": "file structure and sampled visual inspection, not document accessibility certification"
+    },
+    {
+      "file": "skills/practice-worked-examples/references/ies-organizing-instruction-2007.pdf",
+      "pages": 63,
+      "sha256": "5e6a7602f80c3856875e5461aab1b1d20404dcf8dd761d34b9cd8698b9196154",
+      "all_pages_parse": true,
+      "embedded_files": 0,
+      "encrypted": false,
+      "sample_pages_rendered": true,
+      "scope": "file structure and sampled visual inspection, not document accessibility certification"
+    }
+  ],
+  "markdown_ordered_list_counts": {
+    "practice-worked-examples": 1,
+    "standard-iso-ieee-26514": 1,
+    "standard-iso-9241-171": 1,
+    "practice-feynman": 1,
+    "standard-iso-29138-4": 1,
+    "guidance-w3c-coga": 1,
+    "standard-iso-9241-210": 1,
+    "practice-ies-study": 1,
+    "standard-wcag22": 1,
+    "standard-iso-9241-110": 1,
+    "practice-diataxis": 1,
+    "diagnostic-cdc-cci": 1,
+    "standard-iso-21801-1": 1,
+    "standard-asd-ste100": 0,
+    "standard-iso-704": 1,
+    "guidance-wai-aria-apg": 1,
+    "standard-bcp14": 1,
+    "standard-iec-ieee-82079-1": 1,
+    "standard-iso-9241-112": 1,
+    "standard-iso-24495-1": 1,
+    "practice-cognitive-load": 1,
+    "standard-iso-29138-1": 1,
+    "standard-iso-23859": 1,
+    "guidance-cast-udl": 1,
+    "diagnostic-ahrq-pemat": 1,
+    "guidance-easy-to-read": 1,
+    "standard-iso-ieee-26513": 1
+  },
+  "official_source_bytes_unchanged": true,
+  "all_local_markdown_links_checked": true,
+  "authored_acceptance_cases": 81,
+  "executed_model_cases": 0,
+  "standards_conformance_claimed": false,
+  "human_comprehension_tested": false,
+  "new_or_changed_github_release": false,
+  "main_revision_unchanged": "58b4369205d7689b2c46cdf4b4ac3801164e95ed",
+  "source_fetch_note": "Temporary narrowly scoped download workflow completed and its branch was removed; main remains unchanged.",
+  "observations": [
+    "Original official PDFs are not replaced by generated PDF summaries.",
+    "ISO/IEC/IEEE full texts were not available; the 13 routines require authorised sources for clause-level use.",
+    "CAST PDF is an official one-page overview subject to personal/limited-educational copying conditions.",
+    "CDC/AHRQ binaries were refused with HTTP 403; AERO download returned non-PDF data. Links remain."
+  ],
+  "rejection_controls": [
+    {
+      "case": "instruction change detected",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "line budget overflow",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "missing source note",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "official PDF changed",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "official document removed",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "empty checksum inventory",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "invalid frontmatter",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    },
+    {
+      "case": "register decision drift",
+      "result": "rejected",
+      "scope": "structural corruption control"
+    }
+  ],
+  "rejection_controls_passed": 8,
+  "restored_positive_control_passed": true
+}

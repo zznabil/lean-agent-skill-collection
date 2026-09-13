@@ -12,3 +12,7 @@
 LICENSE text eol=lf
 *.zip binary
 /dist/v7.2/*.txt text eol=lf
+# Exact publisher bytes and cross-platform standalone-pack checksums.
+/packs/user-facing-standards/**/references/* -text
+/packs/user-facing-standards/**/*.py text eol=lf
+/packs/user-facing-standards/audit/LEAN-LICENSE.txt text eol=lf

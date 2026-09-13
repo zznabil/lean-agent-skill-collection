@@ -1,0 +1,51 @@
+name: Validate user-facing standards pack
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packs/user-facing-standards/**'
+      - '.github/workflows/standards-pack.yml'
+      - '.gitattributes'
+  push:
+    branches: [main]
+    paths:
+      - 'packs/user-facing-standards/**'
+      - '.github/workflows/standards-pack.yml'
+      - '.gitattributes'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+
+jobs:
+  pack:
+    name: User-facing pack (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate source, exercise rejection controls and build review ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          python --version
+          python packs/user-facing-standards/audit/validate_bundle.py
+          python packs/user-facing-standards/audit/test_validate_bundle.py
+          python packs/user-facing-standards/audit/build_zip.py "$RUNNER_TEMP/lean-user-facing-standards-review.zip"
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: user-facing-standards-review-${{ matrix.os }}
+          path: ${{ runner.temp }}/lean-user-facing-standards-review.zip
+          if-no-files-found: error
+          retention-days: 14
