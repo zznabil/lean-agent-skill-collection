@@ -1,0 +1,104 @@
+name: Prepare remaining standards review
+on:
+  push:
+    branches: [ops/standards-delivery-20260913]
+    paths: [.github/workflows/prepare-remaining-review.yml]
+permissions:
+  contents: write
+  actions: read
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 58b4369205d7689b2c46cdf4b4ac3801164e95ed
+          path: repo
+          persist-credentials: false
+      - name: Verify transferred source and prepare Git objects without advancing main
+        shell: python
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          import base64, hashlib, io, json, lzma, os, subprocess, sys, zipfile
+          from pathlib import Path, PurePosixPath
+          root=Path(os.environ['GITHUB_WORKSPACE'])/'repo'
+          evidence=root.parent/'evidence'; evidence.mkdir()
+          repo='zznabil/lean-agent-skill-collection'
+          assert os.environ['GITHUB_REPOSITORY']==repo
+          base='58b4369205d7689b2c46cdf4b4ac3801164e95ed'
+          base_tree='651fed0b76d76fc0d48d0864f01888481e15bffe'
+          expected='94ae56c00849c4c9cb66aeb1fdfa72662d59ea13'
+          nonworkflow='f9de17e75c2ac5f7e0e73d880208a39635d766b0'
+          workflow='.github/workflows/remaining-standards.yml'
+          def sha(data): return hashlib.sha256(data).hexdigest()
+          def git(*args): return subprocess.check_output(['git',*args],cwd=root,text=True).strip()
+          def api(endpoint,payload=None,binary=False):
+              cmd=['gh','api',f'repos/{repo}/{endpoint}']
+              if payload is not None: cmd+=['--method','POST','--input','-']
+              raw=subprocess.check_output(cmd,input=None if payload is None else json.dumps(payload).encode())
+              return raw if binary else json.loads(raw)
+          assert git('rev-parse','HEAD')==base and git('rev-parse','HEAD^{tree}')==base_tree
+          parts=['1d0a39c1d316b4f15aff1aaf40ce089fc812310d','5c0c09efd4112a6e4a7f42589192dc3e8f9320c8','b0ad1041a1070384dcc3bc85c3f672418db5a50b','c42bb804951034ce1f398e72d4af42805c1ef6d3','d2cdd4dd77e2d335f073565688dd2aebce67b6d7','7ca31f5ad5b512ff680796e06765734d06d7ad66','2af5ce876c40232ea1c290879b7bd4d97e4ad3cd','5991595608d9c89ec86688345df10ce77757801d','f0bba2d875d8870fbb51708824eada4b1c266310','1e61cee639dbc40dbf051f192163f909e2b89123']
+          compressed=b''
+          for ident in parts:
+              data=base64.b64decode(api(f'git/blobs/{ident}')['content'])
+              assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==ident
+              compressed+=data
+          assert sha(compressed)=='5cdb505283e0f40a934963059e5c94223d8758a02cd3accf92e80ed71554c7bd'
+          raw=lzma.decompress(compressed,memlimit=268435456)
+          assert sha(raw)=='da9a29635213a57a68e05eee07d27f15368c3d6bfe7daf0f1dc61f3604dc1a2a'
+          recipe=json.loads(raw)
+          assert recipe['base']==base and recipe['tree']==expected and len(recipe['files'])==235
+          archives={}
+          for ident,digest in recipe['artifacts'].items():
+              raw=api(f'actions/artifacts/{ident}/zip',binary=True)
+              assert sha(raw)==digest
+              archives[int(ident)]=zipfile.ZipFile(io.BytesIO(raw))
+              assert archives[int(ident)].testzip() is None
+          prepared={}
+          for path,item in recipe['files'].items():
+              p=PurePosixPath(path)
+              assert not p.is_absolute() and '..' not in p.parts and '\\' not in path
+              assert path==workflow or path.startswith('packs/remaining-standards/')
+              data=archives[item['artifact']].read(item['entry']) if 'artifact' in item else item['text'].encode()
+              assert len(data)==item['bytes'] and sha(data)==item['sha256'],path
+              target=root/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
+              prepared[path]=data
+          git('add','.')
+          assert git('write-tree')==expected
+          assert not git('diff','--cached','--diff-filter=D','--name-only','HEAD')
+          for script in ('validate_bundle.py','test_validate_bundle.py','test_publisher_baseline.py'):
+              subprocess.run([sys.executable,'packs/remaining-standards/audit/'+script],cwd=root,check=True)
+          for args in [('scripts/build-release.ps1','-OutputDirectory','./artifacts/check'),('scripts/test-validator.ps1',),('scripts/validate.ps1','-ArtifactsDirectory','./artifacts/check'),('scripts/audit-repository.ps1','-ArtifactsDirectory','./artifacts/check'),('scripts/test-prose-preservation.ps1','-ArtifactsDirectory','./artifacts/check')]:
+              subprocess.run(['pwsh','-NoProfile','-File',*args],cwd=root,check=True)
+          assert not git('diff','--name-only') and git('write-tree')==expected
+          entries=[]; binaries={}
+          for path,data in prepared.items():
+              if path==workflow:continue
+              entry={'path':path,'mode':'100644','type':'blob'}
+              if path.endswith('.pdf'):
+                  digest=sha(data)
+                  if digest not in binaries:
+                      obj=api('git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()})
+                      assert obj['sha']==hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+                      binaries[digest]=obj['sha']
+                  entry['sha']=binaries[digest]
+              else:entry['content']=data.decode('utf-8')
+              entries.append(entry)
+          tree=api('git/trees',{'base_tree':base_tree,'tree':entries})
+          assert tree['sha']==nonworkflow
+          subprocess.run(['git','archive','--format=zip','--output='+str(evidence/'candidate-source.zip'),expected],cwd=root,check=True)
+          (evidence/'prepared.json').write_text(json.dumps({'base':base,'tree':expected,'nonworkflow_tree':nonworkflow,'scope':'remaining standards review only; no merge or release'},indent=2)+'\n')
+          print('PREPARED_NONWORKFLOW_TREE='+nonworkflow)
+          print('All checks completed; no main, feature branch, tag or release advanced by this job.')
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: prepared-remaining-standards-review
+          path: evidence/*
+          if-no-files-found: error
+          retention-days: 7
