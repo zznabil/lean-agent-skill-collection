@@ -102,10 +102,33 @@ class BundleTests(unittest.TestCase):
         p.write_text(json.dumps(data), encoding='utf-8'); rehash(self.root)
         self.assertRejected('validation declaration overclaims')
 
-    def test_publisher_file_change_after_rehash(self) -> None:
+    def test_publisher_baseline_drift_after_checksum_rehash(self) -> None:
+        manifest_path = self.root / 'audit/original-download-manifest.json'
+        manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+        items = manifest['items']
+        matches = [entry for entry in items if entry['name'] == 'rfc2119.txt']
+        self.assertEqual(len(matches), 1)
+        matches[0]['bytes'] += 1
+        manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8', newline='\n')
+        rehash(self.root)
+        self.assertRejected('publisher baseline digest drift')
+
+    def test_publisher_and_manifest_change_after_checksum_rehash(self) -> None:
         p = self.root / 'skills/standard-bcp14/references/rfc2119.txt'
-        p.write_bytes(p.read_bytes() + b'Altered text.\n'); rehash(self.root)
-        self.assertRejected('publisher bytes changed')
+        relative = p.relative_to(self.root).as_posix()
+        manifest_path = self.root / 'SOURCE-MANIFEST.json'
+        manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+        matches = [entry for entry in manifest['bundled_publisher_files'] if entry['path'] == relative]
+        self.assertEqual(len(matches), 1)
+        entry = matches[0]
+        altered = p.read_bytes() + b'Altered text.\n'
+        p.write_bytes(altered)
+        entry['sha256'] = digest(altered)
+        entry['bytes'] = len(altered)
+        self.assertIs(entry['modified'], False)
+        manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8', newline='\n')
+        rehash(self.root)
+        self.assertRejected(r'publisher manifest drift: skills/standard-bcp14/references/rfc2119\.txt')
 
     def test_zip_roundtrip_reproducibility_and_boundaries(self) -> None:
         a = Path(self.temp.name) / 'a.zip'; b = Path(self.temp.name) / 'b.zip'

@@ -11,11 +11,11 @@ This optional prototype comes from `lean-user-facing-standards-prototype.zip` (S
 ## Explicit differences from the personal-study ZIP
 
 - Exclude the CAST organiser PDF because public redistribution permission was not established. Keep its skill and official source link. Exactly one source-access line changes in that skill; the other 26 SKILL.md files are byte-identical, including the ASD pilot.
-- Update CAST source/rights notes, the catalogue and source manifest to match the public edition. Keep the other 19 publisher-file copies byte-identical.
+- Update CAST source/rights notes, the catalogue and source manifest to match the public edition. Keep the 19 public publisher-file copies byte-identical to the pinned original-download records; the CAST organiser remains excluded from the public edition.
 - Add a licence boundary and W3C implementation-support notices. Preserve Diataxis CC BY-SA attribution and the IES public-domain statement.
 - Add the historical direct-claims review next to the unchanged copied register so its existing relative link resolves.
 - Label the earlier validation result as historical. The new VALIDATION.json is a contract declaration, not a passing verdict.
-- Repair the read-only checker for POSIX path inventories on Windows, strengthen manifest and source checks, and add independently executed rejection controls. The existing collection validators are not altered.
+- The read-only checker now pins the literal complete original-download manifest, enforces the exact 19 path-to-original mapping, and compares current publisher metadata and actual bytes with those records. Its named disposable-copy controls cover P1 publisher tamper and publisher-baseline drift; this is structural/source-integrity evidence only.
 
 `audit/IMPORT-RECORD.json` records original skill hashes and the sole source-access replacement. It also pins the original 97-entry coverage record, source register, user-information reference and 81 authored cases.
 
@@ -25,6 +25,6 @@ Read THIRD-PARTY-NOTICES.md and each skill's SOURCES.md. The IES PDF is public d
 
 ## Acceptance boundary
 
-CI verifies actual source bytes, path safety, standalone reference availability, exact inventories and deliberate rejection cases. Existing collection CI still runs on both supported PowerShell hosts. The new pack check also runs on Linux and Windows.
+CI is the full verification gate for actual source bytes, path safety, standalone reference availability, exact inventories and deliberate rejection cases. A focused local run is not a full verification result.
 
 A passing CI run is not a model-routing probability, proof of user comprehension or formal standards conformance. The 81 task cases remain authored, not executed model tests. This PR is for review only: no merge, tag, publication or automatic installation is part of opening it.

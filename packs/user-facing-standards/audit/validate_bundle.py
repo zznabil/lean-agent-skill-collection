@@ -10,6 +10,30 @@ from collections import Counter
 from pathlib import Path, PurePosixPath
 
 
+PUBLISHER_BASELINE_SHA256 = '7cb4016a88a34db8f1b4a93e82281e01250d9642573bdd0450f433838bf63b67'
+PUBLISHER_PATH_TO_ORIGINAL = {
+    'skills/standard-bcp14/references/rfc2119.txt': 'rfc2119.txt',
+    'skills/standard-bcp14/references/rfc8174.txt': 'rfc8174.txt',
+    'skills/standard-wcag22/references/wcag22-official.html.txt': 'wcag22-official.html.txt',
+    'skills/standard-wcag22/references/w3c-document-license.html.txt': 'w3c-document-license.html.txt',
+    'skills/guidance-w3c-coga/references/coga-official.html.txt': 'coga-official.html.txt',
+    'skills/guidance-w3c-coga/references/w3c-permissive-license.html.txt': 'w3c-permissive-license.html.txt',
+    'skills/practice-diataxis/references/diataxis-primer.html.txt': 'diataxis-primer.html.txt',
+    'skills/practice-diataxis/references/diataxis-tutorials.html.txt': 'diataxis-tutorials.html.txt',
+    'skills/practice-diataxis/references/diataxis-how-to.html.txt': 'diataxis-how-to.html.txt',
+    'skills/practice-diataxis/references/diataxis-reference.html.txt': 'diataxis-reference.html.txt',
+    'skills/practice-diataxis/references/diataxis-explanation.html.txt': 'diataxis-explanation.html.txt',
+    'skills/guidance-wai-aria-apg/references/aria-apg-official.html.txt': 'aria-apg-official.html.txt',
+    'skills/guidance-wai-aria-apg/references/aria-patterns-official.html.txt': 'aria-patterns-official.html.txt',
+    'skills/guidance-wai-aria-apg/references/aria-keyboard-official.html.txt': 'aria-keyboard-official.html.txt',
+    'skills/guidance-wai-aria-apg/references/aria-names-official.html.txt': 'aria-names-official.html.txt',
+    'skills/guidance-wai-aria-apg/references/w3c-permissive-license.html.txt': 'w3c-permissive-license.html.txt',
+    'skills/practice-ies-study/references/ies-organizing-instruction-2007.pdf': 'ies-organizing-instruction-2007.pdf',
+    'skills/practice-cognitive-load/references/ies-organizing-instruction-2007.pdf': 'ies-organizing-instruction-2007.pdf',
+    'skills/practice-worked-examples/references/ies-organizing-instruction-2007.pdf': 'ies-organizing-instruction-2007.pdf',
+}
+
+
 class InvalidBundle(ValueError):
     """An observed contract failure, distinct from an unexpected checker bug."""
 
@@ -34,6 +58,32 @@ def local_path(root: Path, relative: str) -> Path:
             f'symlink path: {relative}')
     require(path.resolve().is_relative_to(root.resolve()), f'path escapes root: {relative}')
     return path
+
+
+def read_publisher_baseline(root: Path) -> dict[str, dict]:
+    path = local_path(root, 'audit/original-download-manifest.json')
+    try:
+        data = path.read_bytes()
+    except OSError as exc:
+        raise InvalidBundle('publisher baseline malformed') from exc
+    require(digest(data) == PUBLISHER_BASELINE_SHA256, 'publisher baseline digest drift')
+    try:
+        value = json.loads(data)
+    except (UnicodeError, ValueError, TypeError) as exc:
+        raise InvalidBundle('publisher baseline malformed') from exc
+    if not isinstance(value, dict) or not isinstance(value.get('items'), list):
+        raise InvalidBundle('publisher baseline malformed')
+    records = value['items']
+    if not records or any(
+        not isinstance(record, dict)
+        or not isinstance(record.get('name'), str)
+        or not record['name']
+        for record in records
+    ):
+        raise InvalidBundle('publisher baseline malformed')
+    names = [record['name'] for record in records]
+    require(len(names) == len(set(names)), 'publisher baseline names not unique')
+    return {record['name']: record for record in records}
 
 
 def read_json(root: Path, relative: str) -> dict:
@@ -100,6 +150,7 @@ def validate(root: Path) -> dict:
     coverage = read_json(root, 'REGISTER-COVERAGE.json')
     origin = read_json(root, 'audit/IMPORT-RECORD.json')
     contract = read_json(root, 'VALIDATION.json')
+    publisher_baseline = read_publisher_baseline(root)
     require(manifest['status'] == 'public_repository_prototype_for_review', 'wrong distribution scope')
     records = manifest['skills']
     names = [entry['name'] for entry in records]
@@ -140,18 +191,50 @@ def validate(root: Path) -> dict:
     require(manifest['asd_pilot_sha256'] == origin['skill_sha256']['standard-asd-ste100'], 'ASD pilot pin mismatch')
 
     publisher = manifest['bundled_publisher_files']
-    publisher_names = [x['path'] for x in publisher]
-    require(len(publisher_names) == 19 and len(set(publisher_names)) == 19, 'publisher inventory mismatch')
+    publisher_paths = [x['path'] for x in publisher]
+    require(
+        len(PUBLISHER_PATH_TO_ORIGINAL) == 19
+        and len(publisher_paths) == 19
+        and len(set(publisher_paths)) == 19
+        and set(PUBLISHER_PATH_TO_ORIGINAL) == set(publisher_paths),
+        'publisher path mapping drift',
+    )
     actual_refs = {p for p in files if '/references/' in p}
-    require(actual_refs == set(publisher_names), 'undeclared or missing publisher file')
+    require(actual_refs == set(publisher_paths), 'undeclared or missing publisher file')
+    publisher_by_path = {entry['path']: entry for entry in publisher}
     pdf_hashes = []
-    for entry in publisher:
-        data = local_path(root, entry['path']).read_bytes()
-        require(digest(data) == entry['sha256'] and len(data) == entry['bytes'], f'publisher bytes changed: {entry["path"]}')
-        require(entry['modified'] is False and entry['source_url'].startswith('https://'), 'invalid publisher provenance')
-        if entry['path'].endswith('.pdf'):
-            require(data.startswith(b'%PDF-'), f'not a PDF: {entry["path"]}')
-            pdf_hashes.append(digest(data))
+    for path, original_name in PUBLISHER_PATH_TO_ORIGINAL.items():
+        original = publisher_baseline.get(original_name)
+        require(
+            original is not None
+            and original.get('downloaded') is True
+            and original.get('status') == 200
+            and all(
+                isinstance(original.get(field), str) and original.get(field)
+                for field in ('url', 'final_url', 'sha256')
+            )
+            and type(original.get('bytes')) is int,
+            f'publisher baseline record missing: {path}',
+        )
+        entry = publisher_by_path[path]
+        require(
+            entry.get('source_url') == original['url']
+            and entry.get('final_url') == original['final_url']
+            and entry.get('sha256') == original['sha256']
+            and entry.get('bytes') == original['bytes']
+            and entry.get('modified') is False,
+            f'publisher manifest drift: {path}',
+        )
+        require(entry['source_url'].startswith('https://'), 'invalid publisher provenance')
+        data = local_path(root, path).read_bytes()
+        actual_hash = digest(data)
+        require(
+            actual_hash == original['sha256'] and len(data) == original['bytes'],
+            f'publisher bytes changed: {path}',
+        )
+        if path.endswith('.pdf'):
+            require(data.startswith(b'%PDF-'), f'not a PDF: {path}')
+            pdf_hashes.append(actual_hash)
     require(len(pdf_hashes) == 3 and len(set(pdf_hashes)) == 1, 'public PDF inventory mismatch')
     forbidden = origin['reference_exclusion_sha256']
     require(not any('cast-udl3-organizer.pdf' in p for p in files), 'restricted CAST PDF included')
