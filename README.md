@@ -111,3 +111,7 @@ Legally reused or adapted material is documented in [THIRD_PARTY_NOTICES.md](THI
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for validation and change requirements.
+
+## Optional standards-skill prototype
+
+The [user-facing standards pack](packs/user-facing-standards/README.md) contains 27 separately selectable prototypes and source/rights notes. It is outside the six release profiles; existing task skills and communication fallbacks are unchanged. These are application procedures, not full licensed standards or measured behavioural improvements. Review the pack and select only what the task needs.
