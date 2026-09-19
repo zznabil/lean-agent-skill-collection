@@ -33,22 +33,39 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Restore canonical checkout bytes on Windows
-        if: runner.os == 'Windows'
+      - name: Materialise canonical pack bytes
         shell: bash
         run: |
           set -euo pipefail
-          git config core.autocrlf false
-          git config core.eol lf
-          git checkout-index --force --all
+          python - <<'PY'
+          import os
+          import subprocess
+          import tarfile
+          from pathlib import Path
+
+          root = Path(os.environ["RUNNER_TEMP"]) / "controlled-execution-source"
+          archive = Path(os.environ["RUNNER_TEMP"]) / "controlled-execution-source.tar"
+          root.mkdir(parents=True, exist_ok=False)
+          with archive.open("wb") as handle:
+              subprocess.run(
+                  ["git", "archive", "--format=tar", "HEAD", "packs/controlled-execution"],
+                  check=True,
+                  stdout=handle,
+              )
+          with tarfile.open(archive, "r") as bundle:
+              bundle.extractall(root, filter="data")
+          archive.unlink()
+          print(root)
+          PY
       - name: Validate source, rejection controls and review ZIP
         shell: bash
         run: |
           set -euo pipefail
           python --version
-          python packs/controlled-execution/audit/validate_pack.py
-          python packs/controlled-execution/audit/test_validate_pack.py
-          python packs/controlled-execution/audit/build_zip.py "$RUNNER_TEMP/lean-controlled-execution-review.zip"
+          PACK_ROOT="$RUNNER_TEMP/controlled-execution-source/packs/controlled-execution"
+          python "$PACK_ROOT/audit/validate_pack.py" "$PACK_ROOT"
+          python "$PACK_ROOT/audit/test_validate_pack.py"
+          python "$PACK_ROOT/audit/build_zip.py" "$RUNNER_TEMP/lean-controlled-execution-review.zip"
           test -z "$(git status --porcelain)"
       - name: Upload review ZIP
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
