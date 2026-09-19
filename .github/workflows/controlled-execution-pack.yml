@@ -39,6 +39,7 @@ jobs:
         run: |
           set -euo pipefail
           git config core.autocrlf false
+          git config core.eol lf
           git checkout-index --force --all
       - name: Validate source, rejection controls and review ZIP
         shell: bash
