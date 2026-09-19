@@ -1,0 +1,51 @@
+name: Validate controlled-execution pack
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packs/controlled-execution/**'
+      - '.github/workflows/controlled-execution-pack.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packs/controlled-execution/**'
+      - '.github/workflows/controlled-execution-pack.yml'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+
+jobs:
+  pack:
+    name: Controlled-execution pack (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate source, rejection controls and review ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          python --version
+          python packs/controlled-execution/audit/validate_pack.py
+          python packs/controlled-execution/audit/test_validate_pack.py
+          python packs/controlled-execution/audit/build_zip.py "$RUNNER_TEMP/lean-controlled-execution-review.zip"
+          test -z "$(git status --porcelain)"
+      - name: Upload review ZIP
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: controlled-execution-review-${{ matrix.os }}
+          path: ${{ runner.temp }}/lean-controlled-execution-review.zip
+          if-no-files-found: error
+          retention-days: 14
