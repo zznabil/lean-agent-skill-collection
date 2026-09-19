@@ -40,22 +40,32 @@ jobs:
           python - <<'PY'
           import os
           import subprocess
-          import tarfile
-          from pathlib import Path
+          from pathlib import Path, PurePosixPath
 
           root = Path(os.environ["RUNNER_TEMP"]) / "controlled-execution-source"
-          archive = Path(os.environ["RUNNER_TEMP"]) / "controlled-execution-source.tar"
           root.mkdir(parents=True, exist_ok=False)
-          with archive.open("wb") as handle:
-              subprocess.run(
-                  ["git", "archive", "--format=tar", "HEAD", "packs/controlled-execution"],
+          prefix = PurePosixPath("packs/controlled-execution")
+          listing = subprocess.run(
+              ["git", "ls-tree", "-r", "-z", "--name-only", "HEAD", prefix.as_posix()],
+              check=True,
+              stdout=subprocess.PIPE,
+          ).stdout
+          paths = [item.decode("utf-8") for item in listing.split(b"\0") if item]
+          if not paths:
+              raise RuntimeError("controlled-execution pack is absent from HEAD")
+          for relative in paths:
+              source = PurePosixPath(relative)
+              if source.is_absolute() or ".." in source.parts or source.parts[:2] != prefix.parts:
+                  raise RuntimeError(f"unsafe Git path: {relative}")
+              target = root.joinpath(*source.parts)
+              target.parent.mkdir(parents=True, exist_ok=True)
+              data = subprocess.run(
+                  ["git", "cat-file", "blob", f"HEAD:{relative}"],
                   check=True,
-                  stdout=handle,
-              )
-          with tarfile.open(archive, "r") as bundle:
-              bundle.extractall(root, filter="data")
-          archive.unlink()
-          print(root)
+                  stdout=subprocess.PIPE,
+              ).stdout
+              target.write_bytes(data)
+          print(f"materialised {len(paths)} canonical pack files at {root}")
           PY
       - name: Validate source, rejection controls and review ZIP
         shell: bash
