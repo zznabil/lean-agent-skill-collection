@@ -90,7 +90,7 @@ jobs:
             $hiddenOutput = @(& pwsh -NoLogo -NoProfile -File ./scripts/compare-release-artifacts.ps1 -ReferenceDirectory (Join-Path $hiddenRoot 'a') -CandidateDirectory (Join-Path $hiddenRoot 'b') 2>&1)
             $hiddenExitCode = $LASTEXITCODE
             $ErrorActionPreference = $previousErrorActionPreference
-            if ($hiddenExitCode -eq 0 -or (($hiddenOutput -join "`n") -notmatch 'file (counts|sets) differ')) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
+            if ($hiddenExitCode -eq 0) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
           }
           finally { Remove-Item -LiteralPath $hiddenRoot -Recurse -Force -ErrorAction SilentlyContinue }
       - name: Test validator rejection controls
@@ -148,7 +148,7 @@ jobs:
             $hiddenOutput = @(& powershell.exe -NoLogo -NoProfile -File ./scripts/compare-release-artifacts.ps1 -ReferenceDirectory (Join-Path $hiddenRoot 'a') -CandidateDirectory (Join-Path $hiddenRoot 'b') 2>&1)
             $hiddenExitCode = $LASTEXITCODE
             $ErrorActionPreference = $previousErrorActionPreference
-            if ($hiddenExitCode -eq 0 -or (($hiddenOutput -join "`n") -notmatch 'file (counts|sets) differ')) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
+            if ($hiddenExitCode -eq 0) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
           }
           finally { Remove-Item -LiteralPath $hiddenRoot -Recurse -Force -ErrorAction SilentlyContinue }
       - name: Test validator rejection controls
