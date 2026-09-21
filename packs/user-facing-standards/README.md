@@ -42,7 +42,7 @@ A task owner still controls permissions and completion. A standard-specific skil
 
 Publisher documents keep their individual rights. The original routines/tooling use LICENSE except the Diataxis adaptation, which uses CC BY-SA 4.0. No restricted CAST PDF is included. Inspect [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and the skill-local notes before redistribution.
 
-No publisher, standards body or government agency has reviewed or endorsed these skills. Do not use their logos to imply endorsement.
+No publisher or standards body or government agency has reviewed or endorsed these skills. Do not use their logos to imply endorsement.
 
 ## Validation
 

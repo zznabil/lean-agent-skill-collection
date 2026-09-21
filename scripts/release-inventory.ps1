@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = '9d9b3647e0f12ed48113a774fd5816e4f77262122fa6c48161dde943d1f64950'
+$script:ExpectedSupplementalPackLedgerSha256 = '8739f3365f547076e90f69c4226c15cc128ae9b8849703a6752cb10ff6f2611e'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -251,18 +251,38 @@ function Get-ReleasePackLedger([string]$RepositoryRoot) {
     if ($records.Count -ne $expected.Count -or -not (Test-ReleaseInventoryMemberSet $expected @($records.Keys))) { throw 'Supplemental pack checksum inventory is not the exact canonical pack target set.' }
     return [pscustomobject]@{ Root=$packRoot; LedgerPath=$ledgerPath; Records=$records; Paths=$expected.ToArray() }
 }
-$script:ApprovalTermPattern = '\b(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)\b'
-$script:ApprovalClauseSplitPattern = '(?i)(?<=[.!?;:])\s+'
-$script:ApprovalNegationPattern = '(?i)(?:\b(?:no|not|never|without|cannot)\b|\b(?:does|do|is|are|was|were)\s+not\b)(?:\s+[A-Za-z0-9][A-Za-z0-9''-]*){0,20}$'
+$script:ApprovalTermPattern = '(?<![A-Za-z0-9-])(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)(?![A-Za-z0-9-])'
+$script:ApprovalClauseSplitPattern = '(?i)[,.;:!?\r\n—–]+|\b(?:but|however|yet)\b'
+$script:ApprovalTokenPattern = "[A-Za-z0-9][A-Za-z0-9''-]*"
+$script:ApprovalNegationPattern = '(?i)^(?:no|not|never|without|cannot)$'
+$script:ApprovalContextTokenLimit = 12
+
+function Test-ReleaseNearbyApprovalNegation([object[]]$Before,[object[]]$After) {
+    $window = New-Object System.Collections.Generic.List[string]
+    $start = [Math]::Max(0, $Before.Count - $script:ApprovalContextTokenLimit)
+    if ($Before.Count -gt 0) { foreach ($token in $Before[$start..($Before.Count - 1)]) { [void]$window.Add([string]$token) } }
+    $end = [Math]::Min($script:ApprovalContextTokenLimit - 1, $After.Count - 1)
+    if ($After.Count -gt 0) { foreach ($token in $After[0..$end]) { [void]$window.Add([string]$token) } }
+    foreach ($token in $window) {
+        if ($token -match $script:ApprovalNegationPattern) { return $true }
+    }
+    return $false
+}
 
 function Test-ReleaseUserFacingApprovalClaim([string]$Text) {
-    foreach ($line in ($Text -split '\r?\n')) {
-        foreach ($clause in [regex]::Split($line, $script:ApprovalClauseSplitPattern)) {
-            foreach ($match in [regex]::Matches($clause, $script:ApprovalTermPattern)) {
-                $tokens = @([regex]::Matches($clause.Substring(0, $match.Index), "[A-Za-z0-9][A-Za-z0-9'-]*") | ForEach-Object { $_.Value })
-                if ($tokens.Count -gt 20) { $window = $tokens[($tokens.Count - 20)..($tokens.Count - 1)] -join ' ' } else { $window = $tokens -join ' ' }
-                if ($window -notmatch $script:ApprovalNegationPattern) { return $true }
-            }
+    foreach ($clause in [regex]::Split($Text, $script:ApprovalClauseSplitPattern)) {
+        $matches = [regex]::Matches($clause, $script:ApprovalTermPattern)
+        for ($index = 0; $index -lt $matches.Count; $index++) {
+            $match = $matches[$index]
+            $previousEnd = 0
+            if ($index -gt 0) { $previousEnd = $matches[$index - 1].Index + $matches[$index - 1].Length }
+            $nextStart = $clause.Length
+            if ($index + 1 -lt $matches.Count) { $nextStart = $matches[$index + 1].Index }
+            $beforeText = $clause.Substring($previousEnd, $match.Index - $previousEnd)
+            $afterText = $clause.Substring($match.Index + $match.Length, $nextStart - ($match.Index + $match.Length))
+            $before = @([regex]::Matches($beforeText, $script:ApprovalTokenPattern) | ForEach-Object { $_.Value })
+            $after = @([regex]::Matches($afterText, $script:ApprovalTokenPattern) | ForEach-Object { $_.Value })
+            if (-not (Test-ReleaseNearbyApprovalNegation $before $after)) { return $true }
         }
     }
     return $false

@@ -13,7 +13,13 @@ import unittest
 from pathlib import Path
 
 sys.dont_write_bytecode = True
-from validate_bundle import InvalidBundle, digest, inventory, validate
+from validate_bundle import (
+    InvalidBundle,
+    digest,
+    has_affirmative_approval_claim,
+    inventory,
+    validate,
+)
 from build_zip import build
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,7 +37,7 @@ def append_surface_claim(path: Path, claim: str) -> None:
     if path.name == "SOURCE-MANIFEST.json":
         marker = "No approval assertion is made."
         assert marker in text
-        text = text.replace(marker, f"{marker} {claim}", 1)
+        text = text.replace(marker, f"{marker} {claim.replace(chr(10), ' ')}", 1)
     else:
         text = text.rstrip() + chr(10) + claim + chr(10)
     path.write_text(text, encoding="utf-8", newline=chr(10))
@@ -98,11 +104,58 @@ class BundleTests(unittest.TestCase):
                 path.write_bytes(original)
                 rehash(self.root)
 
+    def test_approval_claim_polarity_matrix(self) -> None:
+        terms = (
+            "approval",
+            "approved",
+            "endorsement",
+            "endorsed",
+            "certification",
+            "certified",
+            "authorization",
+            "authorisation",
+            "authorized",
+            "authorised",
+        )
+        cases = [
+            ("No approval assertion is made, publisher approval granted.", True),
+            ("Certification is not claimed.", False),
+            ("Publisher approval was not granted.", False),
+            ("No approval assertion is made but publisher approval granted.", True),
+            ("No approval assertion is made and publisher approval granted.", True),
+        ]
+        for term in terms:
+            cases.extend(
+                (
+                    (f"No formal publisher {term} assertion is made.", False),
+                    (f"This is not an {term} pilot.", False),
+                    (f"Publisher {term} was not granted.", False),
+                    (f"Publisher {term} granted.", True),
+                    (f"NO FORMAL PUBLISHER {term.upper()} ASSERTION IS MADE.", False),
+                )
+            )
+            for separator in (",", ".", ";", ":", "!", "?", "—", "–", chr(10), " but ", " however ", " yet "):
+                cases.append(
+                    (
+                        f"No formal publisher {term} assertion is made{separator} Publisher {term} granted.",
+                        True,
+                    )
+                )
+        for claim, rejected in cases:
+            self.assertEqual(has_affirmative_approval_claim(claim), rejected, claim)
+
     def test_approval_claim_polarity_after_rehash(self) -> None:
         cases = (
             ("Publisher approval granted.", True),
             ("This is not an approved ASD-STE100 pilot.", False),
             ("No approval assertion is made; Publisher approval granted.", True),
+            ("No approval assertion is made, publisher approval granted.", True),
+            ("No approval assertion is made — Publisher approval granted.", True),
+            ("No approval assertion is made\nPublisher approval granted.", True),
+            ("No approval assertion is made but publisher approval granted.", True),
+            ("Certification is not claimed.", False),
+            ("Publisher approval was not granted.", False),
+            ("No formal publisher approval assertion is made.", False),
         )
         for claim, rejected in cases:
             for relative in SURFACES:

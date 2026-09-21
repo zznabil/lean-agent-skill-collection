@@ -193,27 +193,43 @@ def check_links(document: Path, boundary: Path) -> None:
 
 
 APPROVAL_TERM_PATTERN = re.compile(
-    r"\b(?:approval|approved|endorsement|endorsed|certification|certified|"
-    r"authorization|authorisation|authorized|authorised)\b",
+    r"(?<![A-Za-z0-9-])(?:approval|approved|endorsement|endorsed|certification|certified|"
+    r"authorization|authorisation|authorized|authorised)(?![A-Za-z0-9-])",
     re.IGNORECASE,
 )
-APPROVAL_CLAUSE_SPLIT_PATTERN = re.compile(r"(?<=[.!?;:])\s+", re.IGNORECASE)
-APPROVAL_NEGATION_PATTERN = re.compile(
-    r"(?:\b(?:no|not|never|without|cannot)\b|"
-    r"\b(?:does|do|is|are|was|were)\s+not\b)"
-    r"(?:\s+[A-Za-z0-9][A-Za-z0-9'-]*){0,20}$",
+APPROVAL_CLAUSE_SPLIT_PATTERN = re.compile(
+    r"[,.;:!?\n\r\u2014\u2013]+|\b(?:but|however|yet)\b",
     re.IGNORECASE,
 )
+APPROVAL_TOKEN_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9'-]*")
+APPROVAL_NEGATION_WORDS = frozenset({"no", "not", "never", "without", "cannot"})
+APPROVAL_MODAL_WORDS = frozenset({"does", "do", "is", "are", "was", "were"})
+APPROVAL_CONTEXT_TOKEN_LIMIT = 12
+
+
+def has_nearby_approval_negation(before: list[str], after: list[str]) -> bool:
+    for tokens in (before[-APPROVAL_CONTEXT_TOKEN_LIMIT:], after[:APPROVAL_CONTEXT_TOKEN_LIMIT]):
+        lowered = [token.lower() for token in tokens]
+        if any(token in APPROVAL_NEGATION_WORDS for token in lowered):
+            return True
+        if any(
+            token in APPROVAL_MODAL_WORDS and index + 1 < len(lowered) and lowered[index + 1] == "not"
+            for index, token in enumerate(lowered)
+        ):
+            return True
+    return False
 
 
 def has_affirmative_approval_claim(text: str) -> bool:
-    for line in text.splitlines():
-        for clause in APPROVAL_CLAUSE_SPLIT_PATTERN.split(line):
-            for match in APPROVAL_TERM_PATTERN.finditer(clause):
-                words_before = re.findall(r"[A-Za-z0-9][A-Za-z0-9'-]*", clause[: match.start()])
-                window = " ".join(words_before[-20:])
-                if not APPROVAL_NEGATION_PATTERN.search(window):
-                    return True
+    for clause in APPROVAL_CLAUSE_SPLIT_PATTERN.split(text):
+        matches = list(APPROVAL_TERM_PATTERN.finditer(clause))
+        for index, match in enumerate(matches):
+            previous_end = matches[index - 1].end() if index else 0
+            next_start = matches[index + 1].start() if index + 1 < len(matches) else len(clause)
+            before = APPROVAL_TOKEN_PATTERN.findall(clause[previous_end : match.start()])
+            after = APPROVAL_TOKEN_PATTERN.findall(clause[match.end() : next_start])
+            if not has_nearby_approval_negation(before, after):
+                return True
     return False
 
 

@@ -241,6 +241,28 @@ try {
     )
     foreach($control in $approvalControls){Invoke-PackRejection $control.Name $control.Mutator 'approval assertion'}
     Invoke-PackApprovalPositive 'truthful negated approval claim' {param($r);Add-Content -LiteralPath (Join-Path $r 'CATALOG.md') -Value 'This is not an approved ASD-STE100 pilot.'}
+    $approvalPolarityCases=@(
+        [pscustomobject]@{Text='No approval assertion is made, publisher approval granted.';Rejected=$true},
+        [pscustomobject]@{Text='Certification is not claimed.';Rejected=$false},
+        [pscustomobject]@{Text='No approval assertion is made but publisher approval granted.';Rejected=$true},
+        [pscustomobject]@{Text='No approval assertion is made and publisher approval granted.';Rejected=$true}
+    )
+    $approvalTerms=@('approval','approved','endorsement','endorsed','certification','certified','authorization','authorisation','authorized','authorised')
+    foreach($term in $approvalTerms){
+        $approvalPolarityCases += [pscustomobject]@{Text=('No formal publisher ' + $term + ' assertion is made.');Rejected=$false}
+        $approvalPolarityCases += [pscustomobject]@{Text=('This is not an ' + $term + ' pilot.');Rejected=$false}
+        $approvalPolarityCases += [pscustomobject]@{Text=('Publisher ' + $term + ' was not granted.');Rejected=$false}
+        $approvalPolarityCases += [pscustomobject]@{Text=('Publisher ' + $term + ' granted.');Rejected=$true}
+        $approvalPolarityCases += [pscustomobject]@{Text=('NO FORMAL PUBLISHER ' + $term.ToUpperInvariant() + ' ASSERTION IS MADE.');Rejected=$false}
+        foreach($separator in @(',', '.', ';', ':', '!', '?', '—', '–', [Environment]::NewLine, ' but ', ' however ', ' yet ')){
+            $approvalPolarityCases += [pscustomobject]@{Text=('No formal publisher ' + $term + ' assertion is made' + $separator + ' Publisher ' + $term + ' granted.');Rejected=$true}
+        }
+    }
+    foreach($case in $approvalPolarityCases){
+        $observed=Test-ReleaseUserFacingApprovalClaim $case.Text
+        if ([bool]$observed -ne [bool]$case.Rejected) { throw ('Approval polarity control failed: ' + $case.Text) }
+    }
+    Write-Host 'PASS: approval term polarity matrix' -ForegroundColor Green
     $manifestControls=@(
         [pscustomobject]@{Name='SOURCE-MANIFEST exact duplicate';Expected='source manifest exact duplicate';Mutator={param($r);$q=Join-Path $r 'SOURCE-MANIFEST.json';$j=Get-Content -Raw $q|ConvertFrom-Json;$j.skills[1].name=[string]$j.skills[0].name;[IO.File]::WriteAllText($q,($j|ConvertTo-Json -Depth 20),[Text.Encoding]::UTF8)}},
         [pscustomobject]@{Name='SOURCE-MANIFEST case-only duplicate';Expected='source manifest case-only duplicate';Mutator={param($r);$q=Join-Path $r 'SOURCE-MANIFEST.json';$j=Get-Content -Raw $q|ConvertFrom-Json;$j.skills[1].name=([string]$j.skills[0].name).ToUpperInvariant();[IO.File]::WriteAllText($q,($j|ConvertTo-Json -Depth 20),[Text.Encoding]::UTF8)}},
