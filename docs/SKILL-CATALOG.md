@@ -1,4 +1,8 @@
-# Lean Agent Skills V8.8.0 catalog
+# Lean Agent Skills V8.10.0 catalog
+
+V8.10.0 adds `quick-mode` as an explicit user-selected fast path in Core, Engineering, Complete, and Get It Done. It is not automatically selected by short questions or duration requests.
+
+V8.9.0 supplemental standards remain available in the integrated generated profiles through `packs/user-facing-standards/`; they add no adapters and retain explicit rights and public-source limitations.
 
 V8.8.0 keeps the same 23 canonical base task skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
 

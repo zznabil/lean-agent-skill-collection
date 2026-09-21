@@ -78,7 +78,7 @@ $actualSkillsRaw = @(Get-ChildItem -LiteralPath $skillsRoot -Directory | ForEach
 $completeSkillsRaw = @($profiles.profiles.complete.skills | ForEach-Object { [string]$_ })
 if ((Get-RawInventoryDuplicates $actualSkillsRaw).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $actualSkillsRaw).Count -gt 0) { Add-Failure 'root skills directory contains duplicate or case-colliding names' }
 if ((Get-RawInventoryDuplicates $completeSkillsRaw).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $completeSkillsRaw).Count -gt 0) { Add-Failure 'Complete profile contains duplicate or case-colliding base names' }
-if ($actualSkillsRaw.Count -ne 23) { Add-Failure "expected 23 canonical skills, found $($actualSkillsRaw.Count)" }
+if ($actualSkillsRaw.Count -ne 24) { Add-Failure "expected 24 canonical skills, found $($actualSkillsRaw.Count)" }
 if (-not (Test-ReleaseInventoryMemberSet $actualSkillsRaw $completeSkillsRaw)) { Add-Failure 'Complete profile does not match the canonical skills directory' }
 $actualSkills = @($actualSkillsRaw | Sort-Object)
 $completeSkills = @($completeSkillsRaw | Sort-Object)
@@ -92,7 +92,7 @@ $communicationSkills = @($profiles.profiles.communication.skills | ForEach-Objec
 $getItDoneSkills = @($profiles.profiles.'get-it-done'.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $gauntletSkills = @($profiles.profiles.gauntlet.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 if ($communicationSkills.Count -ne 3) { Add-Failure "Communication profile must contain 3 unique skills; found $($communicationSkills.Count)" }
-if ($getItDoneSkills.Count -ne 5) { Add-Failure "Get It Done profile must contain 5 unique skills; found $($getItDoneSkills.Count)" }
+if ( $getItDoneSkills.Count -ne 6) { Add-Failure "Get It Done profile must contain 6 unique skills; found $($getItDoneSkills.Count)" }
 if ($gauntletSkills.Count -ne 4) { Add-Failure "Gauntlet profile must contain 4 unique skills; found $($gauntletSkills.Count)" }
 foreach ($skill in $communicationSkills) {
     if (-not ($getItDoneSkills -contains $skill)) { Add-Failure "Get It Done profile lacks Communication skill: $skill" }
@@ -120,7 +120,7 @@ function Test-SupplementalInventoryAudit([object]$Profiles,[object]$Package) {
     $profileNames = @($Profiles.profiles.PSObject.Properties | ForEach-Object { [string]$_.Name })
     if (-not (Compare-ReleaseInventorySequence $profileNames $expectedNames)) { Add-Failure 'release-profiles.json profile order or membership is not canonical' }
     if ($null -eq $Profiles.user_facing_standards.included_profiles -or -not (Compare-ReleaseInventorySequence @($Profiles.user_facing_standards.included_profiles | ForEach-Object { [string]$_ }) $expectedNames)) { Add-Failure 'included_profiles must exactly enumerate the six release profiles in canonical order' }
-    $expectedCounts = @{ core = 8; engineering = 19; complete = 23; communication = 3; 'get-it-done' = 5; gauntlet = 4 }
+    $expectedCounts = @{ core = 9; engineering = 20; complete = 24; communication = 3; 'get-it-done' = 6; gauntlet = 4 }
     foreach ($name in $expectedNames) {
         $base = @($Profiles.profiles.$name.skills | ForEach-Object { [string]$_ })
         if ((Get-RawInventoryDuplicates $base).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $base).Count -gt 0) { Add-Failure "profile $name contains duplicate base skills" }
@@ -130,12 +130,12 @@ function Test-SupplementalInventoryAudit([object]$Profiles,[object]$Package) {
         $count = $Package.effective_profile_counts.$name
         if ($null -eq $count -or $count.base_task_skills -ne $base.Count -or $count.supplemental_user_facing_skills -ne 27 -or $count.total -ne $effective.Count) { Add-Failure "effective profile count metadata is invalid for $name" }
     }
-    if ($Package.skills_expected -ne 50 -or $Package.skills_validated -ne 50 -or $Package.base_task_skills_expected -ne 23 -or $Package.supplemental_user_facing_skills_expected -ne 27 -or $Package.release_unique_skills_expected -ne 50) { Add-Failure 'package inventory counts are invalid' }
+    if ($Package.skills_expected -ne 51 -or $Package.skills_validated -ne 51 -or $Package.base_task_skills_expected -ne 24 -or $Package.supplemental_user_facing_skills_expected -ne 27 -or $Package.release_unique_skills_expected -ne 51) { Add-Failure 'package inventory counts are invalid' }
     if (-not (Compare-ReleaseInventorySequence @($Package.supplemental_user_facing_skills | ForEach-Object { [string]$_ }) $inventory.Names)) { Add-Failure 'package supplemental skill order differs from SOURCE-MANIFEST.json' }
     $ri = $Package.release_inventory
-    if ($null -eq $ri -or $ri.base_task_adapters -ne 23 -or $ri.supplemental_adapters -ne 0 -or $ri.source_manifest -ne $inventory.ManifestRelative -or $ri.catalog -ne 'packs/user-facing-standards/CATALOG.md' -or $ri.rights_notice -ne 'packs/user-facing-standards/THIRD-PARTY-NOTICES.md' -or $ri.base_task_routing_unchanged -ne $true -or $ri.public_source_limitations_preserved -ne $true) { Add-Failure 'release_inventory metadata is invalid' }
+    if ($null -eq $ri -or $ri.base_task_adapters -ne 24 -or $ri.supplemental_adapters -ne 0 -or $ri.source_manifest -ne $inventory.ManifestRelative -or $ri.catalog -ne 'packs/user-facing-standards/CATALOG.md' -or $ri.rights_notice -ne 'packs/user-facing-standards/THIRD-PARTY-NOTICES.md' -or $ri.base_task_routing_unchanged -ne $true -or $ri.public_source_limitations_preserved -ne $true) { Add-Failure 'release_inventory metadata is invalid' }
     $agency = $Package.considerate_agency
-    if ($null -eq $agency -or $agency.adapters -ne 23) { Add-Failure 'considerate_agency inventory metadata is invalid' }
+    if ($null -eq $agency -or $agency.adapters -ne 24) { Add-Failure 'considerate_agency inventory metadata is invalid' }
     Add-Pass 'Supplemental source inventory and effective profile metadata are exact'
 }
 function Test-RemainingStandardsPackAudit {
@@ -253,6 +253,27 @@ else {
     if ((Get-ReleaseInventorySha256 $directPath) -ne (Get-ReleaseInventorySha256 $directMirrorPath)) { Add-Failure 'direct-claims scenario mirror drift' }
 }
 
+$quick = $package.quick_mode
+if ($null -eq $quick -or -not $quick.included -or $quick.default_validation -ne 'SMOKE' -or -not $quick.explicit_request_only -or -not $quick.natural_language_selectable -or -not $quick.dogfood_optional -or -not $quick.automated_uat_optional -or -not $quick.selected_validation_becomes_required -or -not $quick.real_project_interaction_required -or -not $quick.static_inspection_not_interaction_evidence -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.live_host_evaluated -ne $false) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the Quick Mode contract'
+}
+$quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+$quickMirror = 'releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv'
+$quickPath = Join-Path $RepositoryRoot $quickRelative
+$quickMirrorPath = Join-Path $RepositoryRoot $quickMirror
+if ($quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) { Add-Failure 'Quick Mode scenario metadata differs from the declared corpus' }
+if (-not (Test-Path -LiteralPath $quickPath) -or -not (Test-Path -LiteralPath $quickMirrorPath)) { Add-Failure 'Quick Mode scenario or release mirror is missing' }
+else {
+    $quickRows = @(Import-Csv -LiteralPath $quickPath -Encoding UTF8)
+    if ($quickRows.Count -ne 24 -or @($quickRows.id | Sort-Object -Unique).Count -ne 24) { Add-Failure 'Quick Mode corpus must have 24 unique IDs' }
+    foreach ($row in $quickRows) {
+        foreach ($field in @('id','category','prompt','expected','rejected','reason')) {
+            if ([string]::IsNullOrWhiteSpace([string]$row.$field)) { Add-Failure "Quick Mode fixture $($row.id) lacks $field" }
+        }
+    }
+    if ((Get-ReleaseInventorySha256 $quickPath) -ne (Get-ReleaseInventorySha256 $quickMirrorPath)) { Add-Failure 'Quick Mode scenario mirror drift' }
+}
+
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
 $scenarioPairs = @(
     @('docs/evals/usable-information-scenarios-v8.3.0.csv', 'releases/v8.3.0/usable-information-scenarios-v8.3.0.csv'),
@@ -353,7 +374,7 @@ if ($ArtifactsDirectory) {
 }
 
 if ($failures.Count -eq 0) {
-    Add-Pass 'repository metadata, current release, 23-skill inventory, profile composition, proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
+    Add-Pass 'repository metadata, current release, 24-skill inventory, profile composition, proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
     if ($ArtifactsDirectory) { Add-Pass 'expected release archives are present' }
     foreach ($pass in $passes) { Write-Host "PASS: $pass" }
     exit 0

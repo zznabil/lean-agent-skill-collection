@@ -1,0 +1,9 @@
+interface:
+  display_name: Quick Mode
+  short_description: Build a working slice fast with visible deferrals
+  default_prompt: 'Use $quick-mode only when the user explicitly selected the fast path in natural language or by direct skill selection. Deliver the smallest useful working slice, run one cheap reality check, preserve the non-negotiable safety and permission floor, and list material deferrals. When dogfooding or automated UAT is selected, use an appropriate real interaction tool such as CDP, Browser Relay, native automation, CUA, CLI, or API control; do not substitute source inspection. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
+policy:
+  products:
+  - CHAT
+  - CODEX
+  allow_implicit_invocation: true

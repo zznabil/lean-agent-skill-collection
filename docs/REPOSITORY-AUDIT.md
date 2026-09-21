@@ -1,3 +1,30 @@
+# V8.10.0 Quick Mode repository acceptance
+
+The current candidate intentionally changes the canonical inventory from 23 to 24 skills. The prior V8.8 instructions remain the preservation baseline; `quick-mode` is the only added root.
+
+## Current candidate invariants
+
+- 24 canonical skills and six profiles.
+- Six manual-only skills and 18 implicitly selectable skills.
+- Quick Mode appears in Core, Engineering, Complete, and Get It Done only.
+- The Complete profile matches the canonical skill tree.
+- Communication remains embedded in Get It Done and Gauntlet.
+- All 23 specialist skills retain a local outcome-first fallback.
+- All 24 OpenAI adapters retain the delivery overlay.
+- V8.8's 25 preserved instruction roots, references, adapters, register, and historical files retain their declared baselines.
+- The 24-case Quick Mode corpus is unique and byte-identical to its release mirror.
+- Deterministic builds and archive checks remain required on PowerShell 7 and Windows PowerShell 5.1.
+
+## Quick Mode checks
+
+The validator confirms explicit-request routing with natural-language selection, smoke-by-default metadata, selected-validation obligation, real-project interaction, rejection of static inspection as interaction evidence, `NOT_ASSESSED` production readiness, and exact profile membership.
+
+The audit checks three fixtures in each category: activation, anti-trigger, scope, safety, smoke, dogfooding, automated UAT, and unavailable tooling.
+
+Static checks do not execute Chrome DevTools/CDP, OMP Browser Relay, Playwright, CUA, native automation, a CLI, or an API. They do not prove live routing or successful interaction.
+
+---
+
 # V8.8.0 prose-preservation acceptance
 
 Use [the V8.8.0 design](PROSE-CLARITY-v8.8.0.md) for the current change, source walkthroughs, frozen baseline, reconstruction checks and evidence limits. Existing V8.7 checks remain required; add `scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a` on both PowerShell hosts. Execution results belong to the exact CI revision, not this document.

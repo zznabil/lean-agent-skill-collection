@@ -158,15 +158,32 @@ foreach ($path in $contract.authoring_copies) { Assert-Frozen $path ([IO.File]::
 $profiles=(Read-Utf8 (Join-Path $root 'release-profiles.json')) | ConvertFrom-Json
 $script:proseInventory=Get-ReleaseUserFacingInventory $root $profiles
 Assert-SameSequence @($contract.profile_inventory.PSObject.Properties.Name | Sort-Object) @($profiles.profiles.PSObject.Properties.Name | Sort-Object) 'profile names'
+$quickProfiles=@('core','engineering','complete','get-it-done')
 foreach ($profile in $contract.profile_inventory.PSObject.Properties) {
     $current=$profiles.profiles.PSObject.Properties[$profile.Name].Value
-    Assert-SameSequence @($profile.Value.skills) @($current.skills) "profile membership $($profile.Name)"
+    $currentSkills=@($current.skills | Where-Object { $_ -ne 'quick-mode' })
+    Assert-SameSequence @($profile.Value.skills) $currentSkills "V8.8 profile membership $($profile.Name)"
+    $quickCount=@($current.skills | Where-Object { $_ -eq 'quick-mode' }).Count
+    $expectedQuick=if($quickProfiles -contains $profile.Name){1}else{0}
+    if($quickCount -ne $expectedQuick){throw "PRESERVATION: quick-mode membership $($profile.Name)"}
     if ($current.include_engineering_core -ne $profile.Value.include_engineering_core) { throw 'PRESERVATION: engineering core inclusion' }
 }
-Assert-SameSequence @($profiles.profiles.complete.skills | Sort-Object) @(Get-ChildItem (Join-Path $root 'skills') -Directory | ForEach-Object Name | Sort-Object) 'canonical skills'
-Write-Host 'PASS: all 25 instruction roots reconstruct their pinned source; declared edits, examples, resources, adapters, register and six profiles match'
+$expectedCanonical=@($profiles.profiles.complete.skills)
+Assert-SameSequence @($expectedCanonical | Sort-Object) @(Get-ChildItem (Join-Path $root 'skills') -Directory | ForEach-Object Name | Sort-Object) 'canonical skills'
+Write-Host 'PASS: all 25 instruction roots reconstruct their pinned source; declared edits, supplemental pack, Quick Mode route, adapters, register and six profiles match'
+
+function Assert-QuickText([string]$Text) {
+    foreach ($needle in @('Quick Mode requires an explicit user request','one cheap smoke check','Chrome DevTools or the Chrome DevTools Protocol','OMP Browser Relay','CUA or computer-use control','Static source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy DOGFOOD.','A CUA-driven journey counts as automated UAT only when it is sufficiently recorded or scripted to replay and its outcome is asserted.','Production readiness:','NOT ASSESSED')) {
+        if ($Text.IndexOf($needle,[StringComparison]::Ordinal) -lt 0) { throw "PRESERVATION: quick-mode contract missing: $needle" }
+    }
+}
 
 $controls=0
+$quickPath='skills/quick-mode/SKILL.md';$quick=Read-Utf8 (Join-Path $root $quickPath)
+Assert-QuickText $quick
+Expect-Rejection 'quick-mode explicit-request trigger removed' { Assert-QuickText ($quick.Replace('Quick Mode requires an explicit user request','Quick Mode can activate automatically')) }
+Expect-Rejection 'quick-mode interaction evidence weakened' { Assert-QuickText ($quick.Replace('Static source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy DOGFOOD.','Source inspection is sufficient.')) }
+Expect-Rejection 'quick-mode CUA replay boundary removed' { Assert-QuickText ($quick.Replace('A CUA-driven journey counts as automated UAT only when it is sufficiently recorded or scripted to replay and its outcome is asserted.','Any CUA session is automated UAT.')) }
 $gidPath='skills/get-it-done/SKILL.md';$gid=Read-Utf8 (Join-Path $root $gidPath)
 $implPath='skills/implement/SKILL.md';$impl=Read-Utf8 (Join-Path $root $implPath)
 $writingPath='skills/writing/SKILL.md';$writing=Read-Utf8 (Join-Path $root $writingPath)

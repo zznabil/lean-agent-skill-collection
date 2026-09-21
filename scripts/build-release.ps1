@@ -313,9 +313,11 @@ function New-PackageValidationJson([string]$ProfileName, [object]$ProfileDefinit
     $manual = @(Get-ManualSkills $BaseSkills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join $separator
     $includesWriting = @($BaseSkills) -contains 'writing'
     $includesWritingJson = if ($includesWriting) { 'true' } else { 'false' }
+    $includesQuick = @($BaseSkills) -contains 'quick-mode'
+    $includesQuickJson = if ($includesQuick) { 'true' } else { 'false' }
     return @"
 {
-  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
+  "scope": "static package, policy, inventory, reference, Quick Mode, and archive validation; not live host behaviour",
   "package": $(ConvertTo-JsonString $ProfileName),
   "plugin_name": $(ConvertTo-JsonString ([string]$ProfileDefinition.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
@@ -385,6 +387,21 @@ $manual
       "no_new_route": true,
       "runtime_enforcement": false,
       "live_host_evaluated": false
+  },
+  "quick_mode": {
+    "included": $includesQuickJson,
+    "default_validation": "SMOKE",
+    "dogfood_optional": true,
+    "automated_uat_optional": true,
+    "selected_validation_becomes_required": true,
+    "real_project_interaction_required": true,
+    "static_inspection_not_interaction_evidence": true,
+    "production_readiness_default": "NOT_ASSESSED",
+    "scenario_file": "docs/evals/quick-mode-scenarios-v8.10.0.csv",
+    "static_scenarios": 24,
+    "live_host_evaluated": false,
+    "explicit_request_only": true,
+    "natural_language_selectable": true
   },
   "human_usable_information": {
     "global_principles": true,
@@ -518,7 +535,7 @@ $manifest = @"
   "scope": "deterministic package build and static validation; not live host-routing or behavioural validation",
   "profiles": $($profileProperties.Count),
   "unique_skills": $(@($completeEffectiveSkills).Count),
-  "base_task_skills": 23,
+  "base_task_skills": $(@($definition.profiles.complete.skills).Count),
   "supplemental_user_facing_skills": 27,
   "release_unique_skills": $(@($completeEffectiveSkills).Count),
   "supplemental_source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
@@ -532,6 +549,7 @@ $manifest = @"
   "proportional_rigor": true,
   "outcome_first_delivery": true,
   "direct_claims": true,
+  "quick_mode": true,
   "skill_content_changed_from_v8_0_0": true,
   "archives": {
 $($manifestArchiveLines -join [Environment]::NewLine)
@@ -547,7 +565,7 @@ Write-Utf8File (Join-Path $outputFullPath 'README.md') @"
 
 $($definition.release_summary)
 
-Release inventory: 23 base task skills plus 27 supplemental user-facing standards. Effective profile totals are core 35, engineering 46, complete 50, communication 30, get-it-done 32, and gauntlet 31.
+Release inventory: 24 base task skills including Quick Mode plus 27 supplemental user-facing standards. Effective profile totals are core 36, engineering 47, complete 51, communication 30, get-it-done 33, and gauntlet 31.
 Choose one profile. Verify downloads with CHECKSUMS.sha256 and read THIRD_PARTY_NOTICES.md for base collection terms and USER-FACING-STANDARDS-NOTICES.md for supplemental source terms before redistribution.
 
 ## Rights and limitations

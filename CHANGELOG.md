@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.10.0 — 2026-09-21
+
+### Quick Mode
+
+- Add `quick-mode` as one explicit user-selected route for a user-authorised smallest useful working slice.
+- Run one cheap smoke check by default; selected dogfooding and automated UAT require real tool-mediated interaction with the running project.
+- Preserve authorisation, destructive-action controls, data integrity, security, compatibility, accessibility, and evidence truthfulness as non-negotiable floors.
+- Add Quick Mode to Core, Engineering, Complete, and Get It Done; retain Communication and Gauntlet unchanged.
+- Add 24 authored routing, scope, safety, smoke, dogfooding, UAT, and unavailable-tool cases. These are not live model runs.
+
+
 ## 8.9.0 — 2026-09-21
 ### Integrated User-Facing Standards
 
