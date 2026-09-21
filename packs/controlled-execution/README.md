@@ -35,6 +35,12 @@ Typical combinations are:
 
 The broad OWASP ASVS and NIST SSDF routines remain separate work in open PR #17. This pack extracts narrower traceability mechanisms under different identifiers.
 
+## Integrity boundary
+
+`SOURCE-BASELINE.sha256` records the expected bytes for every pack file except `CHECKSUMS.sha256`, `SOURCE-BASELINE.sha256` and `audit/validate_pack.py`. Refreshing `CHECKSUMS.sha256` cannot silently author a changed skill, catalog, rights record, builder, test or added root/audit file.
+
+This extracted pack is not self-authenticating: `audit/validate_pack.py` still requires an external/root trust pin. Root integration is deferred until the post-V8.9 rebase, and this pack does not claim immutable constants or merge readiness.
+
 ## Evidence limits
 
 The checks verify source structure, immutable authored baselines, links, inventories, text format, rejection controls and deterministic packaging. The authored cases are not live-model evaluations. No formal conformity, task-success gain, comprehension rate or local installation is claimed.

@@ -23,37 +23,10 @@ EXPECTED_SKILLS = ('practice-normative-precision',
  'profile-ui-procedure-writing',
  'profile-action-step-structure',
  'practice-modular-information-units')
-SKILL_SHA256 = {'practice-normative-precision': 'b91aab4a1314b16bda7fbd88cbdc18bb87d601e19c2c84a3121969363855d14d',
- 'practice-verifiable-requirements': '0e09c35b143a293267ebc18ec923ca4ca5c5608d6215030079b18fb618822e79',
- 'practice-compliant-contrast': 'dbae29e422e0e0e4a492cc391d05bcc1d637d623415f7facaa7ac6187b5632b9',
- 'practice-use-error-controls': 'fd5e8a08049679f1ca152951d3207c6cccbf6bee50f061c487dd3fdf95ff4717',
- 'practice-state-verification': '850aeacd2cd2f3499c632e2c3f0f9c3caef07246de6c71fcd3a1dc13253727f8',
- 'practice-transition-checklists': 'a1029371f943770b2e80ec334b986e317d2063774f04f0fa2d0babb53236f77e',
- 'guidance-safety-messages': 'e4839435b049ecb49001c118d4507419ab3e3ebbe6f2afbb1cbccdc678ad3348',
- 'guidance-safe-technical-procedures': '9aa43db5f6098fc1cbcfd9628c37e5e61d5df22a04e92e6406cf4742c45e2e13',
- 'practice-versioned-verification-requirements': 'bc9dbc9e99e0cc648d119a342febaf248dc1b5dc2f09c39b4d2c98e6742037fa',
- 'practice-implementation-example-traceability': '26cf345ba0e6228355c04a252d468df70cc3e81a5733c461766bf9c4030c956f',
- 'profile-ui-procedure-writing': '6163fe17e4ba3301f7c4c99c13a9079cfaaa2571b4e06e3d1e283f05cbe8a201',
- 'profile-action-step-structure': 'f1414c320f898d7829d09dfdde6d0a6f37d1d8f802f517257cf7513012e57a99',
- 'practice-modular-information-units': 'b502a134ed2215f01bd8e24d64a5629d7ed113ba414ac233e7e47b84f528128e'}
-SOURCE_NOTE_SHA256 = {'practice-normative-precision': 'ce7a5a431a08ef1a9812de98724e8ba692391af6bb3b00b6256974827d7b56fe',
- 'practice-verifiable-requirements': '2819999a2b1a03cd657edb7292ca56d123b63ea789ae1b7435822cd55321e567',
- 'practice-compliant-contrast': '86a87cf4ffd5f06f851f25c5fae9a8fff51a0d8c78cb73ed1ae84e98fefc9ee2',
- 'practice-use-error-controls': '8cbef45d11ef657b87bf43d859bbe1a78aeb812e46fa6627585424db4f0181aa',
- 'practice-state-verification': '35be129fdb3a4569aab140a3b6d588b6728ec53af36cefad33b46dc53d929b80',
- 'practice-transition-checklists': '091e30cc04f595db73b76bef23c92e48ea4e164e394cc5d0eb8959f0aeebd244',
- 'guidance-safety-messages': '928338a5bb065970bcbb8ac9dca25fe6d6172babd890f565e4c0b816e3244ea9',
- 'guidance-safe-technical-procedures': '6f9a82037fdf4b4778cafe67216b8e3872294e79d37d75a874544eac69489939',
- 'practice-versioned-verification-requirements': '5a52264f00ac858e2e5ff1f3b8f33ba2f2eb512ebd9c3e7955e3c1fe71c022b7',
- 'practice-implementation-example-traceability': '1da53970cd0a8f90ef833225818e10369481e0d2b047e0b4bfbd60f0bc28c62f',
- 'profile-ui-procedure-writing': 'bb920e7f217d3349cf7826707f8d504620b5201102251ea5a26c970f9bbdf93e',
- 'profile-action-step-structure': '1d341c8f5ddf8af63b7534f6d48a82f0a3d207d7ae437e04c0b809bfaed26159',
- 'practice-modular-information-units': '2a7e4b180699a26ffb47aec5e2db642804c3bd8c0a2bafd1732b7eb6171fc356'}
-CORE_SHA256 = {'SOURCE-MANIFEST.json': '57eaa6e3ff20755818d6dcf92140adb53d6a9c36ac9b6d52a8867ec220f04f32',
- 'CONTROL-MODEL.md': 'fd944b48388ee8d15caf427fd897e2321a1aaa01cbe8518364e51d16a35eff95',
- 'audit/acceptance-cases.json': '77a924439b5cd612250fec7e755f566521665edc407de4b81435b7790c2700d4',
- 'VALIDATION.json': '300c5a2ad604e0beb9b934c5caba4ed2219ad4e7dd8838a38197aed8a1b60e37',
- 'CATALOG.md': 'e45868b4d8d69476f497fa8f9b397cb6536564bca8219fd2b3d3b9d944810a15'}
+SOURCE_BASELINE_NAME = "SOURCE-BASELINE.sha256"
+SOURCE_BASELINE_SHA256 = "1d0b7a51ad0ab5d6257d1c799466ba6d1ac0e74a2358fd025e2b60db25d57ccb"
+SOURCE_BASELINE_EXCLUDED = frozenset({"CHECKSUMS.sha256", SOURCE_BASELINE_NAME, "audit/validate_pack.py"})
+
 CONTROL_FIELDS = (
     "ID",
     "TYPE",
@@ -78,6 +51,7 @@ FIXED_FILES = {
     "SOURCE-MANIFEST.json",
     "VALIDATION.json",
     "CHECKSUMS.sha256",
+    SOURCE_BASELINE_NAME,
     "LICENSE",
     "THIRD-PARTY-NOTICES.md",
     "audit/acceptance-cases.json",
@@ -128,6 +102,8 @@ def local_path(root: Path, relative: str) -> Path:
 def inventory(root: Path) -> dict[str, Path]:
     found: dict[str, Path] = {}
     for path in root.rglob("*"):
+        if "__pycache__" in path.parts or path.suffix.lower() == ".pyc":
+            continue
         relative = path.relative_to(root).as_posix()
         require(not path.is_symlink(), f"symlink entry: {relative}")
         if path.is_file():
@@ -167,6 +143,32 @@ def read_checksums(root: Path) -> dict[str, str]:
         )
         checksums[relative] = value
     return checksums
+
+
+def verify_source_baseline(root: Path, files: dict[str, Path]) -> None:
+    baseline = files.get(SOURCE_BASELINE_NAME)
+    require(baseline is not None, "source baseline missing")
+    require(digest(baseline.read_bytes()) == SOURCE_BASELINE_SHA256, "source baseline pin changed")
+    try:
+        lines = baseline.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError) as exc:
+        raise InvalidPack(f"cannot read source baseline: {exc}") from exc
+    entries: dict[str, str] = {}
+    folded: set[str] = set()
+    for line in lines:
+        match = re.fullmatch(r"([a-f0-9]{64})  (.+)", line)
+        require(match is not None, "malformed source baseline entry")
+        value, relative = match.groups()
+        local_path(root, relative)
+        folded_relative = relative.casefold()
+        require(relative not in entries and folded_relative not in folded, "duplicate source baseline entry")
+        require(relative in files, f"source baseline path missing: {relative}")
+        entries[relative] = value
+        folded.add(folded_relative)
+    expected = set(files) - SOURCE_BASELINE_EXCLUDED
+    require(set(entries) == expected, "source baseline coverage mismatch")
+    for relative, value in entries.items():
+        require(digest(files[relative].read_bytes()) == value, f"source baseline mismatch: {relative}")
 
 
 def check_text(relative: str, data: bytes) -> str:
@@ -211,6 +213,7 @@ def validate(root: Path) -> dict:
     root = root.resolve()
     require(root.is_dir(), "pack directory does not exist")
     files = inventory(root)
+    verify_source_baseline(root, files)
     require(set(files) == EXPECTED_FILES, "exact pack inventory mismatch")
     require(not any("/references/" in name for name in files), "publisher reference directory included")
     require(
@@ -268,10 +271,6 @@ def validate(root: Path) -> dict:
         require(isinstance(urls, list) and urls, f"source URLs missing: {name}")
         require(all(isinstance(url, str) and url.startswith("https://") for url in urls), f"invalid source URL: {name}")
         require(all(url in source_text for url in urls), f"source URL not documented: {name}")
-        require(digest(files[skill_relative].read_bytes()) == SKILL_SHA256[name], f"authored skill baseline drift: {name}")
-        require(digest(files[source_relative].read_bytes()) == SOURCE_NOTE_SHA256[name], f"source-note baseline drift: {name}")
-        require(entry.get("skill_sha256") == SKILL_SHA256[name], f"manifest skill digest drift: {name}")
-        require(entry.get("sources_sha256") == SOURCE_NOTE_SHA256[name], f"manifest source digest drift: {name}")
 
     require("standard-owasp-asvs" not in names and "standard-nist-ssdf" not in names, "broad PR #17 identity duplicated")
 
@@ -323,8 +322,6 @@ def validate(root: Path) -> dict:
 
     require(texts["LICENSE"].startswith("MIT License\n"), "pack licence missing or malformed")
     require("contains no copied publisher" in texts["THIRD-PARTY-NOTICES.md"], "third-party boundary missing")
-    for relative, value in CORE_SHA256.items():
-        require(digest(files[relative].read_bytes()) == value, f"immutable core baseline drift: {relative}")
     for relative, path in files.items():
         if relative.endswith(".md"):
             check_links(path, root)
