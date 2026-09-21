@@ -1,0 +1,21 @@
+{
+  "status": "local_prototype_not_release",
+  "skills": 70,
+  "ordinary_optional": 63,
+  "gated": 7,
+  "source_gated_iso_entries": 19,
+  "skill_lines_min": 46,
+  "skill_lines_max": 51,
+  "pdf_copies": 26,
+  "pdf_unique": 24,
+  "pdf_entries": 20,
+  "pdf_unique_pages": 1984,
+  "original_source_copies": 64,
+  "authored_cases": 210,
+  "live_model_runs": 0,
+  "limits": {
+    "skill_lines_exclusive_max": 100,
+    "description_characters_max": 60
+  },
+  "validation_scope": "Structural source preservation, source-byte identity, navigation and packaging only. Not a standards conformance or model performance assessment."
+}

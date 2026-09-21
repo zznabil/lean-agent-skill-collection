@@ -1,0 +1,17 @@
+{
+  "lean_commit": "58b4369205d7689b2c46cdf4b4ac3801164e95ed",
+  "register_blob": "983cd4532cbf97dd77c4446accaf358b5317fcfa",
+  "register_sha256": "803ee1cb470da1d6f499ddee8c019d2f8513b17bcb28a19b3ee33fc85ea25aaa",
+  "previous_pr": 16,
+  "previous_head": "93ac875fd4d86bde7855340290a103916448edfb",
+  "previous_zip_sha256": "355e9468fbcca3e30e62a2b442599f7785dae62e8f19367e49b8d6187890fec3",
+  "source_review_date": "2026-09-13",
+  "source_fetch_runs": [
+    34744806907,
+    34745099394,
+    34745242503
+  ],
+  "live_model_evaluation": "not_run",
+  "canonical_source_modified": false,
+  "temporary_operations": "Source-only retrieval workflows used a separate temporary branch; cleanup is recorded separately."
+}
