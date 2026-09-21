@@ -1,0 +1,51 @@
+{
+  "source_archive": "lean-user-facing-standards-prototype.zip",
+  "source_archive_sha256": "05083456ac42535d5f7ce5269050da9ae9f144c52a034830b273467eed2663f0",
+  "base_commit": "58b4369205d7689b2c46cdf4b4ac3801164e95ed",
+  "base_tree": "651fed0b76d76fc0d48d0864f01888481e15bffe",
+  "skill_sha256": {
+    "diagnostic-ahrq-pemat": "29bfbb2b27ca08b371052df5ca5bdd654b5276a4d81789e6e233bddd64d65d17",
+    "diagnostic-cdc-cci": "7e97496bc7f7d18baab8f70cd15f54278035c0586873a145e1845139f4cc2bcc",
+    "guidance-cast-udl": "daea820f3d4f3c6af652682c767f3d5ee25b6e1c6371860d93b106004670237f",
+    "guidance-easy-to-read": "3fdcbad85df9c67f6d643d4d4400b7ec61f779be7662c7f658df6a811bb828cf",
+    "guidance-w3c-coga": "8349b12ee974772b76ebd8e4d9beaaad4de812addcf7f87eefc592f9fa56064f",
+    "guidance-wai-aria-apg": "608d4928e9e276ebf6a34b2c51575f1fd75193f6dcbd37dcf35811c0e65a4e77",
+    "practice-cognitive-load": "d080c191d64925971f716d927ec7ac06700348fd3f4f538c38119b122b75860a",
+    "practice-diataxis": "659d37a018dfb2311266da7a47155ffc089710afefcfa01aed07c49340b284ac",
+    "practice-feynman": "a85a7e3f6e3f0e82d18dd2f3e7270e8ef669ef0457db088227d53437cc5e2974",
+    "practice-ies-study": "15b148f090ad23f153163db66929d673829f914830087c205631795afea54b0d",
+    "practice-worked-examples": "7f1be544641ac2731c7258db44da600deb773c0b77e77bdedb64d0a6d122901f",
+    "standard-asd-ste100": "d381a6ee4946c2fe928ba6e27f2c0bd03cf9e487db07c8fef1e90f7839194081",
+    "standard-bcp14": "154056fe3fbb5e08b49b2cc4751abbf46a4fc0cdf2574e4fd6ce9b7604e5c116",
+    "standard-iec-ieee-82079-1": "69ea7fb6ee82a8dd77a9aac317de5104cf0021460751956ba76ab67148463775",
+    "standard-iso-21801-1": "57f702821142fa5318447f2e0d738aa062338f5e65daa5bb62ddb3be53da54be",
+    "standard-iso-23859": "1f5febf8fc63a24feffc26e605ed3066acd033983ccb8b5667d7c8cd7d068826",
+    "standard-iso-24495-1": "4e955fa35af02c66b5463438ffbac76a24788f691b30e3ac3d24e0d19a5be3d3",
+    "standard-iso-29138-1": "341dcca8199cf8d408f4c709c5a84cc7d5b886c96c58bfd2b700a919917a41bc",
+    "standard-iso-29138-4": "2b5b61d9fe4683da285f09f8075dfaa247cf01dfb2891cc8b8d51263b187cb0f",
+    "standard-iso-704": "b60a1cf582782ee7e9c172b059220b8108bdcc37f66997e94eb0b151d89a44be",
+    "standard-iso-9241-110": "d6ba710dc3a0fa6fd4dac0e5df11caec713180808de60cdb9b7114ccc36d4964",
+    "standard-iso-9241-112": "dc6d514fbd58013ea840d44570c404a93c7699b109a298f636a7fafe604f7335",
+    "standard-iso-9241-171": "f065cafc9818d24fbdbf7525e9953420e63102d7fdc378a52bf116b1a22be9c2",
+    "standard-iso-9241-210": "d344e587ab31f4e35b789694ec90ad995211c4887551202283f55ca4efcdf484",
+    "standard-iso-ieee-26513": "c8f6160b5d1e5128d7aea84e0e11b8c58fe5b0863b8647b8d5a50caa9d68aef8",
+    "standard-iso-ieee-26514": "f3e685b1087ed93eaf3e0dac1edca6fe9434e4f6a53d6126d4367fb2b391396e",
+    "standard-wcag22": "82f875736163eaad394b1934c5999109350936dc4cc0dd94ff7c38e54e88c0c1"
+  },
+  "skill_changes": {
+    "guidance-cast-udl": {
+      "before": "- Read references/cast-udl3-organizer.pdf, the official 2024 UDL 3.0 graphic organiser.",
+      "after": "- Read the official 2024 UDL 3.0 graphic organiser linked in [SOURCES.md](SOURCES.md).",
+      "reason": "Public redistribution: use official link instead of the excluded local PDF. No procedural rule changed."
+    }
+  },
+  "frozen_provenance": {
+    "REGISTER-COVERAGE.json": "1a880285b926ce7fd6543e5ab4d5c311c16286fda95d02dff37ffca053801f54",
+    "audit/BASELINE-STANDARDS-REGISTER.md": "803ee1cb470da1d6f499ddee8c019d2f8513b17bcb28a19b3ee33fc85ea25aaa",
+    "audit/LEAN-USER-INFORMATION-baseline.md": "e27fa863f392f9a6d964ae56597083c5a87cd5f4dc339701d47bb27e62d5d0dc",
+    "audit/acceptance-cases.json": "44cc36dfee61a5110e8e8e13c25b09c775be426c58c6fb2afa34febfea06dc65",
+    "audit/DIRECT-CLAIMS-REVIEW-v8.7.0.md": "be94dba281464c26ee950dce932e9d5334be45081c3b8636bbe2d8f636323444",
+    "audit/evals/direct-claims-scenarios-v8.7.0.csv": "3fbd1674523a121a4bab7e711c020d680ae2ac19c4bfd741309fe89bc85a1c2a"
+  },
+  "reference_exclusion_sha256": "b1373877826c6f301309a0256c866941c2f590a255aeaf8fccb0d1d9cbf98b4a"
+}

@@ -34,13 +34,32 @@ jobs:
           }
       - name: Test validator rejection controls
         shell: pwsh
-        run: ./scripts/test-validator.ps1
+        run: ./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/repro-a
       - name: Validate source and release artifacts
         shell: pwsh
         run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
       - name: Audit repository integrity
         shell: pwsh
         run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Validate remaining standards review pack
+        shell: pwsh
+        run: |
+          python -B packs/remaining-standards/audit/validate_bundle.py
+          python -B packs/remaining-standards/audit/test_validate_bundle.py
+          python -B packs/remaining-standards/audit/test_publisher_baseline.py
+          python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-a.zip"
+          python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-b.zip"
+          if ((Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-b.zip").Hash) { throw 'Remaining standards archives are not byte-identical' }
+          if (git status --porcelain) { throw 'Remaining standards validation changed the checkout' }
+      - name: Validate controlled-execution review pack
+        shell: pwsh
+        run: |
+          python -B packs/controlled-execution/audit/validate_pack.py
+          python -B packs/controlled-execution/audit/test_validate_pack.py
+          python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-a.zip"
+          python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-b.zip"
+          if ((Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-b.zip").Hash) { throw 'Controlled-execution archives are not byte-identical' }
+          if (git status --porcelain) { throw 'Controlled-execution validation changed the checkout' }
       - name: Verify prose preservation and packaged standalone instructions
         shell: pwsh
         run: ./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a
@@ -69,13 +88,32 @@ jobs:
           }
       - name: Test validator rejection controls
         shell: powershell
-        run: ./scripts/test-validator.ps1
+        run: ./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/repro-a
       - name: Validate source and release artifacts
         shell: powershell
         run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
       - name: Audit repository integrity
         shell: powershell
         run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Validate remaining standards review pack
+        shell: powershell
+        run: |
+          python -B packs/remaining-standards/audit/validate_bundle.py
+          python -B packs/remaining-standards/audit/test_validate_bundle.py
+          python -B packs/remaining-standards/audit/test_publisher_baseline.py
+          python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-a.zip"
+          python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-b.zip"
+          if ((Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-b.zip").Hash) { throw 'Remaining standards archives are not byte-identical' }
+          if (git status --porcelain) { throw 'Remaining standards validation changed the checkout' }
+      - name: Validate controlled-execution review pack
+        shell: powershell
+        run: |
+          python -B packs/controlled-execution/audit/validate_pack.py
+          python -B packs/controlled-execution/audit/test_validate_pack.py
+          python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-a.zip"
+          python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-b.zip"
+          if ((Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-b.zip").Hash) { throw 'Controlled-execution archives are not byte-identical' }
+          if (git status --porcelain) { throw 'Controlled-execution validation changed the checkout' }
       - name: Verify prose preservation and packaged standalone instructions
         shell: powershell
         run: ./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a

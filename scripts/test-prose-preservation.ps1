@@ -2,6 +2,7 @@
 param([string]$ArtifactsDirectory)
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+. (Join-Path $root 'scripts/release-inventory.ps1')
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -10,6 +11,26 @@ function Hash-Bytes([byte[]]$Bytes) {
     $hash = [Security.Cryptography.SHA256]::Create()
     try { [BitConverter]::ToString($hash.ComputeHash($Bytes)).Replace('-', '').ToLowerInvariant() }
     finally { $hash.Dispose() }
+}
+function Hash-Stream([IO.Stream]$Stream) {
+    $hash = [Security.Cryptography.SHA256]::Create()
+    try { [BitConverter]::ToString($hash.ComputeHash($Stream)).Replace('-','').ToLowerInvariant() }
+    finally { $hash.Dispose() }
+}
+function Hash-FileRecord([string]$Path) {
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction Stop
+    $stream = [IO.File]::OpenRead($Path)
+    try { [pscustomobject]@{ Length=[int64]$item.Length; Hash=(Hash-Stream $stream) } }
+    finally { $stream.Dispose() }
+}
+function Hash-EntryRecord([IO.Compression.ZipArchiveEntry]$Entry) {
+    $stream = $Entry.Open()
+    try { [pscustomobject]@{ Length=[int64]$Entry.Length; Hash=(Hash-Stream $stream) } }
+    finally { $stream.Dispose() }
+}
+function Entry-Text([IO.Compression.ZipArchiveEntry]$Entry) {
+    $stream = $Entry.Open(); $reader = New-Object IO.StreamReader($stream,[Text.Encoding]::UTF8,$true)
+    try { return $reader.ReadToEnd() } finally { $reader.Dispose(); $stream.Dispose() }
 }
 function Hash-Text([string]$Text) { Hash-Bytes ([Text.Encoding]::UTF8.GetBytes($Text)) }
 function Normalise-Prose([string]$Text) {
@@ -52,11 +73,6 @@ function Assert-Prose([string]$Path, [string]$Text, [object]$Record) {
 function Assert-Frozen([string]$Path, [byte[]]$Bytes, [string]$Expected) {
     if ((Hash-Bytes $Bytes) -cne $Expected) { throw "PRESERVATION: frozen source changed: $Path" }
 }
-function Entry-Bytes([IO.Compression.ZipArchiveEntry]$Entry) {
-    $inputStream=$Entry.Open(); $output=New-Object IO.MemoryStream
-    try { $inputStream.CopyTo($output); return ,$output.ToArray() }
-    finally { $inputStream.Dispose(); $output.Dispose() }
-}
 function Package-Name([string]$Profile,[string]$Version) {
     switch ($Profile) {
         'communication' { "user-facing-communication-mini-openai-v$Version" }
@@ -68,11 +84,19 @@ function Package-Name([string]$Profile,[string]$Version) {
 function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [string]$Version) {
     $prefix=(Package-Name $Profile $Version)+'/'
     $expected=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
+    $expected.Add('USER-FACING-STANDARDS-NOTICES.md',$script:proseInventory.RightsPath)
     foreach ($relative in @('AGENTS.md','LICENSE','THIRD_PARTY_NOTICES.md')) { $expected.Add($relative,(Join-Path $root $relative)) }
     if ($Definition.include_engineering_core) { $expected.Add('ENGINEERING-CORE.md',(Join-Path $root 'ENGINEERING-CORE.md')) }
     foreach ($skill in $Definition.skills) {
         $skillRoot=Join-Path $root "skills/$skill"
-        foreach ($file in Get-ChildItem -LiteralPath $skillRoot -Recurse -Force -File) {
+        foreach ($file in @(Get-ReleaseInventorySafeFileTree $skillRoot "base package source $skill")) {
+            $relative='skills/'+$skill+'/'+$file.FullName.Substring($skillRoot.Length+1).Replace('\','/')
+            $expected.Add($relative,$file.FullName)
+        }
+    }
+    foreach ($skill in $script:proseInventory.Names) {
+        $skillRoot=Join-Path $script:proseInventory.SourceRoot $skill
+        foreach ($file in @(Get-ReleaseInventorySafeFileTree $skillRoot "supplemental package source $skill")) {
             $relative='skills/'+$skill+'/'+$file.FullName.Substring($skillRoot.Length+1).Replace('\','/')
             $expected.Add($relative,$file.FullName)
         }
@@ -80,26 +104,32 @@ function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [s
     foreach ($relative in @('README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256')) { $expected.Add($relative,'') }
     $zip=[IO.Compression.ZipFile]::OpenRead($Path)
     try {
-        $entries=New-Object 'System.Collections.Generic.Dictionary[string,byte[]]' ([StringComparer]::Ordinal)
+        $entries=New-Object 'System.Collections.Generic.Dictionary[string,System.IO.Compression.ZipArchiveEntry]' ([StringComparer]::Ordinal)
         foreach ($entry in $zip.Entries) {
-            if (-not $entry.Name) { continue }
-            if (-not $entry.FullName.StartsWith($prefix,[StringComparison]::Ordinal)) { throw "PRESERVATION: package root in $Profile" }
-            $relative=$entry.FullName.Substring($prefix.Length)
+            $rawName=[string]$entry.FullName
+            if ($rawName.Contains([char]92)) { throw "PRESERVATION: backslash packaged member in $Profile" }
+            $name=$rawName.Replace([char]92,'/')
+            if ([string]::IsNullOrEmpty($entry.Name) -or $name.EndsWith('/',[StringComparison]::Ordinal)) { throw "PRESERVATION: directory-only packaged member in $Profile" }
+            if (-not $name.StartsWith($prefix,[StringComparison]::Ordinal)) { throw "PRESERVATION: package root in $Profile" }
+            $relative=$name.Substring($prefix.Length)
             if ($entries.ContainsKey($relative) -or -not $expected.ContainsKey($relative)) { throw "PRESERVATION: unexpected or duplicate packaged file in $Profile" }
-            $bytes=Entry-Bytes $entry
-            $entries.Add($relative,$bytes)
-            if ($expected[$relative] -and (Hash-Bytes $bytes) -cne (Hash-Bytes ([IO.File]::ReadAllBytes($expected[$relative])))) { throw "PRESERVATION: packaged source differs: $Profile/$relative" }
+            $entries.Add($relative,$entry)
+            if (-not [string]::IsNullOrEmpty($expected[$relative])) {
+                $sourceRecord=Hash-FileRecord $expected[$relative]
+                $entryRecord=Hash-EntryRecord $entry
+                if ($entryRecord.Length -ne $sourceRecord.Length -or $entryRecord.Hash -cne $sourceRecord.Hash) { throw "PRESERVATION: packaged source differs: $Profile/$relative" }
+            }
         }
         Assert-SameSequence @($expected.Keys | Sort-Object) @($entries.Keys | Sort-Object) "package inventory $Profile"
         $declared=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
-        foreach ($line in ([Text.Encoding]::UTF8.GetString($entries['CHECKSUMS.sha256']) -split '\r?\n')) {
+        foreach ($line in ((Entry-Text $entries['CHECKSUMS.sha256']) -split '\r?\n')) {
             if (-not $line) { continue }
             $match=[regex]::Match($line,'^([0-9a-f]{64})  (.+)$')
             if (-not $match.Success) { throw "PRESERVATION: malformed package checksum in $Profile" }
             $relative=$match.Groups[2].Value
             if ($relative -eq 'CHECKSUMS.sha256' -or $declared.ContainsKey($relative) -or -not $entries.ContainsKey($relative)) { throw "PRESERVATION: invalid package checksum target in $Profile" }
             $declared.Add($relative,$match.Groups[1].Value)
-            if ((Hash-Bytes $entries[$relative]) -cne $declared[$relative]) { throw "PRESERVATION: package checksum mismatch in $Profile" }
+            if ((Hash-EntryRecord $entries[$relative]).Hash -cne $declared[$relative]) { throw "PRESERVATION: package checksum mismatch in $Profile" }
         }
         Assert-SameSequence @($entries.Keys | Where-Object { $_ -ne 'CHECKSUMS.sha256' } | Sort-Object) @($declared.Keys | Sort-Object) "checksum coverage $Profile"
     } finally { $zip.Dispose() }
@@ -114,35 +144,6 @@ function Expect-Rejection([string]$Name,[scriptblock]$Action) {
     $script:controls++
     Write-Host "PASS rejection: $Name"
 }
-function Assert-QuickText([string]$Text) {
-    foreach ($needle in @(
-        'Quick Mode requires an explicit user request',
-        'one cheap smoke check',
-        'Chrome DevTools or the Chrome DevTools Protocol',
-        'OMP Browser Relay',
-        'CUA or computer-use control',
-        'Static source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy DOGFOOD.',
-        'A CUA-driven journey counts as automated UAT only when it is sufficiently recorded or scripted to replay and its outcome is asserted.',
-        'Production readiness:',
-        'NOT ASSESSED'
-    )) {
-        if ($Text.IndexOf($needle,[StringComparison]::Ordinal) -lt 0) { throw "PRESERVATION: quick-mode contract missing: $needle" }
-    }
-}
-function Assert-QuickProfiles([object]$Profiles,[object]$Baseline) {
-    $allowed=@('core','engineering','complete','get-it-done')
-    Assert-SameSequence @($Baseline.PSObject.Properties.Name | Sort-Object) @($Profiles.profiles.PSObject.Properties.Name | Sort-Object) 'profile names'
-    foreach ($profile in $Baseline.PSObject.Properties) {
-        $current=$Profiles.profiles.PSObject.Properties[$profile.Name].Value
-        $currentSkills=@($current.skills | ForEach-Object { [string]$_ })
-        $count=@($currentSkills | Where-Object { $_ -eq 'quick-mode' }).Count
-        $expectedCount=if($allowed -contains $profile.Name){1}else{0}
-        if($count -ne $expectedCount){throw "PRESERVATION: quick-mode membership $($profile.Name)"}
-        $withoutQuick=@($currentSkills | Where-Object { $_ -ne 'quick-mode' })
-        Assert-SameSequence @($profile.Value.skills) $withoutQuick "V8.8 profile membership $($profile.Name)"
-        if ($current.include_engineering_core -ne $profile.Value.include_engineering_core) { throw 'PRESERVATION: engineering core inclusion' }
-    }
-}
 
 $contractPath=Join-Path $root 'docs/evals/prose-preservation-v8.8.0.json'
 $contractBytes=[IO.File]::ReadAllBytes($contractPath)
@@ -155,18 +156,38 @@ foreach ($file in $contract.files.PSObject.Properties) { Assert-Prose $file.Name
 foreach ($file in $contract.unchanged.PSObject.Properties) { Assert-Frozen $file.Name ([IO.File]::ReadAllBytes((Join-Path $root $file.Name))) $file.Value }
 foreach ($path in $contract.authoring_copies) { Assert-Frozen $path ([IO.File]::ReadAllBytes((Join-Path $root $path))) $contract.authoring_sha256 }
 $profiles=(Read-Utf8 (Join-Path $root 'release-profiles.json')) | ConvertFrom-Json
-Assert-QuickProfiles $profiles $contract.profile_inventory
-$expectedCanonical=@($contract.profile_inventory.complete.skills)+@('quick-mode')
+$script:proseInventory=Get-ReleaseUserFacingInventory $root $profiles
+Assert-SameSequence @($contract.profile_inventory.PSObject.Properties.Name | Sort-Object) @($profiles.profiles.PSObject.Properties.Name | Sort-Object) 'profile names'
+$quickProfiles=@('core','engineering','complete','get-it-done')
+foreach ($profile in $contract.profile_inventory.PSObject.Properties) {
+    $current=$profiles.profiles.PSObject.Properties[$profile.Name].Value
+    $currentSkills=@($current.skills | Where-Object { $_ -ne 'quick-mode' })
+    Assert-SameSequence @($profile.Value.skills) $currentSkills "V8.8 profile membership $($profile.Name)"
+    $quickCount=@($current.skills | Where-Object { $_ -eq 'quick-mode' }).Count
+    $expectedQuick=if($quickProfiles -contains $profile.Name){1}else{0}
+    if($quickCount -ne $expectedQuick){throw "PRESERVATION: quick-mode membership $($profile.Name)"}
+    if ($current.include_engineering_core -ne $profile.Value.include_engineering_core) { throw 'PRESERVATION: engineering core inclusion' }
+}
+$expectedCanonical=@($profiles.profiles.complete.skills)
 Assert-SameSequence @($expectedCanonical | Sort-Object) @(Get-ChildItem (Join-Path $root 'skills') -Directory | ForEach-Object Name | Sort-Object) 'canonical skills'
-Write-Host 'PASS: all 25 V8.8 instruction roots reconstruct their pinned source; frozen references, adapters and register remain; Quick Mode is the sole declared additive route in four profiles'
+Write-Host 'PASS: all 25 instruction roots reconstruct their pinned source; declared edits, supplemental pack, Quick Mode route, adapters, register and six profiles match'
+
+function Assert-QuickText([string]$Text) {
+    foreach ($needle in @('Quick Mode requires an explicit user request','one cheap smoke check','Chrome DevTools or the Chrome DevTools Protocol','OMP Browser Relay','CUA or computer-use control','Static source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy DOGFOOD.','A CUA-driven journey counts as automated UAT only when it is sufficiently recorded or scripted to replay and its outcome is asserted.','Production readiness:','NOT ASSESSED')) {
+        if ($Text.IndexOf($needle,[StringComparison]::Ordinal) -lt 0) { throw "PRESERVATION: quick-mode contract missing: $needle" }
+    }
+}
 
 $controls=0
+$quickPath='skills/quick-mode/SKILL.md';$quick=Read-Utf8 (Join-Path $root $quickPath)
+Assert-QuickText $quick
+Expect-Rejection 'quick-mode explicit-request trigger removed' { Assert-QuickText ($quick.Replace('Quick Mode requires an explicit user request','Quick Mode can activate automatically')) }
+Expect-Rejection 'quick-mode interaction evidence weakened' { Assert-QuickText ($quick.Replace('Static source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy DOGFOOD.','Source inspection is sufficient.')) }
+Expect-Rejection 'quick-mode CUA replay boundary removed' { Assert-QuickText ($quick.Replace('A CUA-driven journey counts as automated UAT only when it is sufficiently recorded or scripted to replay and its outcome is asserted.','Any CUA session is automated UAT.')) }
 $gidPath='skills/get-it-done/SKILL.md';$gid=Read-Utf8 (Join-Path $root $gidPath)
 $implPath='skills/implement/SKILL.md';$impl=Read-Utf8 (Join-Path $root $implPath)
 $writingPath='skills/writing/SKILL.md';$writing=Read-Utf8 (Join-Path $root $writingPath)
 $waitPath='skills/wait-what/SKILL.md';$wait=Read-Utf8 (Join-Path $root $waitPath)
-$quickPath='skills/quick-mode/SKILL.md';$quick=Read-Utf8 (Join-Path $root $quickPath)
-Assert-QuickText $quick
 Expect-Rejection 'standing Definition of Done omitted' { Assert-Prose $gidPath ($gid.Replace('standing Definition of Done','')) $contract.files.$gidPath }
 Expect-Rejection 'required mandate weakened' { Assert-Prose $gidPath ($gid.Replace('MUST NOT report','SHOULD NOT report')) $contract.files.$gidPath }
 Expect-Rejection 'standalone communication rule removed' { Assert-Prose $implPath ($impl.Replace('State supported conclusions directly','')) $contract.files.$implPath }
@@ -183,12 +204,6 @@ Expect-Rejection 'standards-register decision changed' { Assert-Frozen $register
 $designPath='skills/skill-design/SKILL.md';$design=Read-Utf8 (Join-Path $root $designPath)
 Expect-Rejection 'required-reference deletion guard weakened' { Assert-Prose $designPath ($design.Replace('Retain every entry','Drop every entry')) $contract.files.$designPath }
 Expect-Rejection 'baseline fixture tampered' { Assert-Frozen 'prose preservation contract' ([Text.Encoding]::UTF8.GetBytes(([Text.Encoding]::UTF8.GetString($contractBytes))+" ")) $contractHash }
-Expect-Rejection 'quick-mode explicit-request trigger removed' { Assert-QuickText ($quick.Replace('Quick Mode requires an explicit user request','Quick Mode can activate automatically')) }
-Expect-Rejection 'quick-mode interaction evidence weakened' { Assert-QuickText ($quick.Replace('Static source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy DOGFOOD.','Source inspection is sufficient.')) }
-Expect-Rejection 'quick-mode CUA replay boundary removed' { Assert-QuickText ($quick.Replace('A CUA-driven journey counts as automated UAT only when it is sufficiently recorded or scripted to replay and its outcome is asserted.','Any CUA session is automated UAT.')) }
-$badProfiles=(Read-Utf8 (Join-Path $root 'release-profiles.json')) | ConvertFrom-Json
-$badProfiles.profiles.communication.skills=@($badProfiles.profiles.communication.skills)+@('quick-mode')
-Expect-Rejection 'quick-mode added to Communication' { Assert-QuickProfiles $badProfiles $contract.profile_inventory }
 
 if ($ArtifactsDirectory) {
     $artifacts=[IO.Path]::GetFullPath($ArtifactsDirectory)
@@ -215,4 +230,4 @@ if ($ArtifactsDirectory) {
         Write-Host 'PASS: all six package inventories, canonical bytes and complete checksum inventories; restored positive control'
     } finally { if (Test-Path -LiteralPath $temporary) { Remove-Item -LiteralPath $temporary -Force } }
 }
-Write-Host "PASS: $controls preservation rejection controls. Live agent behaviour, interaction tooling, comprehension and conformance NOT TESTED."
+Write-Host "PASS: $controls preservation rejection controls. Live agent behaviour, comprehension and conformance NOT TESTED."

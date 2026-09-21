@@ -1,0 +1,29 @@
+test_01_positive_source (__main__.PackControls.test_01_positive_source) ... ok
+test_02_missing_skill (__main__.PackControls.test_02_missing_skill) ... ok
+test_03_missing_source_notes (__main__.PackControls.test_03_missing_source_notes) ... ok
+test_04_hundred_lines (__main__.PackControls.test_04_hundred_lines) ... ok
+test_05_long_description (__main__.PackControls.test_05_long_description) ... ok
+test_06_wrong_name (__main__.PackControls.test_06_wrong_name) ... ok
+test_07_lost_source_limit (__main__.PackControls.test_07_lost_source_limit) ... ok
+test_08_lost_permission_boundary (__main__.PackControls.test_08_lost_permission_boundary) ... ok
+test_09_lost_evidence_guard (__main__.PackControls.test_09_lost_evidence_guard) ... ok
+test_10_guard_in_default_directory (__main__.PackControls.test_10_guard_in_default_directory) ... ok
+test_11_register_adoption_changed (__main__.PackControls.test_11_register_adoption_changed) ... ok
+test_12_register_entry_missing (__main__.PackControls.test_12_register_entry_missing) ... ok
+test_13_duplicate_skill_name (__main__.PackControls.test_13_duplicate_skill_name) ... ok
+test_14_changed_pdf_bytes (__main__.PackControls.test_14_changed_pdf_bytes) ... ok
+test_15_unmanifested_pdf (__main__.PackControls.test_15_unmanifested_pdf) ... ok
+test_16_reference_escape (__main__.PackControls.test_16_reference_escape) ... ok
+test_17_empty_checksums (__main__.PackControls.test_17_empty_checksums) ... ok
+test_18_changed_baseline (__main__.PackControls.test_18_changed_baseline) ... ok
+test_19_fake_model_pass (__main__.PackControls.test_19_fake_model_pass) ... ok
+test_20_missing_cases (__main__.PackControls.test_20_missing_cases) ... ok
+test_21_undeclared_file (__main__.PackControls.test_21_undeclared_file) ... ok
+test_22_repeatable_zip_roundtrip (__main__.PackControls.test_22_repeatable_zip_roundtrip) ... ok
+test_23_unfenced_template (__main__.PackControls.test_23_unfenced_template) ... ok
+test_24_positive_restored (__main__.PackControls.test_24_positive_restored) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 9.862s
+
+OK

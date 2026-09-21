@@ -33,19 +33,21 @@ No live model performance or conformance result is asserted. The earlier record 
 
 ---
 
-# Repository integrity audit — V8.7.0
-
+# Repository integrity audit — V8.8.0
 ## Decision
 
 This record defines release acceptance. Executed results belong to the exact source revision's CI and publication readback; static checks do not establish live-host behaviour.
 
 ## Current invariants
 
-- 23 canonical skills and six profiles.
-- The Complete profile matches the skill tree.
-- Communication remains embedded in Get It Done and Gauntlet packs.
+- The root skills/ tree contains 23 canonical base task skills and 23 OpenAI adapters.
+- The canonical supplemental pack contains 27 user-facing standards in SOURCE-MANIFEST.json/CATALOG.md order and no OpenAI adapters.
+- Every generated profile includes all 27 supplemental skills in addition to its unchanged base membership; effective totals are core 35, engineering 46, complete 50, communication 30, get-it-done 32, and gauntlet 31.
+- The release-wide unique skill count is 50; the Complete profile matches the 23-skill base tree plus the 27-skill supplemental layer.
+- Communication remains embedded in Get It Done and Gauntlet base packs.
 - All 22 specialist skills retain a local outcome-first fallback.
-- All 23 OpenAI adapters retain the delivery overlay.
+- All 23 OpenAI adapters retain the delivery overlay; supplemental skills add none.
+- Supplemental source limitations, rights notices and source-local notes remain preserved.
 - The 48-case V8.6 scenario corpus is unique and mirrored in the release directory.
 - Existing V8.3 user-information, V8.4 proof-integrity, and V8.5 proportional-rigor corpora remain present and mirrored.
 - Deterministic builds and archive checks remain required on PowerShell 7 and Windows PowerShell 5.1.
@@ -72,7 +74,7 @@ Source and generated ZIP validation checks the directness and uncertainty/meanin
 
 ## Release gate
 
-Tag V8.7.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
+Tag V8.8.0 only from the exact merged commit after both CI jobs pass. Build fresh assets, publish a separate public release, download every asset, and compare it byte-for-byte with the validated local build. Earlier releases remain unchanged.
 
 ## Remaining limits
 

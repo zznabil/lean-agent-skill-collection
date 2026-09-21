@@ -1,0 +1,31 @@
+name: Validate remaining standards review pack
+on:
+  pull_request:
+    branches: [main]
+    paths: ['packs/remaining-standards/**', '.github/workflows/remaining-standards.yml']
+permissions:
+  contents: read
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+jobs:
+  remaining:
+    name: Remaining standards (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check source, gates, publisher baselines and damaged controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python packs/remaining-standards/audit/validate_bundle.py
+          python packs/remaining-standards/audit/test_validate_bundle.py
+          python packs/remaining-standards/audit/test_publisher_baseline.py
+          test -z "$(git status --porcelain)"

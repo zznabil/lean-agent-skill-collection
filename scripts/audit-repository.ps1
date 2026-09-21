@@ -4,27 +4,17 @@ param(
     [string]$ArtifactsDirectory
 )
 
+$ErrorActionPreference = 'Stop'
 if ([string]::IsNullOrWhiteSpace($RepositoryRoot)) {
     $RepositoryRoot = Split-Path -Parent $PSScriptRoot
 }
-
-$ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 $failures = [System.Collections.Generic.List[string]]::new()
 $passes = [System.Collections.Generic.List[string]]::new()
 
 function Add-Failure([string]$Message) { $script:failures.Add($Message) }
 function Add-Pass([string]$Message) { $script:passes.Add($Message) }
-function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
-    if ($null -eq $Value -or $Value.GetType() -ne [bool]) {
-        Add-Failure "$Label must be a Boolean"
-        return $false
-    }
-    if ($Value -ne $Expected) {
-        Add-Failure "$Label must be $Expected"
-        return $false
-    }
-    return $true
-}
+. (Join-Path $PSScriptRoot 'release-inventory.ps1')
 function Read-Json([string]$RelativePath) {
     $path = Join-Path $RepositoryRoot $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
@@ -33,16 +23,6 @@ function Read-Json([string]$RelativePath) {
     }
     try { return Get-Content -Raw -LiteralPath $path | ConvertFrom-Json }
     catch { Add-Failure "invalid JSON in ${RelativePath}: $($_.Exception.Message)"; return $null }
-}
-function Get-Sha256([string]$Path) {
-    $stream = [System.IO.File]::OpenRead($Path)
-    try {
-        $sha = [System.Security.Cryptography.SHA256]::Create()
-        if ($null -eq $sha) { throw 'SHA-256 capability unavailable' }
-        try { return [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
-        finally { $sha.Dispose() }
-    }
-    finally { $stream.Dispose() }
 }
 function Assert-TextFile([string]$RelativePath) {
     $path = Join-Path $RepositoryRoot $RelativePath
@@ -94,43 +74,34 @@ else {
 }
 
 $skillsRoot = Join-Path $RepositoryRoot 'skills'
-$actualSkills = @(Get-ChildItem -LiteralPath $skillsRoot -Directory | Sort-Object Name | ForEach-Object Name)
-$completeSkills = @($profiles.profiles.complete.skills | ForEach-Object { [string]$_ } | Sort-Object)
-if ($actualSkills.Count -ne 24) { Add-Failure "expected 24 canonical skills, found $($actualSkills.Count)" }
-if ((Compare-Object $actualSkills $completeSkills).Count -ne 0) { Add-Failure 'Complete profile does not match the canonical skills directory' }
+$actualSkillsRaw = @(Get-ChildItem -LiteralPath $skillsRoot -Directory | ForEach-Object { [string]$_.Name })
+$completeSkillsRaw = @($profiles.profiles.complete.skills | ForEach-Object { [string]$_ })
+if ((Get-RawInventoryDuplicates $actualSkillsRaw).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $actualSkillsRaw).Count -gt 0) { Add-Failure 'root skills directory contains duplicate or case-colliding names' }
+if ((Get-RawInventoryDuplicates $completeSkillsRaw).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $completeSkillsRaw).Count -gt 0) { Add-Failure 'Complete profile contains duplicate or case-colliding base names' }
+if ($actualSkillsRaw.Count -ne 24) { Add-Failure "expected 24 canonical skills, found $($actualSkillsRaw.Count)" }
+if (-not (Test-ReleaseInventoryMemberSet $actualSkillsRaw $completeSkillsRaw)) { Add-Failure 'Complete profile does not match the canonical skills directory' }
+$actualSkills = @($actualSkillsRaw | Sort-Object)
+$completeSkills = @($completeSkillsRaw | Sort-Object)
 
-$expectedProfileCounts = @{ core=9; engineering=20; complete=24; communication=3; 'get-it-done'=6; gauntlet=4 }
-foreach ($profileName in $expectedProfileCounts.Keys) {
-    $members = @($profiles.profiles.$profileName.skills | ForEach-Object { [string]$_ })
-    $unique = @($members | Sort-Object -Unique)
-    if ($members.Count -ne $unique.Count) { Add-Failure "profile contains duplicate skill: $profileName" }
-    if ($unique.Count -ne [int]$expectedProfileCounts[$profileName]) { Add-Failure "$profileName profile must contain $($expectedProfileCounts[$profileName]) unique skills; found $($unique.Count)" }
+foreach ($profileProperty in @($profiles.profiles.PSObject.Properties)) {
+    $rawProfileSkills = @($profileProperty.Value.skills | ForEach-Object { [string]$_ })
+    if ((Get-RawInventoryDuplicates $rawProfileSkills).Count -gt 0) { Add-Failure "profile $($profileProperty.Name) contains an exact duplicate base skill" }
+    if ((Get-RawInventoryCaseDuplicates $rawProfileSkills).Count -gt 0) { Add-Failure "profile $($profileProperty.Name) contains a case-only duplicate base skill" }
 }
-
 $communicationSkills = @($profiles.profiles.communication.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $getItDoneSkills = @($profiles.profiles.'get-it-done'.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $gauntletSkills = @($profiles.profiles.gauntlet.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
+if ($communicationSkills.Count -ne 3) { Add-Failure "Communication profile must contain 3 unique skills; found $($communicationSkills.Count)" }
+if ( $getItDoneSkills.Count -ne 6) { Add-Failure "Get It Done profile must contain 6 unique skills; found $($getItDoneSkills.Count)" }
+if ($gauntletSkills.Count -ne 4) { Add-Failure "Gauntlet profile must contain 4 unique skills; found $($gauntletSkills.Count)" }
 foreach ($skill in $communicationSkills) {
     if (-not ($getItDoneSkills -contains $skill)) { Add-Failure "Get It Done profile lacks Communication skill: $skill" }
     if (-not ($gauntletSkills -contains $skill)) { Add-Failure "Gauntlet profile lacks Communication skill: $skill" }
 }
-if (-not ($getItDoneSkills -contains 'get-it-done') -or -not ($getItDoneSkills -contains 'gauntlet-loop') -or -not ($getItDoneSkills -contains 'quick-mode')) { Add-Failure 'Get It Done profile lacks a required task route' }
+if (-not ($getItDoneSkills -contains 'get-it-done') -or -not ($getItDoneSkills -contains 'gauntlet-loop')) { Add-Failure 'Get It Done profile lacks a required task controller' }
 if (-not ($gauntletSkills -contains 'gauntlet-loop')) { Add-Failure 'Gauntlet profile lacks gauntlet-loop' }
-
-$quickProfiles = @('core','engineering','complete','get-it-done')
-foreach ($profileProperty in @($profiles.profiles.PSObject.Properties)) {
-    $members = @($profileProperty.Value.skills | ForEach-Object { [string]$_ })
-    $count = @($members | Where-Object { $_ -eq 'quick-mode' }).Count
-    $expectedCount = if ($quickProfiles -contains $profileProperty.Name) { 1 } else { 0 }
-    if ($count -ne $expectedCount) { Add-Failure "quick-mode membership mismatch in profile $($profileProperty.Name)" }
-}
-
 $composition = $package.profile_composition
-$compositionBooleansValid = $true
-foreach ($name in @('communication_embedded_in_get_it_done','communication_embedded_in_gauntlet')) {
-    if (-not (Test-BooleanContract ($(if ($null -ne $composition) { $composition.$name } else { $null })) $true "profile composition $name")) { $compositionBooleansValid = $false }
-}
-if ($null -eq $composition -or -not $compositionBooleansValid) {
+if ($null -eq $composition -or -not $composition.communication_embedded_in_get_it_done -or -not $composition.communication_embedded_in_gauntlet) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the communication-complete task-pack contract'
 } else {
     $metadataCommunication = @($composition.communication_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
@@ -141,13 +112,57 @@ if ($null -eq $composition -or -not $compositionBooleansValid) {
     if ((Compare-Object $gauntletSkills $metadataGauntlet).Count -ne 0) { Add-Failure 'Gauntlet profile metadata differs from release-profiles.json' }
 }
 
-$proof = $package.proof_integrity
-$proofBooleansValid = $true
-foreach ($name in @('global_principles','oracle_must_be_falsifiable','status_is_not_reexecution','required_gate_abandonment_is_not_completion','native_parallel_claim_requires_launch_barrier')) {
-    if (-not (Test-BooleanContract ($(if ($null -ne $proof) { $proof.$name } else { $null })) $true "proof-integrity $name")) { $proofBooleansValid = $false }
+
+function Test-SupplementalInventoryAudit([object]$Profiles,[object]$Package) {
+    $inventory = $null
+    try { $inventory = Get-ReleaseUserFacingInventory $RepositoryRoot $Profiles } catch { Add-Failure $_.Exception.Message; return }
+    $expectedNames = @('core','engineering','complete','communication','get-it-done','gauntlet')
+    $profileNames = @($Profiles.profiles.PSObject.Properties | ForEach-Object { [string]$_.Name })
+    if (-not (Compare-ReleaseInventorySequence $profileNames $expectedNames)) { Add-Failure 'release-profiles.json profile order or membership is not canonical' }
+    if ($null -eq $Profiles.user_facing_standards.included_profiles -or -not (Compare-ReleaseInventorySequence @($Profiles.user_facing_standards.included_profiles | ForEach-Object { [string]$_ }) $expectedNames)) { Add-Failure 'included_profiles must exactly enumerate the six release profiles in canonical order' }
+    $expectedCounts = @{ core = 9; engineering = 20; complete = 24; communication = 3; 'get-it-done' = 6; gauntlet = 4 }
+    foreach ($name in $expectedNames) {
+        $base = @($Profiles.profiles.$name.skills | ForEach-Object { [string]$_ })
+        if ((Get-RawInventoryDuplicates $base).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $base).Count -gt 0) { Add-Failure "profile $name contains duplicate base skills" }
+        if ($base.Count -ne $expectedCounts[$name]) { Add-Failure "profile $name base count is not $($expectedCounts[$name])" }
+        if ($base | Where-Object { $inventory.Names -contains $_ }) { Add-Failure "profile $name routes a supplemental source skill as a base skill" }
+        $effective = @($base + $inventory.Names)
+        $count = $Package.effective_profile_counts.$name
+        if ($null -eq $count -or $count.base_task_skills -ne $base.Count -or $count.supplemental_user_facing_skills -ne 27 -or $count.total -ne $effective.Count) { Add-Failure "effective profile count metadata is invalid for $name" }
+    }
+    if ($Package.skills_expected -ne 51 -or $Package.skills_validated -ne 51 -or $Package.base_task_skills_expected -ne 24 -or $Package.supplemental_user_facing_skills_expected -ne 27 -or $Package.release_unique_skills_expected -ne 51) { Add-Failure 'package inventory counts are invalid' }
+    if (-not (Compare-ReleaseInventorySequence @($Package.supplemental_user_facing_skills | ForEach-Object { [string]$_ }) $inventory.Names)) { Add-Failure 'package supplemental skill order differs from SOURCE-MANIFEST.json' }
+    $ri = $Package.release_inventory
+    if ($null -eq $ri -or $ri.base_task_adapters -ne 24 -or $ri.supplemental_adapters -ne 0 -or $ri.source_manifest -ne $inventory.ManifestRelative -or $ri.catalog -ne 'packs/user-facing-standards/CATALOG.md' -or $ri.rights_notice -ne 'packs/user-facing-standards/THIRD-PARTY-NOTICES.md' -or $ri.base_task_routing_unchanged -ne $true -or $ri.public_source_limitations_preserved -ne $true) { Add-Failure 'release_inventory metadata is invalid' }
+    $agency = $Package.considerate_agency
+    if ($null -eq $agency -or $agency.adapters -ne 24) { Add-Failure 'considerate_agency inventory metadata is invalid' }
+    Add-Pass 'Supplemental source inventory and effective profile metadata are exact'
 }
-if (-not (Test-BooleanContract ($(if ($null -ne $proof) { $proof.runtime_vendored } else { $null })) $false 'proof-integrity runtime_vendored')) { $proofBooleansValid = $false }
-if ($null -eq $proof -or -not $proofBooleansValid -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1') {
+function Test-RemainingStandardsPackAudit {
+    try {
+        $ledger = Get-ReleaseRemainingStandardsLedger $RepositoryRoot
+        if ($ledger.Records.Count -ne 234) { Add-Failure "remaining standards pack inventory expected 234 entries, found $($ledger.Records.Count)" }
+        if (-not $ledger.Records.ContainsKey('audit/validate_bundle.py')) { Add-Failure 'remaining standards pack validator is missing from the pinned inventory' }
+        if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent remaining standards audit fixture is forbidden' }
+        if ($failures.Count -eq 0) { Add-Pass 'root-pinned remaining standards pack inventory and validator' }
+    } catch { Add-Failure "remaining standards pack inventory audit failure: $($_.Exception.Message)" }
+}
+function Test-ControlledExecutionPackAudit {
+    try {
+        $ledger = Get-ReleaseControlledExecutionLedger $RepositoryRoot
+        if ($ledger.Records.Count -ne 38) { Add-Failure "controlled-execution pack inventory expected 38 entries, found $($ledger.Records.Count)" }
+        foreach ($required in @('audit/validate_pack.py','audit/build_zip.py','audit/test_validate_pack.py','SOURCE-BASELINE.sha256')) {
+            if (-not $ledger.Records.ContainsKey($required)) { Add-Failure "controlled-execution pack required file is missing from the pinned inventory: $required" }
+        }
+        if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent controlled-execution audit fixture is forbidden' }
+        if ($failures.Count -eq 0) { Add-Pass 'root-pinned controlled-execution pack inventory and validator' }
+    } catch { Add-Failure "controlled-execution pack inventory audit failure: $($_.Exception.Message)" }
+}
+Test-SupplementalInventoryAudit $profiles $package
+Test-RemainingStandardsPackAudit
+Test-ControlledExecutionPackAudit
+$proof = $package.proof_integrity
+if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.4 proof-integrity contract'
 } else {
     $proofScenarioRelative = [string]$proof.scenario_file
@@ -159,19 +174,15 @@ if ($null -eq $proof -or -not $proofBooleansValid -or $proof.source_project -ne 
     else {
         $proofScenarioCount = @(Import-Csv -LiteralPath $proofScenarioPath).Count
         if ($proofScenarioCount -ne [int]$proof.static_scenarios) { Add-Failure "proof-integrity metadata says $($proof.static_scenarios) but CSV contains $proofScenarioCount rows" }
-        if ((Get-Sha256 $proofScenarioPath) -ne (Get-Sha256 $proofMirrorPath)) { Add-Failure 'proof-integrity scenario mirror drift' }
+        if ((Get-ReleaseInventorySha256 $proofScenarioPath) -ne (Get-ReleaseInventorySha256 $proofMirrorPath)) { Add-Failure 'proof-integrity scenario mirror drift' }
     }
 }
 
+
 $rigor = $package.proportional_rigor
-$rigorBooleansValid = $true
-foreach ($name in @('global_principles','direct_for_single_decisive_check','extra_scrutiny_requires_distinct_evidence_gap','safety_and_correctness_floor_immutable','explicit_request_quick_mode_exception','v8_5_no_new_routed_skill_decision_retained_as_history')) {
-    if (-not (Test-BooleanContract ($(if ($null -ne $rigor) { $rigor.$name } else { $null })) $true "proportional-rigor $name")) { $rigorBooleansValid = $false }
-}
-if (-not (Test-BooleanContract ($(if ($null -ne $rigor) { $rigor.automatic_low_scrutiny_route } else { $null })) $false 'proportional-rigor automatic_low_scrutiny_route')) { $rigorBooleansValid = $false }
 $expectedModes = @('ADVERSARIAL','DEEP','DIRECT','STANDARD')
-if ($null -eq $rigor -or -not $rigorBooleansValid) {
-    Add-Failure 'PACKAGE-VALIDATION.json lacks the updated proportional-rigor contract'
+if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.base_task_routing_unchanged) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.5 proportional-rigor contract'
 } else {
     $actualModes = @($rigor.modes | ForEach-Object { [string]$_ } | Sort-Object -Unique)
     if ((Compare-Object $expectedModes $actualModes).Count -ne 0) { Add-Failure 'proportional-rigor mode inventory is inaccurate' }
@@ -188,46 +199,14 @@ if ($null -eq $rigor -or -not $rigorBooleansValid) {
         foreach ($mode in $expectedModes) {
             if (@($rigorRows | Where-Object { $_.expected_mode -eq $mode }).Count -ne 12) { Add-Failure "proportional-rigor scenario corpus must contain 12 $mode cases" }
         }
-        if ((Get-Sha256 $rigorScenarioPath) -ne (Get-Sha256 $rigorMirrorPath)) { Add-Failure 'proportional-rigor scenario mirror drift' }
+        if ((Get-ReleaseInventorySha256 $rigorScenarioPath) -ne (Get-ReleaseInventorySha256 $rigorMirrorPath)) { Add-Failure 'proportional-rigor scenario mirror drift' }
     }
 }
 
-$quick = $package.quick_mode
-$quickBooleansValid = $true
-foreach ($name in @('included','explicit_request_only','natural_language_selectable','dogfood_optional','automated_uat_optional','selected_validation_becomes_required','real_project_interaction_required','static_inspection_not_interaction_evidence')) {
-    if (-not (Test-BooleanContract ($(if ($null -ne $quick) { $quick.$name } else { $null })) $true "quick-mode $name")) { $quickBooleansValid = $false }
-}
-if (-not (Test-BooleanContract ($(if ($null -ne $quick) { $quick.live_host_evaluated } else { $null })) $false 'quick-mode live_host_evaluated')) { $quickBooleansValid = $false }
-$quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
-$quickMirror = 'releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv'
-$quickPath = Join-Path $RepositoryRoot $quickRelative
-$quickMirrorPath = Join-Path $RepositoryRoot $quickMirror
-if ($null -eq $quick -or -not $quickBooleansValid -or $quick.default_validation -ne 'SMOKE' -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) {
-    Add-Failure 'Quick Mode contract or evidence-limit declaration missing'
-}
-if (-not (Test-Path -LiteralPath $quickPath) -or -not (Test-Path -LiteralPath $quickMirrorPath)) { Add-Failure 'Quick Mode scenario or release mirror is missing' }
-else {
-    $quickRows = @(Import-Csv -LiteralPath $quickPath -Encoding UTF8)
-    if ($quickRows.Count -ne 24 -or @($quickRows.id | Sort-Object -Unique).Count -ne 24) { Add-Failure 'Quick Mode corpus must have 24 unique IDs' }
-    foreach ($category in @('ACTIVATE','ANTI_TRIGGER','SCOPE','SAFETY','SMOKE','DOGFOOD','AUTOMATED_UAT','TOOL_UNAVAILABLE')) {
-        if (@($quickRows | Where-Object { $_.category -eq $category }).Count -ne 3) { Add-Failure "Quick Mode corpus must contain 3 $category fixtures" }
-    }
-    foreach ($row in $quickRows) {
-        foreach ($field in @('id','category','prompt','expected','rejected','reason')) {
-            if ([string]::IsNullOrWhiteSpace([string]$row.$field)) { Add-Failure "Quick Mode fixture $($row.id) lacks $field" }
-        }
-        if ($row.expected -eq $row.rejected) { Add-Failure "Quick Mode fixture $($row.id) has identical positive and negative examples" }
-    }
-    if ((Get-Sha256 $quickPath) -ne (Get-Sha256 $quickMirrorPath)) { Add-Failure 'Quick Mode scenario mirror drift' }
-}
+
 
 $delivery = $package.outcome_first_delivery
-$deliveryBooleansValid = $true
-foreach ($name in @('global_principles','response_weight_matching','internal_depth_external_brevity','quiet_completion','act_or_state_blocker','no_process_replay','anti_filler','anti_sycophancy','explicit_user_or_host_style_override','summary_tldr_distinct_when_used','parallel_independent_lookups_when_supported')) {
-    if (-not (Test-BooleanContract ($(if ($null -ne $delivery) { $delivery.$name } else { $null })) $true "outcome-first delivery $name")) { $deliveryBooleansValid = $false }
-}
-if (-not (Test-BooleanContract ($(if ($null -ne $delivery) { $delivery.runtime_vendored } else { $null })) $false 'outcome-first delivery runtime_vendored')) { $deliveryBooleansValid = $false }
-if ($null -eq $delivery -or -not $deliveryBooleansValid -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46') {
+if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.6 outcome-first delivery contract'
 } else {
     $deliveryScenarioRelative = [string]$delivery.scenario_file
@@ -245,17 +224,12 @@ if ($null -eq $delivery -or -not $deliveryBooleansValid -or $delivery.source_pro
         foreach ($category in $requiredCategories) {
             if (-not ($actualCategories -contains $category)) { Add-Failure "outcome-first scenario corpus lacks category: $category" }
         }
-        if ((Get-Sha256 $deliveryScenarioPath) -ne (Get-Sha256 $deliveryMirrorPath)) { Add-Failure 'outcome-first scenario mirror drift' }
+        if ((Get-ReleaseInventorySha256 $deliveryScenarioPath) -ne (Get-ReleaseInventorySha256 $deliveryMirrorPath)) { Add-Failure 'outcome-first scenario mirror drift' }
     }
 }
 
 $direct = $package.direct_claims
-$directBooleansValid = $true
-foreach ($name in @('preserve_uncertainty','preserve_semantics','no_blanket_word_ban')) {
-    if (-not (Test-BooleanContract ($(if ($null -ne $direct) { $direct.$name } else { $null })) $true "direct-claims $name")) { $directBooleansValid = $false }
-}
-if (-not (Test-BooleanContract ($(if ($null -ne $direct) { $direct.live_host_evaluated } else { $null })) $false 'direct-claims live_host_evaluated')) { $directBooleansValid = $false }
-if ($null -eq $direct -or -not $directBooleansValid) {
+if ($null -eq $direct -or -not $direct.preserve_uncertainty -or -not $direct.preserve_semantics -or -not $direct.no_blanket_word_ban -or $direct.live_host_evaluated -ne $false) {
     Add-Failure 'direct-claims contract or evidence-limit declaration missing'
 }
 $directRelative = 'docs/evals/direct-claims-scenarios-v8.7.0.csv'
@@ -276,7 +250,28 @@ else {
         }
         if ($row.expected_response -eq $row.rejected_response) { Add-Failure "direct-claims fixture $($row.id) has identical positive and negative examples" }
     }
-    if ((Get-Sha256 $directPath) -ne (Get-Sha256 $directMirrorPath)) { Add-Failure 'direct-claims scenario mirror drift' }
+    if ((Get-ReleaseInventorySha256 $directPath) -ne (Get-ReleaseInventorySha256 $directMirrorPath)) { Add-Failure 'direct-claims scenario mirror drift' }
+}
+
+$quick = $package.quick_mode
+if ($null -eq $quick -or -not $quick.included -or $quick.default_validation -ne 'SMOKE' -or -not $quick.explicit_request_only -or -not $quick.natural_language_selectable -or -not $quick.dogfood_optional -or -not $quick.automated_uat_optional -or -not $quick.selected_validation_becomes_required -or -not $quick.real_project_interaction_required -or -not $quick.static_inspection_not_interaction_evidence -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.live_host_evaluated -ne $false) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the Quick Mode contract'
+}
+$quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+$quickMirror = 'releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv'
+$quickPath = Join-Path $RepositoryRoot $quickRelative
+$quickMirrorPath = Join-Path $RepositoryRoot $quickMirror
+if ($quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) { Add-Failure 'Quick Mode scenario metadata differs from the declared corpus' }
+if (-not (Test-Path -LiteralPath $quickPath) -or -not (Test-Path -LiteralPath $quickMirrorPath)) { Add-Failure 'Quick Mode scenario or release mirror is missing' }
+else {
+    $quickRows = @(Import-Csv -LiteralPath $quickPath -Encoding UTF8)
+    if ($quickRows.Count -ne 24 -or @($quickRows.id | Sort-Object -Unique).Count -ne 24) { Add-Failure 'Quick Mode corpus must have 24 unique IDs' }
+    foreach ($row in $quickRows) {
+        foreach ($field in @('id','category','prompt','expected','rejected','reason')) {
+            if ([string]::IsNullOrWhiteSpace([string]$row.$field)) { Add-Failure "Quick Mode fixture $($row.id) lacks $field" }
+        }
+    }
+    if ((Get-ReleaseInventorySha256 $quickPath) -ne (Get-ReleaseInventorySha256 $quickMirrorPath)) { Add-Failure 'Quick Mode scenario mirror drift' }
 }
 
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
@@ -289,7 +284,7 @@ foreach ($pair in $scenarioPairs) {
     $right = Join-Path $RepositoryRoot $pair[1]
     if (-not (Test-Path -LiteralPath $left -PathType Leaf)) { Add-Failure "missing evaluation file: $($pair[0])"; continue }
     if (-not (Test-Path -LiteralPath $right -PathType Leaf)) { Add-Failure "missing release evaluation mirror: $($pair[1])"; continue }
-    if ((Get-Sha256 $left) -ne (Get-Sha256 $right)) { Add-Failure "evaluation mirror drift: $($pair[0]) != $($pair[1])" }
+    if ((Get-ReleaseInventorySha256 $left) -ne (Get-ReleaseInventorySha256 $right)) { Add-Failure "evaluation mirror drift: $($pair[0]) != $($pair[1])" }
 }
 $scenarioPath = Join-Path $RepositoryRoot 'docs/evals/usable-information-scenarios-v8.3.0.csv'
 if (Test-Path -LiteralPath $scenarioPath -PathType Leaf) {
@@ -318,13 +313,41 @@ foreach ($pattern in $temporaryPatterns) {
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
-    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md','docs/QUICK-MODE-DESIGN-v8.10.0.md',
-    'docs/evals/quick-mode-scenarios-v8.10.0.csv','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv',
-    'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/compare-release-artifacts.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
+    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
+    '.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','scripts/audit-repository.ps1','scripts/validate.ps1','scripts/release-inventory.ps1',
+    'UPSTREAM-CHECKSUMS.sha256','packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/remaining-standards/README.md','packs/remaining-standards/PR-SCOPE.md','packs/controlled-execution/CHECKSUMS.sha256','packs/controlled-execution/SOURCE-BASELINE.sha256','packs/controlled-execution/README.md'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }
+function Get-AuditPackageBaseName([string]$ProfileName,[string]$Version) {
+    switch ($ProfileName) {
+        'core' { return "lean-agent-skills-core-openai-v$Version" }
+        'engineering' { return "lean-agent-skills-engineering-openai-v$Version" }
+        'complete' { return "lean-agent-skills-complete-openai-v$Version" }
+        'communication' { return "user-facing-communication-mini-openai-v$Version" }
+        'get-it-done' { return "get-it-done-pack-openai-v$Version" }
+        'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
+        default { throw "unknown profile: $ProfileName" }
+    }
+}
 
+function Test-AuditProfileArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefinition,[object]$SupplementalNames,[string]$Version) {
+    try { $archive = [IO.Compression.ZipFile]::OpenRead($Path) } catch { Add-Failure "cannot inspect profile archive $ProfileName"; return }
+    try {
+        $root = (Get-AuditPackageBaseName $ProfileName $Version) + '/'
+        $entries = @($archive.Entries)
+        $fileEntries = @($entries | Where-Object { -not [string]::IsNullOrEmpty($_.Name) })
+        try { $folders = @(Get-ReleaseArchiveSkillFolders $entries $root) } catch { Add-Failure "archive $ProfileName has $($_.Exception.Message)"; $folders = @() }
+        $expected = @(@($ProfileDefinition.skills | ForEach-Object { [string]$_ }) + @($SupplementalNames | ForEach-Object { [string]$_ }))
+        if (-not (Test-ReleaseInventoryMemberSet $expected $folders) -or $folders.Count -ne $expected.Count) { Add-Failure "archive $ProfileName effective skill folders mismatch" }
+        $metadataEntry = $fileEntries | Where-Object { $_.FullName.Replace('\','/') -eq ($root+'PACKAGE-VALIDATION.json') } | Select-Object -First 1
+        if ($null -eq $metadataEntry) { Add-Failure "archive $ProfileName lacks PACKAGE-VALIDATION.json"; return }
+        $reader = New-Object IO.StreamReader($metadataEntry.Open()); try { $metadata = ($reader.ReadToEnd() | ConvertFrom-Json) } finally { $reader.Dispose() }
+        if ($metadata.skills_expected -ne $expected.Count -or $metadata.skills_validated -ne $expected.Count -or -not (Compare-ReleaseInventorySequence @($metadata.included_skills | ForEach-Object {[string]$_}) $expected) -or $metadata.public_source_limitations_preserved -ne $true) { Add-Failure "archive $ProfileName effective metadata mismatch" }
+        if ($null -eq $metadata.considerate_agency -or $metadata.considerate_agency.supplemental_adapters -ne 0 -or $metadata.considerate_agency.base_routing_unchanged -ne $true) { Add-Failure "archive $ProfileName routing metadata mismatch" }
+    } catch { Add-Failure "archive $ProfileName inventory parse failure: $($_.Exception.Message)" }
+    finally { $archive.Dispose() }
+}
 if ($ArtifactsDirectory) {
     $artifactRoot = [System.IO.Path]::GetFullPath($ArtifactsDirectory)
     if (-not (Test-Path -LiteralPath $artifactRoot -PathType Container)) { Add-Failure "artifact directory does not exist: $artifactRoot" }
@@ -341,11 +364,17 @@ if ($ArtifactsDirectory) {
         foreach ($name in $expectedArchives) {
             if (-not (Test-Path -LiteralPath (Join-Path $artifactRoot $name) -PathType Leaf)) { Add-Failure "built release asset is missing: $name" }
         }
+        $inventory = Get-ReleaseUserFacingInventory $RepositoryRoot $profiles
+        foreach ($property in @($profiles.profiles.PSObject.Properties)) {
+            $archiveName = (Get-AuditPackageBaseName $property.Name $version) + '.zip'
+            $archivePath = Join-Path $artifactRoot $archiveName
+            if (Test-Path -LiteralPath $archivePath -PathType Leaf) { Test-AuditProfileArchive $archivePath $property.Name $property.Value $inventory.Names $version }
+        }
     }
 }
 
 if ($failures.Count -eq 0) {
-    Add-Pass 'repository metadata, current release, 24-skill inventory, Quick Mode profile and scenario contracts, inherited proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
+    Add-Pass 'repository metadata, current release, 24-skill inventory, profile composition, proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
     if ($ArtifactsDirectory) { Add-Pass 'expected release archives are present' }
     foreach ($pass in $passes) { Write-Host "PASS: $pass" }
     exit 0

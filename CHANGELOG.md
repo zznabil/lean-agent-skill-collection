@@ -5,13 +5,20 @@
 ### Quick Mode
 
 - Add `quick-mode` as one explicit user-selected route for a user-authorised smallest useful working slice.
-- Run one cheap smoke check by default; report failed, blocked, and unrun checks without upgrading them.
-- Make selected dogfooding and automated UAT mandatory for the Quick Mode scope and require real tool-mediated interaction with the running project.
-- Distinguish one-off dogfooding or interactive CUA from replayable automated UAT with assertions and cleanup.
+- Run one cheap smoke check by default; selected dogfooding and automated UAT require real tool-mediated interaction with the running project.
 - Preserve authorisation, destructive-action controls, data integrity, security, compatibility, accessibility, and evidence truthfulness as non-negotiable floors.
 - Add Quick Mode to Core, Engineering, Complete, and Get It Done; retain Communication and Gauntlet unchanged.
 - Add 24 authored routing, scope, safety, smoke, dogfooding, UAT, and unavailable-tool cases. These are not live model runs.
-- Retain the V8.8 prose baseline and historical V8.5 minimum-scrutiny decision; allow only the declared additive explicit-request exception.
+
+
+## 8.9.0 — 2026-09-21
+### Integrated User-Facing Standards
+
+- Integrate all 27 supplemental user-facing routines into each of the six generated release profiles while preserving the unchanged 23 base task skills and base routing.
+- Preserve effective profile totals of 35, 46, 50, 30, 32, and 31, with zero supplemental adapters.
+- Promote the supplemental pack to the canonical integrated release source while retaining explicit rights, public-source limitations, and the distinction between structural validation and live-model evaluation.
+- Update release identity, citation, package metadata, generated archive naming, validation examples, and release notes for V8.9.0.
+- Keep historical V8.8.0 prose-preservation documents, audits, fixtures, and frozen 25-root contract unchanged.
 
 ## 8.8.0 — 2026-09-11
 
