@@ -87,8 +87,8 @@ jobs:
             [IO.File]::SetAttributes($hiddenExtra, [IO.FileAttributes]::Hidden)
             $previousErrorActionPreference = $ErrorActionPreference
             $ErrorActionPreference = 'Continue'
-            $hiddenOutput = @(& pwsh -NoLogo -NoProfile -File ./scripts/compare-release-artifacts.ps1 -ReferenceDirectory (Join-Path $hiddenRoot 'a') -CandidateDirectory (Join-Path $hiddenRoot 'b') 2>&1)
-            $hiddenExitCode = $LASTEXITCODE
+            $hiddenProcess = Start-Process -FilePath pwsh -ArgumentList @('-NoLogo', '-NoProfile', '-File', './scripts/compare-release-artifacts.ps1', '-ReferenceDirectory', (Join-Path $hiddenRoot 'a'), '-CandidateDirectory', (Join-Path $hiddenRoot 'b')) -Wait -PassThru
+            $hiddenExitCode = $hiddenProcess.ExitCode
             $ErrorActionPreference = $previousErrorActionPreference
             if ($hiddenExitCode -eq 0) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
           }
@@ -145,8 +145,8 @@ jobs:
             [IO.File]::SetAttributes($hiddenExtra, [IO.FileAttributes]::Hidden)
             $previousErrorActionPreference = $ErrorActionPreference
             $ErrorActionPreference = 'Continue'
-            $hiddenOutput = @(& powershell.exe -NoLogo -NoProfile -File ./scripts/compare-release-artifacts.ps1 -ReferenceDirectory (Join-Path $hiddenRoot 'a') -CandidateDirectory (Join-Path $hiddenRoot 'b') 2>&1)
-            $hiddenExitCode = $LASTEXITCODE
+            $hiddenProcess = Start-Process -FilePath powershell.exe -ArgumentList @('-NoLogo', '-NoProfile', '-File', './scripts/compare-release-artifacts.ps1', '-ReferenceDirectory', (Join-Path $hiddenRoot 'a'), '-CandidateDirectory', (Join-Path $hiddenRoot 'b')) -Wait -PassThru
+            $hiddenExitCode = $hiddenProcess.ExitCode
             $ErrorActionPreference = $previousErrorActionPreference
             if ($hiddenExitCode -eq 0) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
           }
