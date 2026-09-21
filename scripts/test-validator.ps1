@@ -227,6 +227,7 @@ try {
     Write-Host "PASS: direct-claims positive controls and $directMutationCount deliberate policy/metadata mutations" -ForegroundColor Green
     Write-Host "PASS: Quick Mode positive control and $quickMutationCount deliberate metadata mutations" -ForegroundColor Green
     Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
+    $global:LASTEXITCODE = 0
 }
 finally {
     $resolvedFixture = [IO.Path]::GetFullPath($fixtureRoot)
