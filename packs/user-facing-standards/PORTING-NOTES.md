@@ -1,11 +1,11 @@
 # Public-repository import
 
-This optional prototype comes from `lean-user-facing-standards-prototype.zip` (SHA-256 `05083456ac42535d5f7ce5269050da9ae9f144c52a034830b273467eed2663f0`).
+This supplemental pack was imported from `lean-user-facing-standards-prototype.zip` (SHA-256 `05083456ac42535d5f7ce5269050da9ae9f144c52a034830b273467eed2663f0`) and is the canonical source for the 27 skills integrated into every V8.9.0 generated Lean release profile.
 
 ## Scope
 
-- All 27 narrow-purpose skills are retained below 100 physical lines. This is not a new Lean release or a default 50-skill profile.
-- The 23 existing task skills, root instructions, six profile memberships, adapters, release metadata and historical standards register remain unchanged.
+- All 27 narrow-purpose skills are retained below 100 physical lines and are included as a supplemental layer in every generated profile; effective totals are 35, 46, 50, 30, 32, and 31.
+- The 23 base task skills, root instructions, base profile memberships, adapters and historical standards register remain unchanged. Release metadata now records the supplemental layer and its source/rights paths.
 - No host is configured, no local installation is changed, and no publisher document is executed. The pack's checker is development tooling, not an agent runtime.
 
 ## Explicit differences from the personal-study ZIP
@@ -27,4 +27,4 @@ Read THIRD-PARTY-NOTICES.md and each skill's SOURCES.md. The IES PDF is public d
 
 CI is the full verification gate for actual source bytes, path safety, standalone reference availability, exact inventories and deliberate rejection cases. A focused local run is not a full verification result.
 
-A passing CI run is not a model-routing probability, proof of user comprehension or formal standards conformance. The 81 task cases remain authored, not executed model tests. This PR is for review only: no merge, tag, publication or automatic installation is part of opening it.
+A passing CI run is not a model-routing probability, proof of user comprehension or formal standards conformance. The 81 task cases remain authored, not executed model tests. This integrated source does not claim publication, live-model evaluation or formal conformance; use the repository release procedures and rights notices before redistribution.

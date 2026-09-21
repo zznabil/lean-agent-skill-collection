@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.9.0 — 2026-09-21
+### Integrated User-Facing Standards
+
+- Integrate all 27 supplemental user-facing routines into each of the six generated release profiles while preserving the unchanged 23 base task skills and base routing.
+- Preserve effective profile totals of 35, 46, 50, 30, 32, and 31, with zero supplemental adapters.
+- Promote the supplemental pack to the canonical integrated release source while retaining explicit rights, public-source limitations, and the distinction between structural validation and live-model evaluation.
+- Update release identity, citation, package metadata, generated archive naming, validation examples, and release notes for V8.9.0.
+- Keep historical V8.8.0 prose-preservation documents, audits, fixtures, and frozen 25-root contract unchanged.
+
 ## 8.8.0 — 2026-09-11
 
 ### Explicit Instructions, Clearer Prose

@@ -1,6 +1,6 @@
 # User-facing standards and practices — catalogue
 
-27 standalone prototypes: the approved ASD-STE100 pilot plus 26 new skills. Each SKILL.md has fewer than 100 physical lines, including frontmatter and blank lines.
+27 canonical supplemental routines: the approved ASD-STE100 pilot plus 26 additional skills. Each SKILL.md has fewer than 100 physical lines, including frontmatter and blank lines. Every generated Lean release profile includes this complete 27-skill layer without OpenAI adapters.
 
 A source-specific routine is not the complete source. The 13 ISO/IEC/IEEE application skills are explicitly source-gated because only public scopes and Lean’s existing guidance were available, not the licensed full texts.
 

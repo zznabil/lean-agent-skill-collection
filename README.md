@@ -1,6 +1,6 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.8.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.9.0-2563eb)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-23-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
@@ -8,9 +8,13 @@ A compact, source-browsable collection of 23 vendor-neutral agent skills for eng
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-V8.8.0 keeps all 23 skills and six profiles. It preserves outcome-first communication and quiet execution: match reply length to the task, investigate enough internally, act instead of merely promising, and report outcome, verification, and remaining action without replaying routine process. Read the [Hermes prompt review](docs/HERMES-PROMPT-REVIEW-v8.6.0.md), [Hermes integration guide](docs/HERMES-INTEGRATION.md), [minimum-scrutiny review](docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md), and [repository audit](docs/REPOSITORY-AUDIT.md).
+V8.9.0 integrates all 27 supplemental user-facing routines into six generated profiles while preserving the unchanged 23 base task skills and base routing. Each profile carries zero supplemental adapters, explicit rights and public-source limitations, and effective totals of 35, 46, 50, 30, 32, and 31.
 
 V8.7 adds **direct claims and accountable reporting** to every profile: state the supported result and actor plainly, retain genuine uncertainty, and give the next safe action. It does not ban all negation or hedging. See the [scoped decision and sources](docs/DIRECT-CLAIMS-REVIEW-v8.7.0.md).
+
+## V8.9.0: integrated user-facing standards
+
+The canonical supplemental pack is now the integrated source for all six generated profiles. The 23 base task skills, existing adapters and routing remain unchanged; the 27 supplemental routines add no adapters and do not claim complete formal standards or live-model evidence. Read the [integrated release notes](releases/v8.9.0/RELEASE-NOTES-v8.9.0.md), [supplemental pack](packs/user-facing-standards/README.md), and [rights notice](packs/user-facing-standards/THIRD-PARTY-NOTICES.md) before redistribution.
 
 ## V8.8.0: explicit instructions, clearer prose
 
@@ -22,14 +26,14 @@ Read the [design and preservation boundary](docs/PROSE-CLARITY-v8.8.0.md). The n
 
 Choose one profile. Do not install overlapping profiles together.
 
-| Profile | Skills | Best for | Generated package |
-|---|---:|---|---|
-| Core | 8 | Planning, research, review, and long-running work | `lean-agent-skills-core-openai-v8.8.0.zip` |
-| Engineering | 19 | Software delivery and engineering operations | `lean-agent-skills-engineering-openai-v8.8.0.zip` |
-| Complete | 23 | The full collection | `lean-agent-skills-complete-openai-v8.8.0.zip` |
-| Communication | 3 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.8.0.zip` |
-| Get It Done | 5 | Long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.8.0.zip` |
-| Gauntlet Loop | 4 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.8.0.zip` |
+| Profile | Base | Supplemental | Total | Best for | Generated package |
+|---|---:|---:|---:|---|---|
+| Core | 8 | 27 | 35 | Planning, research, review, and long-running work | `lean-agent-skills-core-openai-v8.9.0.zip` |
+| Engineering | 19 | 27 | 46 | Software delivery and engineering operations | `lean-agent-skills-engineering-openai-v8.9.0.zip` |
+| Complete | 23 | 27 | 50 | The full collection | `lean-agent-skills-complete-openai-v8.9.0.zip` |
+| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.9.0.zip` |
+| Get It Done | 5 | 27 | 32 | Long-horizon execution and acceptance | `get-it-done-pack-openai-v8.9.0.zip` |
+| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review | `gauntlet-loop-pack-openai-v8.9.0.zip` |
 
 The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated.
 
@@ -45,23 +49,28 @@ Each package follows this layout:
 .codex-plugin/plugin.json
 AGENTS.md
 ENGINEERING-CORE.md (profiles that include engineering core)
-skills/<skill>/SKILL.md
-skills/<skill>/agents/openai.yaml
+THIRD_PARTY_NOTICES.md
+USER-FACING-STANDARDS-NOTICES.md
+skills/<task-skill>/SKILL.md
+skills/<task-skill>/agents/openai.yaml
+skills/<supplemental-skill>/SKILL.md
+skills/<supplemental-skill>/SOURCES.md
+skills/<supplemental-skill>/references/<source>
 ```
 
-The `SKILL.md` files are vendor-neutral. Hosts other than ChatGPT or Codex can ignore `agents/openai.yaml`.
+The task-skill SKILL.md files are vendor-neutral and retain their original adapters and routing. Supplemental standards are sourced from the canonical pack and carry SOURCES.md/references without adapters.
 
 ## Repository layout
 
 ```text
-skills/                       Canonical source for all 23 skills
-.codex-plugin/                Complete-profile plugin manifest
+skills/                       Canonical source for 23 base task skills
+.codex-plugin/                Root plugin for the 23 base skills and adapters
 docs/                         Catalog, audits, history, standards, and evaluations
+packs/user-facing-standards/ Canonical source for 27 supplemental standards
 dist/v7.2/                    Historical V7.2.0 release snapshot
 release-profiles.json         Canonical version and six profile inventories
 scripts/build-release.ps1     Deterministic release builder
 scripts/validate.ps1          Static source and release integrity checks
-scripts/audit-repository.ps1  Cross-file repository consistency checks
 UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 ```
 
@@ -71,10 +80,10 @@ On PowerShell 7 or Windows PowerShell 5.1:
 
 ```powershell
 ./scripts/build-release.ps1
-./scripts/test-validator.ps1
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.8.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.8.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.8.0
+./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.9.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.9.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.9.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.9.0
 ```
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill.
@@ -96,7 +105,7 @@ See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REP
 
 ## Release integrity
 
-The V8.8.0 candidate preserves the restored V8.7.0 architecture. Release packages are reproducibly generated from the tagged source and include SHA-256 inventories, a manifest, validation records, the license, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The V8.9.0 release preserves the restored V8.7.0 architecture while integrating the canonical 27-routine user-facing pack into every generated profile. Release packages are reproducibly generated from the versioned source and include SHA-256 inventories, a manifest, validation records, the license, notices, six profiles, and a master archive. The committed [dist/v7.2](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on main.
 
 ## Security
 
@@ -112,6 +121,8 @@ Legally reused or adapted material is documented in [THIRD_PARTY_NOTICES.md](THI
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for validation and change requirements.
 
-## Optional standards-skill prototype
+## Canonical supplemental standards
 
-The [user-facing standards pack](packs/user-facing-standards/README.md) contains 27 separately selectable prototypes and source/rights notes. It is outside the six release profiles; existing task skills and communication fallbacks are unchanged. These are application procedures, not full licensed standards or measured behavioural improvements. Review the pack and select only what the task needs.
+The [user-facing standards pack](packs/user-facing-standards/README.md) is the canonical source for 27 supplemental user-facing standards. Every generated profile adds all 27 without OpenAI adapters, for effective totals of 35, 46, 50, 30, 32, and 31; the release-wide unique skill count is 50. The root skills/ tree and root .codex-plugin remain the 23 base task skills with their existing adapters and routing.
+
+Review the [supplemental catalog](packs/user-facing-standards/CATALOG.md) and [supplemental rights notice](packs/user-facing-standards/THIRD-PARTY-NOTICES.md) before redistribution. These are scoped application aids, not complete formal standards or conformance evidence; publisher documents retain their own terms and are not relicensed by repository MIT.

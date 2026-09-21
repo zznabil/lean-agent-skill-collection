@@ -1,10 +1,10 @@
-# Lean user-facing standards — standalone prototype pack
+# Lean user-facing standards — canonical supplemental pack
 
-Prepared 13 September 2026. This is an optional public-repository prototype for review, not a new Lean release. See [PORTING-NOTES.md](PORTING-NOTES.md) for the exact differences from the personal-study ZIP.
+Prepared 21 September 2026. This is the canonical integrated supplemental source for V8.9.0 and inclusion in each generated Lean release profile. See [PORTING-NOTES.md](PORTING-NOTES.md) for the exact differences from the personal-study ZIP.
 
 ## What is included
 
-- 27 independently loadable skill folders: the approved ASD-STE100 prototype plus 26 new user-facing standards, guidance and practice skills.
+- 27 independently loadable skill folders: the approved ASD-STE100 routine plus 26 new user-facing standards, guidance and practice skills.
 - Every `SKILL.md` is below 100 physical lines. The ASD pilot stays byte-identical at 99 lines.
 - Each folder contains `SOURCES.md` with its purpose, source status, edition, local documents, official links and rights information.
 - Publisher references are checked against pinned original-download records; no publisher document is executed. PDFs are real publisher PDFs, not regenerated summaries or printed web pages labelled as official.
@@ -55,14 +55,14 @@ python audit/test_validate_bundle.py
 
 These commands only inspect the pack or disposable test copies. `audit/original-download-manifest.json` is the literal complete original-download manifest and trust root, pinned to SHA-256 `7cb4016a88a34db8f1b4a93e82281e01250d9642573bdd0450f433838bf63b67`. The exact 19 path-to-original mapping authority is `audit/validate_bundle.py:PUBLISHER_PATH_TO_ORIGINAL`; the validator compares current `SOURCE-MANIFEST.json` URL, final URL, SHA-256, byte count and `modified: false`, plus actual bytes, with the pinned records.
 
-`CHECKSUMS.sha256` is a mutable current inventory, not the publisher-provenance root. The focused controls are `test_publisher_and_manifest_change_after_checksum_rehash` and `test_publisher_baseline_drift_after_checksum_rehash`, alongside the clean `test_positive_control`. They establish structural/source-integrity controls only: no live-model evaluation, comprehension result or formal-conformance claim is made. Full CI remains the future full-verification gate. The prior personal-study result is retained and labelled historical under `audit/`.
+`CHECKSUMS.sha256` is a mutable current inventory, not the publisher-provenance root. The focused controls are `test_publisher_and_manifest_change_after_checksum_rehash` and `test_publisher_baseline_drift_after_checksum_rehash`, alongside the clean `test_positive_control`. They establish structural/source-integrity controls only: no live-model evaluation, comprehension result or formal-conformance claim is made. When run, repository CI is the release verification gate; these pack checks remain structural and source-integrity evidence. The prior personal-study result is retained and labelled historical under `audit/`.
 
 `audit/acceptance-cases.json` contains 81 authored cases, not executed model tests. No activation probability, comprehension improvement or standards conformance is claimed.
 
-## Build a separate review ZIP
+## Build a standalone pack ZIP
 
 ```text
 python audit/build_zip.py /path/to/output.zip
 ```
 
-The builder validates first, uses an output path outside this pack, and does not install anything. It includes only the exact checksum inventory and verifies the resulting archive against source. The six existing Lean release packages do not include this optional pack.
+The builder validates first, uses an output path outside this pack, and does not install anything. It includes only the exact checksum inventory and verifies the resulting archive against source. The six generated Lean release profiles each include these 27 supplemental skills; this standalone pack remains independently buildable.

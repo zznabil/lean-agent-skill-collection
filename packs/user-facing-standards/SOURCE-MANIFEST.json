@@ -1,7 +1,8 @@
 {
-  "prepared": "2026-09-13",
-  "status": "public_repository_prototype_for_review",
-  "repository_baseline": "58b4369205d7689b2c46cdf4b4ac3801164e95ed",
+  "prepared": "2026-09-21",
+  "status": "integrated_release_source",
+  "integration_base_commit": "6e7e141dcb020f8e715a0bda299072836178c1d9",
+  "integration_base_scope": "Pre-release integration base; current integrated source bytes are represented by this working tree and its release checksums, not by that commit.",
   "source_scope": "27 direct user-facing register entries, not all 97 engineering practices.",
   "skills": [
     {
