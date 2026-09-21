@@ -91,6 +91,7 @@ jobs:
             $hiddenExitCode = $hiddenProcess.ExitCode
             $ErrorActionPreference = $previousErrorActionPreference
             if ($hiddenExitCode -eq 0) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
+            $global:LASTEXITCODE = 0
           }
           finally { Remove-Item -LiteralPath $hiddenRoot -Recurse -Force -ErrorAction SilentlyContinue }
       - name: Test validator rejection controls
@@ -149,6 +150,7 @@ jobs:
             $hiddenExitCode = $hiddenProcess.ExitCode
             $ErrorActionPreference = $previousErrorActionPreference
             if ($hiddenExitCode -eq 0) { throw 'Child reproducibility comparison failed to reject a hidden extra file' }
+            $global:LASTEXITCODE = 0
           }
           finally { Remove-Item -LiteralPath $hiddenRoot -Recurse -Force -ErrorAction SilentlyContinue }
       - name: Test validator rejection controls
