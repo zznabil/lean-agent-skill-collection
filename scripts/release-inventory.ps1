@@ -258,6 +258,10 @@ $script:ExpectedRemainingStandardsPackLedgerSha256 = '07816484fc6deed45b0d233fac
 function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
+$script:ExpectedControlledExecutionPackLedgerSha256 = '4152c0c9dd25117ea2e617e4f2cc19e814dbc0ad3eb62b00339f1c11b25e2445'
+function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
+    return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/controlled-execution' $script:ExpectedControlledExecutionPackLedgerSha256 'controlled-execution pack'
+}
 $script:ApprovalTermPattern = '(?<![A-Za-z0-9-])(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)(?![A-Za-z0-9-])'
 $script:ApprovalTermRegexOptions = [Text.RegularExpressions.RegexOptions]::IgnoreCase -bor [Text.RegularExpressions.RegexOptions]::CultureInvariant
 $script:ApprovalClauseSplitPattern = '(?i)[,.;:!?\r\n—–]+|\b(?:but|however|yet)\b'

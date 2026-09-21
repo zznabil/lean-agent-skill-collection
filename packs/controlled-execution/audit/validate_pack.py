@@ -24,7 +24,7 @@ EXPECTED_SKILLS = ('practice-normative-precision',
  'profile-action-step-structure',
  'practice-modular-information-units')
 SOURCE_BASELINE_NAME = "SOURCE-BASELINE.sha256"
-SOURCE_BASELINE_SHA256 = "1d0b7a51ad0ab5d6257d1c799466ba6d1ac0e74a2358fd025e2b60db25d57ccb"
+SOURCE_BASELINE_SHA256 = "c58fdbaf4e44bba8ee007903ae9b2268a9f312d055786acb16cf4804bc1e3250"
 SOURCE_BASELINE_EXCLUDED = frozenset({"CHECKSUMS.sha256", SOURCE_BASELINE_NAME, "audit/validate_pack.py"})
 
 CONTROL_FIELDS = (

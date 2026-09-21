@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - 'packs/controlled-execution/**'
+      - 'UPSTREAM-CHECKSUMS.sha256'
       - '.github/workflows/controlled-execution-pack.yml'
   push:
     branches: [main]
     paths:
       - 'packs/controlled-execution/**'
+      - 'UPSTREAM-CHECKSUMS.sha256'
       - '.github/workflows/controlled-execution-pack.yml'
 
 permissions:
@@ -33,6 +35,24 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+      - name: Verify root trust anchor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          ledger = Path('packs/controlled-execution/CHECKSUMS.sha256')
+          expected = hashlib.sha256(ledger.read_bytes()).hexdigest()
+          matches = [
+              line for line in Path('UPSTREAM-CHECKSUMS.sha256').read_text(encoding='utf-8').splitlines()
+              if line.endswith('  packs/controlled-execution/CHECKSUMS.sha256')
+          ]
+          if matches != [f'{expected}  packs/controlled-execution/CHECKSUMS.sha256']:
+              raise SystemExit('root controlled-execution trust anchor is missing or stale')
+          print('verified root controlled-execution trust anchor')
+          PY
       - name: Materialise canonical pack bytes
         shell: bash
         run: |

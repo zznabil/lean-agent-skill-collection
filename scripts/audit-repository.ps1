@@ -147,8 +147,20 @@ function Test-RemainingStandardsPackAudit {
         if ($failures.Count -eq 0) { Add-Pass 'root-pinned remaining standards pack inventory and validator' }
     } catch { Add-Failure "remaining standards pack inventory audit failure: $($_.Exception.Message)" }
 }
+function Test-ControlledExecutionPackAudit {
+    try {
+        $ledger = Get-ReleaseControlledExecutionLedger $RepositoryRoot
+        if ($ledger.Records.Count -ne 38) { Add-Failure "controlled-execution pack inventory expected 38 entries, found $($ledger.Records.Count)" }
+        foreach ($required in @('audit/validate_pack.py','audit/build_zip.py','audit/test_validate_pack.py','SOURCE-BASELINE.sha256')) {
+            if (-not $ledger.Records.ContainsKey($required)) { Add-Failure "controlled-execution pack required file is missing from the pinned inventory: $required" }
+        }
+        if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent controlled-execution audit fixture is forbidden' }
+        if ($failures.Count -eq 0) { Add-Pass 'root-pinned controlled-execution pack inventory and validator' }
+    } catch { Add-Failure "controlled-execution pack inventory audit failure: $($_.Exception.Message)" }
+}
 Test-SupplementalInventoryAudit $profiles $package
 Test-RemainingStandardsPackAudit
+Test-ControlledExecutionPackAudit
 $proof = $package.proof_integrity
 if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.4 proof-integrity contract'
@@ -281,8 +293,8 @@ $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
     'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
-    '.github/workflows/remaining-standards.yml','scripts/audit-repository.ps1','scripts/validate.ps1','scripts/release-inventory.ps1',
-    'UPSTREAM-CHECKSUMS.sha256','packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/remaining-standards/README.md','packs/remaining-standards/PR-SCOPE.md'
+    '.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','scripts/audit-repository.ps1','scripts/validate.ps1','scripts/release-inventory.ps1',
+    'UPSTREAM-CHECKSUMS.sha256','packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/remaining-standards/README.md','packs/remaining-standards/PR-SCOPE.md','packs/controlled-execution/CHECKSUMS.sha256','packs/controlled-execution/SOURCE-BASELINE.sha256','packs/controlled-execution/README.md'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }

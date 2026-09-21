@@ -33,13 +33,13 @@ Typical combinations are:
 - a safe technical procedure plus a transition checklist;
 - a UI rendering profile after the technical procedure is correct.
 
-The broad OWASP ASVS and NIST SSDF routines remain separate work in open PR #17. This pack extracts narrower traceability mechanisms under different identifiers.
+The broader OWASP ASVS and NIST SSDF routines remain in the separate remaining-standards pack. This pack extracts narrower traceability mechanisms under different identifiers.
 
 ## Integrity boundary
 
 `SOURCE-BASELINE.sha256` records the expected bytes for every pack file except `CHECKSUMS.sha256`, `SOURCE-BASELINE.sha256` and `audit/validate_pack.py`. Refreshing `CHECKSUMS.sha256` cannot silently author a changed skill, catalog, rights record, builder, test or added root/audit file.
 
-This extracted pack is not self-authenticating: `audit/validate_pack.py` still requires an external/root trust pin. Root integration is deferred until the post-V8.9 rebase, and this pack does not claim immutable constants or merge readiness.
+This extracted pack is not self-authenticating: `audit/validate_pack.py` still requires an external/root trust pin. V8.9 root validation pins this pack’s `CHECKSUMS.sha256` through `UPSTREAM-CHECKSUMS.sha256`. The pack remains optional review-only material and does not claim installation, formal conformity or live-model evidence.
 
 ## Evidence limits
 

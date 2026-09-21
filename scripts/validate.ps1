@@ -268,10 +268,10 @@ function Test-SkillTree([object]$Profiles) {
 
 function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
-        '.codex-plugin/plugin.json','.gitattributes','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml',
+        '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml',
         'AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
         'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/evals/prose-preservation-v8.8.0.json',
-        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md',
+        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md',
         'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/release-inventory.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
     )
     foreach ($tree in @('skills','packs','docs','scripts','.codex-plugin','.github','releases')) {
@@ -336,6 +336,19 @@ function Test-RemainingStandardsPackIntegrity {
         if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent remaining standards audit fixture is forbidden' }
     } catch { Add-Failure "remaining standards pack inventory validation failure: $($_.Exception.Message)" }
     if ($failures.Count -eq $before) { Add-Pass 'root-pinned remaining standards pack inventory and validator' }
+}
+
+function Test-ControlledExecutionPackIntegrity {
+    $before = $failures.Count
+    try {
+        $ledger = Get-ReleaseControlledExecutionLedger $repoRoot
+        if ($ledger.Records.Count -ne 38) { Add-Failure "controlled-execution pack inventory expected 38 entries, found $($ledger.Records.Count)" }
+        foreach ($required in @('audit/validate_pack.py','audit/build_zip.py','audit/test_validate_pack.py','SOURCE-BASELINE.sha256')) {
+            if (-not $ledger.Records.ContainsKey($required)) { Add-Failure "controlled-execution pack required file is not in the pinned inventory: $required" }
+        }
+        if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent controlled-execution audit fixture is forbidden' }
+    } catch { Add-Failure "controlled-execution pack inventory validation failure: $($_.Exception.Message)" }
+    if ($failures.Count -eq $before) { Add-Pass 'root-pinned controlled-execution pack inventory and validator' }
 }
 
 function Test-RepositoryHygiene {
@@ -652,7 +665,7 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
 }
 if (-not $FunctionsOnly) {
     $profiles=Test-MetadataContracts
-    if($profiles){Test-SkillTree $profiles;Test-SourceIntegrity;Test-RemainingStandardsPackIntegrity;Test-RepositoryHygiene;if(-not[string]::IsNullOrWhiteSpace($ArtifactsDirectory)){Test-ReleaseArtifacts ([IO.Path]::GetFullPath($ArtifactsDirectory)) $profiles}}
+    if($profiles){Test-SkillTree $profiles;Test-SourceIntegrity;Test-RemainingStandardsPackIntegrity;Test-ControlledExecutionPackIntegrity;Test-RepositoryHygiene;if(-not[string]::IsNullOrWhiteSpace($ArtifactsDirectory)){Test-ReleaseArtifacts ([IO.Path]::GetFullPath($ArtifactsDirectory)) $profiles}}
     if($failures.Count -gt 0){Write-Host ("Validation failed with $($failures.Count) issue(s).") -ForegroundColor Red;exit 1}
     Write-Host ("Validation passed with $($passes.Count) check groups.") -ForegroundColor Green
 }
