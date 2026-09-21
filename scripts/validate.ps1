@@ -62,25 +62,41 @@ function Test-DirectClaimsText([string]$Text, [string]$Label) {
     }
 }
 
+function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
+    if ($null -eq $Value -or $Value.GetType() -ne [bool]) {
+        Add-Failure "$Label must be a Boolean"
+        return $false
+    }
+    if ($Value -ne $Expected) {
+        Add-Failure "$Label must be $Expected"
+        return $false
+    }
+    return $true
+}
+
 function Test-DirectClaimsMetadata([object]$Contract, [string]$Label) {
     foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route')) {
-        if ($null -eq $Contract -or $Contract.$name -ne $true) { Add-Failure "direct-claims metadata must enable $name in $Label" }
+        $value = $null
+        if ($null -ne $Contract) { $value = $Contract.$name }
+        Test-BooleanContract $value $true "direct-claims metadata $name in $Label" | Out-Null
     }
     foreach ($name in @('runtime_enforcement','live_host_evaluated')) {
-        if ($null -eq $Contract -or $Contract.$name -ne $false) { Add-Failure "direct-claims metadata must not claim $name in $Label" }
+        $value = $null
+        if ($null -ne $Contract) { $value = $Contract.$name }
+        Test-BooleanContract $value $false "direct-claims metadata $name in $Label" | Out-Null
     }
 }
 
 function Test-QuickModeMetadata([object]$Contract, [bool]$ExpectedIncluded, [string]$Label) {
     if ($null -eq $Contract) { Add-Failure "quick-mode metadata missing in $Label"; return }
-    if ([bool]$Contract.included -ne $ExpectedIncluded) { Add-Failure "quick-mode inclusion mismatch in $Label"; return }
+    if (-not (Test-BooleanContract $Contract.included $ExpectedIncluded "quick-mode metadata included in $Label")) { return }
     if (-not $ExpectedIncluded) { return }
     foreach ($name in @('explicit_request_only','natural_language_selectable','dogfood_optional','automated_uat_optional','selected_validation_becomes_required','real_project_interaction_required','static_inspection_not_interaction_evidence')) {
-        if ($Contract.$name -ne $true) { Add-Failure "quick-mode metadata must enable $name in $Label" }
+        Test-BooleanContract $Contract.$name $true "quick-mode metadata $name in $Label" | Out-Null
     }
     if ($Contract.default_validation -ne 'SMOKE') { Add-Failure "quick-mode default validation must be SMOKE in $Label" }
     if ($Contract.production_readiness_default -ne 'NOT_ASSESSED') { Add-Failure "quick-mode production readiness must default to NOT_ASSESSED in $Label" }
-    if ($Contract.live_host_evaluated -ne $false) { Add-Failure "quick-mode metadata must not claim live host evaluation in $Label" }
+    Test-BooleanContract $Contract.live_host_evaluated $false "quick-mode metadata live_host_evaluated in $Label" | Out-Null
 }
 
 function Test-MetadataContracts {
@@ -352,6 +368,9 @@ function Test-MasterArchive([string]$Path,[string]$Directory,[string]$Version) {
 function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     if(-not(Test-Path -LiteralPath $Directory -PathType Container)){Add-Failure "artifact directory missing: $Directory";return}
     try{$manifest=Get-Content -Raw (Join-Path $Directory 'RELEASE-MANIFEST.json')|ConvertFrom-Json}catch{Add-Failure "release manifest parse failure";return}
+    foreach ($name in @('skill_content_changed_from_v8_0_0','considerate_agency','proof_integrity','proportional_rigor','outcome_first_delivery','quick_mode','direct_claims')) {
+        Test-BooleanContract $manifest.$name $true "release manifest $name" | Out-Null
+    }
     if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true -or $manifest.quick_mode -ne $true){Add-Failure 'release manifest contract failure'}
     if ($manifest.direct_claims -ne $true) { Add-Failure 'release manifest direct-claims flag missing' }
     $declared=@{}

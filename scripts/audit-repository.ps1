@@ -1,8 +1,12 @@
 [CmdletBinding()]
 param(
-    [string]$RepositoryRoot = (Split-Path -Parent $PSScriptRoot),
+    [string]$RepositoryRoot,
     [string]$ArtifactsDirectory
 )
+
+if ([string]::IsNullOrWhiteSpace($RepositoryRoot)) {
+    $RepositoryRoot = Split-Path -Parent $PSScriptRoot
+}
 
 $ErrorActionPreference = 'Stop'
 $failures = [System.Collections.Generic.List[string]]::new()
@@ -10,6 +14,17 @@ $passes = [System.Collections.Generic.List[string]]::new()
 
 function Add-Failure([string]$Message) { $script:failures.Add($Message) }
 function Add-Pass([string]$Message) { $script:passes.Add($Message) }
+function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
+    if ($null -eq $Value -or $Value.GetType() -ne [bool]) {
+        Add-Failure "$Label must be a Boolean"
+        return $false
+    }
+    if ($Value -ne $Expected) {
+        Add-Failure "$Label must be $Expected"
+        return $false
+    }
+    return $true
+}
 function Read-Json([string]$RelativePath) {
     $path = Join-Path $RepositoryRoot $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
@@ -20,7 +35,14 @@ function Read-Json([string]$RelativePath) {
     catch { Add-Failure "invalid JSON in ${RelativePath}: $($_.Exception.Message)"; return $null }
 }
 function Get-Sha256([string]$Path) {
-    return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
+    $stream = [System.IO.File]::OpenRead($Path)
+    try {
+        $sha = [System.Security.Cryptography.SHA256]::Create()
+        if ($null -eq $sha) { throw 'SHA-256 capability unavailable' }
+        try { return [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+        finally { $sha.Dispose() }
+    }
+    finally { $stream.Dispose() }
 }
 function Assert-TextFile([string]$RelativePath) {
     $path = Join-Path $RepositoryRoot $RelativePath
@@ -104,7 +126,11 @@ foreach ($profileProperty in @($profiles.profiles.PSObject.Properties)) {
 }
 
 $composition = $package.profile_composition
-if ($null -eq $composition -or -not $composition.communication_embedded_in_get_it_done -or -not $composition.communication_embedded_in_gauntlet) {
+$compositionBooleansValid = $true
+foreach ($name in @('communication_embedded_in_get_it_done','communication_embedded_in_gauntlet')) {
+    if (-not (Test-BooleanContract ($(if ($null -ne $composition) { $composition.$name } else { $null })) $true "profile composition $name")) { $compositionBooleansValid = $false }
+}
+if ($null -eq $composition -or -not $compositionBooleansValid) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the communication-complete task-pack contract'
 } else {
     $metadataCommunication = @($composition.communication_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
@@ -116,7 +142,12 @@ if ($null -eq $composition -or -not $composition.communication_embedded_in_get_i
 }
 
 $proof = $package.proof_integrity
-if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier) {
+$proofBooleansValid = $true
+foreach ($name in @('global_principles','oracle_must_be_falsifiable','status_is_not_reexecution','required_gate_abandonment_is_not_completion','native_parallel_claim_requires_launch_barrier')) {
+    if (-not (Test-BooleanContract ($(if ($null -ne $proof) { $proof.$name } else { $null })) $true "proof-integrity $name")) { $proofBooleansValid = $false }
+}
+if (-not (Test-BooleanContract ($(if ($null -ne $proof) { $proof.runtime_vendored } else { $null })) $false 'proof-integrity runtime_vendored')) { $proofBooleansValid = $false }
+if ($null -eq $proof -or -not $proofBooleansValid -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1') {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.4 proof-integrity contract'
 } else {
     $proofScenarioRelative = [string]$proof.scenario_file
@@ -133,8 +164,13 @@ if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project
 }
 
 $rigor = $package.proportional_rigor
+$rigorBooleansValid = $true
+foreach ($name in @('global_principles','direct_for_single_decisive_check','extra_scrutiny_requires_distinct_evidence_gap','safety_and_correctness_floor_immutable','explicit_request_quick_mode_exception','v8_5_no_new_routed_skill_decision_retained_as_history')) {
+    if (-not (Test-BooleanContract ($(if ($null -ne $rigor) { $rigor.$name } else { $null })) $true "proportional-rigor $name")) { $rigorBooleansValid = $false }
+}
+if (-not (Test-BooleanContract ($(if ($null -ne $rigor) { $rigor.automatic_low_scrutiny_route } else { $null })) $false 'proportional-rigor automatic_low_scrutiny_route')) { $rigorBooleansValid = $false }
 $expectedModes = @('ADVERSARIAL','DEEP','DIRECT','STANDARD')
-if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or $rigor.automatic_low_scrutiny_route -ne $false -or $rigor.explicit_request_quick_mode_exception -ne $true -or $rigor.v8_5_no_new_routed_skill_decision_retained_as_history -ne $true) {
+if ($null -eq $rigor -or -not $rigorBooleansValid) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the updated proportional-rigor contract'
 } else {
     $actualModes = @($rigor.modes | ForEach-Object { [string]$_ } | Sort-Object -Unique)
@@ -157,11 +193,16 @@ if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_fo
 }
 
 $quick = $package.quick_mode
+$quickBooleansValid = $true
+foreach ($name in @('included','explicit_request_only','natural_language_selectable','dogfood_optional','automated_uat_optional','selected_validation_becomes_required','real_project_interaction_required','static_inspection_not_interaction_evidence')) {
+    if (-not (Test-BooleanContract ($(if ($null -ne $quick) { $quick.$name } else { $null })) $true "quick-mode $name")) { $quickBooleansValid = $false }
+}
+if (-not (Test-BooleanContract ($(if ($null -ne $quick) { $quick.live_host_evaluated } else { $null })) $false 'quick-mode live_host_evaluated')) { $quickBooleansValid = $false }
 $quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
 $quickMirror = 'releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv'
 $quickPath = Join-Path $RepositoryRoot $quickRelative
 $quickMirrorPath = Join-Path $RepositoryRoot $quickMirror
-if ($null -eq $quick -or -not $quick.included -or -not $quick.explicit_request_only -or -not $quick.natural_language_selectable -or $quick.default_validation -ne 'SMOKE' -or -not $quick.dogfood_optional -or -not $quick.automated_uat_optional -or -not $quick.selected_validation_becomes_required -or -not $quick.real_project_interaction_required -or -not $quick.static_inspection_not_interaction_evidence -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.live_host_evaluated -ne $false -or $quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) {
+if ($null -eq $quick -or -not $quickBooleansValid -or $quick.default_validation -ne 'SMOKE' -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) {
     Add-Failure 'Quick Mode contract or evidence-limit declaration missing'
 }
 if (-not (Test-Path -LiteralPath $quickPath) -or -not (Test-Path -LiteralPath $quickMirrorPath)) { Add-Failure 'Quick Mode scenario or release mirror is missing' }
@@ -181,7 +222,12 @@ else {
 }
 
 $delivery = $package.outcome_first_delivery
-if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported) {
+$deliveryBooleansValid = $true
+foreach ($name in @('global_principles','response_weight_matching','internal_depth_external_brevity','quiet_completion','act_or_state_blocker','no_process_replay','anti_filler','anti_sycophancy','explicit_user_or_host_style_override','summary_tldr_distinct_when_used','parallel_independent_lookups_when_supported')) {
+    if (-not (Test-BooleanContract ($(if ($null -ne $delivery) { $delivery.$name } else { $null })) $true "outcome-first delivery $name")) { $deliveryBooleansValid = $false }
+}
+if (-not (Test-BooleanContract ($(if ($null -ne $delivery) { $delivery.runtime_vendored } else { $null })) $false 'outcome-first delivery runtime_vendored')) { $deliveryBooleansValid = $false }
+if ($null -eq $delivery -or -not $deliveryBooleansValid -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46') {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.6 outcome-first delivery contract'
 } else {
     $deliveryScenarioRelative = [string]$delivery.scenario_file
@@ -204,7 +250,12 @@ if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.sourc
 }
 
 $direct = $package.direct_claims
-if ($null -eq $direct -or -not $direct.preserve_uncertainty -or -not $direct.preserve_semantics -or -not $direct.no_blanket_word_ban -or $direct.live_host_evaluated -ne $false) {
+$directBooleansValid = $true
+foreach ($name in @('preserve_uncertainty','preserve_semantics','no_blanket_word_ban')) {
+    if (-not (Test-BooleanContract ($(if ($null -ne $direct) { $direct.$name } else { $null })) $true "direct-claims $name")) { $directBooleansValid = $false }
+}
+if (-not (Test-BooleanContract ($(if ($null -ne $direct) { $direct.live_host_evaluated } else { $null })) $false 'direct-claims live_host_evaluated')) { $directBooleansValid = $false }
+if ($null -eq $direct -or -not $directBooleansValid) {
     Add-Failure 'direct-claims contract or evidence-limit declaration missing'
 }
 $directRelative = 'docs/evals/direct-claims-scenarios-v8.7.0.csv'
@@ -269,7 +320,7 @@ $currentTextFiles = @(
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
     'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md','docs/QUICK-MODE-DESIGN-v8.10.0.md',
     'docs/evals/quick-mode-scenarios-v8.10.0.csv','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv',
-    'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
+    'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/compare-release-artifacts.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }
