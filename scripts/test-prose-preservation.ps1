@@ -2,6 +2,7 @@
 param([string]$ArtifactsDirectory)
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+. (Join-Path $root 'scripts/release-inventory.ps1')
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -10,6 +11,26 @@ function Hash-Bytes([byte[]]$Bytes) {
     $hash = [Security.Cryptography.SHA256]::Create()
     try { [BitConverter]::ToString($hash.ComputeHash($Bytes)).Replace('-', '').ToLowerInvariant() }
     finally { $hash.Dispose() }
+}
+function Hash-Stream([IO.Stream]$Stream) {
+    $hash = [Security.Cryptography.SHA256]::Create()
+    try { [BitConverter]::ToString($hash.ComputeHash($Stream)).Replace('-','').ToLowerInvariant() }
+    finally { $hash.Dispose() }
+}
+function Hash-FileRecord([string]$Path) {
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction Stop
+    $stream = [IO.File]::OpenRead($Path)
+    try { [pscustomobject]@{ Length=[int64]$item.Length; Hash=(Hash-Stream $stream) } }
+    finally { $stream.Dispose() }
+}
+function Hash-EntryRecord([IO.Compression.ZipArchiveEntry]$Entry) {
+    $stream = $Entry.Open()
+    try { [pscustomobject]@{ Length=[int64]$Entry.Length; Hash=(Hash-Stream $stream) } }
+    finally { $stream.Dispose() }
+}
+function Entry-Text([IO.Compression.ZipArchiveEntry]$Entry) {
+    $stream = $Entry.Open(); $reader = New-Object IO.StreamReader($stream,[Text.Encoding]::UTF8,$true)
+    try { return $reader.ReadToEnd() } finally { $reader.Dispose(); $stream.Dispose() }
 }
 function Hash-Text([string]$Text) { Hash-Bytes ([Text.Encoding]::UTF8.GetBytes($Text)) }
 function Normalise-Prose([string]$Text) {
@@ -52,11 +73,6 @@ function Assert-Prose([string]$Path, [string]$Text, [object]$Record) {
 function Assert-Frozen([string]$Path, [byte[]]$Bytes, [string]$Expected) {
     if ((Hash-Bytes $Bytes) -cne $Expected) { throw "PRESERVATION: frozen source changed: $Path" }
 }
-function Entry-Bytes([IO.Compression.ZipArchiveEntry]$Entry) {
-    $inputStream=$Entry.Open(); $output=New-Object IO.MemoryStream
-    try { $inputStream.CopyTo($output); return ,$output.ToArray() }
-    finally { $inputStream.Dispose(); $output.Dispose() }
-}
 function Package-Name([string]$Profile,[string]$Version) {
     switch ($Profile) {
         'communication' { "user-facing-communication-mini-openai-v$Version" }
@@ -68,11 +84,19 @@ function Package-Name([string]$Profile,[string]$Version) {
 function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [string]$Version) {
     $prefix=(Package-Name $Profile $Version)+'/'
     $expected=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
+    $expected.Add('USER-FACING-STANDARDS-NOTICES.md',$script:proseInventory.RightsPath)
     foreach ($relative in @('AGENTS.md','LICENSE','THIRD_PARTY_NOTICES.md')) { $expected.Add($relative,(Join-Path $root $relative)) }
     if ($Definition.include_engineering_core) { $expected.Add('ENGINEERING-CORE.md',(Join-Path $root 'ENGINEERING-CORE.md')) }
     foreach ($skill in $Definition.skills) {
         $skillRoot=Join-Path $root "skills/$skill"
-        foreach ($file in Get-ChildItem -LiteralPath $skillRoot -Recurse -Force -File) {
+        foreach ($file in @(Get-ReleaseInventorySafeFileTree $skillRoot "base package source $skill")) {
+            $relative='skills/'+$skill+'/'+$file.FullName.Substring($skillRoot.Length+1).Replace('\','/')
+            $expected.Add($relative,$file.FullName)
+        }
+    }
+    foreach ($skill in $script:proseInventory.Names) {
+        $skillRoot=Join-Path $script:proseInventory.SourceRoot $skill
+        foreach ($file in @(Get-ReleaseInventorySafeFileTree $skillRoot "supplemental package source $skill")) {
             $relative='skills/'+$skill+'/'+$file.FullName.Substring($skillRoot.Length+1).Replace('\','/')
             $expected.Add($relative,$file.FullName)
         }
@@ -80,26 +104,32 @@ function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [s
     foreach ($relative in @('README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256')) { $expected.Add($relative,'') }
     $zip=[IO.Compression.ZipFile]::OpenRead($Path)
     try {
-        $entries=New-Object 'System.Collections.Generic.Dictionary[string,byte[]]' ([StringComparer]::Ordinal)
+        $entries=New-Object 'System.Collections.Generic.Dictionary[string,System.IO.Compression.ZipArchiveEntry]' ([StringComparer]::Ordinal)
         foreach ($entry in $zip.Entries) {
-            if (-not $entry.Name) { continue }
-            if (-not $entry.FullName.StartsWith($prefix,[StringComparison]::Ordinal)) { throw "PRESERVATION: package root in $Profile" }
-            $relative=$entry.FullName.Substring($prefix.Length)
+            $rawName=[string]$entry.FullName
+            if ($rawName.Contains([char]92)) { throw "PRESERVATION: backslash packaged member in $Profile" }
+            $name=$rawName.Replace([char]92,'/')
+            if ([string]::IsNullOrEmpty($entry.Name) -or $name.EndsWith('/',[StringComparison]::Ordinal)) { throw "PRESERVATION: directory-only packaged member in $Profile" }
+            if (-not $name.StartsWith($prefix,[StringComparison]::Ordinal)) { throw "PRESERVATION: package root in $Profile" }
+            $relative=$name.Substring($prefix.Length)
             if ($entries.ContainsKey($relative) -or -not $expected.ContainsKey($relative)) { throw "PRESERVATION: unexpected or duplicate packaged file in $Profile" }
-            $bytes=Entry-Bytes $entry
-            $entries.Add($relative,$bytes)
-            if ($expected[$relative] -and (Hash-Bytes $bytes) -cne (Hash-Bytes ([IO.File]::ReadAllBytes($expected[$relative])))) { throw "PRESERVATION: packaged source differs: $Profile/$relative" }
+            $entries.Add($relative,$entry)
+            if (-not [string]::IsNullOrEmpty($expected[$relative])) {
+                $sourceRecord=Hash-FileRecord $expected[$relative]
+                $entryRecord=Hash-EntryRecord $entry
+                if ($entryRecord.Length -ne $sourceRecord.Length -or $entryRecord.Hash -cne $sourceRecord.Hash) { throw "PRESERVATION: packaged source differs: $Profile/$relative" }
+            }
         }
         Assert-SameSequence @($expected.Keys | Sort-Object) @($entries.Keys | Sort-Object) "package inventory $Profile"
         $declared=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
-        foreach ($line in ([Text.Encoding]::UTF8.GetString($entries['CHECKSUMS.sha256']) -split '\r?\n')) {
+        foreach ($line in ((Entry-Text $entries['CHECKSUMS.sha256']) -split '\r?\n')) {
             if (-not $line) { continue }
             $match=[regex]::Match($line,'^([0-9a-f]{64})  (.+)$')
             if (-not $match.Success) { throw "PRESERVATION: malformed package checksum in $Profile" }
             $relative=$match.Groups[2].Value
             if ($relative -eq 'CHECKSUMS.sha256' -or $declared.ContainsKey($relative) -or -not $entries.ContainsKey($relative)) { throw "PRESERVATION: invalid package checksum target in $Profile" }
             $declared.Add($relative,$match.Groups[1].Value)
-            if ((Hash-Bytes $entries[$relative]) -cne $declared[$relative]) { throw "PRESERVATION: package checksum mismatch in $Profile" }
+            if ((Hash-EntryRecord $entries[$relative]).Hash -cne $declared[$relative]) { throw "PRESERVATION: package checksum mismatch in $Profile" }
         }
         Assert-SameSequence @($entries.Keys | Where-Object { $_ -ne 'CHECKSUMS.sha256' } | Sort-Object) @($declared.Keys | Sort-Object) "checksum coverage $Profile"
     } finally { $zip.Dispose() }
@@ -126,6 +156,7 @@ foreach ($file in $contract.files.PSObject.Properties) { Assert-Prose $file.Name
 foreach ($file in $contract.unchanged.PSObject.Properties) { Assert-Frozen $file.Name ([IO.File]::ReadAllBytes((Join-Path $root $file.Name))) $file.Value }
 foreach ($path in $contract.authoring_copies) { Assert-Frozen $path ([IO.File]::ReadAllBytes((Join-Path $root $path))) $contract.authoring_sha256 }
 $profiles=(Read-Utf8 (Join-Path $root 'release-profiles.json')) | ConvertFrom-Json
+$script:proseInventory=Get-ReleaseUserFacingInventory $root $profiles
 Assert-SameSequence @($contract.profile_inventory.PSObject.Properties.Name | Sort-Object) @($profiles.profiles.PSObject.Properties.Name | Sort-Object) 'profile names'
 foreach ($profile in $contract.profile_inventory.PSObject.Properties) {
     $current=$profiles.profiles.PSObject.Properties[$profile.Name].Value

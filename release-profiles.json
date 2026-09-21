@@ -1,118 +1,125 @@
 {
-  "version": "8.8.0",
-  "release": "v8.8.0",
-  "release_title": "Explicit Instructions, Clearer Prose",
-  "release_summary": "Preserve all 23 skills and explicit contracts while making agent-facing and user-facing instructions easier to follow. Clarify actions, conditions, exceptions, evidence and recovery without deleting standards or loading paths.",
-  "profiles": {
-    "core": {
-      "plugin_name": "lean-agent-skills-core",
-      "title": "Lean Agent Skills Core",
-      "description": "Eight compact skills for communication, planning, research, review, and long-horizon execution.",
-      "include_engineering_core": true,
-      "skills": [
-        "gauntlet-loop",
-        "get-it-done",
-        "handoff",
-        "plan",
-        "research",
-        "review",
-        "skill-design",
-        "wait-what"
-      ]
-    },
-    "engineering": {
-      "plugin_name": "lean-agent-skills-engineering",
-      "title": "Lean Agent Skills Engineering",
-      "description": "Nineteen compact skills for reliable software and long-horizon agent work.",
-      "include_engineering_core": true,
-      "skills": [
-        "architecture",
-        "browser-automation",
-        "cli-design",
-        "debug",
-        "experiment",
-        "gauntlet-loop",
-        "get-it-done",
-        "handoff",
-        "implement",
-        "merge-conflicts",
-        "plan",
-        "project-context",
-        "release",
-        "research",
-        "review",
-        "skill-design",
-        "test",
-        "triage",
-        "wait-what"
-      ]
-    },
-    "complete": {
-      "plugin_name": "lean-agent-skills-complete",
-      "title": "Lean Agent Skills Complete",
-      "description": "Twenty-three compact skills for engineering, research, communication, documents, experiments, and quality work.",
-      "include_engineering_core": true,
-      "skills": [
-        "architecture",
-        "browser-automation",
-        "cli-design",
-        "debug",
-        "experiment",
-        "gauntlet-loop",
-        "get-it-done",
-        "grilling",
-        "handoff",
-        "implement",
-        "merge-conflicts",
-        "office-files",
-        "plan",
-        "project-context",
-        "release",
-        "research",
-        "review",
-        "skill-design",
-        "teach",
-        "test",
-        "triage",
-        "wait-what",
-        "writing"
-      ]
-    },
-    "communication": {
-      "plugin_name": "user-facing-communication-mini",
-      "title": "User-Facing Communication Mini",
-      "description": "Three compact skills for outcome-first replies, adaptive clear writing, teaching, and human-usable information.",
-      "include_engineering_core": false,
-      "skills": [
-        "teach",
-        "wait-what",
-        "writing"
-      ]
-    },
-    "get-it-done": {
-      "plugin_name": "get-it-done-pack",
-      "title": "Get It Done Pack",
-      "description": "Five compact skills for long-horizon execution, adversarial acceptance, outcome-first communication, teaching, writing, and human-usable information.",
-      "include_engineering_core": true,
-      "skills": [
-        "gauntlet-loop",
-        "get-it-done",
-        "teach",
-        "wait-what",
-        "writing"
-      ]
-    },
-    "gauntlet": {
-      "plugin_name": "gauntlet-loop-pack",
-      "title": "Gauntlet Loop Pack",
-      "description": "Four compact skills for adversarial quality review plus outcome-first communication, teaching, writing, and human-usable information.",
-      "include_engineering_core": false,
-      "skills": [
-        "gauntlet-loop",
-        "teach",
-        "wait-what",
-        "writing"
-      ]
-    }
-  }
+	"version": "8.9.0",
+	"release": "v8.9.0",
+	"release_title": "Integrated User-Facing Standards",
+	"release_summary": "Integrate all 27 supplemental user-facing routines into six release profiles while preserving the unchanged 23 base task skills, base routing, zero supplemental adapters, and explicit rights and public-source limitations.",
+	"user_facing_standards": {
+		"source_root": "packs/user-facing-standards/skills",
+		"source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
+		"source_manifest_sha256": "1589bfafa41fb9f99e6e964f3e37fa904a5a657a2789594e74a27d16b5990d14",
+		"rights_notice_path": "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
+		"rights_notice_sha256": "1061633d3a12dd100bb5c89126ad40312e1883cfb7042645fc78ec6d002dc951",
+		"skills_expected": 27,
+		"included_profiles": [
+			"core",
+			"engineering",
+			"complete",
+			"communication",
+			"get-it-done",
+			"gauntlet"
+		]
+	},
+	"profiles": {
+		"core": {
+			"plugin_name": "lean-agent-skills-core",
+			"title": "Lean Agent Skills Core",
+			"description": "35 skills: 8 base task skills plus 27 supplemental user-facing standards for communication, planning, research, review, and long-horizon execution.",
+			"include_engineering_core": true,
+			"skills": [
+				"gauntlet-loop",
+				"get-it-done",
+				"handoff",
+				"plan",
+				"research",
+				"review",
+				"skill-design",
+				"wait-what"
+			]
+		},
+		"engineering": {
+			"plugin_name": "lean-agent-skills-engineering",
+			"title": "Lean Agent Skills Engineering",
+			"description": "46 skills: 19 base task skills plus 27 supplemental user-facing standards for software delivery and engineering operations.",
+			"include_engineering_core": true,
+			"skills": [
+				"architecture",
+				"browser-automation",
+				"cli-design",
+				"debug",
+				"experiment",
+				"gauntlet-loop",
+				"get-it-done",
+				"handoff",
+				"implement",
+				"merge-conflicts",
+				"plan",
+				"project-context",
+				"release",
+				"research",
+				"review",
+				"skill-design",
+				"test",
+				"triage",
+				"wait-what"
+			]
+		},
+		"complete": {
+			"plugin_name": "lean-agent-skills-complete",
+			"title": "Lean Agent Skills Complete",
+			"description": "50 skills: 23 base task skills plus 27 supplemental user-facing standards for engineering, research, communication, documents, experiments, and quality work.",
+			"include_engineering_core": true,
+			"skills": [
+				"architecture",
+				"browser-automation",
+				"cli-design",
+				"debug",
+				"experiment",
+				"gauntlet-loop",
+				"get-it-done",
+				"grilling",
+				"handoff",
+				"implement",
+				"merge-conflicts",
+				"office-files",
+				"plan",
+				"project-context",
+				"release",
+				"research",
+				"review",
+				"skill-design",
+				"teach",
+				"test",
+				"triage",
+				"wait-what",
+				"writing"
+			]
+		},
+		"communication": {
+			"plugin_name": "user-facing-communication-mini",
+			"title": "User-Facing Communication Mini",
+			"description": "30 skills: 3 base task skills plus 27 supplemental user-facing standards for clear replies, teaching, writing, and user information.",
+			"include_engineering_core": false,
+			"skills": ["teach", "wait-what", "writing"]
+		},
+		"get-it-done": {
+			"plugin_name": "get-it-done-pack",
+			"title": "Get It Done Pack",
+			"description": "32 skills: 5 base task skills plus 27 supplemental user-facing standards for long-horizon execution, acceptance, and communication support.",
+			"include_engineering_core": true,
+			"skills": [
+				"gauntlet-loop",
+				"get-it-done",
+				"teach",
+				"wait-what",
+				"writing"
+			]
+		},
+		"gauntlet": {
+			"plugin_name": "gauntlet-loop-pack",
+			"title": "Gauntlet Loop Pack",
+			"description": "31 skills: 4 base task skills plus 27 supplemental user-facing standards for adversarial review and communication support.",
+			"include_engineering_core": false,
+			"skills": ["gauntlet-loop", "teach", "wait-what", "writing"]
+		}
+	}
 }

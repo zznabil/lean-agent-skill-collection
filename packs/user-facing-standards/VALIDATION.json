@@ -1,0 +1,35 @@
+{
+  "status": "declared_contract_not_execution_evidence",
+  "skills": 27,
+  "skill_line_limit_exclusive": 100,
+  "description_limit_characters": 60,
+  "publisher_document_copies": 19,
+  "pdf_file_copies": 3,
+  "unique_pdf_documents": 1,
+  "register_entries": 97,
+  "selected_register_entries": 27,
+  "authored_cases": 81,
+  "live_model_evaluation": "not_run",
+  "formal_conformance_claimed": false,
+  "check_command": "python audit/validate_bundle.py",
+  "tests_command": "python audit/test_validate_bundle.py",
+  "history": "audit/PERSONAL-PROTOTYPE-VALIDATION.json describes only the earlier personal-study archive, including its now-excluded CAST PDF.",
+  "publisher_integrity": {
+    "baseline_manifest": "audit/original-download-manifest.json",
+    "baseline_manifest_sha256": "7cb4016a88a34db8f1b4a93e82281e01250d9642573bdd0450f433838bf63b67",
+    "mapping_authority": "audit/validate_bundle.py:PUBLISHER_PATH_TO_ORIGINAL",
+    "mapping_count": 19,
+    "current_manifest": "SOURCE-MANIFEST.json",
+    "checks": [
+      "Literal complete baseline-manifest bytes are pinned before publisher comparison.",
+      "Current manifest URL, final URL, SHA-256, byte count and modified:false match each pinned record.",
+      "Actual bytes for each mapped path match the pinned SHA-256 and byte count."
+    ],
+    "controls": [
+      "test_publisher_and_manifest_change_after_checksum_rehash",
+      "test_publisher_baseline_drift_after_checksum_rehash"
+    ],
+    "positive_control": "test_positive_control",
+    "scope": "structural and source integrity only; no live-model evaluation or formal-conformance claim"
+  }
+}

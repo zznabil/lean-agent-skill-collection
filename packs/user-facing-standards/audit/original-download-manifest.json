@@ -1,0 +1,203 @@
+{
+  "retrieved_at_utc": "2026-09-13T04:39:46.133235+00:00",
+  "items": [
+    {
+      "name": "ies-organizing-instruction-2007.pdf",
+      "url": "https://ies.ed.gov/ncee/WWC/Docs/PracticeGuide/20072004.pdf",
+      "final_url": "https://ies.ed.gov/ncee/WWC/Docs/PracticeGuide/20072004.pdf",
+      "content_type": "application/pdf",
+      "status": 200,
+      "bytes": 1018713,
+      "sha256": "5e6a7602f80c3856875e5461aab1b1d20404dcf8dd761d34b9cd8698b9196154",
+      "downloaded": true
+    },
+    {
+      "name": "cdc-clear-communication-guide.pdf",
+      "url": "https://www.cdc.gov/ccindex/pdf/clear-communication-user-guide.pdf",
+      "downloaded": false,
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "name": "cdc-full-index-score-sheet.pdf",
+      "url": "https://www.cdc.gov/ccindex/pdf/full-index-score-sheet.pdf",
+      "downloaded": false,
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "name": "ahrq-pemat-guide-2014.pdf",
+      "url": "https://www.ahrq.gov/sites/default/files/publications/files/pemat_guide.pdf",
+      "downloaded": false,
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "name": "aero-cognitive-load-2023.pdf",
+      "url": "https://www.edresearch.edu.au/sites/default/files/2023-11/managing-cognitive-load-optimises-learning-aa.pdf",
+      "final_url": "https://www.edresearch.edu.au/sites/default/files/2023-11/managing-cognitive-load-optimises-learning-aa.pdf",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "downloaded": false,
+      "error": "Expected original PDF"
+    },
+    {
+      "name": "cast-udl3-organizer.pdf",
+      "url": "https://udlguidelines.cast.org/static/udlg3-graphicorganizer-digital-numbers-a11y.pdf",
+      "final_url": "https://udlguidelines.cast.org/static/udlg3-graphicorganizer-digital-numbers-a11y.pdf",
+      "content_type": "application/pdf",
+      "status": 200,
+      "bytes": 1082913,
+      "sha256": "b1373877826c6f301309a0256c866941c2f590a255aeaf8fccb0d1d9cbf98b4a",
+      "downloaded": true
+    },
+    {
+      "name": "wcag22-official.html.txt",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "final_url": "https://www.w3.org/TR/WCAG22/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 512457,
+      "sha256": "6e3c5fe397257cae509a2fb4752b73062cf8cbeb92c2cec618989b17e4cf7057",
+      "downloaded": true
+    },
+    {
+      "name": "coga-official.html.txt",
+      "url": "https://www.w3.org/TR/coga-usable/",
+      "final_url": "https://www.w3.org/TR/coga-usable/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 887477,
+      "sha256": "521a552791a81f10494bbe9d76592de52c6a91971ada6e0498faeb1b14fe44fd",
+      "downloaded": true
+    },
+    {
+      "name": "aria-apg-official.html.txt",
+      "url": "https://www.w3.org/WAI/ARIA/apg/",
+      "final_url": "https://www.w3.org/WAI/ARIA/apg/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 39382,
+      "sha256": "39f5e91d0c313deba66751873fe179f5c3f0985bf10fca8e11c8f8ab7b188ed8",
+      "downloaded": true
+    },
+    {
+      "name": "aria-keyboard-official.html.txt",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/",
+      "final_url": "https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 82438,
+      "sha256": "ed28b66ab66a934483836a864e8479ecf500286485f6630bd2c9a89ac5132f2a",
+      "downloaded": true
+    },
+    {
+      "name": "aria-names-official.html.txt",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/",
+      "final_url": "https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 144212,
+      "sha256": "99467c3f36d535ab6d92667c10e87c9f447e8299b6bb9741dce438f3adef0c3b",
+      "downloaded": true
+    },
+    {
+      "name": "aria-patterns-official.html.txt",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/",
+      "final_url": "https://www.w3.org/WAI/ARIA/apg/patterns/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 49239,
+      "sha256": "cb3243a823d98e48ee769de18be05f4c8330c03d14438bca2d856f5bf0352cb0",
+      "downloaded": true
+    },
+    {
+      "name": "w3c-document-license.html.txt",
+      "url": "https://www.w3.org/copyright/document-license-2023/",
+      "final_url": "https://www.w3.org/copyright/document-license-2023/",
+      "content_type": "text/html; charset=UTF-8",
+      "status": 200,
+      "bytes": 28205,
+      "sha256": "4bc849ad8fc856e93478400332f409d209bdb7ab3ec0f346e88e9c23b6d2b9ae",
+      "downloaded": true
+    },
+    {
+      "name": "w3c-permissive-license.html.txt",
+      "url": "https://www.w3.org/copyright/document-license-2015/",
+      "final_url": "https://www.w3.org/copyright/document-license-2015/",
+      "content_type": "text/html; charset=UTF-8",
+      "status": 200,
+      "bytes": 28804,
+      "sha256": "9738f4e0d2d6d3351ea3824541a5c2b5efe09d81e78796631f4a74658bcc6a2c",
+      "downloaded": true
+    },
+    {
+      "name": "rfc2119.txt",
+      "url": "https://www.rfc-editor.org/rfc/rfc2119.txt",
+      "final_url": "https://www.rfc-editor.org/rfc/rfc2119.txt",
+      "content_type": "text/plain;charset=utf-8",
+      "status": 200,
+      "bytes": 4723,
+      "sha256": "3c2ceb7bfc84cd34720f4a5271338ab9d8280d34bdd1eb250c64306202f2ed8b",
+      "downloaded": true
+    },
+    {
+      "name": "rfc8174.txt",
+      "url": "https://www.rfc-editor.org/rfc/rfc8174.txt",
+      "final_url": "https://www.rfc-editor.org/rfc/rfc8174.txt",
+      "content_type": "text/plain;charset=utf-8",
+      "status": 200,
+      "bytes": 6071,
+      "sha256": "5ca0e2f90be0bc5928ee465f76518fee316dfa775aed885658a29a419cc293b7",
+      "downloaded": true
+    },
+    {
+      "name": "diataxis-primer.html.txt",
+      "url": "https://diataxis.fr/start-here/",
+      "final_url": "https://diataxis.fr/start-here/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 29865,
+      "sha256": "9e82a2e67c9f607c47b6cfd909e51a940718b92d5a4ce945a9e1caef76066eba",
+      "downloaded": true
+    },
+    {
+      "name": "diataxis-tutorials.html.txt",
+      "url": "https://diataxis.fr/tutorials/",
+      "final_url": "https://diataxis.fr/tutorials/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 38621,
+      "sha256": "2b3dd7717a803f4b3945fb882a73b5d4f268ecd1f592e151b22c720a57e13057",
+      "downloaded": true
+    },
+    {
+      "name": "diataxis-how-to.html.txt",
+      "url": "https://diataxis.fr/how-to-guides/",
+      "final_url": "https://diataxis.fr/how-to-guides/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 31595,
+      "sha256": "99b2a0f504ccde78ffb515f0bd1fbd703de55baf4f6123b9a7f6315149e0c9f6",
+      "downloaded": true
+    },
+    {
+      "name": "diataxis-reference.html.txt",
+      "url": "https://diataxis.fr/reference/",
+      "final_url": "https://diataxis.fr/reference/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 25269,
+      "sha256": "78ac456f11534eb022b173f1aba98e478349fd4efe0031a1979e2767d9e6d6b0",
+      "downloaded": true
+    },
+    {
+      "name": "diataxis-explanation.html.txt",
+      "url": "https://diataxis.fr/explanation/",
+      "final_url": "https://diataxis.fr/explanation/",
+      "content_type": "text/html; charset=utf-8",
+      "status": 200,
+      "bytes": 27914,
+      "sha256": "3f1b0ebfd270bcc6d4e5b79d1b905e891085c9c90a3bc2ab5ab658124b489f8b",
+      "downloaded": true
+    }
+  ],
+  "scope": "Original bytes only. No downloaded content executed. Not a release or installation."
+}

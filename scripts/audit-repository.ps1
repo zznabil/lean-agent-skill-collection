@@ -1,15 +1,20 @@
 [CmdletBinding()]
 param(
-    [string]$RepositoryRoot = (Split-Path -Parent $PSScriptRoot),
+    [string]$RepositoryRoot,
     [string]$ArtifactsDirectory
 )
 
 $ErrorActionPreference = 'Stop'
+if ([string]::IsNullOrWhiteSpace($RepositoryRoot)) {
+    $RepositoryRoot = Split-Path -Parent $PSScriptRoot
+}
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 $failures = [System.Collections.Generic.List[string]]::new()
 $passes = [System.Collections.Generic.List[string]]::new()
 
 function Add-Failure([string]$Message) { $script:failures.Add($Message) }
 function Add-Pass([string]$Message) { $script:passes.Add($Message) }
+. (Join-Path $PSScriptRoot 'release-inventory.ps1')
 function Read-Json([string]$RelativePath) {
     $path = Join-Path $RepositoryRoot $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
@@ -18,9 +23,6 @@ function Read-Json([string]$RelativePath) {
     }
     try { return Get-Content -Raw -LiteralPath $path | ConvertFrom-Json }
     catch { Add-Failure "invalid JSON in ${RelativePath}: $($_.Exception.Message)"; return $null }
-}
-function Get-Sha256([string]$Path) {
-    return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
 }
 function Assert-TextFile([string]$RelativePath) {
     $path = Join-Path $RepositoryRoot $RelativePath
@@ -72,11 +74,20 @@ else {
 }
 
 $skillsRoot = Join-Path $RepositoryRoot 'skills'
-$actualSkills = @(Get-ChildItem -LiteralPath $skillsRoot -Directory | Sort-Object Name | ForEach-Object Name)
-$completeSkills = @($profiles.profiles.complete.skills | ForEach-Object { [string]$_ } | Sort-Object)
-if ($actualSkills.Count -ne 23) { Add-Failure "expected 23 canonical skills, found $($actualSkills.Count)" }
-if ((Compare-Object $actualSkills $completeSkills).Count -ne 0) { Add-Failure 'Complete profile does not match the canonical skills directory' }
+$actualSkillsRaw = @(Get-ChildItem -LiteralPath $skillsRoot -Directory | ForEach-Object { [string]$_.Name })
+$completeSkillsRaw = @($profiles.profiles.complete.skills | ForEach-Object { [string]$_ })
+if ((Get-RawInventoryDuplicates $actualSkillsRaw).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $actualSkillsRaw).Count -gt 0) { Add-Failure 'root skills directory contains duplicate or case-colliding names' }
+if ((Get-RawInventoryDuplicates $completeSkillsRaw).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $completeSkillsRaw).Count -gt 0) { Add-Failure 'Complete profile contains duplicate or case-colliding base names' }
+if ($actualSkillsRaw.Count -ne 23) { Add-Failure "expected 23 canonical skills, found $($actualSkillsRaw.Count)" }
+if (-not (Test-ReleaseInventoryMemberSet $actualSkillsRaw $completeSkillsRaw)) { Add-Failure 'Complete profile does not match the canonical skills directory' }
+$actualSkills = @($actualSkillsRaw | Sort-Object)
+$completeSkills = @($completeSkillsRaw | Sort-Object)
 
+foreach ($profileProperty in @($profiles.profiles.PSObject.Properties)) {
+    $rawProfileSkills = @($profileProperty.Value.skills | ForEach-Object { [string]$_ })
+    if ((Get-RawInventoryDuplicates $rawProfileSkills).Count -gt 0) { Add-Failure "profile $($profileProperty.Name) contains an exact duplicate base skill" }
+    if ((Get-RawInventoryCaseDuplicates $rawProfileSkills).Count -gt 0) { Add-Failure "profile $($profileProperty.Name) contains a case-only duplicate base skill" }
+}
 $communicationSkills = @($profiles.profiles.communication.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $getItDoneSkills = @($profiles.profiles.'get-it-done'.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $gauntletSkills = @($profiles.profiles.gauntlet.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
@@ -102,6 +113,32 @@ if ($null -eq $composition -or -not $composition.communication_embedded_in_get_i
 }
 
 
+function Test-SupplementalInventoryAudit([object]$Profiles,[object]$Package) {
+    $inventory = $null
+    try { $inventory = Get-ReleaseUserFacingInventory $RepositoryRoot $Profiles } catch { Add-Failure $_.Exception.Message; return }
+    $expectedNames = @('core','engineering','complete','communication','get-it-done','gauntlet')
+    $profileNames = @($Profiles.profiles.PSObject.Properties | ForEach-Object { [string]$_.Name })
+    if (-not (Compare-ReleaseInventorySequence $profileNames $expectedNames)) { Add-Failure 'release-profiles.json profile order or membership is not canonical' }
+    if ($null -eq $Profiles.user_facing_standards.included_profiles -or -not (Compare-ReleaseInventorySequence @($Profiles.user_facing_standards.included_profiles | ForEach-Object { [string]$_ }) $expectedNames)) { Add-Failure 'included_profiles must exactly enumerate the six release profiles in canonical order' }
+    $expectedCounts = @{ core = 8; engineering = 19; complete = 23; communication = 3; 'get-it-done' = 5; gauntlet = 4 }
+    foreach ($name in $expectedNames) {
+        $base = @($Profiles.profiles.$name.skills | ForEach-Object { [string]$_ })
+        if ((Get-RawInventoryDuplicates $base).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $base).Count -gt 0) { Add-Failure "profile $name contains duplicate base skills" }
+        if ($base.Count -ne $expectedCounts[$name]) { Add-Failure "profile $name base count is not $($expectedCounts[$name])" }
+        if ($base | Where-Object { $inventory.Names -contains $_ }) { Add-Failure "profile $name routes a supplemental source skill as a base skill" }
+        $effective = @($base + $inventory.Names)
+        $count = $Package.effective_profile_counts.$name
+        if ($null -eq $count -or $count.base_task_skills -ne $base.Count -or $count.supplemental_user_facing_skills -ne 27 -or $count.total -ne $effective.Count) { Add-Failure "effective profile count metadata is invalid for $name" }
+    }
+    if ($Package.skills_expected -ne 50 -or $Package.skills_validated -ne 50 -or $Package.base_task_skills_expected -ne 23 -or $Package.supplemental_user_facing_skills_expected -ne 27 -or $Package.release_unique_skills_expected -ne 50) { Add-Failure 'package inventory counts are invalid' }
+    if (-not (Compare-ReleaseInventorySequence @($Package.supplemental_user_facing_skills | ForEach-Object { [string]$_ }) $inventory.Names)) { Add-Failure 'package supplemental skill order differs from SOURCE-MANIFEST.json' }
+    $ri = $Package.release_inventory
+    if ($null -eq $ri -or $ri.base_task_adapters -ne 23 -or $ri.supplemental_adapters -ne 0 -or $ri.source_manifest -ne $inventory.ManifestRelative -or $ri.catalog -ne 'packs/user-facing-standards/CATALOG.md' -or $ri.rights_notice -ne 'packs/user-facing-standards/THIRD-PARTY-NOTICES.md' -or $ri.base_task_routing_unchanged -ne $true -or $ri.public_source_limitations_preserved -ne $true) { Add-Failure 'release_inventory metadata is invalid' }
+    $agency = $Package.considerate_agency
+    if ($null -eq $agency -or $agency.adapters -ne 23) { Add-Failure 'considerate_agency inventory metadata is invalid' }
+    Add-Pass 'Supplemental source inventory and effective profile metadata are exact'
+}
+Test-SupplementalInventoryAudit $profiles $package
 $proof = $package.proof_integrity
 if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.4 proof-integrity contract'
@@ -115,14 +152,14 @@ if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project
     else {
         $proofScenarioCount = @(Import-Csv -LiteralPath $proofScenarioPath).Count
         if ($proofScenarioCount -ne [int]$proof.static_scenarios) { Add-Failure "proof-integrity metadata says $($proof.static_scenarios) but CSV contains $proofScenarioCount rows" }
-        if ((Get-Sha256 $proofScenarioPath) -ne (Get-Sha256 $proofMirrorPath)) { Add-Failure 'proof-integrity scenario mirror drift' }
+        if ((Get-ReleaseInventorySha256 $proofScenarioPath) -ne (Get-ReleaseInventorySha256 $proofMirrorPath)) { Add-Failure 'proof-integrity scenario mirror drift' }
     }
 }
 
 
 $rigor = $package.proportional_rigor
 $expectedModes = @('ADVERSARIAL','DEEP','DIRECT','STANDARD')
-if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.no_new_routed_skill) {
+if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.base_task_routing_unchanged) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.5 proportional-rigor contract'
 } else {
     $actualModes = @($rigor.modes | ForEach-Object { [string]$_ } | Sort-Object -Unique)
@@ -140,7 +177,7 @@ if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_fo
         foreach ($mode in $expectedModes) {
             if (@($rigorRows | Where-Object { $_.expected_mode -eq $mode }).Count -ne 12) { Add-Failure "proportional-rigor scenario corpus must contain 12 $mode cases" }
         }
-        if ((Get-Sha256 $rigorScenarioPath) -ne (Get-Sha256 $rigorMirrorPath)) { Add-Failure 'proportional-rigor scenario mirror drift' }
+        if ((Get-ReleaseInventorySha256 $rigorScenarioPath) -ne (Get-ReleaseInventorySha256 $rigorMirrorPath)) { Add-Failure 'proportional-rigor scenario mirror drift' }
     }
 }
 
@@ -165,7 +202,7 @@ if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.sourc
         foreach ($category in $requiredCategories) {
             if (-not ($actualCategories -contains $category)) { Add-Failure "outcome-first scenario corpus lacks category: $category" }
         }
-        if ((Get-Sha256 $deliveryScenarioPath) -ne (Get-Sha256 $deliveryMirrorPath)) { Add-Failure 'outcome-first scenario mirror drift' }
+        if ((Get-ReleaseInventorySha256 $deliveryScenarioPath) -ne (Get-ReleaseInventorySha256 $deliveryMirrorPath)) { Add-Failure 'outcome-first scenario mirror drift' }
     }
 }
 
@@ -191,7 +228,7 @@ else {
         }
         if ($row.expected_response -eq $row.rejected_response) { Add-Failure "direct-claims fixture $($row.id) has identical positive and negative examples" }
     }
-    if ((Get-Sha256 $directPath) -ne (Get-Sha256 $directMirrorPath)) { Add-Failure 'direct-claims scenario mirror drift' }
+    if ((Get-ReleaseInventorySha256 $directPath) -ne (Get-ReleaseInventorySha256 $directMirrorPath)) { Add-Failure 'direct-claims scenario mirror drift' }
 }
 
 $scenarioExpected = [int]$package.human_usable_information.static_scenarios
@@ -204,7 +241,7 @@ foreach ($pair in $scenarioPairs) {
     $right = Join-Path $RepositoryRoot $pair[1]
     if (-not (Test-Path -LiteralPath $left -PathType Leaf)) { Add-Failure "missing evaluation file: $($pair[0])"; continue }
     if (-not (Test-Path -LiteralPath $right -PathType Leaf)) { Add-Failure "missing release evaluation mirror: $($pair[1])"; continue }
-    if ((Get-Sha256 $left) -ne (Get-Sha256 $right)) { Add-Failure "evaluation mirror drift: $($pair[0]) != $($pair[1])" }
+    if ((Get-ReleaseInventorySha256 $left) -ne (Get-ReleaseInventorySha256 $right)) { Add-Failure "evaluation mirror drift: $($pair[0]) != $($pair[1])" }
 }
 $scenarioPath = Join-Path $RepositoryRoot 'docs/evals/usable-information-scenarios-v8.3.0.csv'
 if (Test-Path -LiteralPath $scenarioPath -PathType Leaf) {
@@ -234,11 +271,40 @@ $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
     'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
-    'scripts/audit-repository.ps1'
+    'scripts/audit-repository.ps1','scripts/validate.ps1','scripts/release-inventory.ps1',
+    'UPSTREAM-CHECKSUMS.sha256','packs/user-facing-standards/CHECKSUMS.sha256'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }
+function Get-AuditPackageBaseName([string]$ProfileName,[string]$Version) {
+    switch ($ProfileName) {
+        'core' { return "lean-agent-skills-core-openai-v$Version" }
+        'engineering' { return "lean-agent-skills-engineering-openai-v$Version" }
+        'complete' { return "lean-agent-skills-complete-openai-v$Version" }
+        'communication' { return "user-facing-communication-mini-openai-v$Version" }
+        'get-it-done' { return "get-it-done-pack-openai-v$Version" }
+        'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
+        default { throw "unknown profile: $ProfileName" }
+    }
+}
 
+function Test-AuditProfileArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefinition,[object]$SupplementalNames,[string]$Version) {
+    try { $archive = [IO.Compression.ZipFile]::OpenRead($Path) } catch { Add-Failure "cannot inspect profile archive $ProfileName"; return }
+    try {
+        $root = (Get-AuditPackageBaseName $ProfileName $Version) + '/'
+        $entries = @($archive.Entries)
+        $fileEntries = @($entries | Where-Object { -not [string]::IsNullOrEmpty($_.Name) })
+        try { $folders = @(Get-ReleaseArchiveSkillFolders $entries $root) } catch { Add-Failure "archive $ProfileName has $($_.Exception.Message)"; $folders = @() }
+        $expected = @(@($ProfileDefinition.skills | ForEach-Object { [string]$_ }) + @($SupplementalNames | ForEach-Object { [string]$_ }))
+        if (-not (Test-ReleaseInventoryMemberSet $expected $folders) -or $folders.Count -ne $expected.Count) { Add-Failure "archive $ProfileName effective skill folders mismatch" }
+        $metadataEntry = $fileEntries | Where-Object { $_.FullName.Replace('\','/') -eq ($root+'PACKAGE-VALIDATION.json') } | Select-Object -First 1
+        if ($null -eq $metadataEntry) { Add-Failure "archive $ProfileName lacks PACKAGE-VALIDATION.json"; return }
+        $reader = New-Object IO.StreamReader($metadataEntry.Open()); try { $metadata = ($reader.ReadToEnd() | ConvertFrom-Json) } finally { $reader.Dispose() }
+        if ($metadata.skills_expected -ne $expected.Count -or $metadata.skills_validated -ne $expected.Count -or -not (Compare-ReleaseInventorySequence @($metadata.included_skills | ForEach-Object {[string]$_}) $expected) -or $metadata.public_source_limitations_preserved -ne $true) { Add-Failure "archive $ProfileName effective metadata mismatch" }
+        if ($null -eq $metadata.considerate_agency -or $metadata.considerate_agency.supplemental_adapters -ne 0 -or $metadata.considerate_agency.base_routing_unchanged -ne $true) { Add-Failure "archive $ProfileName routing metadata mismatch" }
+    } catch { Add-Failure "archive $ProfileName inventory parse failure: $($_.Exception.Message)" }
+    finally { $archive.Dispose() }
+}
 if ($ArtifactsDirectory) {
     $artifactRoot = [System.IO.Path]::GetFullPath($ArtifactsDirectory)
     if (-not (Test-Path -LiteralPath $artifactRoot -PathType Container)) { Add-Failure "artifact directory does not exist: $artifactRoot" }
@@ -254,6 +320,12 @@ if ($ArtifactsDirectory) {
         )
         foreach ($name in $expectedArchives) {
             if (-not (Test-Path -LiteralPath (Join-Path $artifactRoot $name) -PathType Leaf)) { Add-Failure "built release asset is missing: $name" }
+        }
+        $inventory = Get-ReleaseUserFacingInventory $RepositoryRoot $profiles
+        foreach ($property in @($profiles.profiles.PSObject.Properties)) {
+            $archiveName = (Get-AuditPackageBaseName $property.Name $version) + '.zip'
+            $archivePath = Join-Path $artifactRoot $archiveName
+            if (Test-Path -LiteralPath $archivePath -PathType Leaf) { Test-AuditProfileArchive $archivePath $property.Name $property.Value $inventory.Names $version }
         }
     }
 }
