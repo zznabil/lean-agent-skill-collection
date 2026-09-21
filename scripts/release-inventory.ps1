@@ -1,4 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+$script:ExpectedSupplementalPackLedgerSha256 = 'b0c83bed4a98cb78374d188d24089e956d687ccd1af457415aedec1d582e73b7'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -220,6 +221,9 @@ function Get-ReleaseInventorySafeFileTree([string]$RootPath, [string]$Label) {
 function Get-ReleasePackLedger([string]$RepositoryRoot) {
     $packRoot = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot 'packs/user-facing-standards') 'supplemental pack root'
     $ledgerPath = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $packRoot 'CHECKSUMS.sha256') 'supplemental pack ledger'
+    if ((Get-ReleaseInventorySha256 $ledgerPath) -cne $script:ExpectedSupplementalPackLedgerSha256) {
+        throw 'Supplemental pack ledger digest mismatch: pinned source integrity anchor.'
+    }
     $expected = New-Object System.Collections.Generic.List[string]
     foreach ($item in @(Get-ReleaseInventorySafeFileTree $packRoot 'supplemental pack tree')) {
         $relative = $item.FullName.Substring($packRoot.Length + 1).Replace('\','/')
@@ -247,6 +251,28 @@ function Get-ReleasePackLedger([string]$RepositoryRoot) {
     if ($records.Count -ne $expected.Count -or -not (Test-ReleaseInventoryMemberSet $expected @($records.Keys))) { throw 'Supplemental pack checksum inventory is not the exact canonical pack target set.' }
     return [pscustomobject]@{ Root=$packRoot; LedgerPath=$ledgerPath; Records=$records; Paths=$expected.ToArray() }
 }
+function Assert-ReleaseUserFacingApprovalLanguage([string]$RepositoryRoot) {
+    $surfaces = @(
+        'packs/user-facing-standards/CATALOG.md',
+        'packs/user-facing-standards/README.md',
+        'packs/user-facing-standards/SOURCE-MANIFEST.json',
+        'packs/user-facing-standards/audit/ASD-STE100-source-study-and-proposal.md'
+    )
+    $forbidden = @(
+        '(?im)^.*\bapproved\s+(?:ASD-STE100\s+)?(?:pilot|routine)\b.*$',
+        '(?im)^.*\bapproval prototype\b.*$',
+        '(?im)^.*No repository, release, installed skill.*changed\.?$'
+    )
+    foreach ($relative in $surfaces) {
+        $path = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot $relative.Replace('/', [IO.Path]::DirectorySeparatorChar)) "approval-language surface $relative"
+        $text = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)
+        if ($text -notmatch '(?i)no approval assertion') { throw "Approval disclaimer missing: $relative" }
+        foreach ($pattern in $forbidden) {
+            if ($text -match $pattern) { throw "Approval assertion found: $relative" }
+        }
+    }
+}
+
 function Get-ReleaseUserFacingInventory([string]$RepositoryRoot, [object]$Profiles) {
     $definition = $Profiles.user_facing_standards
     if ($null -eq $definition) { throw 'release-profiles.json lacks user_facing_standards configuration.' }
@@ -266,6 +292,7 @@ function Get-ReleaseUserFacingInventory([string]$RepositoryRoot, [object]$Profil
     if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) { throw "Supplemental source root missing: $sourceRootRelative" }
     if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) { throw "Supplemental source manifest missing: $manifestRelative" }
     if (-not (Test-Path -LiteralPath $rightsPath -PathType Leaf)) { throw "Supplemental rights notice missing: $rightsRelative" }
+    Assert-ReleaseUserFacingApprovalLanguage $RepositoryRoot
     $manifestHash = ([string]$definition.source_manifest_sha256).ToLowerInvariant()
     $rightsHash = ([string]$definition.rights_notice_sha256).ToLowerInvariant()
     if ($manifestHash -notmatch '^[0-9a-f]{64}$' -or $rightsHash -notmatch '^[0-9a-f]{64}$') { throw 'Invalid supplemental source hash configuration.' }

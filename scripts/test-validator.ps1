@@ -14,6 +14,13 @@ $canonicalMap = Get-CanonicalSourceFileMap $profiles
 if ([string]::IsNullOrWhiteSpace($requestedArtifactsDirectory)) { $requestedArtifactsDirectory = Join-Path $repoRoot 'artifacts/repro-a' }
 $artifactRoot = [IO.Path]::GetFullPath($requestedArtifactsDirectory)
 if (-not (Test-Path -LiteralPath $artifactRoot -PathType Container)) { throw "Validator integration controls require a built artifact directory: $artifactRoot" }
+$failures.Clear(); Get-ReleaseUserFacingInventory $repoRoot $profiles | Out-Null
+if ($failures.Count -ne 0) { throw 'Clean supplemental source positive control failed' }
+Write-Host 'PASS: clean supplemental source positive control' -ForegroundColor Green
+$auditScript = Join-Path $repoRoot 'scripts/audit-repository.ps1'
+& $auditScript -ArtifactsDirectory $artifactRoot | Out-Null
+if (-not $?) { throw 'Audit default-root regression failed' }
+Write-Host 'PASS: audit default-root invocation from caller cwd' -ForegroundColor Green
 
 function Add-Entry([IO.Compression.ZipArchive]$Archive, [string]$Name, [string]$Content, [Nullable[int]]$ExternalAttributes) {
     $entry = $Archive.CreateEntry($Name)
@@ -64,15 +71,31 @@ function Update-PackLedger([string]$Root) {
     foreach($line in Get-Content $ledger) { if($line -match '^([0-9a-f]{64})  (.+)$') { $rel=$matches[2]; $target=Join-Path $Root $rel.Replace('/',[IO.Path]::DirectorySeparatorChar); $out.Add((Get-ReleaseInventorySha256 $target)+'  '+$rel) } else { $out.Add($line) } }
     [IO.File]::WriteAllLines($ledger,$out,[Text.Encoding]::UTF8)
 }
+function Update-RootLedger([string]$FixtureRepo) {
+    $source=Join-Path $repoRoot 'UPSTREAM-CHECKSUMS.sha256'; $target=Join-Path $FixtureRepo 'UPSTREAM-CHECKSUMS.sha256'
+    Copy-Item -LiteralPath $source -Destination $target -Force
+    $lines=New-Object System.Collections.Generic.List[string]
+    foreach($line in Get-Content -LiteralPath $target) {
+        if($line -match '^([0-9a-f]{64})  (.+)$' -and $matches[2] -eq 'packs/user-facing-standards/CHECKSUMS.sha256') {
+            $packLedger=Join-Path $FixtureRepo 'packs/user-facing-standards/CHECKSUMS.sha256'
+            $lines.Add((Get-ReleaseInventorySha256 $packLedger)+'  '+$matches[2])
+        } else { $lines.Add($line) }
+    }
+    [IO.File]::WriteAllLines($target,$lines,[Text.Encoding]::UTF8)
+}
 function Invoke-PackRejection([string]$Name,[scriptblock]$Mutator,[string]$Expected) {
     $fixtureRepo=Join-Path $fixtureRoot ('repo-' + $Name.Replace(' ','-')); $root=Join-Path $fixtureRepo 'packs/user-facing-standards'; New-Item -ItemType Directory -Path (Split-Path $root) -Force | Out-Null; Copy-Item -LiteralPath (Join-Path $repoRoot 'packs/user-facing-standards') -Destination $root -Recurse
     try {
         & $Mutator $root
-        if ($Name -notmatch '^pack ledger') { Update-PackLedger $root }
+        if ($Name -notmatch '^pack ledger') { Update-PackLedger $root; Update-RootLedger $fixtureRepo }
         $fixtureProfiles=$profiles | ConvertTo-Json -Depth 50 | ConvertFrom-Json
         $fixtureProfiles.user_facing_standards.source_manifest_sha256=Get-ReleaseInventorySha256 (Join-Path $root 'SOURCE-MANIFEST.json')
         $fixtureProfiles.user_facing_standards.rights_notice_sha256=Get-ReleaseInventorySha256 (Join-Path $root 'THIRD-PARTY-NOTICES.md')
-        $failures.Clear(); try { Get-ReleaseUserFacingInventory $fixtureRepo $fixtureProfiles | Out-Null } catch { $failures.Add($_.Exception.Message) }
+        $anchor = $script:ExpectedSupplementalPackLedgerSha256
+        if ($Name -notmatch 'after both ledgers rehash' -and $Name -notmatch '^pack ledger') { $script:ExpectedSupplementalPackLedgerSha256 = Get-ReleaseInventorySha256 (Join-Path $root 'CHECKSUMS.sha256') }
+        try {
+            $failures.Clear(); try { Get-ReleaseUserFacingInventory $fixtureRepo $fixtureProfiles | Out-Null } catch { $failures.Add($_.Exception.Message) }
+        } finally { $script:ExpectedSupplementalPackLedgerSha256 = $anchor }
         if (-not ($failures | Where-Object { $_ -imatch [regex]::Escape($Expected) })) { throw "Rejection control failed: $Name (expected $Expected)" }
         Write-Host ('PASS rejection: ' + $Name) -ForegroundColor Green
     } finally { Remove-Item -LiteralPath $fixtureRepo -Recurse -Force -ErrorAction SilentlyContinue }
@@ -181,9 +204,15 @@ try {
     )
     foreach($control in $packageControls){ Invoke-PackageRejection $control.Name $control.Mutator $control.Expected $control.Rehash }
     $packControls=@(
-        [pscustomobject]@{Name='pack ledger exact duplicate';Expected='Exact duplicate supplemental pack checksum target';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$t=Get-Content -Raw $q;Add-Content -LiteralPath $q -Value (($t -split '\r?\n'|Where-Object{$_})[0])}},
-        [pscustomobject]@{Name='pack ledger case-only duplicate';Expected='Case-only duplicate supplemental pack checksum target';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$t=Get-Content -Raw $q;$first=($t -split '\r?\n'|Where-Object{$_})[0];$parts=$first -split '  ',2;Add-Content -LiteralPath $q -Value ($parts[0]+'  '+$parts[1].ToUpperInvariant())}},
-        [pscustomobject]@{Name='pack ledger omission';Expected='exact canonical pack target set';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$lines=@(Get-Content $q);Set-Content -LiteralPath $q -Value $lines[1..($lines.Count-1)] -Encoding UTF8}}
+        [pscustomobject]@{Name='supplemental SKILL.md tamper after both ledgers rehash';Expected='pinned source integrity anchor';Mutator={param($r);$q=Join-Path $r 'skills/standard-bcp14/SKILL.md';Add-Content -LiteralPath $q -Value '# reviewer mutation'}},
+        [pscustomobject]@{Name='audit validator tamper after both ledgers rehash';Expected='pinned source integrity anchor';Mutator={param($r);$q=Join-Path $r 'audit/validate_bundle.py';Add-Content -LiteralPath $q -Value '# reviewer mutation'}},
+        [pscustomobject]@{Name='pack ledger exact duplicate';Expected='pinned source integrity anchor';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$t=Get-Content -Raw $q;Add-Content -LiteralPath $q -Value (($t -split '
+?
+'|Where-Object{$_})[0])}},
+        [pscustomobject]@{Name='pack ledger case-only duplicate';Expected='pinned source integrity anchor';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$t=Get-Content -Raw $q;$first=($t -split '
+?
+'|Where-Object{$_})[0];$parts=$first -split '  ',2;Add-Content -LiteralPath $q -Value ($parts[0]+'  '+$parts[1].ToUpperInvariant())}},
+        [pscustomobject]@{Name='pack ledger omission';Expected='pinned source integrity anchor';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$lines=@(Get-Content $q);Set-Content -LiteralPath $q -Value $lines[1..($lines.Count-1)] -Encoding UTF8}}
     )
     foreach($control in $packControls){Invoke-PackRejection $control.Name $control.Mutator $control.Expected}
     $manifestControls=@(

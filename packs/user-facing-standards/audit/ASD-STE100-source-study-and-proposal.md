@@ -1,6 +1,6 @@
 # ASD-STE100 single-purpose skill: source study and proposal
 
-Status: local approval prototype, 13 September 2026. No repository, release, installed skill, hook, or account setting was changed.
+Status: retained internal prototype record, 13 September 2026. No approval assertion is made.
 
 ## Scope of the study
 

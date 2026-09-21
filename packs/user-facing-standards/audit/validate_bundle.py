@@ -192,6 +192,31 @@ def check_links(document: Path, boundary: Path) -> None:
         require(path.is_file(), f"missing link in {document.name}: {target}")
 
 
+def check_integrated_surface_language(root: Path) -> None:
+    surfaces = {
+        "CATALOG.md": (root / "CATALOG.md").read_text(encoding="utf-8"),
+        "README.md": (root / "README.md").read_text(encoding="utf-8"),
+        "SOURCE-MANIFEST.json": (root / "SOURCE-MANIFEST.json").read_text(encoding="utf-8"),
+        "audit/ASD-STE100-source-study-and-proposal.md": (
+            root / "audit/ASD-STE100-source-study-and-proposal.md"
+        ).read_text(encoding="utf-8"),
+    }
+    forbidden = (
+        r"(?im)^.*\bapproved\s+(?:ASD-STE100\s+)?(?:pilot|routine)\b.*$",
+        r"(?im)^.*\bapproval prototype\b.*$",
+        r"(?im)^.*No repository, release, installed skill.*changed\.?$",
+    )
+    for relative, text in surfaces.items():
+        require(
+            "no approval assertion" in text.lower(),
+            f"{relative} must state no approval assertion",
+        )
+        require(
+            not any(re.search(pattern, text) for pattern in forbidden),
+            f"approval assertion found in {relative}",
+        )
+
+
 def validate(root: Path) -> dict:
     root = root.resolve()
     require(root.is_dir(), "pack directory does not exist")
@@ -211,6 +236,7 @@ def validate(root: Path) -> dict:
     coverage = read_json(root, "REGISTER-COVERAGE.json")
     origin = read_json(root, "audit/IMPORT-RECORD.json")
     contract = read_json(root, "VALIDATION.json")
+    check_integrated_surface_language(root)
     publisher_baseline = read_publisher_baseline(root)
     require(
         manifest["status"] == "integrated_release_source",

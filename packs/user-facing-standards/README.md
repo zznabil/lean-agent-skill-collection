@@ -4,7 +4,7 @@ Prepared 21 September 2026. This is the canonical integrated supplemental source
 
 ## What is included
 
-- 27 independently loadable skill folders: the approved ASD-STE100 routine plus 26 new user-facing standards, guidance and practice skills.
+- 27 independently loadable skill folders: the retained ASD-STE100 internal prototype plus 26 new user-facing standards, guidance and practice skills. This integrated source makes no approval assertion.
 - Every `SKILL.md` is below 100 physical lines. The ASD pilot stays byte-identical at 99 lines.
 - Each folder contains `SOURCES.md` with its purpose, source status, edition, local documents, official links and rights information.
 - Publisher references are checked against pinned original-download records; no publisher document is executed. PDFs are real publisher PDFs, not regenerated summaries or printed web pages labelled as official.

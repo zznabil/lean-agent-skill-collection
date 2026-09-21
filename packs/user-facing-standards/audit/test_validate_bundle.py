@@ -56,6 +56,29 @@ class BundleTests(unittest.TestCase):
         rehash(self.root)
         self.assertRejected("integration base scope is unclear")
 
+    def test_approval_assertions_are_rejected_after_rehash(self) -> None:
+        mutations = {
+            "CATALOG.md": ("retained ASD-STE100 internal pilot", "approved ASD-STE100 pilot"),
+            "README.md": ("retained ASD-STE100 internal prototype", "approved ASD-STE100 routine"),
+            "SOURCE-MANIFEST.json": ("retained internal pilot unchanged", "approved pilot retained unchanged"),
+            "audit/ASD-STE100-source-study-and-proposal.md": (
+                "retained internal prototype record",
+                "local approval prototype",
+            ),
+        }
+        for relative, (old, new) in mutations.items():
+            path = self.root / relative
+            original = path.read_bytes()
+            try:
+                text = original.decode("utf-8")
+                self.assertIn(old, text)
+                path.write_text(text.replace(old, new, 1), encoding="utf-8", newline="\n")
+                rehash(self.root)
+                self.assertRejected("approval assertion")
+            finally:
+                path.write_bytes(original)
+                rehash(self.root)
+
     def test_instruction_change_even_with_rehashed_inventory(self) -> None:
         p = self.root / "skills/standard-asd-ste100/SKILL.md"
         text = p.read_text(encoding="utf-8")

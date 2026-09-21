@@ -1,6 +1,6 @@
 # ASD-STE100 Issue 9 — source status
 
-The approved 99-line prototype is byte-for-byte unchanged.
+The retained 99-line internal prototype is byte-for-byte unchanged. No approval assertion is made.
 
 Official PDF: https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf
 Official access: https://www.asd-ste100.org/STE_downloads.html
