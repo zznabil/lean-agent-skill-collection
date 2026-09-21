@@ -1,0 +1,106 @@
+name: Validate controlled-execution pack
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packs/controlled-execution/**'
+      - 'UPSTREAM-CHECKSUMS.sha256'
+      - '.github/workflows/controlled-execution-pack.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packs/controlled-execution/**'
+      - 'UPSTREAM-CHECKSUMS.sha256'
+      - '.github/workflows/controlled-execution-pack.yml'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+
+jobs:
+  pack:
+    name: Controlled-execution pack (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify root trust anchor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          ledger = Path('packs/controlled-execution/CHECKSUMS.sha256')
+          expected = hashlib.sha256(ledger.read_bytes()).hexdigest()
+          matches = [
+              line for line in Path('UPSTREAM-CHECKSUMS.sha256').read_text(encoding='utf-8').splitlines()
+              if line.endswith('  packs/controlled-execution/CHECKSUMS.sha256')
+          ]
+          if matches != [f'{expected}  packs/controlled-execution/CHECKSUMS.sha256']:
+              raise SystemExit('root controlled-execution trust anchor is missing or stale')
+          print('verified root controlled-execution trust anchor')
+          PY
+      - name: Materialise canonical pack bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path, PurePosixPath
+
+          root = Path(os.environ["RUNNER_TEMP"]) / "controlled-execution-source"
+          root.mkdir(parents=True, exist_ok=False)
+          prefix = PurePosixPath("packs/controlled-execution")
+          listing = subprocess.run(
+              ["git", "ls-tree", "-r", "-z", "--name-only", "HEAD", prefix.as_posix()],
+              check=True,
+              stdout=subprocess.PIPE,
+          ).stdout
+          paths = [item.decode("utf-8") for item in listing.split(b"\0") if item]
+          if not paths:
+              raise RuntimeError("controlled-execution pack is absent from HEAD")
+          for relative in paths:
+              source = PurePosixPath(relative)
+              if source.is_absolute() or ".." in source.parts or source.parts[:2] != prefix.parts:
+                  raise RuntimeError(f"unsafe Git path: {relative}")
+              target = root.joinpath(*source.parts)
+              target.parent.mkdir(parents=True, exist_ok=True)
+              data = subprocess.run(
+                  ["git", "cat-file", "blob", f"HEAD:{relative}"],
+                  check=True,
+                  stdout=subprocess.PIPE,
+              ).stdout
+              target.write_bytes(data)
+          print(f"materialised {len(paths)} canonical pack files at {root}")
+          PY
+      - name: Validate source, rejection controls and review ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          python --version
+          PACK_ROOT="$RUNNER_TEMP/controlled-execution-source/packs/controlled-execution"
+          python "$PACK_ROOT/audit/validate_pack.py" "$PACK_ROOT"
+          python "$PACK_ROOT/audit/test_validate_pack.py"
+          python "$PACK_ROOT/audit/build_zip.py" "$RUNNER_TEMP/lean-controlled-execution-review.zip"
+          test -z "$(git status --porcelain)"
+      - name: Upload review ZIP
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: controlled-execution-review-${{ matrix.os }}
+          path: ${{ runner.temp }}/lean-controlled-execution-review.zip
+          if-no-files-found: error
+          retention-days: 14

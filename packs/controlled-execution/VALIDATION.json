@@ -1,0 +1,30 @@
+{
+  "status": "declared_contract_not_execution_evidence",
+  "pack": "controlled-execution",
+  "skills_expected": 13,
+  "authored_cases": 39,
+  "model_calls": 0,
+  "live_model_evaluation": "not_run",
+  "formal_conformance_claimed": false,
+  "publisher_files_bundled": 0,
+  "structural_checks": [
+    "exact skill and source-note inventory",
+    "immutable authored skill and source-note baselines",
+    "source-manifest and control-model baselines",
+    "frontmatter, description and line budgets",
+    "portable paths, canonical UTF-8 text and local links",
+    "no bundled publisher or binary files",
+    "authored-case coverage and evidence limits",
+    "deterministic review ZIP round trip",
+    "deliberate damaged-fixture rejection controls"
+  ],
+  "release_integration": false,
+  "local_installation": false,
+  "merge_authorised_by_this_contract": false,
+  "limitations": [
+    "Structural checks do not prove model selection or instruction understanding.",
+    "Authored cases are not live model trials.",
+    "No task-success, token, safety or comprehension improvement is measured.",
+    "No formal conformity with a linked source is claimed."
+  ]
+}

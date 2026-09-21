@@ -1,0 +1,285 @@
+{
+  "status": "public_review_prototype",
+  "pack": "controlled-execution",
+  "source_snapshot": "2026-09-19",
+  "skills": [
+    {
+      "name": "practice-normative-precision",
+      "description": "Classify and write precise normative statements.",
+      "title": "Normative precision",
+      "source_kind": "drafting rules",
+      "source_id": "ISO/IEC Directives, Part 2",
+      "source_version": "current Part 2 page and 2026 amendment inspected 2026-09-19",
+      "source_urls": [
+        "https://www.iso.org/sites/directives/current/part2/index.xhtml",
+        "https://www.iso.org/directives-and-policies.html"
+      ],
+      "mechanism": "Statement type, atomic obligation, objective verification, and informative-note boundary.",
+      "overlap_boundary": "Uses BCP 14 as Lean's output dialect; it does not replace the BCP 14 skill.",
+      "skill_sha256": "b91aab4a1314b16bda7fbd88cbdc18bb87d601e19c2c84a3121969363855d14d",
+      "sources_sha256": "ce7a5a431a08ef1a9812de98724e8ba692391af6bb3b00b6256974827d7b56fe",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 42,
+      "sources_lines": 30
+    },
+    {
+      "name": "practice-verifiable-requirements",
+      "description": "Write atomic requirements with accountable evidence.",
+      "title": "Verifiable requirements",
+      "source_kind": "NASA procedural requirements",
+      "source_id": "NASA NPR 1400.1I",
+      "source_version": "effective 2024-11-01 through 2029-11-01",
+      "source_urls": [
+        "https://nodis3.gsfc.nasa.gov/displayDir.cfm?Internal_ID=N_PR_1400_001I_&page_name=main",
+        "https://nodis3.gsfc.nasa.gov/displayDir.cfm?Internal_ID=N_PR_1400_001I_&page_name=AppendixC"
+      ],
+      "mechanism": "Accountable actor, atomic action, timing, evidence, verifier, and acceptance gate.",
+      "overlap_boundary": "Generalises a requirement-quality mechanism; it does not represent NASA governance outside NASA.",
+      "skill_sha256": "0e09c35b143a293267ebc18ec923ca4ca5c5608d6215030079b18fb618822e79",
+      "sources_sha256": "2819999a2b1a03cd657edb7292ca56d123b63ea789ae1b7435822cd55321e567",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 53,
+      "sources_lines": 26
+    },
+    {
+      "name": "practice-compliant-contrast",
+      "description": "Teach a rule through bad and compliant examples.",
+      "title": "Compliant contrast",
+      "source_kind": "secure coding rule architecture",
+      "source_id": "SEI CERT Secure Coding Standards",
+      "source_version": "official knowledge base inspected 2026-09-19",
+      "source_urls": [
+        "https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard",
+        "https://wiki.sei.cmu.edu/confluence/display/java/SEI+CERT+Oracle+Coding+Standard+for+Java"
+      ],
+      "mechanism": "Rule, explanation, noncompliant example, compliant solution, bounded exceptions, and residual-risk warning.",
+      "overlap_boundary": "Applies CERT's contrastive structure without claiming generic CERT compliance.",
+      "skill_sha256": "dbae29e422e0e0e4a492cc391d05bcc1d637d623415f7facaa7ac6187b5632b9",
+      "sources_sha256": "86a87cf4ffd5f06f851f25c5fae9a8fff51a0d8c78cb73ed1ae84e98fefc9ee2",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 46,
+      "sources_lines": 26
+    },
+    {
+      "name": "practice-use-error-controls",
+      "description": "Derive controls from foreseeable use errors.",
+      "title": "Use-error controls",
+      "source_kind": "human factors guidance",
+      "source_id": "FDA human factors and usability engineering guidance",
+      "source_version": "final guidance issued August 2026",
+      "source_urls": [
+        "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/applying-human-factors-and-usability-engineering-medical-devices"
+      ],
+      "mechanism": "Task analysis, foreseeable use error, cause, consequence, prevention, detection, and recovery with a control hierarchy.",
+      "overlap_boundary": "Generalises a risk-analysis pattern; medical-device application still requires the complete FDA guidance and qualified work.",
+      "skill_sha256": "fd5e8a08049679f1ca152951d3207c6cccbf6bee50f061c487dd3fdf95ff4717",
+      "sources_sha256": "8cbef45d11ef657b87bf43d859bbe1a78aeb812e46fa6627585424db4f0181aa",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 56,
+      "sources_lines": 25
+    },
+    {
+      "name": "practice-state-verification",
+      "description": "Gate risky work on verified state transitions.",
+      "title": "State verification",
+      "source_kind": "hazardous-energy control regulation",
+      "source_id": "OSHA 29 CFR 1910.147",
+      "source_version": "official OSHA regulation page inspected 2026-09-19",
+      "source_urls": [
+        "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147"
+      ],
+      "mechanism": "Ordered state change, securing, verification, hold point, work, restoration, and verification of restoration.",
+      "overlap_boundary": "Extracts a state-machine pattern; it is not a substitute for the legal lockout/tagout procedure.",
+      "skill_sha256": "850aeacd2cd2f3499c632e2c3f0f9c3caef07246de6c71fcd3a1dc13253727f8",
+      "sources_sha256": "35be129fdb3a4569aab140a3b6d588b6728ec53af36cefad33b46dc53d929b80",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 42,
+      "sources_lines": 25
+    },
+    {
+      "name": "practice-transition-checklists",
+      "description": "Place short checklists at costly transitions.",
+      "title": "Transition checklists",
+      "source_kind": "safety checklist guidance",
+      "source_id": "WHO Surgical Safety Checklist",
+      "source_version": "official WHO safe-surgery resources inspected 2026-09-19",
+      "source_urls": [
+        "https://www.who.int/teams/integrated-health-services/patient-safety/research/safe-surgery/tool-and-resources"
+      ],
+      "mechanism": "Small confirmation checklist, named coordinator, and stop gate at a high-cost phase transition.",
+      "overlap_boundary": "Extracts a checklist mechanism; it is not a surgical checklist or clinical protocol.",
+      "skill_sha256": "a1029371f943770b2e80ec334b986e317d2063774f04f0fa2d0babb53236f77e",
+      "sources_sha256": "091e30cc04f595db73b76bef23c92e48ea4e164e394cc5d0eb8959f0aeebd244",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 46,
+      "sources_lines": 25
+    },
+    {
+      "name": "guidance-safety-messages",
+      "description": "Write safety messages for documents and digital media.",
+      "title": "Safety messages",
+      "source_kind": "product-safety communication standards",
+      "source_id": "ANSI Z535.6-2023 and ANSI Z535.7-2024",
+      "source_version": "document and electronic-media editions named by the user; source access rechecked 2026-09-19",
+      "source_urls": [
+        "https://www.nema.org/standards/technical/safety/ansi-z535-safety-alerting-standards",
+        "https://webstore.ansi.org/"
+      ],
+      "mechanism": "Hazard, consequence, avoidance, timing, placement, prominence, and digital-state delivery.",
+      "overlap_boundary": "Derived guidance only; the licensed ANSI texts are not bundled or reproduced.",
+      "skill_sha256": "e4839435b049ecb49001c118d4507419ab3e3ebbe6f2afbb1cbccdc678ad3348",
+      "sources_sha256": "928338a5bb065970bcbb8ac9dca25fe6d6172babd890f565e4c0b816e3244ea9",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 41,
+      "sources_lines": 30
+    },
+    {
+      "name": "guidance-safe-technical-procedures",
+      "description": "Write safe procedures, not warning-only fixes.",
+      "title": "Safe technical procedures",
+      "source_kind": "military technical-manual standards",
+      "source_id": "MIL-STD-38784C and MIL-STD-40051E Change 1",
+      "source_version": "38784C dated 2024-09-04; 40051E Change 1 dated 2025-07-30",
+      "source_urls": [
+        "https://quicksearch.dla.mil/qsDocDetails.aspx?ident_number=116799",
+        "https://quicksearch.dla.mil/qsDocDetails.aspx?ident_number=123616"
+      ],
+      "mechanism": "Safe task design, prerequisite control, correctly placed warning, observable result, and recovery.",
+      "overlap_boundary": "Optional technical-procedure overlay; it does not make ordinary instructions a military technical manual.",
+      "skill_sha256": "9aa43db5f6098fc1cbcfd9628c37e5e61d5df22a04e92e6406cf4742c45e2e13",
+      "sources_sha256": "6f9a82037fdf4b4778cafe67216b8e3872294e79d37d75a874544eac69489939",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 43,
+      "sources_lines": 30
+    },
+    {
+      "name": "practice-versioned-verification-requirements",
+      "description": "Track versioned requirements to evidence and result.",
+      "title": "Versioned verification requirements",
+      "source_kind": "application-security verification standard",
+      "source_id": "OWASP ASVS 5.0.0",
+      "source_version": "5.0.0",
+      "source_urls": [
+        "https://owasp.org/projects/asvs",
+        "https://github.com/OWASP/ASVS/tree/v5.0.0"
+      ],
+      "mechanism": "Version-qualified identifier, applicability, evidence, result status, and traceable recheck.",
+      "overlap_boundary": "Extracts the traceability mechanism; PR #17 contains the broader ASVS assessment routine.",
+      "skill_sha256": "bc9dbc9e99e0cc648d119a342febaf248dc1b5dc2f09c39b4d2c98e6742037fa",
+      "sources_sha256": "5a52264f00ac858e2e5ff1f3b8f33ba2f2eb512ebd9c3e7955e3c1fe71c022b7",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 46,
+      "sources_lines": 30
+    },
+    {
+      "name": "practice-implementation-example-traceability",
+      "description": "Separate required tasks from implementation examples.",
+      "title": "Implementation-example traceability",
+      "source_kind": "secure software development framework",
+      "source_id": "NIST SP 800-218 SSDF",
+      "source_version": "Version 1.1 final; Rev. 1 initial public draft tracked separately",
+      "source_urls": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final",
+        "https://csrc.nist.gov/pubs/sp/800/218/r1/ipd"
+      ],
+      "mechanism": "Practice, task, notional implementation example, reference, chosen implementation, and evidence.",
+      "overlap_boundary": "Extracts the notional-example distinction; PR #17 contains the broader SSDF routine.",
+      "skill_sha256": "26cf345ba0e6228355c04a252d468df70cc3e81a5733c461766bf9c4030c956f",
+      "sources_sha256": "1da53970cd0a8f90ef833225818e10369481e0d2b047e0b4bfbd60f0bc28c62f",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 50,
+      "sources_lines": 30
+    },
+    {
+      "name": "profile-ui-procedure-writing",
+      "description": "Render concise, input-neutral UI procedures.",
+      "title": "UI procedure writing profile",
+      "source_kind": "software documentation style guide",
+      "source_id": "Microsoft Writing Style Guide",
+      "source_version": "step-by-step guidance updated 2026-04-02",
+      "source_urls": [
+        "https://learn.microsoft.com/en-us/style-guide/procedures-instructions/writing-step-by-step-instructions"
+      ],
+      "mechanism": "Numbered imperative steps, location before action, input-neutral verbs, completion action, and expected result.",
+      "overlap_boundary": "Thin rendering profile; existing Lean documentation and accessibility requirements remain authoritative.",
+      "skill_sha256": "6163fe17e4ba3301f7c4c99c13a9079cfaaa2571b4e06e3d1e283f05cbe8a201",
+      "sources_sha256": "bb920e7f217d3349cf7826707f8d504620b5201102251ea5a26c970f9bbdf93e",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 43,
+      "sources_lines": 25
+    },
+    {
+      "name": "profile-action-step-structure",
+      "description": "Order prerequisites and action-bearing procedure steps.",
+      "title": "Action-step structure profile",
+      "source_kind": "documentation style guidance",
+      "source_id": "GitHub Docs content style guidance",
+      "source_version": "official procedural-content guidance inspected 2026-09-19",
+      "source_urls": [
+        "https://docs.github.com/en/contributing/writing-for-github-docs/creating-procedural-content"
+      ],
+      "mechanism": "Prerequisites before procedure and action-bearing steps ordered as optionality, reason/result, location, and action.",
+      "overlap_boundary": "Thin structure profile; it does not replace the broader writing or documentation skills.",
+      "skill_sha256": "f1414c320f898d7829d09dfdde6d0a6f37d1d8f802f517257cf7513012e57a99",
+      "sources_sha256": "1d341c8f5ddf8af63b7534f6d48a82f0a3d207d7ae437e04c0b809bfaed26159",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 43,
+      "sources_lines": 25
+    },
+    {
+      "name": "practice-modular-information-units",
+      "description": "Design one bounded information job per module.",
+      "title": "Modular information units",
+      "source_kind": "technical-publication specification",
+      "source_id": "S1000D",
+      "source_version": "Issue 7 and data dictionary dated 2026-08-27",
+      "source_urls": [
+        "https://s1000d.org/",
+        "https://s1000d.org/?page_id=1003"
+      ],
+      "mechanism": "One bounded information job, stable identity, declared dependencies, independent reuse, and controlled versioning.",
+      "overlap_boundary": "Borrows modular architecture without claiming an S1000D publication, data module, or common-source database.",
+      "skill_sha256": "b502a134ed2215f01bd8e24d64a5629d7ed113ba414ac233e7e47b84f528128e",
+      "sources_sha256": "2a7e4b180699a26ffb47aec5e2db642804c3bd8c0a2bafd1732b7eb6171fc356",
+      "bundled_files": [],
+      "formal_conformance_claimed": false,
+      "behavioural_evaluation": "not_run",
+      "skill_lines": 47,
+      "sources_lines": 26
+    }
+  ],
+  "publisher_files_bundled": 0,
+  "existing_files_modified": 0,
+  "canonical_skill_tree_changed": false,
+  "release_profiles_changed": false,
+  "release_identity_changed": false,
+  "related_open_prs": {
+    "16": "user-facing standards; unchanged by this pack",
+    "17": "remaining standards; broader ASVS and SSDF routines remain separate"
+  },
+  "shared_reference": "CONTROL-MODEL.md"
+}

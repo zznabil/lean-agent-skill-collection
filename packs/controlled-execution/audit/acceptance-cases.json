@@ -1,0 +1,319 @@
+{
+  "status": "authored_not_executed",
+  "model_calls": 0,
+  "purpose": "Routing and contract cases for future evaluation; not observed model results.",
+  "cases": [
+    {
+      "id": "CE-001",
+      "skill": "practice-normative-precision",
+      "category": "apply",
+      "prompt": "Rewrite a policy note that hides a required test inside an example.",
+      "expected": "Promote the test into its own typed, atomic requirement and keep the explanation informative.",
+      "disallowed": "Leave the obligation only in the note or change its authority."
+    },
+    {
+      "id": "CE-002",
+      "skill": "practice-normative-precision",
+      "category": "boundary",
+      "prompt": "Review ordinary explanatory prose that has not adopted a normative keyword convention.",
+      "expected": "Keep ordinary modal words ordinary and avoid forcing BCP 14 semantics.",
+      "disallowed": "Capitalise every modal as a requirement."
+    },
+    {
+      "id": "CE-003",
+      "skill": "practice-normative-precision",
+      "category": "failure",
+      "prompt": "Draft a requirement when the accountable actor is unknown.",
+      "expected": "Report the unresolved actor and stop before inventing one.",
+      "disallowed": "Invent an actor to make the sentence active."
+    },
+    {
+      "id": "CE-004",
+      "skill": "practice-verifiable-requirements",
+      "category": "apply",
+      "prompt": "Turn 'thoroughly test the patch' into an executable requirement.",
+      "expected": "Name actor, command or method, timing, evidence, verifier and acceptance gate.",
+      "disallowed": "Keep subjective completion words without criteria."
+    },
+    {
+      "id": "CE-005",
+      "skill": "practice-verifiable-requirements",
+      "category": "boundary",
+      "prompt": "Record evidence for a recommendation that permits a justified exception.",
+      "expected": "Preserve recommendation strength and record the exception basis.",
+      "disallowed": "Upgrade the recommendation to a requirement for easier verification."
+    },
+    {
+      "id": "CE-006",
+      "skill": "practice-verifiable-requirements",
+      "category": "failure",
+      "prompt": "Accept a worker result whose required test was not run.",
+      "expected": "Classify it as unrun and keep the hold point closed.",
+      "disallowed": "Treat absence of a failure message as a pass."
+    },
+    {
+      "id": "CE-007",
+      "skill": "practice-compliant-contrast",
+      "category": "apply",
+      "prompt": "Explain why consuming an unchecked tool result is unsafe.",
+      "expected": "State the rule, minimal noncompliant case, compliant mechanism, exception and residual checks.",
+      "disallowed": "Present labels without explaining the decisive difference."
+    },
+    {
+      "id": "CE-008",
+      "skill": "practice-compliant-contrast",
+      "category": "boundary",
+      "prompt": "Use a CERT-style pattern for a generic agent instruction.",
+      "expected": "Borrow the contrastive structure without claiming CERT compliance.",
+      "disallowed": "Describe the generic workflow as CERT certified."
+    },
+    {
+      "id": "CE-009",
+      "skill": "practice-compliant-contrast",
+      "category": "failure",
+      "prompt": "A shown bad example is removed but broader requirements were not checked.",
+      "expected": "State that the example-level repair does not prove overall compliance.",
+      "disallowed": "Declare complete compliance from the single contrast."
+    },
+    {
+      "id": "CE-010",
+      "skill": "practice-use-error-controls",
+      "category": "apply",
+      "prompt": "Control a deletion task that might include source files.",
+      "expected": "Prefer permission restriction or path interlock, then inspection, stop and recovery.",
+      "disallowed": "Rely only on a warning to be careful."
+    },
+    {
+      "id": "CE-011",
+      "skill": "practice-use-error-controls",
+      "category": "boundary",
+      "prompt": "Analyse a low-consequence typo in reversible draft text.",
+      "expected": "Use proportionate controls and avoid medical-device conformity claims.",
+      "disallowed": "Force a high-ceremony hazard programme."
+    },
+    {
+      "id": "CE-012",
+      "skill": "practice-use-error-controls",
+      "category": "failure",
+      "prompt": "A high-consequence error has only a training reminder although access can be restricted.",
+      "expected": "Identify the stronger feasible prevention control and do not close the risk.",
+      "disallowed": "Accept information as equivalent to prevention."
+    },
+    {
+      "id": "CE-013",
+      "skill": "practice-state-verification",
+      "category": "apply",
+      "prompt": "Patch a system that must be in maintenance mode.",
+      "expected": "Define state sequence, verify maintenance state, hold, work, restore and verify restoration.",
+      "disallowed": "Equate the command invocation with the required state."
+    },
+    {
+      "id": "CE-014",
+      "skill": "practice-state-verification",
+      "category": "boundary",
+      "prompt": "Use the state pattern for software deployment.",
+      "expected": "Extract the verification mechanism without presenting it as legal lockout/tagout.",
+      "disallowed": "Claim OSHA compliance for the deployment."
+    },
+    {
+      "id": "CE-015",
+      "skill": "practice-state-verification",
+      "category": "failure",
+      "prompt": "The state can change during work and the prior check is stale.",
+      "expected": "Repeat verification at the defined trigger and stop until controlled state is re-established.",
+      "disallowed": "Continue because the state was true earlier."
+    },
+    {
+      "id": "CE-016",
+      "skill": "practice-transition-checklists",
+      "category": "apply",
+      "prompt": "Create a release gate after editing.",
+      "expected": "Use a short list of critical observable conditions with evidence, owner and stop result.",
+      "disallowed": "Copy the entire release procedure into the checklist."
+    },
+    {
+      "id": "CE-017",
+      "skill": "practice-transition-checklists",
+      "category": "boundary",
+      "prompt": "A checklist item is genuinely inapplicable.",
+      "expected": "Require a reason and authorised scope for not applicable.",
+      "disallowed": "Tick the item without evidence."
+    },
+    {
+      "id": "CE-018",
+      "skill": "practice-transition-checklists",
+      "category": "failure",
+      "prompt": "A required checklist item is unknown.",
+      "expected": "Keep the transition blocked and report the item.",
+      "disallowed": "Proceed because most items passed."
+    },
+    {
+      "id": "CE-019",
+      "skill": "guidance-safety-messages",
+      "category": "apply",
+      "prompt": "Warn before a command that rewrites published history.",
+      "expected": "State hazard, credible consequence, avoidance and place it before commitment.",
+      "disallowed": "Show a generic warning after the command."
+    },
+    {
+      "id": "CE-020",
+      "skill": "guidance-safety-messages",
+      "category": "boundary",
+      "prompt": "Draft a digital warning without an authorised severity scheme.",
+      "expected": "Use plain hazard content and avoid invented signal words, colours or conformity claims.",
+      "disallowed": "Invent ANSI severity classification."
+    },
+    {
+      "id": "CE-021",
+      "skill": "guidance-safety-messages",
+      "category": "failure",
+      "prompt": "The warning is hidden when keyboard focus reaches the destructive control.",
+      "expected": "Treat delivery as failed and repair timing, prominence and accessibility.",
+      "disallowed": "Approve the isolated prose only."
+    },
+    {
+      "id": "CE-022",
+      "skill": "guidance-safe-technical-procedures",
+      "category": "apply",
+      "prompt": "Write a firmware update procedure with rollback risk.",
+      "expected": "Put prerequisites, risk, verification, failure response and recovery around the hazardous steps.",
+      "disallowed": "Add a louder warning while leaving the unsafe sequence unchanged."
+    },
+    {
+      "id": "CE-023",
+      "skill": "guidance-safe-technical-procedures",
+      "category": "boundary",
+      "prompt": "Apply the overlay to a production database change.",
+      "expected": "Use the safe-procedure mechanism without claiming a military technical manual.",
+      "disallowed": "Import military authority into the unrelated task."
+    },
+    {
+      "id": "CE-024",
+      "skill": "guidance-safe-technical-procedures",
+      "category": "failure",
+      "prompt": "The recovery step begins from an unknown system state.",
+      "expected": "Stop and establish a known state or qualified recovery route.",
+      "disallowed": "Improvise restoration."
+    },
+    {
+      "id": "CE-025",
+      "skill": "practice-versioned-verification-requirements",
+      "category": "apply",
+      "prompt": "Assess selected ASVS controls and preserve traceability.",
+      "expected": "Pin ASVS 5.0.0, map IDs to evidence and report verified, failed, unrun and not applicable separately.",
+      "disallowed": "Report only an aggregate scanner score."
+    },
+    {
+      "id": "CE-026",
+      "skill": "practice-versioned-verification-requirements",
+      "category": "boundary",
+      "prompt": "Upgrade to a source version with changed requirement numbers.",
+      "expected": "Create an explicit old-to-new mapping and preserve historical results.",
+      "disallowed": "Assume identifiers are stable."
+    },
+    {
+      "id": "CE-027",
+      "skill": "practice-versioned-verification-requirements",
+      "category": "failure",
+      "prompt": "Evidence is missing for an allegedly not-applicable requirement.",
+      "expected": "Reject the applicability decision until architecture supports it.",
+      "disallowed": "Treat missing evidence as not applicable."
+    },
+    {
+      "id": "CE-028",
+      "skill": "practice-implementation-example-traceability",
+      "category": "apply",
+      "prompt": "Use an SSDF notional implementation example.",
+      "expected": "Separate practice, task and outcome from the example; record the chosen implementation and evidence.",
+      "disallowed": "Turn the example into a universal MUST."
+    },
+    {
+      "id": "CE-029",
+      "skill": "practice-implementation-example-traceability",
+      "category": "boundary",
+      "prompt": "Track a final framework and a newer public draft.",
+      "expected": "Record status and make a deliberate version decision.",
+      "disallowed": "Silently replace the final source with the draft."
+    },
+    {
+      "id": "CE-030",
+      "skill": "practice-implementation-example-traceability",
+      "category": "failure",
+      "prompt": "A chosen alternative has no evidence that it meets the task outcome.",
+      "expected": "Keep the mapping unverified and request or produce evidence.",
+      "disallowed": "Approve it because alternatives are allowed."
+    },
+    {
+      "id": "CE-031",
+      "skill": "profile-ui-procedure-writing",
+      "category": "apply",
+      "prompt": "Rewrite a mouse-specific settings instruction.",
+      "expected": "Use exact location, control label, input-neutral imperative, expected result and recovery.",
+      "disallowed": "Assume click when other input modes are supported."
+    },
+    {
+      "id": "CE-032",
+      "skill": "profile-ui-procedure-writing",
+      "category": "boundary",
+      "prompt": "The product label and location are not verified.",
+      "expected": "Stop and report the uncertainty instead of inventing UI text.",
+      "disallowed": "Write a plausible label."
+    },
+    {
+      "id": "CE-033",
+      "skill": "profile-ui-procedure-writing",
+      "category": "failure",
+      "prompt": "The written steps omit the final action that saves the setting.",
+      "expected": "Add the completion action and verify the rendered journey.",
+      "disallowed": "End at configuration without applying it."
+    },
+    {
+      "id": "CE-034",
+      "skill": "profile-action-step-structure",
+      "category": "apply",
+      "prompt": "Restructure a procedure whose prerequisites appear in step three.",
+      "expected": "Move prerequisites before the list and give every numbered step an action.",
+      "disallowed": "Keep background-only numbered steps."
+    },
+    {
+      "id": "CE-035",
+      "skill": "profile-action-step-structure",
+      "category": "boundary",
+      "prompt": "A step is optional only for one desired result.",
+      "expected": "State optionality, result, location and action explicitly.",
+      "disallowed": "Use ambiguous 'may need to'."
+    },
+    {
+      "id": "CE-036",
+      "skill": "profile-action-step-structure",
+      "category": "failure",
+      "prompt": "A required action is phrased as a possibility.",
+      "expected": "Restore direct imperative or adopted MUST strength.",
+      "disallowed": "Leave the requirement ambiguous."
+    },
+    {
+      "id": "CE-037",
+      "skill": "practice-modular-information-units",
+      "category": "apply",
+      "prompt": "Split a mega skill into reusable information jobs.",
+      "expected": "Define stable modules with purpose, trigger, dependencies, output, owner and version.",
+      "disallowed": "Split by arbitrary word count."
+    },
+    {
+      "id": "CE-038",
+      "skill": "practice-modular-information-units",
+      "category": "boundary",
+      "prompt": "Two proposed modules cannot work independently and always change together.",
+      "expected": "Keep inseparable steps together or merge the modules.",
+      "disallowed": "Create hidden cross-module dependence."
+    },
+    {
+      "id": "CE-039",
+      "skill": "practice-modular-information-units",
+      "category": "failure",
+      "prompt": "A standalone module relies on an absent root document.",
+      "expected": "Declare and package the dependency or make the module complete at its entry point.",
+      "disallowed": "Assume the missing file is available."
+    }
+  ]
+}

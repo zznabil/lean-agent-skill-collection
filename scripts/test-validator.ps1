@@ -93,6 +93,16 @@ function Invoke-RemainingPackPinRejection([string]$Name,[scriptblock]$Mutator) {
         Write-Host ('PASS rejection: ' + $Name) -ForegroundColor Green
     } finally { Remove-Item -LiteralPath $fixtureRepo -Recurse -Force -ErrorAction SilentlyContinue }
 }
+function Invoke-ControlledExecutionPackPinRejection([string]$Name,[scriptblock]$Mutator) {
+    $fixtureRepo=Join-Path $fixtureRoot ('repo-' + $Name.Replace(' ','-')); $root=Join-Path $fixtureRepo 'packs/controlled-execution'; New-Item -ItemType Directory -Path (Split-Path $root) -Force | Out-Null; Copy-Item -LiteralPath (Join-Path $repoRoot 'packs/controlled-execution') -Destination $root -Recurse
+    try {
+        & $Mutator $root
+        Update-PackLedger $root
+        $failures.Clear(); try { Get-ReleaseControlledExecutionLedger $fixtureRepo | Out-Null } catch { $failures.Add($_.Exception.Message) }
+        if (-not ($failures | Where-Object { $_ -match 'pinned source integrity anchor' })) { throw "Rejection control failed: $Name" }
+        Write-Host ('PASS rejection: ' + $Name) -ForegroundColor Green
+    } finally { Remove-Item -LiteralPath $fixtureRepo -Recurse -Force -ErrorAction SilentlyContinue }
+}
 function Invoke-PackRejection([string]$Name,[scriptblock]$Mutator,[string]$Expected) {
     $fixtureRepo=Join-Path $fixtureRoot ('repo-' + $Name.Replace(' ','-')); $root=Join-Path $fixtureRepo 'packs/user-facing-standards'; New-Item -ItemType Directory -Path (Split-Path $root) -Force | Out-Null; Copy-Item -LiteralPath (Join-Path $repoRoot 'packs/user-facing-standards') -Destination $root -Recurse
     try {
@@ -243,6 +253,7 @@ try {
     )
     foreach($control in $packControls){Invoke-PackRejection $control.Name $control.Mutator $control.Expected}
     Invoke-RemainingPackPinRejection 'remaining pack root pin after ledger refresh' {param($r);Add-Content -LiteralPath (Join-Path $r 'README.md') -Value 'Reviewer mutation.'}
+    Invoke-ControlledExecutionPackPinRejection 'controlled-execution pack root pin after ledger refresh' {param($r);Add-Content -LiteralPath (Join-Path $r 'README.md') -Value 'Reviewer mutation.'}
     $approvalControls=@(
         [pscustomobject]@{Name='affirmative approval CATALOG after ledger refresh';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'CATALOG.md') -Value 'Publisher approval granted.'}},
         [pscustomobject]@{Name='affirmative approval README after ledger refresh';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'README.md') -Value 'Publisher approval granted.'}},
