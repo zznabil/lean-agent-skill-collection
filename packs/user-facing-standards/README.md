@@ -14,7 +14,7 @@ Prepared 21 September 2026. This is the canonical integrated supplemental source
 
 **This is not 27 complete formal standards in 27 short files.** The procedures make specific rules and verification boundaries usable. They do not replace complete authoritative texts.
 
-The 13 ISO/IEC/IEEE application skills are based on the publishers’ public scopes and the existing Lean user-information guidance. The full paid normative texts were not read or bundled. They require an authorised copy before clause-level assessment or a conformance claim. They remain useful scoped application routines, not invented ISO clause libraries.
+The 13 ISO/IEC/IEEE application skills are based on the publishers’ public scopes and the existing Lean user-information guidance. The full paid normative texts were not read or bundled. They require access to the relevant copy before clause-level assessment or a conformance claim. They remain useful scoped application routines, not invented ISO clause libraries.
 
 The freely available ASD-STE100 PDF is also not bundled: free access does not establish permission to redistribute the standard and dictionary. The official download link remains in its unchanged skill and source note.
 

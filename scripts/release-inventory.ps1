@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = 'b0c83bed4a98cb78374d188d24089e956d687ccd1af457415aedec1d582e73b7'
+$script:ExpectedSupplementalPackLedgerSha256 = '9d9b3647e0f12ed48113a774fd5816e4f77262122fa6c48161dde943d1f64950'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -251,6 +251,23 @@ function Get-ReleasePackLedger([string]$RepositoryRoot) {
     if ($records.Count -ne $expected.Count -or -not (Test-ReleaseInventoryMemberSet $expected @($records.Keys))) { throw 'Supplemental pack checksum inventory is not the exact canonical pack target set.' }
     return [pscustomobject]@{ Root=$packRoot; LedgerPath=$ledgerPath; Records=$records; Paths=$expected.ToArray() }
 }
+$script:ApprovalTermPattern = '\b(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)\b'
+$script:ApprovalClauseSplitPattern = '(?i)(?<=[.!?;:])\s+'
+$script:ApprovalNegationPattern = '(?i)(?:\b(?:no|not|never|without|cannot)\b|\b(?:does|do|is|are|was|were)\s+not\b)(?:\s+[A-Za-z0-9][A-Za-z0-9''-]*){0,20}$'
+
+function Test-ReleaseUserFacingApprovalClaim([string]$Text) {
+    foreach ($line in ($Text -split '\r?\n')) {
+        foreach ($clause in [regex]::Split($line, $script:ApprovalClauseSplitPattern)) {
+            foreach ($match in [regex]::Matches($clause, $script:ApprovalTermPattern)) {
+                $tokens = @([regex]::Matches($clause.Substring(0, $match.Index), "[A-Za-z0-9][A-Za-z0-9'-]*") | ForEach-Object { $_.Value })
+                if ($tokens.Count -gt 20) { $window = $tokens[($tokens.Count - 20)..($tokens.Count - 1)] -join ' ' } else { $window = $tokens -join ' ' }
+                if ($window -notmatch $script:ApprovalNegationPattern) { return $true }
+            }
+        }
+    }
+    return $false
+}
+
 function Assert-ReleaseUserFacingApprovalLanguage([string]$RepositoryRoot) {
     $surfaces = @(
         'packs/user-facing-standards/CATALOG.md',
@@ -258,18 +275,13 @@ function Assert-ReleaseUserFacingApprovalLanguage([string]$RepositoryRoot) {
         'packs/user-facing-standards/SOURCE-MANIFEST.json',
         'packs/user-facing-standards/audit/ASD-STE100-source-study-and-proposal.md'
     )
-    $forbidden = @(
-        '(?im)^.*\bapproved\s+(?:ASD-STE100\s+)?(?:pilot|routine)\b.*$',
-        '(?im)^.*\bapproval prototype\b.*$',
-        '(?im)^.*No repository, release, installed skill.*changed\.?$'
-    )
+    $staleProvenancePattern = '(?im)^.*No repository, release, installed skill.*changed\.?$'
     foreach ($relative in $surfaces) {
         $path = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot $relative.Replace('/', [IO.Path]::DirectorySeparatorChar)) "approval-language surface $relative"
         $text = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)
         if ($text -notmatch '(?i)no approval assertion') { throw "Approval disclaimer missing: $relative" }
-        foreach ($pattern in $forbidden) {
-            if ($text -match $pattern) { throw "Approval assertion found: $relative" }
-        }
+        if ($text -match $staleProvenancePattern) { throw "Approval assertion found: $relative" }
+        if (Test-ReleaseUserFacingApprovalClaim $text) { throw "Approval assertion found: $relative" }
     }
 }
 

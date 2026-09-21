@@ -100,6 +100,23 @@ function Invoke-PackRejection([string]$Name,[scriptblock]$Mutator,[string]$Expec
         Write-Host ('PASS rejection: ' + $Name) -ForegroundColor Green
     } finally { Remove-Item -LiteralPath $fixtureRepo -Recurse -Force -ErrorAction SilentlyContinue }
 }
+function Invoke-PackApprovalPositive([string]$Name,[scriptblock]$Mutator) {
+    $fixtureRepo=Join-Path $fixtureRoot ('repo-' + $Name.Replace(' ','-')); $root=Join-Path $fixtureRepo 'packs/user-facing-standards'; New-Item -ItemType Directory -Path (Split-Path $root) -Force | Out-Null; Copy-Item -LiteralPath (Join-Path $repoRoot 'packs/user-facing-standards') -Destination $root -Recurse
+    try {
+        & $Mutator $root
+        Update-PackLedger $root; Update-RootLedger $fixtureRepo
+        $fixtureProfiles=$profiles | ConvertTo-Json -Depth 50 | ConvertFrom-Json
+        $fixtureProfiles.user_facing_standards.source_manifest_sha256=Get-ReleaseInventorySha256 (Join-Path $root 'SOURCE-MANIFEST.json')
+        $fixtureProfiles.user_facing_standards.rights_notice_sha256=Get-ReleaseInventorySha256 (Join-Path $root 'THIRD-PARTY-NOTICES.md')
+        $anchor = $script:ExpectedSupplementalPackLedgerSha256
+        $script:ExpectedSupplementalPackLedgerSha256 = Get-ReleaseInventorySha256 (Join-Path $root 'CHECKSUMS.sha256')
+        try {
+            $failures.Clear(); try { Get-ReleaseUserFacingInventory $fixtureRepo $fixtureProfiles | Out-Null } catch { $failures.Add($_.Exception.Message) }
+        } finally { $script:ExpectedSupplementalPackLedgerSha256 = $anchor }
+        if ($failures.Count -ne 0) { throw "Approval disclaimer positive control failed: $Name ($($failures -join '; '))" }
+        Write-Host ('PASS: ' + $Name) -ForegroundColor Green
+    } finally { Remove-Item -LiteralPath $fixtureRepo -Recurse -Force -ErrorAction SilentlyContinue }
+}
 function Invoke-ProfileRejection([string]$Name,[scriptblock]$Mutator,[string]$Expected) {
     $bad=$profiles | ConvertTo-Json -Depth 50 | ConvertFrom-Json; & $Mutator $bad
     $validation=[IO.File]::ReadAllText((Join-Path $repoRoot 'PACKAGE-VALIDATION.json'),[Text.Encoding]::UTF8) | ConvertFrom-Json
@@ -215,6 +232,15 @@ try {
         [pscustomobject]@{Name='pack ledger omission';Expected='pinned source integrity anchor';Mutator={param($r);$q=Join-Path $r 'CHECKSUMS.sha256';$lines=@(Get-Content $q);Set-Content -LiteralPath $q -Value $lines[1..($lines.Count-1)] -Encoding UTF8}}
     )
     foreach($control in $packControls){Invoke-PackRejection $control.Name $control.Mutator $control.Expected}
+    $approvalControls=@(
+        [pscustomobject]@{Name='affirmative approval CATALOG after ledger refresh';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'CATALOG.md') -Value 'Publisher approval granted.'}},
+        [pscustomobject]@{Name='affirmative approval README after ledger refresh';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'README.md') -Value 'Publisher approval granted.'}},
+        [pscustomobject]@{Name='affirmative approval SOURCE-MANIFEST after ledger refresh';Mutator={param($r);$q=Join-Path $r 'SOURCE-MANIFEST.json';$t=Get-Content -Raw $q;$t=$t.Replace('No approval assertion is made.','No approval assertion is made. Publisher approval granted.');[IO.File]::WriteAllText($q,$t,[Text.Encoding]::UTF8)}},
+        [pscustomobject]@{Name='affirmative approval audit surface after ledger refresh';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'audit/ASD-STE100-source-study-and-proposal.md') -Value 'Publisher approval granted.'}},
+        [pscustomobject]@{Name='mixed approval disclaimer and assertion';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'CATALOG.md') -Value 'No approval assertion is made. Publisher approval granted.'}}
+    )
+    foreach($control in $approvalControls){Invoke-PackRejection $control.Name $control.Mutator 'approval assertion'}
+    Invoke-PackApprovalPositive 'truthful negated approval claim' {param($r);Add-Content -LiteralPath (Join-Path $r 'CATALOG.md') -Value 'This is not an approved ASD-STE100 pilot.'}
     $manifestControls=@(
         [pscustomobject]@{Name='SOURCE-MANIFEST exact duplicate';Expected='source manifest exact duplicate';Mutator={param($r);$q=Join-Path $r 'SOURCE-MANIFEST.json';$j=Get-Content -Raw $q|ConvertFrom-Json;$j.skills[1].name=[string]$j.skills[0].name;[IO.File]::WriteAllText($q,($j|ConvertTo-Json -Depth 20),[Text.Encoding]::UTF8)}},
         [pscustomobject]@{Name='SOURCE-MANIFEST case-only duplicate';Expected='source manifest case-only duplicate';Mutator={param($r);$q=Join-Path $r 'SOURCE-MANIFEST.json';$j=Get-Content -Raw $q|ConvertFrom-Json;$j.skills[1].name=([string]$j.skills[0].name).ToUpperInvariant();[IO.File]::WriteAllText($q,($j|ConvertTo-Json -Depth 20),[Text.Encoding]::UTF8)}},

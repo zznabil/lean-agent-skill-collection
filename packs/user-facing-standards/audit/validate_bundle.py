@@ -192,6 +192,31 @@ def check_links(document: Path, boundary: Path) -> None:
         require(path.is_file(), f"missing link in {document.name}: {target}")
 
 
+APPROVAL_TERM_PATTERN = re.compile(
+    r"\b(?:approval|approved|endorsement|endorsed|certification|certified|"
+    r"authorization|authorisation|authorized|authorised)\b",
+    re.IGNORECASE,
+)
+APPROVAL_CLAUSE_SPLIT_PATTERN = re.compile(r"(?<=[.!?;:])\s+", re.IGNORECASE)
+APPROVAL_NEGATION_PATTERN = re.compile(
+    r"(?:\b(?:no|not|never|without|cannot)\b|"
+    r"\b(?:does|do|is|are|was|were)\s+not\b)"
+    r"(?:\s+[A-Za-z0-9][A-Za-z0-9'-]*){0,20}$",
+    re.IGNORECASE,
+)
+
+
+def has_affirmative_approval_claim(text: str) -> bool:
+    for line in text.splitlines():
+        for clause in APPROVAL_CLAUSE_SPLIT_PATTERN.split(line):
+            for match in APPROVAL_TERM_PATTERN.finditer(clause):
+                words_before = re.findall(r"[A-Za-z0-9][A-Za-z0-9'-]*", clause[: match.start()])
+                window = " ".join(words_before[-20:])
+                if not APPROVAL_NEGATION_PATTERN.search(window):
+                    return True
+    return False
+
+
 def check_integrated_surface_language(root: Path) -> None:
     surfaces = {
         "CATALOG.md": (root / "CATALOG.md").read_text(encoding="utf-8"),
@@ -201,10 +226,8 @@ def check_integrated_surface_language(root: Path) -> None:
             root / "audit/ASD-STE100-source-study-and-proposal.md"
         ).read_text(encoding="utf-8"),
     }
-    forbidden = (
-        r"(?im)^.*\bapproved\s+(?:ASD-STE100\s+)?(?:pilot|routine)\b.*$",
-        r"(?im)^.*\bapproval prototype\b.*$",
-        r"(?im)^.*No repository, release, installed skill.*changed\.?$",
+    stale_provenance = re.compile(
+        r"(?im)^.*No repository, release, installed skill.*changed\.?$"
     )
     for relative, text in surfaces.items():
         require(
@@ -212,7 +235,11 @@ def check_integrated_surface_language(root: Path) -> None:
             f"{relative} must state no approval assertion",
         )
         require(
-            not any(re.search(pattern, text) for pattern in forbidden),
+            not stale_provenance.search(text),
+            f"approval assertion found in {relative}",
+        )
+        require(
+            not has_affirmative_approval_claim(text),
             f"approval assertion found in {relative}",
         )
 

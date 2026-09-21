@@ -18,6 +18,25 @@ from build_zip import build
 
 ROOT = Path(__file__).resolve().parents[1]
 
+SURFACES = (
+    "CATALOG.md",
+    "README.md",
+    "SOURCE-MANIFEST.json",
+    "audit/ASD-STE100-source-study-and-proposal.md",
+)
+
+
+def append_surface_claim(path: Path, claim: str) -> None:
+    text = path.read_text(encoding="utf-8")
+    if path.name == "SOURCE-MANIFEST.json":
+        marker = "No approval assertion is made."
+        assert marker in text
+        text = text.replace(marker, f"{marker} {claim}", 1)
+    else:
+        text = text.rstrip() + chr(10) + claim + chr(10)
+    path.write_text(text, encoding="utf-8", newline=chr(10))
+
+
 
 def rehash(root: Path) -> None:
     files = inventory(root)
@@ -78,6 +97,27 @@ class BundleTests(unittest.TestCase):
             finally:
                 path.write_bytes(original)
                 rehash(self.root)
+
+    def test_approval_claim_polarity_after_rehash(self) -> None:
+        cases = (
+            ("Publisher approval granted.", True),
+            ("This is not an approved ASD-STE100 pilot.", False),
+            ("No approval assertion is made; Publisher approval granted.", True),
+        )
+        for claim, rejected in cases:
+            for relative in SURFACES:
+                path = self.root / relative
+                original = path.read_bytes()
+                try:
+                    append_surface_claim(path, claim)
+                    rehash(self.root)
+                    if rejected:
+                        self.assertRejected("approval assertion")
+                    else:
+                        self.assertEqual(validate(self.root)["skills"], 27)
+                finally:
+                    path.write_bytes(original)
+                    rehash(self.root)
 
     def test_instruction_change_even_with_rehashed_inventory(self) -> None:
         p = self.root / "skills/standard-asd-ste100/SKILL.md"
