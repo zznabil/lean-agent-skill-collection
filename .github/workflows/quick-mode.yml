@@ -82,7 +82,7 @@ jobs:
           try {
             [IO.File]::WriteAllBytes((Join-Path $hiddenRoot 'a/same.zip'), [byte[]](0x41))
             [IO.File]::WriteAllBytes((Join-Path $hiddenRoot 'b/same.zip'), [byte[]](0x41))
-            $hiddenExtra = Join-Path $hiddenRoot 'b/hidden-extra.zip'
+            $hiddenExtra = Join-Path $hiddenRoot 'b/.hidden-extra.zip'
             [IO.File]::WriteAllBytes($hiddenExtra, [byte[]](0x41))
             [IO.File]::SetAttributes($hiddenExtra, [IO.FileAttributes]::Hidden)
             $previousErrorActionPreference = $ErrorActionPreference
@@ -140,7 +140,7 @@ jobs:
           try {
             [IO.File]::WriteAllBytes((Join-Path $hiddenRoot 'a/same.zip'), [byte[]](0x41))
             [IO.File]::WriteAllBytes((Join-Path $hiddenRoot 'b/same.zip'), [byte[]](0x41))
-            $hiddenExtra = Join-Path $hiddenRoot 'b/hidden-extra.zip'
+            $hiddenExtra = Join-Path $hiddenRoot 'b/.hidden-extra.zip'
             [IO.File]::WriteAllBytes($hiddenExtra, [byte[]](0x41))
             [IO.File]::SetAttributes($hiddenExtra, [IO.FileAttributes]::Hidden)
             $previousErrorActionPreference = $ErrorActionPreference
