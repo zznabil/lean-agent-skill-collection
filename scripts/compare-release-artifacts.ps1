@@ -46,7 +46,6 @@ try {
     exit 0
 }
 catch {
-    Write-Error $_
     Write-Output ('ERROR: release artifact comparison failed: ' + $_.Exception.Message)
     exit 1
 }
