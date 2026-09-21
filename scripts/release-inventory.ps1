@@ -218,14 +218,14 @@ function Get-ReleaseInventorySafeFileTree([string]$RootPath, [string]$Label) {
     }
     return $files.ToArray()
 }
-function Get-ReleasePackLedger([string]$RepositoryRoot) {
-    $packRoot = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot 'packs/user-facing-standards') 'supplemental pack root'
-    $ledgerPath = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $packRoot 'CHECKSUMS.sha256') 'supplemental pack ledger'
-    if ((Get-ReleaseInventorySha256 $ledgerPath) -cne $script:ExpectedSupplementalPackLedgerSha256) {
-        throw 'Supplemental pack ledger digest mismatch: pinned source integrity anchor.'
+function Get-ReleaseChecksumLedger([string]$RepositoryRoot,[string]$PackRelativePath,[string]$ExpectedHash,[string]$Label) {
+    $packRoot = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot $PackRelativePath) "$Label root"
+    $ledgerPath = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $packRoot 'CHECKSUMS.sha256') "$Label ledger"
+    if ((Get-ReleaseInventorySha256 $ledgerPath) -cne $ExpectedHash) {
+        throw "$Label ledger digest mismatch: pinned source integrity anchor."
     }
     $expected = New-Object System.Collections.Generic.List[string]
-    foreach ($item in @(Get-ReleaseInventorySafeFileTree $packRoot 'supplemental pack tree')) {
+    foreach ($item in @(Get-ReleaseInventorySafeFileTree $packRoot "$Label tree")) {
         $relative = $item.FullName.Substring($packRoot.Length + 1).Replace('\','/')
         if ($relative -cne 'CHECKSUMS.sha256') { [void]$expected.Add($relative) }
     }
@@ -234,22 +234,29 @@ function Get-ReleasePackLedger([string]$RepositoryRoot) {
     $lineNumber = 0
     foreach ($line in Get-Content -LiteralPath $ledgerPath) {
         $lineNumber++
-        if ($line -notmatch '^([0-9a-f]{64})  ([A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*)$') { throw "Malformed supplemental pack checksum line $lineNumber." }
+        if ($line -notmatch '^([0-9a-f]{64})  ([A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*)$') { throw "Malformed $Label checksum line $lineNumber." }
         $hash = $matches[1]; $relative = $matches[2]
-        if (@($relative.Split('/') | Where-Object { $_ -eq '.' -or $_ -eq '..' }).Count -gt 0) { throw "Unsafe supplemental pack checksum target: $relative" }
-        if ($relative -ceq 'CHECKSUMS.sha256') { throw 'Supplemental pack ledger cannot checksum itself.' }
-        if ($records.ContainsKey($relative)) { throw "Exact duplicate supplemental pack checksum target: $relative" }
+        if (@($relative.Split('/') | Where-Object { $_ -eq '.' -or $_ -eq '..' }).Count -gt 0) { throw "Unsafe $Label checksum target: $relative" }
+        if ($relative -ceq 'CHECKSUMS.sha256') { throw "$Label ledger cannot checksum itself." }
+        if ($records.ContainsKey($relative)) { throw "Exact duplicate $Label checksum target: $relative" }
         $lower = $relative.ToLowerInvariant()
-        if ($folded.ContainsKey($lower) -and $folded[$lower] -cne $relative) { throw "Case-only duplicate supplemental pack checksum target: $relative" }
-        $target = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $packRoot $relative.Replace('/',[IO.Path]::DirectorySeparatorChar)) "supplemental pack target $relative"
-        if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Supplemental pack checksum target missing: $relative" }
+        if ($folded.ContainsKey($lower) -and $folded[$lower] -cne $relative) { throw "Case-only duplicate $Label checksum target: $relative" }
+        $target = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $packRoot $relative.Replace('/',[IO.Path]::DirectorySeparatorChar)) "$Label target $relative"
+        if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "$Label checksum target missing: $relative" }
         $item = Get-Item -LiteralPath $target -Force -ErrorAction Stop
         $records.Add($relative, [pscustomobject]@{ RelativePath=$relative; Path=$target; Length=[int64]$item.Length; Hash=$hash })
         $folded[$lower] = $relative
-        if ((Get-ReleaseInventorySha256 $target) -cne $hash) { throw "Supplemental pack checksum mismatch: $relative" }
+        if ((Get-ReleaseInventorySha256 $target) -cne $hash) { throw "$Label checksum mismatch: $relative" }
     }
-    if ($records.Count -ne $expected.Count -or -not (Test-ReleaseInventoryMemberSet $expected @($records.Keys))) { throw 'Supplemental pack checksum inventory is not the exact canonical pack target set.' }
+    if ($records.Count -ne $expected.Count -or -not (Test-ReleaseInventoryMemberSet $expected @($records.Keys))) { throw "$Label checksum inventory is not the exact canonical pack target set." }
     return [pscustomobject]@{ Root=$packRoot; LedgerPath=$ledgerPath; Records=$records; Paths=$expected.ToArray() }
+}
+function Get-ReleasePackLedger([string]$RepositoryRoot) {
+    return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/user-facing-standards' $script:ExpectedSupplementalPackLedgerSha256 'supplemental pack'
+}
+$script:ExpectedRemainingStandardsPackLedgerSha256 = '07816484fc6deed45b0d233fac7ecd9b6c018ab0feebb7a8847aa78290398dbf'
+function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
+    return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
 $script:ApprovalTermPattern = '(?<![A-Za-z0-9-])(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)(?![A-Za-z0-9-])'
 $script:ApprovalTermRegexOptions = [Text.RegularExpressions.RegexOptions]::IgnoreCase -bor [Text.RegularExpressions.RegexOptions]::CultureInvariant

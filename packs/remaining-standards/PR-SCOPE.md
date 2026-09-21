@@ -7,7 +7,7 @@ The 63 optional routines and seven off-default guards retain their exact instruc
 No canonical skill, profile, root policy or historical register entry is changed.
 All original publisher files remain byte-identical with their source notices and copying bases.
 
-The source manifest and routine inventory are checked against hashes embedded in the validator, but this extracted pack is not self-authenticating; an external/root trust pin for `audit/validate_bundle.py` is required.
+The source manifest, routine inventory, and pack bytes are checked against hashes embedded in the validator. Repository integration now pins `packs/remaining-standards/CHECKSUMS.sha256` from `UPSTREAM-CHECKSUMS.sha256` and audits the exact pack inventory; standalone extraction still requires trusted validator bytes.
 Updating CHECKSUMS.sha256 cannot redefine publisher originals or the imported inventory.
 Changing a pin is a separately reviewable source-update operation, not an automatic repair.
 The imported audit/EXECUTED-RESULTS.json is historical local-run evidence, not this PR's CI result.
