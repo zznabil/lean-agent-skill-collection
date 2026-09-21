@@ -248,12 +248,20 @@ try {
         [pscustomobject]@{Text='No approval assertion is made and publisher approval granted.';Rejected=$true}
     )
     $approvalTerms=@('approval','approved','endorsement','endorsed','certification','certified','authorization','authorisation','authorized','authorised')
+    $approvalAffirmativeCapitalizationCases=@(
+        'APPROVAL','ApPrOvAl','APPROVED','ApPrOvEd','ENDORSEMENT','EnDoRsEmEnT','ENDORSED','EnDoRsEd',
+        'CERTIFICATION','CeRtIfIcAtIoN','CERTIFIED','CeRtIfIeD','AUTHORIZATION','AuThOrIzAtIoN',
+        'AUTHORISATION','AuThOrIsAtIoN','AUTHORIZED','AuThOrIzEd','AUTHORISED','AuThOrIsEd'
+    )
     foreach($term in $approvalTerms){
         $approvalPolarityCases += [pscustomobject]@{Text=('No formal publisher ' + $term + ' assertion is made.');Rejected=$false}
         $approvalPolarityCases += [pscustomobject]@{Text=('This is not an ' + $term + ' pilot.');Rejected=$false}
         $approvalPolarityCases += [pscustomobject]@{Text=('Publisher ' + $term + ' was not granted.');Rejected=$false}
         $approvalPolarityCases += [pscustomobject]@{Text=('Publisher ' + $term + ' granted.');Rejected=$true}
         $approvalPolarityCases += [pscustomobject]@{Text=('NO FORMAL PUBLISHER ' + $term.ToUpperInvariant() + ' ASSERTION IS MADE.');Rejected=$false}
+        foreach($capitalizedTerm in ($approvalAffirmativeCapitalizationCases | Where-Object { $_ -match ('^(?i:' + [regex]::Escape($term) + ')$') })){
+            $approvalPolarityCases += [pscustomobject]@{Text=('Publisher ' + $capitalizedTerm + ' granted.');Rejected=$true}
+        }
         foreach($separator in @(',', '.', ';', ':', '!', '?', '—', '–', [Environment]::NewLine, ' but ', ' however ', ' yet ')){
             $approvalPolarityCases += [pscustomobject]@{Text=('No formal publisher ' + $term + ' assertion is made' + $separator + ' Publisher ' + $term + ' granted.');Rejected=$true}
         }
