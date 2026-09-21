@@ -13,6 +13,9 @@ ISO = {3, 4, 5, 6, 18, 32, 40, 41, 42, 47, 49, 50, 51, 63, 64, 65, 72, 73, 74}
 SOURCE_MANIFEST_SHA256 = '85d72b7c738dd97683cb1a2c090f752af8b729666f576e2a2db8617f42101166'
 SKILL_INVENTORY_SHA256 = 'ee756f616a6039cb3b67c9cfca0673782f46935465c9cf86888325e130ea9003'
 REGISTER_BLOB = '983cd4532cbf97dd77c4446accaf358b5317fcfa'
+SOURCE_BASELINE_SHA256 = 'dcfe28f4ff9c1eda19514ff920716f226d1aa2a5e6ef007a0befbd2ce1b11e0f'
+SOURCE_BASELINE_NAME = 'SOURCE-BASELINE.sha256'
+SOURCE_BASELINE_EXCLUDED = {'CHECKSUMS.sha256', SOURCE_BASELINE_NAME, 'audit/validate_bundle.py'}
 
 class InvalidPack(ValueError):
     """A directly observed structural or integrity check failed."""
@@ -23,6 +26,24 @@ def require(condition: bool, message: str) -> None:
 
 def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+def verify_source_baseline(root: Path, rels: list[str]) -> None:
+    baseline = root / SOURCE_BASELINE_NAME
+    require(baseline.is_file(), 'Source baseline missing')
+    require(sha(baseline.read_bytes()) == SOURCE_BASELINE_SHA256, 'Source baseline pin changed')
+    entries = {}
+    for line in baseline.read_text(encoding='utf-8').splitlines():
+        match = re.fullmatch(r'([a-f0-9]{64})  (.+)', line)
+        require(match is not None, 'Malformed source baseline line')
+        digest, rel = match.groups()
+        require(rel not in entries and rel.casefold() not in {x.casefold() for x in entries},
+                'Duplicate source baseline entry')
+        entries[rel] = digest
+        safe_path(root, rel)
+    expected = set(rels) - SOURCE_BASELINE_EXCLUDED
+    require(set(entries) == expected, 'Source baseline coverage differs')
+    for rel, digest in entries.items():
+        require(sha(safe_path(root, rel).read_bytes()) == digest, f'Source baseline mismatch: {rel}')
 
 def read_json(path: Path):
     try:
@@ -41,7 +62,7 @@ def safe_path(root: Path, relative: str) -> Path:
 def validate(root: Path) -> dict:
     root = root.resolve()
     require(root.is_dir(), 'Pack directory missing')
-    paths = [p for p in root.rglob('*') if p.is_file()]
+    paths = [p for p in root.rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix.lower() != '.pyc']
     require(not any(p.is_symlink() for p in root.rglob('*')), 'Symlinks are not allowed')
     rels = [p.relative_to(root).as_posix() for p in paths]
     require(len(rels) == len({p.casefold() for p in rels}), 'Case-colliding paths')
@@ -154,6 +175,7 @@ def validate(root: Path) -> dict:
         require(all(x['status'] == 'authored_not_executed' and x['prompt'] and x['expected'] for x in c), 'Invalid case record')
     require(sha((root / 'SOURCE-MANIFEST.json').read_bytes()) == SOURCE_MANIFEST_SHA256, 'Independent publisher baseline changed')
     require(sha((root / 'SKILL-INVENTORY.json').read_bytes()) == SKILL_INVENTORY_SHA256, 'Independent routine baseline changed')
+    verify_source_baseline(root, rels)
     return dict(result='PASS', files=len(paths), checksum_entries=len(hashes), skills=70,
                 off_default=7, register_entries=97, pdf_copies=len(source_pdfs), pdf_unique=len(pdf_digests),
                 authored_cases=210, live_model_runs=0,

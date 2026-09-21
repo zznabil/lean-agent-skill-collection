@@ -8,7 +8,9 @@ import sys
 sys.dont_write_bytecode = True
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
+import build_zip
 from validate_bundle import InvalidPack, validate
 from build_zip import build
 
@@ -89,7 +91,37 @@ class PackControls(unittest.TestCase):
         self.reject(lambda p:edit_json(p,'audit/acceptance-cases.json',lambda x:x['cases'].pop()),'Authored case count/identity differs')
     def test_21_undeclared_file(self):
         self.reject(lambda p:(p/'unlisted.txt').write_text('unexpected'),'Checksum inventory coverage differs',refresh=False)
-    def test_22_repeatable_zip_roundtrip(self):
+    def test_22_skill_mutation_rejected_after_checksum_refresh(self):
+        self.reject(lambda p: replace(p,'skills/standard-iso-29148/SKILL.md','Preserve facts, identifiers, links, required checks, permissions, negation','Preserve facts, identifiers, links, required checks, permissions, negation and exceptions'),'Source baseline mismatch')
+
+    def test_23_catalog_mutation_rejected_after_checksum_refresh(self):
+        self.reject(lambda p: replace(p,'CATALOG.md','standard-iso-29148','changed-catalog'),'Source baseline mismatch')
+
+    def test_24_added_file_rejected_after_checksum_refresh(self):
+        self.reject(lambda p:(p/'added.txt').write_text('unexpected'),'Source baseline coverage differs')
+
+    def test_25_added_audit_file_rejected_after_checksum_refresh(self):
+        self.reject(lambda p:(p/'audit/added.py').write_text('unexpected'),'Source baseline coverage differs')
+
+    def test_26_atomic_build_preserves_existing_output_on_write_failure(self):
+        with tempfile.TemporaryDirectory(prefix='lean-standards-atomic-') as td:
+            target = Path(td) / 'pack.zip'; sentinel = b'keep this output'; target.write_bytes(sentinel)
+            with mock.patch.object(build_zip.zipfile.ZipFile, 'writestr', side_effect=OSError('injected write failure')):
+                with self.assertRaisesRegex(OSError, 'injected write failure'):
+                    build(SOURCE, target)
+            self.assertEqual(target.read_bytes(), sentinel)
+            self.assertEqual(list(Path(td).glob('pack.zip.*.tmp')), [])
+
+    def test_27_atomic_build_preserves_existing_output_on_verification_failure(self):
+        with tempfile.TemporaryDirectory(prefix='lean-standards-atomic-') as td:
+            target = Path(td) / 'pack.zip'; sentinel = b'keep this output'; target.write_bytes(sentinel)
+            with mock.patch.object(build_zip.zipfile.ZipFile, 'testzip', return_value='bad'):
+                with self.assertRaisesRegex(ValueError, 'Archive integrity check failed'):
+                    build(SOURCE, target)
+            self.assertEqual(target.read_bytes(), sentinel)
+            self.assertEqual(list(Path(td).glob('pack.zip.*.tmp')), [])
+
+    def test_28_repeatable_zip_roundtrip(self):
         with tempfile.TemporaryDirectory(prefix='lean-standards-zip-') as td:
             td=Path(td); a=td/'a.zip'; b=td/'b.zip';build(SOURCE,a);build(SOURCE,b)
             self.assertEqual(a.read_bytes(),b.read_bytes())
@@ -97,9 +129,9 @@ class PackControls(unittest.TestCase):
                 self.assertIsNone(z.testzip())
                 z.extractall(td/'extracted')
             self.assertEqual(validate(td/'extracted/lean-remaining-standards')['result'],'PASS')
-    def test_23_unfenced_template(self):
+    def test_29_unfenced_template(self):
         self.reject(lambda p: replace(p,'skills/practice-ears/SKILL.md','`The <system> shall <response>.`','The <system> shall <response>.'),'Unfenced HTML-like template')
-    def test_24_positive_restored(self):
+    def test_30_positive_restored(self):
         self.assertEqual(validate(SOURCE)['result'],'PASS')
 
 if __name__ == '__main__':

@@ -1,6 +1,8 @@
 """Reject an altered publisher reference even after normal inventories are regenerated."""
 import hashlib,json,shutil,tempfile
 from pathlib import Path
+import sys
+sys.dont_write_bytecode = True
 from validate_bundle import validate,InvalidPack
 ROOT=Path(__file__).resolve().parents[1]
 def rehash(root):
