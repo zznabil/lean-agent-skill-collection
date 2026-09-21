@@ -74,21 +74,35 @@ else {
 $skillsRoot = Join-Path $RepositoryRoot 'skills'
 $actualSkills = @(Get-ChildItem -LiteralPath $skillsRoot -Directory | Sort-Object Name | ForEach-Object Name)
 $completeSkills = @($profiles.profiles.complete.skills | ForEach-Object { [string]$_ } | Sort-Object)
-if ($actualSkills.Count -ne 23) { Add-Failure "expected 23 canonical skills, found $($actualSkills.Count)" }
+if ($actualSkills.Count -ne 24) { Add-Failure "expected 24 canonical skills, found $($actualSkills.Count)" }
 if ((Compare-Object $actualSkills $completeSkills).Count -ne 0) { Add-Failure 'Complete profile does not match the canonical skills directory' }
+
+$expectedProfileCounts = @{ core=9; engineering=20; complete=24; communication=3; 'get-it-done'=6; gauntlet=4 }
+foreach ($profileName in $expectedProfileCounts.Keys) {
+    $members = @($profiles.profiles.$profileName.skills | ForEach-Object { [string]$_ })
+    $unique = @($members | Sort-Object -Unique)
+    if ($members.Count -ne $unique.Count) { Add-Failure "profile contains duplicate skill: $profileName" }
+    if ($unique.Count -ne [int]$expectedProfileCounts[$profileName]) { Add-Failure "$profileName profile must contain $($expectedProfileCounts[$profileName]) unique skills; found $($unique.Count)" }
+}
 
 $communicationSkills = @($profiles.profiles.communication.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $getItDoneSkills = @($profiles.profiles.'get-it-done'.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
 $gauntletSkills = @($profiles.profiles.gauntlet.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-if ($communicationSkills.Count -ne 3) { Add-Failure "Communication profile must contain 3 unique skills; found $($communicationSkills.Count)" }
-if ($getItDoneSkills.Count -ne 5) { Add-Failure "Get It Done profile must contain 5 unique skills; found $($getItDoneSkills.Count)" }
-if ($gauntletSkills.Count -ne 4) { Add-Failure "Gauntlet profile must contain 4 unique skills; found $($gauntletSkills.Count)" }
 foreach ($skill in $communicationSkills) {
     if (-not ($getItDoneSkills -contains $skill)) { Add-Failure "Get It Done profile lacks Communication skill: $skill" }
     if (-not ($gauntletSkills -contains $skill)) { Add-Failure "Gauntlet profile lacks Communication skill: $skill" }
 }
-if (-not ($getItDoneSkills -contains 'get-it-done') -or -not ($getItDoneSkills -contains 'gauntlet-loop')) { Add-Failure 'Get It Done profile lacks a required task controller' }
+if (-not ($getItDoneSkills -contains 'get-it-done') -or -not ($getItDoneSkills -contains 'gauntlet-loop') -or -not ($getItDoneSkills -contains 'quick-mode')) { Add-Failure 'Get It Done profile lacks a required task route' }
 if (-not ($gauntletSkills -contains 'gauntlet-loop')) { Add-Failure 'Gauntlet profile lacks gauntlet-loop' }
+
+$quickProfiles = @('core','engineering','complete','get-it-done')
+foreach ($profileProperty in @($profiles.profiles.PSObject.Properties)) {
+    $members = @($profileProperty.Value.skills | ForEach-Object { [string]$_ })
+    $count = @($members | Where-Object { $_ -eq 'quick-mode' }).Count
+    $expectedCount = if ($quickProfiles -contains $profileProperty.Name) { 1 } else { 0 }
+    if ($count -ne $expectedCount) { Add-Failure "quick-mode membership mismatch in profile $($profileProperty.Name)" }
+}
+
 $composition = $package.profile_composition
 if ($null -eq $composition -or -not $composition.communication_embedded_in_get_it_done -or -not $composition.communication_embedded_in_gauntlet) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the communication-complete task-pack contract'
@@ -100,7 +114,6 @@ if ($null -eq $composition -or -not $composition.communication_embedded_in_get_i
     if ((Compare-Object $getItDoneSkills $metadataGetItDone).Count -ne 0) { Add-Failure 'Get It Done profile metadata differs from release-profiles.json' }
     if ((Compare-Object $gauntletSkills $metadataGauntlet).Count -ne 0) { Add-Failure 'Gauntlet profile metadata differs from release-profiles.json' }
 }
-
 
 $proof = $package.proof_integrity
 if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier) {
@@ -119,11 +132,10 @@ if ($null -eq $proof -or -not $proof.global_principles -or $proof.source_project
     }
 }
 
-
 $rigor = $package.proportional_rigor
 $expectedModes = @('ADVERSARIAL','DEEP','DIRECT','STANDARD')
-if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.no_new_routed_skill) {
-    Add-Failure 'PACKAGE-VALIDATION.json lacks the V8.5 proportional-rigor contract'
+if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or $rigor.automatic_low_scrutiny_route -ne $false -or $rigor.explicit_request_quick_mode_exception -ne $true -or $rigor.v8_5_no_new_routed_skill_decision_retained_as_history -ne $true) {
+    Add-Failure 'PACKAGE-VALIDATION.json lacks the updated proportional-rigor contract'
 } else {
     $actualModes = @($rigor.modes | ForEach-Object { [string]$_ } | Sort-Object -Unique)
     if ((Compare-Object $expectedModes $actualModes).Count -ne 0) { Add-Failure 'proportional-rigor mode inventory is inaccurate' }
@@ -144,7 +156,29 @@ if ($null -eq $rigor -or -not $rigor.global_principles -or -not $rigor.direct_fo
     }
 }
 
-
+$quick = $package.quick_mode
+$quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+$quickMirror = 'releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv'
+$quickPath = Join-Path $RepositoryRoot $quickRelative
+$quickMirrorPath = Join-Path $RepositoryRoot $quickMirror
+if ($null -eq $quick -or -not $quick.included -or -not $quick.explicit_request_only -or -not $quick.natural_language_selectable -or $quick.default_validation -ne 'SMOKE' -or -not $quick.dogfood_optional -or -not $quick.automated_uat_optional -or -not $quick.selected_validation_becomes_required -or -not $quick.real_project_interaction_required -or -not $quick.static_inspection_not_interaction_evidence -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.live_host_evaluated -ne $false -or $quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) {
+    Add-Failure 'Quick Mode contract or evidence-limit declaration missing'
+}
+if (-not (Test-Path -LiteralPath $quickPath) -or -not (Test-Path -LiteralPath $quickMirrorPath)) { Add-Failure 'Quick Mode scenario or release mirror is missing' }
+else {
+    $quickRows = @(Import-Csv -LiteralPath $quickPath -Encoding UTF8)
+    if ($quickRows.Count -ne 24 -or @($quickRows.id | Sort-Object -Unique).Count -ne 24) { Add-Failure 'Quick Mode corpus must have 24 unique IDs' }
+    foreach ($category in @('ACTIVATE','ANTI_TRIGGER','SCOPE','SAFETY','SMOKE','DOGFOOD','AUTOMATED_UAT','TOOL_UNAVAILABLE')) {
+        if (@($quickRows | Where-Object { $_.category -eq $category }).Count -ne 3) { Add-Failure "Quick Mode corpus must contain 3 $category fixtures" }
+    }
+    foreach ($row in $quickRows) {
+        foreach ($field in @('id','category','prompt','expected','rejected','reason')) {
+            if ([string]::IsNullOrWhiteSpace([string]$row.$field)) { Add-Failure "Quick Mode fixture $($row.id) lacks $field" }
+        }
+        if ($row.expected -eq $row.rejected) { Add-Failure "Quick Mode fixture $($row.id) has identical positive and negative examples" }
+    }
+    if ((Get-Sha256 $quickPath) -ne (Get-Sha256 $quickMirrorPath)) { Add-Failure 'Quick Mode scenario mirror drift' }
+}
 
 $delivery = $package.outcome_first_delivery
 if ($null -eq $delivery -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported) {
@@ -233,8 +267,9 @@ foreach ($pattern in $temporaryPatterns) {
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
-    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
-    'scripts/audit-repository.ps1'
+    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md','docs/QUICK-MODE-DESIGN-v8.10.0.md',
+    'docs/evals/quick-mode-scenarios-v8.10.0.csv','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv',
+    'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }
@@ -259,7 +294,7 @@ if ($ArtifactsDirectory) {
 }
 
 if ($failures.Count -eq 0) {
-    Add-Pass 'repository metadata, current release, 23-skill inventory, profile composition, proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
+    Add-Pass 'repository metadata, current release, 24-skill inventory, Quick Mode profile and scenario contracts, inherited proof-integrity and proportional-rigor scenarios, evaluation mirrors, text hygiene, and temporary-file checks'
     if ($ArtifactsDirectory) { Add-Pass 'expected release archives are present' }
     foreach ($pass in $passes) { Write-Host "PASS: $pass" }
     exit 0

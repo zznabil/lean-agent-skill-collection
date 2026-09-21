@@ -1,22 +1,39 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.8.0-2563eb)](CHANGELOG.md)
-[![Skills](https://img.shields.io/badge/skills-23-0f766e)](skills)
+[![Version](https://img.shields.io/badge/version-v8.10.0-2563eb)](CHANGELOG.md)
+[![Skills](https://img.shields.io/badge/skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
-A compact, source-browsable collection of 23 vendor-neutral agent skills for engineering, research, communication, documents, experiments, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
+A compact, source-browsable collection of 24 vendor-neutral agent skills for engineering, research, communication, documents, experiments, fast-path delivery, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-V8.8.0 keeps all 23 skills and six profiles. It preserves outcome-first communication and quiet execution: match reply length to the task, investigate enough internally, act instead of merely promising, and report outcome, verification, and remaining action without replaying routine process. Read the [Hermes prompt review](docs/HERMES-PROMPT-REVIEW-v8.6.0.md), [Hermes integration guide](docs/HERMES-INTEGRATION.md), [minimum-scrutiny review](docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md), and [repository audit](docs/REPOSITORY-AUDIT.md).
+V8.10.0 adds [`quick-mode`](skills/quick-mode/SKILL.md), an explicit user-selected fast path. It delivers the smallest useful working slice with one cheap reality check and visible deferrals. Dogfooding and automated UAT remain optional until selected; once selected, they require real tool-mediated interaction with the running project. Read the [design decision](docs/QUICK-MODE-DESIGN-v8.10.0.md).
+
+V8.8.0 preserves all earlier 23 skills and six profiles. It retains outcome-first communication and quiet execution: match reply length to the task, investigate enough internally, act instead of merely promising, and report outcome, verification, and remaining action without replaying routine process. Read the [Hermes prompt review](docs/HERMES-PROMPT-REVIEW-v8.6.0.md), [Hermes integration guide](docs/HERMES-INTEGRATION.md), [minimum-scrutiny review](docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md), and [repository audit](docs/REPOSITORY-AUDIT.md).
 
 V8.7 adds **direct claims and accountable reporting** to every profile: state the supported result and actor plainly, retain genuine uncertainty, and give the next safe action. It does not ban all negation or hedging. See the [scoped decision and sources](docs/DIRECT-CLAIMS-REVIEW-v8.7.0.md).
 
-## V8.8.0: explicit instructions, clearer prose
+## V8.10.0: Quick Mode
 
-The rewrite preserves the V8.7 rules, reference files, standards-register decisions, workflow states, skill descriptions and adapter policies. Dense instruction blocks are segmented without deleting their conditions or exceptions. New authoring guidance applies writing, wait-what and teach principles to instructions for people and agents; it does not impose lessons or extra skill loading on ordinary tasks.
+Quick Mode can be selected from natural language only after an explicit user request. It does not activate for “quick question”, a request for a short answer, or a duration estimate. The user must explicitly select Quick Mode, a rough prototype, or an equivalent reduced acceptance scope.
 
-Read the [design and preservation boundary](docs/PROSE-CLARITY-v8.8.0.md). The new check reconstructs each original instruction file after removing declared layout and additions; four explicitly documented instruction-authoring rules are clarified. This is a textual guarantee, not a live-agent performance claim. Existing historical metadata is retained for compatibility and is not fresh validation evidence. Use the exact CI run for execution results.
+The default route is:
+
+```text
+define one working slice
+→ inspect only what is needed
+→ build the smallest useful end-to-end result
+→ run one cheap smoke check
+→ report evidence and deferrals
+→ stop
+```
+
+Quick Mode does not waive authorisation, destructive-action safeguards, data integrity, required security, compatibility, accessibility, or honest evidence status. Production readiness is `NOT ASSESSED` unless a later hardening task establishes it.
+
+When dogfooding is selected, the agent must use an appropriate tool to operate the actual running project through its intended interface. When automated UAT is selected, the agent must run or create one replayable user journey with a real assertion. Source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy those selected modes.
+
+The V8.8 prose-preservation baseline remains active. Validation permits only the declared additive Quick Mode route and profile memberships.
 
 ## Start here
 
@@ -24,16 +41,16 @@ Choose one profile. Do not install overlapping profiles together.
 
 | Profile | Skills | Best for | Generated package |
 |---|---:|---|---|
-| Core | 8 | Planning, research, review, and long-running work | `lean-agent-skills-core-openai-v8.8.0.zip` |
-| Engineering | 19 | Software delivery and engineering operations | `lean-agent-skills-engineering-openai-v8.8.0.zip` |
-| Complete | 23 | The full collection | `lean-agent-skills-complete-openai-v8.8.0.zip` |
-| Communication | 3 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.8.0.zip` |
-| Get It Done | 5 | Long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.8.0.zip` |
-| Gauntlet Loop | 4 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.8.0.zip` |
+| Core | 9 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.10.0.zip` |
+| Engineering | 20 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.10.0.zip` |
+| Complete | 24 | The full collection | `lean-agent-skills-complete-openai-v8.10.0.zip` |
+| Communication | 3 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.10.0.zip` |
+| Get It Done | 6 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.10.0.zip` |
+| Gauntlet Loop | 4 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.10.0.zip` |
 
-The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated.
+The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated. Quick Mode is included in Core, Engineering, Complete, and Get It Done only.
 
-Browse the [skill catalog](docs/SKILL-CATALOG.md) before choosing a profile.
+Browse the [skill catalogue](docs/SKILL-CATALOG.md) before choosing a profile.
 
 ## Install
 
@@ -54,9 +71,9 @@ The `SKILL.md` files are vendor-neutral. Hosts other than ChatGPT or Codex can i
 ## Repository layout
 
 ```text
-skills/                       Canonical source for all 23 skills
+skills/                       Canonical source for all 24 skills
 .codex-plugin/                Complete-profile plugin manifest
-docs/                         Catalog, audits, history, standards, and evaluations
+docs/                         Catalogue, audits, history, standards, and evaluations
 dist/v7.2/                    Historical V7.2.0 release snapshot
 release-profiles.json         Canonical version and six profile inventories
 scripts/build-release.ps1     Deterministic release builder
@@ -72,17 +89,18 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ```powershell
 ./scripts/build-release.ps1
 ./scripts/test-validator.ps1
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.8.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.8.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.8.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.10.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.10.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.10.0
 ```
 
-The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill.
+The builder produces all six profiles and a master archive with fixed entry order and timestamps. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 
 ## Design principles
 
 - Match reply length and structure to the task. Investigate deeply enough to justify the claim, then report only the useful outcome, fresh verification, material uncertainty, and remaining action.
 - Use the minimum sufficient scrutiny that can prove the outcome; small work stays small, and every extra check or agent must close a distinct evidence gap.
+- Quick Mode is a user-authorised explicit-request route for a reduced working slice, not an automatically selected low-scrutiny route.
 - When tools can safely complete the task, act rather than return instructions; a stated intent must end in execution or a plain blocker.
 - Evidence before claims. Acceptance oracles must observe the named outcome and fail honestly under a representative broken state.
 - Explicit permission boundaries for consequential actions.
@@ -90,19 +108,19 @@ The builder produces all six profiles and a master archive with fixed entry orde
 - Durable state only when work can outlive a session.
 - Standards are named in their owning skills but applied only when relevant.
 - User information is judged by findability, understanding, action, recovery, and real task evidence—not readability alone.
-- Static validation is not proof of live routing, user comprehension, accessibility conformance, or formal standards conformance.
+- Static validation is not proof of live routing, tool availability, dogfooding, automated UAT, user comprehension, accessibility conformance, or formal standards conformance.
 
 See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REPOSITORY-AUDIT.md) for findings, limits, and package relationships. [`PACKAGE-VALIDATION.json`](PACKAGE-VALIDATION.json) covers static source and package structure only; it is not a runtime-quality, usability, accessibility, or standards-conformance claim.
 
 ## Release integrity
 
-The V8.8.0 candidate preserves the restored V8.7.0 architecture. Release packages are reproducibly generated from the tagged source and include SHA-256 inventories, a manifest, validation records, the license, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The V8.10.0 candidate adds one explicit-request route while retaining the V8.8 instruction-preservation baseline. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
 
 ## Security
 
 Treat skills and workflow instructions as executable policy. Review them before installation. Do not auto-update or run untrusted hooks or installers. See [SECURITY.md](SECURITY.md).
 
-## License
+## Licence
 
 MIT. See [LICENSE](LICENSE).
 

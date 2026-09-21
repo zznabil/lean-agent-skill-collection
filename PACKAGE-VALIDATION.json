@@ -1,9 +1,9 @@
 {
-  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims policy presence and fixture integrity, not semantic or model-behaviour proof",
+  "scope": "static package, policy, inventory, reference, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, quick-mode-contract, and archive validation; not live host behaviour or formal conformance; direct-claims and quick-mode policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.8.0",
-  "skills_expected": 23,
-  "skills_validated": 23,
+  "version": "8.10.0",
+  "skills_expected": 24,
+  "skills_validated": 24,
   "manual_only_skills": [
     "gauntlet-loop",
     "get-it-done",
@@ -22,6 +22,7 @@
     "merge-conflicts",
     "office-files",
     "plan",
+    "quick-mode",
     "release",
     "research",
     "review",
@@ -33,8 +34,8 @@
   ],
   "considerate_agency": {
     "global": true,
-    "local_fallbacks": 22,
-    "adapters": 23,
+    "local_fallbacks": 23,
+    "adapters": 24,
     "act_ask_do_not_act": true
   },
   "adaptive_prose": {
@@ -66,12 +67,13 @@
     "static_scenarios": 48
   },
   "warnings": [
-    "Live model behaviour, routing, user comprehension, accessibility, task success, and human satisfaction were not measured.",
+    "Live model behaviour, routing, user comprehension, accessibility, task success, human satisfaction, dogfooding, and automated UAT were not measured.",
     "Named standards and project influences do not establish formal conformance.",
     "The Unlazy runtime, checker, installer, approval store, dispatch recorder, and Stop hook are not bundled.",
     "Hermes runtime continuation, tool schemas, profiles, memory, caching, and computer-use enforcement are not bundled or claimed equivalent.",
+    "Quick Mode names possible interaction tools but does not bundle or guarantee CDP, Browser Relay, CUA, browser automation, native automation, accounts, or runtimes.",
     "Overlapping profiles must not be installed together.",
-    "Direct-claims fixtures are authored expectations, not live agent outputs. String-presence guards do not prove semantic compliance."
+    "Direct-claims and Quick Mode fixtures are authored expectations, not live agent outputs. String-presence guards do not prove semantic compliance."
   ],
   "errors": [],
   "passed": true,
@@ -84,6 +86,7 @@
     "get_it_done_skills": [
       "gauntlet-loop",
       "get-it-done",
+      "quick-mode",
       "teach",
       "wait-what",
       "writing"
@@ -120,14 +123,26 @@
     "direct_for_single_decisive_check": true,
     "extra_scrutiny_requires_distinct_evidence_gap": true,
     "safety_and_correctness_floor_immutable": true,
-    "no_new_routed_skill": true,
+    "automatic_low_scrutiny_route": false,
+    "v8_5_no_new_routed_skill_decision_retained_as_history": true,
     "scenario_file": "docs/evals/proportional-rigor-scenarios-v8.5.0.csv",
-    "static_scenarios": 48
+    "static_scenarios": 48,
+    "explicit_request_quick_mode_exception": true
   },
-  "maintenance": {
-    "windows_powershell_5_1_utf8_validation": true,
-    "skill_behavior_changed_from_v8_5_1": true,
-    "skill_behavior_changed_from_v8_6_0": true
+  "quick_mode": {
+    "included": true,
+    "default_validation": "SMOKE",
+    "dogfood_optional": true,
+    "automated_uat_optional": true,
+    "selected_validation_becomes_required": true,
+    "real_project_interaction_required": true,
+    "static_inspection_not_interaction_evidence": true,
+    "production_readiness_default": "NOT_ASSESSED",
+    "scenario_file": "docs/evals/quick-mode-scenarios-v8.10.0.csv",
+    "static_scenarios": 24,
+    "live_host_evaluated": false,
+    "explicit_request_only": true,
+    "natural_language_selectable": true
   },
   "outcome_first_delivery": {
     "global_principles": true,
@@ -163,6 +178,18 @@
     "contract": "docs/evals/prose-preservation-v8.8.0.json",
     "baseline_commit": "b55974b291218862c26b36c6d9d6682a3db097d4",
     "live_host_evaluated": false,
-    "formal_conformance_claimed": false
+    "formal_conformance_claimed": false,
+    "allowed_additive_skill": "quick-mode",
+    "allowed_profiles": [
+      "core",
+      "engineering",
+      "complete",
+      "get-it-done"
+    ]
+  },
+  "maintenance": {
+    "windows_powershell_5_1_utf8_validation": true,
+    "skill_behavior_changed_from_v8_5_1": true,
+    "skill_behavior_changed_from_v8_6_0": true
   }
 }

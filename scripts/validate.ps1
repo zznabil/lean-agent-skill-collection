@@ -71,6 +71,18 @@ function Test-DirectClaimsMetadata([object]$Contract, [string]$Label) {
     }
 }
 
+function Test-QuickModeMetadata([object]$Contract, [bool]$ExpectedIncluded, [string]$Label) {
+    if ($null -eq $Contract) { Add-Failure "quick-mode metadata missing in $Label"; return }
+    if ([bool]$Contract.included -ne $ExpectedIncluded) { Add-Failure "quick-mode inclusion mismatch in $Label"; return }
+    if (-not $ExpectedIncluded) { return }
+    foreach ($name in @('explicit_request_only','natural_language_selectable','dogfood_optional','automated_uat_optional','selected_validation_becomes_required','real_project_interaction_required','static_inspection_not_interaction_evidence')) {
+        if ($Contract.$name -ne $true) { Add-Failure "quick-mode metadata must enable $name in $Label" }
+    }
+    if ($Contract.default_validation -ne 'SMOKE') { Add-Failure "quick-mode default validation must be SMOKE in $Label" }
+    if ($Contract.production_readiness_default -ne 'NOT_ASSESSED') { Add-Failure "quick-mode production readiness must default to NOT_ASSESSED in $Label" }
+    if ($Contract.live_host_evaluated -ne $false) { Add-Failure "quick-mode metadata must not claim live host evaluation in $Label" }
+}
+
 function Test-MetadataContracts {
     try {
         $plugin = Get-Content -Raw (Join-Path $repoRoot '.codex-plugin/plugin.json') | ConvertFrom-Json
@@ -90,11 +102,12 @@ function Test-MetadataContracts {
     $rigor = $validation.proportional_rigor
     $delivery = $validation.outcome_first_delivery
     $completeCount = @($profiles.profiles.complete.skills).Count
-    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48 -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier -or $proof.scenario_file -ne 'docs/evals/proof-integrity-scenarios-v8.4.0.csv' -or $proof.static_scenarios -ne 40 -or -not $rigor.global_principles -or @($rigor.modes).Count -ne 4 -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.no_new_routed_skill -or $rigor.scenario_file -ne 'docs/evals/proportional-rigor-scenarios-v8.5.0.csv' -or $rigor.static_scenarios -ne 48 -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported -or $delivery.scenario_file -ne 'docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv' -or $delivery.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
+    if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $completeCount -or $validation.skills_validated -ne $completeCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48 -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier -or $proof.scenario_file -ne 'docs/evals/proof-integrity-scenarios-v8.4.0.csv' -or $proof.static_scenarios -ne 40 -or -not $rigor.global_principles -or @($rigor.modes).Count -ne 4 -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or $rigor.automatic_low_scrutiny_route -ne $false -or $rigor.explicit_request_quick_mode_exception -ne $true -or $rigor.v8_5_no_new_routed_skill_decision_retained_as_history -ne $true -or $rigor.scenario_file -ne 'docs/evals/proportional-rigor-scenarios-v8.5.0.csv' -or $rigor.static_scenarios -ne 48 -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported -or $delivery.scenario_file -ne 'docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv' -or $delivery.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, Quick Mode, or human-usable-information contract is inaccurate' }
     Test-DirectClaimsMetadata $validation.direct_claims 'source metadata'
+    Test-QuickModeMetadata $validation.quick_mode $true 'source metadata'
     $licensePath = Join-Path $repoRoot 'LICENSE'
     if (-not (Test-Path -LiteralPath $licensePath) -or (Get-Content -Raw $licensePath) -notmatch '^MIT License') { Add-Failure 'MIT LICENSE is missing or malformed' }
-    if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse|direct-claims' })) { Add-Pass 'metadata, version, validation-scope, and license contracts' }
+    if (-not ($failures | Where-Object { $_ -match 'manifest|profile definition|CITATION|PACKAGE-VALIDATION|LICENSE|metadata parse|direct-claims|quick-mode' })) { Add-Pass 'metadata, version, validation-scope, Quick Mode, and license contracts' }
     return $profiles
 }
 
@@ -110,6 +123,7 @@ function Test-SkillTree([object]$Profiles) {
         'release'=@('SUPPLY-CHAIN.md'); 'review'=@('LANES.md'); 'skill-design'=@('PLAYBOOKS.md'); 'triage'=@('INCIDENT.md');
         'writing'=@('USER-INFORMATION.md')
     }
+    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
     foreach ($dir in $skillDirs) {
         $skillPath = Join-Path $dir.FullName 'SKILL.md'; $adapterPath = Join-Path $dir.FullName 'agents/openai.yaml'
         if (-not (Test-Path -LiteralPath $skillPath -PathType Leaf)) { Add-Failure "missing skills/$($dir.Name)/SKILL.md"; continue }
@@ -129,16 +143,25 @@ function Test-SkillTree([object]$Profiles) {
         if ($dir.Name -ne 'wait-what' -and $text -notmatch '(?m)^\*\*User-facing:\*\*') { Add-Failure "missing user-facing fallback for $($dir.Name)" }
         if ($adapter -notmatch 'outcome-first' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'outcome first')) { Add-Failure "missing adapter outcome-first reinforcement for $($dir.Name)" }
         if ($adapter -notmatch 'considerate-agency' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'considerate follow-through')) { Add-Failure "missing adapter considerate-agency reinforcement for $($dir.Name)" }
-        $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
         $allowImplicit = [regex]::Match($adapter, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$').Groups[1].Value
         if (($manualNames -contains $dir.Name) -and $allowImplicit -ne 'false') { Add-Failure "manual skill allows implicit invocation: $($dir.Name)" }
-        if ($dir.Name -eq 'wait-what' -and $allowImplicit -ne 'false') { Add-Failure 'wait-what must require explicit invocation' }
+        if ($dir.Name -eq 'quick-mode' -and $allowImplicit -ne 'true') { Add-Failure 'quick-mode must allow natural-language selection after an explicit request' }
         if ($supportFiles.ContainsKey($dir.Name)) {
             foreach ($support in $supportFiles[$dir.Name]) {
                 if (-not (Test-Path -LiteralPath (Join-Path $dir.FullName $support)) -or $text -notmatch [regex]::Escape($support)) { Add-Failure "required support reference missing for $($dir.Name)/$support" }
             }
         }
     }
+
+    $quickPath = Join-Path $repoRoot 'skills/quick-mode/SKILL.md'
+    if (-not (Test-Path -LiteralPath $quickPath)) { Add-Failure 'quick-mode skill missing' }
+    else {
+        $quickText = [IO.File]::ReadAllText($quickPath, [Text.Encoding]::UTF8)
+        foreach ($needle in @('Quick Mode requires an explicit user request','one cheap smoke check','Chrome DevTools or the Chrome DevTools Protocol','OMP Browser Relay','CUA or computer-use control','Static source inspection','AUTOMATED UAT','Production readiness:','NOT ASSESSED')) {
+            if ($quickText.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) { Add-Failure "quick-mode contract missing '$needle'" }
+        }
+    }
+
     foreach ($relative in @('AGENTS.md','ENGINEERING-CORE.md')) {
         Test-DirectClaimsText ([IO.File]::ReadAllText((Join-Path $repoRoot $relative), [Text.Encoding]::UTF8)) $relative
     }
@@ -214,7 +237,7 @@ function Test-SkillTree([object]$Profiles) {
         }
     }
 
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information|proof-integrity|proportional-rigor|outcome-first delivery|direct-claims' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, human-usable-information, proof-integrity, proportional-rigor, and outcome-first-delivery contracts" }
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information|proof-integrity|proportional-rigor|outcome-first delivery|direct-claims|quick-mode' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, Quick Mode, human-usable-information, proof-integrity, proportional-rigor, and outcome-first-delivery contracts" }
 }
 
 function Test-SourceIntegrity {
@@ -279,12 +302,13 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
             $actualSkills=@($entries | ForEach-Object { if($_.FullName.Replace('\','/') -match ('^'+[regex]::Escape($root)+'skills/([^/]+)/SKILL\.md$')){$matches[1]} } | Sort-Object -Unique)
             $expectedSkills=@($ProfileDefinition.skills | ForEach-Object {[string]$_} | Sort-Object)
             if(Compare-Object $expectedSkills $actualSkills){ Add-Failure "package $ProfileName skill inventory mismatch" }
-            $directMetadataEntry = $exact[$root+'PACKAGE-VALIDATION.json']
-            if ($directMetadataEntry) {
+            $metadataEntry = $exact[$root+'PACKAGE-VALIDATION.json']
+            if ($metadataEntry) {
                 try {
-                    $directMetadata = (Read-ZipEntryText $directMetadataEntry) | ConvertFrom-Json
-                    Test-DirectClaimsMetadata $directMetadata.direct_claims ("package " + $ProfileName)
-                } catch { Add-Failure "direct-claims package metadata parse failure: $ProfileName" }
+                    $metadata = (Read-ZipEntryText $metadataEntry) | ConvertFrom-Json
+                    Test-DirectClaimsMetadata $metadata.direct_claims ("package " + $ProfileName)
+                    Test-QuickModeMetadata $metadata.quick_mode (@($ProfileDefinition.skills) -contains 'quick-mode') ("package " + $ProfileName)
+                } catch { Add-Failure "package metadata parse failure: $ProfileName" }
             }
             $directTargets = @('AGENTS.md') + @($ProfileDefinition.skills | ForEach-Object { 'skills/' + [string]$_ + '/SKILL.md' })
             foreach ($relative in $directTargets) {
@@ -328,7 +352,7 @@ function Test-MasterArchive([string]$Path,[string]$Directory,[string]$Version) {
 function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     if(-not(Test-Path -LiteralPath $Directory -PathType Container)){Add-Failure "artifact directory missing: $Directory";return}
     try{$manifest=Get-Content -Raw (Join-Path $Directory 'RELEASE-MANIFEST.json')|ConvertFrom-Json}catch{Add-Failure "release manifest parse failure";return}
-    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true){Add-Failure 'release manifest contract failure'}
+    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne @($Profiles.profiles.complete.skills).Count -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true -or $manifest.quick_mode -ne $true){Add-Failure 'release manifest contract failure'}
     if ($manifest.direct_claims -ne $true) { Add-Failure 'release manifest direct-claims flag missing' }
     $declared=@{}
     foreach($line in Get-Content (Join-Path $Directory 'CHECKSUMS.sha256')){if($line -match '^([0-9a-f]{64})\s+(.+)$'){$declared[$matches[2]]=$matches[1]}else{Add-Failure "malformed release checksum line: $line"}}
@@ -343,7 +367,7 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     }
     $master=Join-Path $Directory "openai-native-skill-collections-v$($Profiles.version)-all.zip"
     if(-not(Test-Path -LiteralPath $master)){Add-Failure 'master release archive missing'}else{Test-ZipArchive $master $null $null $Profiles.version;Test-MasterArchive $master $Directory $Profiles.version}
-    if(-not($failures|Where-Object{$_ -match 'archive|ZIP|package|release manifest|release checksum|checksum in'})){Add-Pass 'release archives, inventories, licensing, hashes, paths, CRC reads, and executable/symlink checks'}
+    if(-not($failures|Where-Object{$_ -match 'archive|ZIP|package|release manifest|release checksum|checksum in'})){Add-Pass 'release archives, inventories, licensing, hashes, paths, CRC reads, Quick Mode metadata, and executable/symlink checks'}
 }
 
 if (-not $FunctionsOnly) {

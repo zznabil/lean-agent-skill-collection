@@ -1,16 +1,16 @@
-# Lean Agent Skills V8.7.0 catalog
+# Lean Agent Skills V8.10.0 catalogue
 
-V8.7.0 keeps the same 23 canonical skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
+V8.10.0 contains 24 canonical skills and six profiles. `quick-mode` is the sole new route: an explicit-request fast path for a user-authorised smallest useful working slice. The 23 V8.8 routes, descriptions, source references, and invocation policies remain unchanged.
 
-The direct-claims overlay is present in every profile and standalone skill fallback. It changes reporting, not specialist routing or acceptance criteria.
+Outcome-first delivery remains a global overlay and local fallback, not a routed skill. The direct-claims overlay remains present in every profile and standalone skill fallback. These overlays change presentation and reporting, not specialist routing or acceptance criteria.
 
-| Skill | Profile role | Invocation | Principal explicit sources |
+| Skill | Profile role | Invocation | Principal explicit sources or contract |
 |---|---|---|---|
 | `architecture` | engineering, complete | implicit | ISO 42010; ATAM; ADR/MADR; OpenAPI/JSON Schema; RFC 9457/9413; AsyncAPI/CloudEvents |
 | `browser-automation` | engineering, complete | implicit | WCAG 2.2; WAI-ARIA APG; ISO 9241-110/112/171; ISO 21801-1; ISO/IEC 23859 and 29138 |
 | `cli-design` | engineering, complete | implicit | RFC 9413; IEC/IEEE 82079-1-inspired actionable help and recovery |
 | `debug` | engineering, complete | implicit | Evidence-first debugging practices |
-| `experiment` | engineering, complete | implicit | GQM; ISO 31000; Chaos Engineering when authorized |
+| `experiment` | engineering, complete | implicit | GQM; ISO 31000; Chaos Engineering when authorised |
 | `gauntlet-loop` | core, engineering, complete, get-it-done, gauntlet | manual | ISO 25010; ISO 29119; ISO 15026-2; user-information, ASVS, WCAG, and AI-assurance lanes as applicable |
 | `get-it-done` | core, engineering, complete, get-it-done | manual | ISO 29148; ISO 12207; BCP 14; Unlazy-informed proof integrity |
 | `grilling` | complete | manual | ISO 29148; EARS; BCP 14 |
@@ -20,6 +20,7 @@ The direct-claims overlay is present in every profile and standalone skill fallb
 | `office-files` | complete | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514; ISO 9241-112:2025; format-aware validation |
 | `plan` | core, engineering, complete | implicit | ISO 29148; EARS; BCP 14; ISO 25010; ISO 31000 family; ISO/IEC 29138-1/-4 |
 | `project-context` | engineering, complete | manual | ISO 5259; ISO 25012/25024; Model/Data Cards; FAIR; ISO 42005 |
+| `quick-mode` | core, engineering, complete, get-it-done | implicit | User-authorised reduced scope; smoke by default; selected dogfooding/UAT through real interaction tools; visible deferrals; no production-readiness claim |
 | `release` | engineering, complete | implicit | ISO 12207; SemVer; Conventional Commits; SLSA/SPDX/CycloneDX/Reproducible Builds |
 | `research` | core, engineering, complete | implicit | Primary-source and benchmark-regime disclosure practice |
 | `review` | core, engineering, complete | implicit | ISO 20246; ISO 25010; ISO 15026-2; user-information sources; Google code-review; evidence-backed simplification |
@@ -29,3 +30,11 @@ The direct-claims overlay is present in every profile and standalone skill fallb
 | `triage` | engineering, complete | implicit | NIST SP 800-61r3; Google SRE |
 | `wait-what` | core, engineering, complete, communication, get-it-done, gauntlet | manual | ASD-STE100 Issue 9; ISO 24495-1; W3C COGA; ISO/IEC 23859; ISO 21801-1; ISO 704; Diátaxis; BCP 14 |
 | `writing` | complete, communication, get-it-done, gauntlet | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859; ISO 21801-1; ISO 9241-112/171; ISO/IEC 29138; ISO 704; ISO 24495-1; COGA; Diátaxis |
+
+## Quick Mode boundary
+
+`quick-mode` does not auto-activate from words such as “quick question” or “short answer”. It requires an explicit fast-path request.
+
+Default evidence is one cheap smoke check. Dogfooding and automated UAT are optional until selected; after selection they require tool-mediated use of the real project. Static inspection cannot substitute for the selected interaction.
+
+Use `implement`, `test`, `get-it-done`, or `gauntlet-loop` when the user requests full hardening, sustained completion, or adversarial acceptance.

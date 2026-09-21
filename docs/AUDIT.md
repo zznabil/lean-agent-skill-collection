@@ -1,3 +1,30 @@
+# V8.10.0 Quick Mode acceptance
+
+Use [the Quick Mode design](QUICK-MODE-DESIGN-v8.10.0.md) for the current change and evidence boundary.
+
+## Required source and package properties
+
+- `quick-mode` is natural-language selectable only after an explicit user request and appears exactly once in Core, Engineering, Complete, and Get It Done.
+- Communication and Gauntlet do not contain Quick Mode.
+- Removing the declared Quick Mode addition reconstructs the exact V8.8 profile memberships.
+- The existing 25 V8.8 instruction roots and frozen references remain unchanged.
+- The default validation mode is one smoke check.
+- Selected dogfooding requires tool-mediated use of the actual running project.
+- Selected automated UAT requires one replayable user journey with a real assertion.
+- Source inspection, compilation alone, unit tests alone, and an uninteracted screenshot are rejected as interaction evidence.
+- Unavailable tools produce `BLOCKED` or `UNRUN`, not an invented pass.
+- Quick Mode does not claim production readiness or weaken permission, safety, data, security, compatibility, or accessibility floors.
+
+## Automated gates
+
+Run deterministic double builds, validator rejection controls, source/package validation, repository auditing, and V8.8 prose-preservation checks on PowerShell 7 and Windows PowerShell 5.1. Validate 24 unique Quick Mode fixtures across activation, anti-trigger, scope, safety, smoke, dogfooding, automated UAT, and unavailable-tool categories. Verify the exact release mirror and every profile package.
+
+These are static source and distribution checks. They do not prove live host selection, tool availability, successful dogfooding, successful automated UAT, improved task completion, or production safety.
+
+This pull request is review-only. Do not infer merge, tagging, publication, or local installation from a passing PR check.
+
+---
+
 # V8.8.0 prose-preservation acceptance
 
 Use [the V8.8.0 design](PROSE-CLARITY-v8.8.0.md) for the current change, source walkthroughs, frozen baseline, reconstruction checks and evidence limits. Existing V8.7 checks remain required; add `scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a` on both PowerShell hosts. Execution results belong to the exact CI revision, not this document.
@@ -37,4 +64,4 @@ String-presence checks protect distribution integrity but do not prove that an a
 
 ## Release rule
 
-Merge only after the current PR revision passes both hosts. Wait for exact merged-commit CI before creating a new annotated tag. Build assets from that commit, publish without overwriting an earlier version, download all assets, compare bytes, and read back the tag and release. Remove only this release's temporary branches after success.
+Merge only after the current PR revision passes both hosts. Wait for exact merged-commit CI before creating a new annotated tag. Build fresh assets, publish a separate public release, download every asset, compare bytes, and read back the tag and release. Earlier releases remain unchanged.

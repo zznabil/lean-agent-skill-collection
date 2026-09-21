@@ -1,19 +1,20 @@
 {
-  "version": "8.8.0",
-  "release": "v8.8.0",
-  "release_title": "Explicit Instructions, Clearer Prose",
-  "release_summary": "Preserve all 23 skills and explicit contracts while making agent-facing and user-facing instructions easier to follow. Clarify actions, conditions, exceptions, evidence and recovery without deleting standards or loading paths.",
+  "version": "8.10.0",
+  "release": "v8.10.0",
+  "release_title": "Quick Mode",
+  "release_summary": "Add an explicit manual fast path that delivers the smallest useful working slice with one cheap reality check and visible deferrals. Optional dogfooding and automated UAT require real tool-mediated interaction once selected.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
       "title": "Lean Agent Skills Core",
-      "description": "Eight compact skills for communication, planning, research, review, and long-horizon execution.",
+      "description": "Nine compact skills for communication, planning, research, review, fast-path delivery, and long-horizon execution.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
         "get-it-done",
         "handoff",
         "plan",
+        "quick-mode",
         "research",
         "review",
         "skill-design",
@@ -23,7 +24,7 @@
     "engineering": {
       "plugin_name": "lean-agent-skills-engineering",
       "title": "Lean Agent Skills Engineering",
-      "description": "Nineteen compact skills for reliable software and long-horizon agent work.",
+      "description": "Twenty compact skills for reliable software, fast-path delivery, and long-horizon agent work.",
       "include_engineering_core": true,
       "skills": [
         "architecture",
@@ -38,6 +39,7 @@
         "merge-conflicts",
         "plan",
         "project-context",
+        "quick-mode",
         "release",
         "research",
         "review",
@@ -50,7 +52,7 @@
     "complete": {
       "plugin_name": "lean-agent-skills-complete",
       "title": "Lean Agent Skills Complete",
-      "description": "Twenty-three compact skills for engineering, research, communication, documents, experiments, and quality work.",
+      "description": "Twenty-four compact skills for engineering, research, communication, documents, experiments, fast-path delivery, and quality work.",
       "include_engineering_core": true,
       "skills": [
         "architecture",
@@ -67,6 +69,7 @@
         "office-files",
         "plan",
         "project-context",
+        "quick-mode",
         "release",
         "research",
         "review",
@@ -92,11 +95,12 @@
     "get-it-done": {
       "plugin_name": "get-it-done-pack",
       "title": "Get It Done Pack",
-      "description": "Five compact skills for long-horizon execution, adversarial acceptance, outcome-first communication, teaching, writing, and human-usable information.",
+      "description": "Six compact skills for fast-path and long-horizon execution, adversarial acceptance, teaching, writing, and human-usable information.",
       "include_engineering_core": true,
       "skills": [
         "gauntlet-loop",
         "get-it-done",
+        "quick-mode",
         "teach",
         "wait-what",
         "writing"

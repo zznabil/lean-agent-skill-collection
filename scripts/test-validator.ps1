@@ -63,19 +63,22 @@ try {
     if (-not ($failures | Where-Object { $_ -eq 'master archive inventory mismatch' })) {
         throw 'Validator self-test did not reject a malformed master archive.'
     }
-    # These controls test policy-presence and metadata guards, not live prose quality.
+
+    # These controls test policy presence and metadata guards, not live prose or tool behaviour.
     $baselineText = [IO.File]::ReadAllText((Join-Path $repoRoot 'AGENTS.md'), [Text.Encoding]::UTF8)
     $baselineMetadata = [IO.File]::ReadAllText((Join-Path $repoRoot 'PACKAGE-VALIDATION.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json
     $failures.Clear()
     Test-DirectClaimsText $baselineText 'positive control'
     Test-DirectClaimsMetadata $baselineMetadata.direct_claims 'positive control'
-    if ($failures.Count -ne 0) { throw 'Direct-claims positive controls failed' }
-    $mutationCount = 0
+    Test-QuickModeMetadata $baselineMetadata.quick_mode $true 'positive control'
+    if ($failures.Count -ne 0) { throw 'Policy positive controls failed' }
+
+    $directMutationCount = 0
     foreach ($needle in @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')) {
         $failures.Clear()
         Test-DirectClaimsText ($baselineText.Replace($needle, 'removed guard')) 'negative control'
         if ($failures.Count -eq 0) { throw "Direct-claims guard failed to detect removal: $needle" }
-        $mutationCount++
+        $directMutationCount++
     }
     foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route','runtime_enforcement','live_host_evaluated')) {
         $failures.Clear()
@@ -83,11 +86,35 @@ try {
         $bad.$name = -not [bool]$bad.$name
         Test-DirectClaimsMetadata $bad 'negative control'
         if ($failures.Count -eq 0) { throw "Direct-claims metadata guard failed to detect mutation: $name" }
-        $mutationCount++
+        $directMutationCount++
     }
+    if ($directMutationCount -ne 14) { throw 'Direct-claims negative-control count drifted' }
+
+    $quickMutationCount = 0
+    foreach ($name in @('included','explicit_request_only','natural_language_selectable','dogfood_optional','automated_uat_optional','selected_validation_becomes_required','real_project_interaction_required','static_inspection_not_interaction_evidence','live_host_evaluated')) {
+        $failures.Clear()
+        $bad = ($baselineMetadata.quick_mode | ConvertTo-Json | ConvertFrom-Json)
+        $bad.$name = -not [bool]$bad.$name
+        Test-QuickModeMetadata $bad $true 'negative control'
+        if ($failures.Count -eq 0) { throw "Quick Mode metadata guard failed to detect mutation: $name" }
+        $quickMutationCount++
+    }
+    foreach ($case in @(
+        @('default_validation','NONE'),
+        @('production_readiness_default','READY')
+    )) {
+        $failures.Clear()
+        $bad = ($baselineMetadata.quick_mode | ConvertTo-Json | ConvertFrom-Json)
+        $bad.($case[0]) = $case[1]
+        Test-QuickModeMetadata $bad $true 'negative control'
+        if ($failures.Count -eq 0) { throw "Quick Mode metadata guard failed to detect mutation: $($case[0])" }
+        $quickMutationCount++
+    }
+    if ($quickMutationCount -ne 11) { throw 'Quick Mode negative-control count drifted' }
+
     $failures.Clear()
-    if ($mutationCount -ne 14) { throw 'Direct-claims negative-control count drifted' }
-    Write-Host "PASS: direct-claims positive controls and 14 deliberate policy/metadata mutations" -ForegroundColor Green
+    Write-Host "PASS: direct-claims positive controls and $directMutationCount deliberate policy/metadata mutations" -ForegroundColor Green
+    Write-Host "PASS: Quick Mode positive control and $quickMutationCount deliberate metadata mutations" -ForegroundColor Green
     Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
 }
 finally {

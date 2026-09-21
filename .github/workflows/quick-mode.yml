@@ -1,0 +1,119 @@
+name: Validate Quick Mode
+
+on:
+  push:
+    branches: [feat/quick-mode-skill]
+    paths:
+      - '.codex-plugin/plugin.json'
+      - '.github/workflows/quick-mode.yml'
+      - 'CHANGELOG.md'
+      - 'CITATION.cff'
+      - 'PACKAGE-VALIDATION.json'
+      - 'README.md'
+      - 'UPSTREAM-CHECKSUMS.sha256'
+      - 'docs/AUDIT.md'
+      - 'docs/QUICK-MODE-DESIGN-v8.10.0.md'
+      - 'docs/REPOSITORY-AUDIT.md'
+      - 'docs/SKILL-CATALOG.md'
+      - 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+      - 'release-profiles.json'
+      - 'releases/v8.10.0/**'
+      - 'scripts/**'
+      - 'skills/quick-mode/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.codex-plugin/plugin.json'
+      - '.github/workflows/quick-mode.yml'
+      - 'CHANGELOG.md'
+      - 'CITATION.cff'
+      - 'PACKAGE-VALIDATION.json'
+      - 'README.md'
+      - 'UPSTREAM-CHECKSUMS.sha256'
+      - 'docs/AUDIT.md'
+      - 'docs/QUICK-MODE-DESIGN-v8.10.0.md'
+      - 'docs/REPOSITORY-AUDIT.md'
+      - 'docs/SKILL-CATALOG.md'
+      - 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+      - 'release-profiles.json'
+      - 'releases/v8.10.0/**'
+      - 'scripts/**'
+      - 'skills/quick-mode/**'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+
+jobs:
+  validate-pwsh:
+    name: Quick Mode contract (PowerShell 7)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Build twice and prove reproducibility
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw "Build output file counts differ" }
+          foreach ($file in $files) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
+              throw "Non-deterministic output: $($file.Name)"
+            }
+          }
+      - name: Test validator rejection controls
+        shell: pwsh
+        run: ./scripts/test-validator.ps1
+      - name: Validate source and release artifacts
+        shell: pwsh
+        run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Audit repository integrity
+        shell: pwsh
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Verify prose preservation and packaged standalone instructions
+        shell: pwsh
+        run: ./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a
+
+  validate-windows-powershell:
+    name: Quick Mode contract (Windows PowerShell 5.1)
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Build twice and prove reproducibility
+        shell: powershell
+        run: |
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
+          ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
+          $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
+          $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
+          if ($files.Count -ne $otherFiles.Count) { throw "Build output file counts differ" }
+          foreach ($file in $files) {
+            $other = Join-Path ./artifacts/repro-b $file.Name
+            if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
+            if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
+              throw "Non-deterministic output: $($file.Name)"
+            }
+          }
+      - name: Test validator rejection controls
+        shell: powershell
+        run: ./scripts/test-validator.ps1
+      - name: Validate source and release artifacts
+        shell: powershell
+        run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Audit repository integrity
+        shell: powershell
+        run: ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/repro-a
+      - name: Verify prose preservation and packaged standalone instructions
+        shell: powershell
+        run: ./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/repro-a

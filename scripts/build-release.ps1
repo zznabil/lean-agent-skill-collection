@@ -201,7 +201,7 @@ Install this ZIP as a skills-only plugin where supported, or copy the directorie
 $engineeringLine- Do not install overlapping profiles together.
 - Other agent hosts can ignore ``agents/openai.yaml`` and use the same ``SKILL.md`` files.
 
-See ``PACKAGE-VALIDATION.json`` for static checks. Runtime activation depends on the installed host and available tools.
+See ``PACKAGE-VALIDATION.json`` for static checks. Runtime activation and Quick Mode interaction depend on the installed host and available tools.
 "@
 }
 
@@ -221,9 +221,11 @@ function New-PackageValidationJson([string]$ProfileName, [object]$ProfileDefinit
     $manual = @(Get-ManualSkills $ProfileDefinition.skills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join ",`n"
     $includesWriting = @($ProfileDefinition.skills) -contains 'writing'
     $includesWritingJson = if ($includesWriting) { 'true' } else { 'false' }
+    $includesQuick = @($ProfileDefinition.skills) -contains 'quick-mode'
+    $includesQuickJson = if ($includesQuick) { 'true' } else { 'false' }
     return @"
 {
-  "scope": "static package, policy, inventory, reference, and archive validation; not live host behaviour",
+  "scope": "static package, policy, inventory, reference, Quick Mode, and archive validation; not live host behaviour",
   "package": $(ConvertTo-JsonString $ProfileName),
   "plugin_name": $(ConvertTo-JsonString ([string]$ProfileDefinition.plugin_name)),
   "version": $(ConvertTo-JsonString $Version),
@@ -263,7 +265,22 @@ $skills
     "direct_for_single_decisive_check": true,
     "extra_scrutiny_requires_distinct_evidence_gap": true,
     "safety_and_correctness_floor_immutable": true,
-    "no_new_routed_skill": true
+    "automatic_low_scrutiny_route": false,
+    "explicit_request_quick_mode_exception": true,
+    "v8_5_no_new_routed_skill_decision_retained_as_history": true
+  },
+  "quick_mode": {
+    "included": $includesQuickJson,
+    "explicit_request_only": true,
+    "natural_language_selectable": true,
+    "default_validation": "SMOKE",
+    "dogfood_optional": true,
+    "automated_uat_optional": true,
+    "selected_validation_becomes_required": true,
+    "real_project_interaction_required": true,
+    "static_inspection_not_interaction_evidence": true,
+    "production_readiness_default": "NOT_ASSESSED",
+    "live_host_evaluated": false
   },
   "outcome_first_delivery": {
     "global_principles": true,
@@ -292,7 +309,8 @@ $skills
     "easy_to_read_requires_intended_user_review": true
   },
   "warnings": [
-    "Live model behaviour and human satisfaction were not measured.",
+    "Live model behaviour, dogfooding, automated UAT, and human satisfaction were not measured.",
+    "Quick Mode interaction tools are not bundled or guaranteed.",
     "Overlapping profiles must not be installed together."
   ],
   "errors": [],
@@ -362,7 +380,7 @@ $manifest = @"
 {
   "release": $(ConvertTo-JsonString $releaseName),
   "version": $(ConvertTo-JsonString $version),
-  "scope": "deterministic package build and static validation; not live host-routing or behavioural validation",
+  "scope": "deterministic package build and static validation; not live host-routing, dogfooding, UAT, or behavioural validation",
   "profiles": $($profileProperties.Count),
   "unique_skills": $(@($definition.profiles.complete.skills).Count),
   "considerate_agency": true,
@@ -371,6 +389,7 @@ $manifest = @"
   "human_usable_information": true,
   "proof_integrity": true,
   "proportional_rigor": true,
+  "quick_mode": true,
   "outcome_first_delivery": true,
   "direct_claims": true,
   "skill_content_changed_from_v8_0_0": true,
