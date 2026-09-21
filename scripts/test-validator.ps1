@@ -148,7 +148,8 @@ try {
     $auditPackagePath = Join-Path $repoRoot 'PACKAGE-VALIDATION.json'
     $auditScriptPath = Join-Path $repoRoot 'scripts/audit-repository.ps1'
     $auditOriginalPackage = [IO.File]::ReadAllText($auditPackagePath, [Text.Encoding]::UTF8)
-    $auditShells = @('pwsh', 'powershell.exe')
+    $auditShells = @('pwsh')
+    if (Get-Command powershell.exe -ErrorAction SilentlyContinue) { $auditShells += 'powershell.exe' }
     $auditTypeCases = @(
         @(@('profile_composition', 'communication_embedded_in_get_it_done'), 'profile composition communication_embedded_in_get_it_done', 'true'),
         @(@('profile_composition', 'communication_embedded_in_gauntlet'), 'profile composition communication_embedded_in_gauntlet', 'true'),
