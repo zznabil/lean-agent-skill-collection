@@ -1,6 +1,6 @@
-# Lean Agent Skills V8.10.0 catalog
+# Lean Agent Skills V8.10.1 catalog
 
-V8.10.0 adds `quick-mode` as an explicit user-selected fast path in Core, Engineering, Complete, and Get It Done. It is not automatically selected by short questions or duration requests.
+V8.10.1 adds `quick-mode` as an explicit user-selected fast path in Core, Engineering, Complete, and Get It Done. It is not automatically selected by short questions or duration requests.
 
 V8.9.0 supplemental standards remain available in the integrated generated profiles through `packs/user-facing-standards/`; they add no adapters and retain explicit rights and public-source limitations.
 
@@ -35,4 +35,4 @@ The direct-claims overlay is present in every profile and standalone skill fallb
 | `writing` | complete, communication, get-it-done, gauntlet | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514/26513; ISO/IEC 23859; ISO 21801-1; ISO 9241-112/171; ISO/IEC 29138; ISO 704; ISO 24495-1; COGA; Diátaxis |
 ## Supplemental user-facing standards
 
-The canonical [user-facing standards pack](../packs/user-facing-standards/README.md) contributes 27 separately loadable supplemental routines to every generated release profile. Their authoritative order and source/rights links are maintained in the [supplemental catalog](../packs/user-facing-standards/CATALOG.md); these routines carry no OpenAI adapters and do not alter the 23 base task routes. Effective profile totals are core 35, engineering 46, complete 50, communication 30, get-it-done 32, and gauntlet 31.
+The canonical [user-facing standards pack](../packs/user-facing-standards/README.md) contributes 27 separately loadable supplemental routines to every generated release profile. Their authoritative order and source/rights links are maintained in the [supplemental catalog](../packs/user-facing-standards/CATALOG.md); these routines carry no OpenAI adapters and do not alter the 24 base task routes. Effective profile totals are core 36, engineering 47, complete 51, communication 30, get-it-done 33, and gauntlet 31.

@@ -1,6 +1,6 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.10.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.10.1-2563eb)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
@@ -8,7 +8,7 @@ A compact, source-browsable collection of 24 vendor-neutral agent skills for eng
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-V8.10.0 adds [`quick-mode`](skills/quick-mode/SKILL.md), an explicit user-selected fast path. It delivers the smallest useful working slice with one cheap reality check and visible deferrals. Dogfooding and automated UAT remain optional until selected; once selected, they require real tool-mediated interaction with the running project. Read the [design decision](docs/QUICK-MODE-DESIGN-v8.10.0.md).
+V8.10.1 adds strict metadata validation for [`quick-mode`](skills/quick-mode/SKILL.md), an explicit user-selected fast path. It delivers the smallest useful working slice with one cheap reality check and visible deferrals. Dogfooding and automated UAT remain optional until selected; once selected, they require real tool-mediated interaction with the running project. Read the [design decision](docs/QUICK-MODE-DESIGN-v8.10.0.md) and [release notes](releases/v8.10.1/RELEASE-NOTES-v8.10.1.md).
 
 V8.9.0 integrates all 27 supplemental user-facing routines into six generated profiles while preserving the base routes and zero supplemental adapters. Effective profile totals were 35, 46, 50, 30, 32, and 31. Read the [integrated release notes](releases/v8.9.0/RELEASE-NOTES-v8.9.0.md), [supplemental pack](packs/user-facing-standards/README.md), and [rights notice](packs/user-facing-standards/THIRD-PARTY-NOTICES.md) before redistribution.
 
@@ -16,7 +16,7 @@ V8.8.0 preserves all earlier 23 skills and six profiles. It retains outcome-firs
 
 V8.7 adds **direct claims and accountable reporting** to every profile: state the supported result and actor plainly, retain genuine uncertainty, and give the next safe action. It does not ban all negation or hedging. See the [scoped decision and sources](docs/DIRECT-CLAIMS-REVIEW-v8.7.0.md).
 
-## V8.10.0: Quick Mode
+## V8.10.1: Quick Mode metadata repair
 
 Quick Mode can be selected from natural language only after an explicit user request. It does not activate for “quick question”, a request for a short answer, or a duration estimate. The user must explicitly select Quick Mode, a rough prototype, or an equivalent reduced acceptance scope.
 
@@ -43,12 +43,12 @@ Choose one profile. Do not install overlapping profiles together.
 
 | Profile | Base | Supplemental | Total | Best for | Generated package |
 |---|---:|---:|---:|---|---|
-| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.10.0.zip` |
-| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.10.0.zip` |
-| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.10.0.zip` |
-| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.10.0.zip` |
-| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.10.0.zip` |
-| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.10.0.zip` |
+| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.10.1.zip` |
+| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.10.1.zip` |
+| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.10.1.zip` |
+| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.10.1.zip` |
+| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.10.1.zip` |
+| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.10.1.zip` |
 
 The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated. Quick Mode is included in Core, Engineering, Complete, and Get It Done only.
 
@@ -75,6 +75,8 @@ The `SKILL.md` files are vendor-neutral. Hosts other than ChatGPT or Codex can i
 ```text
 skills/                       Canonical source for all 24 base task skills
 packs/user-facing-standards/ Canonical source for 27 supplemental standards
+packs/remaining-standards/ Source-only pack; excluded from generated profiles
+packs/controlled-execution/ Source-only pack; excluded from generated profiles
 .codex-plugin/                Complete-profile plugin manifest
 docs/                         Catalogue, audits, history, standards, and evaluations
 dist/v7.2/                    Historical V7.2.0 release snapshot
@@ -92,9 +94,9 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ```powershell
 ./scripts/build-release.ps1
 ./scripts/test-validator.ps1
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.10.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.10.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.10.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.10.1
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.10.1
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.10.1
 ```
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
@@ -117,7 +119,7 @@ See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REP
 
 ## Release integrity
 
-The V8.10.0 candidate adds one explicit-request route while retaining the V8.9 integrated 27-routine standards pack, zero supplemental adapters, and the V8.8 instruction-preservation baseline. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The V8.10.1 release package adds strict metadata validation for one explicit-request route while retaining the V8.9 integrated 27-routine standards pack, zero supplemental adapters, and the V8.8 instruction-preservation baseline. The remaining-standards and controlled-execution packs are source-only, excluded from generated profiles, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
 
 ## Security
 

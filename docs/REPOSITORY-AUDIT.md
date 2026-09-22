@@ -1,6 +1,6 @@
-# V8.10.0 Quick Mode repository acceptance
+# V8.10.1 Quick Mode repository acceptance
 
-The current candidate intentionally changes the canonical inventory from 23 to 24 skills. The prior V8.8 instructions remain the preservation baseline; `quick-mode` is the only added root.
+The current V8.10.1 release contains 24 canonical skills. The prior V8.8 instructions remain the preservation baseline; `quick-mode` is the only added root.
 
 ## Current candidate invariants
 

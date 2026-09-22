@@ -1,6 +1,10 @@
-# V8.10.0 Quick Mode acceptance
+# V8.10.1 Quick Mode metadata repair acceptance
 
-Use [the Quick Mode design](QUICK-MODE-DESIGN-v8.10.0.md) for the current change and evidence boundary.
+Use [the Quick Mode design](QUICK-MODE-DESIGN-v8.10.0.md) for the inherited behavior and evidence boundary.
+
+## Superseding decision record
+
+PRs #17 and #18 ultimately merged. They carry source-only remaining-standards and controlled-execution packs, excluded from the generated release profiles. Their merge superseded the earlier do-not-merge and do-not-release wording; the bundled references, licensing boundaries, public-source limitations, and non-runtime claims remain preserved. The V8.10.1 change here is a separate metadata-validation repair. Any V9.0.1 wording is historical and superseded.
 
 ## Required source and package properties
 
@@ -21,7 +25,7 @@ Run deterministic double builds, validator rejection controls, source/package va
 
 These are static source and distribution checks. They do not prove live host selection, tool availability, successful dogfooding, successful automated UAT, improved task completion, or production safety.
 
-This pull request is review-only. Do not infer merge, tagging, publication, or local installation from a passing PR check.
+The historical V8.10.0 acceptance record above does not describe the V8.10.1 release-package scope.
 
 ---
 

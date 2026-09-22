@@ -63,13 +63,53 @@ function Test-DirectClaimsText([string]$Text, [string]$Label) {
     }
 }
 
+function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
+    if ($null -eq $Value -or $Value -isnot [bool] -or $Value -ne $Expected) { Add-Failure "$Label must be the real Boolean $Expected"; return $false }
+    return $true
+}
+
+function Test-BooleanProperties([object]$Contract, [string[]]$TrueNames, [string[]]$FalseNames, [string]$Label) {
+    foreach ($name in @($TrueNames)) { Test-BooleanContract $Contract.$name $true "$Label.$name" | Out-Null }
+    foreach ($name in @($FalseNames)) { Test-BooleanContract $Contract.$name $false "$Label.$name" | Out-Null }
+}
+
 function Test-DirectClaimsMetadata([object]$Contract, [string]$Label) {
-    foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route')) {
-        if ($null -eq $Contract -or $Contract.$name -ne $true) { Add-Failure "direct-claims metadata must enable $name in $Label" }
+    Test-BooleanProperties $Contract @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route') @('runtime_enforcement','live_host_evaluated') $Label
+}
+
+function Get-AdapterRouteInventory([string[]]$Skills) {
+    $manual = New-Object System.Collections.Generic.List[string]
+    $implicit = New-Object System.Collections.Generic.List[string]
+    foreach ($skill in @($Skills)) {
+        $adapterPath = Join-Path $repoRoot (Join-Path (Join-Path 'skills' ([string]$skill)) 'agents/openai.yaml')
+        $text = Get-Content -Raw -LiteralPath $adapterPath
+        $match = [regex]::Match($text, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
+        if (-not $match.Success) { Add-Failure "adapter route declaration missing for $skill"; continue }
+        if ($match.Groups[1].Value -eq 'true') { $implicit.Add([string]$skill) } else { $manual.Add([string]$skill) }
     }
-    foreach ($name in @('runtime_enforcement','live_host_evaluated')) {
-        if ($null -eq $Contract -or $Contract.$name -ne $false) { Add-Failure "direct-claims metadata must not claim $name in $Label" }
-    }
+    return [pscustomobject]@{ Manual = $manual.ToArray(); Implicit = $implicit.ToArray() }
+}
+
+function Test-RouteInventoryContracts([object]$Profiles, [object]$Validation) {
+    $routes = Get-AdapterRouteInventory @($Profiles.profiles.complete.skills | ForEach-Object { [string]$_ })
+    $manual = @($Validation.manual_only_skills | ForEach-Object { [string]$_ })
+    $implicit = @($Validation.implicitly_selectable_skills | ForEach-Object { [string]$_ })
+    if (-not (Compare-ReleaseInventorySequence $routes.Manual $manual)) { Add-Failure 'manual-only inventory must equal adapter allow_implicit_invocation=false routes' }
+    if (-not (Compare-ReleaseInventorySequence $routes.Implicit $implicit)) { Add-Failure 'implicit inventory must equal adapter allow_implicit_invocation=true routes' }
+    if ($implicit.Count -ne 18 -or $manual.Count -ne 6 -or ($implicit.Count + $manual.Count) -ne 24) { Add-Failure 'adapter-derived route inventory must be 18 implicit, 6 manual-only, 24 total' }
+}
+
+function Test-PackagedProfileMetadata([object]$Metadata, [string]$Label, [bool]$ExpectedConditionalReference) {
+    Test-BooleanContract $Metadata.public_source_limitations_preserved $true "$Label.public_source_limitations_preserved" | Out-Null
+    Test-BooleanProperties $Metadata.considerate_agency @('global','base_routing_unchanged','act_ask_do_not_act') @() "$Label.considerate_agency"
+    Test-BooleanProperties $Metadata.adaptive_prose @('global','simple_turns_remain_short','heavy_structure_conditional') @() "$Label.adaptive_prose"
+    Test-BooleanProperties $Metadata.human_usable_information @('global_principles','target_user_task_validation_required_for_strong_claims','readability_alone_is_not_acceptance','easy_to_read_requires_intended_user_review') @() "$Label.human_usable_information"
+    Test-BooleanContract $Metadata.human_usable_information.conditional_reference_included $ExpectedConditionalReference "$Label.human_usable_information.conditional_reference_included" | Out-Null
+    Test-BooleanContract $Metadata.passed $true "$Label.passed" | Out-Null
+    Test-BooleanProperties $Metadata.explicit_standards @('engineering_core_source_map','owning_skill_names') @('formal_conformance_claimed') "$Label.explicit_standards"
+    Test-BooleanProperties $Metadata.proof_integrity @('global_principles','oracle_must_be_falsifiable','status_is_not_reexecution','required_gate_abandonment_is_not_completion') @() "$Label.proof_integrity"
+    Test-BooleanProperties $Metadata.proportional_rigor @('global_principles','direct_for_single_decisive_check','extra_scrutiny_requires_distinct_evidence_gap','safety_and_correctness_floor_immutable','base_task_routing_unchanged') @() "$Label.proportional_rigor"
+    Test-BooleanProperties $Metadata.outcome_first_delivery @('global_principles','response_weight_matching','internal_depth_external_brevity','quiet_completion','act_or_state_blocker','summary_tldr_distinct_when_used') @('runtime_equivalence_claimed') "$Label.outcome_first_delivery"
 }
 
 function Test-ReleaseInventoryContracts([object]$Profiles, [object]$Validation, [string]$ProfileText) {
@@ -84,6 +124,11 @@ function Test-ReleaseInventoryContracts([object]$Profiles, [object]$Validation, 
         $rawProfileNames = @(Get-ReleaseInventoryJsonPropertyNames $ProfileText 'profiles')
         if ((Get-RawInventoryDuplicates $rawProfileNames).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $rawProfileNames).Count -gt 0 -or -not (Compare-ReleaseInventorySequence $expectedProfileNames $rawProfileNames)) { Add-Failure 'raw profile declarations have duplicate, case-colliding, or unexpected names' }
     } catch { Add-Failure "raw profile declaration validation failure: $($_.Exception.Message)" }
+    $expectedEngineeringCore = @{ core = $true; engineering = $true; complete = $true; communication = $false; 'get-it-done' = $true; gauntlet = $false }
+    foreach ($profileProperty in @($Profiles.profiles.PSObject.Properties)) {
+        $profileName = [string]$profileProperty.Name
+        Test-BooleanContract $profileProperty.Value.include_engineering_core $expectedEngineeringCore[$profileName] ("source profile metadata include_engineering_core in " + $profileName) | Out-Null
+    }
     $baseNames = @($Profiles.profiles.complete.skills | ForEach-Object { [string]$_ })
     if ( $baseNames.Count -ne 24 -or (Get-RawInventoryDuplicates $baseNames).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $baseNames).Count -gt 0) { Add-Failure 'Complete base task inventory must contain 24 unique names' }
     foreach ($name in $baseNames) { if (-not (Test-ReleaseInventoryPortableName $name)) { Add-Failure "invalid base task skill name: $name" } }
@@ -113,7 +158,7 @@ function Test-ReleaseInventoryContracts([object]$Profiles, [object]$Validation, 
     if (-not ($failures | Where-Object { $_ -match 'supplemental inventory|profile definitions|inventory|included_profiles|effective profile|collision|package validation release inventory' })) { Add-Pass 'raw profile and canonical supplemental inventory contracts' }
 }
 function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
-    if ($null -eq $Value -or [bool]$Value -ne $Expected) { Add-Failure "$Label must be $Expected"; return $false }
+    if ($null -eq $Value -or $Value -isnot [bool] -or $Value -ne $Expected) { Add-Failure "$Label must be the real Boolean $Expected"; return $false }
     return $true
 }
 
@@ -121,6 +166,8 @@ function Test-QuickModeMetadata([object]$Contract, [bool]$ExpectedIncluded, [str
     if ($null -eq $Contract) { Add-Failure "quick-mode metadata missing in $Label"; return }
     if (-not (Test-BooleanContract $Contract.included $ExpectedIncluded "quick-mode metadata included in $Label")) { return }
     if (-not $ExpectedIncluded) { return }
+    Test-BooleanContract $Contract.implicitly_selectable $true "quick-mode metadata implicitly_selectable in $Label" | Out-Null
+    if ($Contract.implicit_selectable_skills -ne 18 -or $Contract.manual_only_skills -ne 6 -or $Contract.total_selectable_skills -ne 24) { Add-Failure "quick-mode selectable skill counts must be 18/6/24 in $Label" }
     foreach ($name in @('explicit_request_only','natural_language_selectable','dogfood_optional','automated_uat_optional','selected_validation_becomes_required','real_project_interaction_required','static_inspection_not_interaction_evidence')) {
         Test-BooleanContract $Contract.$name $true "quick-mode metadata $name in $Label" | Out-Null
     }
@@ -148,9 +195,25 @@ function Test-MetadataContracts {
     $proof = $validation.proof_integrity
     $rigor = $validation.proportional_rigor
     $delivery = $validation.outcome_first_delivery
+    $composition = $validation.profile_composition
+    $maintenance = $validation.maintenance
+    $preservation = $validation.prose_preservation
     $completeCount = @($profiles.profiles.complete.skills).Count
     $effectiveCompleteCount = $completeCount + 27
+    Test-BooleanContract $validation.passed $true 'source metadata.passed' | Out-Null
+    Test-BooleanProperties $agency @('global','base_routing_unchanged','act_ask_do_not_act') @() 'source metadata.considerate_agency'
+    Test-BooleanProperties $adaptive @('global','simple_turns_remain_short','heavy_structure_conditional') @() 'source metadata.adaptive_prose'
+    Test-BooleanProperties $explicit @('engineering_core_source_map','standards_register','owning_skill_names') @('formal_conformance_claimed') 'source metadata.explicit_standards'
+    Test-BooleanProperties $human @('global_principles','target_user_task_validation_required_for_strong_claims','readability_alone_is_not_acceptance','easy_to_read_requires_intended_user_review') @() 'source metadata.human_usable_information'
+    Test-BooleanProperties $proof @('global_principles','oracle_must_be_falsifiable','status_is_not_reexecution','required_gate_abandonment_is_not_completion','native_parallel_claim_requires_launch_barrier') @('runtime_vendored') 'source metadata.proof_integrity'
+    Test-BooleanProperties $rigor @('global_principles','direct_for_single_decisive_check','extra_scrutiny_requires_distinct_evidence_gap','safety_and_correctness_floor_immutable','base_task_routing_unchanged') @() 'source metadata.proportional_rigor'
+    Test-BooleanProperties $delivery @('global_principles','response_weight_matching','internal_depth_external_brevity','quiet_completion','act_or_state_blocker','no_process_replay','anti_filler','anti_sycophancy','explicit_user_or_host_style_override','summary_tldr_distinct_when_used','parallel_independent_lookups_when_supported') @('runtime_vendored') 'source metadata.outcome_first_delivery'
+    Test-BooleanProperties $composition @('communication_embedded_in_get_it_done','communication_embedded_in_gauntlet') @() 'source metadata.profile_composition'
+    Test-BooleanProperties $maintenance @('windows_powershell_5_1_utf8_validation','skill_behavior_changed_from_v8_5_1','skill_behavior_changed_from_v8_6_0') @() 'source metadata.maintenance'
+    Test-BooleanProperties $preservation @() @('live_host_evaluated','formal_conformance_claimed') 'source metadata.prose_preservation'
+    Test-BooleanProperties $validation.release_inventory @('base_task_routing_unchanged','public_source_limitations_preserved') @() 'source metadata.release_inventory'
     Test-ReleaseInventoryContracts $profiles $validation $profileText
+    Test-RouteInventoryContracts $profiles $validation
     Test-QuickModeMetadata $validation.quick_mode $true 'source metadata'
     if ($validation.scope -notmatch 'static' -or $validation.scope -notmatch 'not live' -or -not $validation.passed -or $validation.version -ne $profiles.version -or $validation.skills_expected -ne $effectiveCompleteCount -or $validation.skills_validated -ne $effectiveCompleteCount -or -not $agency.global -or $agency.local_fallbacks -ne ($completeCount - 1) -or $agency.adapters -ne $completeCount -or $agency.act_ask_do_not_act -ne $true -or -not $adaptive.global -or -not $adaptive.simple_turns_remain_short -or -not $explicit.engineering_core_source_map -or -not $explicit.standards_register -or -not $explicit.owning_skill_names -or $explicit.formal_conformance_claimed -ne $false -or -not $human.global_principles -or $human.conditional_reference -ne 'skills/writing/USER-INFORMATION.md' -or -not $human.target_user_task_validation_required_for_strong_claims -or -not $human.readability_alone_is_not_acceptance -or -not $human.easy_to_read_requires_intended_user_review -or $human.static_scenarios -ne 48 -or -not $proof.global_principles -or $proof.source_project -ne 'Leonxlnx/unlazy' -or $proof.source_commit -ne '473d4b80421c36d733042434cd4b938f81a19ef1' -or $proof.runtime_vendored -ne $false -or -not $proof.oracle_must_be_falsifiable -or -not $proof.status_is_not_reexecution -or -not $proof.required_gate_abandonment_is_not_completion -or -not $proof.native_parallel_claim_requires_launch_barrier -or $proof.scenario_file -ne 'docs/evals/proof-integrity-scenarios-v8.4.0.csv' -or $proof.static_scenarios -ne 40 -or -not $rigor.global_principles -or @($rigor.modes).Count -ne 4 -or -not $rigor.direct_for_single_decisive_check -or -not $rigor.extra_scrutiny_requires_distinct_evidence_gap -or -not $rigor.safety_and_correctness_floor_immutable -or -not $rigor.base_task_routing_unchanged -or $rigor.scenario_file -ne 'docs/evals/proportional-rigor-scenarios-v8.5.0.csv' -or $rigor.static_scenarios -ne 48 -or -not $delivery.global_principles -or $delivery.source_project -ne 'NousResearch/hermes-agent' -or $delivery.source_commit -ne '18a76be124d7c16ed98b629a358b23fef76a7f46' -or $delivery.runtime_vendored -ne $false -or -not $delivery.response_weight_matching -or -not $delivery.internal_depth_external_brevity -or -not $delivery.quiet_completion -or -not $delivery.act_or_state_blocker -or -not $delivery.no_process_replay -or -not $delivery.anti_filler -or -not $delivery.anti_sycophancy -or -not $delivery.explicit_user_or_host_style_override -or -not $delivery.summary_tldr_distinct_when_used -or -not $delivery.parallel_independent_lookups_when_supported -or $delivery.scenario_file -ne 'docs/evals/outcome-first-delivery-scenarios-v8.6.0.csv' -or $delivery.static_scenarios -ne 48) { Add-Failure 'PACKAGE-VALIDATION.json scope, status, version, inventory, prose, standards, or human-usable-information contract is inaccurate' }
     Test-DirectClaimsMetadata $validation.direct_claims 'source metadata'
@@ -297,8 +360,8 @@ function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
         'AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
-        'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.0.csv',
-        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv',
+        'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',
+        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv',
         'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/release-inventory.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
     )
     foreach ($tree in @('skills','packs','docs','scripts','.codex-plugin','.github','releases')) {
@@ -570,12 +633,15 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
         else {
             try {
                 $directMetadata = (Read-ZipEntryText $directMetadataEntry) | ConvertFrom-Json
+                Test-PackagedProfileMetadata $directMetadata ("package " + $ProfileName) (@($ProfileDefinition.skills) -contains 'writing')
                 if (-not (Compare-ReleaseInventorySequence @($directMetadata.rights_notices | ForEach-Object {[string]$_}) @('THIRD_PARTY_NOTICES.md','USER-FACING-STANDARDS-NOTICES.md')) -or $directMetadata.public_source_limitations_preserved -ne $true) { Add-Failure "package $ProfileName rights metadata mismatch" }
                 if ($directMetadata.skills_expected -ne $effectiveSkills.Count -or $directMetadata.skills_validated -ne $effectiveSkills.Count -or -not (Compare-ReleaseInventorySequence @($directMetadata.base_task_skills | ForEach-Object {[string]$_}) $baseSkills) -or -not (Compare-ReleaseInventorySequence @($directMetadata.supplemental_user_facing_skills | ForEach-Object {[string]$_}) $supplementalSkills) -or -not (Compare-ReleaseInventorySequence @($directMetadata.included_skills | ForEach-Object {[string]$_}) $effectiveSkills)) { Add-Failure "package $ProfileName effective inventory metadata mismatch" }
                 $agency = $directMetadata.considerate_agency
                 if ($null -eq $agency -or $agency.supplemental_adapters -ne 0 -or $agency.base_routing_unchanged -ne $true) { Add-Failure "package $ProfileName adapter/source policy metadata mismatch" }
                 Test-DirectClaimsMetadata $directMetadata.direct_claims ("package " + $ProfileName)
                 Test-QuickModeMetadata $directMetadata.quick_mode (@($ProfileDefinition.skills) -contains 'quick-mode') ("package " + $ProfileName)
+                $routes = Get-AdapterRouteInventory $baseSkills
+                if (-not (Compare-ReleaseInventorySequence $routes.Manual @($directMetadata.manual_only_skills | ForEach-Object {[string]$_})) -or -not (Compare-ReleaseInventorySequence $routes.Implicit @($directMetadata.implicitly_selectable_skills | ForEach-Object {[string]$_}))) { Add-Failure "package $ProfileName adapter-derived route inventory mismatch" }
             } catch { Add-Failure "package $ProfileName metadata or inventory parse failure: $($_.Exception.Message)" }
         }
         $pluginEntry = $fileExact[$root+'.codex-plugin/plugin.json']
@@ -646,6 +712,7 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
         $rawArchiveNames = @(Get-ReleaseInventoryJsonPropertyNames $manifestText 'archives')
         if ((Get-RawInventoryDuplicates $rawArchiveNames).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $rawArchiveNames).Count -gt 0 -or -not (Test-ReleaseInventoryMemberSet $expectedArchiveNames $rawArchiveNames)) { Add-Failure 'release manifest archive declarations must exactly enumerate the six canonical archives' }
     } catch { Add-Failure "release manifest archive declaration validation failure: $($_.Exception.Message)" }
+    foreach ($name in @('skill_content_changed_from_v8_0_0','considerate_agency','proof_integrity','proportional_rigor','outcome_first_delivery','quick_mode','direct_claims')) { Test-BooleanContract $manifest.$name $true ("release manifest.$name") | Out-Null }
     if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne $effectiveCount -or $manifest.release_unique_skills -ne $effectiveCount -or $manifest.base_task_skills -ne $baseCount -or $manifest.supplemental_user_facing_skills -ne 27 -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true -or $manifest.quick_mode -ne $true){Add-Failure 'release manifest contract failure'}
     if ($manifest.direct_claims -ne $true -or $manifest.supplemental_source_manifest -ne $script:releaseUserFacingInventory.ManifestRelative -or $manifest.supplemental_catalog -ne 'packs/user-facing-standards/CATALOG.md' -or $manifest.supplemental_rights_notice -ne 'packs/user-facing-standards/THIRD-PARTY-NOTICES.md'){Add-Failure 'release manifest source inventory contract failure'}
     if ($manifest.direct_claims -ne $true) { Add-Failure 'release manifest direct-claims flag missing' }

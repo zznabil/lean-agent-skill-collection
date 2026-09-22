@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, Quick Mode, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims and Quick Mode policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.10.0",
+  "version": "8.10.1",
   "skills_expected": 51,
   "skills_validated": 51,
   "base_task_skills_expected": 24,
@@ -95,6 +95,7 @@
     "merge-conflicts",
     "office-files",
     "plan",
+    "quick-mode",
     "release",
     "research",
     "review",
@@ -124,7 +125,8 @@
       "Feynman-style explanation heuristic",
       "Diataxis",
       "BCP 14 / RFC 2119 / RFC 8174"
-    ]
+    ],
+    "heavy_structure_conditional": true
   },
   "explicit_standards": {
     "engineering_core_source_map": true,
@@ -252,6 +254,10 @@
   "release_inventory/base_task_adapters": 24,
   "quick_mode": {
     "included": true,
+    "implicitly_selectable": true,
+    "implicit_selectable_skills": 18,
+    "manual_only_skills": 6,
+    "total_selectable_skills": 24,
     "default_validation": "SMOKE",
     "explicit_request_only": true,
     "natural_language_selectable": true,
@@ -261,7 +267,7 @@
     "real_project_interaction_required": true,
     "static_inspection_not_interaction_evidence": true,
     "production_readiness_default": "NOT_ASSESSED",
-    "scenario_file": "docs/evals/quick-mode-scenarios-v8.10.0.csv",
+    "scenario_file": "docs/evals/quick-mode-scenarios-v8.10.1.csv",
     "static_scenarios": 24,
     "live_host_evaluated": false
   }

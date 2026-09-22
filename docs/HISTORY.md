@@ -1,5 +1,9 @@
 # History of Lean Agent Skills
 
+## Current release note
+
+V8.10.1 supersedes the earlier V9.0.1 planning wording. PRs #17 and #18 ultimately merged as source-only remaining-standards and controlled-execution packs, excluded from generated release profiles. V8.10.1 is the separate metadata-validation repair and release-package update; it preserves the bundled references, licensing boundaries, public-source limitations, and non-runtime claims.
+
 ## Summary
 
 The Lean Agent Skills collection began as a workaround for one narrow problem:
@@ -8,7 +12,7 @@ The Lean Agent Skills collection began as a workaround for one narrow problem:
 
 That first idea expanded into a large vendor-neutral collection, then into an oversized `get-it-done` superskill with many required dependencies. The collection was reliable, but it was not lean.
 
-The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to 30 skills. V8 consolidated seven more overlapping or project-local authorities, leaving the current 23-skill routing surface.
+The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to 30 skills. V8 consolidated seven more overlapping or project-local authorities, leaving the historical 23-skill routing surface. V8.10.1 now has 24 base task skills and 51 skills in Complete.
 
 At V8.1.0, the Complete profile contained 11,991 primary-skill words across 808 lines. Those figures are a historical size checkpoint, not the current release inventory.
 
