@@ -43,12 +43,12 @@ Choose one profile. Do not install overlapping profiles together.
 
 | Profile | Base | Supplemental | Total | Best for | Generated package |
 |---|---:|---:|---:|---|---|
-| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.10.1.zip` |
-| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.10.1.zip` |
-| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.10.1.zip` |
-| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.10.1.zip` |
-| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.10.1.zip` |
-| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.10.1.zip` |
+| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.11.0.zip` |
+| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.11.0.zip` |
+| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.11.0.zip` |
+| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.11.0.zip` |
+| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.11.0.zip` |
+| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.11.0.zip` |
 
 The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated. Quick Mode is included in Core, Engineering, Complete, and Get It Done only.
 
@@ -94,9 +94,9 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ```powershell
 ./scripts/build-release.ps1
 ./scripts/test-validator.ps1
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.10.1
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.10.1
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.10.1
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
 ```
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
