@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, Quick Mode, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims and Quick Mode policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.10.1",
+  "version": "8.11.0",
   "skills_expected": 51,
   "skills_validated": 51,
   "base_task_skills_expected": 24,

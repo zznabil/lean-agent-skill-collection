@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.11.0 — 2026-09-22
+
+### Default communication kernel
+
+- Add the default communication kernel for consistent, concise, evidence-grounded agent responses.
+- Preserve Quick Mode metadata validation and the V8.10.1 release contract.
+- Refresh release metadata and validation evidence for the V8.11.0 package.
+
+
 ## 8.10.1 — 2026-09-22
 
 ### Quick Mode metadata repair

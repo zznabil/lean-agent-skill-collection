@@ -1,8 +1,8 @@
 {
-  "version": "8.10.1",
-  "release": "v8.10.1",
-  "release_title": "Quick Mode",
-  "release_summary": "Add an explicit user-authorised Quick Mode fast path while retaining the V8.9 integrated user-facing standards pack, 24 base routes, zero supplemental adapters, and explicit rights and public-source limitations.",
+  "version": "8.11.0",
+  "release": "v8.11.0",
+  "release_title": "Default Communication Kernel",
+  "release_summary": "Add the default communication kernel while retaining the V8.10.1 Quick Mode metadata guarantees, 24 base routes, zero supplemental adapters, and explicit rights and public-source limitations.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
