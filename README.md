@@ -1,6 +1,6 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.10.1-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.11.0-2563eb)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
@@ -8,7 +8,7 @@ A compact, source-browsable collection of 24 vendor-neutral agent skills for eng
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-V8.10.1 adds strict metadata validation for [`quick-mode`](skills/quick-mode/SKILL.md), an explicit user-selected fast path. It delivers the smallest useful working slice with one cheap reality check and visible deferrals. Dogfooding and automated UAT remain optional until selected; once selected, they require real tool-mediated interaction with the running project. Read the [design decision](docs/QUICK-MODE-DESIGN-v8.10.0.md) and [release notes](releases/v8.10.1/RELEASE-NOTES-v8.10.1.md).
+V8.11.0 adds the default communication kernel from PR20 while retaining strict metadata validation for [`quick-mode`](skills/quick-mode/SKILL.md). Read the [release notes](releases/v8.11.0/RELEASE-NOTES-v8.11.0.md).
 
 V8.9.0 integrates all 27 supplemental user-facing routines into six generated profiles while preserving the base routes and zero supplemental adapters. Effective profile totals were 35, 46, 50, 30, 32, and 31. Read the [integrated release notes](releases/v8.9.0/RELEASE-NOTES-v8.9.0.md), [supplemental pack](packs/user-facing-standards/README.md), and [rights notice](packs/user-facing-standards/THIRD-PARTY-NOTICES.md) before redistribution.
 
