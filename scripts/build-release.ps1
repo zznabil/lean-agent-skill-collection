@@ -142,10 +142,22 @@ function Get-ChecksumLines([string]$Directory, [string[]]$ExcludedRelativePaths)
     return $lines.ToArray()
 }
 
-function Get-ManualSkills([object[]]$Skills) {
-    $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
-    return @($Skills | Where-Object { $manualNames -contains [string]$_ })
+function Get-AdapterRouteInventory([object[]]$Skills) {
+    $manual = New-Object System.Collections.Generic.List[string]
+    $implicit = New-Object System.Collections.Generic.List[string]
+    foreach ($skill in @($Skills)) {
+        $name = [string]$skill
+        $adapterPath = Join-Path $repoRoot (Join-Path (Join-Path 'skills' $name) 'agents/openai.yaml')
+        $text = Get-Content -Raw -LiteralPath $adapterPath
+        $match = [regex]::Match($text, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
+        if (-not $match.Success) { throw "adapter route declaration missing for $name" }
+        if ($match.Groups[1].Value -eq 'true') { $implicit.Add($name) } else { $manual.Add($name) }
+    }
+    return [pscustomobject]@{ Manual = $manual.ToArray(); Implicit = $implicit.ToArray() }
 }
+
+function Get-ManualSkills([object[]]$Skills) { return @((Get-AdapterRouteInventory $Skills).Manual) }
+function Get-ImplicitSkills([object[]]$Skills) { return @((Get-AdapterRouteInventory $Skills).Implicit) }
 function Resolve-RepoRelativePath([string]$RelativePath, [string]$Kind) {
     if ([string]::IsNullOrWhiteSpace($RelativePath) -or $RelativePath -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]*(/[A-Za-z0-9][A-Za-z0-9._-]*)*$') {
         throw "Invalid $Kind path; expected a nonempty portable repo-relative forward-slash path: $RelativePath"
@@ -310,7 +322,9 @@ function New-PackageValidationJson([string]$ProfileName, [object]$ProfileDefinit
     $skills = @($EffectiveSkills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join $separator
     $base = @($BaseSkills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join $separator
     $supplemental = @($UserFacingSkills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_.Name)) }) -join $separator
-    $manual = @(Get-ManualSkills $BaseSkills | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join $separator
+    $routeInventory = Get-AdapterRouteInventory $BaseSkills
+    $manual = @($routeInventory.Manual | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join $separator
+    $implicit = @($routeInventory.Implicit | ForEach-Object { '    ' + (ConvertTo-JsonString ([string]$_)) }) -join $separator
     $includesWriting = @($BaseSkills) -contains 'writing'
     $includesWritingJson = if ($includesWriting) { 'true' } else { 'false' }
     $includesQuick = @($BaseSkills) -contains 'quick-mode'
@@ -336,6 +350,9 @@ $skills
   ],
   "manual_only_skills": [
 $manual
+  ],
+  "implicitly_selectable_skills": [
+$implicit
   ],
   "considerate_agency": {
     "global": true,
@@ -390,6 +407,10 @@ $manual
   },
   "quick_mode": {
     "included": $includesQuickJson,
+    "implicitly_selectable": true,
+    "implicit_selectable_skills": 18,
+    "manual_only_skills": 6,
+    "total_selectable_skills": 24,
     "default_validation": "SMOKE",
     "dogfood_optional": true,
     "automated_uat_optional": true,
@@ -397,7 +418,7 @@ $manual
     "real_project_interaction_required": true,
     "static_inspection_not_interaction_evidence": true,
     "production_readiness_default": "NOT_ASSESSED",
-    "scenario_file": "docs/evals/quick-mode-scenarios-v8.10.0.csv",
+    "scenario_file": "docs/evals/quick-mode-scenarios-v8.10.1.csv",
     "static_scenarios": 24,
     "live_host_evaluated": false,
     "explicit_request_only": true,

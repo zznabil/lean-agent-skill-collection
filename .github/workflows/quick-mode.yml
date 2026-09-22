@@ -15,9 +15,9 @@ on:
       - 'docs/QUICK-MODE-DESIGN-v8.10.0.md'
       - 'docs/REPOSITORY-AUDIT.md'
       - 'docs/SKILL-CATALOG.md'
-      - 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+      - 'docs/evals/quick-mode-scenarios-v8.10.1.csv'
       - 'release-profiles.json'
-      - 'releases/v8.10.0/**'
+      - 'releases/v8.10.1/**'
       - 'scripts/**'
       - 'skills/quick-mode/**'
   pull_request:
@@ -34,9 +34,9 @@ on:
       - 'docs/QUICK-MODE-DESIGN-v8.10.0.md'
       - 'docs/REPOSITORY-AUDIT.md'
       - 'docs/SKILL-CATALOG.md'
-      - 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
+      - 'docs/evals/quick-mode-scenarios-v8.10.1.csv'
       - 'release-profiles.json'
-      - 'releases/v8.10.0/**'
+      - 'releases/v8.10.1/**'
       - 'scripts/**'
       - 'skills/quick-mode/**'
 
@@ -96,7 +96,7 @@ jobs:
           finally { Remove-Item -LiteralPath $hiddenRoot -Recurse -Force -ErrorAction SilentlyContinue }
       - name: Test validator rejection controls
         shell: pwsh
-        run: ./scripts/test-validator.ps1
+        run: ./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/repro-a
       - name: Validate source and release artifacts
         shell: pwsh
         run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a
@@ -155,7 +155,7 @@ jobs:
           finally { Remove-Item -LiteralPath $hiddenRoot -Recurse -Force -ErrorAction SilentlyContinue }
       - name: Test validator rejection controls
         shell: powershell
-        run: ./scripts/test-validator.ps1
+        run: ./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/repro-a
       - name: Validate source and release artifacts
         shell: powershell
         run: ./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/repro-a

@@ -11,7 +11,7 @@ Add-Type -AssemblyName System.IO.Compression
 $profiles = Get-Content -Raw (Join-Path $repoRoot 'release-profiles.json') | ConvertFrom-Json
 $script:releaseUserFacingInventory = Get-ReleaseUserFacingInventory $repoRoot $profiles
 $canonicalMap = Get-CanonicalSourceFileMap $profiles
-if ([string]::IsNullOrWhiteSpace($requestedArtifactsDirectory)) { $requestedArtifactsDirectory = Join-Path $repoRoot 'artifacts/repro-a' }
+if ([string]::IsNullOrWhiteSpace($requestedArtifactsDirectory)) { $requestedArtifactsDirectory = Join-Path $repoRoot ('artifacts/v' + $profiles.version) }
 $artifactRoot = [IO.Path]::GetFullPath($requestedArtifactsDirectory)
 if (-not (Test-Path -LiteralPath $artifactRoot -PathType Container)) { throw "Validator integration controls require a built artifact directory: $artifactRoot" }
 $failures.Clear(); Get-ReleaseUserFacingInventory $repoRoot $profiles | Out-Null
@@ -219,13 +219,27 @@ try {
         if ($failures.Count -eq 0) { throw "Direct-claims metadata guard failed to detect mutation: $name" }
         $mutationCount++
     }
+    $jsonStringTokens=@('"true"','"false"','"0"','"1"')
+    $jsonBooleanTypeControls=@(
+        [pscustomobject]@{ Name='quick-mode'; Build={ param($token) $x=($baselineMetadata.quick_mode|ConvertTo-Json -Depth 20|ConvertFrom-Json); $x.included=($token|ConvertFrom-Json); $x }; Validate={ param($x) Test-QuickModeMetadata $x $true 'quick-mode JSON string type negative control' } },
+        [pscustomobject]@{ Name='direct-claims'; Build={ param($token) $x=($baselineMetadata.direct_claims|ConvertTo-Json -Depth 20|ConvertFrom-Json); $x.global_principles=($token|ConvertFrom-Json); $x }; Validate={ param($x) Test-DirectClaimsMetadata $x 'direct-claims JSON string type negative control' } },
+        [pscustomobject]@{ Name='source'; Build={ param($token) $x=($baselineMetadata.adaptive_prose|ConvertTo-Json -Depth 20|ConvertFrom-Json); $x.heavy_structure_conditional=($token|ConvertFrom-Json); $x }; Validate={ param($x) Test-BooleanProperties $x @('heavy_structure_conditional') @() 'source adaptive JSON string type negative control' } }
+    )
+    foreach($control in $jsonBooleanTypeControls){
+        foreach($token in $jsonStringTokens){
+            $failures.Clear(); $candidate=& $control.Build $token; & $control.Validate $candidate
+            if($failures.Count -eq 0){ throw "JSON string boolean type control failed: $($control.Name) $token" }
+        }
+    }
     $failures.Clear()
     if ($mutationCount -ne 14) { throw 'Direct-claims negative-control count drifted' }
     Write-Host "PASS: direct-claims positive controls and 14 deliberate policy/metadata mutations" -ForegroundColor Green
     Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
-    $packageSource=Join-Path $artifactRoot ((Get-PackageBaseName 'core' $profiles.version)+'.zip')
-    $failures.Clear(); Test-ZipArchive $packageSource 'core' $profiles.profiles.core $profiles.version $canonicalMap
-    if ($failures.Count -ne 0) { throw 'Clean package positive control failed' }
+    foreach ($profileName in @('core','engineering','complete','communication','get-it-done','gauntlet')) {
+        $packageSource=Join-Path $artifactRoot ((Get-PackageBaseName $profileName $profiles.version)+'.zip')
+        $failures.Clear(); Test-ZipArchive $packageSource $profileName $profiles.profiles.PSObject.Properties[$profileName].Value $profiles.version $canonicalMap
+        if ($failures.Count -ne 0) { throw "Clean package positive control failed: $profileName" }
+    }
     $packageControls=@(
         [pscustomobject]@{ Name='U nested reference byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']=$x } },
         [pscustomobject]@{ Name='supplemental rights notice byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'USER-FACING-STANDARDS-NOTICES.md']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'USER-FACING-STANDARDS-NOTICES.md']=$x } },
@@ -237,7 +251,11 @@ try {
         [pscustomobject]@{ Name='raw backslash ZIP member'; Expected='backslash ZIP member'; Rehash=$false; Mutator={ param($m,$p); $m.Add($p+'raw\\member.txt',[Text.Encoding]::UTF8.GetBytes('raw')) } },
         [pscustomobject]@{ Name='directory-only ZIP member'; Expected='directory-only ZIP member'; Rehash=$false; Mutator={ param($m,$p); $m.Add($p+'directory/',[byte[]]@()) } },
         [pscustomobject]@{ Name='generated plugin routing/name/version mutation'; Expected='plugin identity or routing contract mismatch'; Rehash=$true; Mutator={ param($m,$p); $j=([Text.Encoding]::UTF8.GetString($m[$p+'.codex-plugin/plugin.json'])|ConvertFrom-Json); $j.skills='./rogue/'; $m[$p+'.codex-plugin/plugin.json']=[Text.Encoding]::UTF8.GetBytes(($j|ConvertTo-Json -Depth 10)) } },
-        [pscustomobject]@{ Name='generated package README material mutation'; Expected='README profile counts/routing claim mismatch'; Rehash=$true; Mutator={ param($m,$p); $t=[Text.Encoding]::UTF8.GetString($m[$p+'README.md']); $m[$p+'README.md']=[Text.Encoding]::UTF8.GetBytes($t.Replace('Base task routing remains unchanged.','Base task routing changed.')) } }
+        [pscustomobject]@{ Name='generated package README material mutation'; Expected='README profile counts/routing claim mismatch'; Rehash=$true; Mutator={ param($m,$p); $t=[Text.Encoding]::UTF8.GetString($m[$p+'README.md']); $m[$p+'README.md']=[Text.Encoding]::UTF8.GetBytes($t.Replace('Base task routing remains unchanged.','Base task routing changed.')) } },
+        [pscustomobject]@{ Name='packaged JSON string true'; Expected='real Boolean True'; Rehash=$true; Mutator={ param($m,$p); $j=([Text.Encoding]::UTF8.GetString($m[$p+'PACKAGE-VALIDATION.json'])|ConvertFrom-Json); $j.passed='true'; $m[$p+'PACKAGE-VALIDATION.json']=[Text.Encoding]::UTF8.GetBytes(($j|ConvertTo-Json -Depth 20)) } },
+        [pscustomobject]@{ Name='packaged JSON string false'; Expected='real Boolean True'; Rehash=$true; Mutator={ param($m,$p); $j=([Text.Encoding]::UTF8.GetString($m[$p+'PACKAGE-VALIDATION.json'])|ConvertFrom-Json); $j.passed='false'; $m[$p+'PACKAGE-VALIDATION.json']=[Text.Encoding]::UTF8.GetBytes(($j|ConvertTo-Json -Depth 20)) } },
+        [pscustomobject]@{ Name='packaged JSON string 0'; Expected='real Boolean True'; Rehash=$true; Mutator={ param($m,$p); $j=([Text.Encoding]::UTF8.GetString($m[$p+'PACKAGE-VALIDATION.json'])|ConvertFrom-Json); $j.passed='0'; $m[$p+'PACKAGE-VALIDATION.json']=[Text.Encoding]::UTF8.GetBytes(($j|ConvertTo-Json -Depth 20)) } },
+        [pscustomobject]@{ Name='packaged JSON string 1'; Expected='real Boolean True'; Rehash=$true; Mutator={ param($m,$p); $j=([Text.Encoding]::UTF8.GetString($m[$p+'PACKAGE-VALIDATION.json'])|ConvertFrom-Json); $j.passed='1'; $m[$p+'PACKAGE-VALIDATION.json']=[Text.Encoding]::UTF8.GetBytes(($j|ConvertTo-Json -Depth 20)) } }
     )
     foreach($control in $packageControls){ Invoke-PackageRejection $control.Name $control.Mutator $control.Expected $control.Rehash }
     $packControls=@(
