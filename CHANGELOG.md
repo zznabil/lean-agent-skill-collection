@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.10.1 — 2026-09-22
+
+### Quick Mode metadata repair
+
+- Require real Boolean values in source, profile, package, direct-claims, release-inventory, and Quick Mode metadata contracts.
+- Preserve intentional profile declarations: Communication and Gauntlet set include_engineering_core to false; other profiles set it to true.
+- Record Quick Mode selection counts as 18 implicitly selectable, 6 manual-only, and 24 total selectable skills.
+- Refresh release metadata and validation evidence without publishing or deploying.
 ## 8.10.0 — 2026-09-21
 
 ### Quick Mode

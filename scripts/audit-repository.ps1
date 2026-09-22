@@ -257,8 +257,8 @@ $quick = $package.quick_mode
 if ($null -eq $quick -or -not $quick.included -or $quick.default_validation -ne 'SMOKE' -or -not $quick.explicit_request_only -or -not $quick.natural_language_selectable -or -not $quick.dogfood_optional -or -not $quick.automated_uat_optional -or -not $quick.selected_validation_becomes_required -or -not $quick.real_project_interaction_required -or -not $quick.static_inspection_not_interaction_evidence -or $quick.production_readiness_default -ne 'NOT_ASSESSED' -or $quick.live_host_evaluated -ne $false) {
     Add-Failure 'PACKAGE-VALIDATION.json lacks the Quick Mode contract'
 }
-$quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.0.csv'
-$quickMirror = 'releases/v8.10.0/quick-mode-scenarios-v8.10.0.csv'
+$quickRelative = 'docs/evals/quick-mode-scenarios-v8.10.1.csv'
+$quickMirror = 'releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv'
 $quickPath = Join-Path $RepositoryRoot $quickRelative
 $quickMirrorPath = Join-Path $RepositoryRoot $quickMirror
 if ($quick.scenario_file -ne $quickRelative -or $quick.static_scenarios -ne 24) { Add-Failure 'Quick Mode scenario metadata differs from the declared corpus' }
