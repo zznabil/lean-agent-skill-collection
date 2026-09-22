@@ -33,6 +33,8 @@ function Entry-Text([IO.Compression.ZipArchiveEntry]$Entry) {
     try { return $reader.ReadToEnd() } finally { $reader.Dispose(); $stream.Dispose() }
 }
 function Hash-Text([string]$Text) { Hash-Bytes ([Text.Encoding]::UTF8.GetBytes($Text)) }
+$communicationKernelPattern = '(?s)<!-- communication-kernel:start -->\n.*?<!-- communication-kernel:end -->'
+$communicationKernelSha256 = '0e062542852b5a8cf0f7a4f4da163e2d6e9d5b8e4148ad4b4072a92562d6b640'
 function Normalise-Prose([string]$Text) {
     $withoutMarkers = [regex]::Replace($Text, '(?m)^[ \t]*(?:[-*]|\d+\.)[ \t]+', '')
     [regex]::Replace($withoutMarkers, '\s+', ' ').Trim()
@@ -50,6 +52,17 @@ function Remove-Declared([string]$Text, [string]$Value, [int]$Count, [string]$La
     $Text.Replace($Value, '')
 }
 function Assert-Prose([string]$Path, [string]$Text, [object]$Record) {
+    if ($Path -eq 'AGENTS.md') {
+        $Text = $Text.Replace("`r`n", "`n")
+        $kernelMatches = [regex]::Matches($Text, $communicationKernelPattern)
+        if ($kernelMatches.Count -ne 1) {
+            throw "PRESERVATION: missing or repeated communication kernel in $Path"
+        }
+        if ((Hash-Text $kernelMatches[0].Value) -cne $communicationKernelSha256) {
+            throw "PRESERVATION: exact communication kernel changed in $Path"
+        }
+        $Text = [regex]::Replace($Text, $communicationKernelPattern + '\n?', '')
+    }
     $front = [regex]::Match($Text, '(?s)\A---\n.*?\n---\n').Value
     if ($front -cne [string]$Record.frontmatter) { throw "PRESERVATION: routing frontmatter in $Path" }
     $code = @([regex]::Matches($Text, '(?ms)^```[^\n]*\n.*?^```[ \t]*$') | ForEach-Object { $_.Value })
@@ -178,6 +191,38 @@ function Assert-QuickText([string]$Text) {
     }
 }
 
+$communicationArrow = [string][char]0x2192
+$communicationProcedureShape = "**Procedure:** **Summary** $communicationArrow **Goal** $communicationArrow **Prerequisites** $communicationArrow **Warnings** $communicationArrow **Steps** $communicationArrow **Expected result** $communicationArrow **Troubleshooting** $communicationArrow **TL;DR**."
+$communicationTeachingShape = "**Teaching:** **Summary** $communicationArrow **Main idea** $communicationArrow **Mechanism** $communicationArrow **Worked example** $communicationArrow **Why it works** $communicationArrow **Independent application** $communicationArrow **Key takeaway** $communicationArrow **TL;DR**."
+$communicationOtherShape = "**Other substantive response:** **Summary** $communicationArrow **Answer or decision** $communicationArrow **Evidence and conditions** $communicationArrow **Required action** $communicationArrow **TL;DR**."
+function Assert-CommunicationKernel([string]$Text) {
+    $Text = $Text.Replace("`r`n", "`n")
+    $kernelMatches = [regex]::Matches($Text, $communicationKernelPattern)
+    if ($kernelMatches.Count -ne 1) {
+        throw 'PRESERVATION: missing or repeated exact communication kernel'
+    }
+    if ((Hash-Text $kernelMatches[0].Value) -cne $communicationKernelSha256) {
+        throw 'PRESERVATION: exact communication kernel changed'
+    }
+    $needles = @(
+        '<!-- communication-kernel:start -->',
+        'This kernel is active for eligible user-facing responses by default, without routing or loading a writing skill.',
+        $communicationProcedureShape,
+        $communicationTeachingShape,
+        $communicationOtherShape,
+        'Omit an internal section only when it is genuinely inapplicable.',
+        'Plain language **MUST NOT** weaken or oversimplify the contract.',
+        '<!-- communication-kernel:end -->'
+    )
+    foreach ($needle in $needles) {
+        if ($Text.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) {
+            throw "PRESERVATION: communication kernel missing: $needle"
+        }
+    }
+    if ($Text.IndexOf('<!-- communication-kernel:start -->', [StringComparison]::Ordinal) -ge $Text.IndexOf('<!-- communication-kernel:end -->', [StringComparison]::Ordinal)) {
+        throw 'PRESERVATION: communication kernel marker order'
+    }
+}
 $controls=0
 $quickPath='skills/quick-mode/SKILL.md';$quick=Read-Utf8 (Join-Path $root $quickPath)
 Assert-QuickText $quick
@@ -197,6 +242,11 @@ Expect-Rejection 'step order numbering changed' { Assert-Prose $implPath ($impl.
 Expect-Rejection 'literal progress example changed' { Assert-Prose $waitPath ($wait.Replace('60% (6/10)','70% (6/10)')) $contract.files.$waitPath }
 Expect-Rejection 'unapproved generic instruction inserted' { Assert-Prose $implPath ($impl+"`nSkip required checks when brevity matters.`n") $contract.files.$implPath }
 $agents=Read-Utf8 (Join-Path $root 'AGENTS.md')
+Assert-CommunicationKernel $agents
+Expect-Rejection 'communication kernel default activation removed' { Assert-CommunicationKernel ($agents.Replace('This kernel is active for eligible user-facing responses by default, without routing or loading a writing skill.','This kernel is optional.')) }
+Expect-Rejection 'communication kernel procedure shape removed' { Assert-CommunicationKernel ($agents.Replace($communicationProcedureShape,'Procedure: use a suitable structure.')) }
+Expect-Rejection 'communication kernel preservation floor weakened' { Assert-CommunicationKernel ($agents.Replace('Plain language **MUST NOT** weaken or oversimplify the contract.','Plain language may simplify the contract.')) }
+Expect-Rejection 'communication kernel unlisted detail removed' { Assert-CommunicationKernel ($agents.Replace('conditions, exceptions, uncertainty, important detail, ','')) }
 Expect-Rejection 'evidence-based disagreement deleted' { Assert-Prose 'AGENTS.md' ($agents.Replace('Agree or disagree because evidence supports the conclusion','')) $contract.files.'AGENTS.md' }
 Expect-Rejection 'new preservation rule deleted' { Assert-Prose 'AGENTS.md' ($agents.Replace('Do not replace a concrete mandate with broad advice.','')) $contract.files.'AGENTS.md' }
 $registerPath='docs/STANDARDS-REGISTER.md';$register=Read-Utf8 (Join-Path $root $registerPath)

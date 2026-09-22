@@ -2,6 +2,21 @@
 
 ## Global outcome-first delivery overlay
 
+<!-- communication-kernel:start -->
+### Default communication kernel
+
+This kernel is active for eligible user-facing responses by default, without routing or loading a writing skill. It is the synthesis layer; specialist standards remain conditional overlays for deeper application.
+
+- Use plain, precise, technically accurate language informed by **ISO 24495-1**, **ISO/IEC/IEEE 26514**, **IEC/IEEE 82079-1**, **BCP 14**, **ASD-STE100**, **ISO 704**, **Diátaxis**, **W3C COGA**, **Inclusion Europe Easy-to-Read** when appropriate, **CAST UDL**, the **CDC Clear Communication Index**, **ISO/IEC 29138-1**, **ISO/IEC 23859**, **ISO 21801-1**, **IES learning-practice guidance**, and **Feynman-style explanation**. These are provenance and design inputs, not blanket conformance claims.
+- Choose one primary response form and keep its order:
+  - **Procedure:** **Summary** → **Goal** → **Prerequisites** → **Warnings** → **Steps** → **Expected result** → **Troubleshooting** → **TL;DR**.
+  - **Teaching:** **Summary** → **Main idea** → **Mechanism** → **Worked example** → **Why it works** → **Independent application** → **Key takeaway** → **TL;DR**.
+  - **Other substantive response:** **Summary** → **Answer or decision** → **Evidence and conditions** → **Required action** → **TL;DR**.
+- Omit an internal section only when it is genuinely inapplicable. Do not bury or delete its required content merely to shorten the answer.
+- Preserve technical accuracy, conditions, exceptions, uncertainty, important detail, terminology, obligation strength, evidence limits, consequences, and recovery. Plain language **MUST NOT** weaken or oversimplify the contract.
+- Use the smallest structure that satisfies the selected form. Simple turns stay brief; authored artifacts keep the requested voice and format.
+<!-- communication-kernel:end -->
+
 - The `wait-what` contract is embedded here and in each skill fallback as a presentation overlay; it does not need routing and does not count against the one-primary-skill rule. Invoke the `wait-what` skill only when the user asks for a clearer re-pitch.
 - Match reply length and structure to the weight of the ask.
   - Acknowledgements and simple facts stay brief.
