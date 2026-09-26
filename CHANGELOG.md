@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — communication core revision
+
+- Apply plain-language and cognitive-accessibility principles contextually; use technical, normative, security, and specialized Easy-to-Read guidance only when the task warrants it, without claiming conformance.
+- Keep every current source skill under 100 lines, retaining standalone fallbacks and the same six profile memberships; generated profiles carry the revised core.
+- Strengthen the OMP rubric: reset guidance directs users to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending the link. Security release notes give an explicit go/no-go when required penetration testing or ASVS gates are missing. The [historical baseline report](artifacts/communication-live-baseline-20260925/report.json) does not establish this candidate's result; record a new run before reporting it.
+- Replace historical phrase-pinning with structural/package integrity checks and a fixed, trace-backed OMP communication corpus.
+
 ## 8.11.0 — 2026-09-22
 
 ### Default communication kernel

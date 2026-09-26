@@ -1,3 +1,11 @@
+# Unreleased communication revision — current repository checks
+
+The audit checks all 134 current source skills, including the two source-only packs, for fewer than 100 lines per `SKILL.md`. Static validation pins the live-corpus fixture and runner, checks source hashes and package structure, and excludes tool-generated `.patchloom/` backups from source-link hygiene. The build must include the revised default kernel in each of six profiles, with their established memberships unchanged. The strengthened rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must state an explicit go/no-go when required penetration testing or ASVS gates are missing. The saved [historical baseline report](../artifacts/communication-live-baseline-20260925/report.json) is not a result for this candidate; record a new run before reporting its results. Live OMP results and exact build/check output belong to the current run, not this historical document.
+
+Earlier V8.8 textual-fingerprint and V8.10.1 Quick Mode acceptance language below is historical where it conflicts with deliberate communication-prose edits.
+
+---
+
 # V8.10.1 Quick Mode repository acceptance
 
 The current V8.10.1 release contains 24 canonical skills. The prior V8.8 instructions remain the preservation baseline; `quick-mode` is the only added root.

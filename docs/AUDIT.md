@@ -1,3 +1,11 @@
+# Unreleased communication revision — acceptance scope
+
+The current candidate revises the default kernel and local skill fallbacks while retaining six profile memberships, Quick Mode metadata, and source-only pack boundaries. Every current source `SKILL.md` must have fewer than 100 lines. All six generated profiles must contain the revised `AGENTS.md` kernel; package integrity still verifies exact member bytes, inventories, rights, and checksums. Historical V8.8 textual preservation no longer blocks deliberate source prose edits.
+
+Run `scripts/evaluate-communications.py --package artifacts/<build>/user-facing-communication-mini-openai-v8.11.0.zip --out artifacts/<evaluation>` with OMP CLI for the ten fixed cases in `docs/evals/communications-omp.json`. The runner isolates the generated package as its skill directory, stores JSONL traces and answers, and scores evidence, recovery, audience fit, routing, and anti-trigger behavior. The strengthened rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must state an explicit go/no-go when required penetration testing or ASVS gates are missing. The saved [historical baseline report](../artifacts/communication-live-baseline-20260925/report.json) is not a result for this candidate; record a new run before reporting its results. Any pass remains bounded evidence for that host and candidate, not a claim of universal compliance, formal standards conformance, or accessibility certification. Historical sections below describe earlier acceptance only.
+
+---
+
 # V8.10.1 Quick Mode metadata repair acceptance
 
 Use [the Quick Mode design](QUICK-MODE-DESIGN-v8.10.0.md) for the inherited behavior and evidence boundary.

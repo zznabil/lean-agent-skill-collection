@@ -10,6 +10,8 @@ A compact, source-browsable collection of 24 vendor-neutral agent skills for eng
 
 V8.11.0 adds the default communication kernel from PR20 while retaining strict metadata validation for [`quick-mode`](skills/quick-mode/SKILL.md). Read the [release notes](releases/v8.11.0/RELEASE-NOTES-v8.11.0.md).
 
+The unreleased communication revision keeps ISO 24495-1 and W3C COGA as general clarity inputs, then applies task-specific technical, normative, accessibility, and security guidance where it fits. Its strengthened OMP rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must give an explicit go/no-go when required penetration testing or ASVS gates are missing. The saved [historical baseline report](artifacts/communication-live-baseline-20260925/report.json) is not a result for this candidate; record a new run before reporting its results. No formal conformance is claimed. All 134 current source `SKILL.md` files are below 100 lines; the six profile memberships and source-only pack boundaries stay unchanged. The [fixed OMP corpus](docs/evals/communications-omp.json) and [runner](scripts/evaluate-communications.py) measure a bounded set of live replies, not universal agent behavior.
+
 V8.9.0 integrates all 27 supplemental user-facing routines into six generated profiles while preserving the base routes and zero supplemental adapters. Effective profile totals were 35, 46, 50, 30, 32, and 31. Read the [integrated release notes](releases/v8.9.0/RELEASE-NOTES-v8.9.0.md), [supplemental pack](packs/user-facing-standards/README.md), and [rights notice](packs/user-facing-standards/THIRD-PARTY-NOTICES.md) before redistribution.
 
 V8.8.0 preserves all earlier 23 skills and six profiles. It retains outcome-first communication and quiet execution: match reply length to the task, investigate enough internally, act instead of merely promising, and report outcome, verification, and remaining action without replaying routine process. Read the [Hermes prompt review](docs/HERMES-PROMPT-REVIEW-v8.6.0.md), [Hermes integration guide](docs/HERMES-INTEGRATION.md), [minimum-scrutiny review](docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md), and [repository audit](docs/REPOSITORY-AUDIT.md).
@@ -35,7 +37,7 @@ Quick Mode does not waive authorisation, destructive-action safeguards, data int
 
 When dogfooding is selected, the agent must use an appropriate tool to operate the actual running project through its intended interface. When automated UAT is selected, the agent must run or create one replayable user journey with a real assertion. Source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy those selected modes.
 
-The V8.8 prose-preservation baseline remains active. Validation permits only the declared additive Quick Mode route and profile memberships.
+The V8.8 textual baseline is historical for this unreleased revision. Current validation preserves package bytes, inventories, licensing boundaries, skill routing, and source hashes while allowing deliberate communication-prose edits; live quality is checked against the fixed OMP corpus.
 
 ## Start here
 
@@ -99,6 +101,8 @@ On PowerShell 7 or Windows PowerShell 5.1:
 ./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
 ```
 
+For the unreleased live communication check, install the OMP CLI, then run `python scripts/evaluate-communications.py --package ./artifacts/v8.11.0/user-facing-communication-mini-openai-v8.11.0.zip --out ./artifacts/communication-live`. The runner records each case and trace; its score applies only to the fixed prompts and current generated package.
+
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 
 ## Design principles
@@ -119,7 +123,7 @@ See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REP
 
 ## Release integrity
 
-The V8.10.1 release package adds strict metadata validation for one explicit-request route while retaining the V8.9 integrated 27-routine standards pack, zero supplemental adapters, and the V8.8 instruction-preservation baseline. The remaining-standards and controlled-execution packs are source-only, excluded from generated profiles, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The V8.11.0 release package retains strict Quick Mode metadata validation, the integrated 27-routine standards pack, and zero supplemental adapters. The unreleased communication revision no longer treats the V8.8 textual snapshot as a current prose gate. The remaining-standards and controlled-execution packs are source-only, excluded from generated profiles, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
 
 ## Security
 

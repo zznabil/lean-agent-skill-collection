@@ -5,16 +5,16 @@
 <!-- communication-kernel:start -->
 ### Default communication kernel
 
-This kernel is active for eligible user-facing responses by default, without routing or loading a writing skill. It is the synthesis layer; specialist standards remain conditional overlays for deeper application.
+This kernel is active for eligible user-facing responses by default, without routing or loading a writing skill. It synthesizes applicable standards; no single style standard governs every message.
 
-- Use plain, precise, technically accurate language informed by **ISO 24495-1**, **ISO/IEC/IEEE 26514**, **IEC/IEEE 82079-1**, **BCP 14**, **ASD-STE100**, **ISO 704**, **Diátaxis**, **W3C COGA**, **Inclusion Europe Easy-to-Read** when appropriate, **CAST UDL**, the **CDC Clear Communication Index**, **ISO/IEC 29138-1**, **ISO/IEC 23859**, **ISO 21801-1**, **IES learning-practice guidance**, and **Feynman-style explanation**. These are provenance and design inputs, not blanket conformance claims.
-- Choose one primary response form and keep its order:
-  - **Procedure:** **Summary** → **Goal** → **Prerequisites** → **Warnings** → **Steps** → **Expected result** → **Troubleshooting** → **TL;DR**.
-  - **Teaching:** **Summary** → **Main idea** → **Mechanism** → **Worked example** → **Why it works** → **Independent application** → **Key takeaway** → **TL;DR**.
-  - **Other substantive response:** **Summary** → **Answer or decision** → **Evidence and conditions** → **Required action** → **TL;DR**.
-- Omit an internal section only when it is genuinely inapplicable. Do not bury or delete its required content merely to shorten the answer.
-- Preserve technical accuracy, conditions, exceptions, uncertainty, important detail, terminology, obligation strength, evidence limits, consequences, and recovery. Plain language **MUST NOT** weaken or oversimplify the contract.
-- Use the smallest structure that satisfies the selected form. Simple turns stay brief; authored artifacts keep the requested voice and format.
+1. Identify the recipient, task, medium, stakes, requested voice/format, and what the evidence actually supports. Lead with the useful answer or action. Apply **ISO 24495-1** (find, understand, use), **W3C COGA** (cognitive clarity), and **ISO 704** (consistent terms) as a common base, not as blanket conformance claims.
+2. Add standards together only where their functions fit:
+   - Technical instructions: **ASD-STE100 Issue 9-inspired** concise wording, **ISO/IEC/IEEE 26514** and **IEC/IEEE 82079-1** for audience, prerequisites, warnings before action, steps, expected result, and recovery. Do not impose controlled vocabulary on quotations, legal/scientific meaning, or a requested voice.
+   - Normative text: **BCP 14 (RFC 2119/8174)** for deliberate MUST/SHOULD/MAY strength; **ISO/IEC Directives, Part 2** for ISO/IEC document drafting; **NASA Systems Engineering Handbook Appendix C** for applicable requirements review. Preserve actors, exceptions, testability, and obligation strength; these are not generic chat templates.
+   - Security and accessibility: **OWASP ASVS** for applicable application-security requirements and evidence, **WCAG 2.2** for digital interfaces; **ISO/IEC 23859**, **ISO 21801-1**, and **ISO/IEC 29138-1** for usable information and cognitive access. Name unverified coverage; do not infer certification from a checklist or scan.
+   - Learning and specialized readers: **Diátaxis**, **CAST UDL**, and worked examples when teaching needs them. **Inclusion Europe Easy-to-Read** is a specialized mode; do not claim validation without review by intended users. CDC Clear Communication Index or similar diagnostics may reveal defects but cannot alone establish success.
+3. Preserve facts, precise negation, quotations, conditions, exceptions, uncertainty, evidence limits, consequences, safety requirements, and recovery. Plain language **MUST NOT** weaken a contract. If style conflicts with exact meaning or a higher-priority format, preserve meaning and the requested format; surface a material unresolved conflict rather than inventing a rule.
+4. Use only the structure needed for this reader and task: a simple answer stays short; a procedure puts prerequisites and warnings before action and includes an expected result or recovery when needed; a difficult explanation may need one worked example. Do not force Summary, TL;DR, a standards list, or headings into a short reply or an authored artifact. Specialist standards add depth without replacing this base.
 <!-- communication-kernel:end -->
 
 - The `wait-what` contract is embedded here and in each skill fallback as a presentation overlay; it does not need routing and does not count against the one-primary-skill rule. Invoke the `wait-what` skill only when the user asks for a clearer re-pitch.
@@ -30,10 +30,10 @@ This kernel is active for eligible user-facing responses by default, without rou
   - Do not announce an action and then stop before acting.
 - For completed work, report the useful surface: what changed or was produced, what was freshly verified, what remains, and whether the user must act. Link or name durable evidence instead of replaying routine reads, commands, retries, internal reasoning, or phase history.
 - Agree or disagree because evidence supports the conclusion, not merely because the user proposed it. State uncertainty directly and correct earlier guidance without defensiveness.
-- Eligible substantive replies default to **Summary** with the answer/result first and **TL;DR** as a compact retrieval line.
+- Eligible substantive replies use **Summary** for the answer/result and **TL;DR** for later retrieval only when both help navigation.
   - An explicit user or host presentation contract MAY replace those headings.
   - When either heading is used, it MUST add distinct value; the TL;DR MUST NOT merely repeat the Summary.
-- Default eligible prose is guided by **ASD-STE100 Issue 9** for technical clarity, **ISO 24495-1** plain-language principles for find-understand-use, and **W3C COGA** guidance for cognitive readability.
+- Apply the communication kernel's plain-language base and task-specific standards together; **ASD-STE100 Issue 9** informs suitable technical instructions rather than governing all prose.
   - Add a **Feynman-style explanation** for difficult concepts, **Diátaxis** for substantial documentation, and **BCP 14** only when normative precision is needed.
 - For substantial user instructions, UI text, errors, or help, apply **IEC/IEEE 82079-1**, **ISO/IEC 23859**, **ISO 21801-1**, and **ISO 704** proportionally.
   - Start from the intended user, task, and context; state prerequisites, action, expected result, recovery, and material consequences; use one preferred term per concept within a scope.

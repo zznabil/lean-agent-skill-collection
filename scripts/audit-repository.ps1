@@ -310,11 +310,21 @@ foreach ($pattern in $temporaryPatterns) {
     foreach ($match in $matches) { Add-Failure "temporary release or recovery scaffold remains: $($match.FullName.Substring($RepositoryRoot.Length + 1))" }
 }
 
+$sourceSkills = @(
+    @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File -Filter SKILL.md)
+    @(Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot 'packs') -Recurse -File -Filter SKILL.md)
+)
+foreach ($skill in $sourceSkills) {
+    $lines = [IO.File]::ReadAllLines($skill.FullName).Length
+    if ($lines -ge 100) { Add-Failure "source skill exceeds 99 lines: $($skill.FullName.Substring($RepositoryRoot.Length + 1)) ($lines)" }
+}
+if (-not ($failures | Where-Object { $_ -like 'source skill exceeds*' })) { Add-Pass "all $($sourceSkills.Count) current source skills under 100 lines" }
+
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',
     'PACKAGE-VALIDATION.json','release-profiles.json','.codex-plugin/plugin.json',
-    'docs/AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
-    '.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','scripts/audit-repository.ps1','scripts/validate.ps1','scripts/release-inventory.ps1',
+    'docs/AUDIT.md','docs/evals/communications-omp.json','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/REPOSITORY-AUDIT.md','docs/UNLAZY-REVIEW-v8.4.0.md','docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md','docs/HERMES-PROMPT-REVIEW-v8.6.0.md','docs/HERMES-INTEGRATION.md',
+    '.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','scripts/audit-repository.ps1','scripts/evaluate-communications.py','scripts/validate.ps1','scripts/release-inventory.ps1',
     'UPSTREAM-CHECKSUMS.sha256','packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/remaining-standards/README.md','packs/remaining-standards/PR-SCOPE.md','packs/controlled-execution/CHECKSUMS.sha256','packs/controlled-execution/SOURCE-BASELINE.sha256','packs/controlled-execution/README.md'
 )
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
