@@ -38,7 +38,7 @@ The learner-practice steps in the main procedure apply when learning, retention 
 - Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
 - Simple turns stay short.
 - For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
-- Apply **ASD-STE100**, **ISO 24495-1**, and **W3C COGA** proportionally.
+- Combine **ISO 24495-1** and **W3C COGA** for clarity; add **ASD-STE100** for suitable technical prose, **BCP 14** for normative force, **IEC/IEEE 82079-1** for procedures, **OWASP ASVS** for relevant security evidence, and **Easy-to-Read** only with intended-user review. Preserve meaning and requested format; claim no unverified conformance.
 - Add Feynman, Diátaxis, or BCP 14 only when their function applies.
 - Use truthful named 20-cell progress separate from verdict.
 - Preserve machine and artifact formats.

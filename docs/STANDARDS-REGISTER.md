@@ -17,6 +17,8 @@ Public documentation for standards and engineering practices that influence Lean
 |---|---|---|---|---|---|---|
 | ASD-STE100 | Issue 9, January 2025 | Existing foundation; version pinned | `wait-what / AGENTS.md` | 2026-08-30 | Issue 10 or later | [source](https://asd-ste100.org/) |
 | BCP 14 (RFC 2119 + RFC 8174) | Stable RFCs | Existing foundation | `AGENTS.md / all skills` | 2026-08-26 | RFC update or interpretation change | [source](https://www.rfc-editor.org/info/rfc8174) |
+| ISO/IEC Directives, Part 2 | Living drafting rules; current amendment tracked | Conditional normative drafting input, not a conformance claim | `AGENTS.md / writing` | 2026-09-25 | Directives revision | [source](https://www.iso.org/directives-and-policies.html) |
+| NASA Systems Engineering Handbook, Appendix C | NASA/SP-2016-6105 Rev 2 | Conditional verifiable-requirement writing input | `AGENTS.md / plan / writing` | 2026-09-25 | Handbook revision | [source](https://www.nasa.gov/reference/system-engineering-handbook-appendix/) |
 | ISO/IEC/IEEE 29148 | 2018 | Existing foundation | `ENGINEERING-CORE / plan` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/72089.html) |
 | ISO/IEC 25010 | 2023 | Existing foundation | `ENGINEERING-CORE / review / gauntlet-loop` | 2026-08-26 | New edition | [source](https://www.iso.org/standard/78176.html) |
 | ISO/IEC/IEEE 29119 series | Current series | Existing foundation | `test / gauntlet-loop` | 2026-08-26 | Material series revision | [source](https://committee.iso.org/sites/jtc1sc7/home/projects/flagship-standards/isoiecieee-29119-series.html) |

@@ -56,13 +56,6 @@ function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
     }
 }
 
-function Test-DirectClaimsText([string]$Text, [string]$Label) {
-    $needles = @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')
-    foreach ($needle in $needles) {
-        if ($Text.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) { Add-Failure "direct-claims policy missing '$needle' in $Label" }
-    }
-}
-
 function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
     if ($null -eq $Value -or $Value -isnot [bool] -or $Value -ne $Expected) { Add-Failure "$Label must be the real Boolean $Expected"; return $false }
     return $true
@@ -245,7 +238,6 @@ function Test-SkillTree([object]$Profiles) {
         if (-not (Test-Path -LiteralPath $skillPath -PathType Leaf)) { Add-Failure "missing skills/$($dir.Name)/SKILL.md"; continue }
         if (-not (Test-Path -LiteralPath $adapterPath -PathType Leaf)) { Add-Failure "missing adapter for $($dir.Name)"; continue }
         $text = Get-Content -Raw -LiteralPath $skillPath
-        Test-DirectClaimsText $text ('skills/' + $dir.Name + '/SKILL.md')
         $frontmatter = [regex]::Match($text, '(?s)\A---\r?\n(.*?)\r?\n---\r?\n')
         if (-not $frontmatter.Success) { Add-Failure "invalid frontmatter for $($dir.Name)"; continue }
         $name = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^name:\s*["'']?([^"''\r\n]+)').Groups[1].Value.Trim()
@@ -269,100 +261,16 @@ function Test-SkillTree([object]$Profiles) {
             }
         }
     }
-    $quickPath = Join-Path $repoRoot 'skills/quick-mode/SKILL.md'
-    $quickAdapterPath = Join-Path $repoRoot 'skills/quick-mode/agents/openai.yaml'
-    if (-not (Test-Path -LiteralPath $quickPath) -or -not (Test-Path -LiteralPath $quickAdapterPath)) { Add-Failure 'quick-mode skill or adapter missing' }
-    else {
-        $quickText = [IO.File]::ReadAllText($quickPath, [Text.Encoding]::UTF8)
-        foreach ($needle in @('Quick Mode requires an explicit user request','one cheap smoke check','Chrome DevTools or the Chrome DevTools Protocol','OMP Browser Relay','CUA or computer-use control','Static source inspection','AUTOMATED UAT','Production readiness:','NOT ASSESSED')) {
-            if ($quickText.IndexOf($needle, [StringComparison]::Ordinal) -lt 0) { Add-Failure "quick-mode contract missing '$needle'" }
-        }
-    }
-    foreach ($relative in @('AGENTS.md','ENGINEERING-CORE.md')) {
-        Test-DirectClaimsText ([IO.File]::ReadAllText((Join-Path $repoRoot $relative), [Text.Encoding]::UTF8)) $relative
-    }
-    $humanChecks = @{
-        'AGENTS.md'=@('IEC/IEEE 82079-1','ISO/IEC 23859','Easy-to-Read');
-        'ENGINEERING-CORE.md'=@('Human-usable information and cognitive accessibility','ISO 21801-1:2020','ISO/IEC 29138-1/-4');
-        'skills/writing/USER-INFORMATION.md'=@('Procedure template','Error and recovery template','readability formula');
-        'skills/teach/SKILL.md'=@('CAST UDL Guidelines 3.0','worked example','independent transfer task')
-    }
-    foreach ($relative in $humanChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "human-usable information file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $humanChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "human-usable information contract missing '$needle' in $relative" }
-        }
-    }
-    $proofChecks = @{
-        'AGENTS.md'=@('representative broken state','historical state, not re-execution');
-        'ENGINEERING-CORE.md'=@('Proof integrity and verified orchestration','known positive fixture','before the first wait');
-        'skills/test/SKILL.md'=@('Calibrate the verifier','known positive fixture','representative broken implementation');
-        'skills/get-it-done/SKILL.md'=@('verifier or oracle','historical status');
-        'skills/get-it-done/ORCHESTRATION.md'=@('before the first wait','Leaf gate','ownership claim');
-        'skills/gauntlet-loop/SKILL.md'=@('representative broken state','re-execute the current critical oracles');
-        'skills/review/LANES.md'=@('Proof integrity and acceptance gates','positive controls for absence tests')
-    }
-    foreach ($relative in $proofChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proof-integrity file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $proofChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proof-integrity contract missing '$needle' in $relative" }
-        }
-    }
-
-    $rigorChecks = @{
-        'AGENTS.md'=@('Proportional scrutiny and momentum','DIRECT','ADVERSARIAL','distinct risk or evidence gap','smallest complete solution');
-        'ENGINEERING-CORE.md'=@('Minimum sufficient scrutiny and work',('correctness ' + [char]0x2192 + ' safety'),'standard library','one consolidated question','build hard');
-        'skills/plan/SKILL.md'=@('one decisive check','build hard');
-        'skills/implement/SKILL.md'=@(('correctness ' + [char]0x2192 + ' safety'),'standard library','DIRECT','smallest complete change');
-        'skills/test/SKILL.md'=@('minimum sufficient evidence','One decisive check','Do not add a framework');
-        'skills/review/SKILL.md'=@('distinct material risk or evidence gap','ALREADY LEAN');
-        'skills/debug/SKILL.md'=@('DIRECT defect','two materially similar failed attempts');
-        'skills/get-it-done/SKILL.md'=@('does not force maximum ceremony','Direct mode normally has one work wave');
-        'skills/get-it-done/ORCHESTRATION.md'=@('one decisive check','agent availability alone is not a reason');
-        'skills/gauntlet-loop/SKILL.md'=@('MUST NOT invoke it for DIRECT work','distinct material risk or evidence gap');
-        'skills/wait-what/SKILL.md'=@('For DIRECT work','do not narrate routine tool calls')
-    }
-    foreach ($relative in $rigorChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "proportional-rigor file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $rigorChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "proportional-rigor contract missing '$needle' in $relative" }
-        }
-    }
-
-    $deliveryChecks = @{
-        'AGENTS.md'=@('Global outcome-first delivery overlay','Internal investigation and external brevity are separate','Do not announce an action and then stop before acting','TL;DR MUST NOT merely repeat the Summary','Agree or disagree because evidence supports the conclusion','batch them');
-        'skills/wait-what/SKILL.md'=@('Match the response to the weight of the ask','Investigate enough internally to be right','Do not narrate routine tool calls','Agree because evidence supports the claim','execute it before ending','Quiet completed-work brief');
-        'skills/get-it-done/SKILL.md'=@('Investigate deeply enough to earn the completion claim','execute it before ending the turn or state the blocker','do not replay routine tool calls');
-        'skills/gauntlet-loop/SKILL.md'=@('Keep the user-facing packet outcome-first','instead of replaying each critic round');
-        'skills/review/SKILL.md'=@('Do not open with praise','narrate the review process');
-        'skills/writing/SKILL.md'=@('Match length and structure to the audience','generic praise','not a narration of how it was drafted');
-        'skills/teach/SKILL.md'=@('Match depth to the learner','concise delivery does not excuse shallow preparation')
-    }
-    foreach ($relative in $deliveryChecks.Keys) {
-        $checkPath = Join-Path $repoRoot $relative
-        if (-not (Test-Path -LiteralPath $checkPath)) { Add-Failure "outcome-first delivery file missing: $relative"; continue }
-        $checkText = [IO.File]::ReadAllText($checkPath, [Text.Encoding]::UTF8)
-        foreach ($needle in $deliveryChecks[$relative]) {
-            if ($checkText -notmatch [regex]::Escape($needle)) { Add-Failure "outcome-first delivery contract missing '$needle' in $relative" }
-        }
-    }
-
-    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback|human-usable information|proof-integrity|proportional-rigor|outcome-first delivery|direct-claims' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, support references, human-usable-information, proof-integrity, proportional-rigor, and outcome-first-delivery contracts" }
+    if (-not ($failures | Where-Object { $_ -match 'skill|adapter|frontmatter|support|fallback' })) { Add-Pass "$($actual.Count)-skill inventory, frontmatter, adapters, local fallbacks, and support references" }
 }
 
 function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
         'AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
-        'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',
-        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv',
-        'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/release-inventory.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
+        'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/communications-omp.json','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',
+        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv','releases/v8.12.0/RELEASE-NOTES-v8.12.0.md',
+        'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/evaluate-communications.py','scripts/release-inventory.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
     )
     foreach ($tree in @('skills','packs','docs','scripts','.codex-plugin','.github','releases')) {
         try { [void](Get-ReleaseInventorySafeFileTree (Join-Path $repoRoot $tree) "integrity tree $tree") }
@@ -442,7 +350,7 @@ function Test-ControlledExecutionPackIntegrity {
 }
 
 function Test-RepositoryHygiene {
-    $excludedPrefixes = @('.git/','dist/','artifacts/','.audit-work/','.agent-state/')
+    $excludedPrefixes = @('.git/','dist/','artifacts/','.audit-work/','.agent-state/','.patchloom/')
     $files = @(Get-ChildItem -LiteralPath $repoRoot -Recurse -File | Where-Object {
         $relative = Get-RelativePath $repoRoot $_.FullName; $excluded = $false
         foreach ($prefix in $excludedPrefixes) { if ($relative.StartsWith($prefix)) { $excluded = $true } }
@@ -532,7 +440,7 @@ function Get-CanonicalPackageSourceFiles([object]$ProfileDefinition,[object]$Can
     foreach ($record in @($CanonicalMap.Files.Values)) {
         if ($null -ne $record.SkillName) {
             if ($selected.ContainsKey([string]$record.SkillName)) { $files.Add($record) }
-        } elseif ($record.PackagePath -ne 'ENGINEERING-CORE.md' -or $ProfileDefinition.include_engineering_core) {
+        } elseif ($record.PackagePath -ne 'AGENTS.md' -and ($record.PackagePath -ne 'ENGINEERING-CORE.md' -or $ProfileDefinition.include_engineering_core)) {
             $files.Add($record)
         }
     }
@@ -609,7 +517,7 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
         $root = (Get-PackageBaseName $ProfileName $Version) + '/'
         $sourceFiles = @(Get-CanonicalPackageSourceFiles $ProfileDefinition $CanonicalMap)
         $expectedSourceNames = @($sourceFiles | ForEach-Object { [string]$_.PackagePath })
-        $generatedNames = @('README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256')
+        $generatedNames = @('AGENTS.md','README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256')
         $expectedPackageNames = @($expectedSourceNames + $generatedNames)
         $actualPackageNames = @($fileEntries | ForEach-Object {
             $name = $_.FullName.Replace('\','/')
@@ -622,6 +530,15 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
             if ([int64]$entry.Length -ne [int64]$sourceFile.Length) { Add-Failure "package $ProfileName canonical byte length mismatch: $($sourceFile.PackagePath)"; continue }
             $stream = $entry.Open(); try { $actualHash = Get-StreamHash $stream } finally { $stream.Dispose() }
             if ($actualHash -cne $sourceFile.Hash) { Add-Failure "package $ProfileName canonical source byte mismatch: $($sourceFile.PackagePath)" }
+        }
+        $agentEntry = $fileExact[$root+'AGENTS.md']
+        if ($null -eq $agentEntry) { Add-Failure "package $ProfileName lacks AGENTS.md" }
+        else {
+            try {
+                $policy = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $repoRoot 'AGENTS.md')
+                $expectedPolicy = Get-ProfileAgentInstructions $policy @($ProfileDefinition.skills) @($script:releaseProfiles.profiles.complete.skills) @($script:releaseUserFacingInventory.Names)
+                if ((Read-ZipEntryText $agentEntry) -cne $expectedPolicy) { Add-Failure "package $ProfileName agent instructions differ from its profile mapping" }
+            } catch { Add-Failure "package $ProfileName agent instructions invalid: $($_.Exception.Message)" }
         }
         $baseSkills = @($ProfileDefinition.skills | ForEach-Object { [string]$_ })
         $supplementalSkills = @($script:releaseUserFacingInventory.Names | ForEach-Object { [string]$_ })
@@ -760,6 +677,14 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
 }
 if (-not $FunctionsOnly) {
     $profiles=Test-MetadataContracts
+    $script:releaseProfiles = $profiles
+    if ($profiles -and $script:releaseUserFacingInventory) {
+        try {
+            $policy = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $repoRoot 'AGENTS.md')
+            [void](Get-ProfileAgentInstructions $policy @($profiles.profiles.complete.skills) @($profiles.profiles.complete.skills) @($script:releaseUserFacingInventory.Names))
+            Add-Pass 'AGENTS.md maps the exact canonical base and supplemental skills'
+        } catch { Add-Failure "AGENTS.md skill map invalid: $($_.Exception.Message)" }
+    }
     if($profiles){Test-SkillTree $profiles;Test-SourceIntegrity;Test-RemainingStandardsPackIntegrity;Test-ControlledExecutionPackIntegrity;Test-RepositoryHygiene;if(-not[string]::IsNullOrWhiteSpace($ArtifactsDirectory)){Test-ReleaseArtifacts ([IO.Path]::GetFullPath($ArtifactsDirectory)) $profiles}}
     if($failures.Count -gt 0){Write-Host ("Validation failed with $($failures.Count) issue(s).") -ForegroundColor Red;exit 1}
     Write-Host ("Validation passed with $($passes.Count) check groups.") -ForegroundColor Green

@@ -1,0 +1,155 @@
+{
+  "model": "openai-codex/gpt-6-luna",
+  "cases": [
+    {
+      "id": "acknowledgement",
+      "category": "anti-trigger",
+      "prompt": "A teammate says the import succeeded. Acknowledge receipt only; no action is requested.",
+      "required": [
+        "^(?:Received|Noted|Got it|Understood|Thanks)[.!]?$"
+      ],
+      "forbidden": [
+        "(?i)summary|tl;dr|ASD-STE100"
+      ],
+      "skill": "none"
+    },
+    {
+      "id": "exact-artifact",
+      "category": "anti-trigger",
+      "prompt": "Return the exact string status=ok and nothing else.",
+      "required": [
+        "^status=ok$"
+      ],
+      "skill": "none"
+    },
+    {
+      "id": "customer-error",
+      "category": "implicit-writing",
+      "prompt": "Draft a short error message for customers whose upload failed. No file was saved. They should check their connection and retry. Return only the message, not an explanation of your writing choices.",
+      "required": [
+        "(?i)(?:no file was saved|file was not saved|wasn't saved)",
+        "(?i)(?:check|verify).*(?:connection|network)",
+        "(?i)(?:retry|try again)"
+      ],
+      "forbidden": [
+        "(?i)summary:|tl;dr|certified"
+      ],
+      "skill": "writing"
+    },
+    {
+      "id": "technical-procedure",
+      "category": "safety-and-procedure",
+      "prompt": "Write three numbered technician steps to replace a power module. First isolate power, then replace the module, then confirm the status LED is green. Do not invent a torque value. Return only the steps.",
+      "required": [
+        "(?m)^1\\.",
+        "(?m)^2\\.",
+        "(?m)^3\\."
+      ],
+      "ordered": [
+        "(?i)(?:isolate|disconnect).*power|power.*(?:isolate|disconnect)",
+        "(?i)replac|install",
+        "(?i)LED.*green|green.*LED"
+      ],
+      "forbidden": [
+        "(?i)\\b\\d+(?:\\.\\d+)?\\s*(?:N.?m|ft.?lb)\\b"
+      ],
+      "skill": "optional"
+    },
+    {
+      "id": "normative-strength",
+      "category": "normative",
+      "prompt": "Draft three bullet requirements for API access: authorization is mandatory; an audit log is recommended except when offline; a beta banner is optional. Use the RFC 8174 convention and retain the exception. Return only the requirements.",
+      "required": [
+        "\\bMUST\\b",
+        "\\bSHOULD\\b",
+        "\\bMAY\\b",
+        "(?i)offline"
+      ],
+      "skill": "optional"
+    },
+    {
+      "id": "quoted-prohibition",
+      "category": "meaning-preservation",
+      "prompt": "Quote exactly: 'Users MUST NOT disclose recovery codes.' Then explain the rule to a new employee in one plain sentence, preserving the prohibition. Do not mention standards.",
+      "required": [
+        "Users MUST NOT disclose recovery codes\\.",
+        "(?i)(?:never|do not|must not).*(?:share|disclose|give).*recovery codes"
+      ],
+      "forbidden": [
+        "(?i)may disclose|should not disclose|RFC 2119"
+      ],
+      "skill": "optional"
+    },
+    {
+      "id": "security-evidence",
+      "category": "security-and-certainty",
+      "prompt": "Draft a brief release decision note. An automated scan found zero critical findings; penetration testing has not run; no OWASP ASVS review was performed. Both penetration testing and ASVS review are required release gates. Explicitly decide HOLD/NO-GO until both gates pass. Say what is known and whether these results prove the application is secure. Do not invent further checks.",
+      "required": [
+        "(?i)(?:zero|no) critical",
+        "(?i)penetration test",
+        "(?i)ASVS",
+        "(?i)(?:penetration test.*(?:required|gate)|(?:required|gate).*penetration test)",
+        "(?i)(?:ASVS.*(?:required|gate)|(?:required|gate).*ASVS)",
+        "(?i)\\b(?:HOLD|NO[- ]GO)\\b",
+        "(?i)(?:not|cannot|doesn't|do not).*(?:prove|establish|confirm|verify).*secur"
+      ],
+      "forbidden": [
+        "(?i)certified (?:secure|ASVS)",
+        "(?i)fully secure\\b",
+        "(?i)\\b(?:penetration test(?:ing)?|ASVS(?: review)?).{0,45}\\b(?:not|never)\\s+(?:a\\s+)?(?:required|mandatory|release gate)\\b",
+        "(?i)\\b(?:penetration test(?:ing)?|ASVS(?: review)?).{0,45}\\b(?:optional|waived|unnecessary)\\b",
+        "(?i)\\b(?:do not|don't|never|no need to)\\s+(?:HOLD|NO[- ]GO)\\b",
+        "(?i)\\b(?:HOLD|NO[- ]GO)\\b.{0,25}\\b(?:not required|unnecessary|optional)\\b"
+      ],
+      "skill": "optional"
+    },
+    {
+      "id": "easy-to-read-boundary",
+      "category": "cognitive-accessibility",
+      "prompt": "Draft simple password-reset steps for adults with cognitive disabilities. Start at the sign-in page, select the 'Forgot password' link, request a reset email, then open that email and follow its reset link. Separately state whether this text is verified as Easy-to-Read; no intended-user testing occurred.",
+      "required": [
+        "(?i)forgot password",
+        "(?i)email",
+        "(?i)\\b(?:not|never|hasn't|isn't)\\s+(?:yet\\s+)?(?:been\\s+)?verified(?:\\s+as\\s+Easy[- ]to[- ]Read)?\\b"
+      ],
+      "ordered": [
+        "(?i)forgot password",
+        "(?i)(?:request|send|submit|ask for).{0,60}?(?:password )?reset|(?:password )?reset.{0,60}?(?:request|send|submit|ask for)|(?:send|request).{0,40}?(?:link|email)|(?:link|email).{0,40}?(?:send|request)",
+        "(?i)(?:open|check).{0,40}(?:email|inbox)|(?:email|inbox).{0,40}(?:open|check)",
+        "(?i)(?:select|click|follow|use|open).{0,50}(?:password )?reset.{0,30}link|(?:password )?reset.{0,30}link.{0,50}(?:select|click|follow|use|open)|(?:select|click|follow|use|open).{0,20}(?:the )?link.{0,30}(?:in|from) (?:the )?(?:email|message)"
+      ],
+      "forbidden": [
+        "(?i)certified Easy-to-Read",
+        "(?is)^.{0,200}(?:open|check|go to).{0,50}(?:email account|inbox).{0,120}forgot password",
+        "(?i)\\b(?:is|was|has been)\\s+verified\\s+as\\s+Easy[- ]to[- ]Read\\b"
+      ],
+      "skill": "optional"
+    },
+    {
+      "id": "teaching",
+      "category": "learning",
+      "prompt": "Explain authentication versus authorization to a new volunteer without technical background. Use one everyday example and keep it brief.",
+      "required": [
+        "(?i)authenticat",
+        "(?i)authoriz",
+        "(?i)(?:who|identity|prove)",
+        "(?i)(?:allow|permission|access)"
+      ],
+      "skill": "optional"
+    },
+    {
+      "id": "partial-evidence",
+      "category": "uncertainty-and-scope",
+      "prompt": "A colleague asks you to announce that a service is fully restored. The only evidence is one endpoint responding once; other endpoints have not been checked. Write a one-sentence customer update based on the evidence, not the colleague's claim.",
+      "required": [
+        "(?i)(?:one|single|some|part).*?(?:endpoint|service)|(?:endpoint|service).*?(?:one|single|some|part)",
+        "(?i)(?:not|yet|unknown|still).*?(?:check|confirm|verif|test|know)|(?:check|confirm|verif|test|know).*?(?:not|yet|unknown|still)"
+      ],
+      "forbidden": [
+        "(?i)^(?:the )?service is fully restored\\b",
+        "(?i)all services (?:are|have been) restored"
+      ],
+      "skill": "optional"
+    }
+  ]
+}

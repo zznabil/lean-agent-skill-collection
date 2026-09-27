@@ -1,6 +1,6 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.11.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.12.0-2563eb)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
@@ -8,7 +8,11 @@ A compact, source-browsable collection of 24 vendor-neutral agent skills for eng
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
 
-V8.11.0 adds the default communication kernel from PR20 while retaining strict metadata validation for [`quick-mode`](skills/quick-mode/SKILL.md). Read the [release notes](releases/v8.11.0/RELEASE-NOTES-v8.11.0.md).
+V8.12.0 adds profile-aware agent instructions: the governing communication kernel and an exact map of the installed skills in each release profile. Read the [release notes](releases/v8.12.0/RELEASE-NOTES-v8.12.0.md).
+
+The root `AGENTS.md` names the governing communication kernel and maps all 24 base and 27 integrated supplemental skills to task triggers. Each generated profile includes only its base-skill rows plus the shared supplemental map. The two source-only packs retain their separate catalogs and are not release-profile inputs. The repository audit enforces fewer than 100 root-policy lines.
+
+The V8.12.0 communication revision keeps ISO 24495-1 and W3C COGA as general clarity inputs, then applies task-specific technical, normative, accessibility, and security guidance where it fits. Its strengthened OMP rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must give an explicit go/no-go when required penetration testing or ASVS gates are missing. No new live-model result is claimed for this release. No formal conformance is claimed. All 134 current source `SKILL.md` files are below 100 lines; the six profile memberships and source-only pack boundaries stay unchanged. The [fixed OMP corpus](docs/evals/communications-omp.json) and [runner](scripts/evaluate-communications.py) measure a bounded set of live replies, not universal agent behavior.
 
 V8.9.0 integrates all 27 supplemental user-facing routines into six generated profiles while preserving the base routes and zero supplemental adapters. Effective profile totals were 35, 46, 50, 30, 32, and 31. Read the [integrated release notes](releases/v8.9.0/RELEASE-NOTES-v8.9.0.md), [supplemental pack](packs/user-facing-standards/README.md), and [rights notice](packs/user-facing-standards/THIRD-PARTY-NOTICES.md) before redistribution.
 
@@ -35,7 +39,7 @@ Quick Mode does not waive authorisation, destructive-action safeguards, data int
 
 When dogfooding is selected, the agent must use an appropriate tool to operate the actual running project through its intended interface. When automated UAT is selected, the agent must run or create one replayable user journey with a real assertion. Source inspection, compilation alone, unit tests alone, or an uninteracted screenshot do not satisfy those selected modes.
 
-The V8.8 prose-preservation baseline remains active. Validation permits only the declared additive Quick Mode route and profile memberships.
+The V8.8 textual baseline is historical for this revision. Current validation preserves package bytes, inventories, licensing boundaries, skill routing, and source hashes while allowing deliberate communication-prose edits; live quality is checked against the fixed OMP corpus.
 
 ## Start here
 
@@ -43,12 +47,12 @@ Choose one profile. Do not install overlapping profiles together.
 
 | Profile | Base | Supplemental | Total | Best for | Generated package |
 |---|---:|---:|---:|---|---|
-| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.11.0.zip` |
-| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.11.0.zip` |
-| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.11.0.zip` |
-| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.11.0.zip` |
-| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.11.0.zip` |
-| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.11.0.zip` |
+| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.12.0.zip` |
+| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.12.0.zip` |
+| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.12.0.zip` |
+| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.12.0.zip` |
+| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.12.0.zip` |
+| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.12.0.zip` |
 
 The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated. Quick Mode is included in Core, Engineering, Complete, and Get It Done only.
 
@@ -56,7 +60,7 @@ Browse the [skill catalogue](docs/SKILL-CATALOG.md) before choosing a profile.
 
 ## Install
 
-Install one profile ZIP as a skills-only plugin where your host supports it. Otherwise, extract one package and copy its `skills/` directories into the user-level or repository-level skill directory used by your agent host.
+Extract one profile ZIP. Put its `AGENTS.md` in the trusted project root (merge with existing instructions; do not overwrite them), and configure your agent host to load the extracted `skills/` directory. A skills-only plugin install does not activate the `AGENTS.md` communication kernel by itself.
 
 Each package follows this layout:
 
@@ -92,12 +96,14 @@ UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 On PowerShell 7 or Windows PowerShell 5.1:
 
 ```powershell
-./scripts/build-release.ps1
-./scripts/test-validator.ps1
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.11.0
+./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.12.0
+./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.12.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.12.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.12.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.12.0
 ```
+
+For an optional live communication check, install the OMP CLI, then run `python scripts/evaluate-communications.py --package ./artifacts/v8.12.0/user-facing-communication-mini-openai-v8.12.0.zip --out ./artifacts/communication-live`. The runner records each case and trace; its score applies only to the fixed prompts and current generated package.
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 
@@ -119,7 +125,7 @@ See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REP
 
 ## Release integrity
 
-The V8.10.1 release package adds strict metadata validation for one explicit-request route while retaining the V8.9 integrated 27-routine standards pack, zero supplemental adapters, and the V8.8 instruction-preservation baseline. The remaining-standards and controlled-execution packs are source-only, excluded from generated profiles, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The V8.12.0 release package retains strict Quick Mode metadata validation, the integrated 27-routine standards pack, and zero supplemental adapters. The V8.12.0 communication revision no longer treats the V8.8 textual snapshot as a current prose gate. The remaining-standards and controlled-execution packs are source-only, excluded from generated profiles, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
 
 ## Security
 

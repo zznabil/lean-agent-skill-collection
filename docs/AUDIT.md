@@ -1,3 +1,15 @@
+# V8.12.0 communication and profile-map acceptance
+
+Root `AGENTS.md` is 76 lines and maps the governing standards and all 51 integrated skills to task triggers. The audit rejects a root policy of 100 lines or more.
+
+The current candidate revises the default kernel and local skill fallbacks while retaining six profile memberships, Quick Mode metadata, and source-only pack boundaries. Every current source `SKILL.md` must have fewer than 100 lines. All six generated profiles must contain the revised kernel and only their installed base-skill rows plus all 27 supplemental rows; package integrity verifies generated policy bytes, inventories, rights, and checksums. Historical V8.8 textual preservation no longer blocks deliberate source prose edits.
+
+Run `scripts/evaluate-communications.py --package artifacts/<build>/user-facing-communication-mini-openai-v8.12.0.zip --out artifacts/<evaluation>` with OMP CLI for the ten fixed cases in `docs/evals/communications-omp.json`. The runner isolates the generated package as its skill directory, stores JSONL traces and answers, and scores evidence, recovery, audience fit, routing, and anti-trigger behavior. The strengthened rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must state an explicit go/no-go when required penetration testing or ASVS gates are missing. No new live-model result is claimed for this release. Any pass remains bounded evidence for that host and candidate, not a claim of universal compliance, formal standards conformance, or accessibility certification. Historical sections below describe earlier acceptance only.
+
+The fixed corpus accepts “the link in the email” after opening the reset email and rejects missing links, inbox-first ordering, reversed release-gate claims, and unsupported Easy-to-Read verification. No new live-model result or intended-user Easy-to-Read validation is claimed.
+
+---
+
 # V8.10.1 Quick Mode metadata repair acceptance
 
 Use [the Quick Mode design](QUICK-MODE-DESIGN-v8.10.0.md) for the inherited behavior and evidence boundary.

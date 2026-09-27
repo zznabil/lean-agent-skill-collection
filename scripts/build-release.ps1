@@ -7,6 +7,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $definitionPath = Join-Path $repoRoot 'release-profiles.json'
 $definition = Get-Content -Raw -LiteralPath $definitionPath | ConvertFrom-Json
+. (Join-Path $PSScriptRoot 'release-inventory.ps1')
 $version = [string]$definition.version
 $releaseName = [string]$definition.release
 
@@ -512,7 +513,8 @@ foreach ($profileProperty in $profileProperties) {
         $copyEntries.Add([pscustomobject]@{ Name = $skillName; SourcePath = $source })
     }
 
-    Copy-Item -LiteralPath (Join-Path $repoRoot 'AGENTS.md') -Destination $packageDirectory
+    $policy = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $repoRoot 'AGENTS.md')
+    Write-Utf8File (Join-Path $packageDirectory 'AGENTS.md') (Get-ProfileAgentInstructions $policy $baseSkills $completeBaseSkills $userFacingNames)
     if ($profileDefinition.include_engineering_core) {
         Copy-Item -LiteralPath (Join-Path $repoRoot 'ENGINEERING-CORE.md') -Destination $packageDirectory
     }

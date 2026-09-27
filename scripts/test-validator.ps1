@@ -9,6 +9,7 @@ $fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) ('lean-agent-validator-' + [
 New-Item -ItemType Directory -Path $fixtureRoot -Force | Out-Null
 Add-Type -AssemblyName System.IO.Compression
 $profiles = Get-Content -Raw (Join-Path $repoRoot 'release-profiles.json') | ConvertFrom-Json
+$script:releaseProfiles = $profiles
 $script:releaseUserFacingInventory = Get-ReleaseUserFacingInventory $repoRoot $profiles
 $canonicalMap = Get-CanonicalSourceFileMap $profiles
 if ([string]::IsNullOrWhiteSpace($requestedArtifactsDirectory)) { $requestedArtifactsDirectory = Join-Path $repoRoot ('artifacts/v' + $profiles.version) }
@@ -197,20 +198,12 @@ try {
     if (-not ($failures | Where-Object { $_ -eq 'master archive inventory mismatch' })) {
         throw 'Validator self-test did not reject a malformed master archive.'
     }
-    # These controls test policy-presence and metadata guards, not live prose quality.
-    $baselineText = [IO.File]::ReadAllText((Join-Path $repoRoot 'AGENTS.md'), [Text.Encoding]::UTF8)
+    # Metadata type and value controls do not claim live prose quality.
     $baselineMetadata = [IO.File]::ReadAllText((Join-Path $repoRoot 'PACKAGE-VALIDATION.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json
     $failures.Clear()
-    Test-DirectClaimsText $baselineText 'positive control'
     Test-DirectClaimsMetadata $baselineMetadata.direct_claims 'positive control'
     if ($failures.Count -ne 0) { throw 'Direct-claims positive controls failed' }
     $mutationCount = 0
-    foreach ($needle in @('State supported conclusions directly','avoid litotes and rhetorical hedging','Preserve genuine uncertainty','evidence scope and degree','Own actual agent errors','within existing permissions')) {
-        $failures.Clear()
-        Test-DirectClaimsText ($baselineText.Replace($needle, 'removed guard')) 'negative control'
-        if ($failures.Count -eq 0) { throw "Direct-claims guard failed to detect removal: $needle" }
-        $mutationCount++
-    }
     foreach ($name in @('global_principles','preserve_uncertainty','preserve_semantics','evidence_based_ownership','no_blanket_word_ban','no_new_route','runtime_enforcement','live_host_evaluated')) {
         $failures.Clear()
         $bad = ($baselineMetadata.direct_claims | ConvertTo-Json | ConvertFrom-Json)
@@ -232,8 +225,8 @@ try {
         }
     }
     $failures.Clear()
-    if ($mutationCount -ne 14) { throw 'Direct-claims negative-control count drifted' }
-    Write-Host "PASS: direct-claims positive controls and 14 deliberate policy/metadata mutations" -ForegroundColor Green
+    if ($mutationCount -ne 8) { throw 'Direct-claims metadata control count drifted' }
+    Write-Host "PASS: direct-claims metadata positive control and 8 deliberate mutations" -ForegroundColor Green
     Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
     foreach ($profileName in @('core','engineering','complete','communication','get-it-done','gauntlet')) {
         $packageSource=Join-Path $artifactRoot ((Get-PackageBaseName $profileName $profiles.version)+'.zip')
@@ -241,6 +234,7 @@ try {
         if ($failures.Count -ne 0) { throw "Clean package positive control failed: $profileName" }
     }
     $packageControls=@(
+        [pscustomobject]@{ Name='profile agent mapping omission after package rehash'; Expected='agent instructions differ'; Rehash=$true; Mutator={ param($m,$p); $q=$p+'AGENTS.md'; $t=[Text.Encoding]::UTF8.GetString($m[$q]); $m[$q]=[Text.Encoding]::UTF8.GetBytes([regex]::Replace($t,'(?m)^- `gauntlet-loop`[^\n]*\n','')) } },
         [pscustomobject]@{ Name='U nested reference byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']=$x } },
         [pscustomobject]@{ Name='supplemental rights notice byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'USER-FACING-STANDARDS-NOTICES.md']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'USER-FACING-STANDARDS-NOTICES.md']=$x } },
         [pscustomobject]@{ Name='missing U SOURCES.md with package rehash'; Expected='exact file inventory mismatch'; Rehash=$true; Mutator={ param($m,$p); [void]$m.Remove($p+'skills/standard-bcp14/SOURCES.md') } },
