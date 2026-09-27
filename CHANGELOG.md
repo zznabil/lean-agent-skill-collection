@@ -5,9 +5,9 @@
 - Apply plain-language and cognitive-accessibility principles contextually; use technical, normative, security, and specialized Easy-to-Read guidance only when the task warrants it, without claiming conformance.
 - Keep every current source skill under 100 lines, retaining standalone fallbacks and the same six profile memberships; generated profiles carry the revised core.
 - Redesign root `AGENTS.md` under 100 lines: preserve the governing communication, safety, trust and evidence rules; map all 24 base task skills and 27 integrated supplemental skills to explicit triggers. Generate each profile’s instructions with only its included base routes; keep source-only pack catalogs separate.
-- Accept contextual “the link in the email” after opening a reset email while retaining missing-link and inbox-first controls; the same saved compact-policy trace rescored 10/10 after one false-negative rubric correction, without a second model run.
-- Strengthen the OMP rubric: reset guidance directs users to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending the link. Security release notes give an explicit go/no-go when required penetration testing or ASVS gates are missing. The local-only historical baseline report (`artifacts/communication-live-baseline-20260925/report.json`) does not establish this candidate's result; record a new run before reporting it.
-- Replace historical phrase-pinning with structural/package integrity checks and a fixed, trace-backed OMP communication corpus.
+- Accept contextual “the link in the email” after opening a reset email while retaining missing-link and inbox-first controls; the fixed corpus retains missing-link and inbox-first rejection controls.
+- Strengthen the OMP rubric: reset guidance directs users to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending the link. Security release notes give an explicit go/no-go when required penetration testing or ASVS gates are missing. No new live-model result is claimed for this release.
+- Replace historical phrase-pinning with structural, critical safety-contract, and package integrity checks plus a fixed OMP communication corpus.
 
 ## 8.11.0 — 2026-09-22
 

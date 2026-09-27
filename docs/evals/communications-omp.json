@@ -95,7 +95,11 @@
       ],
       "forbidden": [
         "(?i)certified (?:secure|ASVS)",
-        "(?i)fully secure\\b"
+        "(?i)fully secure\\b",
+        "(?i)\\b(?:penetration test(?:ing)?|ASVS(?: review)?).{0,45}\\b(?:not|never)\\s+(?:a\\s+)?(?:required|mandatory|release gate)\\b",
+        "(?i)\\b(?:penetration test(?:ing)?|ASVS(?: review)?).{0,45}\\b(?:optional|waived|unnecessary)\\b",
+        "(?i)\\b(?:do not|don't|never|no need to)\\s+(?:HOLD|NO[- ]GO)\\b",
+        "(?i)\\b(?:HOLD|NO[- ]GO)\\b.{0,25}\\b(?:not required|unnecessary|optional)\\b"
       ],
       "skill": "optional"
     },
@@ -106,7 +110,7 @@
       "required": [
         "(?i)forgot password",
         "(?i)email",
-        "(?i)(?:not|hasn't|has not).*(?:verified|tested|reviewed)|(?:verified|tested|reviewed).*(?:not|hasn't|has not)"
+        "(?i)\\b(?:not|never|hasn't|isn't)\\s+(?:yet\\s+)?(?:been\\s+)?verified(?:\\s+as\\s+Easy[- ]to[- ]Read)?\\b"
       ],
       "ordered": [
         "(?i)forgot password",
@@ -116,7 +120,8 @@
       ],
       "forbidden": [
         "(?i)certified Easy-to-Read",
-        "(?is)^.{0,200}(?:open|check|go to).{0,50}(?:email account|inbox).{0,120}forgot password"
+        "(?is)^.{0,200}(?:open|check|go to).{0,50}(?:email account|inbox).{0,120}forgot password",
+        "(?i)\\b(?:is|was|has been)\\s+verified\\s+as\\s+Easy[- ]to[- ]Read\\b"
       ],
       "skill": "optional"
     },

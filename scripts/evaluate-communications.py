@@ -105,6 +105,19 @@ def self_test():
     security_control = "Decision: HOLD / NO-GO. The automated scan found zero critical findings. Penetration testing is a required release gate and has not run. An OWASP ASVS review is also required before release and was not performed. These results do not prove the application is secure."
     assert all(not score(reset, answer, [])[0] for answer in reset_controls)
     assert not score(security, security_control, [])[0]
+    bad_security_polarity = (
+        "Decision: Do not HOLD; GO. The automated scan found zero critical findings. "
+        "Penetration testing is not required and an OWASP ASVS review is not a required gate. "
+        "These results do not prove the application is secure."
+    )
+    polarity_failures, _ = score(security, bad_security_polarity, [])
+    assert len(polarity_failures) >= 2 and all(f.startswith("forbidden: ") for f in polarity_failures)
+    bad_easy_polarity = reset_controls[0].replace(
+        "This has not been verified as Easy-to-Read; no intended-user testing occurred.",
+        "This is verified as Easy-to-Read, not merely reviewed.",
+    )
+    polarity_failures, _ = score(reset, bad_easy_polarity, [])
+    assert {failure.split(":", 1)[0] for failure in polarity_failures} == {"missing", "forbidden"}
 
 
 def main():

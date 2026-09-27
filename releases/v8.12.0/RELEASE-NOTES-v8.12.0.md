@@ -5,7 +5,7 @@
 - Redesign `AGENTS.md` around an always-active communication kernel, explicit standards by task, action and evidence boundaries, and a task map for 24 base skills and 27 supplemental routines.
 - Generate a profile-specific `AGENTS.md` in each of the six release ZIPs. Each map lists only that profile's base skills plus all 27 supplemental routines; routing and profile membership do not change.
 - Validate the root map against source inventories and each packaged map against its profile, including a rehashed missing-entry rejection control. Read the UTF-8 policy consistently on PowerShell 7 and Windows PowerShell 5.1.
-- Refine the fixed communication evaluation rubric for reset-link sequence and required security release gates. A saved trace rescored after a matcher correction is not a new model run.
+- Refine the fixed communication evaluation rubric for reset-link sequence and required security release gates. The fixed corpus rejects reversed gate decisions and unsupported Easy-to-Read verification; no new live-model result is claimed.
 
 ## Install and limits
 
