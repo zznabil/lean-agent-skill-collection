@@ -269,7 +269,7 @@ function Get-CanonicalUpstreamIntegrityPaths {
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
         'AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
         'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/communications-omp.json','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',
-        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv',
+        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv','releases/v8.12.0/RELEASE-NOTES-v8.12.0.md',
         'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/evaluate-communications.py','scripts/release-inventory.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
     )
     foreach ($tree in @('skills','packs','docs','scripts','.codex-plugin','.github','releases')) {
@@ -440,7 +440,7 @@ function Get-CanonicalPackageSourceFiles([object]$ProfileDefinition,[object]$Can
     foreach ($record in @($CanonicalMap.Files.Values)) {
         if ($null -ne $record.SkillName) {
             if ($selected.ContainsKey([string]$record.SkillName)) { $files.Add($record) }
-        } elseif ($record.PackagePath -ne 'ENGINEERING-CORE.md' -or $ProfileDefinition.include_engineering_core) {
+        } elseif ($record.PackagePath -ne 'AGENTS.md' -and ($record.PackagePath -ne 'ENGINEERING-CORE.md' -or $ProfileDefinition.include_engineering_core)) {
             $files.Add($record)
         }
     }
@@ -517,7 +517,7 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
         $root = (Get-PackageBaseName $ProfileName $Version) + '/'
         $sourceFiles = @(Get-CanonicalPackageSourceFiles $ProfileDefinition $CanonicalMap)
         $expectedSourceNames = @($sourceFiles | ForEach-Object { [string]$_.PackagePath })
-        $generatedNames = @('README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256')
+        $generatedNames = @('AGENTS.md','README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256')
         $expectedPackageNames = @($expectedSourceNames + $generatedNames)
         $actualPackageNames = @($fileEntries | ForEach-Object {
             $name = $_.FullName.Replace('\','/')
@@ -530,6 +530,15 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
             if ([int64]$entry.Length -ne [int64]$sourceFile.Length) { Add-Failure "package $ProfileName canonical byte length mismatch: $($sourceFile.PackagePath)"; continue }
             $stream = $entry.Open(); try { $actualHash = Get-StreamHash $stream } finally { $stream.Dispose() }
             if ($actualHash -cne $sourceFile.Hash) { Add-Failure "package $ProfileName canonical source byte mismatch: $($sourceFile.PackagePath)" }
+        }
+        $agentEntry = $fileExact[$root+'AGENTS.md']
+        if ($null -eq $agentEntry) { Add-Failure "package $ProfileName lacks AGENTS.md" }
+        else {
+            try {
+                $policy = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $repoRoot 'AGENTS.md')
+                $expectedPolicy = Get-ProfileAgentInstructions $policy @($ProfileDefinition.skills) @($script:releaseProfiles.profiles.complete.skills) @($script:releaseUserFacingInventory.Names)
+                if ((Read-ZipEntryText $agentEntry) -cne $expectedPolicy) { Add-Failure "package $ProfileName agent instructions differ from its profile mapping" }
+            } catch { Add-Failure "package $ProfileName agent instructions invalid: $($_.Exception.Message)" }
         }
         $baseSkills = @($ProfileDefinition.skills | ForEach-Object { [string]$_ })
         $supplementalSkills = @($script:releaseUserFacingInventory.Names | ForEach-Object { [string]$_ })
@@ -668,6 +677,14 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
 }
 if (-not $FunctionsOnly) {
     $profiles=Test-MetadataContracts
+    $script:releaseProfiles = $profiles
+    if ($profiles -and $script:releaseUserFacingInventory) {
+        try {
+            $policy = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $repoRoot 'AGENTS.md')
+            [void](Get-ProfileAgentInstructions $policy @($profiles.profiles.complete.skills) @($profiles.profiles.complete.skills) @($script:releaseUserFacingInventory.Names))
+            Add-Pass 'AGENTS.md maps the exact canonical base and supplemental skills'
+        } catch { Add-Failure "AGENTS.md skill map invalid: $($_.Exception.Message)" }
+    }
     if($profiles){Test-SkillTree $profiles;Test-SourceIntegrity;Test-RemainingStandardsPackIntegrity;Test-ControlledExecutionPackIntegrity;Test-RepositoryHygiene;if(-not[string]::IsNullOrWhiteSpace($ArtifactsDirectory)){Test-ReleaseArtifacts ([IO.Path]::GetFullPath($ArtifactsDirectory)) $profiles}}
     if($failures.Count -gt 0){Write-Host ("Validation failed with $($failures.Count) issue(s).") -ForegroundColor Red;exit 1}
     Write-Host ("Validation passed with $($passes.Count) check groups.") -ForegroundColor Green

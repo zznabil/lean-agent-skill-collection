@@ -73,6 +73,10 @@ def self_test():
         "Select Forgot password, then open the inbox and select the reset link. "
         "This has not been verified as Easy-to-Read; no intended-user testing occurred."
     )
+    missing_link = (
+        "Select Forgot password. Request a reset email. Open the email. "
+        "This has not been verified as Easy-to-Read; no intended-user testing occurred."
+    )
     bad_security_decision = (
         "Zero critical findings. Penetration testing is a required release gate and has "
         "not run. OWASP ASVS review is also a required release gate and has not occurred. "
@@ -82,6 +86,8 @@ def self_test():
     inbox_first = next(pattern for pattern in reset["forbidden"] if "email account" in pattern)
     assert reset_failures == [f"forbidden: {inbox_first}"]
     assert score(reset, incomplete_reset, [])[0]
+    link_failures, _ = score(reset, missing_link, [])
+    assert len(link_failures) == 1 and link_failures[0].startswith("out of order or missing:")
     security_failures, _ = score(security, bad_security_decision, [])
     decision_required = next(pattern for pattern in security["required"] if "HOLD" in pattern)
     assert security_failures == [f"missing: {decision_required}"]
@@ -92,6 +98,9 @@ def self_test():
         "Select Forgot password, enter your email address, select Send reset link, then "
         "open the email and click the reset link. This has not been verified as "
         "Easy-to-Read; no intended-user testing occurred.",
+        "Select Forgot password, request a reset email, and open that email. Select "
+        "the link in the email. This has not been verified as Easy-to-Read; "
+        "no intended-user testing occurred.",
     )
     security_control = "Decision: HOLD / NO-GO. The automated scan found zero critical findings. Penetration testing is a required release gate and has not run. An OWASP ASVS review is also required before release and was not performed. These results do not prove the application is secure."
     assert all(not score(reset, answer, [])[0] for answer in reset_controls)

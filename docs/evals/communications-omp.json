@@ -112,7 +112,7 @@
         "(?i)forgot password",
         "(?i)(?:request|send|submit|ask for).{0,60}?(?:password )?reset|(?:password )?reset.{0,60}?(?:request|send|submit|ask for)|(?:send|request).{0,40}?(?:link|email)|(?:link|email).{0,40}?(?:send|request)",
         "(?i)(?:open|check).{0,40}(?:email|inbox)|(?:email|inbox).{0,40}(?:open|check)",
-        "(?i)(?:select|click|follow|use|open).{0,50}(?:password )?reset.{0,30}link|(?:password )?reset.{0,30}link.{0,50}(?:select|click|follow|use|open)"
+        "(?i)(?:select|click|follow|use|open).{0,50}(?:password )?reset.{0,30}link|(?:password )?reset.{0,30}link.{0,50}(?:select|click|follow|use|open)|(?:select|click|follow|use|open).{0,20}(?:the )?link.{0,30}(?:in|from) (?:the )?(?:email|message)"
       ],
       "forbidden": [
         "(?i)certified Easy-to-Read",

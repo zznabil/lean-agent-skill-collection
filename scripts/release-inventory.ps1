@@ -56,6 +56,20 @@ function Test-ReleaseInventoryMemberSet([object[]]$Expected, [object[]]$Actual) 
     return $true
 }
 
+function Get-ProfileAgentInstructions([string]$Policy, [object[]]$ProfileSkills, [object[]]$AllBaseSkills, [object[]]$SupplementalSkills) {
+    $base = [regex]::Match($Policy, '(?s)(?<=<!-- base-skills:start -->\n).*?(?=<!-- base-skills:end -->)')
+    $supplemental = [regex]::Match($Policy, '(?s)(?<=<!-- supplemental-skills:start -->\n).*?(?=<!-- supplemental-skills:end -->)')
+    if (-not $base.Success -or -not $supplemental.Success) { throw 'AGENTS.md skill-map markers are missing.' }
+    $baseRows = @([regex]::Matches($base.Value, '(?m)^- `([a-z0-9-]+)`[^\n]*$') | ForEach-Object { $_.Groups[1].Value })
+    $supplementalRows = @([regex]::Matches($supplemental.Value, '`([a-z0-9-]+)`') | ForEach-Object { $_.Groups[1].Value })
+    if (-not (Test-ReleaseInventoryMemberSet $AllBaseSkills $baseRows) -or -not (Test-ReleaseInventoryMemberSet $SupplementalSkills $supplementalRows) -or
+        (Get-RawInventoryDuplicates $baseRows).Count -gt 0 -or (Get-RawInventoryDuplicates $supplementalRows).Count -gt 0 -or
+        $baseRows.Count -ne @($base.Value -split "`n" | Where-Object { $_.Trim() }).Count) {
+        throw 'AGENTS.md skill map differs from the canonical profile and supplemental inventories.'
+    }
+    $selected = @($base.Value -split "`n" | Where-Object { $_ -match '^- `([a-z0-9-]+)`' -and $ProfileSkills -ccontains $matches[1] })
+    return $Policy.Substring(0, $base.Index) + (($selected -join "`n") + "`n") + $Policy.Substring($base.Index + $base.Length)
+}
 function Get-ReleaseArchiveSkillFolders([object[]]$Entries, [string]$Root) {
     $exact = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
     $caseFolded = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::OrdinalIgnoreCase)

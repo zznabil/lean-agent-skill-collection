@@ -319,6 +319,9 @@ foreach ($skill in $sourceSkills) {
     if ($lines -ge 100) { Add-Failure "source skill exceeds 99 lines: $($skill.FullName.Substring($RepositoryRoot.Length + 1)) ($lines)" }
 }
 if (-not ($failures | Where-Object { $_ -like 'source skill exceeds*' })) { Add-Pass "all $($sourceSkills.Count) current source skills under 100 lines" }
+$policyLines = [IO.File]::ReadAllLines((Join-Path $RepositoryRoot 'AGENTS.md')).Length
+if ($policyLines -ge 100) { Add-Failure "root AGENTS.md exceeds 99 lines ($policyLines)" }
+else { Add-Pass "root AGENTS.md under 100 lines ($policyLines)" }
 
 $currentTextFiles = @(
     'README.md','AGENTS.md','ENGINEERING-CORE.md','CHANGELOG.md','CITATION.cff',

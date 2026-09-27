@@ -9,6 +9,7 @@ $fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) ('lean-agent-validator-' + [
 New-Item -ItemType Directory -Path $fixtureRoot -Force | Out-Null
 Add-Type -AssemblyName System.IO.Compression
 $profiles = Get-Content -Raw (Join-Path $repoRoot 'release-profiles.json') | ConvertFrom-Json
+$script:releaseProfiles = $profiles
 $script:releaseUserFacingInventory = Get-ReleaseUserFacingInventory $repoRoot $profiles
 $canonicalMap = Get-CanonicalSourceFileMap $profiles
 if ([string]::IsNullOrWhiteSpace($requestedArtifactsDirectory)) { $requestedArtifactsDirectory = Join-Path $repoRoot ('artifacts/v' + $profiles.version) }
@@ -233,6 +234,7 @@ try {
         if ($failures.Count -ne 0) { throw "Clean package positive control failed: $profileName" }
     }
     $packageControls=@(
+        [pscustomobject]@{ Name='profile agent mapping omission after package rehash'; Expected='agent instructions differ'; Rehash=$true; Mutator={ param($m,$p); $q=$p+'AGENTS.md'; $t=[Text.Encoding]::UTF8.GetString($m[$q]); $m[$q]=[Text.Encoding]::UTF8.GetBytes([regex]::Replace($t,'(?m)^- `gauntlet-loop`[^\n]*\n','')) } },
         [pscustomobject]@{ Name='U nested reference byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']=$x } },
         [pscustomobject]@{ Name='supplemental rights notice byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'USER-FACING-STANDARDS-NOTICES.md']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'USER-FACING-STANDARDS-NOTICES.md']=$x } },
         [pscustomobject]@{ Name='missing U SOURCES.md with package rehash'; Expected='exact file inventory mismatch'; Rehash=$true; Mutator={ param($m,$p); [void]$m.Remove($p+'skills/standard-bcp14/SOURCES.md') } },

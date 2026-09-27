@@ -90,7 +90,7 @@ function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [s
   $prefix=(Package-Name $Profile $Version)+'/'
   $expected=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
   $expected.Add('USER-FACING-STANDARDS-NOTICES.md',$script:proseInventory.RightsPath)
-  foreach ($relative in @('AGENTS.md','LICENSE','THIRD_PARTY_NOTICES.md'))
+  foreach ($relative in @('LICENSE','THIRD_PARTY_NOTICES.md'))
   { $expected.Add($relative,(Join-Path $root $relative))
   }
   if ($Definition.include_engineering_core)
@@ -114,7 +114,7 @@ function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [s
       $expected.Add($relative,$file.FullName)
     }
   }
-  foreach ($relative in @('README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256'))
+  foreach ($relative in @('AGENTS.md','README.md','.codex-plugin/plugin.json','PACKAGE-VALIDATION.json','CHECKSUMS.sha256'))
   { $expected.Add($relative,'')
   }
   $zip=[IO.Compression.ZipFile]::OpenRead($Path)
@@ -169,6 +169,8 @@ function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [s
       }
     }
     Assert-SameSequence @($entries.Keys | Where-Object { $_ -ne 'CHECKSUMS.sha256' } | Sort-Object) @($declared.Keys | Sort-Object) "checksum coverage $Profile"
+    $expectedPolicy = Get-ProfileAgentInstructions $agents @($Definition.skills) @($profiles.profiles.complete.skills) @($script:proseInventory.Names)
+    if ((Entry-Text $entries['AGENTS.md']) -cne $expectedPolicy) { throw "PRESERVATION: profile agent skill map differs: $Profile" }
     Assert-CommunicationKernel (Entry-Text $entries['AGENTS.md'])
   } finally
   { $zip.Dispose()
