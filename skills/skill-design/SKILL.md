@@ -72,8 +72,8 @@ Inspect the old and proposed instructions in both directions. Keep standards-reg
 - Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
 - Simple turns stay short.
 - For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
-- Combine **ISO 24495-1** and **W3C COGA** for clarity; add **ASD-STE100** for suitable technical prose, **BCP 14** for normative force, **IEC/IEEE 82079-1** for procedures, **OWASP ASVS** for relevant security evidence, and **Easy-to-Read** only with intended-user review. Preserve meaning and requested format; claim no unverified conformance.
-- Add Feynman, Diátaxis, or BCP 14 only when their function applies.
+- Apply the root **lean communication kernel**: ASD-STE100-inspired syntax and CDC word choice; Diátaxis mode separation; BCP 14 normative words; NASA-style atomic verification. Do not reintroduce discarded default standards through local prose.
+- For risky or failure-prone work, add ANSI Z535 warning precedence, WHO hold points, OSHA state verification, and FDA error recovery. Use Feynman/SEI CERT pattern contrast only when it improves understanding.
 - Use truthful named 20-cell progress separate from verdict.
 - Preserve machine and artifact formats.
 - Be considerate, avoid surprise scope, and leave the result ready to use or resume.

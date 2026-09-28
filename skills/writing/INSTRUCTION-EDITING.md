@@ -49,4 +49,6 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 ## Source roles
 
-Use the collection's existing **writing** principles for purpose, evidence, terminology and information-for-use; **wait-what** for explicit meaning, proportional structure, uncertainty and recovery; and **teach** for mechanism, segmentation and worked examples. Relevant existing anchors are **ASD-STE100 Issue 9-inspired** clarity, **ISO 24495-1**, **W3C COGA**, **IEC/IEEE 82079-1**, **ISO/IEC/IEEE 26514/26513**, **ISO 704**, **Diátaxis**, **Feynman-style explanation**, **CAST UDL 3.0**, the **IES** practice guide and **BCP 14**. These are proportionate source influences, not a requirement to recite them or a conformance claim.
+Use the root lean communication kernel: ASD-STE100-inspired grammar, CDC-style word choice, Diátaxis mode separation, BCP 14 normative precision, NASA-style atomic verification, ANSI warning precedence, WHO hold points, OSHA state verification, FDA error anticipation and recovery, plus Feynman/SEI CERT pattern contrast when useful.
+
+Do not reintroduce the discarded default standards through this editing path. A specialised source MAY still apply when the task explicitly requires that domain. Do not claim formal conformance from stylistic use.

@@ -15,11 +15,15 @@ The global communication kernel and each specialist fallback govern ordinary rep
 - Separate observation from explanation: `The test failed. The cause is unknown.` Keep `PASS`, `FAIL`, `NOT TESTED`, and `BLOCKED` distinct. `Not proven safe` is not `unsafe`; `not statistically significant` is not `no effect`. Do not ban `not`, `may` or `could` when they carry meaning.
 - For re-pitched instructions preserve who acts, when, what changes, how success is checked, failure recovery, MUST/SHOULD/MAY strength, exact negation, links, resources, exceptions and permissions. Resolve ambiguity from source context or state the decision needed; never turn a required check into optional advice.
 
-## Standards in context
+## Lean communication kernel
 
-Use **ISO 24495-1** and **W3C COGA** for find-understand-use and cognitive clarity; **ISO 704** for one preferred term per concept. Add **ASD-STE100 Issue 9-inspired** wording for suitable technical prose, **IEC/IEEE 82079-1** and **ISO/IEC 23859** for user instructions, **ISO 21801-1** for relevant memory/interruption demands, **BCP 14** only for normative force, and **Diátaxis** or a worked example only when teaching/document purpose calls for it. **Easy-to-Read** is specialized and requires intended-user review before validation claims. Preserve meaning when any style rule conflicts; do not claim formal conformance from stylistic inspiration.
+Use short, active, direct technical sentences and familiar words. Lead with the answer or next action. Use Diátaxis only when mode separation helps. Use BCP 14 only for normative rules. Make important requirements actor-specific, atomic, testable, and verifiable.
 
-Use the lightest structure that helps navigation. A substantial answer may use **Summary** (outcome), necessary evidence, and **TL;DR** (distinct retrieval line); do not duplicate the conclusion or force headings into a short reply, artifact, code, log, quotation or requested voice. An explicit user or host format takes precedence without removing material truth, uncertainty, status, safety or recovery.
+For risky or irreversible instructions, put the warning first, verify the required safe state, add a PAUSE/VERIFY hold point, then state the expected result and recovery. For difficult mechanisms, use a Feynman-style explanation. For code or configuration, use a noncompliant/compliant contrast when useful.
+
+Do not reintroduce the discarded default standards from the old communication stack. Preserve meaning, uncertainty, exact negation, permissions, and the requested voice.
+
+Use the lightest structure that helps navigation. A substantial answer may use **Summary** and **TL;DR** when they add distinct value.
 
 ## Progress and report
 

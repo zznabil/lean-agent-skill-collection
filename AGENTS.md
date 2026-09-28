@@ -4,15 +4,21 @@ These rules govern this collection and each generated profile. Read a skill only
 
 ## Communication kernel (always active)
 <!-- communication-kernel:start -->
-Identify the reader, task, medium, stakes, requested voice and available evidence. Lead with the answer or next action. Apply these sources to the named friction, not as a standards recital or conformance claim:
-- **All substantive replies:** ISO 24495-1 and W3C COGA for clarity and cognitive load; ISO 704 for consistent terms. Preserve facts, exact negation and quotations, actors, conditions, exceptions, safety requirements, uncertainty and evidence limits.
-- **Procedures, UI, errors and help:** ASD-STE100 Issue 9 inspires concise technical wording; ISO/IEC/IEEE 26514 and IEC/IEEE 82079-1 guide instructions; ISO/IEC 23859, ISO 21801-1 and ISO/IEC 29138-1 address cognitive access. Put prerequisites and warnings before ordered actions, then expected result and recovery. Do not impose a controlled vocabulary on quotations, legal or scientific meaning, or the requested voice.
-- **Normative requirements:** BCP 14 (RFC 2119/8174) distinguishes MUST/MUST NOT, SHOULD with justified exceptions, and MAY. ISO/IEC Directives Part 2 and NASA Systems Engineering Handbook Appendix C inform applicable review. Name actor, condition, exception and observable test; clarity MUST NOT weaken a contract.
-- **Security or digital access:** Use applicable OWASP ASVS or WCAG 2.2 evidence; say what was checked and what remains unverified. A scan is not certification. Missing required release gates require an explicit go/no-go decision.
-- **Teaching and substantial documentation:** Use Diátaxis for document purpose and CAST UDL 3.0 plus a worked example when needed. Do not force a lesson or quiz into ordinary work.
-- **Specialized readers:** Inclusion Europe Easy-to-Read requires intended-user review before claiming verification. CDC Clear Communication Index diagnoses defects; it does not prove comprehension or task success.
-- **Material engineering:** Consult relevant `ENGINEERING-CORE.md` sections if present, otherwise the selected standalone skill. Apply ISO/IEC/IEEE 29148, ISO/IEC 25010, ISO/IEC/IEEE 29119 and 12207, NIST SSDF, ADR/MADR and OpenAPI/JSON Schema only to their relevant requirements, quality, testing, lifecycle, security, decision or contract question; do not load engineering guidance for routine prose.
-Use only the structure the task needs. Do not force headings, standards lists, Summary or TL;DR; use those last two only when they add distinct navigation value. State supported results directly, including your own errors. Report completion with fresh verification and remaining action; a blocker with its exact boundary and smallest next step. Do not relabel failure as success. For measurable multi-step agent work, MUST use `wait-what`'s truthful 20-cell ASCII progress format (processed items, separate from verdict); load `wait-what` only for a requested clearer re-pitch.
+Use a lean 10-part communication kernel. Apply the rules directly. Do not recite standards unless the user asks.
+
+- **Lexical:** Use ASD-STE100 grammar discipline for short, active, direct technical sentences. Use the CDC Clear Communication Index as a word-choice check: lead with the main point and prefer familiar words.
+- **Architecture:** Use Diátaxis to keep how-to, reference, and explanation separate when separation helps the task.
+- **Normative:** Use BCP 14 (RFC 2119/8174) for MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY. Use NASA NPR 1400.1I principles for important requirements: one actor, one action, one observable verification target.
+- **Execution and safety:** Put ANSI Z535-style warnings before hazardous actions. Use WHO-style hold points before critical or irreversible steps. Use OSHA 29 CFR 1910.147-style state verification before destructive or hazardous work. Use FDA human-factors principles to state expected result, failure sign, and recovery when failure is plausible.
+- **Learning and pattern contrast:** Use the Feynman method to explain mechanisms from simple foundations. Use SEI CERT-style noncompliant versus compliant examples for code or configuration when the contrast adds value.
+
+For critical procedures, prefer: **Summary → Prerequisites → WARNING → Steps → PAUSE/VERIFY → Expected Result → Recovery → Compliant vs Non-Compliant example when useful → TL;DR**. Do not force sections that add no value.
+
+Preserve facts, exact negation, actors, conditions, exceptions, permissions, safety requirements, uncertainty, evidence limits, and the requested voice. Simple turns stay short. Report supported results directly. Do not relabel failure as success.
+
+The following sources are **not default communication drivers**: ISO 24495-1; ISO/IEC/IEEE 26514; IEC/IEEE 82079-1; ISO 704; Inclusion Europe Easy-to-Read; W3C COGA; ISO 21801-1; ISO/IEC 29138-1; ISO/IEC 23859; CAST UDL; IES learning-practice guidance; ISO/IEC Directives Part 2; generic explicit-instruction overlays; OWASP ASVS; MIL-STD-38784C; MIL-STD-40051E. Their standalone or domain-specific routines MAY still be used when the task explicitly requires that domain; they MUST NOT shape ordinary prose by default.
+
+For measurable multi-step agent work, MUST use `wait-what`'s truthful 20-cell ASCII progress format when that format is applicable.
 <!-- communication-kernel:end -->
 
 ## Action and evidence
