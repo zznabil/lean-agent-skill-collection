@@ -156,6 +156,21 @@ function Invoke-ArtifactRejection([string]$Name,[scriptblock]$Mutator,[string]$E
 }
 
 try {
+    $failures.Clear(); Test-SkillTree $profiles
+    if ($failures.Count -ne 0) { throw 'Clean Task Brief support positive control failed' }
+    $skillTreeFixture = Join-Path $fixtureRoot 'missing-task-brief'
+    New-Item -ItemType Directory -Path $skillTreeFixture | Out-Null
+    Copy-Item -LiteralPath (Join-Path $repoRoot 'skills') -Destination (Join-Path $skillTreeFixture 'skills') -Recurse
+    Remove-Item -LiteralPath (Join-Path $skillTreeFixture 'skills/project-context/TASK-BRIEF.md')
+    $originalRepoRoot = $repoRoot
+    try {
+        $script:repoRoot = $skillTreeFixture
+        $failures.Clear(); Test-SkillTree $profiles
+        if (-not ($failures | Where-Object { $_ -eq 'required support reference missing for project-context/TASK-BRIEF.md' })) {
+            throw 'Missing Task Brief support file was not rejected'
+        }
+        Write-Host 'PASS rejection: required Task Brief support file' -ForegroundColor Green
+    } finally { $script:repoRoot = $originalRepoRoot; $failures.Clear() }
     $fixturePath = Join-Path $fixtureRoot 'unsafe.zip'
     $fileStream = [IO.File]::Open($fixturePath, [IO.FileMode]::Create)
     try {

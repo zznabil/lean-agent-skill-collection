@@ -1,3 +1,9 @@
+# V8.14.0 Task Brief repository checks
+
+The `project-context` support-file gate requires both `TASK-BRIEF.md` and a reference in `SKILL.md`. A positive source check and a missing-file fixture check the gate; source integrity and package validation require the same bytes in the Engineering and Complete profiles. The route remains manual, and all six profile memberships stay unchanged. The brief schema defines a process, not observed live-model compliance.
+
+---
+
 # V8.13.0 full-skill kernel repository checks
 
 The audit checks all 134 source skills, including both source-only packs, for fewer than 100 lines per `SKILL.md`. Static validation pins the OMP corpus and runner, checks source hashes and package structure, and excludes tool-generated `.patchloom/` backups from source-link hygiene. All six profiles must carry the governing kernel with unchanged memberships. Live-host behavior is observed separately; static checks do not prove it.

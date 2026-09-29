@@ -60,7 +60,7 @@ Each row maps an installed skill to its task. “Manual” means explicit select
 - `merge-conflicts` — resolve and verify merges.
 - `office-files` — create or inspect office documents.
 - `plan` — plan a scoped engineering task.
-- `project-context` (manual) — capture project data and context.
+- `project-context` (manual) — explicitly requested task briefs, durable context, repository maps, lessons, asset cards, or retrospectives.
 - `quick-mode` — explicitly requested reduced working slice only.
 - `release` — prepare and verify software releases.
 - `research` — answer source-dependent questions.
