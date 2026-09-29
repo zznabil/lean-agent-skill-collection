@@ -1,11 +1,28 @@
 ---
 name: project-context
-description: "Create or update durable project context; map or explain verified repository structure and flows; record approved lessons, AI asset cards, or retrospectives. Use only when the user explicitly requests one of these artifacts."
+description: "Create a task brief or durable project context; map verified repository structure and flows; record approved lessons, AI asset cards, or retrospectives. Use only when the user explicitly requests one of these artifacts."
 ---
 
 # Project Context
 
 Choose one mode. Do not learn automatically.
+
+## Task-brief / context-preflight mode
+
+Use when the user asks to inventory the context needed before planning, implementation, delegation, review, or handoff. Read `TASK-BRIEF.md` for the reusable schema.
+
+1. Choose **Direct**, **Standard**, or **Durable** depth. Gather the minimum sufficient context needed to act safely and verify the requested outcome; do not maximise context volume.
+2. Define the task, observable outcome, intended user, scope, non-goals, and acceptance evidence.
+3. Inspect the conversation, workspace, current artefacts, instructions, and available tools before asking questions. Gather external evidence only when it can change a material decision.
+4. Record current state, prerequisites, constraints, permissions, dependencies, known issues, risks, recovery, and the cheapest useful next action.
+5. Classify every material item as `VERIFIED`, `ASSUMED`, `REFUTED`, or `UNKNOWN`.
+   - External facts record source, date, citation, confidence, and contradiction.
+   - Repository facts record path, symbol, and revision.
+   - Runtime observations record environment, command or action, and observed result.
+   - Decisions record the decision maker, date, rationale, and what would reopen them.
+6. Resolve cheap discoverable gaps with tools. Ask only for consequential choices or facts unavailable to the workspace; recommend a default and state its main trade-off.
+7. End with one readiness state: `READY`, `READY_WITH_ASSUMPTIONS`, `NEEDS_DECISION`, or `BLOCKED_CONTEXT`. State the next action and what would make the brief stale.
+8. If execution is also requested, pass the brief into the selected task skill. Do not force a separate artefact for clear, local, reversible work.
 
 ## Workspace mode
 
