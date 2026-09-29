@@ -1,8 +1,8 @@
 {
-  "version": "8.13.0",
-  "release": "v8.13.0",
-  "release_title": "Lean Kernel Across Every Skill",
-  "release_summary": "Apply the lean communication kernel to all base and supplemental skills, source-only packs and generated profiles, including standalone fallbacks, while retaining task-specific source boundaries and existing six profile memberships.",
+  "version": "8.14.0",
+  "release": "v8.14.0",
+  "release_title": "Task Brief and Context Preflight",
+  "release_summary": "Add a manual Task Brief mode to project-context with proportionate records, evidence provenance, and readiness states; retain the 24 base routes, six profile memberships, and separate optional packs.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

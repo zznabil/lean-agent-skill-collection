@@ -9,7 +9,7 @@ Choose one mode. Do not learn automatically.
 
 ## Task-brief / context-preflight mode
 
-Use when the user asks to inventory the context needed before planning, implementation, delegation, review, or handoff. Read `TASK-BRIEF.md` for the reusable schema.
+Use when the user asks to inventory the context needed before planning, implementation, delegation, review, or handoff. Read [TASK-BRIEF.md](TASK-BRIEF.md) for the reusable schema.
 
 1. Choose **Direct**, **Standard**, or **Durable** depth. Gather the minimum sufficient context needed to act safely and verify the requested outcome; do not maximise context volume.
 2. Define the task, observable outcome, intended user, scope, non-goals, and acceptance evidence.
@@ -43,7 +43,7 @@ Use for repository orientation or a durable map.
 1. Define the question and smallest relevant scope.
 2. Inspect entry points, modules, interfaces, data stores, configuration, tests, deployment, and recent changes that affect that scope.
 3. Trace at least one real runtime or data flow from input to outcome.
-4. Distinguish observed facts, inferred links, and unknowns; link material claims to paths and symbols.
+4. Distinguish observed facts, inferred links, and unknowns; link material claims to paths and symbols. Cite a linked file as read only after an actual read result; do not apply another mode’s template.
 5. For a broad repository, build a subsystem or file manifest before disjoint read-only exploration. Count coverage and disclose gaps, caps, failed explorers, and unprocessed remainder.
 6. Explain how the system works before criticizing it. Use a diagram only when it explains more clearly than a short list.
 

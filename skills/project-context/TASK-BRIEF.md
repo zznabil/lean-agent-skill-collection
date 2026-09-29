@@ -33,6 +33,12 @@ Use for high-risk, delegated, or multi-session work. Use the full record below w
 ## Record
 
 ```text
+BRIEF ID AND REVISION
+What stable ID identifies this brief? Record its revision and last verification date.
+
+ACCOUNTABLE OWNER
+Who maintains this brief and resolves changes? If none is assigned, mark UNKNOWN.
+
 TASK
 What work is being considered?
 
@@ -74,6 +80,8 @@ Which systems, people, credentials, tools, and upstream work are required?
 
 RISKS
 For each material risk: cause → event → consequence → treatment → owner or trigger.
+In Durable briefs, record each risk as a material item in the traceable ledger.
+Include its stable ID, status, evidence, owner or UNKNOWN, last-verified revision/date or UNKNOWN, and linked item IDs.
 
 ACCEPTANCE AND VERIFIER
 What observable evidence proves completion, and who or what evaluates it?
@@ -104,6 +112,8 @@ Record provenance proportionally:
 - runtime observation → environment, action or command, observed result;
 - user requirement → user statement or authorised specification;
 - decision → decision maker, date, rationale, reopen trigger.
+
+For Durable briefs, give each material item a stable ID, owner (or `UNKNOWN`), and last-verified revision or date. Link related IDs to show dependencies and handoff traceability.
 
 ## Readiness
 

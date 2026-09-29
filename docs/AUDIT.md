@@ -1,3 +1,11 @@
+# V8.14.0 Task Brief acceptance
+
+The existing `project-context` route remains manual-only. The linked `TASK-BRIEF.md` schema supports Direct, Standard, and Durable records with provenance, readiness, and a next action. Durable records require a stable brief ID, accountable owner (or `UNKNOWN`), revision, and traceable material items. A context record is not proof of implementation.
+
+The release gate checks source and package integrity, six unchanged profile memberships, and rejection of a missing Task Brief support file. Observe live routing and an actual brief separately; static validation does not prove model behavior or context completeness.
+
+---
+
 # V8.13.0 full-skill kernel acceptance
 
 Root `AGENTS.md` governs the 51 skills in generated profiles and the selected optional source-pack routines when loaded. Every independently loadable `SKILL.md` has a local lean fallback. The audit rejects a root policy of 100 lines or more.

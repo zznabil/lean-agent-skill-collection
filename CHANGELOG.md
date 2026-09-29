@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.14.0 — 2026-09-29
+
+- Add a manual Task Brief / Context Preflight mode to `project-context` for Direct, Standard, and Durable context records without a new base route or changed profile membership.
+- Track evidence provenance and readiness states; Durable records include stable IDs, an accountable owner, revision, and freshness triggers. The brief is not execution evidence.
+- Require and package the linked `TASK-BRIEF.md` support file, reject a missing file in a negative control, and refresh reproducible release metadata and integrity checks.
+
 ## 8.13.0 — 2026-09-29
 
 - Rewrite the task instructions in all 134 skills across the base collection, integrated supplemental set, and two optional packs—not just standalone fallbacks. The lean 10-part kernel also governs root policy and generated profiles; specialized standards remain conditional and source authority bounded.
