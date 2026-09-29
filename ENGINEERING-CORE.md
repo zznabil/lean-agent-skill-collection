@@ -4,7 +4,7 @@ Use this only for material engineering work. It distils practical rules from rec
 
 ## Standards source map
 
-- **Communication:** ASD-STE100 Issue 9, ISO 24495-1 plain language, W3C COGA, Diátaxis, a Feynman-style explanation heuristic, and BCP 14.
+- **Communication:** the lean kernel uses ASD-STE100-inspired syntax, CDC-style main-point and familiar words, Diátaxis mode separation, BCP 14 normative force, NASA-style verifiable requirements, and task-conditional safety, recovery, Feynman and SEI CERT patterns. ISO 24495-1 and W3C COGA remain scoped user-information and accessibility routines, not ordinary-prose defaults.
 - **User information and cognitive accessibility:** IEC/IEEE 82079-1, ISO/IEC/IEEE 26514 and 26513, ISO/IEC 23859, ISO 21801-1, ISO 9241-112 and 9241-171, ISO/IEC 29138, and ISO 704.
 - **Learning:** CAST UDL Guidelines 3.0, the IES learning practice guide, cognitive-load reduction, worked examples, self-explanation, and retrieval practice.
 - **Requirements and risk:** ISO/IEC/IEEE 29148, EARS, ISO 31000, IEC 31010, and ISO/IEC/IEEE 16085.

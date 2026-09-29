@@ -1,12 +1,19 @@
-# V8.12.0 communication and profile-map acceptance
+# V8.13.0 full-skill kernel acceptance
 
-Root `AGENTS.md` is 76 lines and maps the governing standards and all 51 integrated skills to task triggers. The audit rejects a root policy of 100 lines or more.
+Root `AGENTS.md` governs the 51 skills in generated profiles and the selected optional source-pack routines when loaded. Every independently loadable `SKILL.md` has a local lean fallback. The audit rejects a root policy of 100 lines or more.
 
-The current candidate revises the default kernel and local skill fallbacks while retaining six profile memberships, Quick Mode metadata, and source-only pack boundaries. Every current source `SKILL.md` must have fewer than 100 lines. All six generated profiles must contain the revised kernel and only their installed base-skill rows plus all 27 supplemental rows; package integrity verifies generated policy bytes, inventories, rights, and checksums. Historical V8.8 textual preservation no longer blocks deliberate source prose edits.
+The candidate rewrites task procedures in all 134 source skills, root and generated instructions, and standalone fallbacks. It keeps the six profile memberships, Quick Mode metadata and source-only pack boundaries.
 
-Run `scripts/evaluate-communications.py --package artifacts/<build>/user-facing-communication-mini-openai-v8.12.0.zip --out artifacts/<evaluation>` with OMP CLI for the ten fixed cases in `docs/evals/communications-omp.json`. The runner isolates the generated package as its skill directory, stores JSONL traces and answers, and scores evidence, recovery, audience fit, routing, and anti-trigger behavior. The strengthened rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must state an explicit go/no-go when required penetration testing or ASVS gates are missing. No new live-model result is claimed for this release. Any pass remains bounded evidence for that host and candidate, not a claim of universal compliance, formal standards conformance, or accessibility certification. Historical sections below describe earlier acceptance only.
+Acceptance checks:
+- Every source `SKILL.md` has fewer than 100 lines.
+- Every generated profile carries the revised kernel, its installed base-skill rows and all 27 supplemental rows.
+- Package integrity verifies generated policy bytes, inventories, rights and checksums. Historical V8.8 textual preservation does not block deliberate source-prose edits.
 
-The fixed corpus accepts “the link in the email” after opening the reset email and rejects missing links, inbox-first ordering, reversed release-gate claims, and unsupported Easy-to-Read verification. No new live-model result or intended-user Easy-to-Read validation is claimed.
+Run `scripts/evaluate-communications.py --package artifacts/<build>/user-facing-communication-mini-openai-v8.13.0.zip --out artifacts/<evaluation>` with OMP for the ten fixed cases in `docs/evals/communications-omp.json`. The runner isolates the generated package, records JSONL traces and answers, and scores routing, evidence, audience fit and recovery.
+
+The rubric checks password-reset order (request the link before opening the inbox) and an explicit go/no-go decision when required security gates are missing. Report live-host results separately from static source validation.
+
+The corpus accepts “the link in the email” after opening the reset email, and rejects missing links, inbox-first order, reversed release-gate claims and unsupported Easy-to-Read verification. Intended-user Easy-to-Read validation remains unperformed.
 
 ---
 

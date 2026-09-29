@@ -1,8 +1,8 @@
-# V8.12.0 communication and profile-map repository checks
+# V8.13.0 full-skill kernel repository checks
 
-The audit checks all 134 current source skills, including the two source-only packs, for fewer than 100 lines per `SKILL.md`. Static validation pins the live-corpus fixture and runner, checks source hashes and package structure, and excludes tool-generated `.patchloom/` backups from source-link hygiene. The build must include the revised default kernel in each of six profiles, with their established memberships unchanged. The strengthened rubric requires reset guidance to select Forgot password and request the reset link before checking or opening the inbox; the flow may ask for the account email before sending that link. A security release note must state an explicit go/no-go when required penetration testing or ASVS gates are missing. No new live-model result is claimed for this release. Live OMP results and exact build/check output belong to the current run, not this historical document.
+The audit checks all 134 source skills, including both source-only packs, for fewer than 100 lines per `SKILL.md`. Static validation pins the OMP corpus and runner, checks source hashes and package structure, and excludes tool-generated `.patchloom/` backups from source-link hygiene. All six profiles must carry the governing kernel with unchanged memberships. Live-host behavior is observed separately; static checks do not prove it.
 
-The root-policy audit counts `AGENTS.md` lines and rejects 100 or more; the current file has 76 lines. Package checks require the exact base-skill subset and all 27 supplemental rows in each of six generated profiles.
+The root-policy audit counts `AGENTS.md` lines and rejects 100 or more; the current file remains below 100 lines. Package checks require the exact base-skill subset and all 27 supplemental rows in each of six generated profiles.
 
 Earlier V8.8 textual-fingerprint and V8.10.1 Quick Mode acceptance language below is historical where it conflicts with deliberate communication-prose edits.
 

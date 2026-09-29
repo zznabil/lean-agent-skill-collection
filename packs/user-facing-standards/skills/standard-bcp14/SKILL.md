@@ -5,9 +5,8 @@ description: "Write or review normative requirements using BCP 14."
 # BCP 14: normative requirement words
 
 ## Use
-- Use for requirements, permissions and prohibitions where the document adopts BCP 14.
-- Do not apply its uppercase convention to ordinary conversation or quoted material that does not adopt it.
-- Read the complete requirement, its scope and its existing exceptions before drafting or reviewing.
+- Use when a document adopts BCP 14 for requirements, permissions or prohibitions. Deliver testable wording that keeps the original obligation and exceptions.
+- Read the full requirement and scope first. Ordinary conversation and quoted material do not acquire BCP 14 meanings merely because they contain these words.
 
 ## Source and scope
 - Read RFC 2119 and its RFC 8174 update in references/rfc2119.txt and references/rfc8174.txt.
@@ -26,15 +25,14 @@ description: "Write or review normative requirements using BCP 14."
   feature.
 7. Declare the adopted keyword convention in the document. Use it sparingly for genuine interoperability or harm
   constraints.
-8. Make the requirement testable from its named condition and observable result; identify an unresolved choice
-  rather than guessing.
+8. Name the actor and condition, then state the action and an observable result. If the source leaves a consequential choice unresolved, flag it instead of guessing.
 
-## Preserve the boundary
+## Keep the task contract
 - A style edit does not authorise upgrading SHOULD to MUST, downgrading MUST to SHOULD or deleting an exception.
 - Do not infer permission to execute a requirement from permission to edit its wording.
 - Do not let a controlled-language checker replace these fixed normative terms mechanically.
 
-## Check and finish
+## Verify and deliver
 - Compare old and new obligation, prohibition, permission and exception sets in both directions.
 - Review a normal case and an exception case. Report conflicts and missing authority explicitly.
 - Return the requirement text first, or scoped findings with the affected clause and proposed repair.
@@ -42,5 +40,14 @@ description: "Write or review normative requirements using BCP 14."
 ## Worked distinction
 Source: "The client SHOULD retry once; it MUST NOT retry after cancellation."
 A clearer split keeps both keywords and the one-retry limit. It does not make the retry mandatory.
+
+## Lean communication kernel (standalone fallback)
+If root `AGENTS.md` is loaded, it governs. Otherwise apply these rules to communication. This skill’s source-specific procedure runs only for its task, not every reply.
+- Lead with the supported result and next action. Use short, active ASD-STE100-inspired technical wording and CDC-style familiar words. Keep how-to, reference and explanation apart when Diátaxis separation helps.
+- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
+- In normative text, keep BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check (NASA).
+- Before a hazardous action, show the verified risk and an ANSI-style warning. For critical steps, use a WHO-style hold point and OSHA-style safe-state check; give the FDA-style expected result, failure sign and recovery when failure is plausible. These analogies do not replace task-specific controls.
+- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining) and floor percentage from durable counts; keep the PASS/FAIL/BLOCKED verdict separate. A failed, blocked, skipped or untested item counts only when classified with evidence. With no defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
+- Explain a difficult mechanism from foundations (Feynman). Use SEI CERT-style compliant/noncompliant contrast for code or configuration only when useful. Do not force examples or sections on simple tasks.
 
 Source editions, local files, official links and reuse limits: [SOURCES.md](SOURCES.md).

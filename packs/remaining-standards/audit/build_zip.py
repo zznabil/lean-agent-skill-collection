@@ -17,7 +17,7 @@ def build(root: Path, target: Path) -> None:
     temporary = Path(temporary_name)
     try:
         with zipfile.ZipFile(temporary, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-            for path in sorted(p for p in root.rglob('*') if p.is_file()):
+            for path in sorted(p for p in root.rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix.lower() != '.pyc'):
                 info = zipfile.ZipInfo('lean-remaining-standards/' + path.relative_to(root).as_posix(), (2026, 9, 13, 0, 0, 0))
                 info.create_system = 3
                 info.external_attr = 0o100644 << 16

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Read-only validation for the controlled-execution review pack."""
+
 from __future__ import annotations
 
 import argparse
@@ -10,22 +11,28 @@ from collections import Counter
 from pathlib import Path, PurePosixPath
 from urllib.parse import urlparse
 
-EXPECTED_SKILLS = ('practice-normative-precision',
- 'practice-verifiable-requirements',
- 'practice-compliant-contrast',
- 'practice-use-error-controls',
- 'practice-state-verification',
- 'practice-transition-checklists',
- 'guidance-safety-messages',
- 'guidance-safe-technical-procedures',
- 'practice-versioned-verification-requirements',
- 'practice-implementation-example-traceability',
- 'profile-ui-procedure-writing',
- 'profile-action-step-structure',
- 'practice-modular-information-units')
+EXPECTED_SKILLS = (
+    "practice-normative-precision",
+    "practice-verifiable-requirements",
+    "practice-compliant-contrast",
+    "practice-use-error-controls",
+    "practice-state-verification",
+    "practice-transition-checklists",
+    "guidance-safety-messages",
+    "guidance-safe-technical-procedures",
+    "practice-versioned-verification-requirements",
+    "practice-implementation-example-traceability",
+    "profile-ui-procedure-writing",
+    "profile-action-step-structure",
+    "practice-modular-information-units",
+)
 SOURCE_BASELINE_NAME = "SOURCE-BASELINE.sha256"
-SOURCE_BASELINE_SHA256 = "c58fdbaf4e44bba8ee007903ae9b2268a9f312d055786acb16cf4804bc1e3250"
-SOURCE_BASELINE_EXCLUDED = frozenset({"CHECKSUMS.sha256", SOURCE_BASELINE_NAME, "audit/validate_pack.py"})
+SOURCE_BASELINE_SHA256 = (
+    "9d98a6a6ca363e97f67ee8775b4f24314f3d1ed951a1cd3d4908e08fbc971e19"
+)
+SOURCE_BASELINE_EXCLUDED = frozenset(
+    {"CHECKSUMS.sha256", SOURCE_BASELINE_NAME, "audit/validate_pack.py"}
+)
 
 CONTROL_FIELDS = (
     "ID",
@@ -81,7 +88,9 @@ def digest(data: bytes) -> str:
 
 def local_path(root: Path, relative: str) -> Path:
     require(isinstance(relative, str) and relative, "empty or non-string path")
-    require("\\" not in relative and ":" not in relative, f"non-portable path: {relative}")
+    require(
+        "\\" not in relative and ":" not in relative, f"non-portable path: {relative}"
+    )
     parts = PurePosixPath(relative)
     require(
         not parts.is_absolute()
@@ -92,10 +101,14 @@ def local_path(root: Path, relative: str) -> Path:
     )
     path = root.joinpath(*parts.parts)
     require(
-        not any(item.is_symlink() for item in [path, *path.parents] if item != root.parent),
+        not any(
+            item.is_symlink() for item in [path, *path.parents] if item != root.parent
+        ),
         f"symlink path: {relative}",
     )
-    require(path.resolve().is_relative_to(root.resolve()), f"path escapes root: {relative}")
+    require(
+        path.resolve().is_relative_to(root.resolve()), f"path escapes root: {relative}"
+    )
     return path
 
 
@@ -148,7 +161,10 @@ def read_checksums(root: Path) -> dict[str, str]:
 def verify_source_baseline(root: Path, files: dict[str, Path]) -> None:
     baseline = files.get(SOURCE_BASELINE_NAME)
     require(baseline is not None, "source baseline missing")
-    require(digest(baseline.read_bytes()) == SOURCE_BASELINE_SHA256, "source baseline pin changed")
+    require(
+        digest(baseline.read_bytes()) == SOURCE_BASELINE_SHA256,
+        "source baseline pin changed",
+    )
     try:
         lines = baseline.read_text(encoding="utf-8").splitlines()
     except (OSError, UnicodeError) as exc:
@@ -161,14 +177,20 @@ def verify_source_baseline(root: Path, files: dict[str, Path]) -> None:
         value, relative = match.groups()
         local_path(root, relative)
         folded_relative = relative.casefold()
-        require(relative not in entries and folded_relative not in folded, "duplicate source baseline entry")
+        require(
+            relative not in entries and folded_relative not in folded,
+            "duplicate source baseline entry",
+        )
         require(relative in files, f"source baseline path missing: {relative}")
         entries[relative] = value
         folded.add(folded_relative)
     expected = set(files) - SOURCE_BASELINE_EXCLUDED
     require(set(entries) == expected, "source baseline coverage mismatch")
     for relative, value in entries.items():
-        require(digest(files[relative].read_bytes()) == value, f"source baseline mismatch: {relative}")
+        require(
+            digest(files[relative].read_bytes()) == value,
+            f"source baseline mismatch: {relative}",
+        )
 
 
 def check_text(relative: str, data: bytes) -> str:
@@ -197,7 +219,10 @@ def check_links(document: Path, boundary: Path) -> None:
             continue
         parsed = urlparse(target)
         if parsed.scheme:
-            require(parsed.scheme == "https", f"non-HTTPS external link in {document.name}: {target}")
+            require(
+                parsed.scheme == "https",
+                f"non-HTTPS external link in {document.name}: {target}",
+            )
             continue
         path_part = target.split("#", 1)[0]
         require(path_part, f"empty local link in {document.name}")
@@ -215,9 +240,16 @@ def validate(root: Path) -> dict:
     files = inventory(root)
     verify_source_baseline(root, files)
     require(set(files) == EXPECTED_FILES, "exact pack inventory mismatch")
-    require(not any("/references/" in name for name in files), "publisher reference directory included")
     require(
-        not any(Path(name).suffix.lower() in {".pdf", ".zip", ".html", ".htm", ".docx", ".xlsx", ".pptx"} for name in files),
+        not any("/references/" in name for name in files),
+        "publisher reference directory included",
+    )
+    require(
+        not any(
+            Path(name).suffix.lower()
+            in {".pdf", ".zip", ".html", ".htm", ".docx", ".xlsx", ".pptx"}
+            for name in files
+        ),
         "bundled publisher or binary file included",
     )
 
@@ -226,23 +258,43 @@ def validate(root: Path) -> dict:
         texts[relative] = check_text(relative, path.read_bytes())
 
     checksums = read_checksums(root)
-    require(set(files) - {"CHECKSUMS.sha256"} == set(checksums), "checksum inventory mismatch")
+    require(
+        set(files) - {"CHECKSUMS.sha256"} == set(checksums),
+        "checksum inventory mismatch",
+    )
     for relative, value in checksums.items():
-        require(digest(files[relative].read_bytes()) == value, f"checksum mismatch: {relative}")
+        require(
+            digest(files[relative].read_bytes()) == value,
+            f"checksum mismatch: {relative}",
+        )
 
     manifest = read_json(root, "SOURCE-MANIFEST.json")
-    require(manifest.get("status") == "public_review_prototype", "wrong distribution scope")
+    require(
+        manifest.get("status") == "public_review_prototype", "wrong distribution scope"
+    )
     require(manifest.get("pack") == "controlled-execution", "wrong pack identity")
     require(manifest.get("source_snapshot") == "2026-09-19", "source snapshot drift")
     require(manifest.get("publisher_files_bundled") == 0, "publisher files declared")
     require(manifest.get("existing_files_modified") == 0, "existing-file scope changed")
-    require(manifest.get("canonical_skill_tree_changed") is False, "canonical skill scope changed")
-    require(manifest.get("release_profiles_changed") is False, "release profile scope changed")
-    require(manifest.get("release_identity_changed") is False, "release identity scope changed")
+    require(
+        manifest.get("canonical_skill_tree_changed") is False,
+        "canonical skill scope changed",
+    )
+    require(
+        manifest.get("release_profiles_changed") is False,
+        "release profile scope changed",
+    )
+    require(
+        manifest.get("release_identity_changed") is False,
+        "release identity scope changed",
+    )
     records = manifest.get("skills")
     require(isinstance(records, list), "manifest skill records missing")
     names = [entry.get("name") for entry in records if isinstance(entry, dict)]
-    require(tuple(names) == EXPECTED_SKILLS and len(set(names)) == 13, "manifest skill inventory mismatch")
+    require(
+        tuple(names) == EXPECTED_SKILLS and len(set(names)) == 13,
+        "manifest skill inventory mismatch",
+    )
     by_name = {entry["name"]: entry for entry in records}
 
     for name in EXPECTED_SKILLS:
@@ -256,23 +308,82 @@ def validate(root: Path) -> dict:
         )
         require(match is not None and match[1] == name, f"frontmatter mismatch: {name}")
         entry = by_name[name]
-        require(match[2] == entry.get("description") and len(match[2]) <= 60, f"description mismatch: {name}")
+        require(
+            match[2] == entry.get("description") and len(match[2]) <= 60,
+            f"description mismatch: {name}",
+        )
         lines = skill_text.splitlines()
-        require(len(lines) < 100 and len(lines) == entry.get("skill_lines"), f"line budget or count mismatch: {name}")
-        require(len(source_text.splitlines()) == entry.get("sources_lines"), f"source-note line count mismatch: {name}")
-        require("[SOURCES.md](SOURCES.md)" in skill_text, f"source link missing: {name}")
-        require("## Official source access" in source_text, f"official source section missing: {name}")
-        require("## Adaptation boundary" in source_text, f"adaptation boundary missing: {name}")
-        require("No publisher file is bundled" in source_text, f"publisher-file declaration missing: {name}")
+        require(
+            len(lines) < 100 and len(lines) == entry.get("skill_lines"),
+            f"line budget or count mismatch: {name}",
+        )
+        require(
+            "## Lean communication kernel fallback (standalone)" in skill_text
+            and "its policy governs this skill" in skill_text
+            and "lean communication kernel fallback" in skill_text
+            and all(
+                term in skill_text
+                for term in (
+                    "ASD-STE100",
+                    "CDC Clear Communication Index",
+                    "Diátaxis",
+                    "BCP 14",
+                    "NASA-style",
+                    "ANSI-style",
+                    "WHO-style",
+                    "OSHA-style",
+                    "FDA human-factors",
+                    "Feynman",
+                    "SEI CERT",
+                    "not transferred",
+                    "only when the task requires them",
+                )
+            ),
+            f"Lean kernel fallback missing: {name}",
+        )
+        require(
+            len(source_text.splitlines()) == entry.get("sources_lines"),
+            f"source-note line count mismatch: {name}",
+        )
+        require(
+            "[SOURCES.md](SOURCES.md)" in skill_text, f"source link missing: {name}"
+        )
+        require(
+            "## Official source access" in source_text,
+            f"official source section missing: {name}",
+        )
+        require(
+            "## Adaptation boundary" in source_text,
+            f"adaptation boundary missing: {name}",
+        )
+        require(
+            "No publisher file is bundled" in source_text,
+            f"publisher-file declaration missing: {name}",
+        )
         require(entry.get("bundled_files") == [], f"bundled files declared: {name}")
-        require(entry.get("formal_conformance_claimed") is False, f"formal claim set: {name}")
-        require(entry.get("behavioural_evaluation") == "not_run", f"behavioural evidence overclaim: {name}")
+        require(
+            entry.get("formal_conformance_claimed") is False,
+            f"formal claim set: {name}",
+        )
+        require(
+            entry.get("behavioural_evaluation") == "not_run",
+            f"behavioural evidence overclaim: {name}",
+        )
         urls = entry.get("source_urls")
         require(isinstance(urls, list) and urls, f"source URLs missing: {name}")
-        require(all(isinstance(url, str) and url.startswith("https://") for url in urls), f"invalid source URL: {name}")
-        require(all(url in source_text for url in urls), f"source URL not documented: {name}")
+        require(
+            all(isinstance(url, str) and url.startswith("https://") for url in urls),
+            f"invalid source URL: {name}",
+        )
+        require(
+            all(url in source_text for url in urls),
+            f"source URL not documented: {name}",
+        )
 
-    require("standard-owasp-asvs" not in names and "standard-nist-ssdf" not in names, "broad PR #17 identity duplicated")
+    require(
+        "standard-owasp-asvs" not in names and "standard-nist-ssdf" not in names,
+        "broad PR #17 identity duplicated",
+    )
 
     control = texts["CONTROL-MODEL.md"]
     for field in CONTROL_FIELDS:
@@ -285,21 +396,44 @@ def validate(root: Path) -> dict:
         require(heading in control, f"control hierarchy missing: {heading}")
 
     cases = read_json(root, "audit/acceptance-cases.json")
-    require(cases.get("status") == "authored_not_executed" and cases.get("model_calls") == 0, "cases mislabelled as model results")
+    require(
+        cases.get("status") == "authored_not_executed"
+        and cases.get("model_calls") == 0,
+        "cases mislabelled as model results",
+    )
     case_rows = cases.get("cases")
-    require(isinstance(case_rows, list) and len(case_rows) == 39, "acceptance case count mismatch")
+    require(
+        isinstance(case_rows, list) and len(case_rows) == 39,
+        "acceptance case count mismatch",
+    )
     ids = [case.get("id") for case in case_rows if isinstance(case, dict)]
     require(len(ids) == 39 and len(set(ids)) == 39, "acceptance case IDs not unique")
     counts = Counter(case.get("skill") for case in case_rows if isinstance(case, dict))
-    require(counts == Counter({name: 3 for name in EXPECTED_SKILLS}), "acceptance case skill coverage mismatch")
+    require(
+        counts == Counter({name: 3 for name in EXPECTED_SKILLS}),
+        "acceptance case skill coverage mismatch",
+    )
     categories = {
         name: {case.get("category") for case in case_rows if case.get("skill") == name}
         for name in EXPECTED_SKILLS
     }
-    require(all(value == {"apply", "boundary", "failure"} for value in categories.values()), "acceptance category coverage mismatch")
+    require(
+        all(value == {"apply", "boundary", "failure"} for value in categories.values()),
+        "acceptance category coverage mismatch",
+    )
     require(
         all(
-            all(isinstance(case.get(field), str) and case.get(field) for field in ("id", "skill", "category", "prompt", "expected", "disallowed"))
+            all(
+                isinstance(case.get(field), str) and case.get(field)
+                for field in (
+                    "id",
+                    "skill",
+                    "category",
+                    "prompt",
+                    "expected",
+                    "disallowed",
+                )
+            )
             for case in case_rows
         ),
         "acceptance case field missing",
@@ -320,8 +454,14 @@ def validate(root: Path) -> dict:
         "validation declaration overclaims",
     )
 
-    require(texts["LICENSE"].startswith("MIT License\n"), "pack licence missing or malformed")
-    require("contains no copied publisher" in texts["THIRD-PARTY-NOTICES.md"], "third-party boundary missing")
+    require(
+        texts["LICENSE"].startswith("MIT License\n"),
+        "pack licence missing or malformed",
+    )
+    require(
+        "contains no copied publisher" in texts["THIRD-PARTY-NOTICES.md"],
+        "third-party boundary missing",
+    )
     for relative, path in files.items():
         if relative.endswith(".md"):
             check_links(path, root)
@@ -337,7 +477,9 @@ def validate(root: Path) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("root", nargs="?", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument(
+        "root", nargs="?", type=Path, default=Path(__file__).resolve().parents[1]
+    )
     args = parser.parse_args()
     try:
         result = validate(args.root)

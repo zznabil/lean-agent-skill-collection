@@ -12,7 +12,7 @@ Treat the CLI as a stable interface, not terminal decoration. Apply **IEC/IEEE 8
 1. **Users and automation.** Start from the real human and automation jobs. Keep command and flag names predictable across the tool.
 2. **Shared semantics.** When the CLI exposes a domain action also available through UI, HTTP, MCP, or jobs, reuse the same typed inputs, authorization, validation, idempotency, and error semantics. Keep CLI parsing and presentation as a thin adapter.
 3. **Headless inputs.** Every required input MUST have a non-interactive flag, argument, environment variable, configuration field, or standard-input path. Interactive prompts MAY be a convenience, not the only path.
-4. **Help and examples.** Provide useful top-level help, command help, defaults, prerequisites, and copyable examples. Show the expected result for consequential or non-obvious commands. A user SHOULD be able to discover the next valid command without external documentation.
+4. **Help and examples.** Provide useful top-level help, command help, defaults, prerequisites, and copyable examples. Before a consequential command, show a warning, safe-state or dry-run check, expected result, failure sign, and recovery. A user SHOULD discover the next valid command without external documentation.
 5. **Streams and exit codes.** Write primary results to standard output and diagnostics to standard error. Use stable, documented exit codes.
 6. **Machine-readable output.** When tools consume the result, provide a structured output mode or a deliberately stable line format. Do not require color, cursor control, or a TTY.
 7. **Pipelines.** Support standard input and pipelines where they fit the job. Bound or paginate large output.
@@ -43,16 +43,10 @@ Report the interface contract, examples, executed checks, unsupported cases, and
 
 **User-facing:**
 
-- Apply the global outcome-first delivery overlay.
-- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
-- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
-- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
-- Match reply length and structure to the weight of the ask.
-- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
-- Simple turns stay short.
-- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
-- Combine **ISO 24495-1** and **W3C COGA** for clarity; add **ASD-STE100** for suitable technical prose, **BCP 14** for normative force, **IEC/IEEE 82079-1** for procedures, **OWASP ASVS** for relevant security evidence, and **Easy-to-Read** only with intended-user review. Preserve meaning and requested format; claim no unverified conformance.
-- Add Feynman, Diátaxis, or BCP 14 only when their function applies.
-- Use truthful named 20-cell progress separate from verdict.
-- Preserve machine and artifact formats.
-- Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right; report the outcome, fresh verification, material uncertainty, and remaining user action—not routine tool narration or praise.
+- Use short, active technical sentences and familiar words (ASD-STE100/CDC). Separate how-to, reference, and explanation when useful (Diátaxis). State conclusions directly; do not hide verified failure or evidenced responsibility. Own actual agent errors with correction or next safe action.
+- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from stylistic guidance.
+- Use BCP 14 only for normative force. Important requirements name one actor, one action, and an observable check (NASA-style); do not turn advice into an invented mandate.
+- Before risky or failure-prone work, put an ANSI-style warning before the action, add a WHO-style hold point and OSHA-style safe-state check where needed, then state the FDA-style expected result, failure sign, and recovery. Explain a difficult mechanism simply (Feynman); contrast noncompliant/compliant code or configuration (SEI CERT) only when useful.
+- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress from processed items, rounded down and separate from verdict; otherwise report phase and evidence without a bar. Processed is not passed.
+- Avoid surprise scope and leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat; each must add distinct value.

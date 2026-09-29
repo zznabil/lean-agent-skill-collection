@@ -1,6 +1,6 @@
 # Human-usable information
 
-Use this reference for substantial instructions, manuals, onboarding, embedded help, forms, warnings, UI text, errors, recovery guidance, or other information that users must act on. It is conditional detail, not a reason to expand a simple reply.
+Use this reference for substantial instructions, manuals, onboarding, embedded help, forms, warnings, UI text, errors, recovery guidance, or other information that users must act on. The lean communication kernel still governs; the sources below apply to this scoped task, not ordinary prose. This is conditional detail, not a reason to expand a simple reply.
 
 ## Source roles
 

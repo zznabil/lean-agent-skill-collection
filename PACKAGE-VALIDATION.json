@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, Quick Mode, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims and Quick Mode policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.12.0",
+  "version": "8.13.0",
   "skills_expected": 51,
   "skills_validated": 51,
   "base_task_skills_expected": 24,
@@ -117,14 +117,19 @@
     "global": true,
     "simple_turns_remain_short": true,
     "default_sources": [
-      "ASD-STE100 Issue 9",
-      "ISO 24495-1",
-      "W3C COGA"
+      "ASD-STE100-inspired syntax",
+      "CDC-style main-point and familiar wording",
+      "Diátaxis mode separation when useful",
+      "BCP 14 normative force",
+      "NASA-style atomic verification"
     ],
     "conditional_sources": [
-      "Feynman-style explanation heuristic",
-      "Diataxis",
-      "BCP 14 / RFC 2119 / RFC 8174"
+      "ANSI-style warning precedence",
+      "WHO-style hold points",
+      "OSHA-style safe-state verification",
+      "FDA-style expected result, failure sign and recovery",
+      "Feynman-style explanation",
+      "SEI CERT-style pattern contrast"
     ],
     "heavy_structure_conditional": true
   },

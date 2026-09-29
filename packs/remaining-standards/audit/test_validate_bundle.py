@@ -17,7 +17,8 @@ from build_zip import build
 SOURCE = Path(__file__).resolve().parents[1]
 
 def refresh_checksums(root: Path) -> None:
-    files = sorted(p for p in root.rglob('*') if p.is_file() and p.name != 'CHECKSUMS.sha256')
+    files = sorted(p for p in root.rglob('*') if p.is_file() and p.name != 'CHECKSUMS.sha256'
+                   and '__pycache__' not in p.parts and p.suffix.lower() != '.pyc')
     text = ''.join(hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.relative_to(root).as_posix() + '\n' for p in files)
     (root / 'CHECKSUMS.sha256').write_text(text, encoding='utf-8')
 
@@ -131,7 +132,17 @@ class PackControls(unittest.TestCase):
             self.assertEqual(validate(td/'extracted/lean-remaining-standards')['result'],'PASS')
     def test_29_unfenced_template(self):
         self.reject(lambda p: replace(p,'skills/practice-ears/SKILL.md','`The <system> shall <response>.`','The <system> shall <response>.'),'Unfenced HTML-like template')
-    def test_30_positive_restored(self):
+    def test_30_missing_recovery(self):
+        self.reject(lambda p: replace(p,'skills/standard-iso-29148/SKILL.md','**If blocked:**','**If unknown:**'),'Scoped verification or recovery missing')
+    def test_31_archive_excludes_ignored_bytecode(self):
+        with tempfile.TemporaryDirectory(prefix='lean-standards-pyc-') as td:
+            td=Path(td); root=td/'pack'; shutil.copytree(SOURCE,root)
+            artifact=root/'audit/__pycache__/build_zip.cpython-314.pyc'
+            artifact.parent.mkdir(exist_ok=True); artifact.write_bytes(b'ignored bytecode')
+            target=td/'pack.zip'; build(root,target)
+            with zipfile.ZipFile(target) as z:
+                self.assertFalse(any('__pycache__' in p or p.endswith('.pyc') for p in z.namelist()))
+    def test_32_positive_restored(self):
         self.assertEqual(validate(SOURCE)['result'],'PASS')
 
 if __name__ == '__main__':

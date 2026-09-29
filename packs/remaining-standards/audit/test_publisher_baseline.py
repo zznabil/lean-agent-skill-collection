@@ -6,7 +6,7 @@ sys.dont_write_bytecode = True
 from validate_bundle import validate,InvalidPack
 ROOT=Path(__file__).resolve().parents[1]
 def rehash(root):
-    (root/'CHECKSUMS.sha256').write_bytes(''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(root).as_posix()}\n' for p in sorted(root.rglob('*')) if p.is_file() and p.name!='CHECKSUMS.sha256').encode())
+    (root/'CHECKSUMS.sha256').write_bytes(''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(root).as_posix()}\n' for p in sorted(root.rglob('*')) if p.is_file() and p.name!='CHECKSUMS.sha256' and '__pycache__' not in p.parts and p.suffix.lower()!='.pyc').encode())
 assert validate(ROOT)['skills']==70
 with tempfile.TemporaryDirectory() as temp:
     root=Path(temp)/'pack';shutil.copytree(ROOT,root)

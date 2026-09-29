@@ -14,6 +14,16 @@ from pathlib import Path, PurePosixPath
 PUBLISHER_BASELINE_SHA256 = (
     "7cb4016a88a34db8f1b4a93e82281e01250d9642573bdd0450f433838bf63b67"
 )
+IMPORT_RECORD_SHA256 = "d3f76bd465ea69cdd9ec5af16fb19906b946765e0bbd3a83d350474f0f79fec2"
+FALLBACK = """## Lean communication kernel (standalone fallback)
+If root `AGENTS.md` is loaded, it governs. Otherwise apply these rules to communication. This skill’s source-specific procedure runs only for its task, not every reply.
+- Lead with the supported result and next action. Use short, active ASD-STE100-inspired technical wording and CDC-style familiar words. Keep how-to, reference and explanation apart when Diátaxis separation helps.
+- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
+- In normative text, keep BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check (NASA).
+- Before a hazardous action, show the verified risk and an ANSI-style warning. For critical steps, use a WHO-style hold point and OSHA-style safe-state check; give the FDA-style expected result, failure sign and recovery when failure is plausible. These analogies do not replace task-specific controls.
+- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining) and floor percentage from durable counts; keep the PASS/FAIL/BLOCKED verdict separate. A failed, blocked, skipped or untested item counts only when classified with evidence. With no defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
+- Explain a difficult mechanism from foundations (Feynman). Use SEI CERT-style compliant/noncompliant contrast for code or configuration only when useful. Do not force examples or sections on simple tasks.
+"""
 PUBLISHER_PATH_TO_ORIGINAL = {
     "skills/standard-bcp14/references/rfc2119.txt": "rfc2119.txt",
     "skills/standard-bcp14/references/rfc8174.txt": "rfc8174.txt",
@@ -143,6 +153,8 @@ def inventory(root: Path) -> dict[str, Path]:
     for path in root.rglob("*"):
         relative = path.relative_to(root).as_posix()
         require(not path.is_symlink(), f"symlink entry: {relative}")
+        if "__pycache__" in path.relative_to(root).parts or path.suffix in {".pyc", ".pyo"}:
+            continue  # Local Python cache is never a reviewed distribution input.
         if path.is_file():
             local_path(root, relative)
             found[relative] = path
@@ -204,16 +216,18 @@ APPROVAL_CLAUSE_SPLIT_PATTERN = re.compile(
 APPROVAL_TOKEN_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9'-]*")
 APPROVAL_NEGATION_WORDS = frozenset({"no", "not", "never", "without", "cannot"})
 APPROVAL_MODAL_WORDS = frozenset({"does", "do", "is", "are", "was", "were"})
+# These phrases assert or intensify a claim; their first word does not negate it.
+APPROVAL_NONNEGATING_PAIRS = frozenset({("no", "doubt"), ("no", "question"), ("no", "wonder"), ("not", "only"), ("not", "just"), ("not", "merely")})
 APPROVAL_CONTEXT_TOKEN_LIMIT = 12
 
 
 def has_nearby_approval_negation(before: list[str], after: list[str]) -> bool:
     for tokens in (before[-APPROVAL_CONTEXT_TOKEN_LIMIT:], after[:APPROVAL_CONTEXT_TOKEN_LIMIT]):
         lowered = [token.lower() for token in tokens]
-        if any(token in APPROVAL_NEGATION_WORDS for token in lowered):
-            return True
         if any(
-            token in APPROVAL_MODAL_WORDS and index + 1 < len(lowered) and lowered[index + 1] == "not"
+            token in APPROVAL_NEGATION_WORDS
+            and (token, lowered[index + 1] if index + 1 < len(lowered) else "")
+            not in APPROVAL_NONNEGATING_PAIRS
             for index, token in enumerate(lowered)
         ):
             return True
@@ -277,6 +291,10 @@ def validate(root: Path) -> dict:
 
     manifest = read_json(root, "SOURCE-MANIFEST.json")
     coverage = read_json(root, "REGISTER-COVERAGE.json")
+    require(
+        digest(local_path(root, "audit/IMPORT-RECORD.json").read_bytes()) == IMPORT_RECORD_SHA256,
+        "historical import record changed",
+    )
     origin = read_json(root, "audit/IMPORT-RECORD.json")
     contract = read_json(root, "VALIDATION.json")
     check_integrated_surface_language(root)
@@ -294,6 +312,10 @@ def validate(root: Path) -> dict:
         manifest.get("integration_base_scope")
         == "Pre-release integration base; current integrated source bytes are represented by this working tree and its release checksums, not by that commit.",
         "integration base scope is unclear",
+    )
+    require(
+        "Root AGENTS.md governs when loaded" in manifest.get("communication_fallback", ""),
+        "standalone fallback scope missing",
     )
     records = manifest["skills"]
     names = [entry["name"] for entry in records]
@@ -400,17 +422,13 @@ def validate(root: Path) -> dict:
             len(lines) < 100 and len(lines) == by_name[name]["lines"],
             f"line budget or count mismatch: {name}",
         )
-        reconstructed = text
-        if name in origin["skill_changes"]:
-            change = origin["skill_changes"][name]
-            require(
-                text.count(change["after"]) == 1,
-                f"undeclared source-access change: {name}",
-            )
-            reconstructed = text.replace(change["after"], change["before"])
         require(
-            digest(reconstructed.encode("utf-8")) == origin["skill_sha256"][name],
-            f"prototype instruction changed: {name}",
+            text.count(FALLBACK) == 1,
+            f"standalone fallback missing or altered: {name}",
+        )
+        require(
+            digest(data) == by_name[name].get("current_sha256"),
+            f"current skill ledger mismatch: {name}",
         )
         require((path.parent / "SOURCES.md").is_file(), f"missing sources: {name}")
         for note in path.parent.glob("*.md"):
