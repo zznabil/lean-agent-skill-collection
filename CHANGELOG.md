@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.13.0 — 2026-09-29
+
+- Rewrite the task instructions in all 134 skills across the base collection, integrated supplemental set, and two optional packs—not just standalone fallbacks. The lean 10-part kernel also governs root policy and generated profiles; specialized standards remain conditional and source authority bounded.
+- Restore writing and engineering-core routes, retain release-gate and intended-user evidence safeguards, and align instruction-editing references.
+- Strengthen behavioral oracles for safe-state verification, normative exceptions, and release decisions; refresh reproducible profile and pack integrity evidence.
+- Preserve six profile memberships and separate optional pack boundaries; no formal-conformance or universal host-enforcement claim.
+
 ## 8.12.0 — 2026-09-27
 
 - Apply plain-language and cognitive-accessibility principles contextually; use technical, normative, security, and specialized Easy-to-Read guidance only when the task warrants it, without claiming conformance.

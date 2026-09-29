@@ -10,6 +10,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 sys.dont_write_bytecode = True
@@ -83,9 +84,9 @@ class BundleTests(unittest.TestCase):
 
     def test_approval_assertions_are_rejected_after_rehash(self) -> None:
         mutations = {
-            "CATALOG.md": ("retained ASD-STE100 internal pilot", "approved ASD-STE100 pilot"),
+            "CATALOG.md": ("historical ASD-STE100 internal pilot", "approved ASD-STE100 pilot"),
             "README.md": ("retained ASD-STE100 internal prototype", "approved ASD-STE100 routine"),
-            "SOURCE-MANIFEST.json": ("retained internal pilot unchanged", "approved pilot retained unchanged"),
+            "SOURCE-MANIFEST.json": ("original pilot hash retained as historical provenance", "approved pilot retained as historical provenance"),
             "audit/ASD-STE100-source-study-and-proposal.md": (
                 "retained internal prototype record",
                 "local approval prototype",
@@ -156,6 +157,7 @@ class BundleTests(unittest.TestCase):
             ("Certification is not claimed.", False),
             ("Publisher approval was not granted.", False),
             ("No formal publisher approval assertion is made.", False),
+            ("No doubt this product is certified by ASD.", True),
         )
         for claim, rejected in cases:
             for relative in SURFACES:
@@ -182,11 +184,25 @@ class BundleTests(unittest.TestCase):
             newline="\n",
         )
         rehash(self.root)
-        self.assertRejected("prototype instruction changed")
+        self.assertRejected("current skill ledger mismatch")
+
+    def test_fallback_removal_even_with_updated_current_ledger(self) -> None:
+        p = self.root / "skills/standard-bcp14/SKILL.md"
+        text = p.read_text(encoding="utf-8")
+        self.assertIn("## Lean communication kernel (standalone fallback)", text)
+        changed = text.replace("## Lean communication kernel (standalone fallback)", "## Optional formatting note")
+        p.write_text(changed, encoding="utf-8", newline="\n")
+        manifest_path = self.root / "SOURCE-MANIFEST.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        record = next(item for item in manifest["skills"] if item["name"] == "standard-bcp14")
+        record["current_sha256"] = digest(p.read_bytes())
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
+        rehash(self.root)
+        self.assertRejected("standalone fallback missing or altered")
 
     def test_overlong_skill(self) -> None:
         p = self.root / "skills/standard-asd-ste100/SKILL.md"
-        p.write_bytes(p.read_bytes() + b"\n")
+        p.write_bytes(p.read_bytes() + b"\n" * 6)
         rehash(self.root)
         self.assertRejected("line budget")
 
@@ -228,6 +244,17 @@ class BundleTests(unittest.TestCase):
     def test_unexpected_file(self) -> None:
         (self.root / "extra.txt").write_text("Unexpected unreviewed data.")
         self.assertRejected("checksum inventory mismatch")
+
+    def test_python_cache_is_not_distributed(self) -> None:
+        cache = self.root / "audit/__pycache__"
+        cache.mkdir(exist_ok=True)
+        (cache / "validate_bundle.pyc").write_bytes(b"local cache")
+        self.assertEqual(validate(self.root)["skills"], 27)
+        archive = Path(self.temp.name) / "cache-free.zip"
+        with contextlib.redirect_stdout(io.StringIO()):
+            build(self.root, archive)
+        with zipfile.ZipFile(archive) as built:
+            self.assertFalse(any("__pycache__" in name for name in built.namelist()))
 
     def test_restricted_pdf(self) -> None:
         p = self.root / "skills/guidance-cast-udl/references/cast-udl3-organizer.pdf"

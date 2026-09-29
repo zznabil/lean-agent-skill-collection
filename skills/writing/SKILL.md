@@ -5,9 +5,9 @@ description: "Draft or edit instructions, UI text, errors, help, emails, documen
 
 # Writing
 
-Choose **draft** or **edit**. For agent policies, workflows, checklists, or consequential procedures, read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md).
+Choose **draft** or **edit**. For substantial manuals, onboarding, embedded help, forms, UI text, warnings, errors, or recovery guidance, read [USER-INFORMATION.md](USER-INFORMATION.md). For agent policies, workflows, checklists, or consequential procedures, read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md).
 
-1. **Audience and purpose.** Identify the reader, task, desired result, evidence standard, and requested voice.
+1. **Audience and purpose.** Identify the reader, task, desired result, evidence standard, and requested voice. Lead with the main point the reader needs, not the drafting process.
 2. **Mode.** Use **Diátaxis** when structure helps: how-to for actions, reference for facts or syntax, explanation for mechanisms.
 3. **Language.** Use **ASD-STE100-inspired** grammar discipline and CDC-style word choice: short active sentences, direct verbs, familiar words, and the main point first.
 4. **Requirements.** Use **BCP 14** only for normative force. Important requirements MUST name the actor, one action, and observable verification evidence.
@@ -18,7 +18,7 @@ Choose **draft** or **edit**. For agent policies, workflows, checklists, or cons
 
 Return the finished text, not a narration of how it was drafted. Briefly flag only material unresolved claims, decisions, or verification limits.
 
-`wait-what` governs the surrounding assistant response. It does not force Summary or TL;DR sections into the drafted artifact unless the user requests them.
+The communication kernel governs the surrounding reply; `wait-what` is only a manual clearer re-pitch when requested. Do not insert Summary or TL;DR into the drafted artifact unless the user requests them.
 
 
 ## Agent-facing instructions
@@ -29,16 +29,10 @@ Use the same purpose, terminology, source-verification and task-success discipli
 
 **User-facing:**
 
-- Apply the global outcome-first delivery overlay.
-- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
-- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
-- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
-- Match reply length and structure to the weight of the ask.
-- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
-- Simple turns stay short.
-- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
-- Apply the root **lean communication kernel**: ASD-STE100-inspired syntax and CDC word choice; Diátaxis mode separation; BCP 14 normative words; NASA-style atomic verification. Do not reintroduce discarded default standards through local prose.
-- For risky or failure-prone work, add ANSI Z535 warning precedence, WHO hold points, OSHA state verification, and FDA error recovery. Use Feynman/SEI CERT pattern contrast only when it improves understanding.
-- Use truthful named 20-cell progress separate from verdict.
-- Preserve machine and artifact formats.
-- Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right; report the outcome, fresh verification, material uncertainty, and remaining user action—not routine tool narration or praise.
+- Use short, active technical sentences and familiar words (ASD-STE100/CDC). Separate how-to, reference, and explanation when useful (Diátaxis). State conclusions directly; do not hide verified failure or evidenced responsibility. Own actual agent errors with correction or next safe action.
+- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from stylistic guidance.
+- Use BCP 14 only for normative force. Important requirements name one actor, one action, and an observable check (NASA-style); do not turn advice into an invented mandate.
+- Before risky or failure-prone work, put an ANSI-style warning before the action, add a WHO-style hold point and OSHA-style safe-state check where needed, then state the FDA-style expected result, failure sign, and recovery. Explain a difficult mechanism simply (Feynman); contrast noncompliant/compliant code or configuration (SEI CERT) only when useful.
+- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress from processed items, rounded down and separate from verdict; otherwise report phase and evidence without a bar. Processed is not passed.
+- Avoid surprise scope and leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat; each must add distinct value.

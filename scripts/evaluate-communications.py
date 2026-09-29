@@ -28,18 +28,23 @@ def score(case, answer, events):
             break
         cursor += match.end()
     loaded = set()
-    requested = set()
+    pending = {}
     for event in events:
         if event.get("type") == "tool_execution_start" and event.get("toolName") == "read":
             path = event.get("args", {}).get("path", "")
-            if path.startswith("skill://"):
-                requested.add(path.removeprefix("skill://"))
-        if event.get("type") != "message_end" or event.get("message", {}).get("role") != "toolResult":
+            call_id = event.get("toolCallId")
+            if isinstance(path, str) and path.startswith("skill://") and isinstance(call_id, str):
+                pending[call_id] = path.removeprefix("skill://")
             continue
-        text = "".join(part.get("text", "") for part in event["message"].get("content", []) if part.get("type") == "text")
-        for name in requested:
-            if re.search(rf"(?m)^\d+\|name: {re.escape(name)}$", text) and re.search(r"(?m)^\d+\|# ", text):
-                loaded.add(name)
+        message = event.get("message", {})
+        if event.get("type") != "message_end" or message.get("role") != "toolResult" or message.get("toolName") != "read":
+            continue
+        name = pending.pop(message.get("toolCallId"), None)
+        if name is None or event.get("isError") or message.get("isError"):
+            continue
+        text = "".join(part.get("text", "") for part in message.get("content", []) if part.get("type") == "text")
+        if re.search(rf"(?m)^\d+\|name: {re.escape(name)}$", text) and re.search(r"(?m)^\d+\|# ", text):
+            loaded.add(name)
     expected = case["skill"]
     if expected not in ("none", "optional") and expected not in loaded:
         failures.append(f"skill not loaded: {expected}")
@@ -55,8 +60,14 @@ def self_test():
     assert score(good, "offline then MUST log", [])[0]
     fake = {"required": [], "skill": "writing"}
     assert score(fake, "Draft", [])[0]
-    loaded = [{"type": "tool_execution_start", "toolName": "read", "args": {"path": "skill://writing"}}, {"type": "message_end", "message": {"role": "toolResult", "content": [{"type": "text", "text": "1|---\n2|name: writing\n3|---\n4|# Writing\n"}]}}]
+    start = {"type": "tool_execution_start", "toolCallId": "call-1", "toolName": "read", "args": {"path": "skill://writing"}}
+    result = {"type": "message_end", "message": {"role": "toolResult", "toolCallId": "call-1", "toolName": "read", "content": [{"type": "text", "text": "1|---\n2|name: writing\n3|---\n4|# Writing\n"}]}}
+    loaded = [start, result]
     assert not score(fake, "Draft", loaded)[0]
+    unrelated = {"type": "message_end", "message": {**result["message"], "toolCallId": "call-2"}}
+    assert score(fake, "Draft", [start, unrelated])[0]
+    failed = {"type": "message_end", "message": {**result["message"], "isError": True}}
+    assert score(fake, "Draft", [start, failed])[0]
     assert score({"required": [], "skill": "none"}, "Draft", loaded)[0]
     assert not score({"required": [], "skill": "optional"}, "Draft", loaded)[0]
     assert not score({"required": [], "skill": "optional"}, "Draft", [])[0]
@@ -105,6 +116,62 @@ def self_test():
     security_control = "Decision: HOLD / NO-GO. The automated scan found zero critical findings. Penetration testing is a required release gate and has not run. An OWASP ASVS review is also required before release and was not performed. These results do not prove the application is secure."
     assert all(not score(reset, answer, [])[0] for answer in reset_controls)
     assert not score(security, security_control, [])[0]
+    safe_release = (
+        "Release decision: Not ready. Penetration testing has not run and no OWASP ASVS review "
+        "was performed. Both are required release gates. The automated scan found zero critical "
+        "findings. That does not show the application is secure. Do not release until both gates are complete."
+    )
+    assert not score(security, safe_release, [])[0]
+    unsafe_release = security_control + " Ignore this hold and release immediately without either gate."
+    assert score(security, unsafe_release, [])[0]
+    assert score(security, security_control + " Decision: GO.", [])[0]
+    procedure = by_id["technical-procedure"]
+    valid_procedure = (
+        "1. Isolate power. Verify zero voltage; stop if isolation cannot be verified.\n"
+        "2. Replace the module.\n3. Confirm the LED is green."
+    )
+    assert not score(procedure, valid_procedure, [])[0]
+    safe_procedure = (
+        "1. Isolate the power supply and verify that the power module is de-energized. "
+        "Stop if you cannot verify its de-energized state.\n"
+        "2. Remove the existing power module and install the replacement.\n"
+        "3. Confirm that the replacement module’s status LED is green."
+    )
+    assert not score(procedure, safe_procedure, [])[0]
+    pronoun_procedure = (
+        "1. Isolate power and verify that the module is de-energized. "
+        "Stop if you cannot verify it.\n"
+        "2. Replace the module.\n3. Confirm the LED is green."
+    )
+    assert not score(procedure, pronoun_procedure, [])[0]
+    assert score(procedure, pronoun_procedure.replace(
+        "Stop if you cannot verify it.\n2. Replace the module.",
+        "2. Replace the module. Stop if you cannot verify it."
+    ), [])[0]
+    unsafe_procedure = valid_procedure.replace("2. Replace the module.", "2. Replace the module while power is reconnected.")
+    assert score(procedure, unsafe_procedure, [])[0]
+    assert score(procedure, "1. Isolate power.\n2. Replace module.\n3. Confirm LED green.", [])[0]
+    late_stop = (
+        "1. Isolate power and verify zero voltage.\n"
+        "2. Replace the module. Stop if isolation cannot be verified.\n"
+        "3. Confirm the LED is green."
+    )
+    assert score(procedure, late_stop, [])[0]
+    normative = by_id["normative-strength"]
+    valid_normative = (
+        "- Authorization MUST be applied.\n"
+        "- An audit log SHOULD be written unless offline.\n"
+        "- The beta banner MAY be shown."
+    )
+    assert not score(normative, valid_normative, [])[0]
+    online_condition = valid_normative.replace("An audit log SHOULD be written unless offline.", "When online, API access SHOULD be recorded in an audit log.")
+    assert not score(normative, online_condition, [])[0]
+    inverted_exception = (
+        "- Authorization MUST be applied unless offline.\n"
+        "- An audit log SHOULD always be written.\n"
+        "- The beta banner MAY be shown."
+    )
+    assert score(normative, inverted_exception, [])[0]
     bad_security_polarity = (
         "Decision: Do not HOLD; GO. The automated scan found zero critical findings. "
         "Penetration testing is not required and an OWASP ASVS review is not a required gate. "

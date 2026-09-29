@@ -15,7 +15,7 @@ Choose **product** for an A/B or behavior test and **engineering** for performan
 1. **Decision and hypothesis.** State the decision goal, derive the questions that settle it, then choose decision-relevant metrics. Record workload, intervention, control, mechanism, and falsifiable hypothesis.
 2. **Use existing evidence.** Before buying a new live intervention, test the hypothesis against existing logs, traces, tests, diffs, historical outputs, or prior runs. Use a new probe only for uncertainty the record cannot settle.
 3. **Disposable separating test.** When an executable artifact is the cheapest separating test, build a disposable prototype with one question, one observable signal, a time box, and explicit limits on what it proves. Keep it out of production until separately reviewed.
-4. **Expected result and abort.** Before a costly, irreversible, externally visible, or multi-step intervention, state the observable expected result. Stop dependent steps on the first material mismatch and preserve the counterexample.
+4. **Expected result and abort.** Before a costly, irreversible, externally visible, or multi-step intervention, warn about the relevant risk, verify the safe starting state, and state the observable expected result, failure sign, and recovery. Pause for required authorization; stop dependent steps on the first material mismatch and preserve the counterexample.
 5. **Outcomes and guardrails.** Choose one primary outcome and a few correctness or safety guardrails. Define practical significance before seeing results.
 6. **Controlled comparison.** Hold environment, data, build, warm-up, and measurement method constant unless one is the tested variable.
    - For product work, define assignment, randomization, exclusions, exposure, contamination, and measurement window.
@@ -34,16 +34,10 @@ Do not launch when tracking, assignment, ethics, privacy, rollback, or correctne
 
 **User-facing:**
 
-- Apply the global outcome-first delivery overlay.
-- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
-- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
-- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
-- Match reply length and structure to the weight of the ask.
-- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
-- Simple turns stay short.
-- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
-- Apply the root **lean communication kernel**: ASD-STE100-inspired syntax and CDC word choice; Diátaxis mode separation; BCP 14 normative words; NASA-style atomic verification. Do not reintroduce discarded default standards through local prose.
-- For risky or failure-prone work, add ANSI Z535 warning precedence, WHO hold points, OSHA state verification, and FDA error recovery. Use Feynman/SEI CERT pattern contrast only when it improves understanding.
-- Use truthful named 20-cell progress separate from verdict.
-- Preserve machine and artifact formats.
-- Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right; report the outcome, fresh verification, material uncertainty, and remaining user action—not routine tool narration or praise.
+- Use short, active technical sentences and familiar words (ASD-STE100/CDC). Separate how-to, reference, and explanation when useful (Diátaxis). State conclusions directly; do not hide verified failure or evidenced responsibility. Own actual agent errors with correction or next safe action.
+- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from stylistic guidance.
+- Use BCP 14 only for normative force. Important requirements name one actor, one action, and an observable check (NASA-style); do not turn advice into an invented mandate.
+- Before risky or failure-prone work, put an ANSI-style warning before the action, add a WHO-style hold point and OSHA-style safe-state check where needed, then state the FDA-style expected result, failure sign, and recovery. Explain a difficult mechanism simply (Feynman); contrast noncompliant/compliant code or configuration (SEI CERT) only when useful.
+- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress from processed items, rounded down and separate from verdict; otherwise report phase and evidence without a bar. Processed is not passed.
+- Avoid surprise scope and leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat; each must add distinct value.

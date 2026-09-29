@@ -112,9 +112,15 @@ Public documentation for standards and engineering practices that influence Lean
 | Cognitive-load segmentation | Established research practice | Absorb small rule set | `teach / writing / wait-what` | 2026-08-30 | Material evidence update | Research lineage in release decisions |
 | Worked examples and self-explanation | Established research practice | Adopt teaching pattern | `teach` | 2026-08-30 | Material evidence update | IES guide and primary research lineage |
 | Inclusion Europe Easy-to-Read | Living specialized guidance | Specialized mode only; intended-user co-review required | `writing/USER-INFORMATION.md / review` | 2026-08-30 | Rules or logo conditions change | [source](https://easy-to-read.inclusion-europe.eu/) |
-| CDC Clear Communication Index | Current research-based public-communication tool | Diagnostic only; no universal threshold | `writing/USER-INFORMATION.md / review` | 2026-08-30 | Material tool revision | [source](https://www.cdc.gov/ccindex/) |
+| CDC Clear Communication Index | Current research-based public-communication tool | Main-point/familiar-word heuristic in the lean kernel; full diagnostic only for public communication; no universal threshold | `AGENTS.md / writing/USER-INFORMATION.md / review` | 2026-08-30 | Material tool revision | [source](https://www.cdc.gov/ccindex/) |
 | PEMAT | Current AHRQ patient-material tool | Diagnostic only; domain-specific | `writing/USER-INFORMATION.md` | 2026-08-30 | Material tool revision | [source](https://www.ahrq.gov/health-literacy/patient-education/pemat.html) |
 | Feynman-style explanation | Informal heuristic; no canonical formal standard | Retain as conditional explanation pattern; correct provenance | `wait-what / teach` | 2026-08-30 | Better evidence or canonical source identified | No formal standard claimed |
+
+## V8.13 lean-kernel adoption
+
+The root policy and every standalone skill use ASD-STE100-inspired active grammar and the main-point/familiar-word heuristic from CDC CCI. Diátaxis separates document modes when useful. BCP 14 governs normative force; NASA NPR 1400.1I inspires one actor, one action and observable evidence. For risky steps, ANSI Z535 inspires warning precedence, WHO checklists inspire hold points, OSHA 29 CFR 1910.147 inspires safe-state verification, and FDA human-factors guidance inspires expected result, failure sign and recovery. Feynman explanation and SEI CERT pattern contrast activate only when useful. These analogies do not grant legal or organisational authority, certify conformance or replace domain-specific controls. The controlled-execution pack owns deeper source-specific procedures.
+
+The earlier default ISO 24495-1/W3C COGA layer is retired for ordinary prose; their scoped user-information and accessibility routines remain available under task triggers. The CDC CCI full diagnostic remains limited to public communication.
 
 ## V8.3 explicitness and activation policy
 
@@ -122,7 +128,7 @@ Public documentation for standards and engineering practices that influence Lean
 - `ENGINEERING-CORE.md` maps engineering concerns to their principal standards and practices.
 - Owning skills name only the sources that materially change their work.
 - Actionable rules remain local; a source name is provenance, not a compliance claim.
-- User-facing prose is proportional: ASD-STE100, ISO 24495-1, and W3C COGA are the default eligible layer; Feynman, Diátaxis, and BCP 14 activate only when their function applies.
+- At V8.3, user-facing prose was proportional: ASD-STE100, ISO 24495-1, and W3C COGA were the default eligible layer; Feynman, Diátaxis, and BCP 14 activated when their function applied. This default was superseded by the V8.13 decision above.
 - Simple questions stay short. Heavy structure is reserved for substantive explanation, documentation, normative requirements, or complex action.
 
 ## Rejected architecture changes

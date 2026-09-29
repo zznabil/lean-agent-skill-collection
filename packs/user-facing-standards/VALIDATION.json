@@ -31,5 +31,6 @@
     ],
     "positive_control": "test_positive_control",
     "scope": "structural and source integrity only; no live-model evaluation or formal-conformance claim"
-  }
+  },
+  "current_skill_integrity": "Each SKILL.md has task-specific outcome-first wording and the standalone lean communication kernel fallback, stays below 100 lines, and matches SOURCE-MANIFEST.json current_sha256; audit/IMPORT-RECORD.json remains pinned historical provenance."
 }

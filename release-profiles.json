@@ -1,8 +1,8 @@
 {
-  "version": "8.12.0",
-  "release": "v8.12.0",
-  "release_title": "Profile-aware Agent Instructions",
-  "release_summary": "Map the governing communication kernel and all installed optional skills in each profile while retaining 24 base routes, 27 supplemental routines, and source-only pack boundaries.",
+  "version": "8.13.0",
+  "release": "v8.13.0",
+  "release_title": "Lean Kernel Across Every Skill",
+  "release_summary": "Apply the lean communication kernel to all base and supplemental skills, source-only packs and generated profiles, including standalone fallbacks, while retaining task-specific source boundaries and existing six profile memberships.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -122,7 +122,7 @@
   "user_facing_standards": {
     "source_root": "packs/user-facing-standards/skills",
     "source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
-    "source_manifest_sha256": "1589bfafa41fb9f99e6e964f3e37fa904a5a657a2789594e74a27d16b5990d14",
+    "source_manifest_sha256": "1b26da70bff02c50a86d57915125fc6c4fc2ff4ba1936bb7379639ae280a8e1e",
     "rights_notice_path": "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
     "rights_notice_sha256": "1061633d3a12dd100bb5c89126ad40312e1883cfb7042645fc78ec6d002dc951",
     "skills_expected": 27,

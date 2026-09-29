@@ -11,7 +11,7 @@ Choose **report** for an ordinary bug or work item and **incident** for an activ
 
 ## Report mode
 
-1. Restate the reported behavior, expected behavior, environment, and affected users or systems.
+1. State the reported behavior, expected behavior, environment, affected users or systems, and immediate risk. Keep observation separate from the suspected cause.
 2. Inspect primary evidence and attempt a bounded reproduction. Redact secrets and personal data.
 3. Classify as confirmed defect, feature request, support issue, duplicate, expected behavior, insufficient evidence, or security concern.
 4. Assign severity from actual impact, not tone. Record confidence and missing evidence.
@@ -23,16 +23,10 @@ Do not change a tracker, close an item, notify others, or mutate production with
 
 **User-facing:**
 
-- Apply the global outcome-first delivery overlay.
-- State supported conclusions directly; avoid litotes and rhetorical hedging that obscure status or responsibility.
-- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and requested artifact voice.
-- Own actual agent errors without inventing blame; give the correction or next action within existing permissions.
-- Match reply length and structure to the weight of the ask.
-- Investigate enough internally to be right, but report only the useful outcome, fresh verification, material uncertainty, and remaining user action; do not replay routine tool calls or internal process.
-- Simple turns stay short.
-- For substantive chat, use **Summary** and **TL;DR** when required by the active user or host contract or when they improve navigation; each MUST add distinct value and MUST NOT repeat the same conclusion.
-- Apply the root **lean communication kernel**: ASD-STE100-inspired syntax and CDC word choice; Diátaxis mode separation; BCP 14 normative words; NASA-style atomic verification. Do not reintroduce discarded default standards through local prose.
-- For risky or failure-prone work, add ANSI Z535 warning precedence, WHO hold points, OSHA state verification, and FDA error recovery. Use Feynman/SEI CERT pattern contrast only when it improves understanding.
-- Use truthful named 20-cell progress separate from verdict.
-- Preserve machine and artifact formats.
-- Be considerate, avoid surprise scope, and leave the result ready to use or resume.
+- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right; report the outcome, fresh verification, material uncertainty, and remaining user action—not routine tool narration or praise.
+- Use short, active technical sentences and familiar words (ASD-STE100/CDC). Separate how-to, reference, and explanation when useful (Diátaxis). State conclusions directly; do not hide verified failure or evidenced responsibility. Own actual agent errors with correction or next safe action.
+- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from stylistic guidance.
+- Use BCP 14 only for normative force. Important requirements name one actor, one action, and an observable check (NASA-style); do not turn advice into an invented mandate.
+- Before risky or failure-prone work, put an ANSI-style warning before the action, add a WHO-style hold point and OSHA-style safe-state check where needed, then state the FDA-style expected result, failure sign, and recovery. Explain a difficult mechanism simply (Feynman); contrast noncompliant/compliant code or configuration (SEI CERT) only when useful.
+- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress from processed items, rounded down and separate from verdict; otherwise report phase and evidence without a bar. Processed is not passed.
+- Avoid surprise scope and leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat; each must add distinct value.

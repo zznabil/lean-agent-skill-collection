@@ -5,8 +5,8 @@ description: "Teach a procedure with worked examples and explanation."
 # Worked examples and self-explanation
 
 ## Use
-- Use when a learner needs to understand and perform an unfamiliar procedure, not merely look up one fact.
-- Identify the learning goal, prerequisite knowledge and the specific step that is difficult.
+- Use when learners must understand and perform an unfamiliar procedure, not look up a single fact. Deliver a correct example and the next useful practice step.
+- Identify the learning goal, prerequisite knowledge and difficult step first.
 
 ## Source and scope
 - Read the worked-example and explanatory-question sections in references/ies-organizing-instruction-2007.pdf.
@@ -22,16 +22,16 @@ description: "Teach a procedure with worked examples and explanation."
 5. Inspect the answer or attempt and address the specific mistaken idea before adding more material.
 6. Alternate example study with a related problem the learner works on; provide a cue when the current evidence
   warrants it.
-7. Fade cues as performance improves and use a different but related case to test independent transfer.
+7. After guided performance improves, reduce cues. Use a related new case to check independent transfer, not a repeat of the example.
 8. Make the limits of the example explicit so a learner does not apply it where its prerequisites fail.
 
-## Preserve the boundary
+## Keep the task contract
 - Do not present an invented example result as executed or experimentally verified.
 - Do not delete an exception from the general rule merely because the example does not exercise it.
 - An agent instruction can include a worked execution example, but that does not require a quiz for the human user.
 - A copied answer, agreement or confidence statement is not evidence of independent understanding.
 
-## Check and finish
+## Verify and deliver
 - Verify the example’s calculation, commands and result using the relevant task evidence.
 - Distinguish example-following, guided performance and independent transfer.
 - Return the example and only the next useful exercise; keep untested cases and misunderstandings explicit.
@@ -39,5 +39,14 @@ description: "Teach a procedure with worked examples and explanation."
 ## Worked distinction
 A learner copies the subnet mask from the example but cannot explain which bits changed.
 Target that step with an explanation and a related case instead of declaring mastery from the copied answer.
+
+## Lean communication kernel (standalone fallback)
+If root `AGENTS.md` is loaded, it governs. Otherwise apply these rules to communication. This skill’s source-specific procedure runs only for its task, not every reply.
+- Lead with the supported result and next action. Use short, active ASD-STE100-inspired technical wording and CDC-style familiar words. Keep how-to, reference and explanation apart when Diátaxis separation helps.
+- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
+- In normative text, keep BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check (NASA).
+- Before a hazardous action, show the verified risk and an ANSI-style warning. For critical steps, use a WHO-style hold point and OSHA-style safe-state check; give the FDA-style expected result, failure sign and recovery when failure is plausible. These analogies do not replace task-specific controls.
+- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining) and floor percentage from durable counts; keep the PASS/FAIL/BLOCKED verdict separate. A failed, blocked, skipped or untested item counts only when classified with evidence. With no defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
+- Explain a difficult mechanism from foundations (Feynman). Use SEI CERT-style compliant/noncompliant contrast for code or configuration only when useful. Do not force examples or sections on simple tasks.
 
 Source editions, local files, official links and reuse limits: [SOURCES.md](SOURCES.md).

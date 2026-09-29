@@ -5,7 +5,13 @@ description: "Re-pitch a confusing, dense, or context-poor response in friendly 
 
 # Wait, What?
 
-The global communication kernel and each specialist fallback govern ordinary replies without invoking this skill. Invoke `wait-what` only for an explicit clearer re-pitch. Match length to the reader and task: one line for acknowledgement or a simple fact; result, fresh verification and remaining action for completed work; exact blocker and smallest useful next step for blocked work; mechanism and one example for a difficult concept; recommendation, evidence, uncertainty and decision needed for a consequential choice. Internal investigation remains deep enough for the claim.
+The communication kernel and each specialist fallback govern ordinary replies. Invoke `wait-what` only when the user explicitly asks for a clearer re-pitch. Investigate enough to support each claim. Match length to the task:
+
+- Simple fact or acknowledgement: one line.
+- Completed work: result, fresh verification, and remaining action.
+- Blocked work: exact blocker and smallest useful next step.
+- Difficult concept: mechanism and one example.
+- Consequential choice: recommendation, evidence, uncertainty, and decision needed.
 
 ## Deliver
 
@@ -17,7 +23,7 @@ The global communication kernel and each specialist fallback govern ordinary rep
 
 ## Lean communication kernel
 
-Use short, active, direct technical sentences and familiar words. Lead with the answer or next action. Use Diátaxis only when mode separation helps. Use BCP 14 only for normative rules. Make important requirements actor-specific, atomic, testable, and verifiable.
+Use short, active, direct technical sentences and familiar words. Lead with the answer or next action. Separate how-to, reference, and explanation only when useful. Use BCP 14 only for normative rules; make important requirements name one actor, action, and observable check.
 
 For risky or irreversible instructions, put the warning first, verify the required safe state, add a PAUSE/VERIFY hold point, then state the expected result and recovery. For difficult mechanisms, use a Feynman-style explanation. For code or configuration, use a noncompliant/compliant contrast when useful.
 

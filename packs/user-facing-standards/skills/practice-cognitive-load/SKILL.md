@@ -5,7 +5,7 @@ description: "Reduce avoidable load in a specific learning task."
 # Cognitive load: segment a learning task
 
 ## Use
-- Use when unfamiliar material or a procedure overwhelms the intended learner or obscures an important dependency.
+- Use when unfamiliar material overwhelms learners or hides an important dependency. Deliver reorganised material that preserves the task’s necessary complexity.
 - Establish the task, prior knowledge and evidence of difficulty. No fixed chunk count fits every reader.
 
 ## Source and scope
@@ -25,16 +25,16 @@ description: "Reduce avoidable load in a specific learning task."
 6. Make a complex relationship explicit with a relevant representation, rather than adding several redundant
   formats.
 7. Connect new material to supported prior knowledge and use the same terms for the same concepts.
-8. Observe a short explanation or task attempt; correct the smallest consequential misunderstanding.
+8. Observe a short explanation or task attempt. Correct the specific misunderstanding that blocks the next step.
 9. Reduce scaffolding as competence becomes evident; do not keep an expert dependent on novice-level prompts.
 
-## Preserve the boundary
+## Keep the task contract
 - Do not remove necessary complexity, safety conditions, evidence or failure branches under the name of
   simplification.
 - A smaller word count does not establish lower cognitive load or better task performance.
 - Do not diagnose a reader, infer a universal working-memory limit or equate human learning with LLM behaviour.
 
-## Check and finish
+## Verify and deliver
 - Compare task accuracy, assistance and resumption before claiming a useful improvement.
 - For agent-facing prose, test actual execution separately; the teaching analogy is not an adherence result.
 - Return the reorganised material and state which conditions and dependencies were preserved.
@@ -42,5 +42,14 @@ description: "Reduce avoidable load in a specific learning task."
 ## Worked distinction
 A procedure requires a parameter on page 1 while its effect is explained on page 8.
 Place the needed explanation at the decision point without deleting the complete reference.
+
+## Lean communication kernel (standalone fallback)
+If root `AGENTS.md` is loaded, it governs. Otherwise apply these rules to communication. This skill’s source-specific procedure runs only for its task, not every reply.
+- Lead with the supported result and next action. Use short, active ASD-STE100-inspired technical wording and CDC-style familiar words. Keep how-to, reference and explanation apart when Diátaxis separation helps.
+- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
+- In normative text, keep BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check (NASA).
+- Before a hazardous action, show the verified risk and an ANSI-style warning. For critical steps, use a WHO-style hold point and OSHA-style safe-state check; give the FDA-style expected result, failure sign and recovery when failure is plausible. These analogies do not replace task-specific controls.
+- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining) and floor percentage from durable counts; keep the PASS/FAIL/BLOCKED verdict separate. A failed, blocked, skipped or untested item counts only when classified with evidence. With no defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
+- Explain a difficult mechanism from foundations (Feynman). Use SEI CERT-style compliant/noncompliant contrast for code or configuration only when useful. Do not force examples or sections on simple tasks.
 
 Source editions, local files, official links and reuse limits: [SOURCES.md](SOURCES.md).

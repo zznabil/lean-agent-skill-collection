@@ -117,7 +117,7 @@ function Invoke-PackRejection([string]$Name,[scriptblock]$Mutator,[string]$Expec
         try {
             $failures.Clear(); try { Get-ReleaseUserFacingInventory $fixtureRepo $fixtureProfiles | Out-Null } catch { $failures.Add($_.Exception.Message) }
         } finally { $script:ExpectedSupplementalPackLedgerSha256 = $anchor }
-        if (-not ($failures | Where-Object { $_ -imatch [regex]::Escape($Expected) })) { throw "Rejection control failed: $Name (expected $Expected)" }
+        if (-not ($failures | Where-Object { $_ -imatch [regex]::Escape($Expected) })) { throw "Rejection control failed: $Name (expected $Expected; observed $($failures -join '; '))" }
         Write-Host ('PASS rejection: ' + $Name) -ForegroundColor Green
     } finally { Remove-Item -LiteralPath $fixtureRepo -Recurse -Force -ErrorAction SilentlyContinue }
 }
@@ -279,7 +279,10 @@ try {
         [pscustomobject]@{Text='No approval assertion is made, publisher approval granted.';Rejected=$true},
         [pscustomobject]@{Text='Certification is not claimed.';Rejected=$false},
         [pscustomobject]@{Text='No approval assertion is made but publisher approval granted.';Rejected=$true},
-        [pscustomobject]@{Text='No approval assertion is made and publisher approval granted.';Rejected=$true}
+        [pscustomobject]@{Text='No approval assertion is made and publisher approval granted.';Rejected=$true},
+        [pscustomobject]@{Text='No doubt this product is certified by ASD.';Rejected=$true},
+        [pscustomobject]@{Text='Not only is this approved by ASD.';Rejected=$true},
+        [pscustomobject]@{Text='There is no publisher approval.';Rejected=$false}
     )
     $approvalTerms=@('approval','approved','endorsement','endorsed','certification','certified','authorization','authorisation','authorized','authorised')
     $approvalAffirmativeCapitalizationCases=@(

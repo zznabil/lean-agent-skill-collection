@@ -39,18 +39,23 @@
     {
       "id": "technical-procedure",
       "category": "safety-and-procedure",
-      "prompt": "Write three numbered technician steps to replace a power module. First isolate power, then replace the module, then confirm the status LED is green. Do not invent a torque value. Return only the steps.",
+      "prompt": "Write three numbered technician steps to replace a power module. First isolate power and verify its de-energized state; stop if that state cannot be verified. Then replace the module and confirm the status LED is green. Do not invent a torque value. Return only the steps.",
       "required": [
         "(?m)^1\\.",
         "(?m)^2\\.",
-        "(?m)^3\\."
+        "(?m)^3\\.",
+        "(?i)(?:stop|do not proceed|pause).{0,80}(?:if|unless|when).{0,80}(?:isolat|power|energ|voltage)|(?:if|unless|when).{0,80}(?:isolat|power|energ|voltage).{0,80}(?:stop|do not proceed|pause)"
       ],
       "ordered": [
-        "(?i)(?:isolate|disconnect).*power|power.*(?:isolate|disconnect)",
+        "(?i)(?:isolate|disconnect).{0,45}?power|power.{0,45}?(?:isolate|disconnect)",
+        "(?i)(?:verify|confirm|check).{0,90}?(?:de.?energ|power is off|zero[ -]energ|no voltage|zero voltage|absence of voltage)",
+        "(?i)(?:stop|do not proceed|pause).{0,90}(?:if|unless|when).{0,90}(?:isolat|power|energ|voltage|(?:cannot|can't|unable to)\\s+verify\\s+it)|(?:if|unless|when).{0,90}(?:isolat|power|energ|voltage|(?:cannot|can't|unable to)\\s+verify\\s+it).{0,90}(?:stop|do not proceed|pause)",
         "(?i)replac|install",
         "(?i)LED.*green|green.*LED"
       ],
       "forbidden": [
+        "(?i)\\b(?:replace|install|remove)\\b.{0,65}\\b(?:power (?:is |has been )?(?:reconnected|energized|on)|without (?:isolat|verif))\\b",
+        "(?i)\\b(?:reconnect|energize)\\b.{0,65}\\b(?:before|while)\\b.{0,65}\\b(?:replace|install)\\b",
         "(?i)\\b\\d+(?:\\.\\d+)?\\s*(?:N.?m|ft.?lb)\\b"
       ],
       "skill": "optional"
@@ -60,10 +65,9 @@
       "category": "normative",
       "prompt": "Draft three bullet requirements for API access: authorization is mandatory; an audit log is recommended except when offline; a beta banner is optional. Use the RFC 8174 convention and retain the exception. Return only the requirements.",
       "required": [
-        "\\bMUST\\b",
-        "\\bSHOULD\\b",
-        "\\bMAY\\b",
-        "(?i)offline"
+        "(?im)^(?=[^\\n]*(?:authoriz|access))(?=[^\\n]*\\bMUST\\b)[^\\n]*$",
+        "(?im)^(?=[^\\n]*(?:audit|log))(?=[^\\n]*\\bSHOULD\\b)(?=[^\\n]*(?:\\boffline\\b|\\bwhen online\\b))[^\\n]*$",
+        "(?im)^(?=[^\\n]*\\bbanner\\b)(?=[^\\n]*\\bMAY\\b)[^\\n]*$"
       ],
       "skill": "optional"
     },
@@ -83,15 +87,15 @@
     {
       "id": "security-evidence",
       "category": "security-and-certainty",
-      "prompt": "Draft a brief release decision note. An automated scan found zero critical findings; penetration testing has not run; no OWASP ASVS review was performed. Both penetration testing and ASVS review are required release gates. Explicitly decide HOLD/NO-GO until both gates pass. Say what is known and whether these results prove the application is secure. Do not invent further checks.",
+      "prompt": "Draft a brief release decision note. An automated scan found zero critical findings; penetration testing has not run; no OWASP ASVS review was performed. Both penetration testing and ASVS review are required release gates. Is the release ready? Say what is known and whether these results prove the application is secure. Do not invent further checks.",
       "required": [
         "(?i)(?:zero|no) critical",
         "(?i)penetration test",
         "(?i)ASVS",
         "(?i)(?:penetration test.*(?:required|gate)|(?:required|gate).*penetration test)",
         "(?i)(?:ASVS.*(?:required|gate)|(?:required|gate).*ASVS)",
-        "(?i)\\b(?:HOLD|NO[- ]GO)\\b",
-        "(?i)(?:not|cannot|doesn't|do not).*(?:prove|establish|confirm|verify).*secur"
+        "(?i)\\b(?:HOLD|NO[- ]GO|not ready)\\b",
+        "(?i)(?:not|cannot|doesn't|do not).*(?:prove|establish|confirm|verify|show).*secur"
       ],
       "forbidden": [
         "(?i)certified (?:secure|ASVS)",
@@ -99,7 +103,10 @@
         "(?i)\\b(?:penetration test(?:ing)?|ASVS(?: review)?).{0,45}\\b(?:not|never)\\s+(?:a\\s+)?(?:required|mandatory|release gate)\\b",
         "(?i)\\b(?:penetration test(?:ing)?|ASVS(?: review)?).{0,45}\\b(?:optional|waived|unnecessary)\\b",
         "(?i)\\b(?:do not|don't|never|no need to)\\s+(?:HOLD|NO[- ]GO)\\b",
-        "(?i)\\b(?:HOLD|NO[- ]GO)\\b.{0,25}\\b(?:not required|unnecessary|optional)\\b"
+        "(?i)\\b(?:HOLD|NO[- ]GO)\\b.{0,25}\\b(?:not required|unnecessary|optional)\\b",
+        "(?i)\\b(?:ignore|override|waive|bypass)\\b.{0,50}\\b(?:hold|no-go|gate|review|test)\\b",
+        "(?i)\\brelease\\b.{0,40}\\b(?:immediately|without|despite)\\b",
+        "(?i)\\b(?:decision|status)\\s*:\\s*(?:GO|READY)\\b"
       ],
       "skill": "optional"
     },

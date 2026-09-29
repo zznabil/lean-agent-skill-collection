@@ -49,6 +49,6 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 ## Source roles
 
-Use the root lean communication kernel: ASD-STE100-inspired grammar, CDC-style word choice, Diátaxis mode separation, BCP 14 normative precision, NASA-style atomic verification, ANSI warning precedence, WHO hold points, OSHA state verification, FDA error anticipation and recovery, plus Feynman/SEI CERT pattern contrast when useful.
+Use the lean communication kernel whether or not root instructions load: ASD-STE100-inspired grammar, CDC-style word choice, Diátaxis mode separation, BCP 14 normative precision, NASA-style atomic verification, ANSI warning precedence, WHO hold points, OSHA state verification, FDA error anticipation and recovery, plus Feynman/SEI CERT pattern contrast when useful.
 
-Do not reintroduce the discarded default standards through this editing path. A specialised source MAY still apply when the task explicitly requires that domain. Do not claim formal conformance from stylistic use.
+Do not reintroduce the discarded default standards through this editing path. A specialised source still applies when the task requires that domain, including an implicit task trigger. Do not claim formal conformance from stylistic use.

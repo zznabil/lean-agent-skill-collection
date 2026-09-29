@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = '8739f3365f547076e90f69c4226c15cc128ae9b8849703a6752cb10ff6f2611e'
+$script:ExpectedSupplementalPackLedgerSha256 = 'e2ac15404a5775331a8f055488cbfe03d3100389f679613c28aa7d072a177774'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -268,11 +268,11 @@ function Get-ReleaseChecksumLedger([string]$RepositoryRoot,[string]$PackRelative
 function Get-ReleasePackLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/user-facing-standards' $script:ExpectedSupplementalPackLedgerSha256 'supplemental pack'
 }
-$script:ExpectedRemainingStandardsPackLedgerSha256 = '07816484fc6deed45b0d233fac7ecd9b6c018ab0feebb7a8847aa78290398dbf'
+$script:ExpectedRemainingStandardsPackLedgerSha256 = 'dec0ea0e2bc7f6972fc4ef72cef0c450ed18681db78df6b0dd08d56341d9f6d0'
 function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
-$script:ExpectedControlledExecutionPackLedgerSha256 = '4152c0c9dd25117ea2e617e4f2cc19e814dbc0ad3eb62b00339f1c11b25e2445'
+$script:ExpectedControlledExecutionPackLedgerSha256 = '90be88304674a54413b01e850488c8d0d869745c13647040d533bfcea1adb774'
 function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/controlled-execution' $script:ExpectedControlledExecutionPackLedgerSha256 'controlled-execution pack'
 }
@@ -289,7 +289,11 @@ function Test-ReleaseNearbyApprovalNegation([object[]]$Before,[object[]]$After) 
     if ($Before.Count -gt 0) { foreach ($token in $Before[$start..($Before.Count - 1)]) { [void]$window.Add([string]$token) } }
     $end = [Math]::Min($script:ApprovalContextTokenLimit - 1, $After.Count - 1)
     if ($After.Count -gt 0) { foreach ($token in $After[0..$end]) { [void]$window.Add([string]$token) } }
-    foreach ($token in $window) {
+    for ($index = 0; $index -lt $window.Count; $index++) {
+        $token = $window[$index]
+        $next = if ($index + 1 -lt $window.Count) { $window[$index + 1] } else { '' }
+        if ($token -eq 'no' -and $next -in @('doubt', 'question')) { continue }
+        if ($token -eq 'not' -and $next -in @('only', 'merely')) { continue }
         if ($token -match $script:ApprovalNegationPattern) { return $true }
     }
     return $false

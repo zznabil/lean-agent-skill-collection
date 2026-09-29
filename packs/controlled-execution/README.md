@@ -1,46 +1,23 @@
 # Controlled-execution mechanism skills
 
-This optional review pack adds 13 narrow skills for instructions that must produce controlled, observable and demonstrable execution.
+This optional review pack provides 13 narrow skills for instructions whose execution must be controlled and observable. It does not alter canonical skills, release profiles, version, installation or runtime; it is not a release input without later authorisation.
 
-The pack complements the existing Lean communication and task skills. It does not change the canonical `skills/` directory, release profiles, version, installation or runtime. It is not a release input unless a later authorised change makes it one.
+When trusted root `AGENTS.md` is loaded, its communication policy governs the selected skill. A standalone installation uses the self-contained lean kernel fallback in that skill's `SKILL.md`. Neither path proves host activation.
 
-## Core model
+## Choose and apply
+1. Identify the task and the failure it could cause. Select only its needed mechanism from [CATALOG.md](CATALOG.md), not the full pack. Combine independent mechanisms only when both apply (for example, use-error controls and state verification).
+2. Read the selected `SKILL.md` and its `SOURCES.md` before applying it. Check source status, access rights and the task's actual authority. A source analogy does not transfer a legal or organisational mandate.
+3. Prefer prevention (restricted capability, redesign or interlock), then detection and containment (state verification, hold point, stop and recovery), then explanation (requirement, warning or example). [CONTROL-MODEL.md](CONTROL-MODEL.md) gives the shared record; it is not another routed skill.
+4. Put warnings before the affected action. Verify state before risky work, pause before irreversible progression, and define expected result, failure sign and recovery when failure is plausible. Report only observed evidence.
 
-Understanding is necessary but not sufficient for risky execution. Prefer controls in this order:
+The narrower ASVS and SSDF traceability mechanisms do not replace the broader routines in the separate remaining-standards pack. UI rendering profiles follow technical correctness; they do not invent product behavior.
 
-1. Prevent the error through restricted capability, redesign or an interlock.
-2. Detect and contain the error through verification, a hold point, a stop condition and recovery.
-3. Explain the error through a requirement, prohibition, warning, rationale or example.
+## Review and package
+- [SOURCE-MANIFEST.json](SOURCE-MANIFEST.json) records the exact skill/source inventory; [VALIDATION.json](VALIDATION.json) declares what was and was not evaluated. `audit/acceptance-cases.json` contains authored cases, not live-model results.
+- Before using a review ZIP, run `python audit/validate_pack.py` and `python audit/test_validate_pack.py` from this directory. Build with `python audit/build_zip.py <output.zip>`, with output outside the pack. A failed validation stops packaging; correct the source or reject the package rather than rehashing an unreviewed edit.
+- `SOURCE-BASELINE.sha256` pins every pack file except `CHECKSUMS.sha256`, itself and `audit/validate_pack.py`. `CHECKSUMS.sha256` covers all other pack files. An authorised source revision must refresh the manifest, baseline, validator's baseline pin and checksums together; the validator alone cannot authenticate its own replacement.
 
-Read [CONTROL-MODEL.md](CONTROL-MODEL.md) for the shared record. It is a reference model, not a fourteenth routed skill.
+This extracted pack is not self-authenticating. Its validator alone cannot prove root integration: check the current root pin for `CHECKSUMS.sha256` and rerun the applicable root checks on the final revision before reporting integration as passed.
 
-## Contents
-
-- [CATALOG.md](CATALOG.md): exact 13-skill inventory and selection boundary.
-- `skills/<name>/SKILL.md`: bounded application procedure.
-- `skills/<name>/SOURCES.md`: official access, version decision, rights and adaptation limits.
-- [SOURCE-MANIFEST.json](SOURCE-MANIFEST.json): machine-readable source and skill inventory.
-- [VALIDATION.json](VALIDATION.json): declared evidence scope and explicit limits.
-- `audit/`: structural validator, rejection controls, authored cases and deterministic review-ZIP builder.
-
-## Selection
-
-Select one mechanism because the task needs it. Do not load every skill for every instruction.
-
-Typical combinations are:
-- normative precision plus verifiable requirements;
-- use-error controls plus state verification;
-- a safe technical procedure plus a transition checklist;
-- a UI rendering profile after the technical procedure is correct.
-
-The broader OWASP ASVS and NIST SSDF routines remain in the separate remaining-standards pack. This pack extracts narrower traceability mechanisms under different identifiers.
-
-## Integrity boundary
-
-`SOURCE-BASELINE.sha256` records the expected bytes for every pack file except `CHECKSUMS.sha256`, `SOURCE-BASELINE.sha256` and `audit/validate_pack.py`. Refreshing `CHECKSUMS.sha256` cannot silently author a changed skill, catalog, rights record, builder, test or added root/audit file.
-
-This extracted pack is not self-authenticating: `audit/validate_pack.py` still requires an external/root trust pin. V8.9 root validation pins this pack’s `CHECKSUMS.sha256` through `UPSTREAM-CHECKSUMS.sha256`. The pack remains optional review-only material and does not claim installation, formal conformity or live-model evidence.
-
-## Evidence limits
-
-The checks verify source structure, immutable authored baselines, links, inventories, text format, rejection controls and deterministic packaging. The authored cases are not live-model evaluations. No formal conformity, task-success gain, comprehension rate or local installation is claimed.
+## Evidence and rights
+Structural checks cover inventories, source baselines, links, text format, rejection controls and deterministic ZIP contents. They do not prove selection, instruction understanding, task success, comprehension, formal conformity or local installation. No publisher file is bundled; follow each `SOURCES.md` and [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for access and redistribution limits.

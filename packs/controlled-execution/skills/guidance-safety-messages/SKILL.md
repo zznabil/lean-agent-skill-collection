@@ -4,24 +4,28 @@ description: "Write safety messages for documents and digital media."
 ---
 # Safety messages
 
-## Use and boundary
-- Use when a document or digital interface must communicate a material hazard before commitment to the hazardous action.
-- State the hazard, credible consequence and avoidance action.
-- Put the message where and when the actor needs it.
-- Do not invent a signal word, severity class, colour rule or layout claim without the applicable authorised source.
-- This routine is not ANSI Z535 conformity guidance and includes no licensed ANSI text.
+## Lean communication kernel fallback (standalone)
+- If trusted root `AGENTS.md` is loaded, its policy governs this skill. Otherwise MUST apply this lean communication kernel fallback; skill-specific rules refine it.
+- Lead with the main point and familiar words (CDC Clear Communication Index). Use short, active, direct technical sentences (ASD-STE100).
+- Separate how-to, reference and explanation when useful (Diátaxis). Keep simple replies short.
+- For normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Use NASA-style one actor, action and observable verification target.
+- For critical or risky work only, put ANSI-style warnings before hazards and WHO-style hold points before critical or irreversible steps.
+- Before destructive or hazardous work, verify actual state (OSHA-style). When failure is plausible, state expected result, failure sign and recovery (FDA human-factors style).
+- Explain difficult mechanisms from simple foundations (Feynman). Contrast noncompliant and compliant code or configuration when useful (SEI CERT).
+- For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful; add contrast or TL;DR only when helpful.
+- Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Report observed results; missing or stale evidence is not success.
+- These are communication/control patterns, not transferred ANSI, WHO, OSHA, FDA or NASA legal or organisational authority. Use other domain standards only when the task requires them.
+- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
 
-## Procedure
-1. Identify the exact hazardous condition and affected actor.
-2. State what can happen if the condition is not controlled.
-3. State the action that avoids or reduces the hazard.
-4. Place the message before the actor commits to the hazardous step.
-5. Keep the message beside the control or instruction it qualifies.
-6. For digital media, preserve the message across relevant state changes, input modes, zoom, focus and error recovery.
-7. Use an accessible name, readable text and non-colour cue where the medium supports them.
-8. Verify that the message remains visible long enough to act on and does not obscure the safe action.
-9. Test the message in the rendered context, not only as isolated prose.
-10. Record any domain-specific terminology or severity scheme supplied by an authorised source.
+## Purpose and boundary
+Use when a document or digital interface must warn an affected actor of a material hazard before commitment. Give the hazard, credible consequence and avoidance action where and when the actor needs them. Do not invent a signal word, severity class, colour rule or layout claim without an authorised scheme. This routine is not ANSI Z535 conformity guidance; it bundles no licensed ANSI text.
+
+## Steps
+1. Identify the precise hazardous condition, actor and action at risk.
+2. State what can happen and the action that avoids or reduces the hazard in short, direct wording.
+3. Place the message immediately before the hazardous step and beside the control it qualifies. The safe action must precede commitment.
+4. For digital media, keep the message available across relevant state changes, input modes, zoom, focus and error recovery. Use an accessible name, readable text and a non-colour cue where supported.
+5. Test the rendered context: the message remains visible long enough to act on and does not obscure the safe action. Record any authorised terminology or severity scheme.
 
 ## Worked distinction
 **Weak:** “Warning: dangerous operation.”
@@ -31,11 +35,9 @@ description: "Write safety messages for documents and digital media."
 - Consequence: Existing references and collaborators' branches can diverge.
 - Avoidance: Stop and obtain explicit repository-owner approval before execution.
 
-The safe workflow should still restrict the command where possible. The message does not replace that control.
+The workflow should still restrict the command where possible; a message does not replace that control.
 
-## Finish and stop
-- Confirm hazard, consequence, avoidance, timing and placement.
-- Stop if the safe action is missing or the message appears only after commitment.
-- Return the rendered message and the stronger controls that accompany it.
+## Verify and recover
+Confirm hazard, consequence, avoidance, timing and placement in the rendered journey. If the safe action is missing or the message appears after commitment, stop use of the message, move or revise it and retest. Return the rendered message and accompanying stronger controls.
 
 Source details and access limits: [SOURCES.md](SOURCES.md).
