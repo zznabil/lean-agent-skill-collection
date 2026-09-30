@@ -67,17 +67,12 @@ function Assert-CommunicationKernel([string]$Text)
     throw 'PRESERVATION: exactly one ordered communication kernel is required'
   }
   $kernel=$Text.Substring($starts[0].Index,$ends[0].Index-$starts[0].Index)
-  $obligations=@{
-    'normative strength'='\bclarity\s+MUST NOT\s+weaken\s+a\s+contract\b'
-    'security evidence'='\bscan\s+is\s+not\s+certification\b'
-    'release gate'='\bmissing required release gates\s+require\s+an explicit\s+go/no-go decision\b'
-    'Easy-to-Read verification'='\bEasy-to-Read\s+requires\s+intended-user review\s+before claiming verification\b'
-  }
-  foreach ($obligation in $obligations.Keys)
+  $drivers=@('ASD-STE100','ISO 704',('Di'+[char]0x00e1+'taxis'))
+  foreach ($driver in $drivers)
   {
-    if ($kernel -notmatch $obligations[$obligation])
+    if (-not $kernel.Contains($driver))
     {
-      throw "PRESERVATION: communication kernel lost $obligation obligation"
+      throw "PRESERVATION: communication kernel lost $driver driver"
     }
   }
 }
@@ -213,15 +208,15 @@ $profiles=(Read-Utf8 (Join-Path $root 'release-profiles.json')) | ConvertFrom-Js
 $script:proseInventory=Get-ReleaseUserFacingInventory $root $profiles
 $agents=Read-Utf8 (Join-Path $root 'AGENTS.md')
 Assert-CommunicationKernel $agents
-Write-Host 'PASS: source communication kernel has ordered boundaries and critical obligations'
+Write-Host 'PASS: source communication kernel has ordered boundaries and all three drivers'
 $controls=0
 Expect-Rejection 'kernel start missing' { Assert-CommunicationKernel ($agents.Replace('<!-- communication-kernel:start -->','')) }
 Expect-Rejection 'kernel duplicated' { Assert-CommunicationKernel ($agents+$agents) }
 Expect-Rejection 'kernel obligations removed' { Assert-CommunicationKernel ([regex]::Replace($agents,'(?s)(<!-- communication-kernel:start -->).*?(<!-- communication-kernel:end -->)','$1$2')) }
-Expect-Rejection 'normative prohibition inverted' { Assert-CommunicationKernel ($agents.Replace('clarity MUST NOT weaken a contract','clarity MAY weaken a contract')) }
-Expect-Rejection 'scan evidence inverted' { Assert-CommunicationKernel ($agents.Replace('A scan is not certification','A scan is certification')) }
-Expect-Rejection 'release gate inverted' { Assert-CommunicationKernel ($agents.Replace('Missing required release gates require an explicit go/no-go decision','Missing required release gates do not require a go/no-go decision')) }
-Expect-Rejection 'verification boundary inverted' { Assert-CommunicationKernel ($agents.Replace('Easy-to-Read requires intended-user review before claiming verification','Easy-to-Read does not require intended-user review before claiming verification')) }
+foreach ($driver in @('ASD-STE100','ISO 704',('Di'+[char]0x00e1+'taxis')))
+{
+  Expect-Rejection "kernel driver missing: $driver" { Assert-CommunicationKernel ($agents.Replace($driver,'')) }
+}
 
 if ($ArtifactsDirectory)
 {

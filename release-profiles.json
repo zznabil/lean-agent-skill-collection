@@ -122,7 +122,7 @@
   "user_facing_standards": {
     "source_root": "packs/user-facing-standards/skills",
     "source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
-    "source_manifest_sha256": "1b26da70bff02c50a86d57915125fc6c4fc2ff4ba1936bb7379639ae280a8e1e",
+    "source_manifest_sha256": "d01b17644e2464e9bb3d08ec9b112f4e80f69bb3a97b335fde9c6a7299addc16",
     "rights_notice_path": "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
     "rights_notice_sha256": "1061633d3a12dd100bb5c89126ad40312e1883cfb7042645fc78ec6d002dc951",
     "skills_expected": 27,

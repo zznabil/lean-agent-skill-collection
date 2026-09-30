@@ -3,4 +3,4 @@ message: "Consider splitting this sentence; the communication kernel prefers sho
 level: warning
 scope: sentence
 max: 35
-token: '\\b[[:alnum:]_]+(?:[-’''][[:alnum:]_]+)*\\b'
+token: '\b[[:alnum:]_]+(?:[-’''][[:alnum:]_]+)*\b'

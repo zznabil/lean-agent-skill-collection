@@ -3,51 +3,39 @@ name: standard-bcp14
 description: "Write or review normative requirements using BCP 14."
 ---
 # BCP 14: normative requirement words
-
 ## Use
-- Use when a document adopts BCP 14 for requirements, permissions or prohibitions. Deliver testable wording that keeps the original obligation and exceptions.
-- Read the full requirement and scope first. Ordinary conversation and quoted material do not acquire BCP 14 meanings merely because they contain these words.
-
+- Apply this procedure when a document adopts BCP 14 for requirements, permissions or prohibitions. Return testable wording. Preserve the original obligation and exceptions.
+- Read the complete requirement and scope first. Words in ordinary conversation and quoted material do not acquire BCP 14 meanings merely by appearing there.
 ## Source and scope
-- Read RFC 2119 and its RFC 8174 update in references/rfc2119.txt and references/rfc8174.txt.
-- RFC 8174 limits the special keyword meanings to uppercase use. Lowercase words keep their ordinary meanings.
-- Other text can still be normative without these keywords. Do not infer that an uncapitalised obligation is
-  optional.
-
+- Consult RFC 2119 and its RFC 8174 update in references/rfc2119.txt and references/rfc8174.txt.
+- RFC 8174 assigns special keyword meanings only to uppercase words. Lowercase words retain ordinary meanings.
+- Text without these keywords can still be normative. Do not treat an uncapitalised obligation as optional.
 ## Procedure
-1. Identify the actor, condition, required action, object and exception from the source contract.
-2. Use MUST or REQUIRED for an absolute obligation. Use MUST NOT for an absolute prohibition.
-3. Use SHOULD or RECOMMENDED for a default that permits justified exceptions after their consequences are
-  understood.
-4. Use SHOULD NOT or NOT RECOMMENDED for a discouraged action with the same reasoned-exception discipline.
-5. Use MAY or OPTIONAL for a permitted choice. Distinguish that permission from technical ability or probability.
-6. For optional implementation features, preserve interoperability with implementations that include or omit the
-  feature.
-7. Declare the adopted keyword convention in the document. Use it sparingly for genuine interoperability or harm
-  constraints.
-8. Name the actor and condition, then state the action and an observable result. If the source leaves a consequential choice unresolved, flag it instead of guessing.
-
+1. Extract the actor, condition, required action, object and exception from the source contract.
+2. Express absolute obligations with MUST or REQUIRED. Express absolute prohibitions with MUST NOT.
+3. Express defaults with SHOULD or RECOMMENDED. These defaults permit justified exceptions after their consequences are understood.
+4. Express discouraged actions with SHOULD NOT or NOT RECOMMENDED. Apply the same reasoned-exception discipline.
+5. Express permitted choices with MAY or OPTIONAL. Keep permission distinct from technical ability and probability.
+6. For optional implementation features, retain interoperability with implementations that include or omit the feature.
+7. State the adopted keyword convention in the document. Use it sparingly for genuine interoperability or harm constraints.
+8. Identify the actor and condition. Then give the action and an observable result. If the source leaves a consequential choice unresolved, flag it. Do not guess.
 ## Keep the task contract
-- A style edit does not authorise upgrading SHOULD to MUST, downgrading MUST to SHOULD or deleting an exception.
-- Do not infer permission to execute a requirement from permission to edit its wording.
-- Do not let a controlled-language checker replace these fixed normative terms mechanically.
-
+- Style edits do not authorise changes from SHOULD to MUST or MUST to SHOULD. They do not authorise exception removal.
+- Permission to edit a requirement does not grant permission to execute it.
+- Do not allow controlled-language checkers to replace fixed normative terms mechanically.
 ## Verify and deliver
-- Compare old and new obligation, prohibition, permission and exception sets in both directions.
-- Review a normal case and an exception case. Report conflicts and missing authority explicitly.
-- Return the requirement text first, or scoped findings with the affected clause and proposed repair.
-
+- Compare the original and revised sets of obligations, prohibitions, permissions and exceptions in both directions.
+- Check a normal case and an exception case. Explicitly report conflicts and missing authority.
+- Return requirement text first. Alternatively, return scoped findings that identify the affected clause and proposed repair.
 ## Worked distinction
 Source: "The client SHOULD retry once; it MUST NOT retry after cancellation."
-A clearer split keeps both keywords and the one-retry limit. It does not make the retry mandatory.
-
-## Lean communication kernel (standalone fallback)
-If root `AGENTS.md` is loaded, it governs. Otherwise apply these rules to communication. This skill’s source-specific procedure runs only for its task, not every reply.
-- Lead with the supported result and next action. Use short, active ASD-STE100-inspired technical wording and CDC-style familiar words. Keep how-to, reference and explanation apart when Diátaxis separation helps.
-- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
-- In normative text, keep BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check (NASA).
-- Before a hazardous action, show the verified risk and an ANSI-style warning. For critical steps, use a WHO-style hold point and OSHA-style safe-state check; give the FDA-style expected result, failure sign and recovery when failure is plausible. These analogies do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining) and floor percentage from durable counts; keep the PASS/FAIL/BLOCKED verdict separate. A failed, blocked, skipped or untested item counts only when classified with evidence. With no defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- Explain a difficult mechanism from foundations (Feynman). Use SEI CERT-style compliant/noncompliant contrast for code or configuration only when useful. Do not force examples or sections on simple tasks.
-
-Source editions, local files, official links and reuse limits: [SOURCES.md](SOURCES.md).
+Split the wording for clarity without changing either keyword or the one-retry limit. The retry remains a recommendation, not an obligation.
+## Communication kernel
+If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If loaded, root `AGENTS.md` governs. Do not claim root activation without evidence. Run this skill's source-specific procedure only for its task, not for every reply.
+- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when helpful. Lead with the supported result and next action.
+- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Do not call unchecked results compliant or complete.
+- For normative text, retain BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, action and observable check.
+- Before hazardous actions, state the verified risk and give a warning. At critical steps, use a hold point and safe-state check. When failure is plausible, give the expected result, failure sign and recovery. These rules do not replace task-specific controls.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining). Derive the floor percentage from durable counts. Report PASS/FAIL/BLOCKED separately. Count failed, blocked, skipped or untested items only after classification with evidence. Without a defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. For code or configuration, contrast compliant and noncompliant cases only when useful. Do not force examples or sections on simple tasks.
+Consult [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

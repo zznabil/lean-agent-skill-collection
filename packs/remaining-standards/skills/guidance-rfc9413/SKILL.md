@@ -4,56 +4,48 @@ description: "Maintain protocol clarity instead of hidden tolerance."
 ---
 # RFC 9413 protocol robustness
 
-## Lean communication kernel fallback (standalone)
-- If trusted root `AGENTS.md` is loaded, its policy governs this skill. Otherwise MUST apply this lean communication kernel fallback; skill-specific rules refine it.
-- Lead with the main point and familiar words (CDC Clear Communication Index). Use short, active, direct technical sentences (ASD-STE100).
-- Separate how-to, reference and explanation when useful (Diátaxis). Keep simple replies short.
-- For normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Use NASA-style one actor, action and observable verification target.
-- For critical or risky work only, put ANSI-style warnings before hazards and WHO-style hold points before critical or irreversible steps.
-- Before destructive or hazardous work, verify actual state (OSHA-style). When failure is plausible, state expected result, failure sign and recovery (FDA human-factors style).
-- Explain difficult mechanisms from simple foundations (Feynman). Contrast noncompliant and compliant code or configuration when useful (SEI CERT).
-- For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful; add contrast or TL;DR only when helpful.
-- Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Report observed results; missing or stale evidence is not success.
-- These are communication/control patterns, not transferred ANSI, WHO, OSHA, FDA or NASA legal or organisational authority. Use other domain standards only when the task requires them.
+## Communication kernel
+- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If trusted root `AGENTS.md` loads, its policy governs this skill. Skill-specific rules refine the kernel. Do not claim root activation without evidence.
+- Use ASD-STE100-inspired short, active technical sentences. State the main point first and use familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate procedures, reference and explanation when useful. Keep simple replies short.
+- For normative requirements, preserve force. Use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY. Identify one actor, action and observable verification target for each requirement.
+- For critical or risky work, place warnings before hazards. Place hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work. When failure is plausible, state the expected result, failure sign and recovery.
+- For difficult mechanisms, explain from simple foundations. Contrast noncompliant and compliant code or configuration when useful. For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful. Add contrast or TL;DR only when helpful.
+- Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Report observed results. Missing or stale evidence is not success.
+- These execution rules do not transfer legal or organisational authority from other frameworks. Use domain standards only when the task requires them; they are not default communication drivers.
 - For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
 
-## Task and boundary
-- Review a parser or protocol change where tolerance, ambiguity or interoperability affects maintenance.
-- Do not interpret this guidance as a universal instruction to reject every extension field.
-- Work only on the selected artifact or assessment. This routine does not grant permission to run attacks, deploy, publish or change
-  policy.
+## Task scope and permissions
+- Review a parser or protocol change when tolerance, ambiguity or interoperability affects maintenance.
+- This guidance does not require universal rejection of extension fields.
+- Limit work to the selected artifact or assessment. This routine grants no permission to run attacks, deploy, publish or change policy.
 
-## Source and limits
-- Read [SOURCES.md](SOURCES.md) for source identity, applicable edition or part, available originals, access limits and copying terms.
-- Check relevant source sections before a source-specific finding. This routine cannot supply missing requirements or prove conformance.
-- Historical adoption decision: Absorb. Keep this boundary unless an authorised decision explicitly changes it.
+## Source and assessment limits
+- Read [SOURCES.md](SOURCES.md). Identify the source, applicable edition or part, available originals, access limits and copying terms.
+- Check the relevant source sections before making a source-specific finding. This routine cannot supply missing requirements or prove conformance.
+- Historical adoption decision: Absorb. Preserve this boundary unless an authorised decision explicitly changes it.
 
-## Procedure
+## Assessment procedure
 1. Identify the actual protocol specification, extension points, implementations and interoperability evidence.
-2. Distinguish permitted extensibility from undocumented acceptance of malformed or ambiguous inputs.
-3. Find tolerance that hides sender defects, creates divergent interpretations or makes future changes harder.
-4. Prefer correcting the specification or sender when that resolves the problem rather than accumulating invisible parser
-   exceptions.
-5. Define explicit handling for malformed, unknown and future-version input using the actual protocol rules.
-6. Preserve required unknown-field tolerance where the protocol defines it; generic strictness must not override the contract.
-7. Where compatibility requires a temporary exception, document the exact case, reason, owner and retirement condition.
-8. Test independent implementations and relevant negative cases; happy-path parsing alone does not prove interoperability.
-9. Collect only necessary diagnostic evidence and avoid logging sensitive input.
-10. Report the long-term maintenance trade-off and remaining ambiguity. RFC 9413 is IAB guidance, not an Internet Standards Track
-    protocol.
+2. Separate permitted extensibility from undocumented acceptance of malformed or ambiguous input.
+3. Identify tolerance that hides sender defects, produces divergent interpretations or obstructs future changes.
+4. Prefer a specification or sender correction when it resolves the problem. Avoid accumulating invisible parser exceptions instead.
+5. Use the actual protocol rules to define explicit handling of malformed, unknown and future-version input.
+6. Keep required unknown-field tolerance when the protocol defines it. Generic strictness must not override the contract.
+7. If compatibility requires a temporary exception, record its exact case, reason, owner and retirement condition.
+8. Test independent implementations and relevant negative cases. Happy-path parsing alone does not prove interoperability.
+9. Collect only necessary diagnostic evidence. Avoid logging sensitive input.
+10. Report the long-term maintenance trade-off and unresolved ambiguity. RFC 9413 is IAB guidance, not an Internet Standards Track protocol.
 
-## Verify and recover
+## Verification and recovery
 - **Worked check (illustrative, not executed):** A parser silently accepts two contradictory spellings of a field without a documented compatibility need.
 - **Expected:** Identify the ambiguity and define explicit compatibility or rejection behaviour from the maintained contract.
-- **If blocked:** The protocol owner or normative rule for unknown fields is unavailable. Stop the affected assessment or action. Record the missing prerequisite, request it from the responsible owner and continue only independent, authorised work.
-- Preserve facts, identifiers, links, required checks, permissions, negation, exceptions and failure/recovery paths.
-- Separate planned work, actual evidence and unknown results. Missing or stale evidence is not a pass.
-- Do not delete requirements to improve a score or satisfy the line budget; record an unresolved source or task conflict.
+- **If blocked:** If the protocol owner or normative unknown-field rule is unavailable, stop the affected assessment or action. Record the missing prerequisite and request it from the responsible owner. Continue only independent, authorised work.
+- Keep facts, identifiers, links, required checks, permissions, negation, exceptions and failure/recovery paths intact.
+- Distinguish planned work, actual evidence and unknown results. Missing or stale evidence is not a pass.
+- Do not remove requirements to improve a score or meet the line budget. Record unresolved source or task conflicts.
 - Use the smallest check that can detect the relevant defect. A schema, linter or inventory alone does not prove task success.
 
-## Finish and stop
+## Completion and stopping rules
 - Return the scoped result, evidence, unresolved requirements and next permitted action.
-- Make one correction pass and recheck affected evidence. If a required issue remains, report it rather than looping or claiming
-  completion.
-- Identify the checked scope, source edition, evidence and limits. Do not claim formal conformance or model-behaviour improvement
-  from this routine.
+- Make one correction pass. Recheck the affected evidence. If a required issue remains, report it. Do not loop or claim completion.
+- Identify the checked scope, source edition, evidence and limits. Do not claim formal conformance or model-behaviour improvement from this routine.

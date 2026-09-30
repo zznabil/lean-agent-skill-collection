@@ -1,7 +1,8 @@
 extends: substitution
-message: "Use the approved communication-kernel term '%s' instead of '%s'."
+message: "Use the canonical term '%s' instead of '%s'."
 level: error
 ignorecase: true
 swap:
-  "CDC-style": "ISO 704 terminology discipline"
-  "CDC Clear Communication Index": "ISO 704 terminology discipline"
+  'ISO704': 'ISO 704'
+  'ASD STE100': 'ASD-STE100'
+  'Diataxis': 'Diátaxis'

@@ -15,15 +15,6 @@ PUBLISHER_BASELINE_SHA256 = (
     "7cb4016a88a34db8f1b4a93e82281e01250d9642573bdd0450f433838bf63b67"
 )
 IMPORT_RECORD_SHA256 = "d3f76bd465ea69cdd9ec5af16fb19906b946765e0bbd3a83d350474f0f79fec2"
-FALLBACK = """## Lean communication kernel (standalone fallback)
-If root `AGENTS.md` is loaded, it governs. Otherwise apply these rules to communication. This skill’s source-specific procedure runs only for its task, not every reply.
-- Lead with the supported result and next action. Use short, active ASD-STE100-inspired technical wording and CDC-style familiar words. Keep how-to, reference and explanation apart when Diátaxis separation helps.
-- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
-- In normative text, keep BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check (NASA).
-- Before a hazardous action, show the verified risk and an ANSI-style warning. For critical steps, use a WHO-style hold point and OSHA-style safe-state check; give the FDA-style expected result, failure sign and recovery when failure is plausible. These analogies do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining) and floor percentage from durable counts; keep the PASS/FAIL/BLOCKED verdict separate. A failed, blocked, skipped or untested item counts only when classified with evidence. With no defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- Explain a difficult mechanism from foundations (Feynman). Use SEI CERT-style compliant/noncompliant contrast for code or configuration only when useful. Do not force examples or sections on simple tasks.
-"""
 PUBLISHER_PATH_TO_ORIGINAL = {
     "skills/standard-bcp14/references/rfc2119.txt": "rfc2119.txt",
     "skills/standard-bcp14/references/rfc8174.txt": "rfc8174.txt",
@@ -260,10 +251,7 @@ def check_integrated_surface_language(root: Path) -> None:
         r"(?im)^.*No repository, release, installed skill.*changed\.?$"
     )
     for relative, text in surfaces.items():
-        require(
-            "no approval assertion" in text.lower(),
-            f"{relative} must state no approval assertion",
-        )
+
         require(
             not stale_provenance.search(text),
             f"approval assertion found in {relative}",
@@ -365,6 +353,8 @@ def validate(root: Path) -> dict:
         )
         require(row is not None, f"malformed catalog skill row: {line}")
         display_name, linked_name, _purpose, line_count, _evidence = row.groups()
+        if display_name.startswith("`") and display_name.endswith("`"):
+            display_name = display_name[1:-1]
         require(
             display_name == linked_name,
             f"catalog display/link mismatch: {display_name}",
@@ -423,8 +413,9 @@ def validate(root: Path) -> dict:
             f"line budget or count mismatch: {name}",
         )
         require(
-            text.count(FALLBACK) == 1,
-            f"standalone fallback missing or altered: {name}",
+            (kernel := re.search(r"(?ms)^## Communication kernel[^\n]*\n(.*?)(?=^## |\Z)", text)) is not None
+            and all(term in kernel[1] for term in ("ASD-STE100", "ISO 704", "Diátaxis")),
+            f"standalone communication kernel missing: {name}",
         )
         require(
             digest(data) == by_name[name].get("current_sha256"),

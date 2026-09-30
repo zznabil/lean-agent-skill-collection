@@ -3,7 +3,7 @@
 Source snapshot: **19 September 2026**.
 
 ## Mechanism represented
-Ordered state change, securing, verification, hold point, work, restoration, and verification of restoration.
+Change state in order. Secure the state and verify it. Apply a hold point before work. Restore the state and verify restoration.
 
 ## Official source access
 - [OSHA 29 CFR 1910.147 source 1](https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147)
@@ -12,14 +12,14 @@ Ordered state change, securing, verification, hold point, work, restoration, and
 - Source kind: **hazardous-energy control regulation**.
 - Source identifier: **OSHA 29 CFR 1910.147**.
 - Version or status: **official OSHA regulation page inspected 2026-09-19**.
-- No publisher file is bundled in this skill.
+- This skill bundles no publisher file.
 
 ## Adaptation boundary
-- `SKILL.md` is new, independently worded Lean guidance.
-- It is not the complete source, an official interpretation or evidence of formal conformity.
-- Apply the full authorised source, domain law, organisational procedure and qualified review when those govern the task.
-- A live source can supersede this snapshot. Record a deliberate version decision instead of silently changing it.
-- Extracts a state-machine pattern; it is not a substitute for the legal lockout/tagout procedure.
+- `SKILL.md` provides new Lean guidance with independent wording.
+- It does not provide the complete source or an official interpretation. It does not provide evidence of formal conformity.
+- Apply the full authorised source, domain law, organisational procedure and qualified review when they govern the task.
+- A live source can supersede this snapshot. Record a deliberate version decision. Do not change the version silently.
+- This routine extracts a state-machine pattern. It does not replace the legal lockout/tagout procedure.
 
 ## New prose and third-party rights
-The new Lean prose is distributed under the repository's MIT licence. Linked third-party sources retain their own copyright, licence and access terms. Linking a source does not grant permission to reproduce it.
+The repository's MIT licence covers the new Lean prose. Linked third-party sources keep their own copyright, licence and access terms. A source link does not grant permission to reproduce the source.

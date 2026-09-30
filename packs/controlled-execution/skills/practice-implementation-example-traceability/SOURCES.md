@@ -3,7 +3,7 @@
 Source snapshot: **19 September 2026**.
 
 ## Mechanism represented
-Practice, task, notional implementation example, reference, chosen implementation, and evidence.
+The routine links a practice and task to a notional implementation example, a reference, a chosen implementation and evidence.
 
 ## Official source access
 - [NIST SP 800-218 SSDF source 1](https://csrc.nist.gov/pubs/sp/800/218/final)
@@ -13,18 +13,18 @@ Practice, task, notional implementation example, reference, chosen implementatio
 - Source kind: **secure software development framework**.
 - Source identifier: **NIST SP 800-218 SSDF**.
 - Version or status: **Version 1.1 final; Rev. 1 initial public draft tracked separately**.
-- No publisher file is bundled in this skill.
+- This skill bundles no publisher file.
 
 ## Adaptation boundary
-- `SKILL.md` is new, independently worded Lean guidance.
-- It is not the complete source, an official interpretation or evidence of formal conformity.
-- Apply the full authorised source, domain law, organisational procedure and qualified review when those govern the task.
-- A live source can supersede this snapshot. Record a deliberate version decision instead of silently changing it.
-- Extracts the notional-example distinction; PR #17 contains the broader SSDF routine.
+- `SKILL.md` provides new Lean guidance in independent wording.
+- It does not provide the complete source or an official interpretation. It does not establish formal conformity.
+- Apply the full authorised source, domain law, organisational procedure and qualified review when they govern the task.
+- A live source can supersede this snapshot. Record an explicit version decision. Do not change the version silently.
+- The routine extracts the distinction between tasks and notional examples. PR #17 contains the broader SSDF routine.
 
 ## Relationship to the existing standards work
 - This skill extracts one SSDF mechanism for controlled execution.
-- It uses a different identifier from the broader standards routine in open PR #17 and does not replace that routine.
+- Its identifier differs from the broader standards routine in open PR #17. It does not replace that routine.
 
 ## New prose and third-party rights
-The new Lean prose is distributed under the repository's MIT licence. Linked third-party sources retain their own copyright, licence and access terms. Linking a source does not grant permission to reproduce it.
+The repository's MIT licence covers the new Lean prose. Linked third-party sources keep their own copyright, licence and access terms. A link does not grant permission to reproduce the source.

@@ -1,7 +1,7 @@
 interface:
   display_name: CLI Design
   short_description: Design reliable CLIs for humans and agents
-  default_prompt: 'Use $cli-design to design or review this CLI for reliable headless use. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
+  default_prompt: 'Use $cli-design to design or review this CLI for reliable headless use. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when helpful. Match reply weight to the task. Report the outcome, verification, and remaining action. Do not replay routine process steps. Use heavier structure only when it helps understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Acknowledge evidenced errors and give the correction or next safe action.'
 policy:
   products:
   - CHAT

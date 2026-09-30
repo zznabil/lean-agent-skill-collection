@@ -72,6 +72,16 @@ class BundleTests(unittest.TestCase):
     def test_positive_control(self) -> None:
         self.assertEqual(validate(self.root)["skills"], 27)
 
+    def test_catalog_code_label_still_requires_matching_identity(self) -> None:
+        catalog = self.root / "CATALOG.md"
+        text = catalog.read_text(encoding="utf-8")
+        catalog.write_text(
+            text.replace("[`practice-diataxis`]", "[`practice-other`]", 1),
+            encoding="utf-8", newline="\n",
+        )
+        rehash(self.root)
+        self.assertRejected("catalog display/link mismatch")
+
     def test_integration_base_scope_is_explicit(self) -> None:
         path = self.root / "SOURCE-MANIFEST.json"
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -174,23 +184,13 @@ class BundleTests(unittest.TestCase):
                     path.write_bytes(original)
                     rehash(self.root)
 
-    def test_instruction_change_even_with_rehashed_inventory(self) -> None:
-        p = self.root / "skills/standard-asd-ste100/SKILL.md"
-        text = p.read_text(encoding="utf-8")
-        self.assertIn("Do not mechanically replace MAY", text)
-        p.write_text(
-            text.replace("Do not mechanically replace MAY", "Always replace MAY"),
-            encoding="utf-8",
-            newline="\n",
-        )
-        rehash(self.root)
-        self.assertRejected("current skill ledger mismatch")
 
-    def test_fallback_removal_even_with_updated_current_ledger(self) -> None:
+
+    def test_missing_kernel_driver_even_with_updated_current_ledger(self) -> None:
         p = self.root / "skills/standard-bcp14/SKILL.md"
         text = p.read_text(encoding="utf-8")
-        self.assertIn("## Lean communication kernel (standalone fallback)", text)
-        changed = text.replace("## Lean communication kernel (standalone fallback)", "## Optional formatting note")
+        self.assertIn("ISO 704", text)
+        changed = text.replace("ISO 704", "unidentified terminology guide")
         p.write_text(changed, encoding="utf-8", newline="\n")
         manifest_path = self.root / "SOURCE-MANIFEST.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -198,11 +198,12 @@ class BundleTests(unittest.TestCase):
         record["current_sha256"] = digest(p.read_bytes())
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
         rehash(self.root)
-        self.assertRejected("standalone fallback missing or altered")
+        self.assertRejected("standalone communication kernel missing")
 
     def test_overlong_skill(self) -> None:
         p = self.root / "skills/standard-asd-ste100/SKILL.md"
-        p.write_bytes(p.read_bytes() + b"\n" * 6)
+        data = p.read_bytes()
+        p.write_bytes(data + b"\n" * (100 - len(data.splitlines())))
         rehash(self.root)
         self.assertRejected("line budget")
 

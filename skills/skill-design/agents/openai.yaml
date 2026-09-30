@@ -1,7 +1,7 @@
 interface:
   display_name: Skill Design
   short_description: Create, evaluate, and package lean agent skills
-  default_prompt: 'Use $skill-design to create, evaluate, or refactor the smallest effective skill set. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
+  default_prompt: 'Use $skill-design to create, evaluate, or refactor the smallest effective skill set. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when useful. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use heavier structure only when it improves understanding or action. State claims directly. Preserve genuine uncertainty and meaning. Own evidenced errors and state the correction or next safe action.'
 policy:
   products:
   - CHAT

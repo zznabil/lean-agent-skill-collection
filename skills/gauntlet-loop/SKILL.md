@@ -2,56 +2,42 @@
 name: gauntlet-loop
 description: "Run a bounded adversarial quality loop with independent critics, frozen benchmarks, repair, and retest over a real artifact. Use only when hidden-defect risk makes one direct check insufficient."
 ---
-
 # Gauntlet Loop
-
 Use applicable ISO/IEC 25010 quality attributes, ISO/IEC/IEEE 29119-inspired traceability and ISO/IEC/IEEE 15026-2-inspired assurance cases. Apply OWASP ASVS, WCAG 2.2 or `AI-ASSURANCE.md` only to relevant risks. The builder MUST NOT finally approve its own work.
-
+## Communication kernel
+Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These are prose inspirations, not claims of formal standards conformance. Domain standards apply only under their task conditions.
 ## Trigger and ownership
-
-Run on a user's gauntlet/red-team request or when hidden-defect risk makes a normal focused review plus one direct check insufficient. Require an artifact, evidence-judged acceptance, and at least two distinct material risks (integration, persistence, security, recovery, visual quality or costly failure). Do not use for factual questions, tiny rewrites or formatting. Every lane must address a separate gap.
-
+Run when the user requests a gauntlet/red-team or when hidden-defect risk makes a normal focused review plus one direct check insufficient. Require an artifact, evidence-judged acceptance, and at least two distinct material risks (integration, persistence, security, recovery, visual quality or costly failure). Do not use for factual questions, tiny rewrites or formatting. Each lane must address a separate gap.
 - **Lead:** freeze scope, benchmarks, standing completion bar, coverage, budget, ownership and stop decision.
-- **Builder:** make bounded repairs and supply reproducible evidence; never weaken a test or acceptance criterion.
-- **Critic:** read-only, with goal, real artifact, benchmark, distinct charter and anti-charter—not the builder's conclusion. **Judge:** inspect the integrated result independently of the primary builder.
-- Prefer fresh contexts; otherwise mark independence reduced. Record requested/actual reviewer identity, serving family if verified, context boundary and artifact inspected. Names alone do not prove independence; claims of delegation require live evidence.
-
+- **Builder:** make bounded repairs and supply reproducible evidence. Never weaken a test or acceptance criterion.
+- **Critic:** work read-only. Receive the goal, real artifact, benchmark, distinct charter and anti-charter—not the builder's conclusion. **Judge:** inspect the integrated result independently of the primary builder.
+- Prefer fresh contexts. Otherwise, mark independence reduced. Record requested/actual reviewer identity, serving family if verified, context boundary and artifact inspected. Names alone do not prove independence. Claim delegation only with live evidence.
 ## Freeze the benchmark
-
-Order evidence authority: user requirements, authoritative specifications, supplied references, required current behavior, deterministic tests, measured targets, structured rubrics, subjective judgment.
-For each gate record ID, provenance, observable requirement, verifier or oracle, expected result, environment/entrypoint, threshold, status, evidence path, freshness, and public/holdout class. Keep the standing Definition of Done separate.
-Test a consequential oracle against a representative broken state and a positive control; status records are not execution.
-
-Any benchmark change needs a reason, diff, authority and impact on prior evidence; never weaken it to pass. Hard gates precede soft scores. For model/simulated work, require both history/holdout model gate and actual integrated reality gate when applicable; procedural tasks need intermediate invariants. Do not claim standards conformance from unverified scope. For consequential claims, record claim, evidence, assumptions/defeaters and status.
-
+Use this evidence authority order: user requirements, authoritative specifications, supplied references, required current behavior, deterministic tests, measured targets, structured rubrics, subjective judgment.
+For each gate, record ID, provenance, observable requirement, verifier or oracle, expected result, environment/entrypoint, threshold, status, evidence path, freshness, and public/holdout class. Keep the standing Definition of Done separate.
+Test a consequential oracle against a representative broken state and a positive control. Status records do not establish execution.
+For any benchmark change, record a reason, diff, authority and impact on prior evidence. Never weaken the benchmark to pass. Evaluate hard gates before soft scores. For model/simulated work, require both the history/holdout model gate and the actual integrated reality gate when applicable. For procedural tasks, require intermediate invariants. Do not claim standards conformance from unverified scope. For consequential claims, record claim, evidence, assumptions/defeaters and status.
 ## Bounded loop
-
-1. Preflight scope, permission, false-pass risks, rollback and budget; warn before hazardous action, verify the safe starting state, and pause at the authorization boundary. Create a checkpoint and acceptance ledger. Baseline the real artifact, required journeys, tests and measurements.
-2. Map every required slice once, count gaps/overlap and give coupled areas one owner before fan-out. Repair the smallest useful defect; save changed artifact and evidence.
-3. Run deterministic checks. Verify each gate observes its named outcome, can fail, and independently calculates figures; a known positive fixture calibrates absence checks. Reject weak oracles before judging quality.
-4. Use distinct read-only lanes from `CRITIC-LANES.md`; for AI/agent systems inspect `AI-ASSURANCE.md` and any current AI asset card. Distinguish outcome, full trajectory and tool-choice evidence. Separate findings from verification, and raw observations from inference (`VERIFIED`, `ASSUMED`, `REFUTED`, `UNKNOWN`). A causal hypothesis needs a falsifier.
-5. Triage safety, data loss, hard gates, user blockers, correctness, regression, performance, maintainability, then polish. Repair a tight cluster, rerun its failed gate and adjacent regression checks. Evidence is stale after artifact, verifier, input, environment, entrypoint, auth or dependency changes. Stop dependent steps at first material mismatch; revert a regression.
-6. Wait at real join barriers, verify every manifest row and critic claim, then judge the integrated artifact. Once all hard gates pass, run one focused counterexample/integration pass and stop unless a named material gap justifies another round. Extend only with verified progress and budget; repair a shared cause before repeating a failed wave. Disclose capped or unprocessed items.
-7. A fresh final judge re-executes the current critical oracles, checks both claim-to-evidence and requirement-to-decision coverage, and inspects integration, real journeys, rollback, stray files, debug settings and secrets. Both model and reality gates pass when applicable.
-
+1. Preflight scope, permission, false-pass risks, rollback and budget. Warn before hazardous action, verify the safe starting state, and pause at the authorization boundary. Create a checkpoint and acceptance ledger. Establish baselines for the real artifact, required journeys, tests and measurements.
+2. Map every required slice once. Count gaps/overlap and give coupled areas one owner before fan-out. Repair the smallest useful defect. Save the changed artifact and evidence.
+3. Run deterministic checks. Verify that each gate observes its named outcome, can fail, and independently calculates figures. Use a known positive fixture to calibrate absence checks. Reject weak oracles before judging quality.
+4. Use distinct read-only lanes from `CRITIC-LANES.md`. For AI/agent systems, inspect `AI-ASSURANCE.md` and any current AI asset card. Distinguish outcome, full trajectory and tool-choice evidence. Separate findings from verification. Separate raw observations from inference (`VERIFIED`, `ASSUMED`, `REFUTED`, `UNKNOWN`). Give each causal hypothesis a falsifier.
+5. Triage safety, data loss, hard gates, user blockers, correctness, regression, performance, maintainability, then polish. Repair a tight cluster. Rerun its failed gate and adjacent regression checks. Treat evidence as stale after artifact, verifier, input, environment, entrypoint, auth or dependency changes. Stop dependent steps at the first material mismatch. Revert a regression.
+6. Wait at real join barriers. Verify every manifest row and critic claim. Then judge the integrated artifact. Once all hard gates pass, run one focused counterexample/integration pass. Stop unless a named material gap justifies another round. Extend only with verified progress and budget. Repair a shared cause before repeating a failed wave. Disclose capped or unprocessed items.
+7. A fresh final judge re-executes the current critical oracles. The judge checks both claim-to-evidence and requirement-to-decision coverage. The judge inspects integration, real journeys, rollback, stray files, debug settings and secrets. Both model and reality gates pass when applicable.
 ## Status, limits and state
-
 Track run state `ACTIVE|COMPLETE|BLOCKED|BUDGET EXHAUSTED|CANCELLED`; verdict `PASS|CONDITIONAL PASS|FAIL|NOT JUDGED`; severity `P0..P3`; and disposition `blocking|nonblocking` plus repair state.
-A hard-gate failure or verified blocking defect is `FAIL`; missing required evidence is `NOT JUDGED` unless the benchmark defines it as failure. Pair either with `BLOCKED` or `BUDGET EXHAUSTED` when execution stops.
-`CONDITIONAL PASS` requires every hard gate passed and only explicitly accepted, owned, nonblocking residuals. `ABANDONED`, `DEFERRED`, or `OWNER_DECISION` on a required gate is non-passing. Severity alone does not decide disposition.
-
-Unless the user sets limits: one baseline, four major repair rounds, two consecutive no-improvement rounds, at most two builders, three critics, one tie-breaker, five critical journeys, three required visual viewports per state, and one final integration gauntlet. Reserve ~40% of delegated budget for verification/integration; ceilings are not targets.
+Mark a hard-gate failure or verified blocking defect `FAIL`. Mark missing required evidence `NOT JUDGED` unless the benchmark defines it as failure. Pair either verdict with `BLOCKED` or `BUDGET EXHAUSTED` when execution stops.
+Use `CONDITIONAL PASS` only when every hard gate passed and all residuals are explicitly accepted, owned, and nonblocking. Treat `ABANDONED`, `DEFERRED`, or `OWNER_DECISION` on a required gate as non-passing. Severity alone does not decide disposition.
+Unless the user sets limits, use these limits: one baseline, four major repair rounds, two consecutive no-improvement rounds, at most two builders, three critics, one tie-breaker, five critical journeys, three required visual viewports per state, and one final integration gauntlet. Reserve ~40% of delegated budget for verification/integration. Ceilings are not targets.
 Use `.gauntlet/state.md`, `benchmarks.yaml`, `defects.md`, and `evidence/` per `STATE-FORMAT.md`. Checkpoint after each repair round, material result, or approval gate.
-
-For measurable work, show named 20-cell ASCII progress from durable processed items, rounded down and separate from verdict. A failed, blocked, skipped, or untested item counts only when terminally classified with evidence; it never counts as passed. Without a defensible denominator, report phase and evidence without a bar.
-Lead the final report with verdict, run state, named coverage, hard-gate tally, and blocking findings. Then give before/after score, fresh evidence, limits, risks, rollback, and next action. Re-measure numeric claims; label unsupported ones `NOT MEASURED` or `UNVERIFIED`. Separate observed failure from unknown cause and own actual agent errors.
-
+For measurable work, show named 20-cell ASCII progress from durable processed items. Round down and keep progress separate from verdict. Count a failed, blocked, skipped, or untested item only when terminally classified with evidence. Never count it as passed. Without a defensible denominator, report phase and evidence without a bar.
+Start the final report with verdict, run state, named coverage, hard-gate tally, and blocking findings. Then give before/after score, fresh evidence, limits, risks, rollback, and next action. Re-measure numeric claims. Label unsupported claims `NOT MEASURED` or `UNVERIFIED`. Separate observed failure from unknown cause. Own actual agent errors.
 **User-facing:**
-
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Report fresh verification, material uncertainty, remaining user action, and limits—not routine tool narration or praise. Own actual agent errors with correction or next safe action.
-- Use short, active technical sentences and familiar words (ASD-STE100/CDC). Separate how-to, reference, and explanation when useful (Diátaxis). State conclusions directly without hiding verified failure or evidenced responsibility.
+- Start with the supported result, next action, or blocker. Keep simple turns short. Report fresh verification, material uncertainty, remaining user action, and limits. Do not give routine tool narration or praise. Own actual agent errors and give a correction or next safe action.
+- Use the communication kernel and familiar words. State conclusions directly. Do not hide verified failure or evidenced responsibility.
 - Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance or legal authority from stylistic analogies.
-- Use BCP 14 only for normative force. Important requirements name one actor, one action, and an observable check (NASA-style); do not invent a mandate.
-- Before risky work, put an ANSI-style warning first, add a WHO-style hold point and OSHA-style safe-state check where needed, then state the FDA-style expected result, failure sign, and recovery. Use Feynman explanation or SEI CERT contrast only when useful.
-- Apply OWASP ASVS, accessibility, or Easy-to-Read guidance only to relevant domain tasks. Intended-user review precedes any Easy-to-Read verification claim.
-- Avoid surprise scope; leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat, with distinct content.
+- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not invent a mandate.
+- Before risky work, put the warning first. Add a hold point and safe-state check where needed. Then state the expected result, failure sign, and recovery. Use explanation or secure/insecure contrast only when useful.
+- Apply OWASP ASVS, accessibility, or Easy-to-Read guidance only to relevant domain tasks. Require intended-user review before any Easy-to-Read verification claim.
+- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Give them distinct content.
