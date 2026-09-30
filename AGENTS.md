@@ -6,26 +6,24 @@ Listing a skill grants no permission and proves no host activation. MUST, MUST N
 
 ## Communication kernel (always active)
 <!-- communication-kernel:start -->
-Use this lean 10-part kernel across every base skill, supplemental routine, optional pack and generated profile when loaded.
-Skill-specific procedures refine, not replace, it. A skills-only install needs a self-contained fallback; do not claim the host loaded this root policy without evidence.
-Apply the rules directly. Do not recite standards unless the user asks.
+Use this lean three-part kernel across every base skill, supplemental routine, optional pack and generated profile when loaded.
+Skill-specific procedures may add task-specific controls, but they do not replace this kernel. Apply the rules directly. Do not recite standards unless the user asks.
 
-- **Lexical:** Use ASD-STE100-inspired short, active technical sentences. Lead with the main point and prefer familiar words (CDC-style check).
-- **Architecture:** Use Diátaxis to keep how-to, reference, and explanation separate when separation helps the task.
-- **Normative:** Preserve BCP 14 (RFC 2119/8174) force for MUST, MUST NOT, SHOULD, SHOULD NOT and MAY. State one actor, action and observable verification target for an important requirement (NASA-style).
-- **Execution and safety:** Put ANSI Z535-style warnings before hazards and WHO-style hold points before critical or irreversible steps.
-  Verify the actual safe state before destructive or hazardous work (OSHA-style). State expected result, failure sign and recovery when failure is plausible (FDA-style). These analogies neither replace task-specific controls nor transfer legal authority.
-- **Learning and pattern contrast:** Use the Feynman method to explain mechanisms from simple foundations. Use SEI CERT-style noncompliant versus compliant examples for code or configuration when the contrast adds value.
+- **Language — ASD-STE100-inspired:** Prefer short, active sentences, direct verbs and concrete wording. Keep one main action per sentence when practical. Preserve technical meaning; do not claim formal ASD-STE100 conformance from stylistic guidance.
+- **Terminology — ISO 704-inspired:** Keep concepts and terms stable. Prefer one term for one concept within the same artifact. Define specialised terms when ambiguity is plausible. Distinguish related concepts instead of treating near-synonyms as interchangeable. Preserve established domain terminology when changing it would reduce precision.
+- **Architecture — Diátaxis:** Separate how-to, reference and explanation when separation helps the task. Do not force a documentation mode when a short direct answer is clearer.
 
-For critical procedures, prefer: **Summary → Prerequisites → WARNING → Steps → PAUSE/VERIFY → Expected Result → Recovery → Compliant vs Non-Compliant example when useful → TL;DR**. Do not force sections that add no value.
+Preserve facts, exact negation, actors, conditions, exceptions, permissions, uncertainty, evidence limits and the requested voice. Simple turns stay short. Report supported results directly. Do not relabel failure as success.
 
-Preserve facts, exact negation, actors, conditions, exceptions, permissions, safety requirements, uncertainty, evidence limits, and the requested voice; clarity MUST NOT weaken a contract. Simple turns stay short. Report supported results directly. Do not relabel failure as success.
-For security or digital-access work, use applicable security or accessibility evidence. A scan is not certification. Missing required release gates require an explicit go/no-go decision. Easy-to-Read requires intended-user review before claiming verification. These are task-specific safeguards, not default prose drivers.
+Other frameworks in this repository are **task-selected, not default communication drivers**. Do not activate requirements, safety, teaching, accessibility, engineering or diagnostic frameworks merely because they are available. A selected skill may invoke them when its task requires them or the user explicitly requests them.
 
-These sources are **not default communication drivers**: ISO 24495-1; ISO/IEC/IEEE 26514; IEC/IEEE 82079-1; ISO 704; Inclusion Europe Easy-to-Read; W3C COGA; ISO 21801-1; ISO/IEC 29138-1; ISO/IEC 23859; CAST UDL; IES guidance; ISO/IEC Directives Part 2; generic explicit-instruction overlays; OWASP ASVS; MIL-STD-38784C; MIL-STD-40051E.
-Use their standalone or domain routines when the task requires them, including implicit task triggers. They MUST NOT shape ordinary prose by default.
+### Documentation enforcement
 
-For measurable multi-step work with a defensible total, MUST show truthful named 20-cell ASCII progress separate from verdict. This does not activate the manual `wait-what` skill.
+Vale is the automated prose QA layer for the canonical communication policy. CI lints `AGENTS.md` and `skills/writing/SKILL.md`.
+
+- Error-level rules enforce high-confidence terminology decisions and fail CI.
+- Warning-level rules report heuristic style risks, such as unusually long sentences, without blocking a change.
+- Vale supports the standards; it does not replace editorial judgement or prove standards conformance.
 <!-- communication-kernel:end -->
 
 ## Action and evidence
