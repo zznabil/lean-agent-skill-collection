@@ -1,0 +1,7 @@
+extends: substitution
+message: "Use the approved communication-kernel term '%s' instead of '%s'."
+level: error
+ignorecase: true
+swap:
+  "CDC-style": "ISO 704 terminology discipline"
+  "CDC Clear Communication Index": "ISO 704 terminology discipline"
