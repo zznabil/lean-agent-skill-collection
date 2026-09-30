@@ -1,0 +1,38 @@
+name: Vale communication lint
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - AGENTS.md
+      - skills/writing/SKILL.md
+      - .vale.ini
+      - .github/styles/**
+      - .github/workflows/vale.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - AGENTS.md
+      - skills/writing/SKILL.md
+      - .vale.ini
+      - .github/styles/**
+      - .github/workflows/vale.yml
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  vale:
+    name: Vale communication lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Lint canonical communication policy
+        uses: vale-cli/vale-action@v3.0.0
+        with:
+          files: '["AGENTS.md", "skills/writing/SKILL.md"]'
+          min_alert_level: warning
+          fail_on_error: true
