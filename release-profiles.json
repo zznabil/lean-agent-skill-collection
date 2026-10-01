@@ -1,8 +1,8 @@
 {
-  "version": "8.14.0",
-  "release": "v8.14.0",
-  "release_title": "Task Brief and Context Preflight",
-  "release_summary": "Add a manual Task Brief mode to project-context with proportionate records, evidence provenance, and readiness states; retain the 24 base routes, six profile memberships, and separate optional packs.",
+  "version": "8.15.0",
+  "release": "v8.15.0",
+  "release_title": "Three-Driver Communication Kernel",
+  "release_summary": "Rewrite all 134 skills and live authored resources around ASD-STE100-inspired language, ISO 704-inspired terminology, and Diátaxis organization; preserve task, safety, routing, evidence, and source-rights contracts.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

@@ -2,9 +2,11 @@
 
 ## Unreleased
 
+## 8.15.0 — 2026-10-01
+
 - Replace the default communication doctrine with three drivers: ASD-STE100-inspired language, ISO 704-inspired terminology, and Diátaxis organization. Rewrite all 134 skills and their live authored resources and adapter prompts; generated profiles retain the same routing and membership.
 - Preserve conditional safety, permission, normative-force, recovery, and evidence rules. Keep authentic domain sources, editions, rights, publisher files, and historical provenance unchanged.
-- Extend Vale to live authored instructions. Correct sentence tokenization, accept authentic CDC source names, and enforce canonical kernel terminology. Add positive, error-rejection, and nonblocking-warning controls. Pin INI checkout line endings for portable integrity checks.
+- Extend Vale to live authored instructions. Correct sentence tokenization, accept authentic CDC source names, and enforce canonical kernel terminology. Add positive, error-rejection, and nonblocking-warning controls. Pin INI checkout line endings for portable integrity checks. Read release metadata as UTF-8 so PowerShell 7 and Windows PowerShell 5.1 produce the same Unicode text and archive bytes.
 - Replace literal fallback and incidental wording checks with standalone kernel, boundary, and integrity checks. No new live-model performance or formal-conformance claim.
 
 ## 8.14.0 — 2026-09-29

@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $definitionPath = Join-Path $repoRoot 'release-profiles.json'
-$definition = Get-Content -Raw -LiteralPath $definitionPath | ConvertFrom-Json
+$definition = Get-Content -Raw -Encoding UTF8 -LiteralPath $definitionPath | ConvertFrom-Json
 . (Join-Path $PSScriptRoot 'release-inventory.ps1')
 $version = [string]$definition.version
 $releaseName = [string]$definition.release
