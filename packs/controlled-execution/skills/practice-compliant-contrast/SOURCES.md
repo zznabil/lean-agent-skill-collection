@@ -3,7 +3,7 @@
 Source snapshot: **19 September 2026**.
 
 ## Mechanism represented
-Rule, explanation, noncompliant example, compliant solution, bounded exceptions, and residual-risk warning.
+The routine presents a rule, an explanation, a noncompliant example and a compliant solution. It also states bounded exceptions and warns about residual risk.
 
 ## Official source access
 - [SEI CERT Secure Coding Standards source 1](https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard)
@@ -13,14 +13,14 @@ Rule, explanation, noncompliant example, compliant solution, bounded exceptions,
 - Source kind: **secure coding rule architecture**.
 - Source identifier: **SEI CERT Secure Coding Standards**.
 - Version or status: **official knowledge base inspected 2026-09-19**.
-- No publisher file is bundled in this skill.
+- This skill bundles no publisher file.
 
 ## Adaptation boundary
-- `SKILL.md` is new, independently worded Lean guidance.
-- It is not the complete source, an official interpretation or evidence of formal conformity.
-- Apply the full authorised source, domain law, organisational procedure and qualified review when those govern the task.
-- A live source can supersede this snapshot. Record a deliberate version decision instead of silently changing it.
-- Applies CERT's contrastive structure without claiming generic CERT compliance.
+- `SKILL.md` provides new Lean guidance in independent wording.
+- It does not provide the complete source or an official interpretation. It does not establish formal conformity.
+- Apply the full authorised source, domain law, organisational procedure and qualified review when they govern the task.
+- A live source can supersede this snapshot. Record an explicit version decision. Do not change the version silently.
+- The routine applies CERT's contrastive structure. It does not claim generic CERT compliance.
 
 ## New prose and third-party rights
-The new Lean prose is distributed under the repository's MIT licence. Linked third-party sources retain their own copyright, licence and access terms. Linking a source does not grant permission to reproduce it.
+The repository's MIT licence covers the new Lean prose. Linked third-party sources keep their own copyright, licence and access terms. A link does not grant permission to reproduce the source.

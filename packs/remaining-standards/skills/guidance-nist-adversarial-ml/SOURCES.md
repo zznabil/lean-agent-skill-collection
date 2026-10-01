@@ -6,10 +6,10 @@ Historical owner: `gauntlet-loop/AI-ASSURANCE.md`. Original review date: 2026-08
 Original re-review trigger: New edition.
 
 ## What the routine represents
-NIST AI 100-2e2025 taxonomy and June 2025 potential-updates notice; original PDF is not silently altered.
+The routine uses the NIST AI 100-2e2025 taxonomy and the June 2025 potential-updates notice. It does not silently alter the original PDF.
 
-The SKILL.md is a new, independently worded Lean application/verification procedure. Its task boundaries, evidence safeguards and bounded correction pass are Lean policy, not quotations or extra clauses attributed to the publisher.
-It does not contain every clause, definition or example in the source. Selection, source access, clause coverage and real execution are separate matters. Full assessment requires the complete applicable source and evidence.
+SKILL.md provides a new Lean application and verification procedure in independent wording. Lean policy defines its task boundaries, evidence safeguards and bounded correction pass. These rules are not publisher quotations or additional publisher clauses.
+The routine does not include every source clause, definition or example. Source selection, source access, clause coverage and actual execution are distinct. A full assessment requires the complete applicable source and evidence.
 
 ## Official source access
 - https://csrc.nist.gov/pubs/ai/100/2/e2025/final
@@ -30,15 +30,15 @@ Format/scope: `official-errata-pdf`; 1 pages.
 Source URL: https://csrc.nist.gov/files/pubs/ai/100/2/e2025/final/docs/nist.ai.100-2e2025_potential_updates.pdf
 SHA-256: `ac73cb5fe5e5c6dfaef566866d92ad5c9887176480f620112cc6a997d7d624d8`
 Copying basis: NIST public-information copying policy, subject to document-specific notices; the original publication notices remain intact. Credit NIST; no endorsement is implied.
-Potential updates are not silent amendments to the primary document. Read both files; the primary PDF is unchanged.
+Potential updates do not silently amend the primary document. Read both files. The primary PDF remains unchanged.
 
 ## Navigation and verification
-Start with the source headings relevant to this task, not the whole reference library. Source focus: NIST AI 100-2e2025 taxonomy and June 2025 potential-updates notice; original PDF is not silently altered.
-Local PDFs can be opened and searched by their document headings. Preserve page labels when citing. Native HTML is saved as `.html.txt` without executing scripts; external images or links may need online access.
-Where a PDF is bundled, its identity, readability and selected relevant sections were inspected. This is not an exhaustive clause audit. Copying permissions and source status can change; recheck before a new public or commercial redistribution.
-A live source can supersede a snapshot. Record a deliberate version decision instead of silently changing the project's adopted version.
+Start with source headings that apply to the task. Do not start with the whole reference library. Focus on the NIST AI 100-2e2025 taxonomy and the June 2025 potential-updates notice. Do not silently alter the original PDF.
+You can open local PDFs and search their document headings. Keep page labels in citations. Native HTML is saved as `.html.txt`; scripts are not executed. External images or links may require online access.
+The review inspected each bundled PDF's identity, readability and selected relevant sections. It did not audit every clause. Copying permissions and source status can change. Recheck them before new public or commercial redistribution.
+A live source can supersede a snapshot. Record an explicit version decision. Do not silently change the project's adopted version.
 
 ## New prose licence and attribution
-The original new Lean routine and source notes are offered under CC BY-SA 4.0, with attribution to the Lean Agent Skill Collection contributors. They are an adaptation/application, not an official publisher document. Existing Lean V8.8.0 practice informed the operational safeguards. Third-party originals retain their own licences and notices; this statement does not relicense them.
+The new original Lean routine and source notes are offered under CC BY-SA 4.0. Attribute them to the Lean Agent Skill Collection contributors. They are an adaptation/application, not an official publisher document. Existing Lean V8.8.0 practice informed the operational safeguards. Third-party originals keep their own licences and notices. This statement does not relicense them.
 
 Lean baseline used for application safeguards: https://github.com/zznabil/lean-agent-skill-collection/tree/58b4369205d7689b2c46cdf4b4ac3801164e95ed

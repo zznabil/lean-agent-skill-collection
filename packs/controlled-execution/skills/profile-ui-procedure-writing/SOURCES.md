@@ -1,25 +1,25 @@
 # Sources: UI procedure writing profile
 
-Source snapshot: **19 September 2026**.
+Source snapshot date: **19 September 2026**.
 
 ## Mechanism represented
-Numbered imperative steps, location before action, input-neutral verbs, completion action, and expected result.
+Use numbered imperative steps. State the location before the action. Use input-neutral verbs. Include the completion action and expected result.
 
 ## Official source access
 - [Microsoft Writing Style Guide source 1](https://learn.microsoft.com/en-us/style-guide/procedures-instructions/writing-step-by-step-instructions)
 
 ## Source status used for this routine
-- Source kind: **software documentation style guide**.
-- Source identifier: **Microsoft Writing Style Guide**.
-- Version or status: **step-by-step guidance updated 2026-04-02**.
-- No publisher file is bundled in this skill.
+- Source type: **software documentation style guide**.
+- Source identity: **Microsoft Writing Style Guide**.
+- Version or status used: **step-by-step guidance updated 2026-04-02**.
+- This skill does not bundle a publisher file.
 
 ## Adaptation boundary
-- `SKILL.md` is new, independently worded Lean guidance.
-- It is not the complete source, an official interpretation or evidence of formal conformity.
-- Apply the full authorised source, domain law, organisational procedure and qualified review when those govern the task.
-- A live source can supersede this snapshot. Record a deliberate version decision instead of silently changing it.
-- Thin rendering profile; existing Lean documentation and accessibility requirements remain authoritative.
+- `SKILL.md` contains new, independently worded Lean guidance.
+- It does not provide the complete source or an official interpretation. It does not prove formal conformity.
+- When the task is governed by the full authorised source, domain law, organisational procedure or qualified review, apply those controls.
+- A live source can supersede this snapshot. Record a deliberate version decision. Do not change the version silently.
+- This is a thin rendering profile. Existing Lean documentation and accessibility requirements retain authority.
 
 ## New prose and third-party rights
-The new Lean prose is distributed under the repository's MIT licence. Linked third-party sources retain their own copyright, licence and access terms. Linking a source does not grant permission to reproduce it.
+The repository's MIT licence covers the new Lean prose. Linked third-party sources keep their own copyright, licence and access terms. A link does not grant permission to reproduce the source.

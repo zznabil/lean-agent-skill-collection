@@ -1,16 +1,16 @@
 # Edit instructions without losing the contract
 
-Use this reference when drafting or editing a skill, agent policy, workflow, prompt, checklist, handoff, or user procedure. The reader may be a person or an executing agent. This is an authoring procedure, not a requirement to load three communication skills during every task.
+Use this reference to draft or edit a skill, agent policy, workflow, prompt, checklist, handoff, or user procedure. The reader can be a person or an executing agent. This procedure supports authoring. It does not require three communication skills to load for every task.
 
 ## Before changing the words
 
-Identify the reader, task, input, expected result and authority from the request and existing material. Inspect the current instructions and their callers. Record an unresolved requirement as unresolved; do not silently invent a default to make the paragraph look complete.
+Identify the reader, task, input, expected result, and authority. Use the request and existing material. Inspect the current instructions and their callers. Mark unresolved requirements as unresolved. Do not invent a default to complete a paragraph.
 
-Preserve each existing rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response and completion evidence. Preserve its links, resource paths, source references and adoption decision. A watched, deferred or rejected source stays in that state. Keep exact identifiers, commands, schemas, numbers, quoted source text and status names unless their change is authorised.
+Keep each rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response, and completion evidence. Keep links, resource paths, source references, and adoption decisions. Keep watched, deferred, and rejected sources in their existing states. Do not change exact identifiers, commands, schemas, numbers, quoted source text, or status names without authorisation.
 
 ## Rewrite a decision, not an aspiration
 
-Use this shape when a rule contains a consequential choice:
+For a rule with a consequential choice, use this structure:
 
 ```text
 When <observable condition>, <actor> MUST/SHOULD/MAY <action on a named object>.
@@ -19,23 +19,23 @@ If <failure or unknown result>, <permitted recovery or stop>.
 Exception: <existing authorised exception>.
 ```
 
-Use only the fields the rule actually needs. Do not invent thresholds, permissions or failure modes to fill a template. In ordinary prose, use ordinary verbs; BCP 14 wording belongs to normative requirements. Preserve the original strength: a MUST is not a SHOULD, an exception is not a default, and untested is not passed.
+Include only fields that the rule needs. Do not invent thresholds, permissions, or failure modes to fill the template. Use ordinary verbs in ordinary prose. Use BCP 14 wording for normative requirements. Keep the original requirement strength. A MUST is not a SHOULD. An exception is not a default. An untested result is not a passed result.
 
-Name what words such as "it", "appropriate", "relevant" or "complete" refer to when that choice changes the action. Resolve the reference from the source or surrounding workflow. If the source cannot resolve it, flag the missing decision rather than replacing it with plausible advice.
+Identify the referent of "it", "appropriate", "relevant", or "complete" when that choice changes the action. Use the source or surrounding workflow to resolve the reference. If neither resolves it, flag the missing decision. Do not substitute plausible advice.
 
 ## Make the instructions usable
 
-Put prerequisites and warnings before the action they constrain. Keep one main action or tightly coupled group per step. Put its expected result and recovery next to that step. Split dense explanations into coherent blocks; preserve their condition and execution order. Keep the essential path visible. Conditional detail must not hide a mandatory step.
+Place prerequisites and warnings before the action they constrain. Give each step one main action or one tightly coupled action group. Place the expected result and recovery beside that step. Split dense explanations into coherent blocks. Keep their conditions and execution order. Keep the essential path visible. Do not hide mandatory steps in conditional detail.
 
-Use one term per concept within a scope. For a difficult decision, give a small worked example and explain why it meets the rule. An example illustrates the rule; it does not replace its other cases. For an agent reader, use an execution example or counterexample, not a compulsory lesson or quiz for the human user.
+Use one term for each concept within a scope. For a difficult decision, give a small worked example. Explain why the example meets the rule. An example illustrates a rule; it does not replace other cases. For an agent reader, give an execution example or counterexample. Do not require a lesson or quiz for the human user.
 
-Remove repeated explanation only when the same reader still receives the full rule in the same task context. Two copies that protect different standalone skills are not redundant merely because their words match. Do not remove a local fallback or reference because another skill or root policy contains it; first verify that the relevant host actually loads that source.
+Remove repeated explanations only if the same reader still receives the full rule in the same task context. Matching text in two standalone skills is not redundant if each copy protects a different skill. Before removing a local fallback or reference, verify that the relevant host loads its replacement source. Its presence in another skill or root policy is not enough.
 
 ## Check the rewrite
 
-Compare source and revision in both directions: each original obligation still has an owner and applicable entry point; each new obligation has explicit authority. Check the normal path, failure or unknown-result path, and a nearby case in which the rule must not activate. Verify links, commands and structured examples. Check copied standalone references for drift.
+Compare the source and revision in both directions. Each original obligation must retain an owner and an applicable entry point. Each new obligation must have explicit authority. Check the normal path and the failure or unknown-result path. Check a nearby case where the rule must not activate. Verify links, commands, and structured examples. Check copied standalone references for drift.
 
-For consequential changes, obtain the independent review and intended-reader task evidence required by the existing contract. For agent instructions, record which files were loaded and what the agent actually did. A source-preservation test proves a textual property; it does not prove comprehension, model obedience, host activation or formal standards conformance.
+For consequential changes, obtain the independent review and intended-reader task evidence that the existing contract requires. For agent instructions, record the loaded files and the agent's actual actions. A source-preservation test proves a textual property only. It does not prove comprehension, model obedience, host activation, or formal standards conformance.
 
 ## Worked distinction
 
@@ -43,12 +43,16 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 **Operational:** "Before declaring completion, read the task's acceptance ledger and standing Definition of Done. Execute their applicable checks on the current revision. A failed or unrun required check prevents completion unless an authorised scope change removes that requirement. Report the actual result and next permitted action."
 
-**Why:** the second version names the requirement sources, timing, observable evidence and exception. It does not require every test in the repository for every task.
+**Why:** The operational version identifies requirement sources, timing, observable evidence, and the exception. It does not require every repository test for every task.
 
-**Near miss:** a documentation-only change does not justify a production mutation. Verification still follows the actual task contract and existing permissions.
+**Near miss:** A documentation-only change does not authorise a production mutation. Verify against the actual task contract and existing permissions.
 
 ## Source roles
 
-Use the lean communication kernel whether or not root instructions load: ASD-STE100-inspired grammar, CDC-style word choice, Diátaxis mode separation, BCP 14 normative precision, NASA-style atomic verification, ANSI warning precedence, WHO hold points, OSHA state verification, FDA error anticipation and recovery, plus Feynman/SEI CERT pattern contrast when useful.
+Use the communication kernel below as the default. Do not restore discarded default standards through this editing procedure. Apply a specialised source when the task requires its domain, including through an implicit task trigger. Stylistic use does not establish formal conformance.
 
-Do not reintroduce the discarded default standards through this editing path. A specialised source still applies when the task requires that domain, including an implicit task trigger. Do not claim formal conformance from stylistic use.
+For normative requirements, preserve BCP 14 force and exceptions. Important requirements name one actor, one action and an observable verification target. Before risky actions, place warnings before hazards. Before critical or irreversible steps, add a hold point. Verify the actual safe state before destructive or hazardous work. Anticipate plausible errors; state the expected result, failure sign and permitted recovery or stop. For difficult decisions, use the example or counterexample guidance above when useful. These execution controls apply to their task conditions; they are not default communication frameworks.
+
+## Communication kernel
+
+Use ASD-STE100-inspired short active technical sentences and direct verbs. Use ISO 704-inspired terminology: keep one preferred term for each concept within a scope and distinguish related concepts. Use Diátaxis to separate actions, reference facts, and explanations when that separation helps. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.

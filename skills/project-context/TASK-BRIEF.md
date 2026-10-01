@@ -1,34 +1,34 @@
 # Task Brief / Context Preflight
 
-Use this schema when the user asks to inventory the context needed before planning, implementation, delegation, review, or handoff.
+Use this schema when the user asks to inventory context before planning, implementation, delegation, review, or handoff.
 
-The goal is **minimum sufficient context**, not maximum collection. Omit fields that cannot change a decision, action, safety boundary, or completion claim.
+Gather **minimum sufficient context**, not the maximum available context. Omit fields that cannot change a decision, action, safety boundary, or completion claim.
 
 ## Depth
 
 ### Direct
 
-Use for clear, local, reversible work:
+For clear, local, reversible work, record:
 
-- outcome;
-- current state;
-- main constraint;
-- decisive check;
-- next action.
+- the outcome;
+- the current state;
+- the main constraint;
+- the decisive check;
+- the next action.
 
 ### Standard
 
-Use for material bounded work:
+For material bounded work, record:
 
-- outcome, user, scope, and non-goals;
-- current state and evidence;
+- the outcome, user, scope, and non-goals;
+- the current state and evidence;
 - prerequisites, constraints, permissions, and dependencies;
 - known issues, risks, assumptions, and unknowns;
-- acceptance, recovery, and next action.
+- acceptance, recovery, and the next action.
 
 ### Durable
 
-Use for high-risk, delegated, or multi-session work. Use the full record below with stable identifiers, owners, revision, freshness triggers, and provenance.
+For high-risk, delegated, or multi-session work, use the full record below. Include stable identifiers, owners, revision, freshness triggers, and provenance.
 
 ## Record
 
@@ -100,18 +100,18 @@ What change or date makes this brief stale?
 
 Classify each material item:
 
-- `VERIFIED` — supported by current evidence;
-- `ASSUMED` — temporarily accepted but unverified;
-- `REFUTED` — contradicted by evidence;
-- `UNKNOWN` — unresolved and potentially material.
+- `VERIFIED` — current evidence supports the item;
+- `ASSUMED` — the item is temporarily accepted but unverified;
+- `REFUTED` — evidence contradicts the item;
+- `UNKNOWN` — the item remains unresolved and potentially material.
 
-Record provenance proportionally:
+Record provenance in proportion to the item:
 
-- external fact → source, date, citation, confidence, contradiction;
-- repository fact → path, symbol, revision;
-- runtime observation → environment, action or command, observed result;
-- user requirement → user statement or authorised specification;
-- decision → decision maker, date, rationale, reopen trigger.
+- For an external fact, record the source, date, citation, confidence, and contradiction.
+- For a repository fact, record the path, symbol, and revision.
+- For a runtime observation, record the environment, action or command, and observed result.
+- For a user requirement, record the user statement or authorised specification.
+- For a decision, record the decision maker, date, rationale, and reopen trigger.
 
 For Durable briefs, give each material item a stable ID, owner (or `UNKNOWN`), and last-verified revision or date. Link related IDs to show dependencies and handoff traceability.
 
@@ -122,6 +122,6 @@ End with exactly one state:
 - `READY` — sufficient context exists to proceed.
 - `READY_WITH_ASSUMPTIONS` — work can proceed reversibly with named assumptions.
 - `NEEDS_DECISION` — one or more consequential human choices block safe progress.
-- `BLOCKED_CONTEXT` — required evidence or access is unavailable and no safe useful route remains.
+- `BLOCKED_CONTEXT` — required evidence or access is unavailable, and no safe useful route remains.
 
 State the next action and the brief's freshness trigger. Do not treat this record as proof that implementation or verification occurred.

@@ -1,0 +1,71 @@
+name: Vale communication lint
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - AGENTS.md
+      - ENGINEERING-CORE.md
+      - skills/**
+      - packs/**
+      - .vale.ini
+      - scripts/test-vale.ps1
+      - .github/styles/**
+      - .github/workflows/vale.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - AGENTS.md
+      - ENGINEERING-CORE.md
+      - skills/**
+      - packs/**
+      - .vale.ini
+      - scripts/test-vale.ps1
+      - .github/styles/**
+      - .github/workflows/vale.yml
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  vale:
+    name: Vale communication lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Select live authored instructions
+        id: prose
+        shell: python
+        run: |
+          import json
+          import os
+          from pathlib import Path
+
+          paths = {"AGENTS.md", "ENGINEERING-CORE.md"}
+          patterns = (
+              "skills/**/*.md", "packs/*/skills/**/*.md",
+              "packs/*/gated-skills/**/*.md", "packs/*/README.md",
+              "packs/*/CATALOG.md", "packs/*/CONTROL-MODEL.md",
+              "packs/*/PORTING-NOTES.md",
+          )
+          for pattern in patterns:
+              paths.update(path.as_posix() for path in Path(".").glob(pattern)
+                           if "official" not in path.parts)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write("files=" + json.dumps(sorted(paths)) + "\n")
+      - name: Lint live authored instructions
+        uses: vale-cli/vale-action@v3.0.0
+        with:
+          files: ${{ steps.prose.outputs.files }}
+          version: 3.23.0
+          min_alert_level: warning
+          fail_on_error: true
+      - name: Verify lint rejection and warning controls
+        shell: pwsh
+        run: |
+          $vale = Get-ChildItem -LiteralPath (Join-Path $env:RUNNER_TOOL_CACHE 'vale/3.23.0') -Filter vale -File -Recurse
+          if (@($vale).Count -ne 1) { throw 'Expected one installed Vale executable' }
+          ./scripts/test-vale.ps1 -ValePath $vale.FullName

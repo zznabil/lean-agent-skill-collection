@@ -3,7 +3,7 @@
 Source snapshot: **19 September 2026**.
 
 ## Mechanism represented
-Hazard, consequence, avoidance, timing, placement, prominence, and digital-state delivery.
+State the hazard, consequence and avoidance action. Control message timing, placement, prominence and delivery across digital states.
 
 ## Official source access
 - [ANSI Z535.6-2023 and ANSI Z535.7-2024 source 1](https://www.nema.org/standards/technical/safety/ansi-z535-safety-alerting-standards)
@@ -13,18 +13,18 @@ Hazard, consequence, avoidance, timing, placement, prominence, and digital-state
 - Source kind: **product-safety communication standards**.
 - Source identifier: **ANSI Z535.6-2023 and ANSI Z535.7-2024**.
 - Version or status: **document and electronic-media editions named by the user; source access rechecked 2026-09-19**.
-- No publisher file is bundled in this skill.
+- This skill includes no publisher file.
 
 ## Adaptation boundary
-- `SKILL.md` is new, independently worded Lean guidance.
-- It is not the complete source, an official interpretation or evidence of formal conformity.
-- Apply the full authorised source, domain law, organisational procedure and qualified review when those govern the task.
-- A live source can supersede this snapshot. Record a deliberate version decision instead of silently changing it.
-- Derived guidance only; the licensed ANSI texts are not bundled or reproduced.
+- `SKILL.md` contains new Lean guidance with independent wording.
+- This guidance is not the complete source. It is not an official interpretation or evidence of formal conformity.
+- When the task is governed by the full authorised source, domain law, organisational procedure or qualified review, apply those controls.
+- A live source can supersede this snapshot. Record a deliberate version decision. Do not change the version silently.
+- This is derived guidance only. It does not include or reproduce the licensed ANSI texts.
 
 ## Access and redistribution
-- ANSI Z535.6 and Z535.7 are commercially licensed standards. This pack does not include their text or files.
-- Obtain an authorised copy before making clause-level, signal-word, colour, layout or conformity claims.
+- ANSI Z535.6 and Z535.7 are commercially licensed standards. This pack includes neither their text nor their files.
+- Before making clause-level, signal-word, colour, layout or conformity claims, obtain an authorised copy.
 
 ## New prose and third-party rights
-The new Lean prose is distributed under the repository's MIT licence. Linked third-party sources retain their own copyright, licence and access terms. Linking a source does not grant permission to reproduce it.
+The repository's MIT licence covers the new Lean prose. Linked third-party sources keep their own copyright, licence and access terms. A source link does not grant permission to reproduce the source.

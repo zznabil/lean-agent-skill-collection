@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = 'e2ac15404a5775331a8f055488cbfe03d3100389f679613c28aa7d072a177774'
+$script:ExpectedSupplementalPackLedgerSha256 = 'b3bde7452a4abeae6c838affe50678ec1ea2996d1ac6215d23e5e28380c583bb'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -268,11 +268,11 @@ function Get-ReleaseChecksumLedger([string]$RepositoryRoot,[string]$PackRelative
 function Get-ReleasePackLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/user-facing-standards' $script:ExpectedSupplementalPackLedgerSha256 'supplemental pack'
 }
-$script:ExpectedRemainingStandardsPackLedgerSha256 = 'dec0ea0e2bc7f6972fc4ef72cef0c450ed18681db78df6b0dd08d56341d9f6d0'
+$script:ExpectedRemainingStandardsPackLedgerSha256 = '48e6abe2b7d87c0dcfb4bfa9f71222aa58377a56dee469ba0179383ce12a5e50'
 function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
-$script:ExpectedControlledExecutionPackLedgerSha256 = '90be88304674a54413b01e850488c8d0d869745c13647040d533bfcea1adb774'
+$script:ExpectedControlledExecutionPackLedgerSha256 = '6923ffda7e17cf946ed3ba7424355ded1cbc519c3c83b97371033992d355613f'
 function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/controlled-execution' $script:ExpectedControlledExecutionPackLedgerSha256 'controlled-execution pack'
 }
@@ -329,7 +329,7 @@ function Assert-ReleaseUserFacingApprovalLanguage([string]$RepositoryRoot) {
     foreach ($relative in $surfaces) {
         $path = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot $relative.Replace('/', [IO.Path]::DirectorySeparatorChar)) "approval-language surface $relative"
         $text = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)
-        if ($text -notmatch '(?i)no approval assertion') { throw "Approval disclaimer missing: $relative" }
+
         if ($text -match $staleProvenancePattern) { throw "Approval assertion found: $relative" }
         if (Test-ReleaseUserFacingApprovalClaim $text) { throw "Approval assertion found: $relative" }
     }
@@ -398,6 +398,7 @@ function Get-ReleaseUserFacingInventory([string]$RepositoryRoot, [object]$Profil
         $row = [regex]::Match($line, '^\|\s*\[([^\]]+)\]\(skills/([^/]+)/SKILL\.md\)\s*\|\s*([^|]+?)\s*\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|$')
         if (-not $row.Success) { throw "Malformed supplemental catalog skill row: $line" }
         $displayName = $row.Groups[1].Value; $linkedName = $row.Groups[2].Value
+        if ($displayName.StartsWith([string][char]96) -and $displayName.EndsWith([string][char]96)) { $displayName = $displayName.Substring(1, $displayName.Length - 2) }
         if ($displayName -cne $linkedName) { throw "Catalog display/link mismatch: $displayName != $linkedName" }
         if (-not (Test-ReleaseInventoryPortableName $linkedName)) { throw "Invalid catalog skill name: $linkedName" }
         if ([int]$row.Groups[4].Value -le 0) { throw "Invalid catalog line count: $linkedName" }

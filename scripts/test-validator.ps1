@@ -171,6 +171,23 @@ try {
         }
         Write-Host 'PASS rejection: required Task Brief support file' -ForegroundColor Green
     } finally { $script:repoRoot = $originalRepoRoot; $failures.Clear() }
+    Copy-Item -LiteralPath (Join-Path $repoRoot 'skills/project-context/TASK-BRIEF.md') -Destination (Join-Path $skillTreeFixture 'skills/project-context/TASK-BRIEF.md')
+    foreach ($relative in @('skills/architecture/SKILL.md', 'skills/architecture/agents/openai.yaml')) {
+        $path = Join-Path $skillTreeFixture $relative
+        $original = [IO.File]::ReadAllBytes($path)
+        try {
+            $script:repoRoot = $skillTreeFixture
+            $text = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)
+            [IO.File]::WriteAllText($path, $text.Replace('ISO 704', 'REMOVED DRIVER'), [Text.Encoding]::UTF8)
+            $failures.Clear(); Test-SkillTree $profiles
+            if (-not ($failures | Where-Object { $_ -eq 'communication kernel driver missing for architecture: ISO 704' })) { throw "Missing kernel driver was not rejected: $relative" }
+            Write-Host "PASS rejection: standalone kernel driver in $relative" -ForegroundColor Green
+        } finally {
+            [IO.File]::WriteAllBytes($path, $original)
+            $script:repoRoot = $originalRepoRoot
+            $failures.Clear()
+        }
+    }
     $fixturePath = Join-Path $fixtureRoot 'unsafe.zip'
     $fileStream = [IO.File]::Open($fixturePath, [IO.FileMode]::Create)
     try {

@@ -1,7 +1,7 @@
 interface:
   display_name: Experiment & Prototype
   short_description: Design controlled experiments and disposable prototypes
-  default_prompt: 'Use $experiment to design a controlled experiment or disposable prototype with a comparable baseline and decision rule. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
+  default_prompt: 'Use $experiment to design a controlled experiment or disposable prototype with a comparable baseline and decision rule. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terms, and Diátaxis purpose separation when helpful. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use heavier structure only when it improves understanding or action. Make direct claims. Preserve genuine uncertainty and meaning. Own evidenced errors and state the next safe action.'
 policy:
   products:
   - CHAT

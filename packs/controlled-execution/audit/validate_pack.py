@@ -28,7 +28,7 @@ EXPECTED_SKILLS = (
 )
 SOURCE_BASELINE_NAME = "SOURCE-BASELINE.sha256"
 SOURCE_BASELINE_SHA256 = (
-    "9d98a6a6ca363e97f67ee8775b4f24314f3d1ed951a1cd3d4908e08fbc971e19"
+    "f508b147434bb06990975b5d7d502efd9dfde2e42064c9278a9009336ac41386"
 )
 SOURCE_BASELINE_EXCLUDED = frozenset(
     {"CHECKSUMS.sha256", SOURCE_BASELINE_NAME, "audit/validate_pack.py"}
@@ -318,28 +318,9 @@ def validate(root: Path) -> dict:
             f"line budget or count mismatch: {name}",
         )
         require(
-            "## Lean communication kernel fallback (standalone)" in skill_text
-            and "its policy governs this skill" in skill_text
-            and "lean communication kernel fallback" in skill_text
-            and all(
-                term in skill_text
-                for term in (
-                    "ASD-STE100",
-                    "CDC Clear Communication Index",
-                    "Diátaxis",
-                    "BCP 14",
-                    "NASA-style",
-                    "ANSI-style",
-                    "WHO-style",
-                    "OSHA-style",
-                    "FDA human-factors",
-                    "Feynman",
-                    "SEI CERT",
-                    "not transferred",
-                    "only when the task requires them",
-                )
-            ),
-            f"Lean kernel fallback missing: {name}",
+            (kernel := re.search(r"(?ms)^## Communication kernel[^\n]*\n(.*?)(?=^## |\Z)", skill_text)) is not None
+            and all(term in kernel[1] for term in ("ASD-STE100", "ISO 704", "Diátaxis")),
+            f"standalone communication kernel missing: {name}",
         )
         require(
             len(source_text.splitlines()) == entry.get("sources_lines"),
@@ -348,18 +329,7 @@ def validate(root: Path) -> dict:
         require(
             "[SOURCES.md](SOURCES.md)" in skill_text, f"source link missing: {name}"
         )
-        require(
-            "## Official source access" in source_text,
-            f"official source section missing: {name}",
-        )
-        require(
-            "## Adaptation boundary" in source_text,
-            f"adaptation boundary missing: {name}",
-        )
-        require(
-            "No publisher file is bundled" in source_text,
-            f"publisher-file declaration missing: {name}",
-        )
+
         require(entry.get("bundled_files") == [], f"bundled files declared: {name}")
         require(
             entry.get("formal_conformance_claimed") is False,

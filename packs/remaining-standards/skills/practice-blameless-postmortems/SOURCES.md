@@ -6,27 +6,27 @@ Historical owner: `triage/INCIDENT.md / project-context`. Original review date: 
 Original re-review trigger: Material practice update.
 
 ## What the routine represents
-Google SRE blameless postmortem practice; evidence and follow-up are distinct from assigning personal blame.
+This routine covers Google SRE blameless postmortem practice. Separate evidence and follow-up from personal blame.
 
-The SKILL.md is a new, independently worded Lean application/verification procedure. Its task boundaries, evidence safeguards and bounded correction pass are Lean policy, not quotations or extra clauses attributed to the publisher.
-It does not contain every clause, definition or example in the source. Selection, source access, clause coverage and real execution are separate matters. Full assessment requires the complete applicable source and evidence.
+SKILL.md provides a new Lean procedure for application and verification in independent wording. Lean policy defines its task boundaries, evidence safeguards and single correction pass. These rules are not publisher quotations or added publisher clauses.
+The routine does not reproduce all source clauses, definitions or examples. Distinguish selection, source access, clause coverage and actual execution. A full assessment needs the complete applicable source and evidence.
 
 ## Official source access
 - https://sre.google/sre-book/postmortem-culture/
 
 ## Bundled originals
-No original source file is bundled. Official access is linked; this is not an empty file or an unofficial PDF presented as the source.
+The collection bundles no original source file. The link provides official access. The collection does not present an empty file or an unofficial PDF as the source.
 
 ## PDF availability / access gap
-The official Google SRE postmortem chapter is linked. CC BY-NC-ND 4.0 book content is not repackaged here; no complete official PDF was bundled.
+The link provides the official Google SRE postmortem chapter. This collection does not repackage CC BY-NC-ND 4.0 book content. It bundles no complete official PDF.
 
 ## Navigation and verification
-Start with the source headings relevant to this task, not the whole reference library. Source focus: Google SRE blameless postmortem practice; evidence and follow-up are distinct from assigning personal blame.
-Local PDFs can be opened and searched by their document headings. Preserve page labels when citing. Native HTML is saved as `.html.txt` without executing scripts; external images or links may need online access.
-Where a PDF is bundled, its identity, readability and selected relevant sections were inspected. This is not an exhaustive clause audit. Copying permissions and source status can change; recheck before a new public or commercial redistribution.
-A live source can supersede a snapshot. Record a deliberate version decision instead of silently changing the project's adopted version.
+Start at source headings that apply to the task. Do not start with the whole reference library. Focus on Google SRE blameless postmortem practice. Separate evidence and follow-up from personal blame.
+You can open local PDFs and search their document headings. Keep page labels in citations. The collection saves native HTML as `.html.txt` and does not execute scripts. External images or links may require online access.
+For each bundled PDF, inspection covered identity, readability and selected relevant sections. It did not audit every clause. Copying permissions and source status can change. Check them again before new public or commercial redistribution.
+A live source can supersede a snapshot. Record an explicit version decision. Do not silently change the project's adopted version.
 
 ## New prose licence and attribution
-The original new Lean routine and source notes are offered under CC BY-SA 4.0, with attribution to the Lean Agent Skill Collection contributors. They are an adaptation/application, not an official publisher document. Existing Lean V8.8.0 practice informed the operational safeguards. Third-party originals retain their own licences and notices; this statement does not relicense them.
+The contributors offer the original new Lean routine and source notes under CC BY-SA 4.0. Attribute them to the Lean Agent Skill Collection contributors. These texts form an adaptation/application, not an official publisher document. Existing Lean V8.8.0 practice informed the operational safeguards. Third-party originals keep their own licences and notices. This statement does not relicense those originals.
 
 Lean baseline used for application safeguards: https://github.com/zznabil/lean-agent-skill-collection/tree/58b4369205d7689b2c46cdf4b4ac3801164e95ed

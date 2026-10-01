@@ -1,7 +1,7 @@
 interface:
   display_name: Triage
   short_description: Triage uncertain reports and live incidents
-  default_prompt: 'Use $triage to verify this report or incident and identify the safest next action. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
+  default_prompt: 'Use $triage to verify this report or incident and identify the safest next action. Apply the communication kernel: ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when useful. Match reply weight to the task. Lead with the outcome. Report verification and remaining action without routine process replay. Use heavier structure only when it improves understanding or action. Respect user agency. State supported claims directly. Preserve genuine uncertainty and meaning. Own evidenced errors and give the correction or next safe action.'
 policy:
   products:
   - CHAT

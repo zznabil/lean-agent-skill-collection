@@ -1,7 +1,7 @@
 interface:
   display_name: Test
   short_description: Build tests and evaluate agent trajectories
-  default_prompt: 'Use $test to create the smallest reliable test or agent-evaluation feedback loop. Keep the global outcome-first, adaptive-prose, and considerate-agency overlays active: match reply weight to the task, report outcome, verification, and remaining action without routine process replay, and use heavier structure only when it improves understanding or action. Use direct claims; preserve genuine uncertainty and meaning; own evidenced errors and the next safe action.'
+  default_prompt: 'Use $test to create the smallest reliable test or agent-evaluation feedback loop. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when useful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel; do not claim root activation without evidence. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use more structure only when it improves understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Own evidenced errors and state the correction or next safe action.'
 policy:
   products:
   - CHAT

@@ -237,20 +237,24 @@ function Test-SkillTree([object]$Profiles) {
         $skillPath = Join-Path $dir.FullName 'SKILL.md'; $adapterPath = Join-Path $dir.FullName 'agents/openai.yaml'
         if (-not (Test-Path -LiteralPath $skillPath -PathType Leaf)) { Add-Failure "missing skills/$($dir.Name)/SKILL.md"; continue }
         if (-not (Test-Path -LiteralPath $adapterPath -PathType Leaf)) { Add-Failure "missing adapter for $($dir.Name)"; continue }
-        $text = Get-Content -Raw -LiteralPath $skillPath
+        $text = Get-Content -Raw -Encoding UTF8 -LiteralPath $skillPath
         $frontmatter = [regex]::Match($text, '(?s)\A---\r?\n(.*?)\r?\n---\r?\n')
         if (-not $frontmatter.Success) { Add-Failure "invalid frontmatter for $($dir.Name)"; continue }
         $name = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^name:\s*["'']?([^"''\r\n]+)').Groups[1].Value.Trim()
         $description = [regex]::Match($frontmatter.Groups[1].Value, '(?m)^description:\s*["'']?(.+?)["'']?\s*$').Groups[1].Value.Trim()
         if ($name -ne $dir.Name -or [string]::IsNullOrWhiteSpace($description)) { Add-Failure "frontmatter failure for $($dir.Name)" }
-        $adapter = Get-Content -Raw -LiteralPath $adapterPath
-        if ($adapter -notmatch 'Use direct claims; preserve genuine uncertainty and meaning') { Add-Failure "direct-claims adapter reminder missing for $($dir.Name)" }
+        $adapter = Get-Content -Raw -Encoding UTF8 -LiteralPath $adapterPath
+        $kernel = [regex]::Match($text, '(?ms)^## Communication kernel\r?\n(.*?)(?=^## |\z)').Groups[1].Value
+        foreach ($driver in @('ASD-STE100', 'ISO 704', 'Di\u00e1taxis')) {
+            if ($kernel -notmatch $driver -or $adapter -notmatch $driver) { Add-Failure "communication kernel driver missing for $($dir.Name): $driver" }
+        }
+
         $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*.*\$' + [regex]::Escape($dir.Name) + '.+$'
         $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*.+$','(?m)^\s{2}short_description:\s*.+$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{2}-\s*CHAT\s*\r?\n\s{2}-\s*CODEX\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
         foreach ($rule in $rules) { if ($adapter -notmatch $rule) { Add-Failure "adapter schema failure for $($dir.Name)"; break } }
-        if ($dir.Name -ne 'wait-what' -and $text -notmatch '(?m)^\*\*User-facing:\*\*') { Add-Failure "missing user-facing fallback for $($dir.Name)" }
-        if ($adapter -notmatch 'outcome-first' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'outcome first')) { Add-Failure "missing adapter outcome-first reinforcement for $($dir.Name)" }
-        if ($adapter -notmatch 'considerate-agency' -and -not ($dir.Name -eq 'wait-what' -and $adapter -match 'considerate follow-through')) { Add-Failure "missing adapter considerate-agency reinforcement for $($dir.Name)" }
+
+
+
         $manualNames = @('gauntlet-loop', 'get-it-done', 'grilling', 'handoff', 'project-context', 'wait-what')
         $allowImplicit = [regex]::Match($adapter, '(?m)^\s{2}allow_implicit_invocation:\s*(true|false)\s*$').Groups[1].Value
         if (($manualNames -contains $dir.Name) -and $allowImplicit -ne 'false') { Add-Failure "manual skill allows implicit invocation: $($dir.Name)" }
@@ -266,6 +270,7 @@ function Test-SkillTree([object]$Profiles) {
 
 function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
+        '.vale.ini','.github/workflows/vale.yml','.github/styles/LeanAgent/SentenceLength.yml','.github/styles/LeanAgent/Terminology.yml','scripts/test-vale.ps1',
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
         'AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
         'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/communications-omp.json','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',

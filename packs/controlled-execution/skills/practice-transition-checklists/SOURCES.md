@@ -3,7 +3,7 @@
 Source snapshot: **19 September 2026**.
 
 ## Mechanism represented
-Small confirmation checklist, named coordinator, and stop gate at a high-cost phase transition.
+Use a small confirmation checklist and a named coordinator. Apply a stop gate at a high-cost phase transition.
 
 ## Official source access
 - [WHO Surgical Safety Checklist source 1](https://www.who.int/teams/integrated-health-services/patient-safety/research/safe-surgery/tool-and-resources)
@@ -12,14 +12,14 @@ Small confirmation checklist, named coordinator, and stop gate at a high-cost ph
 - Source kind: **safety checklist guidance**.
 - Source identifier: **WHO Surgical Safety Checklist**.
 - Version or status: **official WHO safe-surgery resources inspected 2026-09-19**.
-- No publisher file is bundled in this skill.
+- This skill bundles no publisher file.
 
 ## Adaptation boundary
-- `SKILL.md` is new, independently worded Lean guidance.
-- It is not the complete source, an official interpretation or evidence of formal conformity.
-- Apply the full authorised source, domain law, organisational procedure and qualified review when those govern the task.
-- A live source can supersede this snapshot. Record a deliberate version decision instead of silently changing it.
-- Extracts a checklist mechanism; it is not a surgical checklist or clinical protocol.
+- `SKILL.md` provides new Lean guidance with independent wording.
+- It does not provide the complete source or an official interpretation. It does not provide evidence of formal conformity.
+- Apply the full authorised source, domain law, organisational procedure and qualified review when they govern the task.
+- A live source can supersede this snapshot. Record a deliberate version decision. Do not change the version silently.
+- This routine extracts a checklist mechanism. It is not a surgical checklist or clinical protocol.
 
 ## New prose and third-party rights
-The new Lean prose is distributed under the repository's MIT licence. Linked third-party sources retain their own copyright, licence and access terms. Linking a source does not grant permission to reproduce it.
+The repository's MIT licence covers the new Lean prose. Linked third-party sources keep their own copyright, licence and access terms. A source link does not grant permission to reproduce the source.

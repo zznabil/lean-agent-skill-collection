@@ -1,0 +1,8 @@
+extends: substitution
+message: "Use the canonical term '%s' instead of '%s'."
+level: error
+ignorecase: true
+swap:
+  'ISO704': 'ISO 704'
+  'ASD STE100': 'ASD-STE100'
+  'Diataxis': 'Diátaxis'

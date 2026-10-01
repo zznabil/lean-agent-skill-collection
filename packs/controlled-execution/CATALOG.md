@@ -1,6 +1,6 @@
 # Controlled-execution skills — 13-entry catalogue
 
-Select the mechanism that matches the task, not a generic quality overlay. These are applications, not formal conformance claims. Trusted root `AGENTS.md` governs when loaded; each `SKILL.md` has a standalone lean kernel fallback. Read the selected `SOURCES.md` for exact source status and rights.
+Select the mechanism for the task. Do not use a generic quality overlay. These skills are applications. They do not claim formal conformance. Trusted root `AGENTS.md` governs when loaded. Each `SKILL.md` also contains a standalone communication kernel. The kernel uses ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terms, and Diátaxis purpose separation when useful. Do not claim root activation without evidence. Read the selected `SOURCES.md` for exact source status and rights.
 
 | Skill | Use | Primary source lineage |
 |---|---|---|
@@ -19,7 +19,7 @@ Select the mechanism that matches the task, not a generic quality overlay. These
 | [practice-modular-information-units](skills/practice-modular-information-units/SKILL.md) | Give each reusable module one bounded information job. | S1000D |
 
 ## Selection and source boundaries
-1. For a named task, choose the leading action in the table. Combine only genuinely distinct mechanisms; do not load all thirteen.
-2. Check the chosen skill's trigger, steps, hold points and recovery. Stop at a failed or unknown required gate; correct it and verify anew before progression.
-3. Keep wider standards in their own scope: the ASVS and SSDF routines here do not duplicate the broader `standard-owasp-asvs` and `standard-nist-ssdf` routines in open PR #17. The Microsoft and GitHub profiles render after technical correctness is established.
-4. ANSI and ISO texts are not bundled; obtain authorised copies for clause-level or conformity work. OSHA, WHO, FDA, NASA and military mechanisms do not transfer legal or organisational authority to unrelated work.
+1. For a named task, select the leading action in the table. Combine mechanisms only when they are genuinely distinct. Do not load all thirteen.
+2. Check the selected skill's trigger, steps, hold points and recovery. Stop if a required gate fails or its state is unknown. Correct the condition. Verify it again before progression.
+3. Keep wider standards within their scope. The ASVS and SSDF routines here do not duplicate the broader `standard-owasp-asvs` and `standard-nist-ssdf` routines in open PR #17. Apply the Microsoft and GitHub rendering profiles after you establish technical correctness.
+4. This pack does not bundle ANSI or ISO texts. Obtain authorised copies for clause-level or conformity work. OSHA, WHO, FDA, NASA and military mechanisms do not transfer legal or organisational authority to unrelated work.

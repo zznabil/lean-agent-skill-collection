@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Replace the default communication doctrine with three drivers: ASD-STE100-inspired language, ISO 704-inspired terminology, and Diátaxis organization. Rewrite all 134 skills and their live authored resources and adapter prompts; generated profiles retain the same routing and membership.
+- Preserve conditional safety, permission, normative-force, recovery, and evidence rules. Keep authentic domain sources, editions, rights, publisher files, and historical provenance unchanged.
+- Extend Vale to live authored instructions. Correct sentence tokenization, accept authentic CDC source names, and enforce canonical kernel terminology. Add positive, error-rejection, and nonblocking-warning controls. Pin INI checkout line endings for portable integrity checks.
+- Replace literal fallback and incidental wording checks with standalone kernel, boundary, and integrity checks. No new live-model performance or formal-conformance claim.
+
 ## 8.14.0 — 2026-09-29
 
 - Add a manual Task Brief / Context Preflight mode to `project-context` for Direct, Standard, and Durable context records without a new base route or changed profile membership.

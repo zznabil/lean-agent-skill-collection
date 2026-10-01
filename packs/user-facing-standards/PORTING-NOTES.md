@@ -1,34 +1,36 @@
-# Public-repository import
+# Import into the public repository
 
-This pack was imported from `lean-user-facing-standards-prototype.zip` (SHA-256 `05083456ac42535d5f7ce5269050da9ae9f144c52a034830b273467eed2663f0`) for V8.9.0. That import is historical provenance. The present pack is the canonical 27-skill supplemental source for the current v8.13 generated profiles.
+This pack was imported from `lean-user-facing-standards-prototype.zip` (SHA-256 `05083456ac42535d5f7ce5269050da9ae9f144c52a034830b273467eed2663f0`) for V8.9.0. This import records historical provenance. The current pack is the canonical 27-skill supplemental source for the current v8.13 generated profiles.
 
-## Scope
+## Pack scope
 
-- All 27 narrow-purpose skills remain below 100 physical lines and form the supplemental layer of every current generated profile. The V8.9.0 integration totals (35, 46, 50, 30, 32, and 31) are historical, not current profile counts.
-- At the V8.9.0 import, the 23 base task skills, root instructions, base profile memberships, adapters and historical standards register were unchanged. That statement does not describe later repository revisions.
-- No host is configured, no local installation is changed, and no publisher document is executed. The pack's checker is development tooling, not an agent runtime.
+- All 27 narrow-purpose skills stay below 100 physical lines. They form the supplemental layer of every current generated profile. The V8.9.0 integration totals (35, 46, 50, 30, 32, and 31) are historical totals, not current profile counts.
+- The V8.9.0 import did not change the 23 base task skills, root instructions, base profile memberships, adapters or historical standards register. This statement does not cover later repository revisions.
+- The pack configures no host, changes no local installation and executes no publisher document. The pack's checker is development tooling. It is not an agent runtime.
 
-## Explicit differences from the personal-study ZIP
+## Changes from the personal-study ZIP
 
-- Exclude the CAST organiser PDF because public redistribution permission was not established. Keep its skill and official source link. At import, exactly one source-access line changed in that skill; the other 26 SKILL.md files were byte-identical, including the ASD pilot. Subsequent task-specific full-body clarity edits and the kernel fallback changed all 27 current skills.
-- Update CAST source/rights notes, the catalogue and source manifest to match the public edition. Keep the 19 public publisher-file copies byte-identical to the pinned original-download records; the CAST organiser remains excluded from the public edition.
-- Add a licence boundary and W3C implementation-support notices. Preserve Diataxis CC BY-SA attribution and the IES public-domain statement.
-- Add the historical direct-claims review next to the unchanged copied register so its existing relative link resolves.
-- Label the earlier validation result as historical. The new VALIDATION.json is a contract declaration, not a passing verdict.
-- The read-only checker now pins the literal complete original-download manifest, enforces the exact 19 path-to-original mapping, and compares current publisher metadata and actual bytes with those records. Its named disposable-copy controls cover P1 publisher tamper and publisher-baseline drift; this is structural/source-integrity evidence only.
+- Exclude the CAST organiser PDF. Public redistribution permission was not established. Keep its skill and official source link. The import changed exactly one source-access line in that skill. The other 26 SKILL.md files were byte-identical, including the ASD pilot. Later task-specific full-body clarity edits and the kernel fallback changed all 27 current skills.
+- Update CAST source/rights notes, the catalogue and source manifest for the public edition. Keep the 19 public publisher-file copies byte-identical to the pinned original-download records. The public edition still excludes the CAST organiser.
+- Add a licence boundary and W3C implementation-support notices. Keep the Diátaxis CC BY-SA attribution and the IES public-domain statement.
+- Add the historical direct-claims review next to the unchanged copied register. This preserves resolution of its existing relative link.
+- Mark the earlier validation result as historical. The new VALIDATION.json declares a contract. It does not report a passing verdict.
+- The read-only checker now pins the literal complete original-download manifest. It enforces the exact 19 path-to-original mapping. It compares current publisher metadata and actual bytes with those records. Its named disposable-copy controls cover P1 publisher tamper and publisher-baseline drift. These controls provide only structural/source-integrity evidence.
 
-`audit/IMPORT-RECORD.json` records original skill hashes and the sole import-time source-access replacement. It also pins the original 97-entry coverage record, source register, user-information reference and 81 authored cases. It remains historical and unchanged.
+`audit/IMPORT-RECORD.json` records the original skill hashes and the sole import-time source-access replacement. It also pins the original 97-entry coverage record, source register, user-information reference and 81 authored cases. This historical record remains unchanged.
 
-## Current communication-kernel change
+## Current communication-kernel revision
 
-All 27 current skills state a task result, source boundary, application steps and verification in direct language. They also carry the same conditional, self-contained lean communication kernel fallback for loading without root `AGENTS.md`. Root policy governs when loaded; domain standards remain task-selected. The ASD skill retains its rules within the 100-line limit, with task-specific wording changes beyond whitespace. `SOURCE-MANIFEST.json` and `CHECKSUMS.sha256` record current bytes; the validator checks those bytes and the fallback while pinning the historical import record separately. Publisher reference bytes and skill-local rights statements remain unchanged.
+All 27 current skills use direct language to state a task result, source boundary, application steps and verification. Each skill also supplies a self-contained communication kernel. The kernel uses ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when helpful. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Root policy governs when loaded. A skill must not claim root activation without evidence. Domain standards remain task-selected.
 
-## Rights and source limitations
+The ASD skill keeps its rules within the 100-line limit. Its task-specific wording changes extend beyond whitespace. `SOURCE-MANIFEST.json` and `CHECKSUMS.sha256` record current bytes. The validator checks those bytes and the fallback. It pins the historical import record separately. Publisher reference bytes and skill-local rights statements remain unchanged.
 
-Read THIRD-PARTY-NOTICES.md and each skill's SOURCES.md. The IES PDF is public domain; W3C, RFC and Diataxis material retains its original terms. No ISO full text, ASD standard/dictionary, Inclusion Europe booklet or CAST PDF is bundled. Missing licensed texts remain explicit prerequisites, not fabricated clauses. HTML bytes remain reference data, not complete offline websites.
+## Source and rights limits
 
-## Acceptance boundary
+Read THIRD-PARTY-NOTICES.md and each skill's SOURCES.md. The IES PDF is public domain. W3C, RFC and Diátaxis material keeps its original terms. The pack bundles no ISO full text, ASD standard/dictionary, Inclusion Europe booklet or CAST PDF. Missing licensed texts remain explicit prerequisites. Do not fabricate clauses to replace them. HTML bytes are reference data, not complete offline websites.
 
-CI is the full verification gate for actual source bytes, path safety, standalone reference availability, exact inventories and deliberate rejection cases. A focused local run is not a full verification result.
+## Acceptance limits
 
-A passing CI run is not a model-routing probability, proof of user comprehension or formal standards conformance. The 81 task cases remain authored, not executed model tests. The pack does not claim live-model evaluation or formal conformance. Its `not_run` field describes this pack’s model cases, not every check in the current repository. Use current repository release procedures and rights notices before redistribution.
+CI is the full verification gate for actual source bytes, path safety, standalone reference availability, exact inventories and deliberate rejection cases. A focused local run does not provide a full verification result.
+
+A passing CI run does not establish model-routing probability, user comprehension or formal standards conformance. The 81 task cases are authored cases, not executed model tests. The pack claims neither live-model evaluation nor formal conformance. Its `not_run` field describes this pack’s model cases. It does not describe every check in the current repository. Before redistribution, use the current repository release procedures and rights notices.
