@@ -297,6 +297,8 @@ Manual-only skills in this package (base task skills only): $manual
 
 ## Install
 
+For Hermes on Windows, extract the ZIP and run install-hermes.bat. It installs user-global skills and asks before appending AGENTS.md policy to SOUL.md; existing persona text is preserved and backed up. Use install-hermes.ps1 -HermesHome <home> for a specific profile, -PolicyScope None for skills only, or -PolicyScope Project -ProjectDirectory <project> for project instructions. Use -WhatIf to preview. Existing skills and project instructions are never overwritten. Restart Hermes and run hermes skills list. No administrator rights or machine execution-policy changes are needed. Remove only the printed pack directory and its marked SOUL.md block to undo an installation; preserve later persona edits when using a backup. Do not install overlapping profiles in one home.
+
 Install this ZIP as a skills-only plugin where supported, or copy the directories under skills/ into a user or repository skill directory.
 
 - Keep AGENTS.md in the trusted project root.
@@ -517,6 +519,9 @@ foreach ($profileProperty in $profileProperties) {
     Write-Utf8File (Join-Path $packageDirectory 'AGENTS.md') (Get-ProfileAgentInstructions $policy $baseSkills $completeBaseSkills $userFacingNames)
     if ($profileDefinition.include_engineering_core) {
         Copy-Item -LiteralPath (Join-Path $repoRoot 'ENGINEERING-CORE.md') -Destination $packageDirectory
+    }
+    foreach ($installer in @('install-hermes.ps1', 'install-hermes.bat')) {
+        Copy-Item -LiteralPath (Join-Path $repoRoot $installer) -Destination $packageDirectory
     }
     Copy-Item -LiteralPath (Join-Path $repoRoot 'LICENSE') -Destination $packageDirectory
     Copy-Item -LiteralPath (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md') -Destination $packageDirectory

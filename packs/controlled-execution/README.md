@@ -21,3 +21,29 @@ This extracted pack cannot authenticate itself. Its validator alone cannot prove
 
 ## Evidence and rights
 Structural checks cover inventories, source baselines, links, text format, rejection controls and deterministic ZIP contents. They do not prove selection, instruction understanding, task success, comprehension, formal conformity or local installation. This pack bundles no publisher file. Follow each `SOURCES.md` and [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for access and redistribution limits.
+
+## Install for Hermes on Windows
+
+Extract the entire ZIP. Run `install-hermes.bat` from the extracted pack. The wrapper uses PowerShell 7 when available, otherwise Windows PowerShell 5.1. No administrator rights are needed. It uses process-only execution-policy bypass; it does not change machine policy.
+
+The default installs this pack's skills into the current user's Hermes home and asks before it appends the pack's `AGENTS.md` policy to `SOUL.md`. Existing persona text stays intact. The installer prints the backup path when it changes an existing persona. Review the target and policy before confirming.
+
+Prefer a separate Hermes profile/home for a trial. Set the exact home explicitly:
+
+```powershell
+.\install-hermes.ps1 -HermesHome "C:\path\to\hermes-home"
+```
+
+For project-local instructions instead:
+
+```powershell
+.\install-hermes.ps1 -HermesHome "C:\path\to\hermes-home" -PolicyScope Project -ProjectDirectory "C:\path\to\project"
+```
+
+Use `-PolicyScope None` for skills only. Use `-WhatIf` to inspect the action without writing. Existing skill names, installed pack directories and project `AGENTS.md` files cause a failure before installation; they are never replaced. Use a separate home for overlapping profiles.
+
+The home defaults to `HERMES_HOME` when set; otherwise `%LOCALAPPDATA%\hermes` on Windows and `~/.hermes` elsewhere. Pass `-HermesHome` for another profile or a host version with a different default. Skills and resources remain under `skills/lean-<pack>/`; Hermes discovers their nested `SKILL.md` files. Root `AGENTS.md` remains with the installed pack. That copy is not a global prompt: global policy uses `SOUL.md`, while project policy uses the selected project's `AGENTS.md`. When present, the engineering companion stays in the installed pack. The policy names its exact installed path so it can be read for material engineering work without bloating the global prompt. Hermes can truncate oversized context files; a large existing persona may require project policy or an explicit context-file limit in Hermes configuration.
+
+The installer excludes `gated-skills/`. Installation does not adopt every standard or enforce OpenAI adapter routing in Hermes. Restart Hermes and run `hermes skills list` for the same home/profile. Discovery proves visibility, not model obedience.
+
+To remove a trial, stop Hermes and remove only the printed installed-pack directory after review. Remove only that pack's marked policy block from `SOUL.md`, or restore the printed backup if no later persona edits need preservation. For project scope, remove only the project instructions created by this installer.

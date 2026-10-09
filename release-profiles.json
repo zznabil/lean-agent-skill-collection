@@ -1,8 +1,8 @@
 {
-  "version": "8.15.0",
-  "release": "v8.15.0",
-  "release_title": "Three-Driver Communication Kernel",
-  "release_summary": "Rewrite all 134 skills and live authored resources around ASD-STE100-inspired language, ISO 704-inspired terminology, and Diátaxis organization; preserve task, safety, routing, evidence, and source-rights contracts.",
+  "version": "8.16.0",
+  "release": "v8.16.0",
+  "release_title": "Hermes Pack Installers",
+  "release_summary": "Add opt-in PowerShell and batch installers to all six profiles and three standalone packs for Hermes user-global skills and confirmed global or project policy installation. Preserve persona backups, companion resources, licensing boundaries, and existing skills.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

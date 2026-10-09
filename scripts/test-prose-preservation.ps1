@@ -99,7 +99,7 @@ function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [s
   $prefix=(Package-Name $Profile $Version)+'/'
   $expected=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
   $expected.Add('USER-FACING-STANDARDS-NOTICES.md',$script:proseInventory.RightsPath)
-  foreach ($relative in @('LICENSE','THIRD_PARTY_NOTICES.md'))
+  foreach ($relative in @('LICENSE','THIRD_PARTY_NOTICES.md','install-hermes.ps1','install-hermes.bat'))
   { $expected.Add($relative,(Join-Path $root $relative))
   }
   if ($Definition.include_engineering_core)

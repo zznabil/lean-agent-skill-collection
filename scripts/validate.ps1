@@ -272,10 +272,10 @@ function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
         '.vale.ini','.github/workflows/vale.yml','.github/styles/LeanAgent/SentenceLength.yml','.github/styles/LeanAgent/Terminology.yml','scripts/test-vale.ps1',
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
-        'AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
-        'docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/communications-omp.json','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',
-        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv','releases/v8.12.0/RELEASE-NOTES-v8.12.0.md','releases/v8.13.0/RELEASE-NOTES-v8.13.0.md','releases/v8.14.0/RELEASE-NOTES-v8.14.0.md','releases/v8.15.0/RELEASE-NOTES-v8.15.0.md',
-        'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/evaluate-communications.py','scripts/release-inventory.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
+        'install-hermes.ps1','install-hermes.bat','AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
+        'docs/HERMES-INTEGRATION.md','docs/AUDIT.md','docs/PROSE-CLARITY-v8.8.0.md','docs/REPOSITORY-AUDIT.md','docs/SKILL-CATALOG.md','docs/STANDARDS-REGISTER.md','docs/QUICK-MODE-DESIGN-v8.10.0.md','docs/evals/communications-omp.json','docs/evals/prose-preservation-v8.8.0.json','docs/evals/quick-mode-scenarios-v8.10.1.csv',
+        'packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/controlled-execution/CHECKSUMS.sha256','release-profiles.json','releases/v8.8.0/RELEASE-NOTES-v8.8.0.md','releases/v8.9.0/RELEASE-NOTES-v8.9.0.md','releases/v8.10.0/RELEASE-NOTES-v8.10.0.md','releases/v8.10.1/quick-mode-scenarios-v8.10.1.csv','releases/v8.12.0/RELEASE-NOTES-v8.12.0.md','releases/v8.13.0/RELEASE-NOTES-v8.13.0.md','releases/v8.14.0/RELEASE-NOTES-v8.14.0.md','releases/v8.15.0/RELEASE-NOTES-v8.15.0.md','releases/v8.16.0/RELEASE-NOTES-v8.16.0.md',
+        'scripts/audit-repository.ps1','scripts/build-release.ps1','scripts/evaluate-communications.py','scripts/release-inventory.ps1','scripts/test-hermes-install.ps1','scripts/test-prose-preservation.ps1','scripts/test-validator.ps1','scripts/validate.ps1'
     )
     foreach ($tree in @('skills','packs','docs','scripts','.codex-plugin','.github','releases')) {
         try { [void](Get-ReleaseInventorySafeFileTree (Join-Path $repoRoot $tree) "integrity tree $tree") }
@@ -334,7 +334,7 @@ function Test-RemainingStandardsPackIntegrity {
     $before = $failures.Count
     try {
         $ledger = Get-ReleaseRemainingStandardsLedger $repoRoot
-        if ($ledger.Records.Count -ne 234) { Add-Failure "remaining standards pack inventory expected 234 entries, found $($ledger.Records.Count)" }
+        if ($ledger.Records.Count -ne 237) { Add-Failure "remaining standards pack inventory expected 237 entries, found $($ledger.Records.Count)" }
         if (-not $ledger.Records.ContainsKey('audit/validate_bundle.py')) { Add-Failure 'remaining standards pack validator is not in the pinned inventory' }
         if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent remaining standards audit fixture is forbidden' }
     } catch { Add-Failure "remaining standards pack inventory validation failure: $($_.Exception.Message)" }
@@ -345,7 +345,7 @@ function Test-ControlledExecutionPackIntegrity {
     $before = $failures.Count
     try {
         $ledger = Get-ReleaseControlledExecutionLedger $repoRoot
-        if ($ledger.Records.Count -ne 38) { Add-Failure "controlled-execution pack inventory expected 38 entries, found $($ledger.Records.Count)" }
+        if ($ledger.Records.Count -ne 41) { Add-Failure "controlled-execution pack inventory expected 41 entries, found $($ledger.Records.Count)" }
         foreach ($required in @('audit/validate_pack.py','audit/build_zip.py','audit/test_validate_pack.py','SOURCE-BASELINE.sha256')) {
             if (-not $ledger.Records.ContainsKey($required)) { Add-Failure "controlled-execution pack required file is not in the pinned inventory: $required" }
         }
@@ -420,6 +420,8 @@ function Get-CanonicalSourceFileMap([object]$Profiles) {
         }
     }
     foreach ($mapping in @{
+        'install-hermes.ps1' = (Join-Path $repoRoot 'install-hermes.ps1')
+        'install-hermes.bat' = (Join-Path $repoRoot 'install-hermes.bat')
         'AGENTS.md' = (Join-Path $repoRoot 'AGENTS.md')
         'ENGINEERING-CORE.md' = (Join-Path $repoRoot 'ENGINEERING-CORE.md')
         'LICENSE' = (Join-Path $repoRoot 'LICENSE')
@@ -515,7 +517,8 @@ function Test-ZipArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefi
             if ($rawName.Contains([char]92)) { Add-Failure "backslash ZIP member '$rawName'" }
             $name = $rawName.Replace([char]92,'/')
             if (-not $fileExact.ContainsKey($name)) { $fileExact.Add($name,$entry) }
-            if ([IO.Path]::GetExtension($name).ToLowerInvariant() -in @('.exe','.dll','.com','.bat','.cmd','.sh','.ps1','.msi','.jar')) { Add-Failure "executable ZIP member '$name'" }
+            $allowedInstaller = $ProfileName -and ($name -ceq ((Get-PackageBaseName $ProfileName $Version) + '/install-hermes.ps1') -or $name -ceq ((Get-PackageBaseName $ProfileName $Version) + '/install-hermes.bat'))
+            if (-not $allowedInstaller -and [IO.Path]::GetExtension($name).ToLowerInvariant() -in @('.exe','.dll','.com','.bat','.cmd','.sh','.ps1','.msi','.jar')) { Add-Failure "executable ZIP member '$name'" }
             $stream = $entry.Open(); try { $buffer = New-Object byte[] 8192; while ($stream.Read($buffer,0,$buffer.Length) -gt 0) {} } catch { Add-Failure "unreadable or CRC-invalid ZIP member '$name'" } finally { $stream.Dispose() }
         }
         if (-not $ProfileName) { return }

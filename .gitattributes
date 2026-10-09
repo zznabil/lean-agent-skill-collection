@@ -7,6 +7,7 @@
 *.yaml text eol=lf
 *.yml text eol=lf
 *.ps1 text eol=lf
+*.bat text eol=lf
 /scripts/evaluate-communications.py text eol=lf
 *.cff text eol=lf
 *.csv text eol=lf
