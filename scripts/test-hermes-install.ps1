@@ -11,12 +11,16 @@ function Get-TestDigest([string]$Path) {
     try { return [pscustomobject]@{ Hash = [BitConverter]::ToString($sha.ComputeHash([IO.File]::ReadAllBytes($Path))).Replace('-', '') } }
     finally { $sha.Dispose() }
 }
-function Invoke-Installer([string]$HomePath, [string[]]$Extra = @()) {
+function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$ConcurrentPolicyPath = '') {
     $ErrorActionPreference = 'Continue'
     $command = "& '" + $script:fixtureInstaller.Replace("'", "''") + "' -HermesHome '" + $HomePath.Replace("'", "''") + "' -Confirm:" + '$false'
     foreach ($argument in $Extra) {
         if ($argument.StartsWith('-')) { $command += ' ' + $argument }
         else { $command += " '" + $argument.Replace("'", "''") + "'" }
+    }
+    if ($ConcurrentPolicyPath) {
+        $checkpoint = "Set-PSBreakpoint -Script '" + $script:fixtureInstaller.Replace("'", "''") + "' -Variable stage -Mode Write -Action { [IO.File]::WriteAllText('" + $ConcurrentPolicyPath.Replace("'", "''") + "', 'Concurrent user policy') } | Out-Null; "
+        $command = $checkpoint + $command
     }
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
     $output = & $engine -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encoded 2>&1 | Out-String
@@ -55,12 +59,13 @@ try {
     Assert ($result.Code -ne 0) 'Duplicate installation was accepted.'
     Assert ((Get-TestDigest $soul).Hash -eq $before) 'Duplicate install changed persona.'
     $collisionHome = Join-Path $work 'collision'
-    New-Item -ItemType Directory -Path (Join-Path $collisionHome 'skills/other/wait-what') -Force | Out-Null
-    $existingSkill = Join-Path $collisionHome 'skills/other/wait-what/SKILL.md'
-    [IO.File]::WriteAllText($existingSkill, 'Existing user skill')
+    New-Item -ItemType Directory -Path (Join-Path $collisionHome 'skills/other/custom-folder') -Force | Out-Null
+    $existingSkill = Join-Path $collisionHome 'skills/other/custom-folder/SKILL.md'
+    $existingSkillText = "---`nname: 'wait-what'`ndescription: Existing user skill`n---`nExisting user skill`n"
+    [IO.File]::WriteAllText($existingSkill, $existingSkillText)
     $result = Invoke-Installer $collisionHome
     Assert ($result.Code -ne 0) 'Duplicate skill name was accepted.'
-    Assert ([IO.File]::ReadAllText($existingSkill) -ceq 'Existing user skill') 'Existing skill changed.'
+    Assert ([IO.File]::ReadAllText($existingSkill) -ceq $existingSkillText) 'Existing skill changed.'
     Assert (-not (Test-Path (Join-Path $collisionHome 'SOUL.md'))) 'Collision wrote policy.'
     Assert (-not (Test-Path (Join-Path $collisionHome 'skills/lean-pack-with-spaces'))) 'Collision partially installed pack.'
     $project = Join-Path $work 'project'
@@ -79,12 +84,30 @@ try {
     Assert ($result.Code -eq 0) "Skills-only install failed: $($result.Output)"
     Assert (Test-Path (Join-Path $noneHome 'skills/lean-pack-with-spaces/skills/wait-what/SKILL.md')) 'Skills-only install omitted skill.'
     Assert (-not (Test-Path (Join-Path $noneHome 'SOUL.md'))) 'None scope wrote policy.'
+    foreach ($case in @('existing-global', 'new-global', 'project')) {
+        $raceHome = Join-Path $work ('race-' + $case)
+        New-Item -ItemType Directory -Path $raceHome | Out-Null
+        $racePolicy = Join-Path $raceHome 'SOUL.md'
+        $raceExtra = @()
+        if ($case -eq 'existing-global') { [IO.File]::WriteAllText($racePolicy, 'Initial persona') }
+        if ($case -eq 'project') {
+            $raceProject = Join-Path $work 'race-project-files'
+            New-Item -ItemType Directory -Path $raceProject | Out-Null
+            $racePolicy = Join-Path $raceProject 'AGENTS.md'
+            $raceExtra = @('-PolicyScope', 'Project', '-ProjectDirectory', $raceProject)
+        }
+        $result = Invoke-Installer -HomePath $raceHome -Extra $raceExtra -ConcurrentPolicyPath $racePolicy
+        Assert ($result.Code -ne 0) "Post-confirmation $case policy change was accepted."
+        Assert ([IO.File]::ReadAllText($racePolicy) -ceq 'Concurrent user policy') "Post-confirmation $case policy was overwritten."
+        Assert (-not (Test-Path (Join-Path $raceHome 'skills/lean-pack-with-spaces'))) "Policy race partially installed the $case pack."
+        Assert (@(Get-ChildItem -LiteralPath $raceHome -Filter 'SOUL.md.lean-backup-*').Count -eq 0) 'Policy race created a stale persona backup.'
+    }
     Remove-Item -LiteralPath (Join-Path $pack 'AGENTS.md')
     $missingHome = Join-Path $work 'missing-payload'
     $result = Invoke-Installer $missingHome
     Assert ($result.Code -ne 0) 'Missing AGENTS payload was accepted.'
     Assert (-not (Test-Path $missingHome)) 'Missing payload created a home.'
-    Write-Host 'HERMES_INSTALL_BOUNDARIES_PASS: preview, global, persona backup, duplicates, project, skills-only, missing payload'
+    Write-Host 'HERMES_INSTALL_BOUNDARIES_PASS: preview, global, persona backup, declared-name collisions, project, skills-only, policy races, missing payload'
 } finally {
     if (Test-Path -LiteralPath $work) { Remove-Item -LiteralPath $work -Recurse -Force }
 }

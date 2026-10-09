@@ -13,6 +13,26 @@ param(
     [string]$ProjectDirectory
 )
 $ErrorActionPreference = 'Stop'
+function Get-SkillIdentity([IO.FileInfo]$File) {
+    $content = [IO.File]::ReadAllText($File.FullName)
+    $header = [regex]::Match($content, '\A---(?<body>[\s\S]*?)\n---\s*\n')
+    if (-not $header.Success) { return $File.Directory.Name }
+    $body = $header.Groups['body'].Value
+    foreach ($line in ($body -split '\r?\n')) {
+        if ($line -match '^[^\s#]' -and $line -notmatch '^[a-zA-Z0-9_-]+\s*:') {
+            throw "Unsupported skill metadata at $($File.FullName). Review its declared name before installing."
+        }
+    }
+    $names = [regex]::Matches($body, '(?m)^[ \t]*name[ \t]*:[ \t]*(?<value>[^\r\n]*)')
+    if ($names.Count -eq 0) { return $File.Directory.Name }
+    if ($names.Count -ne 1) { throw "Ambiguous skill name at $($File.FullName). Use a separate Hermes home." }
+    $value = $names[0].Groups['value'].Value.Trim()
+    $literal = [regex]::Match($value, '^(?:([a-z0-9][a-z0-9_-]*)|''([a-z0-9][a-z0-9_-]*)''|"([a-z0-9][a-z0-9_-]*)")(?:[ \t]+#.*)?$')
+    if (-not $literal.Success -or $literal.Groups[1].Value -match '^(null|true|false|yes|no|on|off)$') {
+        throw "Unsupported skill name at $($File.FullName). Use a plain or quoted literal name, or a separate Hermes home."
+    }
+    foreach ($group in 1..3) { if ($literal.Groups[$group].Success) { return $literal.Groups[$group].Value } }
+}
 try {
     if ([string]::IsNullOrWhiteSpace($HermesHome)) {
         $HermesHome = $env:HERMES_HOME
@@ -38,10 +58,12 @@ try {
     $skillsHome = Join-Path $homePath 'skills'
     $destination = Join-Path $skillsHome $packName
     if (Test-Path -LiteralPath $destination) { throw "Pack already exists: $destination. Use a separate Hermes home or remove the previous installation after review." }
+    $incomingNames = @($skills | ForEach-Object { Get-SkillIdentity (Get-Item -LiteralPath (Join-Path $_.FullName 'SKILL.md')) })
     if (Test-Path -LiteralPath $skillsHome) {
         $existing = @(Get-ChildItem -LiteralPath $skillsHome -Filter SKILL.md -File -Recurse)
         foreach ($file in $existing) {
-            if ($skills.Name -contains $file.Directory.Name) { throw "Skill collision: $($file.Directory.Name) at $($file.Directory.FullName). Use a separate Hermes home." }
+            $identity = Get-SkillIdentity $file
+            if ($incomingNames -contains $identity -or $skills.Name -contains $file.Directory.Name) { throw "Skill collision: $identity at $($file.Directory.FullName). Use a separate Hermes home." }
         }
     }
     $policy = [IO.File]::ReadAllText($agentsPath)
@@ -57,7 +79,8 @@ try {
         $policyTarget = Join-Path $homePath 'SOUL.md'
         if (Test-Path -LiteralPath $policyTarget) {
             $oldPolicy = [IO.File]::ReadAllBytes($policyTarget)
-            $existingPolicy = [IO.File]::ReadAllText($policyTarget)
+            $policyReader = [IO.StreamReader]::new([IO.MemoryStream]::new($oldPolicy, $false), [Text.Encoding]::UTF8, $true)
+            try { $existingPolicy = $policyReader.ReadToEnd() } finally { $policyReader.Dispose() }
         } else { $existingPolicy = '' }
         $marker = "<!-- ${packName}:begin -->"
         if ($existingPolicy.Contains($marker)) { throw 'This pack already has a global policy block. Review the existing installation first.' }
@@ -98,6 +121,7 @@ try {
     $stage = Join-Path ([IO.Path]::GetTempPath()) ('lean-hermes-' + [guid]::NewGuid().ToString('N'))
     $installed = $false
     $backup = $null
+    $createdPolicy = $false
     try {
         New-Item -ItemType Directory -Path $stage | Out-Null
         foreach ($entry in $entries) { Copy-Item -LiteralPath $entry.FullName -Destination $stage -Recurse -Force }
@@ -105,15 +129,32 @@ try {
         Move-Item -LiteralPath $stage -Destination $destination
         $installed = $true
         if ($policyTarget) {
-            if ($null -ne $oldPolicy) {
-                $backup = $policyTarget + '.lean-backup-' + [guid]::NewGuid().ToString('N')
-                [IO.File]::WriteAllBytes($backup, $oldPolicy)
-            }
-            [IO.File]::WriteAllText($policyTarget, $newPolicy, (New-Object Text.UTF8Encoding($false)))
+            $mode = [IO.FileMode]::CreateNew
+            if ($null -ne $oldPolicy) { $mode = [IO.FileMode]::Open }
+            $policyStream = [IO.File]::Open($policyTarget, $mode, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
+            try {
+                if ($null -eq $oldPolicy) { $createdPolicy = $true }
+                else {
+                    $sha = [Security.Cryptography.SHA256]::Create()
+                    try {
+                        $expected = [Convert]::ToBase64String($sha.ComputeHash($oldPolicy))
+                        $actual = [Convert]::ToBase64String($sha.ComputeHash($policyStream))
+                    } finally { $sha.Dispose() }
+                    if ($actual -cne $expected) { throw "Policy changed after confirmation: $policyTarget. Review it and run the installer again." }
+                    $backup = $policyTarget + '.lean-backup-' + [guid]::NewGuid().ToString('N')
+                    [IO.File]::WriteAllBytes($backup, $oldPolicy)
+                }
+                $policyBytes = (New-Object Text.UTF8Encoding($false)).GetBytes($newPolicy)
+                $policyStream.Position = 0
+                $policyStream.Write($policyBytes, 0, $policyBytes.Length)
+                $policyStream.SetLength($policyBytes.Length)
+                $policyStream.Flush()
+            } finally { $policyStream.Dispose() }
         }
     } catch {
         if ($installed) { Remove-Item -LiteralPath $destination -Recurse -Force }
         if ($backup) { [IO.File]::WriteAllBytes($policyTarget, $oldPolicy) }
+        elseif ($createdPolicy) { Remove-Item -LiteralPath $policyTarget -Force }
         throw
     } finally {
         if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }

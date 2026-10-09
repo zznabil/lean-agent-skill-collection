@@ -35,7 +35,7 @@ After `INSTALLED:` appears, restart Hermes and run `hermes skills list` in the s
 
 ## Recovery and limitations
 
-Existing packs and project instructions are not overwritten. Installation failures remove installer-owned payload changes and restore an existing persona from its backup when available. For manual rollback, stop Hermes, restore the reported `SOUL.md.lean-backup-*` file and remove only the matching installer-owned pack directory. Review installed companion paths before removing another pack. Do not delete unrelated skills or instructions.
+Existing packs and project instructions are not overwritten. Collision checks include declared skill names. Plain names and single- or double-quoted literal names are supported; ambiguous metadata fails closed. Policy is checked again after confirmation under an exclusive file handle. Concurrent policy changes abort without overwriting them or creating a stale backup. Installation failures remove installer-owned payload changes and partial new policy files, and restore an existing persona from its backup when available. For manual rollback, stop Hermes, restore the reported `SOUL.md.lean-backup-*` file and remove only the matching installer-owned pack directory. Review installed companion paths before removing another pack. Do not delete unrelated skills or instructions.
 
 Hermes limits loaded SOUL text to 20,000 characters. Engineering policy links the installed ENGINEERING-CORE.md companion rather than embedding it. A very large preexisting persona can still exceed that limit; the installer does not change Hermes configuration.
 
