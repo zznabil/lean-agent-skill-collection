@@ -141,7 +141,7 @@ function Test-SupplementalInventoryAudit([object]$Profiles,[object]$Package) {
 function Test-RemainingStandardsPackAudit {
     try {
         $ledger = Get-ReleaseRemainingStandardsLedger $RepositoryRoot
-        if ($ledger.Records.Count -ne 234) { Add-Failure "remaining standards pack inventory expected 234 entries, found $($ledger.Records.Count)" }
+        if ($ledger.Records.Count -ne 237) { Add-Failure "remaining standards pack inventory expected 237 entries, found $($ledger.Records.Count)" }
         if (-not $ledger.Records.ContainsKey('audit/validate_bundle.py')) { Add-Failure 'remaining standards pack validator is missing from the pinned inventory' }
         if ($ledger.Records.ContainsKey('audit/evil.py')) { Add-Failure 'permanent remaining standards audit fixture is forbidden' }
         if ($failures.Count -eq 0) { Add-Pass 'root-pinned remaining standards pack inventory and validator' }
@@ -150,7 +150,7 @@ function Test-RemainingStandardsPackAudit {
 function Test-ControlledExecutionPackAudit {
     try {
         $ledger = Get-ReleaseControlledExecutionLedger $RepositoryRoot
-        if ($ledger.Records.Count -ne 38) { Add-Failure "controlled-execution pack inventory expected 38 entries, found $($ledger.Records.Count)" }
+        if ($ledger.Records.Count -ne 41) { Add-Failure "controlled-execution pack inventory expected 41 entries, found $($ledger.Records.Count)" }
         foreach ($required in @('audit/validate_pack.py','audit/build_zip.py','audit/test_validate_pack.py','SOURCE-BASELINE.sha256')) {
             if (-not $ledger.Records.ContainsKey($required)) { Add-Failure "controlled-execution pack required file is missing from the pinned inventory: $required" }
         }

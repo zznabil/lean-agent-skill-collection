@@ -1,12 +1,14 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.15.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.16.0-2563eb)](CHANGELOG.md)
 [![Base skills](https://img.shields.io/badge/base_skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
 A compact, source-browsable collection of 24 vendor-neutral agent skills for engineering, research, communication, documents, experiments, fast-path delivery, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+
+V8.16.0 adds `install-hermes.ps1` and `install-hermes.bat` to every generated profile and standalone pack. Install user-global Hermes skills, then confirm global SOUL.md policy or select project AGENTS.md. Existing persona text is backed up; skill collisions and existing project policy are not overwritten. Read the [release notes](releases/v8.16.0/RELEASE-NOTES-v8.16.0.md) and [Hermes installation guide](docs/HERMES-INTEGRATION.md).
 
 V8.15.0 rewrites all 134 skills, live authored companion resources, adapter prompts, and root policy around the three-driver communication kernel. Task-specific safety, permissions, evidence, routing, and source rights remain intact. Read the [release notes](releases/v8.15.0/RELEASE-NOTES-v8.15.0.md).
 
@@ -104,14 +106,14 @@ UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 On PowerShell 7 or Windows PowerShell 5.1:
 
 ```powershell
-./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.15.0
-./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.15.0
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.15.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.15.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.15.0
+./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.16.0
+./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
 ```
 
-For an optional live communication check, install the OMP CLI, then run `python scripts/evaluate-communications.py --package ./artifacts/v8.15.0/user-facing-communication-mini-openai-v8.15.0.zip --out ./artifacts/communication-live`. The runner records each case and trace; its score applies only to the fixed prompts and current generated package.
+For an optional live communication check, install the OMP CLI, then run `python scripts/evaluate-communications.py --package ./artifacts/v8.16.0/user-facing-communication-mini-openai-v8.15.0.zip --out ./artifacts/communication-live`. The runner records each case and trace; its score applies only to the fixed prompts and current generated package.
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 

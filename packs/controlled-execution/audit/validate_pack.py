@@ -28,7 +28,7 @@ EXPECTED_SKILLS = (
 )
 SOURCE_BASELINE_NAME = "SOURCE-BASELINE.sha256"
 SOURCE_BASELINE_SHA256 = (
-    "f508b147434bb06990975b5d7d502efd9dfde2e42064c9278a9009336ac41386"
+    "c111c254b6c446231b136e62a7e914cde5b8c6302f34fefd663750bd84b6c1f1"
 )
 SOURCE_BASELINE_EXCLUDED = frozenset(
     {"CHECKSUMS.sha256", SOURCE_BASELINE_NAME, "audit/validate_pack.py"}
@@ -52,6 +52,9 @@ CONTROL_FIELDS = (
     "REFERENCES",
 )
 FIXED_FILES = {
+    "AGENTS.md",
+    "install-hermes.ps1",
+    "install-hermes.bat",
     "README.md",
     "CATALOG.md",
     "CONTROL-MODEL.md",

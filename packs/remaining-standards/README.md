@@ -11,7 +11,7 @@ Read [CATALOG.md](CATALOG.md). Select the routine for the actual task. Then read
 - Each `SKILL.md` contains **57–62 physical lines**, including frontmatter and blank lines. Each description has at most 60 characters.
 - A skill's `official/` directory contains available original publisher/author references and their notices. Some sources have no available or redistributable PDF.
 
-This pack adds no hook, runtime, installer or automatic prompt injection. A prose description and trigger do not guarantee that a host enforces selection policy. When a host loads trusted root `AGENTS.md`, its communication policy governs every selected skill. Each `SKILL.md` also contains a standalone communication kernel. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when helpful. This kernel applies with or without root policy, including direct standalone installs. Each routine retains its scoped steps, worked check and missing-evidence recovery. Do not claim that a host loaded root policy without evidence. Loading a language or standard routine does not permit an attack, release publication, production mutation or edits to trusted instructions.
+This pack adds opt-in Hermes installers and scoped `AGENTS.md`, but no hook, runtime or automatic prompt injection before installation. A prose description and trigger do not guarantee that a host enforces selection policy. When a host loads trusted root `AGENTS.md`, its communication policy governs every selected skill. Each `SKILL.md` also contains a standalone communication kernel. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when helpful. This kernel applies with or without root policy, including direct standalone installs. Each routine retains its scoped steps, worked check and missing-evidence recovery. Do not claim that a host loaded root policy without evidence. Loading a language or standard routine does not permit an attack, release publication, production mutation or edits to trusted instructions.
 
 ## PDF and source coverage
 
@@ -50,3 +50,29 @@ The repository's `UPSTREAM-CHECKSUMS.sha256` separately pins this pack's checksu
 Installing this optional pack does not itself change canonical task skills, release-profile membership, root safeguards, user-facing release packs or trusted user instructions. Check the host's discovery rules. Copy only selected skill folders into its documented directory. Keep skill-local source files with their owner. Repository changes outside this pack are separate from this installation boundary.
 
 The companion all-97 ZIP keeps this pack separate from the PR16-derived user-facing standards pack. That user-facing pack is now the integrated pack with its documented CAST repair. The companion ZIP does not install 97 active skills as one profile.
+
+## Install for Hermes on Windows
+
+Extract the entire ZIP. Run `install-hermes.bat` from the extracted pack. The wrapper uses PowerShell 7 when available, otherwise Windows PowerShell 5.1. No administrator rights are needed. It uses process-only execution-policy bypass; it does not change machine policy.
+
+The default installs this pack's skills into the current user's Hermes home and asks before it appends the pack's `AGENTS.md` policy to `SOUL.md`. Existing persona text stays intact. The installer prints the backup path when it changes an existing persona. Review the target and policy before confirming.
+
+Prefer a separate Hermes profile/home for a trial. Set the exact home explicitly:
+
+```powershell
+.\install-hermes.ps1 -HermesHome "C:\path\to\hermes-home"
+```
+
+For project-local instructions instead:
+
+```powershell
+.\install-hermes.ps1 -HermesHome "C:\path\to\hermes-home" -PolicyScope Project -ProjectDirectory "C:\path\to\project"
+```
+
+Use `-PolicyScope None` for skills only. Use `-WhatIf` to inspect the action without writing. Existing skill names, installed pack directories and project `AGENTS.md` files cause a failure before installation; they are never replaced. Use a separate home for overlapping profiles.
+
+The home defaults to `HERMES_HOME` when set; otherwise `%LOCALAPPDATA%\hermes` on Windows and `~/.hermes` elsewhere. Pass `-HermesHome` for another profile or a host version with a different default. Skills and resources remain under `skills/lean-<pack>/`; Hermes discovers their nested `SKILL.md` files. Root `AGENTS.md` remains with the installed pack. That copy is not a global prompt: global policy uses `SOUL.md`, while project policy uses the selected project's `AGENTS.md`. When present, the engineering companion stays in the installed pack. The policy names its exact installed path so it can be read for material engineering work without bloating the global prompt. Hermes can truncate oversized context files; a large existing persona may require project policy or an explicit context-file limit in Hermes configuration.
+
+The installer excludes `gated-skills/`. Installation does not adopt every standard or enforce OpenAI adapter routing in Hermes. Restart Hermes and run `hermes skills list` for the same home/profile. Discovery proves visibility, not model obedience.
+
+To remove a trial, stop Hermes and remove only the printed installed-pack directory after review. Remove only that pack's marked policy block from `SOUL.md`, or restore the printed backup if no later persona edits need preservation. For project scope, remove only the project instructions created by this installer.

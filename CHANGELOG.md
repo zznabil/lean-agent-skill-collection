@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 8.16.0 — 2026-10-09
+
+- Add opt-in PowerShell and batch Hermes installers to every generated profile and standalone pack. Install user-global skills with their resources; support global SOUL.md policy or project AGENTS.md. Preserve persona text and refuse skill collisions and project-policy replacement. Exclude off-default gated routines.
+
+- Pin BAT checkout line endings to LF to preserve installer integrity on Windows.
 
 ## 8.15.0 — 2026-10-01
 

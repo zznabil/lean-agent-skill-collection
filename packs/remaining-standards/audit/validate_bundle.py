@@ -13,7 +13,7 @@ ISO = {3, 4, 5, 6, 18, 32, 40, 41, 42, 47, 49, 50, 51, 63, 64, 65, 72, 73, 74}
 SOURCE_MANIFEST_SHA256 = '85d72b7c738dd97683cb1a2c090f752af8b729666f576e2a2db8617f42101166'
 SKILL_INVENTORY_SHA256 = '72a8ad9696fa1987bf26ad89ebe5c647fb40f7995ad79bcbda03c8f0be6a8475'
 REGISTER_BLOB = '983cd4532cbf97dd77c4446accaf358b5317fcfa'
-SOURCE_BASELINE_SHA256 = '5fb2e8aef53d2b177065ba30ecb44bd01880c812d9e2b3d4d8dfe22c5f8766ba'
+SOURCE_BASELINE_SHA256 = '0e02e9849417e15885a9e5d65e1eb841a52b4df7bb51dcdbf61ab640dbbfc7b5'
 SOURCE_BASELINE_NAME = 'SOURCE-BASELINE.sha256'
 SOURCE_BASELINE_EXCLUDED = {'CHECKSUMS.sha256', SOURCE_BASELINE_NAME, 'audit/validate_bundle.py'}
 
@@ -68,7 +68,8 @@ def validate(root: Path) -> dict:
     require(len(rels) == len({p.casefold() for p in rels}), 'Case-colliding paths')
     for rel in rels:
         safe_path(root, rel)
-        require(Path(rel).suffix.lower() not in {'.exe', '.dll', '.ps1', '.bat', '.cmd', '.sh'},
+        require(rel in {'install-hermes.ps1', 'install-hermes.bat'} or
+                Path(rel).suffix.lower() not in {'.exe', '.dll', '.ps1', '.bat', '.cmd', '.sh'},
                 f'Unexpected executable payload: {rel}')
     checkfile = root / 'CHECKSUMS.sha256'
     require(checkfile.is_file(), 'Checksum inventory missing')
