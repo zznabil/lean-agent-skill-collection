@@ -495,6 +495,7 @@ foreach ($profileProperty in $profileProperties) {
     $packageDirectory = Join-Path $workDirectory $packageBaseName
     New-Item -ItemType Directory -Path (Join-Path $packageDirectory '.codex-plugin') -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $packageDirectory 'skills') -Force | Out-Null
+    New-Item -ItemType Directory -Path (Join-Path $packageDirectory 'docs') -Force | Out-Null
     $copyEntries = New-Object System.Collections.Generic.List[object]
     $destinationSeen = @{}
     foreach ($skillName in $baseSkills) {
@@ -523,6 +524,7 @@ foreach ($profileProperty in $profileProperties) {
     foreach ($installer in @('install-hermes.ps1', 'install-hermes.bat')) {
         Copy-Item -LiteralPath (Join-Path $repoRoot $installer) -Destination $packageDirectory
     }
+    Copy-Item -LiteralPath (Join-Path $repoRoot 'docs/SKILL-COMPOSITION.md') -Destination (Join-Path $packageDirectory 'docs/SKILL-COMPOSITION.md')
     Copy-Item -LiteralPath (Join-Path $repoRoot 'LICENSE') -Destination $packageDirectory
     Copy-Item -LiteralPath (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md') -Destination $packageDirectory
     Copy-Item -LiteralPath $userFacingRightsNoticePath -Destination (Join-Path $packageDirectory 'USER-FACING-STANDARDS-NOTICES.md')

@@ -2,6 +2,8 @@
 
 ## 8.17.0 — 2026-10-10
 
+- Package the unchanged `docs/SKILL-COMPOSITION.md` guide in every generated profile so the root policy reference resolves. Validate canonical guide bytes and reject missing or modified guides even after package checksums are recomputed.
+
 - Formalise lean skill composition with one primary lifecycle owner, distinct supporting responsibilities and deterministic ownership conflict handling. Preserve independent assurance failures and required evidence in one final report.
 - Add self-contained composition fallbacks to Quick Mode, Get It Done, Gauntlet Loop, Browser Automation, Project Context, Release and Skill Design routing. Scope reduction cannot weaken mandatory acceptance, authorization, release integrity or destructive safeguards.
 - Add focused trace-backed OMP decision evaluation and failure-sensitive calibration. Keep live decisions, actual interface execution, package structure and untested hosts distinct. Preserve all 24 base routes, six profile inventories, communication fallbacks, Hermes installers and source-only pack boundaries.

@@ -300,7 +300,12 @@ try {
         $failures.Clear(); Test-ZipArchive $packageSource $profileName $profiles.profiles.PSObject.Properties[$profileName].Value $profiles.version $canonicalMap
         if ($failures.Count -ne 0) { throw "Clean package positive control failed: $profileName" }
     }
+    $failures.Clear(); Test-ReleaseArtifacts $artifactRoot $profiles
+    if ($failures.Count -ne 0) { throw 'Clean full artifact positive control failed' }
+    Write-Host 'PASS: clean full artifact positive control' -ForegroundColor Green
     $packageControls=@(
+        [pscustomobject]@{ Name='missing composition guide with package rehash'; Expected='missing canonical source file: docs/SKILL-COMPOSITION.md'; Rehash=$true; Mutator={ param($m,$p); [void]$m.Remove($p+'docs/SKILL-COMPOSITION.md') } },
+        [pscustomobject]@{ Name='modified composition guide with package rehash'; Expected='canonical source byte mismatch: docs/SKILL-COMPOSITION.md'; Rehash=$true; Mutator={ param($m,$p); $q=$p+'docs/SKILL-COMPOSITION.md'; $n=$m[$q]; $n[0]=$n[0] -bxor 1; $m[$q]=$n } },
         [pscustomobject]@{ Name='profile agent mapping omission after package rehash'; Expected='agent instructions differ'; Rehash=$true; Mutator={ param($m,$p); $q=$p+'AGENTS.md'; $t=[Text.Encoding]::UTF8.GetString($m[$q]); $m[$q]=[Text.Encoding]::UTF8.GetBytes([regex]::Replace($t,'(?m)^- `gauntlet-loop`[^\n]*\n','')) } },
         [pscustomobject]@{ Name='U nested reference byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'skills/standard-wcag22/references/wcag22-official.html.txt']=$x } },
         [pscustomobject]@{ Name='supplemental rights notice byte tamper with package rehash'; Expected='canonical byte length mismatch'; Rehash=$true; Mutator={ param($m,$p); $n=$m[$p+'USER-FACING-STANDARDS-NOTICES.md']; $x=New-Object byte[] ($n.Length+1); [Array]::Copy($n,$x,$n.Length); $x[$n.Length]=90; $m[$p+'USER-FACING-STANDARDS-NOTICES.md']=$x } },

@@ -2,6 +2,8 @@
 
 ## Changes
 
+- Include the unchanged `docs/SKILL-COMPOSITION.md` guide in all six generated profiles. The packaged root policy reference now resolves locally. Canonical archive validation rejects a missing or modified guide even with recomputed package checksums.
+
 - One primary lifecycle owner: explicit user designation, otherwise selected Get It Done, otherwise the unique substantive task skill after support roles are assigned. Unresolved competing claims stop affected actions.
 - Quick Mode modifies authorized optional scope. Browser Automation owns execution evidence. Gauntlet Loop retains independent assurance. Project Context supplies readiness. Release retains its go/no-go gates. One owner reports final task status without hiding failed or missing assurance.
 - Mandatory safety, repository policy, authorization and explicit acceptance precede role defaults. Quick Mode cannot weaken destructive safeguards, release gates or publication integrity.

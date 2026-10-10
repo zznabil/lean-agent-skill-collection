@@ -423,6 +423,7 @@ function Get-CanonicalSourceFileMap([object]$Profiles) {
         'install-hermes.ps1' = (Join-Path $repoRoot 'install-hermes.ps1')
         'install-hermes.bat' = (Join-Path $repoRoot 'install-hermes.bat')
         'AGENTS.md' = (Join-Path $repoRoot 'AGENTS.md')
+        'docs/SKILL-COMPOSITION.md' = (Join-Path $repoRoot 'docs/SKILL-COMPOSITION.md')
         'ENGINEERING-CORE.md' = (Join-Path $repoRoot 'ENGINEERING-CORE.md')
         'LICENSE' = (Join-Path $repoRoot 'LICENSE')
         'THIRD_PARTY_NOTICES.md' = (Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md')
