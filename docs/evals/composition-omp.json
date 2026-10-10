@@ -111,7 +111,8 @@
         "repair_failure",
         "rerun_assurance",
         "verify_slice",
-        "run_required_gate"
+        "run_required_gate",
+        "run_independent_assurance"
       ],
       "allowed_deferred": [
         "acceptance",
@@ -357,7 +358,8 @@
       "allowed_deferred": [
         "uat_acceptance",
         "completion",
-        "acceptance"
+        "acceptance",
+        "implementation"
       ]
     },
     {
@@ -617,7 +619,7 @@
       ],
       "standalone": true,
       "unavailable_owner": "get-it-done",
-      "prompt": "Only standalone quick-mode and browser-automation are available. The user explicitly designated get-it-done as lifecycle owner, but its skill source is unavailable and it is not installed in this scenario. A required browser task depends on that owner. Decide whether dependent work or acceptance may proceed before the designated owner prerequisite is restored; do not replace the explicit owner silently. Judge current acceptance/completion of the affected task, not merely whether safe prerequisite work can be planned.",
+      "prompt": "Only standalone quick-mode and browser-automation are available. The user explicitly designated get-it-done as lifecycle owner, but its skill source is unavailable and it is not installed in this scenario. A required browser task depends on that owner. Decide whether dependent work or acceptance may proceed before the designated owner prerequisite is restored; do not replace the explicit owner silently. Judge current acceptance/completion of the affected task, not merely whether safe prerequisite work can be planned. Return only immediately permitted actions for the current missing-owner state. Do not list eventual dependent work that would require first restoring the owner prerequisite.",
       "expected": {
         "owner": "get-it-done",
         "verdict": "HOLD",
