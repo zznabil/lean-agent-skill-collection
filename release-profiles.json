@@ -1,8 +1,8 @@
 {
-  "version": "8.16.0",
-  "release": "v8.16.0",
-  "release_title": "Hermes Pack Installers",
-  "release_summary": "Add opt-in PowerShell and batch installers to all six profiles and three standalone packs for Hermes user-global skills and confirmed global or project policy installation. Preserve persona backups, companion resources, licensing boundaries, and existing skills.",
+  "version": "8.17.0",
+  "release": "v8.17.0",
+  "release_title": "Lean Skill Composition",
+  "release_summary": "Formalise one primary lifecycle owner, distinct supporting responsibilities, deterministic conflict handling and independent assurance. Preserve standalone fallbacks, profile membership, Hermes installers and source-only pack boundaries.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

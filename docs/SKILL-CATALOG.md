@@ -1,5 +1,7 @@
 # Lean Agent Skills V8.10.1 catalog
 
+Current composition rules: [Skill composition](SKILL-COMPOSITION.md). They preserve the catalog membership and invocation policy below.
+
 V8.10.1 adds `quick-mode` as an explicit user-selected fast path in Core, Engineering, Complete, and Get It Done. It is not automatically selected by short questions or duration requests.
 
 V8.9.0 supplemental standards remain available in the integrated generated profiles through `packs/user-facing-standards/`; they add no adapters and retain explicit rights and public-source limitations.

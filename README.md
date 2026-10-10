@@ -1,12 +1,14 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.16.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.17.0-2563eb)](CHANGELOG.md)
 [![Base skills](https://img.shields.io/badge/base_skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
 A compact, source-browsable collection of 24 vendor-neutral agent skills for engineering, research, communication, documents, experiments, fast-path delivery, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+
+V8.17.0 formalises [skill composition](docs/SKILL-COMPOSITION.md): one lifecycle owner, distinct supporting roles, deterministic conflicts and independent assurance. Existing profiles, standalone folders and Hermes installers remain supported. Read the [release notes](releases/v8.17.0/RELEASE-NOTES-v8.17.0.md).
 
 V8.16.0 adds `install-hermes.ps1` and `install-hermes.bat` to every generated profile and standalone pack. Install user-global Hermes skills, then confirm global SOUL.md policy or select project AGENTS.md. Existing persona text is backed up; skill collisions and existing project policy are not overwritten. Read the [release notes](releases/v8.16.0/RELEASE-NOTES-v8.16.0.md) and [Hermes installation guide](docs/HERMES-INTEGRATION.md).
 
@@ -57,12 +59,12 @@ Choose one profile. Do not install overlapping profiles together.
 
 | Profile | Base | Supplemental | Total | Best for | Generated package |
 |---|---:|---:|---:|---|---|
-| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.15.0.zip` |
-| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.15.0.zip` |
-| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.15.0.zip` |
-| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.15.0.zip` |
-| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.15.0.zip` |
-| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.15.0.zip` |
+| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.17.0.zip` |
+| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.17.0.zip` |
+| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.17.0.zip` |
+| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.17.0.zip` |
+| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.17.0.zip` |
+| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.17.0.zip` |
 
 The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated. Quick Mode is included in Core, Engineering, Complete, and Get It Done only.
 
@@ -106,14 +108,18 @@ UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 On PowerShell 7 or Windows PowerShell 5.1:
 
 ```powershell
-./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.16.0
-./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.16.0
+./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.17.0
+./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.17.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.17.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.17.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.17.0
 ```
 
-For an optional live communication check, install the OMP CLI, then run `python scripts/evaluate-communications.py --package ./artifacts/v8.16.0/user-facing-communication-mini-openai-v8.15.0.zip --out ./artifacts/communication-live`. The runner records each case and trace; its score applies only to the fixed prompts and current generated package.
+For composition-oracle calibration, run `python -B scripts/evaluate-composition.py --self-test`. For live decision checks, run `python -B scripts/evaluate-composition.py --package ./artifacts/v8.17.0/lean-agent-skills-complete-openai-v8.17.0.zip --out ./artifacts/composition-live`. These are decisions, not browser execution or universal model-obedience proof.
+
+In OMP JavaScript Eval, load `scripts/composition-browser-uat.js`. Replay `await compositionBrowserUat(false)` twice; `await compositionBrowserUat(true)` must reject with `UAT_RESULT_FAILED`. Pass an isolated browser executable as the optional second argument if the host default uses an unavailable relay. The artifact verifies a disposable real-browser fixture, not an arbitrary product.
+
+For an optional live communication check, install the OMP CLI, then run `python scripts/evaluate-communications.py --package ./artifacts/v8.17.0/user-facing-communication-mini-openai-v8.17.0.zip --out ./artifacts/communication-live`. The runner records each case and trace; its score applies only to the fixed prompts and current generated package.
 
 The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 

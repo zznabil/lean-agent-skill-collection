@@ -31,6 +31,9 @@ jobs:
             throw "Non-deterministic output: $($file.Name)"
           }
         }
+    - name: Calibrate composition decision oracle
+      shell: pwsh
+      run: python -B scripts/evaluate-composition.py --self-test
     - name: Test Hermes installer boundaries
       shell: pwsh
       run: ./scripts/test-hermes-install.ps1
@@ -87,6 +90,9 @@ jobs:
             throw "Non-deterministic output: $($file.Name)"
           }
         }
+    - name: Calibrate composition decision oracle
+      shell: powershell
+      run: python -B scripts/evaluate-composition.py --self-test
     - name: Test Hermes installer boundaries
       shell: powershell
       run: ./scripts/test-hermes-install.ps1
