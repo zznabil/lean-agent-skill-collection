@@ -13,7 +13,9 @@ Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired 
 5. **Absorb** useful precise rules into an existing skill or conditional reference when workflows overlap.
 6. **Reject** provider wrappers, session-start routers, automatic trusted-file mutation, duplicate doctrine, promotion, arbitrary gates, unreviewed dynamic code execution, and infrastructure whose risk and cost exceed its behavioral value.
 ## Stack and route
-1. Choose one primary skill whose leading action matches the request. Add another only for a distinct phase or independent review. Do not preload or chain a catalog by default.
+1. Choose one primary task skill. Add support only for a distinct scope, execution, context or assurance responsibility. Resolve lifecycle ownership by explicit user designation, otherwise selected `get-it-done`, otherwise the unique substantive task skill. Stop affected actions if ownership remains ambiguous or the owner is not available, selected and loaded. Do not preload or chain a catalog by default. Alone, the selected skill retains its normal ownership.
+   - Scope modifiers cannot weaken mandatory safety, trusted policy, authorization or acceptance. Capability executors own their evidence; assurance retains independent failed verdicts. Supporters do not issue final task status. The owner reports evidence and failures once; failed or missing required evidence prevents accepted completion. Presentation changes no facts, permissions or verdicts.
+   - Standalone folders must carry these fallbacks without sibling or root dependencies. Unavailable required support blocks dependent acceptance; do not silently skip it.
 2. For a stack or runtime, record exact IDs, source revision or digest, host and scope, purpose, overlap decision, permissions, executable surfaces, update behavior, and rollback.
    - For a standard, record version, status, official source, review date, Lean home, and next review trigger.
    - Preview before you apply changes.

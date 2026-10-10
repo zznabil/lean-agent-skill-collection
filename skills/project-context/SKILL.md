@@ -6,6 +6,11 @@ description: "Create a task brief or durable project context; map verified repos
 Choose one mode. Do not learn automatically.
 ## Communication kernel
 Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. This guidance does not establish formal standards conformance.
+## Composition
+For a composed task, use one primary lifecycle owner: the explicit user-designated owner; otherwise selected `get-it-done`; otherwise the unique substantive task skill after assigning support roles. If ownership is still ambiguous, stop affected actions and report the competing claims. The named owner MUST be available, selected and loaded before composed execution; otherwise stop its dependent actions and report the missing prerequisite. Safe independent inspection may continue. Availability alone proves neither selection nor loading. Alone, this skill retains its normal ownership and status rules.
+When supporting execution, provide context provenance and readiness to the primary owner. `READY` is context readiness, not proof of implementation, acceptance or task completion. Do not become a second controller or require a root document to use this standalone folder.
+Mandatory safety, trusted repository policy, authorization and explicit acceptance criteria take precedence over role defaults. A supporter MUST NOT claim task completion or change permissions. Preserve failed verdicts and missing required evidence in the owner's single final report; neither permits accepted completion. Presentation changes no facts, scope or verdicts.
+
 ## Task-brief / context-preflight mode
 Use this mode when the user asks to inventory context before planning, implementation, delegation, review, or handoff. Read [TASK-BRIEF.md](TASK-BRIEF.md) for the reusable schema.
 1. Choose **Direct**, **Standard**, or **Durable** depth. Gather the minimum context sufficient to act safely and verify the requested outcome. Do not maximise context volume.

@@ -156,6 +156,41 @@ function Invoke-ArtifactRejection([string]$Name,[scriptblock]$Mutator,[string]$E
 }
 
 try {
+    # Checkout with Windows conversion must retain pinned script bytes.
+    $checkoutRepo = Join-Path $fixtureRoot 'checkout-bytes'
+    New-Item -ItemType Directory -Path (Join-Path $checkoutRepo 'scripts') -Force | Out-Null
+    $checkoutPaths = @('scripts/evaluate-composition.py', 'scripts/composition-browser-uat.js')
+    Copy-Item -LiteralPath (Join-Path $repoRoot '.gitattributes') -Destination $checkoutRepo
+    foreach ($relative in $checkoutPaths) { Copy-Item -LiteralPath (Join-Path $repoRoot $relative) -Destination (Join-Path $checkoutRepo $relative) }
+    & git init --quiet $checkoutRepo
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot initialize isolated checkout-byte fixture' }
+    & git -C $checkoutRepo -c core.autocrlf=false add -- .gitattributes @checkoutPaths
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot stage isolated checkout-byte fixture' }
+    $checkoutPositive = (Join-Path $fixtureRoot 'checkout-positive').Replace('\', '/') + '/'
+    & git -C $checkoutRepo -c core.autocrlf=true checkout-index --all "--prefix=$checkoutPositive"
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot execute positive Windows-conversion checkout' }
+    foreach ($relative in $checkoutPaths) {
+        if ((Get-FileSha256 (Join-Path $checkoutPositive $relative)) -cne (Get-FileSha256 (Join-Path $repoRoot $relative))) {
+            throw "Windows-conversion checkout changed pinned script bytes: $relative"
+        }
+    }
+    Write-Host 'PASS: Windows-conversion checkout retains composition script bytes' -ForegroundColor Green
+    $checkoutAttributes = Join-Path $checkoutRepo '.gitattributes'
+    $unguardedAttributes = [IO.File]::ReadAllText($checkoutAttributes)
+    foreach ($relative in $checkoutPaths) { $unguardedAttributes = $unguardedAttributes.Replace("/$relative text eol=lf" + [char]10, '') }
+    [IO.File]::WriteAllText($checkoutAttributes, $unguardedAttributes, (New-Object Text.UTF8Encoding($false)))
+    & git -C $checkoutRepo -c core.autocrlf=false add -- .gitattributes
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot stage broken checkout-byte fixture' }
+    $checkoutBroken = (Join-Path $fixtureRoot 'checkout-broken').Replace('\', '/') + '/'
+    & git -C $checkoutRepo -c core.autocrlf=true checkout-index --all "--prefix=$checkoutBroken"
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot execute broken Windows-conversion checkout' }
+    foreach ($relative in $checkoutPaths) {
+        if ((Get-FileSha256 (Join-Path $checkoutBroken $relative)) -ceq (Get-FileSha256 (Join-Path $repoRoot $relative))) {
+            throw "Checkout-byte negative control did not expose removed LF protection: $relative"
+        }
+    }
+    Write-Host 'PASS rejection: removing LF protection changes pinned composition script bytes' -ForegroundColor Green
+
     $failures.Clear(); Test-SkillTree $profiles
     if ($failures.Count -ne 0) { throw 'Clean Task Brief support positive control failed' }
     $skillTreeFixture = Join-Path $fixtureRoot 'missing-task-brief'

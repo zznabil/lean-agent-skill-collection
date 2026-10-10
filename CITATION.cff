@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this collection, cite the repository and the release you installed."
 title: "Lean Agent Skill Collection"
-version: 8.16.0
-date-released: 2026-10-09
+version: 8.17.0
+date-released: 2026-10-10
 type: software
 authors:
   - family-names: "zznabil"

@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.17.0 — 2026-10-10
+
+- Formalise lean skill composition with one primary lifecycle owner, distinct supporting responsibilities and deterministic ownership conflict handling. Preserve independent assurance failures and required evidence in one final report.
+- Add self-contained composition fallbacks to Quick Mode, Get It Done, Gauntlet Loop, Browser Automation, Project Context, Release and Skill Design routing. Scope reduction cannot weaken mandatory acceptance, authorization, release integrity or destructive safeguards.
+- Add focused trace-backed OMP decision evaluation and failure-sensitive calibration. Keep live decisions, actual interface execution, package structure and untested hosts distinct. Preserve all 24 base routes, six profile inventories, communication fallbacks, Hermes installers and source-only pack boundaries.
+
+- Pin the new evaluation scripts to LF. Exercise actual Windows-conversion checkouts and reject removed LF protections before accepting raw-byte integrity.
+
 ## 8.16.0 — 2026-10-09
 
 - Add opt-in PowerShell and batch Hermes installers to every generated profile and standalone pack. Install user-global skills with their resources; support global SOUL.md policy or project AGENTS.md. Preserve persona text and refuse skill collisions and project-policy replacement. Exclude off-default gated routines.
