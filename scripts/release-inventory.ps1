@@ -272,7 +272,7 @@ $script:ExpectedRemainingStandardsPackLedgerSha256 = '7112b6f4cc3a45ae18d58a13f5
 function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
-$script:ExpectedControlledExecutionPackLedgerSha256 = '64ceab217e9ea6eec60129437635a9beaa71ba6bd3cb140a2c56db3ec7a8627a'
+$script:ExpectedControlledExecutionPackLedgerSha256 = 'cb2e5a6307892ca7e11678b9cbe23c0c5920e9a290c9bc66459fac560fa47b73'
 function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/controlled-execution' $script:ExpectedControlledExecutionPackLedgerSha256 'controlled-execution pack'
 }
