@@ -94,8 +94,11 @@ def text_content(message):
     return "".join(part.get("text", "") for part in message.get("content", []) if part.get("type") == "text")
 
 
-def loaded_sources(events, sources, paths):
-    """Accumulate verified source lines from paired successful whole/range reads."""
+def loaded_sources(events, sources, paths, *, read_skills=None):
+    """Verify source lines; optionally record successful read activity separately.
+
+    A partial or substituted read is activity, but is not complete source proof.
+    """
     pending, seen = {}, set()
     coverage = {name: set() for name in sources}
     for event in events:
@@ -121,6 +124,8 @@ def loaded_sources(events, sources, paths):
         if read is None or event.get("isError") or message.get("isError"):
             continue
         name, start, end = read
+        if read_skills is not None:
+            read_skills.add(name)
         expected = sources[name].splitlines()
         text = text_content(message)
         if text.splitlines() == expected[start - 1:end]:

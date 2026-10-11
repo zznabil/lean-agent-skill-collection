@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.18.0 — 2026-10-11
+
+- Reconcile current catalogues and upstream provenance while preserving historical decisions and unknown review pins. Keep all 24 base skills and profile memberships.
+- Require complete, matching source-line evidence before a final communication answer; calibrate successful and failed reads without changing the prose rubric.
+- Verify a delegated worker’s intended base revision before edits, assign hidden/shared writes explicitly, and preserve unattributed changes.
+- Add original cancellation, workspace, audit and evidence-action regression fixtures. Synthetic calibration is not live model, runtime cancellation or task-performance evidence.
+
 ## 8.17.0 — 2026-10-10
 
 - Package the unchanged `docs/SKILL-COMPOSITION.md` guide in every generated profile so the root policy reference resolves. Validate canonical guide bytes and reject missing or modified guides even after package checksums are recomputed.

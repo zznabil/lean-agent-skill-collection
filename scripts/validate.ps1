@@ -270,6 +270,7 @@ function Test-SkillTree([object]$Profiles) {
 
 function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
+        'docs/HISTORY.md','docs/UPSTREAM-REAUDIT-2026-10-11.md','docs/UPSTREAM-PROVENANCE-2026-10-11.json','docs/evals/delegation-workspace-regressions.json','docs/evals/audit-counterexamples.json','docs/evals/evidence-action-regressions.json','scripts/test-audit-regression-fixtures.py','scripts/test-catalogue-provenance.py','releases/v8.18.0/RELEASE-NOTES-v8.18.0.md',
         '.vale.ini','.github/workflows/vale.yml','.github/styles/LeanAgent/SentenceLength.yml','.github/styles/LeanAgent/Terminology.yml','scripts/test-vale.ps1',
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
         'install-hermes.ps1','install-hermes.bat','AGENTS.md','CHANGELOG.md','CITATION.cff','ENGINEERING-CORE.md','LICENSE','PACKAGE-VALIDATION.json','README.md','THIRD_PARTY_NOTICES.md',
@@ -684,7 +685,32 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     if(-not(Test-Path -LiteralPath $master)){Add-Failure 'master release archive missing'}else{Test-ZipArchive $master $null $null $Profiles.version $null;Test-MasterArchive $master $Directory $Profiles.version}
     if(-not($failures|Where-Object{$_ -match 'archive|ZIP|package|release manifest|release checksum|checksum in|canonical|rights|root file'})){Add-Pass 'release archives, exact canonical source inventories, licensing, hashes, paths, CRC reads, and executable/symlink checks'}
 }
+function Test-AuditRegressionChecks {
+    $checks = @(
+        @{ Script='evaluate-communications.py'; SelfTest=$true; Marker='SELF-TEST PASS:' },
+        @{ Script='test-catalogue-provenance.py'; SelfTest=$true; Marker='CATALOGUE_PROVENANCE_PASS:' },
+        @{ Script='test-audit-regression-fixtures.py'; SelfTest=$false; Marker='AUDIT-FIXTURE SELF-TEST PASS:' }
+    )
+    foreach ($check in $checks) {
+        $arguments = @('-B', (Join-Path $PSScriptRoot $check.Script))
+        if ($check.SelfTest) { $arguments += '--self-test' }
+        try {
+            # Capture stderr without Windows PowerShell turning unittest output into a terminating error.
+            $previousPreference = $ErrorActionPreference
+            $ErrorActionPreference = 'Continue'
+            $output = @(& python @arguments 2>&1)
+            $code = $LASTEXITCODE
+            $ErrorActionPreference = $previousPreference
+            foreach ($line in $output) { Write-Host ([string]$line) }
+            if ($code -ne 0 -or -not ($output | Where-Object { ([string]$_).StartsWith($check.Marker) })) {
+                Add-Failure "audit regression check failed: $($check.Script) (exit $code)"
+            } else { Add-Pass "audit regression check: $($check.Script)" }
+        } catch { Add-Failure "audit regression check unavailable: $($check.Script): $($_.Exception.Message)" }
+        finally { $ErrorActionPreference = $previousPreference }
+    }
+}
 if (-not $FunctionsOnly) {
+    Test-AuditRegressionChecks
     $profiles=Test-MetadataContracts
     $script:releaseProfiles = $profiles
     if ($profiles -and $script:releaseUserFacingInventory) {

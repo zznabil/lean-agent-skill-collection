@@ -1,0 +1,1341 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-11",
+  "lean_baseline": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+  "scope": "Dated static source-provenance inventory; no imported upstream code or live runtime evaluation. Later HEADs do not replace these reviewed revisions.",
+  "definitions": {
+    "historical_revision_null": "The original reviewed revision was not recovered. A cutoff revision is not a reviewed pin.",
+    "historical_date_null": "The exact historical review date was not recovered.",
+    "current_review_revision": "Repository HEAD or exact paper version observed in the 2026-10-11 audit, not a release tag unless explicitly identified.",
+    "default_review_trigger": "Before any reuse or installation, or when identity, ownership, license, selected component or relevant implementation changes."
+  },
+  "counts": {
+    "primary_sources": 45,
+    "primary_repositories": 43,
+    "paper_only": 2,
+    "supporting_repositories": 2,
+    "by_comparison_basis": {
+      "BASELINE_UNKNOWN": 20,
+      "EXACT_PIN": 14,
+      "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN": 11
+    }
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "source": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "49dd158d1076134a641b33efb035946536778336",
+        "url": "https://github.com/mattpocock/skills/commit/49dd158d1076134a641b33efb035946536778336"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Engineering review, TDD, diagnosis, implementation, retrospectives and wizard secret handling.",
+      "disposition": "DISCARD",
+      "rights": "license: MIT; license_path: LICENSE; constraint: Retain copyright and permission notice for substantial copying. The PR-body skill separately credits Humanlayer show-me; preserve source provenance.",
+      "evidence": [
+        "https://github.com/mattpocock/skills/blob/49dd158d1076134a641b33efb035946536778336/skills/engineering/code-review/SKILL.md",
+        "https://github.com/mattpocock/skills/blob/49dd158d1076134a641b33efb035946536778336/skills/engineering/tdd/SKILL.md",
+        "https://github.com/mattpocock/skills/blob/49dd158d1076134a641b33efb035946536778336/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S02",
+      "source": "Leonxlnx/unlazy",
+      "url": "https://github.com/Leonxlnx/unlazy",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "473d4b80421c36d733042434cd4b938f81a19ef1",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-08-31",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/UNLAZY-REVIEW-v8.4.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "16671491f6679ad9378f52604d3bc2415b4120c7",
+        "url": "https://github.com/Leonxlnx/unlazy/commit/16671491f6679ad9378f52604d3bc2415b4120c7"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MODERATE",
+      "component_scope": "Gate-definition binding, canonical output limits and Windows descriptor identity.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: MIT; license_path: LICENSE; constraint: Preserve copyright and MIT permission notice for substantial copied content.",
+      "evidence": [
+        "https://github.com/Leonxlnx/unlazy/blob/16671491f6679ad9378f52604d3bc2415b4120c7/scripts/lib/gates.mjs",
+        "https://github.com/Leonxlnx/unlazy/blob/16671491f6679ad9378f52604d3bc2415b4120c7/tests/hardening-tests.mjs",
+        "https://github.com/Leonxlnx/unlazy/blob/16671491f6679ad9378f52604d3bc2415b4120c7/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S03",
+      "source": "poteto/how",
+      "url": "https://github.com/poteto/how",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "b1ef42969ea7a2bb50aa26c2480274828a0385e7",
+        "url": "https://github.com/poteto/how/commit/b1ef42969ea7a2bb50aa26c2480274828a0385e7"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Explain-first repository investigation and optional architectural critics.",
+      "disposition": "DISCARD",
+      "rights": "license: MIT; license_path: LICENSE; constraint: Retain copyright and permission notice for substantial copied material.",
+      "evidence": [
+        "https://github.com/poteto/how/blob/b1ef42969ea7a2bb50aa26c2480274828a0385e7/skills/how/SKILL.md",
+        "https://github.com/poteto/how/blob/b1ef42969ea7a2bb50aa26c2480274828a0385e7/skills/how/references/critique-rubric.md",
+        "https://github.com/poteto/how/blob/b1ef42969ea7a2bb50aa26c2480274828a0385e7/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S04",
+      "source": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
+        "url": "https://github.com/obra/superpowers/commit/bb92a77741419a4ab5f06e711a283343f1ada0c3"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Brainstorming/task sizing, hook hardening and task-completion bookkeeping.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: MIT; license_path: LICENSE; constraint: Preserve Jesse Vincent copyright and MIT permission notice for copied substantial material.",
+      "evidence": [
+        "https://github.com/obra/superpowers/blob/bb92a77741419a4ab5f06e711a283343f1ada0c3/skills/brainstorming/SKILL.md",
+        "https://github.com/obra/superpowers/blob/bb92a77741419a4ab5f06e711a283343f1ada0c3/skills/brainstorming/builder-check-prompt.md",
+        "https://github.com/obra/superpowers/blob/bb92a77741419a4ab5f06e711a283343f1ada0c3/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S05",
+      "source": "sickn33/agentic-awesome-skills",
+      "url": "https://github.com/sickn33/agentic-awesome-skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "1c7bdea7f9094080fdb6f8b9b0aefb13030a2e31",
+        "url": "https://github.com/sickn33/agentic-awesome-skills/commit/1c7bdea7f9094080fdb6f8b9b0aefb13030a2e31"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "AAS discovery, stack selection, CLI/MCP and source-content rights.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: MIT code; CC-BY-4.0 original non-code; upstream exceptions; license_path: LICENSE-CONTENT; constraint: Not blanket MIT. Original documentation/non-code is CC BY 4.0 unless a specific upstream notice differs. docs/sources/sources.md records third-party exceptions. Verify each original source/revision/license and retain attribution/change notices before copying.",
+      "evidence": [
+        "https://github.com/sickn33/agentic-awesome-skills/blob/1c7bdea7f9094080fdb6f8b9b0aefb13030a2e31/tools/lib/aas-v1/mcp/server.js",
+        "https://github.com/sickn33/agentic-awesome-skills/blob/1c7bdea7f9094080fdb6f8b9b0aefb13030a2e31/tools/lib/aas-v1/transaction/safety.js",
+        "https://github.com/sickn33/agentic-awesome-skills/blob/1c7bdea7f9094080fdb6f8b9b0aefb13030a2e31/LICENSE-CONTENT"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S06",
+      "source": "vercel-labs/agent-skills",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+        "url": "https://github.com/vercel-labs/agent-skills/commit/063bee94c3f4df8453406c830b0a7df0f2860278"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Optimize pipeline, citation sanitization/tests and sampled React/native recipes.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: MIT declared in repository/skill READMEs and sampled frontmatter; license_path: README.md; constraint: GitHub license metadata is null and no standalone LICENSE exists in full tree. Repository README, optimize README and sampled React frontmatter explicitly declare MIT. Preserve attribution and obtain full copyright/permission text before substantive redistribution; null API metadata does not erase explicit declarations.",
+      "evidence": [
+        "https://github.com/vercel-labs/agent-skills/blob/063bee94c3f4df8453406c830b0a7df0f2860278/skills/vercel-optimize/SKILL.md",
+        "https://github.com/vercel-labs/agent-skills/blob/063bee94c3f4df8453406c830b0a7df0f2860278/skills/vercel-optimize/lib/citations.mjs",
+        "https://github.com/vercel-labs/agent-skills/blob/063bee94c3f4df8453406c830b0a7df0f2860278/README.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S07",
+      "source": "cloudflare/skills",
+      "url": "https://github.com/cloudflare/skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "c430dd965cea3a8faf0ef035e3b3d73b38518081",
+        "url": "https://github.com/cloudflare/skills/commit/c430dd965cea3a8faf0ef035e3b3d73b38518081"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Workers profiling, platform guidance and Turnstile scripts.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: Apache-2.0; license_path: LICENSE; constraint: For substantial redistribution preserve license and applicable attribution/copyright notices, identify modified files and review source-specific notices. No core copied implementation recommended.",
+      "evidence": [
+        "https://github.com/cloudflare/skills/blob/c430dd965cea3a8faf0ef035e3b3d73b38518081/skills/workers-profiling/SKILL.md",
+        "https://github.com/cloudflare/skills/blob/c430dd965cea3a8faf0ef035e3b3d73b38518081/skills/turnstile-spin/scripts/validate.sh",
+        "https://github.com/cloudflare/skills/blob/c430dd965cea3a8faf0ef035e3b3d73b38518081/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S08",
+      "source": "microsoft/win-dev-skills",
+      "url": "https://github.com/microsoft/win-dev-skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "5ce74fa89c49ca353c6ab03bd5889aa519aa9e5e",
+        "url": "https://github.com/microsoft/win-dev-skills/commit/5ce74fa89c49ca353c6ab03bd5889aa519aa9e5e"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "WinDbg plugin and marketplace references to moved WinUI/WinApp specialists.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: MIT; license_path: LICENSE; constraint: Preserve Microsoft copyright/permission notices. THIRD_PARTY_NOTICES states external WinApp CLI/analyzer remain separately licensed; catalog license does not automatically license every installed dependency.",
+      "evidence": [
+        "https://github.com/microsoft/win-dev-skills/blob/5ce74fa89c49ca353c6ab03bd5889aa519aa9e5e/.agents/plugins/marketplace.json",
+        "https://github.com/microsoft/win-dev-skills/blob/5ce74fa89c49ca353c6ab03bd5889aa519aa9e5e/CHANGELOG.md",
+        "https://github.com/microsoft/win-dev-skills/blob/5ce74fa89c49ca353c6ab03bd5889aa519aa9e5e/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger",
+      "successor_source_id": "S09"
+    },
+    {
+      "id": "S09",
+      "source": "microsoft/winappCli",
+      "url": "https://github.com/microsoft/winappCli",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "CURRENT_SUCCESSOR; no prior Lean review pin established"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "57aee35fcd083c0e892bcd8a03ac9ad16e372c08",
+        "url": "https://github.com/microsoft/winappCli/commit/57aee35fcd083c0e892bcd8a03ac9ad16e372c08"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Windows UIA/Sandbox ownership, typed CLI and Windows skill packs.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "license: MIT; license_path: LICENSE; constraint: Retain Microsoft/Contributors copyright and permission notice; Windows SDK/analyzer/runtime dependencies require separate license review.",
+      "evidence": [
+        "https://github.com/microsoft/winappCli/blob/57aee35fcd083c0e892bcd8a03ac9ad16e372c08/src/winapp-CLI/WinApp.Cli/Services/InteractiveDesktop/UiOwnerResolver.cs",
+        "https://github.com/microsoft/winappCli/blob/57aee35fcd083c0e892bcd8a03ac9ad16e372c08/src/winapp-CLI/WinApp.Cli.Tests/UiCommandTests.Coordination.cs",
+        "https://github.com/microsoft/winappCli/blob/57aee35fcd083c0e892bcd8a03ac9ad16e372c08/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S10",
+      "source": "openai/skills",
+      "url": "https://github.com/openai/skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "UNKNOWN; V5 already names OpenAI Plugins, not an established openai/skills pin",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "49f948faa9258a0c61caceaf225e179651397431",
+        "url": "https://github.com/openai/skills/commit/49f948faa9258a0c61caceaf225e179651397431"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Deprecation notice; cli-creator, skill-creator and security-ownership-map.",
+      "disposition": "ABSORB",
+      "rights": "Per-skill licensing. cli-creator and skill-creator LICENSE.txt inspected: Apache-2.0. No blanket repository license assumed.",
+      "evidence": [
+        "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/README.md",
+        "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger",
+      "successor_source_id": "S11"
+    },
+    {
+      "id": "S11",
+      "source": "openai/plugins",
+      "url": "https://github.com/openai/plugins",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "0722921d5542fc593105c27bd52630babd8b8c2a",
+        "url": "https://github.com/openai/plugins/commit/0722921d5542fc593105c27bd52630babd8b8c2a"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Plugin marketplace and plugin-eval implementation/tests; not every specialist plugin.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "Mixed per-plugin rights; no root LICENSE found. plugin-eval manifest declares MIT, but no license text/notice found in its component. Preserve/verify exact notice before redistribution; no code-copy proposed.",
+      "evidence": [
+        "https://github.com/openai/plugins/blob/0722921d5542fc593105c27bd52630babd8b8c2a/README.md",
+        "https://github.com/openai/plugins/blob/0722921d5542fc593105c27bd52630babd8b8c2a/.agents/skills/plugin-creator/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S12",
+      "source": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+        "url": "https://github.com/anthropics/skills/commit/dbd4588f9e1033efb41dad4bef2f7947c8993d44"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Skill-creator evaluator and sampled API/MCP/web/document components and licenses.",
+      "disposition": "ABSORB",
+      "rights": "skill-creator, mcp-builder and webapp-testing LICENSE.txt are Apache-2.0. docx/pdf/pptx/xlsx are source-available under restrictive Anthropic terms, not Apache. Inspected docx license prohibits copying/derivatives outside permitted service use; no document-skill code import.",
+      "evidence": [
+        "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/README.md",
+        "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/skill-creator/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S13",
+      "source": "cursor/plugins",
+      "url": "https://github.com/cursor/plugins",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "9d76bcab133aefcccb16121d7be874e6aa823729",
+        "url": "https://github.com/cursor/plugins/commit/9d76bcab133aefcccb16121d7be874e6aa823729"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Thermos, continual-learning, cli-for-agent, pstack and orchestrate; component rights inspected.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "All five component LICENSE files inspected: MIT. pstack copyright Lauren Tan; other four Cursor. Preserve notices on any adaptation.",
+      "evidence": [
+        "https://github.com/cursor/plugins/blob/9d76bcab133aefcccb16121d7be874e6aa823729/thermos/README.md",
+        "https://github.com/cursor/plugins/blob/9d76bcab133aefcccb16121d7be874e6aa823729/thermos/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S14",
+      "source": "spencerpauly/awesome-cursor-skills",
+      "url": "https://github.com/spencerpauly/awesome-cursor-skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "99cd2655788456cc1c685944dcf8c2de82c1ded4",
+        "url": "https://github.com/spencerpauly/awesome-cursor-skills/commit/99cd2655788456cc1c685944dcf8c2de82c1ded4"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Tree inventory and sampled short workflow prompts; root license.",
+      "disposition": "DISCARD",
+      "rights": "Root CC0-1.0 inspected. Links to other plugins do not convey those projects' rights.",
+      "evidence": [
+        "https://github.com/spencerpauly/awesome-cursor-skills/blob/99cd2655788456cc1c685944dcf8c2de82c1ded4/README.md",
+        "https://github.com/spencerpauly/awesome-cursor-skills/blob/99cd2655788456cc1c685944dcf8c2de82c1ded4/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S15",
+      "source": "BuilderIO/skills",
+      "url": "https://github.com/BuilderIO/skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "5d447740266633b959e761e46e88def4033f2c03",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md",
+        "component": "skills/plow-ahead/SKILL.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "68d86be7a0e1ad585406cbe19cdf7ec8a8504498",
+        "url": "https://github.com/BuilderIO/skills/commit/68d86be7a0e1ad585406cbe19cdf7ec8a8504498"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MODERATE",
+      "component_scope": "Plow-ahead, factory, watchdog, visual edit, webmcp, turn-into-app and export sync.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "Root MIT inspected, copyright Builder.io. Preserve license on copied expression/code.",
+      "evidence": [
+        "https://github.com/BuilderIO/skills/blob/68d86be7a0e1ad585406cbe19cdf7ec8a8504498/README.md",
+        "https://github.com/BuilderIO/skills/blob/68d86be7a0e1ad585406cbe19cdf7ec8a8504498/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger",
+      "component_comparison": {
+        "component": "skills/plow-ahead/SKILL.md",
+        "change_level": "NONE",
+        "blob": "e401a76a2c2f922c9b6ef92dc47c97e23f4ff0a1",
+        "note": "Same component bytes at both reviewed commits; repository-level delta is MODERATE. Exported Agent-Native mirrors are not independent innovations."
+      }
+    },
+    {
+      "id": "S16",
+      "source": "BuilderIO/agent-native",
+      "url": "https://github.com/BuilderIO/agent-native",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY; V5 Agent Native identity is distinct from BuilderIO/skills",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "df30cabc851dcde166f344b80b5e911f4045976f",
+        "url": "https://github.com/BuilderIO/agent-native/commit/df30cabc851dcde166f344b80b5e911f4045976f"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Root and exact skills/core/e2e subtrees; recursive root-tree response was too large.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "README declares MIT and core package declares MIT; private root package declares ISC; no root LICENSE file in tree. Verify applicable package license text/notices before vendoring. No code-copy proposed.",
+      "evidence": [
+        "https://github.com/BuilderIO/agent-native/blob/df30cabc851dcde166f344b80b5e911f4045976f/README.md",
+        "https://github.com/BuilderIO/agent-native/blob/df30cabc851dcde166f344b80b5e911f4045976f/package.json"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S17",
+      "source": "Leonxlnx/taste-skill",
+      "url": "https://github.com/Leonxlnx/taste-skill",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "717446e07a78d4e6d7918b1fde1a263378eebac9",
+        "url": "https://github.com/Leonxlnx/taste-skill/commit/717446e07a78d4e6d7918b1fde1a263378eebac9"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "v1/v2 taste instructions, related UI/image/brand skills and change record.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "Root MIT inspected. No generated image/media rights inferred from repository license.",
+      "evidence": [
+        "https://github.com/Leonxlnx/taste-skill/blob/717446e07a78d4e6d7918b1fde1a263378eebac9/README.md",
+        "https://github.com/Leonxlnx/taste-skill/blob/717446e07a78d4e6d7918b1fde1a263378eebac9/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S18",
+      "source": "RayFernando1337/rayfernando-skills",
+      "url": "https://github.com/RayFernando1337/rayfernando-skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "NARRATIVE_ONLY",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "952eaaa590cfb37f9f2c4670a91581573c91b8d0",
+        "url": "https://github.com/RayFernando1337/rayfernando-skills/commit/952eaaa590cfb37f9f2c4670a91581573c91b8d0"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Waves/waves-codex, BRB review workflow, iOS/animation specialists and eval fixtures.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "Root Apache-2.0 inspected. Follow separately pinned source licenses for linked animation catalogs; no media copied.",
+      "evidence": [
+        "https://github.com/RayFernando1337/rayfernando-skills/blob/952eaaa590cfb37f9f2c4670a91581573c91b8d0/README.md",
+        "https://github.com/RayFernando1337/rayfernando-skills/blob/952eaaa590cfb37f9f2c4670a91581573c91b8d0/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S19",
+      "source": "addyosmani/agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROBABLE; owner-qualified historical mapping not proven",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "1be8e34187e34647bb83adc3a1323b26ae6f6abe",
+        "url": "https://github.com/addyosmani/agent-skills/commit/1be8e34187e34647bb83adc3a1323b26ae6f6abe"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Doubt-driven development, context engineering, orchestration references and evaluator sources.",
+      "disposition": "DISCARD",
+      "rights": "MIT; full LICENSE copyright 2025 Addy Osmani inspected.",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills/blob/1be8e34187e34647bb83adc3a1323b26ae6f6abe/LICENSE",
+        "https://github.com/addyosmani/agent-skills/blob/1be8e34187e34647bb83adc3a1323b26ae6f6abe/.claude-plugin/plugin.json"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S20",
+      "source": "just-every/plugin-ultracode",
+      "url": "https://github.com/just-every/plugin-ultracode",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROBABLE; owner-qualified historical mapping not proven",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "9dde0086e983413016bf62ab96ba6bb17b599fae",
+        "url": "https://github.com/just-every/plugin-ultracode/commit/9dde0086e983413016bf62ab96ba6bb17b599fae"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Worker lifecycle journals, process identity, resume implementation and test sources.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT declared in .codex-plugin/plugin.json; no repository-wide LICENSE in complete current tree; package.json has no license field. Vendored UI license notices are not a complete source notice. Resolve notices before any copying.",
+      "evidence": [
+        "https://github.com/just-every/plugin-ultracode/blob/9dde0086e983413016bf62ab96ba6bb17b599fae/package.json",
+        "https://github.com/just-every/plugin-ultracode/blob/9dde0086e983413016bf62ab96ba6bb17b599fae/.codex-plugin/plugin.json"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S21",
+      "source": "hesreallyhim/ultracode-workflows",
+      "url": "https://github.com/hesreallyhim/ultracode-workflows",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROBABLE; owner-qualified historical mapping not proven",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "9b5404d11b885b28380d3eb17471ef7b17601b5e",
+        "url": "https://github.com/hesreallyhim/ultracode-workflows/commit/9b5404d11b885b28380d3eb17471ef7b17601b5e"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Acceptance QA, SDLC gates, inert-plan and workflow-contract test sources.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT; full LICENSE copyright 2026 Really Him inspected. Vendored Acorn has separate provenance/license.",
+      "evidence": [
+        "https://github.com/hesreallyhim/ultracode-workflows/blob/9b5404d11b885b28380d3eb17471ef7b17601b5e/LICENSE",
+        "https://github.com/hesreallyhim/ultracode-workflows/blob/9b5404d11b885b28380d3eb17471ef7b17601b5e/plugins/ultracode-workflows/.claude-plugin/plugin.json"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S22",
+      "source": "PabloNAX/ultracode-skill",
+      "url": "https://github.com/PabloNAX/ultracode-skill",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROBABLE; owner-qualified historical mapping not proven",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "bfa2d92488171651c6c9379a8b98f8a07d996d3c",
+        "url": "https://github.com/PabloNAX/ultracode-skill/commit/bfa2d92488171651c6c9379a8b98f8a07d996d3c"
+      },
+      "comparison_basis": "BASELINE_UNKNOWN",
+      "change_level": "UNKNOWN",
+      "component_scope": "Ultracode skill, packet schema, forward-testing and evaluation contracts.",
+      "disposition": "DISCARD",
+      "rights": "MIT; full LICENSE copyright 2026 Pavel Kaloshin inspected.",
+      "evidence": [
+        "https://github.com/PabloNAX/ultracode-skill/blob/bfa2d92488171651c6c9379a8b98f8a07d996d3c/LICENSE",
+        "https://github.com/PabloNAX/ultracode-skill/blob/bfa2d92488171651c6c9379a8b98f8a07d996d3c/ultracode/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S23",
+      "source": "EveryInc/compound-engineering-plugin",
+      "url": "https://github.com/EveryInc/compound-engineering-plugin",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "871996c4e35512e3d33cdc9c2532395f7bf10831",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/dist/v7.2/compound-engineering-integration-v7.2-8pass-audit.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "51aa537383744736eb8ad30468d34420e9fb8ea8",
+        "url": "https://github.com/EveryInc/compound-engineering-plugin/commit/51aa537383744736eb8ad30468d34420e9fb8ea8"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MODERATE",
+      "component_scope": "Execution strategy, worker-baseline/hidden-write ownership and review/closeout evidence.",
+      "disposition": "ABSORB",
+      "rights": "MIT; full LICENSE copyright 2025 Every inspected; Lean already has corresponding third-party notice.",
+      "evidence": [
+        "https://github.com/EveryInc/compound-engineering-plugin/blob/51aa537383744736eb8ad30468d34420e9fb8ea8/LICENSE",
+        "https://github.com/EveryInc/compound-engineering-plugin/blob/51aa537383744736eb8ad30468d34420e9fb8ea8/skills/ce-work/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger",
+      "comparison_limit": "Compare API changed-file list capped at 300; selected before/after source reads establish scoped delta, not an exhaustive diff."
+    },
+    {
+      "id": "S24",
+      "source": "NousResearch/hermes-agent",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "18a76be124d7c16ed98b629a358b23fef76a7f46",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HERMES-PROMPT-REVIEW-v8.6.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "d4d2ab7b5d104166e7e22a02cafd12f1fe456a31",
+        "url": "https://github.com/NousResearch/hermes-agent/commit/d4d2ab7b5d104166e7e22a02cafd12f1fe456a31"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MODERATE",
+      "component_scope": "Delegation cancellation, late-child regression and source/host boundaries.",
+      "disposition": "ABSORB",
+      "rights": "MIT; full LICENSE copyright 2025 Nous Research inspected. Package-level assets/dependencies need separate review before copying.",
+      "evidence": [
+        "https://github.com/NousResearch/hermes-agent/blob/d4d2ab7b5d104166e7e22a02cafd12f1fe456a31/LICENSE",
+        "https://github.com/NousResearch/hermes-agent/blob/d4d2ab7b5d104166e7e22a02cafd12f1fe456a31/agent/delegation_context.py"
+      ],
+      "review_trigger": "default_review_trigger",
+      "comparison_limit": "Compare API changed-file list capped at 300; selected before/after source reads establish scoped delta, not an exhaustive diff."
+    },
+    {
+      "id": "S25",
+      "source": "DietrichGebert/ponytail",
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "2ed6c52c9d7e5e56942508591085fd45dea277d3",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf",
+        "url": "https://github.com/DietrichGebert/ponytail/commit/9b58c1ffb790c075ca32e70a89cf1d80588f4abf"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MAJOR",
+      "component_scope": "Minimal-complete-change, review/audit, repository-map hook and benchmark limits.",
+      "disposition": "DISCARD",
+      "rights": "MIT; LICENSE inspected and unchanged. Preserve notice for substantial copied text/code.",
+      "evidence": [
+        "https://github.com/DietrichGebert/ponytail/blob/9b58c1ffb790c075ca32e70a89cf1d80588f4abf/skills/ponytail/SKILL.md",
+        "https://github.com/DietrichGebert/ponytail/blob/9b58c1ffb790c075ca32e70a89cf1d80588f4abf/skills/ponytail-review/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S26",
+      "source": "xzhang17/quickflow",
+      "url": "https://github.com/xzhang17/quickflow",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "7ab6b93678e8a06c6357e7cc009bc8f9bc98ce48",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "7ab6b93678e8a06c6357e7cc009bc8f9bc98ce48",
+        "url": "https://github.com/xzhang17/quickflow/commit/7ab6b93678e8a06c6357e7cc009bc8f9bc98ce48"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "NONE",
+      "component_scope": "Foreground workflow, frozen records and host-specific question handling.",
+      "disposition": "DISCARD",
+      "rights": "MIT; LICENSE inspected. No import needed.",
+      "evidence": [
+        "https://github.com/xzhang17/quickflow/blob/7ab6b93678e8a06c6357e7cc009bc8f9bc98ce48/skills/quickflow/SKILL.md",
+        "https://github.com/xzhang17/quickflow/blob/7ab6b93678e8a06c6357e7cc009bc8f9bc98ce48/skills/quickflow/CHANGELOG.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S27",
+      "source": "tdwhere123/do-it",
+      "url": "https://github.com/tdwhere123/do-it",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "8e85add081b2793fb39529e1a57a36155fe03847",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "2bb8fc23db59d9738ecfa999253f2906644d952a",
+        "url": "https://github.com/tdwhere123/do-it/commit/2bb8fc23db59d9738ecfa999253f2906644d952a"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MAJOR",
+      "component_scope": "Core/audit workflow, coverage/refutation fixtures and evaluator rubrics.",
+      "disposition": "ABSORB",
+      "rights": "MIT; LICENSE inspected and unchanged. Use original minimal fixtures/prose with provenance rather than importing host runtime.",
+      "evidence": [
+        "https://github.com/tdwhere123/do-it/blob/2bb8fc23db59d9738ecfa999253f2906644d952a/skills/do-it/do-it-core/SKILL.md",
+        "https://github.com/tdwhere123/do-it/blob/2bb8fc23db59d9738ecfa999253f2906644d952a/skills/do-it/do-it-audit/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S28",
+      "source": "matcha-gumii/small-correct-diff",
+      "url": "https://github.com/matcha-gumii/small-correct-diff",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "50d5b79ebe8624e022e658d1dc8795d58c66b8af",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "50d5b79ebe8624e022e658d1dc8795d58c66b8af",
+        "url": "https://github.com/matcha-gumii/small-correct-diff/commit/50d5b79ebe8624e022e658d1dc8795d58c66b8af"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "NONE",
+      "component_scope": "Smallest complete change and protected behavior; unchanged reviewed revision.",
+      "disposition": "DISCARD",
+      "rights": "MIT; LICENSE inspected.",
+      "evidence": [
+        "https://github.com/matcha-gumii/small-correct-diff/blob/50d5b79ebe8624e022e658d1dc8795d58c66b8af/skills/small-correct-diff/SKILL.md",
+        "https://github.com/matcha-gumii/small-correct-diff/blob/50d5b79ebe8624e022e658d1dc8795d58c66b8af/AGENTS.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S29",
+      "source": "anshaneja5/scalpel",
+      "url": "https://github.com/anshaneja5/scalpel",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "364b4bc498d7fe5d720c6ccfe3cea20d376d32b1",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "364b4bc498d7fe5d720c6ccfe3cea20d376d32b1",
+        "url": "https://github.com/anshaneja5/scalpel/commit/364b4bc498d7fe5d720c6ccfe3cea20d376d32b1"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "NONE",
+      "component_scope": "Protected boundaries, surgical persona and presentation constraints.",
+      "disposition": "DISCARD",
+      "rights": "MIT; LICENSE inspected; vendored Ponytail benchmark retains its own MIT notice.",
+      "evidence": [
+        "https://github.com/anshaneja5/scalpel/blob/364b4bc498d7fe5d720c6ccfe3cea20d376d32b1/skills/scalpel/SKILL.md",
+        "https://github.com/anshaneja5/scalpel/blob/364b4bc498d7fe5d720c6ccfe3cea20d376d32b1/README.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S30",
+      "source": "Chisanan232/requirement-zero",
+      "url": "https://github.com/Chisanan232/requirement-zero",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "a466fd82c37a3eb57bc6f9e4c0c1e6713e85f2c2",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "92f8625ed1990240194816b70bca7be490e7388e",
+        "url": "https://github.com/Chisanan232/requirement-zero/commit/92f8625ed1990240194816b70bca7be490e7388e"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "COSMETIC",
+      "component_scope": "Requirement/codebase-zero behavior and README-only source disposition change.",
+      "disposition": "DISCARD",
+      "rights": "MIT; LICENSE inspected and unchanged.",
+      "evidence": [
+        "https://github.com/Chisanan232/requirement-zero/blob/92f8625ed1990240194816b70bca7be490e7388e/SKILL.md",
+        "https://github.com/Chisanan232/requirement-zero/blob/92f8625ed1990240194816b70bca7be490e7388e/skills/codebase-zero/SKILL.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S31",
+      "source": "vfs1234/just-do-it",
+      "url": "https://github.com/vfs1234/just-do-it",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "18879e9bafaab95875145ba939173b9b716f88d0",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "18879e9bafaab95875145ba939173b9b716f88d0",
+        "url": "https://github.com/vfs1234/just-do-it/commit/18879e9bafaab95875145ba939173b9b716f88d0"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "NONE",
+      "component_scope": "Execution prompt, shared-state failure hook and rights-notice completeness.",
+      "disposition": "DISCARD",
+      "rights": "MIT asserted in plugin.json and README.en.md; complete tree contains no LICENSE text. Attribution/license-notice completeness unresolved for redistribution; no copy proposed.",
+      "evidence": [
+        "https://github.com/vfs1234/just-do-it/blob/18879e9bafaab95875145ba939173b9b716f88d0/skills/just-do-it/SKILL.md",
+        "https://github.com/vfs1234/just-do-it/blob/18879e9bafaab95875145ba939173b9b716f88d0/hooks/failure-detector.sh"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S32",
+      "source": "iannuttall/ralph",
+      "url": "https://github.com/iannuttall/ralph",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "5bc402540c45192bd1e9cacb84611ee2e5ba13a8",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "5bc402540c45192bd1e9cacb84611ee2e5ba13a8",
+        "url": "https://github.com/iannuttall/ralph/commit/5bc402540c45192bd1e9cacb84611ee2e5ba13a8"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "NONE",
+      "component_scope": "Archived file-based execution loop and completion/permission defaults.",
+      "disposition": "DISCARD",
+      "rights": "MIT declared in package.json; complete tree contains no root LICENSE text. Package/source notice completeness unresolved for redistribution; no copy proposed.",
+      "evidence": [
+        "https://github.com/iannuttall/ralph/blob/5bc402540c45192bd1e9cacb84611ee2e5ba13a8/.agents/ralph/PROMPT_build.md",
+        "https://github.com/iannuttall/ralph/blob/5bc402540c45192bd1e9cacb84611ee2e5ba13a8/.agents/ralph/loop.sh"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S33",
+      "source": "open-gsd/gsd-pi",
+      "url": "https://github.com/open-gsd/gsd-pi",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "4f9c72dff602c68e37bbc59768fa43df81a9b484",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "f2e1a5fca380d3da80a3b93b30de8a965a9d1588",
+        "url": "https://github.com/open-gsd/gsd-pi/commit/f2e1a5fca380d3da80a3b93b30de8a965a9d1588"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MAJOR",
+      "component_scope": "Lifecycle Kernel, Authority Epoch, execution/source receipts and retry/closeout tests.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT root LICENSE inspected and unchanged. Large runtime and transitive dependency review would be separate for any installation/import.",
+      "evidence": [
+        "https://github.com/open-gsd/gsd-pi/blob/f2e1a5fca380d3da80a3b93b30de8a965a9d1588/LICENSE",
+        "https://github.com/open-gsd/gsd-pi/blob/f2e1a5fca380d3da80a3b93b30de8a965a9d1588/src/resources/extensions/gsd/auto/verification-retry-policy.ts"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S34",
+      "source": "JuliusBrussee/caveman",
+      "url": "https://github.com/JuliusBrussee/caveman",
+      "kind": "repository",
+      "historical_review": {
+        "revision": "df2ccd85c94ec3c8289cb62ac020d241ccfb0c60",
+        "date": null,
+        "identity_confidence": "CONFIRMED",
+        "review_record_upper_bound": "2026-09-01",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/MINIMUM-SCRUTINY-REVIEW-v8.5.0.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "2e08b9177c07bb7249a8a2d1a6758e5db281d002",
+        "url": "https://github.com/JuliusBrussee/caveman/commit/2e08b9177c07bb7249a8a2d1a6758e5db281d002"
+      },
+      "comparison_basis": "EXACT_PIN",
+      "change_level": "MAJOR",
+      "component_scope": "Current licensing, voice skills and recoverable/cache-stable compression runtime.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "All current repository code Apache-2.0 from 3.0.0 per LICENSING.md; historical MIT notices preserved; bundled fonts/modules have their own terms. Caveman Cloud separate commercial software. Historical pre-3.0 BSL source retains old terms.",
+      "evidence": [
+        "https://github.com/JuliusBrussee/caveman/blob/2e08b9177c07bb7249a8a2d1a6758e5db281d002/LICENSING.md",
+        "https://github.com/JuliusBrussee/caveman/blob/2e08b9177c07bb7249a8a2d1a6758e5db281d002/NOTICE"
+      ],
+      "review_trigger": "Before source reuse, verify current Apache-2.0 plus retained notices, historical BSL terms and separate Caveman Cloud rights; fit rejection remains independent."
+    },
+    {
+      "id": "S35",
+      "source": "NVIDIA HORIZON",
+      "url": "https://arxiv.org/abs/2606.28279",
+      "kind": "paper",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PAPER_IDENTITY_CONFIRMED; reviewed version not recovered",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "arXiv:2606.28279v1",
+        "url": "https://arxiv.org/abs/2606.28279v1"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "NONE",
+      "component_scope": "Authoritative HORIZON paper only; implementation/test code not established.",
+      "disposition": "DEFER",
+      "rights": "Paper uses arXiv distribution licensing; no code redistribution permission established.",
+      "evidence": [
+        "https://arxiv.org/abs/2606.28279v1",
+        "https://arxiv.org/html/2606.28279v1"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S36",
+      "source": "NVIDIA AVO (kernel and ARC applications)",
+      "url": "https://arxiv.org/abs/2603.24517",
+      "kind": "paper",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PAPER_IDENTITY_CONFIRMED; reviewed version not recovered",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "arXiv:2603.24517v1",
+        "url": "https://arxiv.org/abs/2603.24517v1"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "NONE",
+      "component_scope": "Authoritative AVO paper and ARC application blog; authoritative implementation not established.",
+      "disposition": "DEFER",
+      "rights": "No authoritative code reuse license established; paper is arXiv perpetual non-exclusive distribution.",
+      "evidence": [
+        "https://arxiv.org/abs/2603.24517v1",
+        "https://arxiv.org/html/2603.24517v1",
+        "https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S37",
+      "source": "Tycho",
+      "url": "https://github.com/NIMI-research/Tycho",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "f68912a764372ead0a610db2e1c011d41ce5197e",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "f68912a764372ead0a610db2e1c011d41ce5197e",
+        "url": "https://github.com/NIMI-research/Tycho/commit/f68912a764372ead0a610db2e1c011d41ce5197e"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "NONE",
+      "component_scope": "World-model choice, seed verification and render/dynamics/terminal gates.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "Apache-2.0 (repository metadata and LICENSE path). Retain required notices for any code reuse; no code copying proposed.",
+      "evidence": [
+        "https://github.com/NIMI-research/Tycho/blob/f68912a764372ead0a610db2e1c011d41ce5197e/README.md",
+        "https://github.com/NIMI-research/Tycho/blob/f68912a764372ead0a610db2e1c011d41ce5197e/tycho/workspace/templates/seed_verify.py.tmpl"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S38",
+      "source": "VISTA",
+      "url": "https://github.com/joshhhhhan/VISTA",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "c97c354f0a8948256545a3e8850a1848f8e5b8c1",
+        "url": "https://github.com/joshhhhhan/VISTA/commit/c97c354f0a8948256545a3e8850a1848f8e5b8c1"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "MAJOR",
+      "component_scope": "Visual evidence tools, ArtifactStore and source-level evidence integrity.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT; game/assets and external runtime dependencies retain their own terms.",
+      "evidence": [
+        "https://github.com/joshhhhhan/VISTA/blob/c97c354f0a8948256545a3e8850a1848f8e5b8c1/README.md",
+        "https://github.com/joshhhhhan/VISTA/blob/c97c354f0a8948256545a3e8850a1848f8e5b8c1/src/vista/core/tools.py"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S39",
+      "source": "arc-skill",
+      "url": "https://github.com/pbshgthm/arc-skill",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "dba53c3799eab600a512dd73ed037d7ab6958c66",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "dba53c3799eab600a512dd73ed037d7ab6958c66",
+        "url": "https://github.com/pbshgthm/arc-skill/commit/dba53c3799eab600a512dd73ed037d7ab6958c66"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "NONE",
+      "component_scope": "Expected-observation grading and queued-step cancellation on mismatch.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "No license file or GitHub detected license at inspected revision. Public visibility does not grant redistribution rights.",
+      "evidence": [
+        "https://github.com/pbshgthm/arc-skill/blob/dba53c3799eab600a512dd73ed037d7ab6958c66/skills/arc-skill/scripts/arc_skill/predictions.py",
+        "https://github.com/pbshgthm/arc-skill/blob/dba53c3799eab600a512dd73ed037d7ab6958c66/skills/arc-skill/scripts/arc_skill/live.py"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S40",
+      "source": "OpenWorld",
+      "url": "https://github.com/quome-cloud/openworld",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "2c6d7dd2b83e79e2b058cf2444c78d9f69c6c4c0",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "e8248685e4f682dd6587e1af6296733cf3838a59",
+        "url": "https://github.com/quome-cloud/openworld/commit/e8248685e4f682dd6587e1af6296733cf3838a59"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "COSMETIC",
+      "component_scope": "Transition verification and e127 wrong-engine/held-out certification tests.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "Apache-2.0. No licensed code copied.",
+      "evidence": [
+        "https://github.com/quome-cloud/openworld/blob/e8248685e4f682dd6587e1af6296733cf3838a59/openworld/verify.py",
+        "https://github.com/quome-cloud/openworld/blob/e8248685e4f682dd6587e1af6296733cf3838a59/tests/e127/test_certify.py"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S41",
+      "source": "Retrodict",
+      "url": "https://github.com/ryanbbrown/Retrodict",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "71672e8e5adb008360f52a61ef9e2adf91a62d89",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "71672e8e5adb008360f52a61ef9e2adf91a62d89",
+        "url": "https://github.com/ryanbbrown/Retrodict/commit/71672e8e5adb008360f52a61ef9e2adf91a62d89"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "NONE",
+      "component_scope": "Append-only observation record, replay, compact playbook and retrodiction prompts.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "No license file or GitHub detected license at inspected revision.",
+      "evidence": [
+        "https://github.com/ryanbbrown/Retrodict/blob/71672e8e5adb008360f52a61ef9e2adf91a62d89/README.md",
+        "https://github.com/ryanbbrown/Retrodict/blob/71672e8e5adb008360f52a61ef9e2adf91a62d89/src/arc3/prompts.py"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S42",
+      "source": "baseline1 / ewma_sv",
+      "url": "https://github.com/astroseger/arc-3-agents-baseline1",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "ef104f198adf2ad2a3506638dc21d0249eb8308c",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "ef104f198adf2ad2a3506638dc21d0249eb8308c",
+        "url": "https://github.com/astroseger/arc-3-agents-baseline1/commit/ef104f198adf2ad2a3506638dc21d0249eb8308c"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "MINOR",
+      "component_scope": "ewma_sv_v1.6 fixed-interface model/render verifier and paper artifacts.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT repository; paper rights separate.",
+      "evidence": [
+        "https://github.com/astroseger/arc-3-agents-baseline1/blob/ef104f198adf2ad2a3506638dc21d0249eb8308c/README.md",
+        "https://github.com/astroseger/arc-3-agents-baseline1/blob/ef104f198adf2ad2a3506638dc21d0249eb8308c/papers/paper02/agents/ewma_sv_v1.6/src/agent/workspace_init/verify_world_model.py"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S43",
+      "source": "Schema",
+      "url": "https://github.com/guanning03/Schema",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "84c075fadfe937b97a3d1ad2acb42d1233f55ffe",
+        "url": "https://github.com/guanning03/Schema/commit/84c075fadfe937b97a3d1ad2acb42d1233f55ffe"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "MAJOR",
+      "component_scope": "Program loading/replay/search, advisory backtest, enforced live mismatch stop and sandbox tests.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT in main repo; bundled benchmark/source assets and digbench/basic_harness retain applicable terms. No source redistribution proposed.",
+      "evidence": [
+        "https://github.com/guanning03/Schema/blob/84c075fadfe937b97a3d1ad2acb42d1233f55ffe/README.md",
+        "https://github.com/guanning03/Schema/blob/84c075fadfe937b97a3d1ad2acb42d1233f55ffe/arc-agi-3/agent/world_model/world.py"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S44",
+      "source": "arc-code",
+      "url": "https://github.com/jerber/arc-code",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "6b33c1f7c2ad45997663c69157f5559d1be61bd9",
+        "review_record_upper_bound": "2026-08-25",
+        "evidence": "https://github.com/zznabil/lean-agent-skill-collection/blob/89a96c163521e6ead8898c40d8b85eebe25716ad/docs/HISTORY.md"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "6b33c1f7c2ad45997663c69157f5559d1be61bd9",
+        "url": "https://github.com/jerber/arc-code/commit/6b33c1f7c2ad45997663c69157f5559d1be61bd9"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "NONE",
+      "component_scope": "Prompt, actuator boundaries, runner and actuator tests.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "MIT; external E2B/Neon/host dependencies are separate.",
+      "evidence": [
+        "https://github.com/jerber/arc-code/blob/6b33c1f7c2ad45997663c69157f5559d1be61bd9/README.md",
+        "https://github.com/jerber/arc-code/blob/6b33c1f7c2ad45997663c69157f5559d1be61bd9/PROMPT.md"
+      ],
+      "review_trigger": "default_review_trigger"
+    },
+    {
+      "id": "S45",
+      "source": "Prime Agent",
+      "url": "https://github.com/PrimeIntellect-ai/prime-agent",
+      "kind": "repository",
+      "historical_review": {
+        "revision": null,
+        "date": null,
+        "identity_confidence": "PROJECT_RESOLVED; reviewed revision not recovered",
+        "reconstructed_cutoff_revision": "b5ee2f81a59510e7225a0db10d65102e91e98803",
+        "review_record_upper_bound": "2026-08-25"
+      },
+      "current_review": {
+        "date": "2026-10-11",
+        "revision": "2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d",
+        "url": "https://github.com/PrimeIntellect-ai/prime-agent/commit/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d"
+      },
+      "comparison_basis": "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN",
+      "change_level": "MAJOR",
+      "component_scope": "Current Rust runtime/refinement; stable v0.10.0 distinguished from v0.3.3 ARC reproduction.",
+      "disposition": "KEEP UPSTREAM",
+      "rights": "LICENSE text is MIT with Prime Intellect and original Mario Zechner attribution, despite GitHub metadata reporting NOASSERTION. ARC reproduction MIT.",
+      "evidence": [
+        "https://github.com/PrimeIntellect-ai/prime-agent/blob/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d/README.md",
+        "https://github.com/PrimeIntellect-ai/prime-agent/blob/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d/LICENSE"
+      ],
+      "review_trigger": "default_review_trigger",
+      "release_context": {
+        "stable_tag": "v0.10.0",
+        "stable_revision": "763094e1b6a7c17450ee8399b06cda1853847ca5",
+        "note": "Current reviewed main is distinct from this stable release and the v0.3.3 ARC experiment."
+      }
+    }
+  ],
+  "upstream_test_status": "NOT RUN; implementation and test-source inspection only. Paper-only sources have no verified runtime.",
+  "supporting_repositories": [
+    {
+      "id": "D-S1",
+      "source": "Prime Agent ARC reproduction",
+      "repository": "https://github.com/PrimeIntellect-ai/arc-agi-3-prime-agent",
+      "sha": "398d4dd63cf01d00adbea41c13437ba0b8ad40fc",
+      "commit_date": "2026-08-12T20:33:24Z",
+      "license": "MIT",
+      "purpose": "Supplementary implementation evidence for historical Prime Agent source; not a separate historical integration candidate.",
+      "inspection_scope": "Repository metadata and complete tree; README.md and game_protocol_guard.py statically inspected. README explicitly pins Prime Agent v0.3.3. No test suite/runtime was executed.",
+      "method_pin": {
+        "tag": "v0.3.3",
+        "sha": "bc6894c89577ad9bfcebca8055d155d9aaa27640",
+        "repo": "PrimeIntellect-ai/prime-agent"
+      },
+      "source_links": [
+        "https://github.com/PrimeIntellect-ai/arc-agi-3-prime-agent/blob/398d4dd63cf01d00adbea41c13437ba0b8ad40fc/README.md",
+        "https://github.com/PrimeIntellect-ai/arc-agi-3-prime-agent/blob/398d4dd63cf01d00adbea41c13437ba0b8ad40fc/game_protocol_guard.py",
+        "https://github.com/PrimeIntellect-ai/arc-agi-3-prime-agent/blob/398d4dd63cf01d00adbea41c13437ba0b8ad40fc/LICENSE"
+      ],
+      "test_status": "NOT RUN"
+    },
+    {
+      "id": "D-S2",
+      "source": "Schema historical project website",
+      "repository": "https://github.com/schema-harness/schema-harness.github.io",
+      "sha": "537a5f245408b91bc98b3cb77ec42b4633e96dd6",
+      "commit_date": "2026-10-06T20:41:49Z",
+      "license": "UNKNOWN: no license file in complete three-file tree; GitHub metadata has license null.",
+      "purpose": "Identity and publication-history evidence for Schema; static website, not another agent runtime.",
+      "inspection_scope": "Metadata, complete tree (.nojekyll, README.md, index.html), README and commit history inspected. index.html is 6,271,847 bytes; raw/static-page retrieval exceeded tool size limit. Search-rendered author/date/release announcement corroborated with authoritative arXiv record and released guanning03/Schema README linking the old site. Full index bytes were not audited.",
+      "source_links": [
+        "https://github.com/schema-harness/schema-harness.github.io/blob/537a5f245408b91bc98b3cb77ec42b4633e96dd6/README.md",
+        "https://github.com/schema-harness/schema-harness.github.io/commit/537a5f245408b91bc98b3cb77ec42b4633e96dd6",
+        "https://arxiv.org/abs/2609.39140v1",
+        "https://github.com/guanning03/Schema/blob/84c075fadfe937b97a3d1ad2acb42d1233f55ffe/README.md"
+      ],
+      "test_status": "NOT APPLICABLE"
+    }
+  ]
+}

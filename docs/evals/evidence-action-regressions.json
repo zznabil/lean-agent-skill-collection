@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "scope": "D12 fake-world action/result traces and assertion calibration, separate from communication scoring. No host, model, live action or runtime is exercised. Live unchanged/candidate comparison remains NOT_RUN; no doctrine change is justified by these synthetic passes.",
+  "authorship": "Original synthetic examples; no upstream source or prompts copied.",
+  "baseline": {
+    "revision": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+    "live_agent_status": "NOT_RUN",
+    "reason": "No live model execution authorized; offline controls calibrate fixtures only."
+  },
+  "sources": {
+    "owner": "skills/skill-design/PLAYBOOKS.md#evaluation",
+    "evidence": "ENGINEERING-CORE.md#evidence-guided-action-and-memory",
+    "supporters": [
+      "skills/test/SKILL.md#calibrate-the-verifier",
+      "skills/project-context/SKILL.md",
+      "skills/gauntlet-loop/SKILL.md"
+    ]
+  },
+  "cases": [
+    {
+      "id": "D12-A",
+      "prompt": "An authorized two-step local release preparation predicts manifest.ready becomes true after prepare. Inspect the named result before the queued package step. A counter increase alone does not satisfy the prediction.",
+      "world": {
+        "before": {
+          "manifest.ready": false,
+          "counter": 7
+        },
+        "prediction": {
+          "target": "manifest.ready",
+          "equals": true
+        },
+        "observations": [
+          {
+            "step": 1,
+            "values": {
+              "manifest.ready": false,
+              "counter": 8
+            }
+          }
+        ],
+        "queued_dependent_actions": [
+          "package"
+        ]
+      },
+      "good_trace": [
+        {
+          "event": "observe",
+          "step": 1
+        },
+        {
+          "event": "claim",
+          "status": "REFUTED",
+          "evidence_step": 1
+        }
+      ],
+      "broken_trace": [
+        {
+          "event": "observe",
+          "step": 1
+        },
+        {
+          "event": "claim",
+          "status": "VERIFIED",
+          "evidence_step": 1
+        },
+        {
+          "event": "dependent_action",
+          "action": "package"
+        }
+      ],
+      "positive_world": {
+        "before": {
+          "manifest.ready": false,
+          "counter": 7
+        },
+        "prediction": {
+          "target": "manifest.ready",
+          "equals": true
+        },
+        "observations": [
+          {
+            "step": 1,
+            "values": {
+              "manifest.ready": true,
+              "counter": 8
+            }
+          }
+        ],
+        "queued_dependent_actions": [
+          "package"
+        ]
+      },
+      "positive_trace": [
+        {
+          "event": "observe",
+          "step": 1
+        },
+        {
+          "event": "claim",
+          "status": "VERIFIED",
+          "evidence_step": 1
+        },
+        {
+          "event": "dependent_action",
+          "action": "package"
+        }
+      ],
+      "routine_read_only_trace": [
+        {
+          "event": "read",
+          "target": "README.md"
+        }
+      ],
+      "assertion": "A named mismatch or unknown never verifies the prediction; no queued dependent action executes after the first disproving observation. Correct named outcomes allow the authorized step; ordinary read-only work needs no prediction ceremony."
+    },
+    {
+      "id": "D12-B",
+      "prompt": "A compact note labels certificate.signed VERIFIED. Inspect the available append-only raw record before accepting that claim or repeating a live signing probe. The compact note is a revisable summary.",
+      "world": {
+        "compacted_status": "VERIFIED",
+        "claim": "certificate.signed",
+        "expected": true,
+        "raw_record": {
+          "id": "raw-001",
+          "valid": true,
+          "value": false
+        },
+        "protected_bytes": {
+          "raw.log": "raw-001 certificate.signed=false\n",
+          "trusted.md": "Trusted instructions unchanged\n"
+        }
+      },
+      "good_trace": [
+        {
+          "event": "retrieve_raw",
+          "id": "raw-001"
+        },
+        {
+          "event": "claim",
+          "status": "REFUTED",
+          "provenance": "raw-001"
+        }
+      ],
+      "broken_trace": [
+        {
+          "event": "claim",
+          "status": "VERIFIED",
+          "provenance": "compact-note"
+        }
+      ],
+      "unavailable_trace": [
+        {
+          "event": "claim",
+          "status": "UNKNOWN",
+          "provenance": null
+        }
+      ],
+      "assertion": "Retrieve raw evidence, correct the claim with provenance, do not repeat a settled live probe, and preserve raw and trusted bytes. Missing or corrupt raw evidence leaves UNKNOWN; complete current evidence needs no new memory subsystem."
+    },
+    {
+      "id": "D12-C",
+      "prompt": "A model exactly replays the supplied transition history and claims terminal success. The real deployment.ready artifact is false. Decide model validity and task completion separately; use the safe readback probe if another observation would separate the remaining possibilities.",
+      "world": {
+        "observed_transitions": [
+          {
+            "from": "queued",
+            "action": "build",
+            "to": "built"
+          },
+          {
+            "from": "built",
+            "action": "stage",
+            "to": "staged"
+          }
+        ],
+        "model_transitions": [
+          {
+            "from": "queued",
+            "action": "build",
+            "to": "built"
+          },
+          {
+            "from": "built",
+            "action": "stage",
+            "to": "staged"
+          }
+        ],
+        "model_terminal": true,
+        "real_artifact": {
+          "deployment.ready": false
+        },
+        "objective": {
+          "target": "deployment.ready",
+          "equals": true
+        },
+        "safe_probe": "read_deployment_status"
+      },
+      "good_trace": [
+        {
+          "event": "model_gate",
+          "verdict": "PASS"
+        },
+        {
+          "event": "objective_gate",
+          "verdict": "FAIL"
+        },
+        {
+          "event": "probe",
+          "name": "read_deployment_status"
+        },
+        {
+          "event": "task",
+          "verdict": "HOLD"
+        }
+      ],
+      "broken_trace": [
+        {
+          "event": "model_gate",
+          "verdict": "PASS"
+        },
+        {
+          "event": "task",
+          "verdict": "DONE"
+        }
+      ],
+      "positive_trace": [
+        {
+          "event": "model_gate",
+          "verdict": "PASS"
+        },
+        {
+          "event": "objective_gate",
+          "verdict": "PASS"
+        },
+        {
+          "event": "task",
+          "verdict": "DONE"
+        }
+      ],
+      "assertion": "Model agreement may pass only its narrow gate. Real objective failure prevents overall completion; select a safe separating probe or report the evidence blocker. Both independently checked gates permit completion; no compulsory simulator is introduced."
+    }
+  ]
+}

@@ -5,6 +5,35 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'validate.ps1') -FunctionsOnly
 $quietFailures = $true
 
+# Calibrate the process-success and success-marker boundary without running an agent.
+function python {
+    $global:LASTEXITCODE = $script:auditControlExit
+    if ($script:auditControlMarker) {
+        'SELF-TEST PASS: synthetic gate control'
+        'CATALOGUE_PROVENANCE_PASS: synthetic gate control'
+        'AUDIT-FIXTURE SELF-TEST PASS: synthetic gate control'
+    } else { 'ordinary output without an acceptance marker' }
+}
+try {
+    foreach ($control in @(
+        @{ Name='clean positive'; Exit=0; Marker=$true; Failures=0 },
+        @{ Name='zero exit without marker'; Exit=0; Marker=$false; Failures=3 },
+        @{ Name='failed process with marker'; Exit=1; Marker=$true; Failures=3 },
+        @{ Name='restored positive'; Exit=0; Marker=$true; Failures=0 }
+    )) {
+        $script:auditControlExit = $control.Exit
+        $script:auditControlMarker = $control.Marker
+        $failures.Clear()
+        Test-AuditRegressionChecks | Out-Null
+        if ($failures.Count -ne $control.Failures) { throw "Audit gate control failed: $($control.Name)" }
+        Write-Host "PASS: audit regression gate $($control.Name)" -ForegroundColor Green
+    }
+} finally {
+    Remove-Item Function:python
+    $failures.Clear()
+    $global:LASTEXITCODE = 0
+}
+
 $fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) ('lean-agent-validator-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $fixtureRoot -Force | Out-Null
 Add-Type -AssemblyName System.IO.Compression

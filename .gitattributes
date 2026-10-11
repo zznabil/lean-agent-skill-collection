@@ -8,6 +8,8 @@
 *.yml text eol=lf
 *.ps1 text eol=lf
 *.bat text eol=lf
+/scripts/test-audit-regression-fixtures.py text eol=lf
+/scripts/test-catalogue-provenance.py text eol=lf
 /scripts/evaluate-communications.py text eol=lf
 /scripts/evaluate-composition.py text eol=lf
 /scripts/composition-browser-uat.js text eol=lf
