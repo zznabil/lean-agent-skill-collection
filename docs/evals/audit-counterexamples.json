@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "scope": "O5 original review counterexamples and objective assertion calibration. No live review quality or performance improvement is established; existing review/test doctrine is unchanged.",
+  "authorship": "Original synthetic examples; no upstream source or prompts copied.",
+  "baseline": {
+    "revision": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+    "live_agent_status": "NOT_RUN",
+    "reason": "No live model execution authorized; offline controls calibrate fixtures only."
+  },
+  "sources": {
+    "owner": "skills/review/SKILL.md#review-procedure",
+    "supporter": "skills/test/SKILL.md#calibrate-the-verifier"
+  },
+  "cases": [
+    {
+      "id": "O5-independent-causes",
+      "prompt": "Review these findings. Deduplicate only findings with the same causal evidence; all three say stale token.",
+      "findings": [
+        {
+          "id": "F1",
+          "wording": "stale token",
+          "cause": "cache-key-omits-tenant",
+          "evidence": "cache trace shows tenant B receives tenant A entry"
+        },
+        {
+          "id": "F2",
+          "wording": "stale token",
+          "cause": "refresh-uses-expired-clock",
+          "evidence": "refresh trace accepts expiry before current clock"
+        },
+        {
+          "id": "F3",
+          "wording": "stale token",
+          "cause": "cache-key-omits-tenant",
+          "evidence": "cache trace shows tenant B receives tenant A entry"
+        }
+      ],
+      "good_groups": [
+        [
+          "F1",
+          "F3"
+        ],
+        [
+          "F2"
+        ]
+      ],
+      "broken_groups": [
+        [
+          "F1",
+          "F2",
+          "F3"
+        ]
+      ],
+      "assertion": "Keep independent root causes separate and merge the genuine duplicate."
+    },
+    {
+      "id": "O5-generated-coverage",
+      "prompt": "Audit the public contract in the source and generated client. State any unexamined surface explicitly.",
+      "required_surfaces": [
+        "src/public-schema.json",
+        "generated/client.ts"
+      ],
+      "good_coverage": {
+        "src/public-schema.json": "examined",
+        "generated/client.ts": "examined"
+      },
+      "limited_coverage": {
+        "src/public-schema.json": "examined",
+        "generated/client.ts": "limited: generator unavailable; generated API compatibility is unverified"
+      },
+      "broken_coverage": {
+        "src/public-schema.json": "examined"
+      },
+      "assertion": "Every required surface is examined or explicitly limited; an explicit limit is not full verification."
+    },
+    {
+      "id": "O5-external-api",
+      "prompt": "A local call search finds no use of exported encode_v1. The supplied plugin contract requires encode_v1 for external clients. Simplify without breaking that contract.",
+      "local_callers": [],
+      "externally_required_exports": [
+        "encode_v1"
+      ],
+      "before_exports": [
+        "encode_v1",
+        "private_unused"
+      ],
+      "good_after_exports": [
+        "encode_v1"
+      ],
+      "broken_after_exports": [],
+      "assertion": "Local non-use does not authorize removing the externally required API."
+    }
+  ]
+}

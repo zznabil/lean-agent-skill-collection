@@ -1,6 +1,12 @@
 # History of Lean Agent Skills
 
-## Current release note
+## Current architecture checkpoint — 2026-10-11
+
+The reviewed baseline is V8.17.0 at `89a96c163521e6ead8898c40d8b85eebe25716ad`. It has 24 base task skills and 27 supplemental routines in every generated profile. The six profile totals are Core 36, Engineering 47, Complete 51, Communication 30, Get It Done 33 and Gauntlet 31. Separate source-only packs contain 63 remaining-standards routines plus 7 gated routines and 13 controlled-execution mechanisms. The source total is 134; optional packs do not enter generated profiles.
+
+The active communication kernel has three drivers: ASD-STE100-inspired language, ISO 704-inspired terminology and Diátaxis architecture. Other frameworks remain task-selected. One primary lifecycle owner and distinct supporting responsibilities govern composed work. See the [current catalog](SKILL-CATALOG.md), [composition rules](SKILL-COMPOSITION.md) and [dated source re-audit](UPSTREAM-REAUDIT-2026-10-11.md).
+
+## Historical V8.10.1 release note
 
 V8.10.1 supersedes the earlier V9.0.1 planning wording. PRs #17 and #18 ultimately merged as source-only remaining-standards and controlled-execution packs, excluded from generated release profiles. V8.10.1 is the separate metadata-validation repair and release-package update; it preserves the bundled references, licensing boundaries, public-source limitations, and non-runtime claims.
 
@@ -12,7 +18,7 @@ The Lean Agent Skills collection began as a workaround for one narrow problem:
 
 That first idea expanded into a large vendor-neutral collection, then into an oversized `get-it-done` superskill with many required dependencies. The collection was reliable, but it was not lean.
 
-The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to 30 skills. V8 consolidated seven more overlapping or project-local authorities, leaving the historical 23-skill routing surface. V8.10.1 now has 24 base task skills and 51 skills in Complete.
+The decisive change came from the project owner's dissatisfaction with the bloat and from Matt Pocock's short, dense, pragmatic skill style, especially `wait-what`. The collection was reduced from 139 skills to 29. Most micro-skills were absorbed into clear authorities, and `wait-what` became the communication doctrine for user-facing prose. One later addition—`cli-design`—brought the collection to 30 skills. V8 consolidated seven more overlapping or project-local authorities, leaving the historical 23-skill routing surface. V8.10.1 expanded the collection to 24 base task skills and 51 skills in Complete.
 
 At V8.1.0, the Complete profile contained 11,991 primary-skill words across 808 lines. Those figures are a historical size checkpoint, not the current release inventory.
 
@@ -295,7 +301,7 @@ Lean had already reviewed the original Unlazy project during V5. The later Unlaz
 
 The re-audit again rejected a separate `unlazy` skill and runtime. The Node checker, approval store, dispatcher, installer, hooks, host adapters, and platform process management remain upstream and project-local. Lean absorbed only the stable behavioral rules into `ENGINEERING-CORE`, `plan`, `test`, `get-it-done`, `gauntlet-loop`, `review`, and `skill-design`. See [`UNLAZY-REVIEW-v8.4.0.md`](UNLAZY-REVIEW-v8.4.0.md).
 
-## Current state: V8.4.0
+## Historical snapshot: V8.4.0
 
 ### Profiles
 
@@ -308,7 +314,7 @@ The re-audit again rejected a separate `unlazy` skill and runtime. The Node chec
 | Get It Done | 5 | Long-horizon execution, Gauntlet, and the complete Communication trio |
 | Gauntlet | 4 | Adversarial acceptance and the complete Communication trio |
 
-### Current architecture
+### Architecture at V8.4.0
 
 ```text
 AGENTS.md
@@ -360,3 +366,9 @@ The release kept 23 skills and six profiles and added 48 static delivery scenari
 ## V8.7.0 — Direct Claims & Accountable Reporting
 
 On 6 September 2026, the user's anti-litotes candidate was absorbed as scoped anti-evasion guidance across the existing profiles. The implementation preserves genuine uncertainty, semantic strength, exact sources, and permission boundaries. It adds no route or runtime. See the [decision record](DIRECT-CLAIMS-REVIEW-v8.7.0.md); the supplied Astra documentation view failed retrieval and supports no model-specific claim.
+
+## 2026-10-11 — Upstream provenance and current-record reconciliation
+
+The [re-audit record](UPSTREAM-REAUDIT-2026-10-11.md) pins 45 primary sources and two supporting repositories. It distinguishes 14 exact historical comparisons, 11 paper/cutoff comparisons with unknown reviewed pins, and 20 unknown historical baselines. Historical adoption and rejection decisions remain intact. Current source identities, successor locations and rights do not retroactively change those decisions. No upstream runtime or source code is imported.
+
+Current catalog and policy labels now distinguish active state from historical snapshots. Quick Mode appears in the 24-row catalog, the CDC-default passage is explicitly superseded, and controlled-execution links to the merged remaining-standards pack. These documentation corrections preserve the existing architecture.

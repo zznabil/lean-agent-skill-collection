@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "scope": "O3 contract and synthetic snapshot calibration only. This does not run workers, enforce isolation, or prove live workspace safety.",
+  "authorship": "Original synthetic examples; no upstream source or prompts copied.",
+  "baseline": {
+    "revision": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+    "live_agent_status": "NOT_RUN",
+    "reason": "No live model execution authorized; offline controls calibrate fixtures only."
+  },
+  "sources": {
+    "owner": "skills/get-it-done/ORCHESTRATION.md#protocol"
+  },
+  "cases": [
+    {
+      "id": "O3-base",
+      "intended_base": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+      "good_packets": [
+        {
+          "id": "parser",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/parser.py"
+          ],
+          "indirect": [
+            "generated/parser-index.json"
+          ]
+        },
+        {
+          "id": "display",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/display.py"
+          ],
+          "indirect": [
+            "generated/display-index.json"
+          ]
+        }
+      ],
+      "broken_packets": [
+        {
+          "id": "parser",
+          "worker_head": "0000000000000000000000000000000000000000",
+          "direct": [
+            "src/parser.py"
+          ],
+          "indirect": [
+            "generated/parser-index.json"
+          ]
+        },
+        {
+          "id": "display",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/display.py"
+          ],
+          "indirect": [
+            "generated/display-index.json"
+          ]
+        }
+      ],
+      "assertion": "Reject dependent writes when any actual pre-edit worker HEAD differs from the intended base."
+    },
+    {
+      "id": "O3-hidden-writes",
+      "intended_base": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+      "good_packets": [
+        {
+          "id": "parser",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/parser.py"
+          ],
+          "indirect": [
+            "generated/parser-index.json"
+          ]
+        },
+        {
+          "id": "display",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/display.py"
+          ],
+          "indirect": [
+            "generated/display-index.json"
+          ]
+        }
+      ],
+      "broken_packets": [
+        {
+          "id": "parser",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/parser.py"
+          ],
+          "indirect": [
+            "generated/parser-index.json",
+            ".cache/shared-index.json",
+            "generated/package-lock.json"
+          ]
+        },
+        {
+          "id": "display",
+          "worker_head": "89a96c163521e6ead8898c40d8b85eebe25716ad",
+          "direct": [
+            "src/display.py"
+          ],
+          "indirect": [
+            "generated/display-index.json",
+            ".cache/shared-index.json",
+            "generated/package-lock.json"
+          ]
+        }
+      ],
+      "assertion": "Disjoint direct targets do not permit concurrent hidden or generated output collisions."
+    },
+    {
+      "id": "O3-unattributed",
+      "before": {
+        "notes/user.txt": "Unattributed user draft\n"
+      },
+      "normal_after": {
+        "notes/user.txt": "Unattributed user draft\n",
+        "src/parser.py": "authorized edit\n"
+      },
+      "recovery_after": {
+        "notes/user.txt": "Unattributed user draft\n"
+      },
+      "broken_after": {
+        "notes/user.txt": "worker replacement\n"
+      },
+      "assertion": "Unattributed bytes survive both normal completion and recovery; missing data does not prove preservation."
+    }
+  ]
+}

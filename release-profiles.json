@@ -1,8 +1,8 @@
 {
-  "version": "8.17.0",
-  "release": "v8.17.0",
-  "release_title": "Lean Skill Composition",
-  "release_summary": "Formalise one primary lifecycle owner, distinct supporting responsibilities, deterministic conflict handling and independent assurance. Preserve standalone fallbacks, profile membership, Hermes installers and source-only pack boundaries.",
+  "version": "8.18.0",
+  "release": "v8.18.0",
+  "release_title": "Upstream Audit Hardening",
+  "release_summary": "Reconcile current source provenance and catalogues, strengthen communication source-evidence scoring, and make delegated workspace boundaries explicit. Add calibrated regression fixtures without changing skill routes or profile membership.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

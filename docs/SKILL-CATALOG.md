@@ -1,4 +1,6 @@
-# Lean Agent Skills V8.10.1 catalog
+# Lean Agent Skills catalog
+
+Current inventory: 24 base task skills. The table below matches the canonical `skills/` directories and [release profiles](../release-profiles.json).
 
 Current composition rules: [Skill composition](SKILL-COMPOSITION.md). They preserve the catalog membership and invocation policy below.
 
@@ -6,7 +8,7 @@ V8.10.1 adds `quick-mode` as an explicit user-selected fast path in Core, Engine
 
 V8.9.0 supplemental standards remain available in the integrated generated profiles through `packs/user-facing-standards/`; they add no adapters and retain explicit rights and public-source limitations.
 
-V8.8.0 keeps the same 23 canonical base task skills, six profiles, and invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
+Historical V8.8.0 retained 23 canonical base task skills, six profiles, and its invocation policy. Outcome-first delivery is a global overlay and local fallback, not a routed skill. It changes response sizing, completion reporting, tool-intent closure, and host/user presentation precedence.
 
 The direct-claims overlay is present in every profile and standalone skill fallback. It changes reporting, not specialist routing or acceptance criteria.
 
@@ -26,6 +28,7 @@ The direct-claims overlay is present in every profile and standalone skill fallb
 | `office-files` | complete | implicit | IEC/IEEE 82079-1; ISO/IEC/IEEE 26514; ISO 9241-112:2025; format-aware validation |
 | `plan` | core, engineering, complete | implicit | ISO 29148; EARS; BCP 14; ISO 25010; ISO 31000 family; ISO/IEC 29138-1/-4 |
 | `project-context` | engineering, complete | manual | ISO 5259; ISO 25012/25024; Model/Data Cards; FAIR; ISO 42005 |
+| `quick-mode` | core, engineering, complete, get-it-done | explicit request | User-authorized working slice; minimum reality check; preserved safety and selected acceptance |
 | `release` | engineering, complete | implicit | ISO 12207; SemVer; Conventional Commits; SLSA/SPDX/CycloneDX/Reproducible Builds |
 | `research` | core, engineering, complete | implicit | Primary-source and benchmark-regime disclosure practice |
 | `review` | core, engineering, complete | implicit | ISO 20246; ISO 25010; ISO 15026-2; user-information sources; Google code-review; evidence-backed simplification |
@@ -38,3 +41,5 @@ The direct-claims overlay is present in every profile and standalone skill fallb
 ## Supplemental user-facing standards
 
 The canonical [user-facing standards pack](../packs/user-facing-standards/README.md) contributes 27 separately loadable supplemental routines to every generated release profile. Their authoritative order and source/rights links are maintained in the [supplemental catalog](../packs/user-facing-standards/CATALOG.md); these routines carry no OpenAI adapters and do not alter the 24 base task routes. Effective profile totals are core 36, engineering 47, complete 51, communication 30, get-it-done 33, and gauntlet 31.
+
+Source-only packs remain separate: [remaining standards](../packs/remaining-standards/CATALOG.md) has 63 routines plus 7 gated routines; [controlled execution](../packs/controlled-execution/CATALOG.md) has 13 mechanisms. See the [2026-10-11 source re-audit](UPSTREAM-REAUDIT-2026-10-11.md) for pinned provenance and evidence limits.

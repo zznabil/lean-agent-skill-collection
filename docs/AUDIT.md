@@ -1,3 +1,18 @@
+# V8.18.0 upstream audit hardening acceptance
+
+The current release applies the bounded [11 October upstream review](UPSTREAM-REAUDIT-2026-10-11.md). Earlier acceptance records below remain historical. The release rule at the end still governs publication.
+
+## Current scope
+
+- Reconcile catalogues and the reviewed-source ledger without inventing unknown historical pins.
+- Require complete matching source-line coverage from paired successful reads before the final communication answer. This is trace evidence, not cryptographic execution attestation.
+- Verify a delegated worker's intended base before edits, assign shared writes, and preserve unattributed changes. No new runtime or skill route is introduced.
+- Calibrate original cancellation, workspace, audit and evidence-action counterexamples. Fixture/oracle checks do not prove live agent decisions, runtime cancellation, or higher task success.
+
+Run the existing cross-platform release gates plus communication evaluator self-tests, catalogue drift rejection controls and audit fixture self-tests. CI must reject failed commands. Exact-commit evidence and independently reviewed changes determine acceptance; this document alone grants no pass. No fresh live OMP, Codex or Hermes performance evaluation is claimed.
+
+---
+
 # V8.14.0 Task Brief acceptance
 
 The existing `project-context` route remains manual-only. The linked `TASK-BRIEF.md` schema supports Direct, Standard, and Durable records with provenance, readiness, and a next action. Durable records require a stable brief ID, accountable owner (or `UNKNOWN`), revision, and traceable material items. A context record is not proof of implementation.
