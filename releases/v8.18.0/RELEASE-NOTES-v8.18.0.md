@@ -10,7 +10,7 @@
 
 ## Compatibility
 
-The 24 base skills, 27 integrated routines, six profile inventories and implicit/manual routing are unchanged. The remaining-standards and controlled-execution packs remain separate source packs. Existing Hermes installers, source rights and communication fallbacks remain supported. No new orchestration runtime, mandatory dependency or global workflow is added.
+The 24 base skills, 27 integrated routines, six profile inventories and implicit/manual routing are unchanged. The remaining-standards and controlled-execution packs remain separate source packs. Existing Hermes installers, source rights and communication fallbacks remain supported. Installed profiles gain no new runtime dependency or global workflow. Source validation now also runs Python checks and requires Python 3.10+ available as `python` on PATH; existing CI already supplies it. No new third-party Python library is added.
 
 ## Verification and limits
 

@@ -107,7 +107,7 @@ UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 
 ## Validate
 
-On PowerShell 7 or Windows PowerShell 5.1:
+Source validation requires PowerShell 7 or Windows PowerShell 5.1 and Python 3.10+ available as `python` on PATH. Installed skill profiles do not gain a Python dependency. The CI runners already provide both tools.
 
 ```powershell
 ./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.18.0
