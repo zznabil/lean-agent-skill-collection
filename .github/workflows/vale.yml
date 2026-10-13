@@ -57,7 +57,9 @@ jobs:
         with:
           files: ${{ steps.prose.outputs.files }}
           version: 3.23.0
-          min_alert_level: warning
+          # Warning annotations can exceed GitHub's per-step limit. The direct
+          # full-corpus gate below still checks and counts advisory warnings.
+          min_alert_level: error
           fail_on_error: true
           fail_level: error
           filter_mode: nofilter

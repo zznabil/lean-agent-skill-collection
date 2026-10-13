@@ -36,6 +36,8 @@ The existing [Vale action](https://github.com/vale-cli/vale-action/tree/518a9136
 
 The local Vale 3.23.0 Windows archive matched both the official checksum file and GitHub's asset digest before execution. No machine installation or PATH change was made. The rule and scope controls passed on PowerShell 7 and Windows PowerShell 5.1.
 
+The first repaired CI run exposed a reporting limit: 21 advisory warnings exceeded GitHub's annotation quota and made reviewdog fail despite zero prose errors. Limit annotation reporting to errors. The direct full-corpus gate still checks and counts warnings. Its 35/36-word controls require warnings to remain nonblocking. Require a fresh successful CI run after this repair.
+
 The [Vale scope documentation](https://docs.vale.sh/topics/scopes) distinguishes prose from code and metadata. Observed behavior from the pinned binary remains the acceptance evidence for this release.
 
 ## Repository cross-checks and release gates
