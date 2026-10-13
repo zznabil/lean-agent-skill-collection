@@ -1,3 +1,9 @@
+# V8.19.0 repository checks
+
+The [13 October audit](REPOSITORY-AUDIT-2026-10-13.md) records scope, source checks, reproduced failures and repairs. The current gates reject concurrent installer destinations, linked build outputs, and every failed native pack command. Both main validation hosts use the calibrated artifact comparator. Corpus calibration remains separate from live agent evidence. Earlier versioned acceptance records below are historical.
+
+---
+
 # V8.14.0 Task Brief repository checks
 
 The `project-context` support-file gate requires both `TASK-BRIEF.md` and a reference in `SKILL.md`. A positive source check and a missing-file fixture check the gate; source integrity and package validation require the same bytes in the Engineering and Complete profiles. The route remains manual, and all six profile memberships stay unchanged. The brief schema defines a process, not observed live-model compliance.

@@ -11,7 +11,7 @@ function Get-TestDigest([string]$Path) {
     try { return [pscustomobject]@{ Hash = [BitConverter]::ToString($sha.ComputeHash([IO.File]::ReadAllBytes($Path))).Replace('-', '') } }
     finally { $sha.Dispose() }
 }
-function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$ConcurrentPolicyPath = '') {
+function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$ConcurrentPolicyPath = '', [string]$ConcurrentDestination = '') {
     $ErrorActionPreference = 'Continue'
     $command = "& '" + $script:fixtureInstaller.Replace("'", "''") + "' -HermesHome '" + $HomePath.Replace("'", "''") + "' -Confirm:" + '$false'
     foreach ($argument in $Extra) {
@@ -20,6 +20,11 @@ function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$Co
     }
     if ($ConcurrentPolicyPath) {
         $checkpoint = "Set-PSBreakpoint -Script '" + $script:fixtureInstaller.Replace("'", "''") + "' -Variable stage -Mode Write -Action { [IO.File]::WriteAllText('" + $ConcurrentPolicyPath.Replace("'", "''") + "', 'Concurrent user policy') } | Out-Null; "
+        $command = $checkpoint + $command
+    }
+    if ($ConcurrentDestination) {
+        $racePath = $ConcurrentDestination.Replace("'", "''")
+        $checkpoint = "Set-PSBreakpoint -Script '" + $script:fixtureInstaller.Replace("'", "''") + "' -Variable stage -Mode Write -Action { [IO.Directory]::CreateDirectory('" + $racePath + "') | Out-Null; [IO.File]::WriteAllText('" + $racePath + "/other-writer.txt', 'Concurrent user payload') } | Out-Null; "
         $command = $checkpoint + $command
     }
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
@@ -84,6 +89,16 @@ try {
     Assert ($result.Code -eq 0) "Skills-only install failed: $($result.Output)"
     Assert (Test-Path (Join-Path $noneHome 'skills/lean-pack-with-spaces/skills/wait-what/SKILL.md')) 'Skills-only install omitted skill.'
     Assert (-not (Test-Path (Join-Path $noneHome 'SOUL.md'))) 'None scope wrote policy.'
+    foreach ($scope in @('None', 'Global')) {
+        $raceHome = Join-Path $work ('destination-race-' + $scope)
+        $raceDestination = Join-Path $raceHome 'skills/lean-pack-with-spaces'
+        $result = Invoke-Installer -HomePath $raceHome -Extra @('-PolicyScope', $scope) -ConcurrentDestination $raceDestination
+        Assert ($result.Code -ne 0 -and -not $result.Output.Contains('INSTALLED:')) "Concurrent $scope destination was accepted: $($result.Output)"
+        Assert ([IO.File]::ReadAllText((Join-Path $raceDestination 'other-writer.txt')) -ceq 'Concurrent user payload') 'Concurrent destination payload changed.'
+        Assert (@(Get-ChildItem -LiteralPath $raceDestination -Force).Count -eq 1) 'Staged pack was nested inside the concurrent destination.'
+        Assert (@(Get-ChildItem -LiteralPath (Join-Path $raceHome 'skills') -Filter 'lean-hermes-*' -Force).Count -eq 0) 'Destination race left a staged pack.'
+        Assert (-not (Test-Path -LiteralPath (Join-Path $raceHome 'SOUL.md'))) 'Destination race wrote global policy.'
+    }
     foreach ($case in @('existing-global', 'new-global', 'project')) {
         $raceHome = Join-Path $work ('race-' + $case)
         New-Item -ItemType Directory -Path $raceHome | Out-Null
@@ -107,7 +122,7 @@ try {
     $result = Invoke-Installer $missingHome
     Assert ($result.Code -ne 0) 'Missing AGENTS payload was accepted.'
     Assert (-not (Test-Path $missingHome)) 'Missing payload created a home.'
-    Write-Host 'HERMES_INSTALL_BOUNDARIES_PASS: preview, global, persona backup, declared-name collisions, project, skills-only, policy races, missing payload'
+    Write-Host 'HERMES_INSTALL_BOUNDARIES_PASS: preview, global, persona backup, declared-name collisions, project, skills-only, destination races, policy races, missing payload'
 } finally {
     if (Test-Path -LiteralPath $work) { Remove-Item -LiteralPath $work -Recurse -Force }
 }

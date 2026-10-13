@@ -16,27 +16,28 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+    - name: Calibrate workflow and build output guards
+      shell: pwsh
+      run: |
+        ./scripts/test-workflow-gates.ps1
+        ./scripts/test-build-output.ps1
     - name: Build twice and prove reproducibility
       shell: pwsh
       run: |
         ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
         ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
-        $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
-        $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
-        if ($files.Count -ne $otherFiles.Count) { throw "Build output file counts differ" }
-        foreach ($file in $files) {
-          $other = Join-Path ./artifacts/repro-b $file.Name
-          if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
-          if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
-            throw "Non-deterministic output: $($file.Name)"
-          }
-        }
+        ./scripts/compare-release-artifacts.ps1 -ReferenceDirectory ./artifacts/repro-a -CandidateDirectory ./artifacts/repro-b
+        if ($LASTEXITCODE -ne 0) { throw "Release artifact comparison failed" }
     - name: Calibrate composition decision oracle
       shell: pwsh
       run: python -B scripts/evaluate-composition.py --self-test
     - name: Test Hermes installer boundaries
       shell: pwsh
-      run: ./scripts/test-hermes-install.ps1
+      run: |
+        foreach ($installer in @('install-hermes.ps1', 'packs/user-facing-standards/install-hermes.ps1', 'packs/remaining-standards/install-hermes.ps1', 'packs/controlled-execution/install-hermes.ps1')) {
+          ./scripts/test-hermes-install.ps1 -Installer $installer
+          if ($LASTEXITCODE -ne 0) { throw "Hermes installer boundaries failed: $installer" }
+        }
     - name: Test validator rejection controls
       shell: pwsh
       run: ./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/repro-a
@@ -50,19 +51,28 @@ jobs:
       shell: pwsh
       run: |
         python -B packs/remaining-standards/audit/validate_bundle.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: validate_bundle.py" }
         python -B packs/remaining-standards/audit/test_validate_bundle.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: test_validate_bundle.py" }
         python -B packs/remaining-standards/audit/test_publisher_baseline.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: test_publisher_baseline.py" }
         python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-a.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-b.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         if ((Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-b.zip").Hash) { throw 'Remaining standards archives are not byte-identical' }
         if (git status --porcelain) { throw 'Remaining standards validation changed the checkout' }
     - name: Validate controlled-execution review pack
       shell: pwsh
       run: |
         python -B packs/controlled-execution/audit/validate_pack.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: validate_pack.py" }
         python -B packs/controlled-execution/audit/test_validate_pack.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: test_validate_pack.py" }
         python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-a.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-b.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         if ((Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-b.zip").Hash) { throw 'Controlled-execution archives are not byte-identical' }
         if (git status --porcelain) { throw 'Controlled-execution validation changed the checkout' }
     - name: Verify prose preservation and packaged standalone instructions
@@ -75,27 +85,28 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+    - name: Calibrate workflow and build output guards
+      shell: powershell
+      run: |
+        ./scripts/test-workflow-gates.ps1
+        ./scripts/test-build-output.ps1
     - name: Build twice and prove reproducibility
       shell: powershell
       run: |
         ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-a
         ./scripts/build-release.ps1 -OutputDirectory ./artifacts/repro-b
-        $files = @(Get-ChildItem ./artifacts/repro-a -File | Sort-Object Name)
-        $otherFiles = @(Get-ChildItem ./artifacts/repro-b -File | Sort-Object Name)
-        if ($files.Count -ne $otherFiles.Count) { throw "Build output file counts differ" }
-        foreach ($file in $files) {
-          $other = Join-Path ./artifacts/repro-b $file.Name
-          if (-not (Test-Path -LiteralPath $other)) { throw "Second build lacks $($file.Name)" }
-          if ((Get-FileHash $file.FullName).Hash -ne (Get-FileHash $other).Hash) {
-            throw "Non-deterministic output: $($file.Name)"
-          }
-        }
+        ./scripts/compare-release-artifacts.ps1 -ReferenceDirectory ./artifacts/repro-a -CandidateDirectory ./artifacts/repro-b
+        if ($LASTEXITCODE -ne 0) { throw "Release artifact comparison failed" }
     - name: Calibrate composition decision oracle
       shell: powershell
       run: python -B scripts/evaluate-composition.py --self-test
     - name: Test Hermes installer boundaries
       shell: powershell
-      run: ./scripts/test-hermes-install.ps1
+      run: |
+        foreach ($installer in @('install-hermes.ps1', 'packs/user-facing-standards/install-hermes.ps1', 'packs/remaining-standards/install-hermes.ps1', 'packs/controlled-execution/install-hermes.ps1')) {
+          ./scripts/test-hermes-install.ps1 -Installer $installer
+          if ($LASTEXITCODE -ne 0) { throw "Hermes installer boundaries failed: $installer" }
+        }
     - name: Test validator rejection controls
       shell: powershell
       run: ./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/repro-a
@@ -109,19 +120,28 @@ jobs:
       shell: powershell
       run: |
         python -B packs/remaining-standards/audit/validate_bundle.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: validate_bundle.py" }
         python -B packs/remaining-standards/audit/test_validate_bundle.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: test_validate_bundle.py" }
         python -B packs/remaining-standards/audit/test_publisher_baseline.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: test_publisher_baseline.py" }
         python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-a.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         python -B packs/remaining-standards/audit/build_zip.py "$env:RUNNER_TEMP/lean-remaining-standards-b.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         if ((Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-remaining-standards-b.zip").Hash) { throw 'Remaining standards archives are not byte-identical' }
         if (git status --porcelain) { throw 'Remaining standards validation changed the checkout' }
     - name: Validate controlled-execution review pack
       shell: powershell
       run: |
         python -B packs/controlled-execution/audit/validate_pack.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: validate_pack.py" }
         python -B packs/controlled-execution/audit/test_validate_pack.py
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: test_validate_pack.py" }
         python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-a.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         python -B packs/controlled-execution/audit/build_zip.py "$env:RUNNER_TEMP/lean-controlled-execution-b.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Python gate failed: build_zip.py" }
         if ((Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-a.zip").Hash -ne (Get-FileHash "$env:RUNNER_TEMP/lean-controlled-execution-b.zip").Hash) { throw 'Controlled-execution archives are not byte-identical' }
         if (git status --porcelain) { throw 'Controlled-execution validation changed the checkout' }
     - name: Verify prose preservation and packaged standalone instructions
