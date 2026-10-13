@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.19.1 — 2026-10-13
+
+- Record tested revisions, replay commands, evidence links and unverified coverage in pull requests. Preserve the existing permission and licence statements.
+- Share Vale file selection between CI and direct checks. Include root and contributor Markdown, authored documentation, pack instructions and current release notes. Exclude publisher copies, copied licences and historical release snapshots.
+- Pin the existing Vale action to its inspected commit. Report the whole selected corpus and fail only at error severity. Independently check every selected file through the Vale CLI.
+- Add omission controls, case-insensitive terminology checks, code/metadata preservation and the exact 35/36-word warning boundary on both PowerShell hosts.
+- Correct the authored Diátaxis attribution-summary spelling. Preserve licence terms, publisher bytes, all skill bodies and profile memberships.
+- Preserve canonical-name fixture bytes on Windows PowerShell 5.1. Repair dash-delimited attribution-claim detection and add controls for negation in a separate clause.
+
 ## 8.19.0 — 2026-10-13
 
 - Add four executable anti-pattern cases for implementation, review, and testing. Check broken examples, reference repairs, and legitimate controls. Include candidate-file checks and a procedure for separate agent trials.

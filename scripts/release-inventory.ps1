@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = '03678ca261cafd4aceb0e810b7b2138e5bb44cd8bca21f10c8ce8620764c0e71'
+$script:ExpectedSupplementalPackLedgerSha256 = 'b982783b0673eb932a48e206c74fd7f3c1e581165c1a1bd75cec35df924fcd46'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -299,7 +299,7 @@ function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
 }
 $script:ApprovalTermPattern = '(?<![A-Za-z0-9-])(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)(?![A-Za-z0-9-])'
 $script:ApprovalTermRegexOptions = [Text.RegularExpressions.RegexOptions]::IgnoreCase -bor [Text.RegularExpressions.RegexOptions]::CultureInvariant
-$script:ApprovalClauseSplitPattern = '(?i)[,.;:!?\r\n—–]+|\b(?:but|however|yet)\b'
+$script:ApprovalClauseSplitPattern = '(?i)[,.;:!?\r\n\u2014\u2013]+|\b(?:but|however|yet)\b'
 $script:ApprovalTokenPattern = "[A-Za-z0-9][A-Za-z0-9''-]*"
 $script:ApprovalNegationPattern = '(?i)^(?:no|not|never|without|cannot)$'
 $script:ApprovalContextTokenLimit = 12

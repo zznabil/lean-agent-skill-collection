@@ -12,6 +12,7 @@
 /scripts/test-catalogue-provenance.py text eol=lf
 /scripts/evaluate-communications.py text eol=lf
 /scripts/evaluate-antipatterns.py text eol=lf
+/scripts/vale-files.py text eol=lf
 /docs/evals/antipatterns/**/*.py text eol=lf
 /scripts/evaluate-composition.py text eol=lf
 /scripts/composition-browser-uat.js text eol=lf

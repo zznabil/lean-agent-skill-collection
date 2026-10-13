@@ -4,24 +4,22 @@ on:
   push:
     branches: [main]
     paths:
-      - AGENTS.md
-      - docs/evals/antipatterns/**/*.md
-      - ENGINEERING-CORE.md
-      - skills/**
-      - packs/**
+      - '**/*.md'
       - .vale.ini
+      - .gitattributes
+      - release-profiles.json
+      - scripts/vale-files.py
       - scripts/test-vale.ps1
       - .github/styles/**
       - .github/workflows/vale.yml
   pull_request:
     branches: [main]
     paths:
-      - AGENTS.md
-      - docs/evals/antipatterns/**/*.md
-      - ENGINEERING-CORE.md
-      - skills/**
-      - packs/**
+      - '**/*.md'
       - .vale.ini
+      - .gitattributes
+      - release-profiles.json
+      - scripts/vale-files.py
       - scripts/test-vale.ps1
       - .github/styles/**
       - .github/workflows/vale.yml
@@ -44,29 +42,28 @@ jobs:
         run: |
           import json
           import os
-          from pathlib import Path
+          import subprocess
+          import sys
 
-          paths = {"AGENTS.md", "ENGINEERING-CORE.md"}
-          patterns = (
-              "skills/**/*.md", "packs/*/skills/**/*.md",
-              "docs/evals/antipatterns/**/*.md",
-              "packs/*/gated-skills/**/*.md", "packs/*/README.md",
-              "packs/*/CATALOG.md", "packs/*/CONTROL-MODEL.md",
-              "packs/*/PORTING-NOTES.md",
+          result = subprocess.check_output(
+              [sys.executable, "-B", "scripts/vale-files.py"], text=True
           )
-          for pattern in patterns:
-              paths.update(path.as_posix() for path in Path(".").glob(pattern)
-                           if "official" not in path.parts)
+          paths = json.loads(result)
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write("files=" + json.dumps(sorted(paths)) + "\n")
+              output.write("files=" + json.dumps(paths) + "\n")
+          print(f"Selected {len(paths)} authored Markdown files.")
       - name: Lint live authored instructions
-        uses: vale-cli/vale-action@v3.0.0
+        uses: vale-cli/vale-action@518a9136acc6e6668ce7c00d367051e0941e87ff # v3.0.0
         with:
           files: ${{ steps.prose.outputs.files }}
           version: 3.23.0
-          min_alert_level: warning
+          # Warning annotations can exceed GitHub's per-step limit. The direct
+          # full-corpus gate below still checks and counts advisory warnings.
+          min_alert_level: error
           fail_on_error: true
-      - name: Verify lint rejection and warning controls
+          fail_level: error
+          filter_mode: nofilter
+      - name: Verify full corpus, rejection and warning controls
         shell: pwsh
         run: |
           $vale = Get-ChildItem -LiteralPath (Join-Path $env:RUNNER_TOOL_CACHE 'vale/3.23.0') -Filter vale -File -Recurse

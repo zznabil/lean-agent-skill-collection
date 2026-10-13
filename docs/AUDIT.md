@@ -1,6 +1,14 @@
+# V8.19.1 reproducible evidence and Vale acceptance
+
+Use the shared `scripts/vale-files.py` selector for CI and direct lint checks. Cover contributor instructions, companion prose, pack instructions and current release notes. Keep publisher copies, copied licences and historical releases outside the prose gate. Require terminology errors to fail, sentence warnings to remain advisory, and omitted-file controls to reject the known coverage gaps.
+
+Run the exact 35/36-word boundary and metadata/code controls on both PowerShell hosts. Require the full existing release suite, current PR CI and exact merged-main CI before tagging. Publish fresh assets and download/hash every attached file. The [Vale audit](VALE-AUDIT-2026-10-13.md) records findings and limits; it does not certify model behavior or standards conformance.
+
+---
+
 # V8.19.0 regression corpus and release boundary acceptance
 
-The current release includes the [13 October repository audit](REPOSITORY-AUDIT-2026-10-13.md). Require fresh corpus calibration, all four Hermes installer boundary suites, linked-output rejection controls, native-command failure controls, source and archive validation, reproducible builds, and prose preservation on both supported PowerShell hosts. Verify current PR CI and exact merged-main CI before tagging. Download and hash every published asset after release creation.
+That release included the [13 October repository audit](REPOSITORY-AUDIT-2026-10-13.md). Require fresh corpus calibration, all four Hermes installer boundary suites, linked-output rejection controls, native-command failure controls, source and archive validation, reproducible builds, and prose preservation on both supported PowerShell hosts. Verify current PR CI and exact merged-main CI before tagging. Download and hash every published asset after release creation.
 
 Public fixtures do not prove live agent skill use. The audit preserves the 24 base skills, 27 integrated routines, six profiles, and both optional source-pack boundaries. Publisher material and historical releases remain unchanged. Earlier records below are historical; the release rule still governs publication.
 

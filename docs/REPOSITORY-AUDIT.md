@@ -1,3 +1,9 @@
+# V8.19.1 repository and Vale checks
+
+The [Vale audit](VALE-AUDIT-2026-10-13.md) covers shared file selection, contributor and companion coverage, current release notes, terminology errors, advisory warnings and preserved source bytes. The existing repository and release checks remain required. Earlier records below are historical.
+
+---
+
 # V8.19.0 repository checks
 
 The [13 October audit](REPOSITORY-AUDIT-2026-10-13.md) records scope, source checks, reproduced failures and repairs. The current gates reject concurrent installer destinations, linked build outputs, and every failed native pack command. Both main validation hosts use the calibrated artifact comparator. Corpus calibration remains separate from live agent evidence. Earlier versioned acceptance records below are historical.
