@@ -270,6 +270,7 @@ function Test-SkillTree([object]$Profiles) {
 
 function Get-CanonicalUpstreamIntegrityPaths {
     $fixed = @(
+        'scripts/evaluate-antipatterns.py','docs/evals/antipatterns/README.md','docs/evals/antipatterns/manifest.json','docs/evals/antipatterns/policy/broken.py','docs/evals/antipatterns/policy/control.py','docs/evals/antipatterns/policy/repair.py','docs/evals/antipatterns/query_budget/broken.py','docs/evals/antipatterns/query_budget/control.py','docs/evals/antipatterns/query_budget/repair.py','docs/evals/antipatterns/retry/broken.py','docs/evals/antipatterns/retry/control.py','docs/evals/antipatterns/retry/repair.py','docs/evals/antipatterns/test_boundary/broken.py','docs/evals/antipatterns/test_boundary/control.py','docs/evals/antipatterns/test_boundary/repair.py',
         'docs/HISTORY.md','docs/UPSTREAM-REAUDIT-2026-10-11.md','docs/UPSTREAM-PROVENANCE-2026-10-11.json','docs/evals/delegation-workspace-regressions.json','docs/evals/audit-counterexamples.json','docs/evals/evidence-action-regressions.json','scripts/test-audit-regression-fixtures.py','scripts/test-catalogue-provenance.py','releases/v8.18.0/RELEASE-NOTES-v8.18.0.md',
         '.vale.ini','.github/workflows/vale.yml','.github/styles/LeanAgent/SentenceLength.yml','.github/styles/LeanAgent/Terminology.yml','scripts/test-vale.ps1',
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
@@ -689,7 +690,8 @@ function Test-AuditRegressionChecks {
     $checks = @(
         @{ Script='evaluate-communications.py'; SelfTest=$true; Marker='SELF-TEST PASS:' },
         @{ Script='test-catalogue-provenance.py'; SelfTest=$true; Marker='CATALOGUE_PROVENANCE_PASS:' },
-        @{ Script='test-audit-regression-fixtures.py'; SelfTest=$false; Marker='AUDIT-FIXTURE SELF-TEST PASS:' }
+        @{ Script='test-audit-regression-fixtures.py'; SelfTest=$false; Marker='AUDIT-FIXTURE SELF-TEST PASS:' },
+        @{ Script='evaluate-antipatterns.py'; SelfTest=$true; Marker='ANTIPATTERN_CORPUS_PASS:' }
     )
     foreach ($check in $checks) {
         $arguments = @('-B', (Join-Path $PSScriptRoot $check.Script))
