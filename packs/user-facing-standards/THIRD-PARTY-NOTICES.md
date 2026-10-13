@@ -1,6 +1,6 @@
 # Third-party rights and attribution
 
-This is the public-repository edition of an independent compilation. Original Lean procedures and tooling use the MIT licence in LICENSE, except the Diataxis adaptation identified below. Publisher documents retain their own licences and notices; the repository MIT licence does not relicense them. No publisher endorsement is claimed.
+This is the public-repository edition of an independent compilation. Original Lean procedures and tooling use the MIT licence in LICENSE, except the Diátaxis adaptation identified below. Publisher documents retain their own licences and notices; the repository MIT licence does not relicense them. No publisher endorsement is claimed.
 
 ## IES — public domain
 

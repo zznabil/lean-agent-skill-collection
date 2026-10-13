@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = '03678ca261cafd4aceb0e810b7b2138e5bb44cd8bca21f10c8ce8620764c0e71'
+$script:ExpectedSupplementalPackLedgerSha256 = 'b982783b0673eb932a48e206c74fd7f3c1e581165c1a1bd75cec35df924fcd46'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)

@@ -1,8 +1,8 @@
 {
-  "version": "8.19.0",
-  "release": "v8.19.0",
-  "release_title": "Regression Corpus and Release Boundary Repairs",
-  "release_summary": "Add four public executable anti-pattern cases. Preserve concurrent Hermes destinations, reject linked release output paths, and stop CI at every failed native pack check. Keep skill routes, profile memberships and publisher source bytes unchanged.",
+  "version": "8.19.1",
+  "release": "v8.19.1",
+  "release_title": "Reproducible Evidence and Complete Vale Coverage",
+  "release_summary": "Make pull request evidence reproducible. Share Vale file selection across CI and direct checks, cover contributor and companion prose plus current release notes, and calibrate scope and sentence boundaries. Preserve skill routes, profile memberships and publisher source bytes.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -124,7 +124,7 @@
     "source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
     "source_manifest_sha256": "d01b17644e2464e9bb3d08ec9b112f4e80f69bb3a97b335fde9c6a7299addc16",
     "rights_notice_path": "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
-    "rights_notice_sha256": "1061633d3a12dd100bb5c89126ad40312e1883cfb7042645fc78ec6d002dc951",
+    "rights_notice_sha256": "740590290193d280ff2b1065f3022b6a59c7e78ac2bc73fb3f8bfe94261019e8",
     "skills_expected": 27,
     "included_profiles": [
       "core",
