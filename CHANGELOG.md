@@ -7,6 +7,7 @@
 - Pin the existing Vale action to its inspected commit. Report the whole selected corpus and fail only at error severity. Independently check every selected file through the Vale CLI.
 - Add omission controls, case-insensitive terminology checks, code/metadata preservation and the exact 35/36-word warning boundary on both PowerShell hosts.
 - Correct the authored Diátaxis attribution-summary spelling. Preserve licence terms, publisher bytes, all skill bodies and profile memberships.
+- Preserve canonical-name fixture bytes on Windows PowerShell 5.1. Repair dash-delimited attribution-claim detection and add controls for negation in a separate clause.
 
 ## 8.19.0 — 2026-10-13
 

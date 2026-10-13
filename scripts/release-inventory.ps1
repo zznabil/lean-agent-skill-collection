@@ -299,7 +299,7 @@ function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
 }
 $script:ApprovalTermPattern = '(?<![A-Za-z0-9-])(?:approval|approved|endorsement|endorsed|certification|certified|authorization|authorisation|authorized|authorised)(?![A-Za-z0-9-])'
 $script:ApprovalTermRegexOptions = [Text.RegularExpressions.RegexOptions]::IgnoreCase -bor [Text.RegularExpressions.RegexOptions]::CultureInvariant
-$script:ApprovalClauseSplitPattern = '(?i)[,.;:!?\r\n—–]+|\b(?:but|however|yet)\b'
+$script:ApprovalClauseSplitPattern = '(?i)[,.;:!?\r\n\u2014\u2013]+|\b(?:but|however|yet)\b'
 $script:ApprovalTokenPattern = "[A-Za-z0-9][A-Za-z0-9''-]*"
 $script:ApprovalNegationPattern = '(?i)^(?:no|not|never|without|cannot)$'
 $script:ApprovalContextTokenLimit = 12

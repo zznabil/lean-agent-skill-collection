@@ -401,8 +401,9 @@ try {
         foreach($capitalizedTerm in ($approvalAffirmativeCapitalizationCases | Where-Object { $_ -match ('^(?i:' + [regex]::Escape($term) + ')$') })){
             $approvalPolarityCases += [pscustomobject]@{Text=('Publisher ' + $capitalizedTerm + ' granted.');Rejected=$true}
         }
-        foreach($separator in @(',', '.', ';', ':', '!', '?', '—', '–', [Environment]::NewLine, ' but ', ' however ', ' yet ')){
+        foreach($separator in @(',', '.', ';', ':', '!', '?', ([char]0x2014), ([char]0x2013), [Environment]::NewLine, ' but ', ' however ', ' yet ')){
             $approvalPolarityCases += [pscustomobject]@{Text=('No formal publisher ' + $term + ' assertion is made' + $separator + ' Publisher ' + $term + ' granted.');Rejected=$true}
+            $approvalPolarityCases += [pscustomobject]@{Text=('No publisher involvement' + $separator + ' Publisher ' + $term + ' granted.');Rejected=$true}
         }
     }
     foreach($case in $approvalPolarityCases){

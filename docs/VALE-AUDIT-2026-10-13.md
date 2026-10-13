@@ -26,6 +26,12 @@ The authored attribution summary used `Diataxis`; its own attribution heading us
 
 This corrects an authored source name. It changes no licence grant, attribution actor, publisher copy or adaptation status. The CC BY-SA 4.0 boundary remains explicit.
 
+### APPROVAL-ENCODING — P2, fix before release
+
+The same encoding audit found literal dash characters in the attribution-claim validator and its fixtures. On Windows PowerShell 5.1, the validator accepted `No publisher involvement` followed by an em dash or en dash and `Publisher approved.` PowerShell 7 correctly rejected the affirmative claim. The old fixtures repeated an approval term in both clauses, so they did not expose this failure.
+
+Use Unicode escapes in the clause-splitting regex and construct fixture dashes from Unicode values. Add separate-clause controls with no approval term in the first clause. Both hosts must reject the affirmative claim and accept a truthful negated claim. This repairs a static provenance-language gate; it grants no publisher approval or runtime authority.
+
 ## Rules and execution
 
 The three terminology substitutions remain unchanged. They reject case-insensitive aliases and accept canonical source names. Metadata fields, inline code and fenced code retain their existing exceptions.
