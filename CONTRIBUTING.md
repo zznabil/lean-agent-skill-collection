@@ -9,7 +9,8 @@ Contributions should keep skills small, vendor-neutral, and evidence-driven.
 3. Preserve explicit permission checks for consequential actions.
 4. Update the OpenAI adapter when skill metadata changes.
 5. Run `./scripts/validate.ps1`.
-6. Report runtime tests separately from static checks.
+6. Record the tested revision, exact replay commands, results, available evidence links, and unverified coverage in the pull request template.
+7. Report runtime tests separately from static checks. Mark checks you did not run as `NOT TESTED` and state the reason.
 
 Do not add dependencies, installers, hooks, automatic updates, external integrations, or trusted-state mutation without an explicit design and security review.
 

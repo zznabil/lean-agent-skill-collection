@@ -12,9 +12,14 @@ Describe the problem and the smallest change that solves it.
 ## Evidence
 
 - Requirement or issue:
-- Checks run:
+- Tested revision (commit or source tree):
+- Checks run (exact replay commands):
 - Actual result:
+- Evidence artifact or CI run link, if available:
 - Runtime host tests, if applicable:
+- Unverified coverage and reason:
+
+Report each check as `PASS`, `FAIL`, or `NOT TESTED`. State what remains unverified. Use `None` only when no relevant coverage remains unverified.
 
 ## Safety and scope
 
