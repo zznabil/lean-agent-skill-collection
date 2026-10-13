@@ -14,11 +14,7 @@ $releaseName = [string]$definition.release
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
     $OutputDirectory = Join-Path $repoRoot (Join-Path 'artifacts' $releaseName)
 }
-$outputFullPath = [IO.Path]::GetFullPath($OutputDirectory)
-$artifactsRoot = [IO.Path]::GetFullPath((Join-Path $repoRoot 'artifacts')).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
-if (-not $outputFullPath.StartsWith($artifactsRoot, [StringComparison]::OrdinalIgnoreCase)) {
-    throw "Refusing unsafe output directory: $outputFullPath"
-}
+$outputFullPath = Assert-ReleaseBuildOutputPath $repoRoot $OutputDirectory
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 Add-Type -AssemblyName System.IO.Compression

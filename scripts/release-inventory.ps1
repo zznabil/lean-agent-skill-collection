@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = '8fd030a0fa971b4d47b20c6ef53260fbc8532403d2d24f1a6821c12c34e3d82f'
+$script:ExpectedSupplementalPackLedgerSha256 = '03678ca261cafd4aceb0e810b7b2138e5bb44cd8bca21f10c8ce8620764c0e71'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -232,6 +232,27 @@ function Get-ReleaseInventorySafeFileTree([string]$RootPath, [string]$Label) {
     }
     return $files.ToArray()
 }
+function Assert-ReleaseBuildOutputPath([string]$RepositoryRoot, [string]$OutputDirectory) {
+    $rootFull = [IO.Path]::GetFullPath($RepositoryRoot).TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
+    $outputFull = [IO.Path]::GetFullPath($OutputDirectory)
+    $comparison = if ($env:OS -eq 'Windows_NT') { [StringComparison]::OrdinalIgnoreCase } else { [StringComparison]::Ordinal }
+    $prefix = (Join-Path $rootFull 'artifacts') + [IO.Path]::DirectorySeparatorChar
+    if (-not $outputFull.StartsWith($prefix, $comparison)) { throw "Refusing unsafe output directory: $outputFull" }
+    $cursor = $outputFull
+    while ($cursor) {
+        if (Test-Path -LiteralPath $cursor) {
+            $item = Get-Item -LiteralPath $cursor -Force
+            if (-not $item.PSIsContainer -or ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+                throw "Build output contains a linked or non-directory path: $cursor"
+            }
+        }
+        if ([String]::Equals($cursor, $rootFull, $comparison)) { break }
+        $cursor = Split-Path -Parent $cursor
+    }
+    if (Test-Path -LiteralPath $outputFull) { [void](Get-ReleaseInventorySafeFileTree $outputFull 'Build output') }
+    return $outputFull
+}
+
 function Get-ReleaseChecksumLedger([string]$RepositoryRoot,[string]$PackRelativePath,[string]$ExpectedHash,[string]$Label) {
     $packRoot = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $RepositoryRoot $PackRelativePath) "$Label root"
     $ledgerPath = Assert-ReleaseInventorySafePath $RepositoryRoot (Join-Path $packRoot 'CHECKSUMS.sha256') "$Label ledger"
@@ -268,11 +289,11 @@ function Get-ReleaseChecksumLedger([string]$RepositoryRoot,[string]$PackRelative
 function Get-ReleasePackLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/user-facing-standards' $script:ExpectedSupplementalPackLedgerSha256 'supplemental pack'
 }
-$script:ExpectedRemainingStandardsPackLedgerSha256 = '7112b6f4cc3a45ae18d58a13f59b59bf629ba9f1b5fc6cd0da717e1415a26875'
+$script:ExpectedRemainingStandardsPackLedgerSha256 = '2be19df9c88b97c1181161d43659b93205e5078a013b52c64fa2da83993393ab'
 function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
-$script:ExpectedControlledExecutionPackLedgerSha256 = 'cb2e5a6307892ca7e11678b9cbe23c0c5920e9a290c9bc66459fac560fa47b73'
+$script:ExpectedControlledExecutionPackLedgerSha256 = '7403e397f1fffd0d4590b38efa4620f2ad25e910d9118f208f7aea43eeb40c8d'
 function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/controlled-execution' $script:ExpectedControlledExecutionPackLedgerSha256 'controlled-execution pack'
 }

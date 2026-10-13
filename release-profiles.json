@@ -1,8 +1,8 @@
 {
-  "version": "8.18.0",
-  "release": "v8.18.0",
-  "release_title": "Upstream Audit Hardening",
-  "release_summary": "Reconcile current source provenance and catalogues, strengthen communication source-evidence scoring, and make delegated workspace boundaries explicit. Add calibrated regression fixtures without changing skill routes or profile membership.",
+  "version": "8.19.0",
+  "release": "v8.19.0",
+  "release_title": "Regression Corpus and Release Boundary Repairs",
+  "release_summary": "Add four public executable anti-pattern cases. Preserve concurrent Hermes destinations, reject linked release output paths, and stop CI at every failed native pack check. Keep skill routes, profile memberships and publisher source bytes unchanged.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",

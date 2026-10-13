@@ -1,6 +1,14 @@
+# V8.19.0 regression corpus and release boundary acceptance
+
+The current release includes the [13 October repository audit](REPOSITORY-AUDIT-2026-10-13.md). Require fresh corpus calibration, all four Hermes installer boundary suites, linked-output rejection controls, native-command failure controls, source and archive validation, reproducible builds, and prose preservation on both supported PowerShell hosts. Verify current PR CI and exact merged-main CI before tagging. Download and hash every published asset after release creation.
+
+Public fixtures do not prove live agent skill use. The audit preserves the 24 base skills, 27 integrated routines, six profiles, and both optional source-pack boundaries. Publisher material and historical releases remain unchanged. Earlier records below are historical; the release rule still governs publication.
+
+---
+
 # V8.18.0 upstream audit hardening acceptance
 
-The current release applies the bounded [11 October upstream review](UPSTREAM-REAUDIT-2026-10-11.md). Earlier acceptance records below remain historical. The release rule at the end still governs publication.
+This release applied the bounded [11 October upstream review](UPSTREAM-REAUDIT-2026-10-11.md). Earlier acceptance records below remain historical. The release rule at the end still governs publication.
 
 ## Current scope
 

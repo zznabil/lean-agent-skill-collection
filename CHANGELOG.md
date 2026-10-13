@@ -1,9 +1,12 @@
 # Changelog
 
-## Unreleased
+## 8.19.0 — 2026-10-13
 
 - Add four executable anti-pattern cases for implementation, review, and testing. Check broken examples, reference repairs, and legitimate controls. Include candidate-file checks and a procedure for separate agent trials.
-- Run corpus calibration in the source validator. Lint its companion guide with Vale. Keep all 24 base skills and generated profile contents unchanged. Fixture calibration is not live agent evidence.
+- Run corpus calibration in the source validator. Lint its companion guide with Vale. Keep all 24 base skills and profile memberships unchanged. Fixture calibration is not live agent evidence.
+- Preserve concurrent Hermes pack destinations with an exclusive rename from the same filesystem. Apply the repair to the root installer and all three pack copies; test destination and policy races on both PowerShell hosts.
+- Reject linked release output paths and descendants before deletion or writing. Stop each CI pack step at the first failed Python command. Reuse the calibrated artifact comparator in both main validation jobs.
+- Record a repository-wide consistency audit and verify the 45 pinned upstream repository identities. Preserve dated source records, publisher bytes, source rights and historical releases.
 
 ## 8.18.0 — 2026-10-11
 

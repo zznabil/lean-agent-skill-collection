@@ -118,15 +118,16 @@ try {
     $action = "Install $($skills.Count) skills and $PolicyScope policy"
     if ($policyTarget) { $action += " at $policyTarget (preserve existing persona; back up SOUL.md)" }
     if (-not $PSCmdlet.ShouldProcess($destination, $action)) { return }
-    $stage = Join-Path ([IO.Path]::GetTempPath()) ('lean-hermes-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $skillsHome -Force | Out-Null
+    $stage = Join-Path $skillsHome ('lean-hermes-' + [guid]::NewGuid().ToString('N'))
     $installed = $false
     $backup = $null
     $createdPolicy = $false
     try {
         New-Item -ItemType Directory -Path $stage | Out-Null
         foreach ($entry in $entries) { Copy-Item -LiteralPath $entry.FullName -Destination $stage -Recurse -Force }
-        New-Item -ItemType Directory -Path $skillsHome -Force | Out-Null
-        Move-Item -LiteralPath $stage -Destination $destination
+        # Rename on the same filesystem. An existing destination must fail, never nest the pack.
+        [IO.Directory]::Move($stage, $destination)
         $installed = $true
         if ($policyTarget) {
             $mode = [IO.FileMode]::CreateNew
