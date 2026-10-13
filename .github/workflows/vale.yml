@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - AGENTS.md
+      - docs/evals/antipatterns/**/*.md
       - ENGINEERING-CORE.md
       - skills/**
       - packs/**
@@ -16,6 +17,7 @@ on:
     branches: [main]
     paths:
       - AGENTS.md
+      - docs/evals/antipatterns/**/*.md
       - ENGINEERING-CORE.md
       - skills/**
       - packs/**
@@ -47,6 +49,7 @@ jobs:
           paths = {"AGENTS.md", "ENGINEERING-CORE.md"}
           patterns = (
               "skills/**/*.md", "packs/*/skills/**/*.md",
+              "docs/evals/antipatterns/**/*.md",
               "packs/*/gated-skills/**/*.md", "packs/*/README.md",
               "packs/*/CATALOG.md", "packs/*/CONTROL-MODEL.md",
               "packs/*/PORTING-NOTES.md",

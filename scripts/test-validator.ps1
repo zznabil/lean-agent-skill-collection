@@ -12,13 +12,14 @@ function python {
         'SELF-TEST PASS: synthetic gate control'
         'CATALOGUE_PROVENANCE_PASS: synthetic gate control'
         'AUDIT-FIXTURE SELF-TEST PASS: synthetic gate control'
+        'ANTIPATTERN_CORPUS_PASS: synthetic gate control'
     } else { 'ordinary output without an acceptance marker' }
 }
 try {
     foreach ($control in @(
         @{ Name='clean positive'; Exit=0; Marker=$true; Failures=0 },
-        @{ Name='zero exit without marker'; Exit=0; Marker=$false; Failures=3 },
-        @{ Name='failed process with marker'; Exit=1; Marker=$true; Failures=3 },
+        @{ Name='zero exit without marker'; Exit=0; Marker=$false; Failures=4 },
+        @{ Name='failed process with marker'; Exit=1; Marker=$true; Failures=4 },
         @{ Name='restored positive'; Exit=0; Marker=$true; Failures=0 }
     )) {
         $script:auditControlExit = $control.Exit

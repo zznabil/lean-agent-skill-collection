@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "scope": "Four public code fixtures. These checks do not measure live agent skill use.",
+  "cases": [
+    {
+      "id": "policy",
+      "pattern": "Duplicated cross-surface policy",
+      "skills": ["implement", "review", "test"],
+      "source": "ENGINEERING-CORE.md#agent-operable-interfaces",
+      "prompt": "Inspect the shipping adapters. A nonnegative subtotal below 5000 cents costs 500 cents to ship. Shipping is free from 5000 cents. Both adapters must reject a negative subtotal with ValueError. Preserve the API dictionary and CLI text formats. Fix any defect at its owning location. Keep distinct output formats. Report the cause, changed code, check result, and limits.",
+      "diagnosis": "The CLI owns a second copy of the shipping threshold. It charges shipping at exactly 5000 cents.",
+      "minimal_repair": "Put the shipping rule in one local function. Keep one adapter for each output format.",
+      "legitimate_control": "The adapters contain similar formatting code. They already call one shipping rule. Their different output contracts justify separate adapters.",
+      "acceptance": "Call both adapters at 0, 4999, 5000, and 5001 cents. Check exact output formats. Check negative input on both adapters.",
+      "failure_code": "POLICY_DRIFT",
+      "project_check": "python -B scripts/evaluate-antipatterns.py --case policy --candidate <candidate.py>"
+    },
+    {
+      "id": "retry",
+      "pattern": "Retry after an unknown write outcome",
+      "skills": ["implement", "review", "test"],
+      "source": "ENGINEERING-CORE.md#security-and-external-effects",
+      "prompt": "Inspect send_order(service, intent_id). Record the intent before submit. A submit timeout can follow a committed order. Reconcile it with lookup using the same identifier. Return a confirmed success or an unknown result. If lookup times out or returns unknown, do not submit again. Apply this rule to an allowed retry too. A retryable_failure result guarantees no write; stopping or one retry with the same identifier is allowed. Preserve the result dictionaries. Report the cause, repair, check result, and limits.",
+      "diagnosis": "A lost response triggers a second submit with a new identifier. The service can create two orders.",
+      "minimal_repair": "Read back the original intent after a timeout. Return unknown when readback cannot settle the outcome.",
+      "legitimate_control": "One retry after retryable_failure is allowed. That status guarantees that the prior call created no order.",
+      "acceptance": "Check direct success, committed timeout, unresolved timeout, unavailable readback, and definite failure. Repeat timeout and readback conditions after an allowed retry. Inspect recorded intents, submits, readbacks, orders, and returned status.",
+      "failure_code": "DUPLICATE_WRITE",
+      "project_check": "python -B scripts/evaluate-antipatterns.py --case retry --candidate <candidate.py>"
+    },
+    {
+      "id": "test_boundary",
+      "pattern": "Test replaces the behavior under test",
+      "skills": ["test", "review", "implement"],
+      "source": "skills/test/SKILL.md#evidence-and-quality",
+      "prompt": "Inspect check_checkout(checkout). The supplied checkout function sums item prices, calls gateway.charge once with the total, and returns total_cents and receipt. The gateway returns receipt-1. For prices [300, 400], require a total of 700 cents and one charge. Improve the test if needed. Replace only the external gateway. A correct checkout must pass. Wrong totals, missing charges, and duplicate charges must raise AssertionError. Report the defect, check result, and limits.",
+      "diagnosis": "The test replaces checkout with a mock. Its assertion passes without calling the supplied checkout behavior.",
+      "minimal_repair": "Call the supplied checkout. Replace the external gateway with a small fake. Check the returned result and the recorded charge.",
+      "legitimate_control": "A mock replaces only the external gateway. The test still runs checkout and checks the charge and result.",
+      "acceptance": "Run the candidate test against a correct checkout and three checkout mutants. Accept the correct checkout. Reject wrong totals, missing charges, and duplicate charges with AssertionError.",
+      "failure_code": "INSENSITIVE_TEST",
+      "project_check": "python -B scripts/evaluate-antipatterns.py --case test_boundary --candidate <candidate.py>"
+    },
+    {
+      "id": "query_budget",
+      "pattern": "Per-row queries and unbounded page reads",
+      "skills": ["implement", "test", "review"],
+      "source": "ENGINEERING-CORE.md#quality",
+      "prompt": "Inspect order_page(db, after, limit). Return ascending orders after the cursor, with each order total. Include orders without lines with a zero total. Return at most limit items. Set next_after to the last returned identifier only when another page exists. Reject after < 0 or limit outside 1..10 with ValueError before database access. The project budget is at most two queries and 3 * (limit + 1) fetched rows per call. Use the SQLite boundary execute, fetchone, fetchall, and cursor iteration. Preserve correct bounded loops. Report the cause, repair, measurements, and limits.",
+      "diagnosis": "The page loads every remaining order. It issues one more query for each order before slicing the result.",
+      "minimal_repair": "Bound the order read with limit + 1. Obtain totals in one joined query or one additional batch query.",
+      "legitimate_control": "A loop sums rows from one bounded batch query. Two queries meet this project's budget. A loop alone does not prove an N+1 query defect.",
+      "acceptance": "Use real in-memory SQLite with 42 orders and some orders without lines. Check first, boundary, exactly full final, late, and empty pages. Measure queries and fetched rows. Reject invalid input before database access.",
+      "failure_code": "READ_BUDGET",
+      "project_check": "python -B scripts/evaluate-antipatterns.py --case query_budget --candidate <candidate.py>"
+    }
+  ]
+}

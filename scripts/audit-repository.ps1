@@ -330,6 +330,8 @@ $currentTextFiles = @(
     '.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','scripts/audit-repository.ps1','scripts/evaluate-communications.py','scripts/validate.ps1','scripts/release-inventory.ps1',
     'UPSTREAM-CHECKSUMS.sha256','packs/user-facing-standards/CHECKSUMS.sha256','packs/remaining-standards/CHECKSUMS.sha256','packs/remaining-standards/README.md','packs/remaining-standards/PR-SCOPE.md','packs/controlled-execution/CHECKSUMS.sha256','packs/controlled-execution/SOURCE-BASELINE.sha256','packs/controlled-execution/README.md'
 )
+$currentTextFiles += 'scripts/evaluate-antipatterns.py'
+$currentTextFiles += @(Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot 'docs/evals/antipatterns') -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }
 function Get-AuditPackageBaseName([string]$ProfileName,[string]$Version) {

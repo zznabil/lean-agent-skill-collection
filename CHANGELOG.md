@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add four executable anti-pattern cases for implementation, review, and testing. Check broken examples, reference repairs, and legitimate controls. Include candidate-file checks and a procedure for separate agent trials.
+- Run corpus calibration in the source validator. Lint its companion guide with Vale. Keep all 24 base skills and generated profile contents unchanged. Fixture calibration is not live agent evidence.
+
 ## 8.18.0 — 2026-10-11
 
 - Reconcile current catalogues and upstream provenance while preserving historical decisions and unknown review pins. Keep all 24 base skills and profile memberships.

@@ -119,6 +119,8 @@ Source validation requires PowerShell 7 or Windows PowerShell 5.1 and Python 3.1
 
 For offline audit regression checks, run `python -B scripts/evaluate-communications.py --self-test`, `python -B scripts/test-catalogue-provenance.py --self-test` and `python -B scripts/test-audit-regression-fixtures.py`. These calibrate checkers against positive and broken controls; they are not live agent results.
 
+For executable code cases, read the [anti-pattern regression corpus](docs/evals/antipatterns/README.md). Run `python -B scripts/evaluate-antipatterns.py --self-test` to check four broken examples, reference repairs, and legitimate controls. The candidate-file checks accept alternative repairs. These results calibrate the fixtures; they do not measure live agent skill use.
+
 For composition-oracle calibration, run `python -B scripts/evaluate-composition.py --self-test`. For live decision checks, run `python -B scripts/evaluate-composition.py --package ./artifacts/v8.18.0/lean-agent-skills-complete-openai-v8.18.0.zip --out ./artifacts/composition-live`. These are decisions, not browser execution or universal model-obedience proof.
 
 In OMP JavaScript Eval, load `scripts/composition-browser-uat.js`. Replay `await compositionBrowserUat(false)` twice; `await compositionBrowserUat(true)` must reject with `UAT_RESULT_FAILED`. Pass an isolated browser executable as the optional second argument if the host default uses an unavailable relay. The artifact verifies a disposable real-browser fixture, not an arbitrary product.
