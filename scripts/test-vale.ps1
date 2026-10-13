@@ -7,6 +7,8 @@ $root = Split-Path $PSScriptRoot -Parent
 $selector = Join-Path $PSScriptRoot 'vale-files.py'
 $temporary = Join-Path ([IO.Path]::GetTempPath()) ('lean-vale-' + [guid]::NewGuid().ToString('N'))
 $utf8 = New-Object Text.UTF8Encoding($false)
+# Keep script literals ASCII: Windows PowerShell 5.1 reads BOM-less scripts as ANSI.
+$diataxis = 'Di' + [char]0x00E1 + 'taxis'
 function Read-Vale([string[]]$Paths) {
   $previousPreference = $ErrorActionPreference
   try {
@@ -37,8 +39,8 @@ function Select-Prose([string]$Directory) {
   }
 }
 $cases = @(
-  @{ Name='canonical-sources'; Text='Use ISO 704 terminology and ASD-STE100-inspired language. Follow Diátaxis. The CDC Clear Communication Index is a task-selected diagnostic.'; Code=0; Check=$null },
-  @{ Name='metadata-identifiers'; Text=('---' + [Environment]::NewLine + 'name: practice-diataxis' + [Environment]::NewLine + 'description: Diataxis routing metadata.' + [Environment]::NewLine + '---' + [Environment]::NewLine + 'Use Diátaxis. Read [`diataxis-primer.html.txt`](references/diataxis-primer.html.txt).'); Code=0; Check=$null },
+  @{ Name='canonical-sources'; Text=('Use ISO 704 terminology and ASD-STE100-inspired language. Follow ' + $diataxis + '. The CDC Clear Communication Index is a task-selected diagnostic.'); Code=0; Check=$null },
+  @{ Name='metadata-identifiers'; Text=('---' + [Environment]::NewLine + 'name: practice-diataxis' + [Environment]::NewLine + 'description: Diataxis routing metadata.' + [Environment]::NewLine + '---' + [Environment]::NewLine + 'Use ' + $diataxis + '. Read [`diataxis-primer.html.txt`](references/diataxis-primer.html.txt).'); Code=0; Check=$null },
   @{ Name='code-identifiers'; Text=('```text' + [Environment]::NewLine + 'ISO704 ASD STE100 Diataxis' + [Environment]::NewLine + '```' + [Environment]::NewLine + 'Use `Diataxis` as a machine identifier.'); Code=0; Check=$null },
   @{ Name='terminology-iso'; Text='Use ISO704 terminology.'; Code=1; Check='LeanAgent.Terminology' },
   @{ Name='terminology-ste'; Text='Use ASD STE100 language.'; Code=1; Check='LeanAgent.Terminology' },
@@ -52,6 +54,11 @@ try {
   foreach ($case in $cases) {
     $path = Join-Path $temporary ($case.Name + '.md')
     [IO.File]::WriteAllText($path, $case.Text + [Environment]::NewLine, $utf8)
+    if ($case.Name -in @('canonical-sources', 'metadata-identifiers')) {
+      $hex = ([BitConverter]::ToString([IO.File]::ReadAllBytes($path))).Replace('-', '').ToLowerInvariant()
+      if (-not $hex.Contains('4469c3a17461786973')) { throw 'Canonical source fixture lost its UTF-8 spelling.' }
+      Write-Host "PASS: $($case.Name) UTF-8 source-name bytes"
+    }
     $result = Read-Vale @($path)
     $code = $result.Code
     $alerts = $result.Alerts

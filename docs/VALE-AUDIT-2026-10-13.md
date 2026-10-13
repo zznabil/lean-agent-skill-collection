@@ -38,6 +38,8 @@ The local Vale 3.23.0 Windows archive matched both the official checksum file an
 
 The first repaired CI run exposed a reporting limit: 21 advisory warnings exceeded GitHub's annotation quota and made reviewdog fail despite zero prose errors. Limit annotation reporting to errors. The direct full-corpus gate still checks and counts warnings. Its 35/36-word controls require warnings to remain nonblocking. Require a fresh successful CI run after this repair.
 
+A separate encoding probe showed that Windows PowerShell 5.1 misreads the accented name in a UTF-8 script without a byte-order mark. The old canonical-name fixture therefore did not prove the intended spelling on that host. Construct the accented character from its Unicode value and verify the written UTF-8 bytes before invoking Vale. Keep script literals ASCII so both hosts test the same canonical name.
+
 The [Vale scope documentation](https://docs.vale.sh/topics/scopes) distinguishes prose from code and metadata. Observed behavior from the pinned binary remains the acceptance evidence for this release.
 
 ## Repository cross-checks and release gates
