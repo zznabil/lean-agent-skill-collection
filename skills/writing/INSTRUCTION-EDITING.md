@@ -6,7 +6,7 @@ Use this reference to draft or edit a skill, agent policy, workflow, prompt, che
 
 Identify the reader, task, input, expected result, and authority. Use the request and existing material. Inspect the current instructions and their callers. Mark unresolved requirements as unresolved. Do not invent a default to complete a paragraph.
 
-Keep each rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response, and completion evidence. Keep links, resource paths, source references, and adoption decisions. Keep watched, deferred, and rejected sources in their existing states. Do not change exact identifiers, commands, schemas, numbers, quoted source text, or status names without authorisation.
+Keep each rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response, and completion evidence. Keep links, resource paths, source references, and adoption decisions. Keep watched, deferred, and rejected sources in their existing states. Do not change exact UI labels, identifiers, commands, schemas, numbers, quoted source text, or status names without authorisation. Explain unfamiliar labels and terms alongside the exact text.
 
 ## Rewrite a decision, not an aspiration
 
@@ -25,7 +25,11 @@ Identify the referent of "it", "appropriate", "relevant", or "complete" when tha
 
 ## Make the instructions usable
 
-Place prerequisites and warnings before the action they constrain. Give each step one main action or one tightly coupled action group. Place the expected result and recovery beside that step. Split dense explanations into coherent blocks. Keep their conditions and execution order. Keep the essential path visible. Do not hide mandatory steps in conditional detail.
+Place prerequisites and warnings before the action they constrain. Give each step one main action or one tightly coupled action group. Place the expected result and recovery beside that step.
+
+For human readers, use familiar, literal wording without assuming technical knowledge. Preserve requested expert depth and respectful adult language. Keep needed information beside the current decision instead of requiring recall.
+
+Split dense explanations into coherent blocks. Keep their conditions and execution order. Keep the essential path visible. Do not hide mandatory steps in conditional detail.
 
 Use one term for each concept within a scope. For a difficult decision, give a small worked example. Explain why the example meets the rule. An example illustrates a rule; it does not replace other cases. For an agent reader, give an execution example or counterexample. Do not require a lesson or quiz for the human user.
 
@@ -55,4 +59,10 @@ For normative requirements, preserve BCP 14 force and exceptions. Important requ
 
 ## Communication kernel
 
-Use ASD-STE100-inspired short active technical sentences and direct verbs. Use ISO 704-inspired terminology: keep one preferred term for each concept within a scope and distinguish related concepts. Use Diátaxis to separate actions, reference facts, and explanations when that separation helps. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
+Apply this kernel to this reference, its examples, and the instructions you draft or edit.
+
+- Use ASD-STE100-inspired short, active sentences, direct verbs, and concrete words. Preserve technical accuracy.
+- Use ISO 704-inspired terminology: keep one preferred term for each concept within a scope and distinguish related concepts. Explain unfamiliar terms near first use.
+- Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when that separation helps. Do not force sections into a short answer.
+
+If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.

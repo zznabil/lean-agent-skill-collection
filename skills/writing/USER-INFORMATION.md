@@ -4,7 +4,13 @@ Use this reference for substantial instructions, manuals, onboarding, embedded h
 
 ## Communication kernel
 
-Use ASD-STE100-inspired short active technical sentences. Use ISO 704-inspired stable terms for distinct concepts. Use Diátaxis to separate actions, reference facts, and explanations when useful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
+Apply this kernel to this reference, its examples, and the text you draft or edit.
+
+- Use ASD-STE100-inspired short, active sentences, direct verbs, and familiar concrete words. Preserve technical accuracy.
+- Use ISO 704-inspired stable terms for distinct concepts. Explain unfamiliar terms near first use. Keep exact UI labels, commands, identifiers, and quotations; explain them alongside.
+- Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when useful. Do not force sections into a short answer.
+
+If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
 
 ## Source roles
 
@@ -37,7 +43,7 @@ Do not remove a warning, condition, exception, or technical distinction to simpl
 
 ## Design contract
 
-1. **Name the user and task.** Record prior knowledge, context of use, device or medium, constraints, and risk. Record the decision or action that the information must support.
+1. **Name the user and task.** Record prior knowledge, context of use, device or medium, constraints, and risk. Record the decision or action that the information must support. Default to familiar language without assumed technical knowledge. Preserve requested expert detail. Use respectful adult language for adults; do not infer ability from a diagnosis or set a universal reading age.
 2. **Trace accessibility needs.** For material barriers, use:
    `user accessibility need → barrier → requirement → evidence`.
    Do not use one diagnosis as a universal user profile.
@@ -75,7 +81,17 @@ What happened to their work or data
 Where to get more detail
 ```
 
-If the system knows the affected object, safe next action, or data state, do not substitute a generic failure message. Do not blame the user.
+If the system knows the affected object, safe next action, or data state, do not substitute a generic failure message. Do not blame the user. Distinguish a confirmed failure from an unknown outcome. Do not invent success, data loss, or a safe retry. For a consequential action, resolve the unknown outcome before recommending a retry.
+
+### Example: payment outcome unknown
+
+Given: a payment request timed out. The service cannot confirm whether the payment went through. The user can select the exact UI label `Check payment status` to look it up.
+
+**Usable message:** "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status to check the result."
+
+**Unsafe message:** "Your payment failed. Try paying again."
+
+The usable message keeps the outcome unknown, names the control exactly, and avoids a possible duplicate payment. The unsafe message invents a failure and recommends an unverified retry.
 
 ## Cognitive-accessibility checks
 
@@ -118,4 +134,4 @@ Include     → outcome gaps between target and general users
 
 Use independent review for consequential information. For this user-information evaluation task, the CDC Clear Communication Index can diagnose main-message, action, language, number, design, and risk issues. PEMAT-style review can distinguish understandability from actionability. Do not apply their domain-specific score thresholds as universal software release gates.
 
-A readability formula measures surface text features only. It does not prove findability, comprehension, actionability, recovery, accessibility, or task success.
+Readability formulas and Vale checks flag surface wording issues only. They do not prove findability, comprehension, actionability, recovery, accessibility, or task success.
