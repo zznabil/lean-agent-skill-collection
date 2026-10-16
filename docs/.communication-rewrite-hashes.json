@@ -51,6 +51,17 @@
     "packs/remaining-standards/gated-skills/guard-postel-principle/SKILL.md": "66fae1899b8ae945f35978180c48517069db701d1aa247a4af8c8a8ea7fd7ffe",
     "packs/remaining-standards/gated-skills/guard-safety-critical-standards/SKILL.md": "7587aa7ab3191653a1a2d2c7958ceb5fd27b344f04d493aab75b319268dc825a",
     "packs/remaining-standards/gated-skills/watch-iso-25059/SKILL.md": "0c1772403cb14b83fab42c30da6312e95dee1d49a94e6ab3e94744ccf32e38aa",
-    "packs/remaining-standards/skills/guidance-cisa-secure-by-design/SKILL.md": "fb056f4d95e931a2d2d287e7a5b05e12ae34fec0cb6f71518723ba3243b55612"
+    "packs/remaining-standards/skills/guidance-cisa-secure-by-design/SKILL.md": "fb056f4d95e931a2d2d287e7a5b05e12ae34fec0cb6f71518723ba3243b55612",
+    "packs/remaining-standards/skills/guidance-mitre-atlas/SKILL.md": "38f5e21f14fcc90ecead93f727af88461d701607621942ff3176b858a48d90b2",
+    "packs/remaining-standards/skills/guidance-nist-adversarial-ml/SKILL.md": "4414bf0d1fef1e46933e5c5fa1630de1666672be1a9130e3c22f93df5aeb4e01",
+    "packs/remaining-standards/skills/guidance-nist-ai-rmf/SKILL.md": "8db70ff3994c61a88985a7544cb325f3c29436bb721b9aff73b2b0141e6e311c",
+    "packs/remaining-standards/skills/guidance-opentelemetry/SKILL.md": "1741a864e9db4e9474cca299bfc265cfe49e61be48a03a2d7d0b70c8c2da9e03",
+    "packs/remaining-standards/skills/guidance-owasp-agentic-top10/SKILL.md": "41e10d908b17520e3220bf389ef9302e8aca9dfd6ad5dddb4ecea6428940313f",
+    "packs/remaining-standards/skills/guidance-rfc9413/SKILL.md": "1b8d9f33c6f49f88320a82eb7531ce33765239405de26e21b762fbd9d557031b",
+    "packs/remaining-standards/skills/practice-adr/SKILL.md": "e738b8c0819fbad52eda5398d627cd74a499610d9bfafaa6c3556823958e5d8f",
+    "packs/remaining-standards/skills/practice-atam/SKILL.md": "c8d912003b422477378fb745a4da7d9a9c9f14742864623f7831890189a551f9",
+    "packs/remaining-standards/skills/practice-blameless-postmortems/SKILL.md": "a2170158032169c4e38f2ed4589a6d99366a2395e6bf4264bc5341fa99380a67",
+    "packs/remaining-standards/skills/practice-chaos-engineering/SKILL.md": "ee440ec5e23e4d9c5a631b6d1288c0b6218e5778ac50039a0e96bb79956d5af6",
+    "packs/remaining-standards/skills/practice-data-cards/SKILL.md": "504c284d7286dfa82373da1f55ea0326cec8783ae53900e5db263b07b154be53"
   }
 }
