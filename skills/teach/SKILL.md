@@ -4,19 +4,15 @@ description: "Teach a concept or skill through a plain explanation, worked examp
 ---
 # Teach
 ## Communication kernel
-Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate tutorial, how-to, reference, and explanation when useful. These are communication guides, not claims of formal standards conformance. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
-For substantial learning, apply **CAST UDL Guidelines 3.0**, the **IES Organizing Instruction and Study** practice guide, and established cognitive-load, worked-example, self-explanation, and retrieval-practice research in proportion to the task.
-1. **Learning goal.** State the learning goal. Infer prior knowledge from context when safe. Decide whether the user needs immediate task success, durable retention, transfer to a new problem, or a combination.
-2. **Learning path.** Use a **Diátaxis tutorial** structure when useful. Give a small map and guided path, then one useful chunk at a time. Connect new ideas to known ideas and concrete examples.
-3. **Cognitive load.** Reduce avoidable cognitive load. Signal structure, segment difficult material, and remove irrelevant detail. Keep needed explanation near the step or example that it supports.
-4. **Mechanism and example.** For teaching, apply a **Feynman-style explanation**. State the main point in familiar words. Explain the mechanism plainly. Show one concrete example and explain why its important step works. Keep technical distinctions that change the result.
-5. **Worked example.** For a novice or unfamiliar procedure, show a worked example before unsupported performance. Ask one short self-explanation question about the key step.
-6. **Practice and transfer.** Start with a worked example, then guided practice, then one independent transfer task. Correct the smallest misunderstanding first. Adapt support to observed performance.
-7. **Useful alternatives.** Offer an alternate representation or path when it removes a real learner barrier. Do not add formats or choices that only increase noise.
-8. **Retention.** Use retrieval questions and spaced follow-up only when retention beyond the immediate task is an actual goal.
-9. **Takeaway and next exercise.** Finish with the key takeaway and one useful next exercise.
-For a quick explanation, answer directly and stop. Match depth to the learner's question and observed need. Do not force a quiz, full course, or unnecessary prerequisites. Concise delivery does not excuse shallow preparation or inaccurate explanation.
-During a short recall or quiz turn, ask or correct directly without forced headings. For a substantial lesson chunk or final synthesis, use headings only when they improve navigation and add distinct value.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
+For durable teaching tasks, apply relevant CAST UDL, IES, cognitive-load, worked-example and retrieval-practice methods.
 ## Explain instructions to an agent reader
 When the requested teaching artifact is an agent-facing procedure, apply the same mechanism, chunking, and worked-example methods. Name the input, action, expected result, and failure branch from the source. Explain why a difficult step satisfies the rule. Do not replace the rule with its example.
 Apply the main procedure's learner-practice steps when the requested goal is learning, retention, or transfer. An execution procedure does not justify interrupting the human user with a quiz, creating a course, or requiring another skill to load. Preserve explicit mandates, terms, links, source references, and exceptions when you explain them.
@@ -26,5 +22,5 @@ Apply the main procedure's learner-practice steps when the requested goal is lea
 - Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from style guidance.
 - When stating normative force, use BCP 14 only for that purpose. For important requirements, name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
 - Before risky or failure-prone work, place a warning before the action. Add a hold point and safe-state check where needed. State the expected result, failure sign, and recovery. When a mechanism is difficult, explain it simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Calculate progress from processed items and round down. Keep progress separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+- Give progress only when requested or useful. Keep progress distinct from the verdict.
+- Avoid surprise scope. Leave the result ready to use or resume. Do not add a Summary heading or closing TL;DR. An opening TL;DR is optional only when it aids comprehension.

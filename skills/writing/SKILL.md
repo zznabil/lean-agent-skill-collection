@@ -5,11 +5,14 @@ description: "Draft or edit instructions, UI text, errors, help, emails, documen
 # Writing
 Choose **draft** or **edit**. Read [USER-INFORMATION.md](USER-INFORMATION.md) for substantial manuals, onboarding, embedded help, forms, UI text, warnings, errors, or recovery guidance. Read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md) for agent policies, workflows, checklists, or consequential procedures.
 ## Communication kernel
-1. **Language.** Use ASD-STE100-inspired short active technical sentences. Prefer direct verbs and concrete words. Preserve exact technical meaning.
-2. **Terminology.** Use ISO 704-inspired stable terminology. Give each concept one preferred term within the artifact. Define specialised terms when ambiguity is plausible. Distinguish related concepts; do not interchange near-synonyms.
-3. **Mode.** Use Diátaxis when structure helps. Separate how-to actions, reference facts or syntax, and explanations of mechanisms.
-If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
-Do not activate other communication, requirements, safety, teaching, accessibility, or engineering frameworks by default. Apply a task-specific routine only when the task or user request requires it.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
 ## Draft or edit
 1. Identify the reader, task, desired result, evidence standard, and requested voice.
 2. Keep facts, exact negation, conditions, exceptions, permissions, uncertainty, quotations, and machine-sensitive text.

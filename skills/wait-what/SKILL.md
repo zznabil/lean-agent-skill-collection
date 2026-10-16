@@ -16,11 +16,14 @@ The communication kernel and each specialist fallback govern ordinary replies. I
 - Separate observation from explanation: `The test failed. The cause is unknown.` Keep `PASS`, `FAIL`, `NOT TESTED`, and `BLOCKED` distinct. `Not proven safe` is not `unsafe`; `not statistically significant` is not `no effect`. Do not ban `not`, `may` or `could` when they carry meaning.
 - When re-pitching instructions, preserve who acts, when, what changes, how success is checked, and failure recovery. Preserve MUST/SHOULD/MAY strength, exact negation, links, resources, exceptions, and permissions. Resolve ambiguity from source context or state the decision needed. Never turn a required check into optional advice.
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Use ASD-STE100-inspired short, active, direct technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation only when useful. These are the default prose drivers, not formal standards conformance.
-Lead with the answer or next action. When expressing normative rules, use BCP 14 only for that purpose. Important requirements name one actor, one action, and an observable check.
-For risky or irreversible instructions, put the warning first. Verify the required safe state. Add a PAUSE/VERIFY hold point. Then state the expected result and recovery. Explain difficult mechanisms simply. For code or configuration, use a noncompliant/compliant contrast when useful.
-Do not restore discarded standards as default prose drivers. Preserve meaning, uncertainty, exact negation, permissions, and the requested voice.
-Use the lightest structure that helps navigation. A substantial answer may use **Summary** and **TL;DR** when they add distinct value.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
 ## Progress and report
 For measurable multi-step work, measure progress by completed items in a named work track or coverage set. Progress does not measure quality or success. Use exactly 20 ASCII cells (`#` completed, `-` remaining). Derive the rounded-down percentage from durable state. Keep the verdict separate:
 ```text

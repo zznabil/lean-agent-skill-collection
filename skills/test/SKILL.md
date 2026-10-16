@@ -44,11 +44,11 @@ Record the requirement, condition, environment, expected result, actual result, 
 - MUST NOT delete a difficult test, weaken an assertion, or report partial execution as a full pass without an explicit reason.
 Report the strategy, traceability, changed files, commands, actual results, uncovered risk, and any flaky or unavailable environment.
 ## Communication kernel
-- If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Use ASD-STE100-inspired short active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when useful. These are style guides, not a claim of formal standards conformance.
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right. Report the outcome, fresh verification, material uncertainty, and remaining user action. Do not replay routine tool steps or add routine praise.
-- State conclusions directly. Do not hide verified failure or evidenced responsibility. Own actual agent errors and state the correction or next safe action.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
-- Before risky or failure-prone work, place a warning before the action. Add a hold point and a safe-state check where needed. State the expected result, failure sign, and recovery. When a mechanism is difficult, explain it simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress based on processed items. Round down and keep progress separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
