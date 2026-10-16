@@ -14,3 +14,6 @@ First reduce harm and restore service safely. Do not prioritize immediate proof 
 8. Write a blameless review. Include impact, timeline, detection, mitigation, root cause and confidence, falsified alternatives, contributing conditions, what worked, what failed, and corrective actions. Give each corrective action an owner, due condition, and verification.
 
 Do not expose secrets or private user data in timelines or reports. Do not test destructive scenarios against production by default.
+
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.

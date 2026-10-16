@@ -1,6 +1,9 @@
 # Skill design playbooks
 Load only the section that the task needs.
 
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.
+
 ## Stack selection
 1. Inspect the project. Name its relevant capability areas.
 2. Search several plausible candidates for each area when candidates exist. Read each skill, not just its title.

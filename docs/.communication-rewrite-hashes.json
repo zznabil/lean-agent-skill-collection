@@ -170,6 +170,14 @@
     "skills/gauntlet-loop/STATE-FORMAT.md": "473fa4f686653b24d5ef6acc3ff69ae7b05b7c9dfc833f1a95c67e2f22603a60",
     "skills/get-it-done/ORCHESTRATION.md": "d33925dcd1a3f58df9b77af9f879ae681c67fe6ce1a929b709aed03a36095b05",
     "skills/get-it-done/STATE.md": "cb198b97d3181eefcf26987b241a1a20f49b79345d562bd2ac755d57933e44e7",
-    "skills/project-context/AI-ASSET-CARDS.md": "ad1804ecc93972f14b591f5dca0661bf1f6a95ac11ad7e60f1eb143de07be66e"
+    "skills/project-context/AI-ASSET-CARDS.md": "ad1804ecc93972f14b591f5dca0661bf1f6a95ac11ad7e60f1eb143de07be66e",
+    "skills/project-context/TASK-BRIEF.md": "5e89ac7d10fb216e2242bea7fb0d8398d4b2ddb2a55dface41e6b04d7e89108f",
+    "skills/release/SUPPLY-CHAIN.md": "96996ed9ea3ce8a57adc2a76b65f4d5fa5aed70316797fe051debd4cad8186b4",
+    "skills/review/LANES.md": "3b90a0aed9740337409a9a327ed5a1927973ae7f43b9d4acba800e4703dde005",
+    "skills/skill-design/INSTRUCTION-EDITING.md": "edfecf84de29024d397d1192183f11091bcbea275adbb985b34052835604d630",
+    "skills/skill-design/PLAYBOOKS.md": "b3b8f3ad55284104f12528fbde73483a1eed27ebd49165a11c81d6398544b34a",
+    "skills/triage/INCIDENT.md": "71128c16dc0a2c0e59ab0a2ba148a29af12dda6c0755f49ea95797f9221a7b3a",
+    "skills/writing/INSTRUCTION-EDITING.md": "af2508491141c82e18459cadc11d40885e8b7528c09901d581e93f2457355e74",
+    "skills/writing/USER-INFORMATION.md": "dc0a7f59dd2ec792b4d380ea901452279100fa718700ccd3c784cf5c85fe46aa"
   }
 }

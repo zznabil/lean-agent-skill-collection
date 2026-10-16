@@ -3,8 +3,7 @@
 Use this reference for substantial instructions, manuals, onboarding, embedded help, forms, warnings, UI text, errors, recovery guidance, or other information that users must act on. The communication kernel below remains the default. Apply the sources below to this scoped task, not to ordinary prose. This conditional detail does not justify expanding a simple reply.
 
 ## Communication kernel
-
-Use ASD-STE100-inspired short active technical sentences. Use ISO 704-inspired stable terms for distinct concepts. Use Diátaxis to separate actions, reference facts, and explanations when useful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.
 
 ## Source roles
 

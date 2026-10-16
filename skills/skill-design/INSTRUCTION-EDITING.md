@@ -2,6 +2,9 @@
 
 Use this reference to draft or edit a skill, agent policy, workflow, prompt, checklist, handoff, or user procedure. The reader can be a person or an executing agent. This reference is an authoring procedure. It does not require loading three communication skills for every task.
 
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.
+
 ## Before changing the words
 
 Identify the reader, task, input, expected result, and authority from the request and existing material. Inspect the current instructions and their callers. Mark unresolved requirements as unresolved. Do not silently invent a default to complete a paragraph.
