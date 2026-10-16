@@ -41,16 +41,16 @@
     "packs/controlled-execution/skills/practice-transition-checklists/SKILL.md": "531dab3486ce701b8e81a958d29d7e7f69d630582613d5cddcd3338bb76c0ba0",
     "packs/controlled-execution/skills/practice-use-error-controls/SKILL.md": "8d0d5d8e9bddc7b4b6325ed6d21654f349391c10fc3c0085deaf5663b746db64",
     "packs/controlled-execution/skills/practice-verifiable-requirements/SKILL.md": "1fa93fc4d1d4da9195940463bd6376ba194b9d969871d95b29049b4f0b51de6f",
-    "packs/controlled-execution/skills/practice-versioned-verification-requirements/SKILL.md": "a07c4618f3c45349a029ba60c9afab5bee66977ead7021ad982ac943f5a11361",
-    "packs/controlled-execution/skills/profile-action-step-structure/SKILL.md": "2658bfc066ebda289b45ee2059fa788fa9bfad5424be3ef6ebe01e9b396d49da",
-    "packs/controlled-execution/skills/profile-ui-procedure-writing/SKILL.md": "6d6a85325a519f59b0082c5e2372f47b72fe4dbdca2cc85aef34531eeee8f24f",
-    "packs/remaining-standards/gated-skills/guard-agent-observability/SKILL.md": "e74d97e74bb87d3853f24cb78dc52ee1a996b0e3b44e43b4e0d600a581aefd17",
-    "packs/remaining-standards/gated-skills/guard-dora-metrics/SKILL.md": "b5e0e5495eb64d0df1195efbc233dbf162f1c628c40782c1ca1104ed403f6f83",
-    "packs/remaining-standards/gated-skills/guard-organisation-governance/SKILL.md": "85e8b690e0899ef7d83f0d68ce9d57330788476f0d8ea5131a635439710b4c21",
-    "packs/remaining-standards/gated-skills/guard-owasp-samm/SKILL.md": "dfa766801d7c007f8107e91352efc4e951d0f8f4a5e203caae6d757c061df1ef",
-    "packs/remaining-standards/gated-skills/guard-postel-principle/SKILL.md": "c96ef41b46640413e03cfcf1c0543996bb5ffce2c457f27877191190c4018179",
-    "packs/remaining-standards/gated-skills/guard-safety-critical-standards/SKILL.md": "843713c220111e6c8c3355df373d916936f0fd1b673a6db528f4b9df076d0d99",
-    "packs/remaining-standards/gated-skills/watch-iso-25059/SKILL.md": "0d7dc332a47b43fdab4affd0de2ba57a182bf8ae860c490b5538e2a667745f79",
-    "packs/remaining-standards/skills/guidance-cisa-secure-by-design/SKILL.md": "474cc3080683b4604e7cbf3b06ff91b7ead43fc3a3242ec08bbb5a96c6731b90"
+    "packs/controlled-execution/skills/practice-versioned-verification-requirements/SKILL.md": "9e24c743ef40a5d8dcf56dfb53df4a054bd26d9e8617d64acfa73639efd9411e",
+    "packs/controlled-execution/skills/profile-action-step-structure/SKILL.md": "c1cd8fffac95515815bd04947b137ee6913db5e22a949f33101c5924fa306dbd",
+    "packs/controlled-execution/skills/profile-ui-procedure-writing/SKILL.md": "941e9a2dfaf04b4a752952305744f2d2b29ed5be5a1b8ef40625ad8118fb9367",
+    "packs/remaining-standards/gated-skills/guard-agent-observability/SKILL.md": "7881a99bbc68a936e666cf3e1d5b91f663e61a1e93b53c712843d08f65f8dde2",
+    "packs/remaining-standards/gated-skills/guard-dora-metrics/SKILL.md": "34aaec4ab62bfe30897a69088e69ac004c646ac3551111f291f451fadbfd51f2",
+    "packs/remaining-standards/gated-skills/guard-organisation-governance/SKILL.md": "8e16399e085ab8983cf8f83f340b7c50ccde5131ee29dd19b2ac6dcb6b50a748",
+    "packs/remaining-standards/gated-skills/guard-owasp-samm/SKILL.md": "6793bfa7931e7c9f38cdebf8ecab46c836b9fcb4d9228dbd13ba955aeaa11c51",
+    "packs/remaining-standards/gated-skills/guard-postel-principle/SKILL.md": "66fae1899b8ae945f35978180c48517069db701d1aa247a4af8c8a8ea7fd7ffe",
+    "packs/remaining-standards/gated-skills/guard-safety-critical-standards/SKILL.md": "7587aa7ab3191653a1a2d2c7958ceb5fd27b344f04d493aab75b319268dc825a",
+    "packs/remaining-standards/gated-skills/watch-iso-25059/SKILL.md": "0c1772403cb14b83fab42c30da6312e95dee1d49a94e6ab3e94744ccf32e38aa",
+    "packs/remaining-standards/skills/guidance-cisa-secure-by-design/SKILL.md": "fb056f4d95e931a2d2d287e7a5b05e12ae34fec0cb6f71518723ba3243b55612"
   }
 }
