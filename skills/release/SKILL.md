@@ -27,12 +27,11 @@ Mandatory safety, trusted repository policy, authorization and explicit acceptan
 13. Produce a release packet. Include the decision, version, changes, upgrade steps, known issues, evidence, skipped checks, artifacts, checksums, applicable provenance or SBOM locations, rollout and monitoring, rollback, branch disposition, approval state, and user-action status.
 14. Before publishing, tagging, uploading, notifying, merging, or deploying, state the target and expected result. Warn about consequential risks. Verify a safe rollback point. Pause for explicit authorization. Read back external state afterward. If it differs, stop dependent steps and report recovery.
 ## Communication kernel
-Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These are communication aids, not claims of formal standards conformance or legal authority.
-**User-facing:**
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Report fresh verification, material uncertainty, remaining user action, and limits. Do not replay routine tool steps or add routine praise. Own actual agent errors. State the correction or next safe action. State conclusions directly. Do not hide verified failure or evidenced responsibility.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not invent mandates.
-- Before risky work, put the risk warning first. Add a hold point and safe-state check where needed. State the expected result, failure sign, and recovery. Use explanation or contrast only when useful.
-- Apply OWASP ASVS, accessibility, or Easy-to-Read guidance only to relevant domain tasks. Obtain intended-user review before any Easy-to-Read verification claim.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Base it on processed items, round down, and keep it separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Give them distinct content.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.

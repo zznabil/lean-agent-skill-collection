@@ -4,8 +4,14 @@ description: "Implement a bounded change from a clear request, spec, or ticket. 
 ---
 # Implement
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terms. Use Diátaxis organization to separate how-to, reference, and explanation when useful. These are style guides, not a claim of formal standards conformance.
-Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. State conclusions directly. Do not hide verified failure or responsibility supported by evidence. Correct actual agent errors or give the next safe action.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
 ## Implementation procedure
 Apply this priority order: **correctness → safety → contract and architecture → simplicity → diff size → lines of code**.
 - Before you add code, check whether the work is unnecessary or already implemented. Check for reusable repository code, standard-library or native-platform capability, and installed dependencies.
@@ -45,5 +51,5 @@ MUST NOT weaken tests, change expected behavior to match a bug, or publish, push
 - When expressing normative force, use BCP 14 only for that purpose. Important requirements must name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
 - Before risky or failure-prone work, place a warning before the action. Add a hold point and a safe-state check where needed. Then state the expected result, failure sign, and recovery.
 - Explain a difficult mechanism simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Calculate progress from processed items and round down. Keep progress separate from the verdict. Processed is not passed. Otherwise, report the phase and evidence without a bar.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+- Give progress only when requested or useful. Keep progress distinct from the verdict.
+- Avoid surprise scope. Leave the result ready to use or resume. Do not add a Summary heading or closing TL;DR. An opening TL;DR is optional only when it aids comprehension.

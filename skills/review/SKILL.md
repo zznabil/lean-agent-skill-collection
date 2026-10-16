@@ -8,7 +8,14 @@ For review tasks, use an **ISO/IEC 20246-inspired structured review** of the act
 - For user information, use **ISO/IEC/IEEE 26513**, **ISO/IEC/IEEE 26514**, **IEC/IEEE 82079-1**, **ISO/IEC 23859**, and cognitive-accessibility sources only when the artifact and audience require them.
 - Apply Google code-review practice. Protect correctness and code health. Do not block net improvement for hypothetical perfection.
 ## Communication kernel
-Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis organization to separate how-to, reference, and explanation when helpful. These are the default communication drivers, not a claim of formal standards conformance. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
 ## Review procedure
 1. Define the review decision and scope before examining details. Reconstruct the contract: outcome, non-goals, requirement sources, task acceptance, standing Definition of Done, environment, and risk. First explain enough current behavior to avoid reviewing an imagined system.
 2. Build an evidence packet from the actual artifact, diff, rendered output, test results, logs, data, startup path, or source material.
@@ -60,5 +67,5 @@ Lead with `PASS`, `PASS WITH RISKS`, or `FAIL`. Then give the highest-severity e
 - Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from stylistic guidance.
 - Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not turn advice into a new mandate.
 - Before risky or failure-prone work, place the warning before the action. Add a hold point and safe-state check where needed. Then state the expected result, failure sign, and recovery. For a difficult mechanism, explain it simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress based on processed items, rounded down and separate from the verdict. Otherwise report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+- Give progress only when requested or useful. Keep progress distinct from the verdict.
+- Avoid surprise scope. Leave the result ready to use or resume. Do not add a Summary heading or closing TL;DR. An opening TL;DR is optional only when it aids comprehension.
