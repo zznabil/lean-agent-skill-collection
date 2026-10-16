@@ -73,6 +73,17 @@
     "packs/remaining-standards/skills/practice-reproducible-builds/SKILL.md": "d33955cafd26b6b87134976f164e717b117ece25d2146790f25247ee3e9ef12c",
     "packs/remaining-standards/skills/practice-sre-error-budgets/SKILL.md": "2025d1d90d3aefc6f5d18b5ec2a23bfab7d821c99c2b37827183f5b1b1eda6ae",
     "packs/remaining-standards/skills/practice-test-pyramid/SKILL.md": "9323728cdd3e07b6ab9a1dd2c5f73e94eb8e0518d0f6ae97741da38262b6c239",
-    "packs/remaining-standards/skills/practice-tla-plus/SKILL.md": "15144e40667e43d8d9bcff484623d5b8b4cfa155bdb79f4494443420b3220f52"
+    "packs/remaining-standards/skills/practice-tla-plus/SKILL.md": "15144e40667e43d8d9bcff484623d5b8b4cfa155bdb79f4494443420b3220f52",
+    "packs/remaining-standards/skills/standard-asyncapi/SKILL.md": "651eaa405ea070bb2d258b38f7d7e3f31f617060c8e3058d21c02af566fcdb03",
+    "packs/remaining-standards/skills/standard-c2pa/SKILL.md": "9f354dc9859f0d62442a4d30808bd055a0461de6fed67b6830c5e8f43e90b4e9",
+    "packs/remaining-standards/skills/standard-cloudevents/SKILL.md": "0f369f1fb39f94288085851df574a7cc0c5f245bafcfed3c8a030f3c850b36db",
+    "packs/remaining-standards/skills/standard-conventional-commits/SKILL.md": "1b8bfa98dfafd573944f2cbb36ca7f7b26d79a8c54bc6599a3362eb735db189a",
+    "packs/remaining-standards/skills/standard-cvss4/SKILL.md": "55c25350648aaef50e8d846a39c98f117e075a7a205d365555e3f78f3f8c7db1",
+    "packs/remaining-standards/skills/standard-cyclonedx/SKILL.md": "63adaa18de86f35241d3d5873611a78e04cf99ba66fe317ee5b7f7746d767e94",
+    "packs/remaining-standards/skills/standard-iec-31010/SKILL.md": "8528f3e7511a9324138bbd45595a424b24e5cc38b1d97ab06191b88b84c72213",
+    "packs/remaining-standards/skills/standard-iso-12207/SKILL.md": "8400f0fbb121e7be1cc77617eb4859b00eb9b0cabecd417db3011ef8239e980d",
+    "packs/remaining-standards/skills/standard-iso-15026-2/SKILL.md": "f66787cb05cc30609eb2f30f5c5971025b07b497127695077b8492b7c96a004a",
+    "packs/remaining-standards/skills/standard-iso-16085/SKILL.md": "422af499062670958862b49a7bb3eaaf208eee54609fc3ed48254a993e57d24e",
+    "packs/remaining-standards/skills/standard-iso-20246/SKILL.md": "222381bf3887d3a61ad2c2c9c98f7b757f54a17f5a46dd6f1def4058cfcdc156"
   }
 }
