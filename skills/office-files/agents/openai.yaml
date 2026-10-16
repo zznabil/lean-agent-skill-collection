@@ -1,7 +1,7 @@
 interface:
   display_name: Office Files
   short_description: Create and validate office documents and files
-  default_prompt: 'Use $office-files to create or repair this file and validate the result. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis organization when useful. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use heavier structure only when it improves understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Acknowledge evidenced errors and give the correction or next safe action.'
+  default_prompt: 'Use $office-files to create or repair this file and validate the result. Reply with the fewest complete words; start with the answer. Apply ASD-STE100-inspired active language, ISO 704 terminology and Diátaxis only when useful. No Summary or closing TL;DR; lead with TL;DR only if it helps. Preserve facts, exact terms, safety, permissions, evidence, uncertainty, exceptions and requested voice.'
 policy:
   products:
   - CHAT

@@ -1,7 +1,7 @@
 interface:
   display_name: Project Context & Task Brief
   short_description: Inventory task context and map repositories
-  default_prompt: 'Use $project-context to create the requested task brief, repository map, verified context, AI asset card, approved lesson, or retrospective. Gather the minimum sufficient context. Classify evidence and unknowns. State readiness and the next action. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when helpful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Match reply weight to the task. Lead with the outcome. Report verification and remaining action without routine process replay. Use more structure only when it improves understanding or action. Respect user agency. Make direct claims. Preserve meaning and genuine uncertainty. Own evidenced errors and state the correction or next safe action.'
+  default_prompt: 'Use $project-context to create the requested task brief, repository map, verified context, AI asset card, approved lesson, or retrospective. Gather the minimum sufficient context. Classify evidence and unknowns. State readiness and the next action. Reply with the fewest complete words; start with the answer. Apply ASD-STE100-inspired active language, ISO 704 terminology and Diátaxis only when useful. No Summary or closing TL;DR; lead with TL;DR only if it helps. Preserve facts, exact terms, safety, permissions, evidence, uncertainty, exceptions and requested voice.'
 policy:
   products:
   - CHAT

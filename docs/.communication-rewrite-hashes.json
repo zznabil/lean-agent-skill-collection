@@ -150,6 +150,16 @@
     "skills/get-it-done/agents/openai.yaml": "4e462fcab6a392196e29eb69f627a599dc6001f3abfe0a6dd39223bbb6adcc2c",
     "skills/grilling/agents/openai.yaml": "1ef38e160a39aff80d08a3b87480d1b1f450ce0c90b8da76856554d2db4de1dc",
     "skills/handoff/agents/openai.yaml": "022e9b3187c0a655aa9034759ae4e43b1caa1999d8ec5b3618a127fb78848ed6",
-    "skills/implement/agents/openai.yaml": "a332b021fcd5eca4a0d2a21436b38c752066cde476b8fd7a12f8e5d8f8ac04a9"
+    "skills/implement/agents/openai.yaml": "a332b021fcd5eca4a0d2a21436b38c752066cde476b8fd7a12f8e5d8f8ac04a9",
+    "skills/merge-conflicts/agents/openai.yaml": "786114ce8be439a64aa1ae99126712ad4783c274f534d22e8aca86dbf6ba8983",
+    "skills/office-files/agents/openai.yaml": "c64aefccadece6d1167a67860e917688aaf971d30831e9e5639fadc1ffae5963",
+    "skills/plan/agents/openai.yaml": "e06e69d03d1d42069ad0229f8fb828ea270fe67b4f0d310364c0d913ff3d9629",
+    "skills/project-context/agents/openai.yaml": "a2f1af340934bf3b1f5f801779ea384fb6fca001c4c153935f815197f204f700",
+    "skills/quick-mode/agents/openai.yaml": "aeee92bcfc20b33dd6cfa16f845935cb0943cea22a35e4b1211ae960aa6daea0",
+    "skills/release/agents/openai.yaml": "904854ea3814a88ee7e9801f4e14cd62b62432b8a730b9004bbd393522ef8bcf",
+    "skills/research/agents/openai.yaml": "6c80d9f7cc6c11b88a9f329367758f621856cac4f3e4c44160bd804eab44dc20",
+    "skills/review/agents/openai.yaml": "22ee535261177211c6af4d2edcf6cf856b428d4441bedc6cfa9dedce9fe47e16",
+    "skills/skill-design/agents/openai.yaml": "42dcc8a0b2afba7dc4cb1f967672155d3f40e2eca86895e6e00ecccd78544fae",
+    "skills/teach/agents/openai.yaml": "38305a9a0ddf15b66af57f5d54a901bfb863167dc2bfe4bcb11a9308e96eb488"
   }
 }

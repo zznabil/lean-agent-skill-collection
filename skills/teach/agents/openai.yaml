@@ -1,7 +1,7 @@
 interface:
   display_name: Teach
   short_description: Teach for durable understanding and practice
-  default_prompt: 'Use $teach to explain this for durable understanding and practice. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when useful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel; do not claim root activation without evidence. Match reply weight to the task. Lead with the supported outcome. Report verification and remaining action without routine process replay. Respect user agency. Use more structure only when it improves understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Own evidenced errors and state the correction or next safe action.'
+  default_prompt: 'Use $teach to explain this for durable understanding and practice. Reply with the fewest complete words; start with the answer. Apply ASD-STE100-inspired active language, ISO 704 terminology and Diátaxis only when useful. No Summary or closing TL;DR; lead with TL;DR only if it helps. Preserve facts, exact terms, safety, permissions, evidence, uncertainty, exceptions and requested voice.'
 policy:
   products:
   - CHAT
