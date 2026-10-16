@@ -95,6 +95,18 @@
     "packs/remaining-standards/skills/standard-iso-31700-1/SKILL.md": "22e8e094202431c3d14ee5f248b36acece2cf034bd65dfea03455b2d8073c163",
     "packs/remaining-standards/skills/standard-iso-42005/SKILL.md": "1ba52dd9bf377cec6faa595215ff811da472d3e58c822d91e4c7e10db3e677e0",
     "packs/remaining-standards/skills/standard-iso-42010/SKILL.md": "a4e59d26dc74da5b3c520eca66b73f6ffc921b8de949ee018a642eda5281f7bd",
-    "packs/remaining-standards/skills/standard-iso-5055/SKILL.md": "6d54973aff76f8bdf587dae8b8b674c15a0a625ade5ed8761601bc6eabe1b121"
+    "packs/remaining-standards/skills/standard-iso-5055/SKILL.md": "6d54973aff76f8bdf587dae8b8b674c15a0a625ade5ed8761601bc6eabe1b121",
+    "packs/remaining-standards/skills/standard-iso-5259/SKILL.md": "0b5f588b7f14d65acc88427b71c868763f5792c3d9913d3adfa3c5646f61b806",
+    "packs/remaining-standards/skills/standard-iso-5338/SKILL.md": "984aaa6339ac19c4fd9171992227fda24ae3ad4aa2f5ec5cc8753ba406d47aba",
+    "packs/remaining-standards/skills/standard-json-schema/SKILL.md": "2f41f62334c764f3cec1d93ba15e11fec345cdcb8bcbf161220695a00a857aae",
+    "packs/remaining-standards/skills/standard-nist-ai-ssdf/SKILL.md": "2cc6616e42e55fc3a72a4ef55677aad8da2c258cd032d5e2b3a3c556a631187a",
+    "packs/remaining-standards/skills/standard-nist-digital-identity/SKILL.md": "1ef60ac4aaef290429a6712906ec591e958ece38d3a2a661fac024e9a3f6116b",
+    "packs/remaining-standards/skills/standard-nist-incident-response/SKILL.md": "f67ea23d2e0b5ea7d25dcdc2e292e0b1272f4adcd08a7393d18b2fab211783b4",
+    "packs/remaining-standards/skills/standard-nist-ssdf/SKILL.md": "e83512afd2314ecee1d96dee408281b5e3b2d8d9fda9414b8148c165e8726e56",
+    "packs/remaining-standards/skills/standard-openapi/SKILL.md": "833ecf28201da5a19df11070d488db304db4c814b226a08c39b4a4c550c81450",
+    "packs/remaining-standards/skills/standard-owasp-aisvs/SKILL.md": "29654f02cb74f50d5010cc4237c5000809e93ac3edde50c366b441fa1d28ad91",
+    "packs/remaining-standards/skills/standard-owasp-asvs/SKILL.md": "4ac8092c361ed827d201f3e5d3aa3d466a106aad27ccb2cccce999b8c3e1fa0d",
+    "packs/remaining-standards/skills/standard-owasp-llmsvs/SKILL.md": "ca6a27bddad611ac46fb2a434a0ee89281bea087fc6bf2778d2ffe8974aeda31",
+    "packs/remaining-standards/skills/standard-rfc9457/SKILL.md": "69771352631f195d5c9887b66d9e67e4a27091d262f80fddd6e128b66e5713a6"
   }
 }
