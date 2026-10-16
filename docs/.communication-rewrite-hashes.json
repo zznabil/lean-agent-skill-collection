@@ -30,6 +30,16 @@
     "skills/writing/SKILL.md": "b61dfa6e126ce405f8ad45eebb7b567e0c1b32dab9be6b275d4735fd8a49f7b8",
     "packs/controlled-execution/AGENTS.md": "f40ee72c5d63331ee06eeb4b740ded63f630e2c0e344b22cb66353ade26edb32",
     "packs/remaining-standards/AGENTS.md": "91bbf41d9e77d3b5fbd7de0770bbf1a0fdf8543fadb40ce7ab7ef71efe383fab",
-    "packs/user-facing-standards/AGENTS.md": "8378bb37edcc818f3c43eb6bf0ab65a9a784a6ba78e2da221aa36d97e0d3c557"
+    "packs/user-facing-standards/AGENTS.md": "8378bb37edcc818f3c43eb6bf0ab65a9a784a6ba78e2da221aa36d97e0d3c557",
+    "packs/controlled-execution/skills/guidance-safe-technical-procedures/SKILL.md": "a65aba86e11aef82f86c35eecbc5027c7f06bb172a780bb7bd2491a9ec3b6cf1",
+    "packs/controlled-execution/skills/guidance-safety-messages/SKILL.md": "4872cd4bed48b9a1c6fe00a60be195503d5f7e1445063de5daedadad10a354a1",
+    "packs/controlled-execution/skills/practice-compliant-contrast/SKILL.md": "7f5f1a098541853a2bff567854019881d007c2d5bbdceafbe6208c5454d5b5e9",
+    "packs/controlled-execution/skills/practice-implementation-example-traceability/SKILL.md": "b55585b8f84d59c64308544ef00b851e00aea9e5ff91cf96e18f321524327bae",
+    "packs/controlled-execution/skills/practice-modular-information-units/SKILL.md": "66272639ff84d6ef5588e4e8ad572e55b5e9a549c2738b5f2ce7c3a9197149eb",
+    "packs/controlled-execution/skills/practice-normative-precision/SKILL.md": "b21b3e2ed0de73bfc9de0a97c30cb12c48aa9797604864184ebcbb44a68bbea0",
+    "packs/controlled-execution/skills/practice-state-verification/SKILL.md": "320e98905b285b6f24607b8673ff55b4c48c2cd7a9f2536218e9ecd03b0a56bb",
+    "packs/controlled-execution/skills/practice-transition-checklists/SKILL.md": "531dab3486ce701b8e81a958d29d7e7f69d630582613d5cddcd3338bb76c0ba0",
+    "packs/controlled-execution/skills/practice-use-error-controls/SKILL.md": "8d0d5d8e9bddc7b4b6325ed6d21654f349391c10fc3c0085deaf5663b746db64",
+    "packs/controlled-execution/skills/practice-verifiable-requirements/SKILL.md": "1fa93fc4d1d4da9195940463bd6376ba194b9d969871d95b29049b4f0b51de6f"
   }
 }
