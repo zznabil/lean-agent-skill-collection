@@ -140,6 +140,16 @@
     "packs/user-facing-standards/skills/standard-iso-9241-210/SKILL.md": "a142615271731efc97033cd0936f011f3599c181bcc8b29ea98f5465a3451299",
     "packs/user-facing-standards/skills/standard-iso-ieee-26513/SKILL.md": "87e3ede1061cea741d4c91679b1ba800e99f264c9ad0b8b578fe67e66a46656d",
     "packs/user-facing-standards/skills/standard-iso-ieee-26514/SKILL.md": "58738f47e1a953ad9934c8978f02f03e641c0a334500b089915ed119a51ce210",
-    "packs/user-facing-standards/skills/standard-wcag22/SKILL.md": "cb49f3da897a2fcbdaa30d5dd9517ec7c230673c33f7bc1aaf7686e06a16d75b"
+    "packs/user-facing-standards/skills/standard-wcag22/SKILL.md": "cb49f3da897a2fcbdaa30d5dd9517ec7c230673c33f7bc1aaf7686e06a16d75b",
+    "skills/architecture/agents/openai.yaml": "c750eb0a19daeaaf902ae82b1a8bd404b9095d45e1f9168187d0e57033fd6b02",
+    "skills/browser-automation/agents/openai.yaml": "535231bd9bc1b450e9b1ba41973fdb9963ed025b00f7c28c3238005799cfd86f",
+    "skills/cli-design/agents/openai.yaml": "c5e349a29bd4abc0cfdd2c8c6f2e3f514fef7e34b58a6ea8c5c522a29377a6e9",
+    "skills/debug/agents/openai.yaml": "87c276fb2d6b93eaeb5fa25eb1209632edb8e43c1f45f7a14531c136a182b998",
+    "skills/experiment/agents/openai.yaml": "d4f257d18a7648845ff2f97bf43a936eb25f92445309394c3457745f235edb4b",
+    "skills/gauntlet-loop/agents/openai.yaml": "9572874381cbdc7162820bf9fce830052bc65521f3b7d42d5fe28e8d61561ec1",
+    "skills/get-it-done/agents/openai.yaml": "4e462fcab6a392196e29eb69f627a599dc6001f3abfe0a6dd39223bbb6adcc2c",
+    "skills/grilling/agents/openai.yaml": "1ef38e160a39aff80d08a3b87480d1b1f450ce0c90b8da76856554d2db4de1dc",
+    "skills/handoff/agents/openai.yaml": "022e9b3187c0a655aa9034759ae4e43b1caa1999d8ec5b3618a127fb78848ed6",
+    "skills/implement/agents/openai.yaml": "a332b021fcd5eca4a0d2a21436b38c752066cde476b8fd7a12f8e5d8f8ac04a9"
   }
 }

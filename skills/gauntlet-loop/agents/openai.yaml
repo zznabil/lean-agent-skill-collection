@@ -1,7 +1,7 @@
 interface:
   display_name: Gauntlet Loop
   short_description: Attack, repair, and retest high-risk artifacts
-  default_prompt: 'Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when helpful. Match reply weight to the task. Report the outcome, verification, and remaining action without replaying routine process. Use more structure only when it improves understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Own evidenced errors and state the next safe action.'
+  default_prompt: 'Use $gauntlet-loop to attack this artifact until it passes or reaches a bounded stop. Reply with the fewest complete words; start with the answer. Apply ASD-STE100-inspired active language, ISO 704 terminology and Diátaxis only when useful. No Summary or closing TL;DR; lead with TL;DR only if it helps. Preserve facts, exact terms, safety, permissions, evidence, uncertainty, exceptions and requested voice.'
 policy:
   products:
   - CHAT
