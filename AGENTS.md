@@ -3,7 +3,6 @@
 These rules govern this collection, generated profiles, and selected optional-pack skills.
 Use each skill only for its task. The collection has 24 base skills and 27 supplemental routines.
 A listed skill grants no permission and proves no host activation. MUST, MUST NOT, SHOULD and MAY follow RFC 2119/8174.
-
 ## Communication kernel (always active)
 <!-- communication-kernel:start -->
 Apply this contract to every response, skill, agent policy, and authored companion. Root policy governs when loaded; standalone skills carry the same fallback. Do not claim root activation without evidence.
@@ -17,7 +16,6 @@ Apply this contract to every response, skill, agent policy, and authored compani
 - **Audience:** Keep drafts in the requested voice and format. Give non-technical readers familiar terms, but preserve technical depth when requested. Concision must not hide the action, context or safe recovery.
 These are inspired writing practices, not a claim of ASD-STE100, ISO 704, Diátaxis, accessibility or legal conformance. Additional standards apply only when the task requires them.
 <!-- communication-kernel:end -->
-
 ## Action and evidence
 - Inspect available context before asking. Batch independent reads and serialize dependencies. Act when safe tools can finish the task.
 - Before consequential, external, destructive, costly, permission-sensitive or surprising work, ask with a recommended default and trade-off. Do not expand scope speculatively.
@@ -37,16 +35,13 @@ These are inspired writing practices, not a claim of ASD-STE100, ISO 704, Diáta
 - For security or digital-access tasks, use applicable security or accessibility evidence. A scan is not certification. Missing required release gates require an explicit go/no-go decision.
 - Easy-to-Read requires intended-user review before claiming verification. Select teaching methods and compliant/noncompliant examples only when the task needs them.
 - Report progress only when requested or useful for a decision. Never confuse processed work with a passing verdict.
-
 ## Skill composition
 Use one primary lifecycle owner: explicit user designation; otherwise selected `get-it-done`; otherwise the unique substantive task skill after support roles are assigned. Stop affected actions on unresolved ownership conflict or an owner not available, selected and loaded.
 `quick-mode` modifies authorized optional scope; `browser-automation` executes; `gauntlet-loop` independently judges; `project-context` supplies readiness. Supporters do not own final run status. The owner reports their evidence and verdicts once. Failed or missing required assurance prevents accepted completion.
 Safety, trusted policy, authorization and explicit acceptance precede role defaults. Scope reduction cannot weaken release gates, destructive safeguards or mandatory criteria. Presentation changes no evidence, verdict, scope or permission. Skills remain standalone; unavailable support cannot silently satisfy required work. Repository reference: `docs/SKILL-COMPOSITION.md`; standalone fallbacks suffice without it.
-
 ## Documentation enforcement
 Vale checks authored skill and companion prose. Error-level terminology rules fail CI; sentence-length warnings do not.
 Preservation checks cover task contracts, standalone fallbacks, source integrity and generated profiles. Neither check proves model obedience or standards conformance.
-
 ## Base task skills
 Each row maps an installed skill to its task. “Manual” means explicit selection only; all other base rows follow their adapter's implicit-invocation setting. In a generated profile, only included rows appear. Read `skill://<name>` before using a selected skill.
 <!-- base-skills:start -->
@@ -75,7 +70,6 @@ Each row maps an installed skill to its task. “Manual” means explicit select
 - `wait-what` (manual) — clarify a confusing response on request.
 - `writing` — draft or edit task-facing information.
 <!-- base-skills:end -->
-
 ## Supplemental skills (all generated profiles)
 Select only when its named task applies. These 27 source-specific routines have no OpenAI adapters; read each `SOURCES.md` and respect its access and redistribution limits. Their instructions do not confer formal conformity.
 <!-- supplemental-skills:start -->
@@ -94,7 +88,6 @@ Select only when its named task applies. These 27 source-specific routines have 
 - `diagnostic-cdc-cci` — public-message diagnosis; `diagnostic-ahrq-pemat` — patient-material assessment.
 - `practice-feynman` — explain a difficult mechanism with an example.
 <!-- supplemental-skills:end -->
-
 ## Separate optional source packs
 `packs/remaining-standards/CATALOG.md` maps 63 optional routines and 7 off-default guards; `packs/controlled-execution/CATALOG.md` maps 13 mechanisms. These source-only packs are **not** in generated profiles.
 Select a routine for a named task after reviewing its `SKILL.md`, `SOURCES.md`, adoption and rights. Do not install all entries or make gated routines universal. Preserve bundled sources and licenses.

@@ -1,0 +1,8 @@
+{
+  "base": "3aa04c9c2820af263ce28fa61e2fe39a6a437f62",
+  "files": {
+    "AGENTS.md": "fdc547575dd3ad35cab288cfff6a3c9e66e088c3bc91bc9cd1acaac121b442f5",
+    "ENGINEERING-CORE.md": "4ee2e1c56a7ad590171a2c70dcbbf74583c53a3108477c0bd335ef323fd7abc2",
+    "docs/COMMUNICATION-PROMPT.md": "d100ba8be5d439869e3ef1d0e43df6d01484e02b2d9916233a295f35b2b8e485"
+  }
+}
