@@ -5,15 +5,14 @@ description: "Propagate valid trace context across trust boundaries."
 # W3C Trace Context
 
 ## Communication kernel
-- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the main point and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when helpful. Keep simple replies short. These are prose drivers, not formal standards conformance.
-- Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Report observed results. Missing or stale evidence is not success. Use other domain standards only when the task requires them.
-- When writing normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. State one actor, action and observable verification target per requirement.
-- For critical or risky work only, put warnings before hazards and hold points before critical or irreversible steps. Before destructive or hazardous work, verify actual state. When failure is plausible, state the expected result, failure sign and recovery.
-- When explaining difficult mechanisms, start from simple foundations. When useful, contrast noncompliant and compliant code or configuration.
-- For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful. Add contrast or TL;DR only when helpful. These controls do not transfer legal or organisational authority from external frameworks.
-- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
-
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
 ## Task and boundary
 - Implement or review W3C Trace Context propagation between services.
 - Do not treat a trace identifier, sampling flag or received context as authentication or authorization.

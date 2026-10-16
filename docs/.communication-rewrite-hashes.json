@@ -107,6 +107,18 @@
     "packs/remaining-standards/skills/standard-owasp-aisvs/SKILL.md": "29654f02cb74f50d5010cc4237c5000809e93ac3edde50c366b441fa1d28ad91",
     "packs/remaining-standards/skills/standard-owasp-asvs/SKILL.md": "4ac8092c361ed827d201f3e5d3aa3d466a106aad27ccb2cccce999b8c3e1fa0d",
     "packs/remaining-standards/skills/standard-owasp-llmsvs/SKILL.md": "ca6a27bddad611ac46fb2a434a0ee89281bea087fc6bf2778d2ffe8974aeda31",
-    "packs/remaining-standards/skills/standard-rfc9457/SKILL.md": "69771352631f195d5c9887b66d9e67e4a27091d262f80fddd6e128b66e5713a6"
+    "packs/remaining-standards/skills/standard-rfc9457/SKILL.md": "69771352631f195d5c9887b66d9e67e4a27091d262f80fddd6e128b66e5713a6",
+    "packs/remaining-standards/skills/standard-sarif/SKILL.md": "75901a91124926ba73d1b6ca8bbb471394a7b72a40d98df4aa3f79e4135f7ad4",
+    "packs/remaining-standards/skills/standard-semver/SKILL.md": "17db6fe3f51be75dd93e79e40e6b5e89a57ff0d21b9cf4f51bd6cd33633852b8",
+    "packs/remaining-standards/skills/standard-slsa/SKILL.md": "7c40779d920d38075c3766b2ad1326dd00415d6c64482c49e74b3c33b28150f6",
+    "packs/remaining-standards/skills/standard-software-carbon-intensity/SKILL.md": "e4e7199a62137249dcf938bc27e98677822f5f4a1e550c32eba4755d7da5c4da",
+    "packs/remaining-standards/skills/standard-spdx/SKILL.md": "a8e48d91981a70de2d1a3342b956c459602a5946dd94e96dfaf752985ee6a796",
+    "packs/remaining-standards/skills/standard-w3c-trace-context/SKILL.md": "2027ad68d4cd7e756468bc818751c8519c3420acd31fcb26bb2482ef5467c052",
+    "packs/user-facing-standards/skills/diagnostic-ahrq-pemat/SKILL.md": "6337d6cb2ba9f32082aea0515689dca1a0fe4f56fd6bc2177283f8bf2f29de3a",
+    "packs/user-facing-standards/skills/diagnostic-cdc-cci/SKILL.md": "74b3fb6e7fe5d25b0791b8993ed6ccb1212bcefa8460e20f41d5ec326dff9450",
+    "packs/user-facing-standards/skills/guidance-cast-udl/SKILL.md": "48ce493bf9aa8f53720cf3ce842050ffe472888059fad150a26f5a23ed5f87db",
+    "packs/user-facing-standards/skills/guidance-easy-to-read/SKILL.md": "311108ef1c5f194295d37ece13d1abde3ad754b6e6c5ddfa76ed9ce70fe98983",
+    "packs/user-facing-standards/skills/guidance-w3c-coga/SKILL.md": "7a06f1763b0d3354edc0c86a8473fd67bcaab281a7b6752e9eccfb696651b8af",
+    "packs/user-facing-standards/skills/guidance-wai-aria-apg/SKILL.md": "e0290f1a29a3d0f1e215bfb12ce2ab129ad99080c0dd60fca5e0e9897a57a5d1"
   }
 }

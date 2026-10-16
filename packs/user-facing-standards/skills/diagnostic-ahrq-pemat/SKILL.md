@@ -40,12 +40,12 @@ The handout is easy to read but gives no concrete steps for the recommended acti
 Keep the scores separate. Identify the missing action support. Do not fabricate clinical advice.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Root policy governs when loaded. Do not claim root activation without evidence. Run this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short active technical sentences. Use ISO 704-inspired stable concepts and terminology. Separate how-to, reference and explanation when Diátaxis purpose separation helps. These are communication inspirations, not formal conformance claims.
-- Lead with the supported result and next action. Use familiar words. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
-- In normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, one action and an observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, use a hold point and check the safe state. When failure is plausible, give the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Keep the PASS/FAIL/BLOCKED verdict separate. Count a failed, blocked, skipped or untested item only after classification with evidence. If no defensible total exists, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- When explaining a difficult mechanism, start from foundations. For code or configuration, show a compliant/noncompliant contrast only when useful. Do not force examples or sections on simple tasks.
-
-For source editions, local files, official links and reuse limits, read [SOURCES.md](SOURCES.md).
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
+See [SOURCES.md](SOURCES.md) for source limits.
