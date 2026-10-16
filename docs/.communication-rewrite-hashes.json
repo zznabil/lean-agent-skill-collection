@@ -131,6 +131,15 @@
     "packs/user-facing-standards/skills/standard-iso-21801-1/SKILL.md": "903ee06e149c0f0f38c169b3550a561f61fce4ff927bc789041df412505dd4d9",
     "packs/user-facing-standards/skills/standard-iso-23859/SKILL.md": "a5c3d3b8cf074af0bfa1f8b88e4606f307c30fd0f8f1b48519b7812d55933a3c",
     "packs/user-facing-standards/skills/standard-iso-24495-1/SKILL.md": "c8bb6675e8ad07fb82d9c51ef76432b8c2aaea6ff165c8663281c4807eb2da8b",
-    "packs/user-facing-standards/skills/standard-iso-29138-1/SKILL.md": "70efa4f2fe0e8b96f79ca766d85e63fb95770fd7b3c99fe9d0a2b680e6d45f67"
+    "packs/user-facing-standards/skills/standard-iso-29138-1/SKILL.md": "70efa4f2fe0e8b96f79ca766d85e63fb95770fd7b3c99fe9d0a2b680e6d45f67",
+    "packs/user-facing-standards/skills/standard-iso-29138-4/SKILL.md": "70b2e96046c2c280e51e8fa37c2827b0fbd3aa2e19151792bcd97d2c7f6691e3",
+    "packs/user-facing-standards/skills/standard-iso-704/SKILL.md": "ad0645180fb67a11f4b2f8ff293273701056b4468c07f0fa97f6a6997c158236",
+    "packs/user-facing-standards/skills/standard-iso-9241-110/SKILL.md": "6be4ffb6b33b1a0e073e26f5fb85130e87ccd5e690012d9b49d36c98506e36e1",
+    "packs/user-facing-standards/skills/standard-iso-9241-112/SKILL.md": "abea6f85b6c9377a7224a5c3f29dfb52c8c4a8a5e4dfd4cb1a3079f08b12494c",
+    "packs/user-facing-standards/skills/standard-iso-9241-171/SKILL.md": "a5213f43b0303697b4a7993501d43820f7e0cd3799933da8a0b6e12993f900de",
+    "packs/user-facing-standards/skills/standard-iso-9241-210/SKILL.md": "a142615271731efc97033cd0936f011f3599c181bcc8b29ea98f5465a3451299",
+    "packs/user-facing-standards/skills/standard-iso-ieee-26513/SKILL.md": "87e3ede1061cea741d4c91679b1ba800e99f264c9ad0b8b578fe67e66a46656d",
+    "packs/user-facing-standards/skills/standard-iso-ieee-26514/SKILL.md": "58738f47e1a953ad9934c8978f02f03e641c0a334500b089915ed119a51ce210",
+    "packs/user-facing-standards/skills/standard-wcag22/SKILL.md": "cb49f3da897a2fcbdaa30d5dd9517ec7c230673c33f7bc1aaf7686e06a16d75b"
   }
 }
