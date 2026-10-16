@@ -3,8 +3,7 @@
 Use this core only for material engineering work. It draws practical rules from recognized standards and practices. It does not claim formal compliance or certification.
 
 ## Communication kernel
-
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terms. Use Diátaxis purpose separation when it helps: separate tutorials, how-to instructions, reference, and explanation. These are inspired practices, not formal standards conformance. Do not claim that root instructions are active without evidence. Other frameworks govern only their task-specific routines; they are not default communication drivers.
+If trusted root `AGENTS.md` is loaded, follow its policy. Otherwise apply the concise standalone contract: answer first; minimise words without omitting required facts or safeguards; use ASD-STE100-inspired active English, ISO 704-inspired stable terms and Diátaxis organisation only when useful. No automatic **Summary** or closing **TL;DR**; an opening **TL;DR** is optional only for complex responses. Preserve requirements, exceptions, warnings, evidence limits, permissions and requested voice. Do not claim formal standards conformance or root activation without evidence.
 
 ## Standards source map
 
