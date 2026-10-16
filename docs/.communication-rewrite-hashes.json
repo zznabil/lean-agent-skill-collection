@@ -62,6 +62,17 @@
     "packs/remaining-standards/skills/practice-atam/SKILL.md": "c8d912003b422477378fb745a4da7d9a9c9f14742864623f7831890189a551f9",
     "packs/remaining-standards/skills/practice-blameless-postmortems/SKILL.md": "a2170158032169c4e38f2ed4589a6d99366a2395e6bf4264bc5341fa99380a67",
     "packs/remaining-standards/skills/practice-chaos-engineering/SKILL.md": "ee440ec5e23e4d9c5a631b6d1288c0b6218e5778ac50039a0e96bb79956d5af6",
-    "packs/remaining-standards/skills/practice-data-cards/SKILL.md": "504c284d7286dfa82373da1f55ea0326cec8783ae53900e5db263b07b154be53"
+    "packs/remaining-standards/skills/practice-data-cards/SKILL.md": "504c284d7286dfa82373da1f55ea0326cec8783ae53900e5db263b07b154be53",
+    "packs/remaining-standards/skills/practice-datasheets/SKILL.md": "5881d3bdf8b3ac71c8e264fd0a67c0e651a3e7e2ca6c074c70b821241ee21eb2",
+    "packs/remaining-standards/skills/practice-ears/SKILL.md": "10ae477da84055aa63a807ddfb29485d68fdc7d049e3d939ad8f338c79ca6ee0",
+    "packs/remaining-standards/skills/practice-fair/SKILL.md": "c5f731adef28551313d5ee32246204d8a30e686afe3ea460b38f49f44bf87262",
+    "packs/remaining-standards/skills/practice-gherkin/SKILL.md": "3662697a78a62be20c28e472ccb3eb56f6cd50df15b53777c492e0d91ddc2d63",
+    "packs/remaining-standards/skills/practice-gqm/SKILL.md": "f84d53b8e28dccc2c702304011443cb63aa019b1395f2501ae9fffbde4315768",
+    "packs/remaining-standards/skills/practice-model-cards/SKILL.md": "9314252e724d3b383fe86fe9d816a13077ff1e92fcedfd5e06b7f0286afd6e75",
+    "packs/remaining-standards/skills/practice-property-based-testing/SKILL.md": "0209304e9dfdd7e3b65c1aecee4e20af303fe4861572f4d1e3ba686755a762a2",
+    "packs/remaining-standards/skills/practice-reproducible-builds/SKILL.md": "d33955cafd26b6b87134976f164e717b117ece25d2146790f25247ee3e9ef12c",
+    "packs/remaining-standards/skills/practice-sre-error-budgets/SKILL.md": "2025d1d90d3aefc6f5d18b5ec2a23bfab7d821c99c2b37827183f5b1b1eda6ae",
+    "packs/remaining-standards/skills/practice-test-pyramid/SKILL.md": "9323728cdd3e07b6ab9a1dd2c5f73e94eb8e0518d0f6ae97741da38262b6c239",
+    "packs/remaining-standards/skills/practice-tla-plus/SKILL.md": "15144e40667e43d8d9bcff484623d5b8b4cfa155bdb79f4494443420b3220f52"
   }
 }
