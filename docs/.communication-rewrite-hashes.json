@@ -119,6 +119,18 @@
     "packs/user-facing-standards/skills/guidance-cast-udl/SKILL.md": "48ce493bf9aa8f53720cf3ce842050ffe472888059fad150a26f5a23ed5f87db",
     "packs/user-facing-standards/skills/guidance-easy-to-read/SKILL.md": "311108ef1c5f194295d37ece13d1abde3ad754b6e6c5ddfa76ed9ce70fe98983",
     "packs/user-facing-standards/skills/guidance-w3c-coga/SKILL.md": "7a06f1763b0d3354edc0c86a8473fd67bcaab281a7b6752e9eccfb696651b8af",
-    "packs/user-facing-standards/skills/guidance-wai-aria-apg/SKILL.md": "e0290f1a29a3d0f1e215bfb12ce2ab129ad99080c0dd60fca5e0e9897a57a5d1"
+    "packs/user-facing-standards/skills/guidance-wai-aria-apg/SKILL.md": "e0290f1a29a3d0f1e215bfb12ce2ab129ad99080c0dd60fca5e0e9897a57a5d1",
+    "packs/user-facing-standards/skills/practice-cognitive-load/SKILL.md": "aae9a1bee707a5581680086bd9fdd40ee891332030950dee00723c2843173c04",
+    "packs/user-facing-standards/skills/practice-diataxis/SKILL.md": "080cbfb705bcb9402108e5f31e45da0c819ac8f97deac4a40b9198e975935689",
+    "packs/user-facing-standards/skills/practice-feynman/SKILL.md": "d395643e999ddaae59ada07dbeaae981976722fa3398eefc77c5abc5bd928319",
+    "packs/user-facing-standards/skills/practice-ies-study/SKILL.md": "d59880d3638dcff1ac929ee05198dd21dc264199a839d1319b9ddb2bf5c11e04",
+    "packs/user-facing-standards/skills/practice-worked-examples/SKILL.md": "e930ed3fa61aa6f45da0e9aa8af9c42ca91dd2e0395b9572416609b2d5e1b2a0",
+    "packs/user-facing-standards/skills/standard-asd-ste100/SKILL.md": "1d198adc41c50ae1d6d80deb75af6125c99b52312c60676b415d6a31d25036c3",
+    "packs/user-facing-standards/skills/standard-bcp14/SKILL.md": "7ca12326a5664feaded31983a565494152d4d67e847768ada30f4eec6182379f",
+    "packs/user-facing-standards/skills/standard-iec-ieee-82079-1/SKILL.md": "c25315cb30a29815f2f2bc503303c25a1e6baa10c81d40840886f42f1930e7d7",
+    "packs/user-facing-standards/skills/standard-iso-21801-1/SKILL.md": "903ee06e149c0f0f38c169b3550a561f61fce4ff927bc789041df412505dd4d9",
+    "packs/user-facing-standards/skills/standard-iso-23859/SKILL.md": "a5c3d3b8cf074af0bfa1f8b88e4606f307c30fd0f8f1b48519b7812d55933a3c",
+    "packs/user-facing-standards/skills/standard-iso-24495-1/SKILL.md": "c8bb6675e8ad07fb82d9c51ef76432b8c2aaea6ff165c8663281c4807eb2da8b",
+    "packs/user-facing-standards/skills/standard-iso-29138-1/SKILL.md": "70efa4f2fe0e8b96f79ca766d85e63fb95770fd7b3c99fe9d0a2b680e6d45f67"
   }
 }

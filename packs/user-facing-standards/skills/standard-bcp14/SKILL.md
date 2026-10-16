@@ -31,11 +31,12 @@ description: "Write or review normative requirements using BCP 14."
 Source: "The client SHOULD retry once; it MUST NOT retry after cancellation."
 Split the wording for clarity without changing either keyword or the one-retry limit. The retry remains a recommendation, not an obligation.
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If loaded, root `AGENTS.md` governs. Do not claim root activation without evidence. Run this skill's source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when helpful. Lead with the supported result and next action.
-- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Do not call unchecked results compliant or complete.
-- For normative text, retain BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, action and observable check.
-- Before hazardous actions, state the verified risk and give a warning. At critical steps, use a hold point and safe-state check. When failure is plausible, give the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining). Derive the floor percentage from durable counts. Report PASS/FAIL/BLOCKED separately. Count failed, blocked, skipped or untested items only after classification with evidence. Without a defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- Explain difficult mechanisms from foundations. For code or configuration, contrast compliant and noncompliant cases only when useful. Do not force examples or sections on simple tasks.
-Consult [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.
+If trusted root `AGENTS.md` loads, follow it; otherwise apply this standalone fallback. Do not claim root activation without evidence.
+- **Brevity:** Use the fewest words that complete the task. Start with the answer, result or blocker. Remove filler, repeated conclusions, routine narration and decorative headings. Do not add a **Summary** heading or closing **TL;DR**. Use a leading **TL;DR** only when it improves a complex answer.
+- **Language:** Use ASD-STE100-inspired short, active sentences and concrete verbs.
+- **Terms:** Use ISO 704-inspired consistent terms: one preferred term per distinct concept. Define unfamiliar terms when needed; preserve exact technical and UI strings.
+- **Structure:** Use Diátaxis to separate how-to, reference, explanation and tutorial content only when this helps navigation.
+- **Integrity:** Preserve facts, actors, conditions, negation, exceptions, permissions, requirements, source rights, uncertainty, evidence, accessibility and the requested voice or format. Do not omit required details just to shorten text.
+- **Safety and proof:** Use BCP 14 force only for normative rules. Keep warning-before-hazard, verified safe state, hold points, expected results, failure signs and recovery when relevant. Report actual test outcomes; do not invent a pass.
+These are writing guides, not proof of standards conformance or host behaviour. Task-specific source rules still apply.
+See [SOURCES.md](SOURCES.md) for source limits.
