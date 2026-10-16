@@ -3,6 +3,15 @@
   "files": {
     "AGENTS.md": "fdc547575dd3ad35cab288cfff6a3c9e66e088c3bc91bc9cd1acaac121b442f5",
     "ENGINEERING-CORE.md": "4ee2e1c56a7ad590171a2c70dcbbf74583c53a3108477c0bd335ef323fd7abc2",
-    "docs/COMMUNICATION-PROMPT.md": "d100ba8be5d439869e3ef1d0e43df6d01484e02b2d9916233a295f35b2b8e485"
+    "docs/COMMUNICATION-PROMPT.md": "d100ba8be5d439869e3ef1d0e43df6d01484e02b2d9916233a295f35b2b8e485",
+    "skills/architecture/SKILL.md": "b62df5de3be91d83180ae0caadb7e8467859e2aeb4b5851e82f9fa46ed684b7a",
+    "skills/browser-automation/SKILL.md": "90c4d01a97cfdd6d558251bf7961b14c4692ecd3ecd8c54ea19632f80839f5ea",
+    "skills/cli-design/SKILL.md": "2e7b3d5d64b264f1c7f8816e8e3cd715848ef47e8ca56829a27146b89ff9f548",
+    "skills/debug/SKILL.md": "0ad2e96a447ff04a3452c2692c3ebf064c8ca7d2664a7ca0de1759225cc90b9a",
+    "skills/experiment/SKILL.md": "3d839e776c9298125f3a2578fbf3bb42f2b75840d1f908e53ccc412bf94f7e8e",
+    "skills/gauntlet-loop/SKILL.md": "01a0c36bc318d0f7c256e71aa1848c48b0379017c3c677bc1204115582917d76",
+    "skills/get-it-done/SKILL.md": "ffe79b4f7ed41e328e5e010e2c93e92745ac5a207d480514300fe1a297dbae27",
+    "skills/grilling/SKILL.md": "4124da2797ee5e355eb4bc9ffe2a39df1b4ea4c2d5f85b818c4035260f532b91",
+    "skills/handoff/SKILL.md": "7fa4907b8d49e507a0bc57c48bf1a75786b4ae95f0cbbe3110e812ded4bd4c52"
   }
 }
