@@ -19,3 +19,6 @@ Maintain one human-readable file. Replace the file atomically when possible.
 - **Result:** Record terminal state, task-gate status, standing completion status, re-measured numeric claims, operations evidence, rollback, and unprocessed remainder.
 
 Store conclusions and evidence. Do not store hidden reasoning or secrets. One coordinator writes this file. Reconcile workspace drift before you resume.
+
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.

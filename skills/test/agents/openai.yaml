@@ -1,7 +1,7 @@
 interface:
   display_name: Test
   short_description: Build tests and evaluate agent trajectories
-  default_prompt: 'Use $test to create the smallest reliable test or agent-evaluation feedback loop. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis purpose separation when useful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel; do not claim root activation without evidence. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use more structure only when it improves understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Own evidenced errors and state the correction or next safe action.'
+  default_prompt: 'Use $test to create the smallest reliable test or agent-evaluation feedback loop. Use the fewest complete words; start with the answer. Apply ASD-STE100-inspired active language, ISO 704 terminology and Diátaxis only when useful. No Summary or closing TL;DR; lead with TL;DR only if it helps. Preserve facts, terms, safety, permissions, evidence, uncertainty, exceptions and requested voice.'
 policy:
   products:
   - CHAT

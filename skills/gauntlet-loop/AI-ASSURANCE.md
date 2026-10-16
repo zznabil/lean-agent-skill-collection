@@ -2,6 +2,9 @@
 
 Load this resource only for an AI model, agent, MCP system, RAG workflow, evaluator, memory system, or tool-using application. Select versioned requirements and threat cases for the actual architecture. Do not copy an entire catalogue into the benchmark.
 
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.
+
 ## Source hierarchy
 
 Use current official sources where they apply. Use this order:

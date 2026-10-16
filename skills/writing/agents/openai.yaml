@@ -1,7 +1,7 @@
 interface:
   display_name: Writing
   short_description: Draft or edit clear prose and user information for its task
-  default_prompt: 'Use $writing to draft or edit this prose or user information for its audience, task, and purpose. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable terminology, and Diátaxis organization when helpful. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use heavier structure only when it improves understanding or action. Make direct claims. Preserve genuine uncertainty and meaning. Own evidenced errors and state the next safe action.'
+  default_prompt: 'Use $writing to draft or edit this prose or user information for its audience, task, and purpose. Use the fewest complete words; start with the answer. Apply ASD-STE100-inspired active language, ISO 704 terminology and Diátaxis only when useful. No Summary or closing TL;DR; lead with TL;DR only if it helps. Preserve facts, terms, safety, permissions, evidence, uncertainty, exceptions and requested voice. Use familiar language for non-technical readers, respect accessibility needs, and preserve requested expert depth and exact UI labels.'
 policy:
   products:
   - CHAT

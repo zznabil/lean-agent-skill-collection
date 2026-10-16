@@ -4,6 +4,9 @@ These compact records draw on **ISO/IEC 5259**, **ISO/IEC 25012/25024**, **Model
 
 Use this compact card for a consequential model, dataset, prompt, evaluator, agent, or retrieval asset. Keep one card per independently versioned asset when practical.
 
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.
+
 ## Identity
 
 - Record the asset type, name, owner, version or revision, date, licence, and authoritative location.

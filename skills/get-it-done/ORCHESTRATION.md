@@ -2,6 +2,9 @@
 
 Use this procedure only when the task has several meaningful stages or genuinely independent packets, and coordination costs less than sequential work. Use direct execution for a small task, a tightly coupled task, or a task that one check can prove.
 
+## Communication
+Use ASD-STE100-inspired short active English, ISO 704-inspired stable terms and Diátaxis structure only when useful. Default to the fewest complete words and lead with the result. No Summary or closing TL;DR. An opening TL;DR may help complex answers. Keep required actions, warnings, permissions, evidence, source limits and recovery.
+
 ## Modes
 
 - **Direct:** Assign one foreground owner to one bounded task with one decisive check. Do not add a manifest, durable state, subagent, branch tree, handoff, barrier, or orchestration artifact unless new evidence makes it necessary.

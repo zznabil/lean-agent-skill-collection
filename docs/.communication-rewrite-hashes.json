@@ -160,6 +160,16 @@
     "skills/research/agents/openai.yaml": "6c80d9f7cc6c11b88a9f329367758f621856cac4f3e4c44160bd804eab44dc20",
     "skills/review/agents/openai.yaml": "22ee535261177211c6af4d2edcf6cf856b428d4441bedc6cfa9dedce9fe47e16",
     "skills/skill-design/agents/openai.yaml": "42dcc8a0b2afba7dc4cb1f967672155d3f40e2eca86895e6e00ecccd78544fae",
-    "skills/teach/agents/openai.yaml": "38305a9a0ddf15b66af57f5d54a901bfb863167dc2bfe4bcb11a9308e96eb488"
+    "skills/teach/agents/openai.yaml": "38305a9a0ddf15b66af57f5d54a901bfb863167dc2bfe4bcb11a9308e96eb488",
+    "skills/test/agents/openai.yaml": "f9170b48c1f1058b134f3bc673879d5cb24d8613459b3f301caed34377072643",
+    "skills/triage/agents/openai.yaml": "6b9b979d0bacd9e1aa3d1cca9aedf72b07288d82dc79aef4e2b72f6a164f764a",
+    "skills/wait-what/agents/openai.yaml": "d7d0dc7629204aa1387b6b4c159e2858bc0b79f93d1e19a872e1d44fc7e4f65a",
+    "skills/writing/agents/openai.yaml": "ac04be27cd7cec0da388da70b8f56d1b0f8d37ef76dfe8c0090748e947a438ce",
+    "skills/gauntlet-loop/AI-ASSURANCE.md": "07fcca14f430994184aa20942d01acaa14a4d184afbce4debf87ef3c95db0a3e",
+    "skills/gauntlet-loop/CRITIC-LANES.md": "d3369fb7ece5749ab748c3edd47e0a57b76b063318015d0c37c56edda7f94575",
+    "skills/gauntlet-loop/STATE-FORMAT.md": "473fa4f686653b24d5ef6acc3ff69ae7b05b7c9dfc833f1a95c67e2f22603a60",
+    "skills/get-it-done/ORCHESTRATION.md": "d33925dcd1a3f58df9b77af9f879ae681c67fe6ce1a929b709aed03a36095b05",
+    "skills/get-it-done/STATE.md": "cb198b97d3181eefcf26987b241a1a20f49b79345d562bd2ac755d57933e44e7",
+    "skills/project-context/AI-ASSET-CARDS.md": "ad1804ecc93972f14b591f5dca0661bf1f6a95ac11ad7e60f1eb143de07be66e"
   }
 }
