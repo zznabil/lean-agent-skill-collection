@@ -1,6 +1,8 @@
 """Run the fixed communication corpus against an extracted release profile in OMP.
 
 Offline: python scripts/evaluate-communications.py --self-test
+Curated output samples calibrate observable text regressions, not live agent
+behaviour or intended-reader accessibility.
 Source-line coverage does not prove byte identity or model obedience.
 """
 
@@ -214,8 +216,29 @@ def self_test():
     )
     polarity_failures = score_prose(reset, bad_easy_polarity)
     assert {failure.split(":", 1)[0] for failure in polarity_failures} == {"missing", "forbidden"}
+    sample_checks = self_test_writing()
     checks = self_test_evidence()
-    print(f"SELF-TEST PASS: communication prose rubric; {checks} source/runner calibration checks; no OMP invocation")
+    print(f"SELF-TEST PASS: communication prose rubric; "
+          f"{sample_checks} curated output checks; {checks} source/runner calibration checks; no OMP invocation")
+
+
+def self_test_writing():
+    """Calibrate output rubrics without pinning authored instruction wording."""
+
+    expected = {"unknown-payment-outcome", "exact-label-and-command", "requested-expert-depth",
+                "respectful-adult-instructions", "preserve-safety-exception"}
+    cases = {case["id"]: case for case in CASES["cases"] if "samples" in case}
+    assert expected <= cases.keys(), "Writing sample case missing"
+    sample_checks = 0
+    for case in cases.values():
+        samples = case["samples"]
+        assert samples["pass"] and samples["fail"], f"missing paired samples: {case['id']}"
+        for accepted in (True, False):
+            for answer in samples["pass" if accepted else "fail"]:
+                failures = score_prose(case, answer)
+                assert (not failures) == accepted, f"sample misclassified: {case['id']}: {answer}: {failures}"
+                sample_checks += 1
+    return sample_checks
 
 
 def self_test_evidence():

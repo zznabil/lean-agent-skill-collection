@@ -157,6 +157,167 @@
         "(?i)all services (?:are|have been) restored"
       ],
       "skill": "optional"
+    },
+    {
+      "id": "unknown-payment-outcome",
+      "category": "accessible-recovery",
+      "prompt": "Use writing to draft a short payment message for a nontechnical customer. A request timed out; whether the payment went through is unknown. The customer must not pay again until the result is known. The exact control label is 'Check payment status'. Return only the message. Do not invent a failure, success, or refund.",
+      "required": [
+        "(?i)(?:cannot|can['’]t|could not|don['’]t|do not).{0,30}(?:confirm|know).{0,50}(?:payment|paid)|(?:payment|paid).{0,40}(?:unknown|not confirmed)",
+        "Check payment status",
+        "(?i)\\b(?:do not|don['’]t)\\s+pay again\\b"
+      ],
+      "forbidden": [
+        "(?im)(?:^|[.!?]\\s+)(?:your |the )?(?:payment|transaction) (?:has |was |is )?(?:failed|successful|complete|declined)",
+        "(?im)(?:^|[.!?]\\s+)(?:please\\s+|you (?:should|can|may|must)\\s+)?(?:retry|try again|try paying again|pay again)\\b|(?:payment|money) (?:has been |was |is )refunded",
+        "(?i)summary:|tl;dr",
+        "(?i)\\b(?:do not|don['’]t)\\s+hesitate to\\s+(?:pay again|retry|try again|try paying again)\\b"
+      ],
+      "skill": "writing",
+      "samples": {
+        "pass": [
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status to check the result.",
+          "Your payment status is unknown. Don't pay again until the result is known. Select Check payment status.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Do not retry. Select Check payment status to check the result.",
+          "We can’t confirm whether your payment went through. Don’t pay again yet. Select Check payment status.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. You should not try again now."
+        ],
+        "fail": [
+          "Your payment failed. Try paying again.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. Your payment was successful.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. Try again.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Review transaction.",
+          "We cannot confirm whether your payment went through. Do not hesitate to pay again. Select Check payment status.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status to check the result. You should try again now.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status to check the result. Do not hesitate to pay again."
+        ]
+      }
+    },
+    {
+      "id": "exact-label-and-command",
+      "category": "accessible-terminology",
+      "prompt": "Use writing to edit this help text for nontechnical adults in exactly two bullets. Keep the exact UI label 'Synchronize workspace', command 'sync --dry-run', and quote 'Do not close this window.' The button brings saved files up to date. The command shows planned changes without changing files. Explain the unfamiliar label and command alongside their exact text. Return only the two bullets.",
+      "required": [
+        "Synchronize workspace",
+        "sync --dry-run",
+        "Do not close this window\\.",
+        "(?i)(?:saved files.{0,30}up to date|up to date.{0,30}saved files)",
+        "(?i)planned changes",
+        "(?i)(?:without changing|does not change|won\\x27t change) (?:your )?files",
+        "(?s)\\A- [^\\n]+\\n- [^\\n]+\\s*\\Z"
+      ],
+      "forbidden": [
+        "(?i)summary:|tl;dr"
+      ],
+      "skill": "writing",
+      "samples": {
+        "pass": [
+          "- Select Synchronize workspace to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files."
+        ],
+        "fail": [
+          "- Select Update files to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
+          "- Select Synchronize workspace to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync to see planned changes without changing files.",
+          "- Select Synchronize workspace to bring saved files up to date. The message says: 'Close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
+          "- Select Synchronize workspace. 'Do not close this window.'\n- Run sync --dry-run."
+        ]
+      }
+    },
+    {
+      "id": "requested-expert-depth",
+      "category": "audience-and-depth",
+      "prompt": "Use writing to draft a concise reference note for a database engineer. Preserve these supplied technical distinctions and terms: serializable transactions have an outcome equivalent to some serial execution; snapshot isolation can permit write skew, a serialization anomaly, when concurrent transactions read a shared constraint and update disjoint rows. Keep all that expert detail. Do not replace it with only an analogy. Return only the note.",
+      "required": [
+        "(?i)serializable",
+        "(?i)equivalent.{0,35}serial execution",
+        "(?i)snapshot isolation",
+        "(?i)write skew",
+        "(?i)serialization anomaly",
+        "(?i)concurrent transactions",
+        "(?i)shared constraint",
+        "(?i)disjoint rows"
+      ],
+      "forbidden": [
+        "(?i)summary:|tl;dr",
+        "(?i)snapshot isolation.{0,20}(?:prevents|eliminates) write skew"
+      ],
+      "skill": "writing",
+      "samples": {
+        "pass": [
+          "Serializable transactions have an outcome equivalent to some serial execution. Snapshot isolation can permit write skew, a serialization anomaly: concurrent transactions read a shared constraint and update disjoint rows."
+        ],
+        "fail": [
+          "Transactions are like people taking turns. Keep things simple.",
+          "Serializable transactions have an outcome equivalent to some serial execution. Snapshot isolation prevents write skew, a serialization anomaly: concurrent transactions read a shared constraint and update disjoint rows."
+        ]
+      }
+    },
+    {
+      "id": "respectful-adult-instructions",
+      "category": "cognitive-accessibility",
+      "prompt": "Use writing to give an adult reader with a learning disability short, literal steps. The reader wants the 2025 statement. Select '2025' in the 'Year' list, then select 'Download statement'. The file will appear in 'Downloads'. Keep those labels exact. Do not infer ability or a reading age. Return only the steps and expected result.",
+      "required": [
+        "(?m)^1\\.",
+        "(?m)^2\\.",
+        "2025",
+        "Year",
+        "Download statement",
+        "Downloads"
+      ],
+      "ordered": [
+        "2025",
+        "Download statement",
+        "Downloads"
+      ],
+      "forbidden": [
+        "(?i)\\b(?:good (?:boy|girl)|super easy|like a child|baby steps|obviously|reading age)\\b",
+        "(?i)because (?:you have|of your).{0,35}(?:disability|condition)",
+        "(?i)summary:|tl;dr"
+      ],
+      "skill": "writing",
+      "samples": {
+        "pass": [
+          "1. In the Year list, select 2025.\n2. Select Download statement.\nThe file will appear in Downloads."
+        ],
+        "fail": [
+          "1. In the Year list, select 2025.\n2. Select Download statement.\nThe file will appear in Downloads. Good girl!",
+          "1. In the Year list, select 2025.\n2. Select Download statement.\nThe file will appear in Downloads. Your reading age is seven.",
+          "1. Select Download statement.\n2. In the Year list, select 2025.\nThe file will appear in Downloads.",
+          "1. In the Year list, select 2025.\n2. Select Download statement.\nThe file will appear in Downloads. Because of your disability, you cannot understand the full guide."
+        ]
+      }
+    },
+    {
+      "id": "preserve-safety-exception",
+      "category": "safety-and-meaning",
+      "prompt": "Use writing to rewrite this supplied drill notice in three plain bullets. Preserve requirement strength, the exception, the prohibition, and the number. Source: 'During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B. Staff MUST NOT use the lift. Staff MUST meet at assembly point 3.' Do not add instructions beyond the source.",
+      "required": [
+        "(?i)drill",
+        "(?m)^[^\\n]*MUST use Exit A (?:unless|except when) smoke blocks Exit A\\.",
+        "(?m)^[^\\n]*[Ii]f smoke blocks Exit A,[^\\n]*MUST use Exit B\\.",
+        "MUST NOT use the lift",
+        "MUST meet at assembly point 3"
+      ],
+      "forbidden": [
+        "(?i)\\b(?:always|regardless)\\b",
+        "(?i)summary:|tl;dr",
+        "\\b(?:SHOULD|MAY)\\b",
+        "(?i)\\blift[,\\s]+(?:unless|except(?: when| if)?|if)\\b"
+      ],
+      "skill": "writing",
+      "samples": {
+        "pass": [
+          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
+          "- During this drill, staff MUST use Exit A except when smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
+          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift, even if it is available.\n- Staff MUST meet at assembly point 3."
+        ],
+        "fail": [
+          "- During this drill, staff MUST use Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
+          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MAY use the lift.\n- Staff MUST meet at assembly point 3.",
+          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 2.",
+          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift unless it is available.\n- Staff MUST meet at assembly point 3."
+        ]
+      }
     }
-  ]
+  ],
+  "sample_scope": "Curated output samples calibrate text checks only. They are not live agent outputs or intended-reader accessibility validation. These regex checks cover specific regressions, not general semantic correctness; other phrasings can be misclassified."
 }
