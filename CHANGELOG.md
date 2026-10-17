@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.20.0 — 2026-10-17
+
+- Lead with the answer and use the shortest complete response. Remove routine Summary headings and closing recaps; place a helpful TL;DR first.
+- Refactor authored skill instructions and standalone fallbacks. Preserve task contracts, requested depth, permissions, safety, evidence, routing and source rights.
+- Retain accessible Writing: familiar language, manageable actions, exact labels, respectful adult instructions and expert detail when requested.
+- Calibrate observable response behaviour rather than pinning instruction wording. Keep live model evidence separate from structural and intended-user claims.
+- Accept equivalent YAML list layouts without accepting string Booleans. Reject contradictory safety answers and preserve semantic variants in evaluator controls.
+- Supply package policy explicitly during isolated live comparisons. Keep standalone composition runs free of root policy and ambient rules. Repair browser-fixture initialization and verify replay, reset and broken-state rejection.
+
 ## 8.19.1 — 2026-10-13
 
 - Record tested revisions, replay commands, evidence links and unverified coverage in pull requests. Preserve the existing permission and licence statements.

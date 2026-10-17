@@ -90,7 +90,10 @@ class PackControls(unittest.TestCase):
     def test_21_undeclared_file(self):
         self.reject(lambda p:(p/'unlisted.txt').write_text('unexpected'),'Checksum inventory coverage differs',refresh=False)
     def test_22_skill_mutation_rejected_after_checksum_refresh(self):
-        self.reject(lambda p: replace(p,'skills/standard-iso-29148/SKILL.md','Preserve facts, identifiers, links, required checks, permissions, negation','Preserve facts, identifiers, links, required checks, permissions, negation and exceptions'),'Source baseline mismatch')
+        def edit(root):
+            path = root / 'skills/standard-iso-29148/SKILL.md'
+            path.write_bytes(path.read_bytes().removesuffix(b'\n') + b' \n')
+        self.reject(edit, 'Source baseline mismatch')
 
     def test_23_catalog_mutation_rejected_after_checksum_refresh(self):
         self.reject(lambda p: replace(p,'CATALOG.md','standard-iso-29148','changed-catalog'),'Source baseline mismatch')

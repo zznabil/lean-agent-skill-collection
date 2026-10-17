@@ -4,9 +4,9 @@ Use this reference to draft or edit a skill, agent policy, workflow, prompt, che
 
 ## Before changing the words
 
-Identify the reader, task, input, expected result, and authority. Use the request and existing material. Inspect the current instructions and their callers. Mark unresolved requirements as unresolved. Do not invent a default to complete a paragraph.
+Identify reader, task, input, expected result and authority from the request and existing material. Inspect current instructions and callers. Keep unresolved requirements explicit; do not invent defaults to fill gaps.
 
-Keep each rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response, and completion evidence. Keep links, resource paths, source references, and adoption decisions. Keep watched, deferred, and rejected sources in their existing states. Do not change exact UI labels, identifiers, commands, schemas, numbers, quoted source text, or status names without authorisation. Explain unfamiliar labels and terms alongside the exact text.
+Preserve each rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response and completion evidence. Keep links, resource paths, source references and adoption decisions. Keep watched, deferred and rejected sources in their existing states. Retain exact UI labels, identifiers, commands, schemas, numbers, quoted source text and status names unless authorised to change them. Explain unfamiliar labels and terms alongside the exact text.
 
 ## Rewrite a decision, not an aspiration
 
@@ -66,3 +66,4 @@ Apply this kernel to this reference, its examples, and the instructions you draf
 - Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when that separation helps. Do not force sections into a short answer.
 
 If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
+Lead with the answer or action. Keep needed detail; omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format in copy-ready text.

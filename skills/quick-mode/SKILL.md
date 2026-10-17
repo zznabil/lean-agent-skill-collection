@@ -16,10 +16,10 @@ MUST preserve authorization, privacy, secrets, trust boundaries, data integrity,
 Keep normal permission gates for consequential, destructive, costly, external, or production actions. Never weaken tests. Do not infer success from silence, label an unrun check as passed, or claim production readiness by default.
 If an action cannot proceed safely, prefer a reversible local patch, preview, dry run, or disposable prototype.
 ## Fast path
-1. State the working slice and user-visible result first. Include one cheap smoke check and the main deferrals in a sentence.
-2. Inspect only the needed files, runtime, interfaces, and constraints. Reuse project mechanisms, stdlib, native features, or installed dependencies.
-3. Build the thinnest end-to-end slice. Run one cheap smoke check on the real artifact or product boundary. A representative launch, API request, rendered view, or CLI interaction counts only if it observes the selected outcome and can fail.
-4. Repair defects that block the slice or safety floor. Report the result, executed evidence, failed or unavailable checks, and deferrals. Stop before optional polish.
+1. State the working slice and user-visible result first. Name one cheap smoke check and the main deferrals in one sentence.
+2. Inspect the necessary files, runtime, interfaces and constraints. Reuse project mechanisms, the standard library, native features or installed dependencies.
+3. Build the thinnest end-to-end slice. Smoke-check the real artefact or product boundary. A launch, API request, rendered view or CLI interaction counts only when it observes the selected outcome and can fail.
+4. Repair defects blocking the slice or safety floor. Report actual evidence, failed or unavailable checks and deferrals. Stop before optional polish.
 If no smoke check is possible, report `SMOKE: UNRUN` and the exact missing capability. You may deliver the artifact, but it is unverified.
 ## Selected interaction validation
 Dogfooding and automated UAT are optional until the user selects them. Once selected, they are required. Use the project's existing browser, desktop, mobile, game, CLI, or API interface. Use the narrowest reliable tool in this order: native harness, structured protocol, accessibility automation, then computer-use control. Static source inspection, compilation alone, unit tests alone, and an uninteracted screenshot are not interaction evidence.
@@ -31,10 +31,10 @@ Use `COMPLETE` only if the working slice and all selected checks passed. Use `PA
 ## Communication kernel
 Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These are communication aids, not claims of formal standards conformance or legal authority.
 **User-facing:**
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Report fresh verification, material uncertainty, remaining user action, and limits. Do not replay routine tool steps or add routine praise. Own actual agent errors. State the correction or next safe action. State conclusions directly. Do not hide verified failure or evidenced responsibility.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not invent mandates.
-- Before risky work, put the risk warning first. Add a hold point and safe-state check where needed. State the expected result, failure sign, and recovery. Use explanation or contrast only when useful.
-- Apply OWASP ASVS, accessibility, or Easy-to-Read guidance only to relevant domain tasks. Obtain intended-user review before any Easy-to-Read verification claim.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Base it on processed items, round down, and keep it separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Give them distinct content.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty, limits and remaining user action. Omit routine tool narration and praise.
+- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action. Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not invent mandates.
+- Before risky work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain or contrast only when useful.
+- Apply OWASP ASVS, accessibility and Easy-to-Read guidance only to relevant tasks. Easy-to-Read verification requires intended-user review.
+- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

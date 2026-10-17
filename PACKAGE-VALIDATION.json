@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, Quick Mode, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims and Quick Mode policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.19.1",
+  "version": "8.20.0",
   "skills_expected": 51,
   "skills_validated": 51,
   "base_task_skills_expected": 24,
@@ -118,12 +118,13 @@
     "simple_turns_remain_short": true,
     "default_sources": [
       "ASD-STE100-inspired syntax",
-      "CDC-style main-point and familiar wording",
-      "Diátaxis mode separation when useful",
-      "BCP 14 normative force",
-      "NASA-style atomic verification"
+      "ISO 704-inspired terminology",
+      "Diátaxis mode separation when useful"
     ],
     "conditional_sources": [
+      "BCP 14 normative force",
+      "NASA-style atomic verification",
+      "CDC Clear Communication Index diagnostics",
       "ANSI-style warning precedence",
       "WHO-style hold points",
       "OSHA-style safe-state verification",

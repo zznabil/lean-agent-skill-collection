@@ -5,7 +5,7 @@ description: "Structure documentation with the four Diataxis forms."
 # Diátaxis: documentation by reader need
 
 ## Use
-- Use this skill when substantial documentation mixes purposes or hides the reader’s task. Deliver a usable document or a bounded reorganisation.
+- Use this skill when substantial documentation mixes purposes or hides the reader’s task. Deliver a usable document or bounded reorganisation.
 - Select the primary reader need. Do not force four documents or a website taxonomy onto a short answer.
 
 ## Source and scope
@@ -21,8 +21,8 @@ description: "Structure documentation with the four Diataxis forms."
 6. For reference, organise exact facts to mirror the system. Use a consistent structure and complete detail.
 7. When the reader needs a lookup, keep exceptions, defaults, limits and field meanings out of unrelated narrative.
 8. For explanation, build understanding through context, mechanisms, reasons, alternatives and connections.
-9. If mixed purposes obstruct the task, move secondary material to its own form. Link to it where needed. Preserve the primary path.
-10. Address one documentation problem at a time. Support the problem with evidence. Do not force a large reorganisation without a need.
+9. If mixed purposes obstruct the task, separate secondary material and link to it where needed. Preserve the primary path.
+10. Address one evidenced documentation problem at a time. Do not force an unnecessary large reorganisation.
 
 ## Keep the task contract
 - When you move content, preserve required procedures, technical distinctions, safety information and working links.
@@ -32,19 +32,28 @@ description: "Structure documentation with the four Diataxis forms."
 ## Verify and deliver
 - Test whether the document answers its primary reader question. Verify commands and factual reference entries.
 - Check links across forms. Ensure the reader can reach each required instruction before using it.
-- Return the revised document or a bounded structure proposal. Identify any execution example that you did not verify.
+- Return the revised document or bounded structure proposal. Identify execution examples you did not verify.
 
 ## Worked distinction
 “How do I restore a backup?” needs a how-to path with conditions and recovery.
 “Why does recovery use a log?” needs explanation. Link the two forms. Keep their primary purposes separate.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If it loads, it governs. Do not claim root activation without evidence. Apply this skill’s source-specific procedure only to its task, not to every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate purposes when helpful. These are communication practices, not claims of formal standards conformance.
-- Start with the supported result and next action. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Do not call an unchecked result compliant or complete.
-- In normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, the action and an observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, provide a hold point and a safe-state check. When failure is plausible, give the expected result, failure sign and recovery. These controls do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Keep the PASS/FAIL/BLOCKED verdict separate. Count a failed, blocked, skipped or untested item only after you classify it with evidence. If no defensible total exists, report the phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- When you explain a difficult mechanism, start from foundations. For code or configuration, use a compliant/noncompliant contrast only when useful. Do not force examples or sections onto simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

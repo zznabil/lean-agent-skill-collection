@@ -22,11 +22,11 @@ Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired 
    - Structural validity does not prove semantic fit, safety, or conformance.
    - Read `PLAYBOOKS.md` when needed.
 ## Write or refactor
-1. Inspect the existing format, names, references, and actual host constraints. Start with the result, next consumer, observable completion condition, and non-obvious intent. Write short active decisions. Where a requirement matters, name one actor and a verifiable action. Classify guidance as invariant, default, or heuristic. Do not make every preference mandatory.
-2. Treat a proposed skill merge as a behavioral change.
-   - Before merging skills that appear to run together or differ only by tone, depth, style, checklist, standard, or orchestration branding, compare triggers, mandates, references, standalone entry points, authority, and completion rules.
-   - Merge only within authorized scope and after required preservation checks pass.
-3. Treat the description as a routing interface and permanent context cost. State the action, trigger, and any expensive anti-trigger. Do not summarize the entire workflow.
+1. Inspect existing formats, names, references and host constraints. Name the result, next consumer, observable completion and non-obvious intent. Write short, active decisions. Important requirements name one actor and verifiable action. Distinguish invariants, defaults and heuristics; do not make every preference mandatory.
+2. Treat skill merges as behavioural changes.
+   - Before merging skills that co-activate or differ mainly by tone, depth, style, checklist, standard or orchestration branding, compare their contracts. Check triggers, mandates, references, standalone entry points, authority and completion rules.
+   - Merge only within authorised scope after required preservation checks pass.
+3. Treat descriptions as routing interfaces and permanent context costs. State action, trigger and expensive anti-trigger, not the whole workflow.
 4. Keep `SKILL.md` complete and easy to execute.
    - Reduce avoidable wording, not required decisions.
    - Move conditional detail to a local reference only when the task trigger reliably loads it before it is needed. Measure claimed context savings in the actual loaded task.
@@ -50,10 +50,10 @@ Use the fewest durable words that preserve the skill's complete behavioral contr
 Before rewriting agent-facing rules or user-facing delivery guidance, read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md). Preserve the task contract and loading paths before reducing wording. A compact replacement must still name the applicable trigger, action, exception, evidence, and failure response.
 Compare old and proposed instructions in both directions. Keep standards-register decisions, source links, named resources, and local fallbacks available at entry points that need them. Treat changes to descriptions, aliases, controller topology, invocation policy, and completion criteria as separate behavioral changes. Do not treat them as automatic results of a prose edit.
 **User-facing:**
-- Start with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right. Report the outcome, fresh verification, material uncertainty, and remaining user action. Omit routine tool narration and praise.
-- Apply the communication kernel. Use familiar words. State conclusions directly. Do not hide verified failure or evidenced responsibility. Correct actual agent errors or state the next safe action.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from style guidance.
-- When stating normative force, use BCP 14 only for that purpose. For important requirements, name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
-- Before risky or failure-prone work, place a warning before the action. Add a hold point and safe-state check where needed. State the expected result, failure sign, and recovery. When a mechanism is difficult, explain it simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Calculate progress from processed items and round down. Keep progress separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
+- Apply the communication kernel and familiar words. State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
+- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats. Style does not prove formal conformance.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
+- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
+- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

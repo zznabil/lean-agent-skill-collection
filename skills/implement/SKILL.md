@@ -4,46 +4,41 @@ description: "Implement a bounded change from a clear request, spec, or ticket. 
 ---
 # Implement
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terms. Use Diátaxis organization to separate how-to, reference, and explanation when useful. These are style guides, not a claim of formal standards conformance.
-Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. State conclusions directly. Do not hide verified failure or responsibility supported by evidence. Correct actual agent errors or give the next safe action.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
+Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms, and Diátaxis organisation when useful. These guides do not establish formal conformance.
+Lead with the answer or next action. Use only the detail the task needs. Omit routine Summary headings and closing recaps.
+Use TL;DR only when it helps a long response, and place it first. Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
+State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
 ## Implementation procedure
-Apply this priority order: **correctness → safety → contract and architecture → simplicity → diff size → lines of code**.
-- Before you add code, check whether the work is unnecessary or already implemented. Check for reusable repository code, standard-library or native-platform capability, and installed dependencies.
-- Add an abstraction or dependency only when the contract requires it.
-For **DIRECT** work, use one foreground owner. Do not use a separate plan, durable state, or delegation. Use the narrowest decisive check. Escalate only when inspection reveals wider coupling, consequential risk, or an unproved boundary.
-1. **Read before editing.** Read the request, relevant context, current code or artifact, tests, and local conventions. Preserve unrelated local work.
-2. **Define acceptance and find the shared owner.** Map each material requirement to an observable acceptance check.
-   - Identify the smallest affected area, the riskiest unknown, and behavior that must remain true.
-   - Trace callers and the shared location that owns the behavior. Fix the cause, not just one visible symptom.
-3. **Check existing behavior.** Resolve observable uncertainty through inspection or a cheap probe before you ask the user. In an established or weakly tested area, add a characterization check before you refactor behavior.
-4. **Use reversible slices.** Order work in thin vertical slices. Resolve contracts and high-risk unknowns before broad implementation. Keep each stable slice reversible.
-5. **Set a baseline and isolate the change.** Before you edit a risky or wide change, establish a clean baseline and an isolated branch, worktree, or reversible checkpoint.
-6. **Make the smallest complete change.**
-   - Prefer deletion, reuse, standard-library or native capability, an installed dependency, or direct local code before you add a layer.
-   - Avoid speculative abstraction, unrelated cleanup, and refactors that move complexity without reducing it.
-   - If the required behavior already exists, verify it and make no change.
-7. **Implement rendered interface states.** For interface work, preserve the current design system. Implement the required loading, empty, error, disabled, validation, persistence, and recovery states. Use `browser-automation` for rendered and interactive proof.
-8. **Check security and dependencies.** Apply **NIST SP 800-218 SSDF** in proportion to the work.
-   - Validate untrusted input at trust boundaries. For web applications, use applicable **OWASP ASVS** requirements instead of a vague security claim.
-   - Before adoption, inspect a new dependency, lockfile change, transitive impact, and lifecycle scripts.
-   - Test material security or compatibility controls when relevant.
-9. **Get fresh verification.** Name the expected user-visible result and failure sign. Then run the narrowest current check that proves the affected contract. One check is sufficient only if it observes the complete outcome and can fail honestly. If it fails, repair the failure or report the blocker. Do not present failure as success.
-   - Do not invent a test framework or broad suite for a tiny local change. Small scope does not permit you to skip a required boundary, security, persistence, compatibility, or regression check.
-   - After the change is stable, broaden verification only if another material boundary remains.
-   - Use measured evidence to decide whether to keep or revert the change.
-10. **Add a durable regression guard.** If a defect pattern can recur, add the smallest durable guard: regression test, type, schema, lint rule, validation check, or approved hook.
-11. **Inspect the final output.** Inspect the final diff and real output.
-    - Remove debug code, temporary files, accidental dependency changes, narration comments, placeholders, unjustified type escapes, defensive branches with no real failure mode, needless pass-through wrappers, and avoidable deep nesting.
-    - Preserve justified trust-boundary checks, observable behavior, and local conventions. Do not infer authorship from style.
-12. **Check readiness for use.** Run one stewardship pass over the introduced change. Verify ready-to-use behavior. Include necessary use or recovery information. Leave the affected area easy for the next maintainer to work on.
-    - Do not expand the task into unrelated cleanup.
-    - Stop when the contract and fresh evidence are satisfied. Optional polish must justify its own value.
-13. **Record delivery.** Report changed artifacts, requirement coverage, actual checks and outcomes, assumptions, residual risk, intentionally untouched relevant areas, out-of-scope findings, and whether user action remains.
-MUST NOT weaken tests, change expected behavior to match a bug, or publish, push, deploy, or mutate production without authorization.
-## User-facing delivery rules
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right. Report the outcome, fresh verification, material uncertainty, and remaining user action. Do not narrate routine tool use or add praise.
-- When expressing normative force, use BCP 14 only for that purpose. Important requirements must name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
-- Before risky or failure-prone work, place a warning before the action. Add a hold point and a safe-state check where needed. Then state the expected result, failure sign, and recovery.
-- Explain a difficult mechanism simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Calculate progress from processed items and round down. Keep progress separate from the verdict. Processed is not passed. Otherwise, report the phase and evidence without a bar.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+Apply **correctness → safety → contract and architecture → simplicity → diff size → lines of code**.
+For **DIRECT** work, use one foreground owner, no separate plan, durable state or delegation, and the narrowest decisive check.
+Escalate only for wider coupling, consequential risk or an unproved boundary.
+1. Read the request, relevant context, affected code or artefact, tests and local conventions. Preserve unrelated work.
+2. Map each material requirement to an observable check. Identify the smallest affected area, riskiest unknown and preserved behaviour.
+   Trace callers to the shared owner; fix the cause rather than a symptom.
+3. Resolve observable uncertainty through inspection or a cheap probe before asking. Characterise established or weakly tested behaviour before refactoring.
+4. Order thin, reversible vertical slices by contract and risk. Before wide or risky edits, establish a baseline and isolated branch, worktree or checkpoint.
+5. Make the smallest complete change. First consider omission, existing repository code, the standard library, native capabilities and installed dependencies.
+   Add a layer or dependency only when the contract requires it. Avoid speculative abstractions, unrelated cleanup and complexity-shifting refactors.
+   If the required behaviour exists, verify it without changing it.
+6. For interfaces, preserve the design system and implement required loading, empty, error, disabled, validation, persistence and recovery states.
+   Use `browser-automation` for rendered and interactive proof.
+7. Apply **NIST SP 800-218 SSDF** proportionately. Validate untrusted input at boundaries; use applicable **OWASP ASVS** requirements for web applications.
+   Inspect new dependencies, lockfile changes, transitive impact and lifecycle scripts before adoption. Test material security and compatibility controls.
+8. Name the expected user-visible result and failure sign. Run the narrowest fresh check that observes the complete affected contract and rejects failure.
+   Repair failure or report the blocker; never label it success. Do not create a broad framework for a tiny change.
+   Small scope does not waive required boundary, security, persistence, compatibility or regression checks.
+   Broaden checks only for remaining material boundaries. Use measured evidence to keep or revert the change.
+9. Guard recurring defects with the smallest durable regression test, type, schema, lint rule, validation check or approved hook.
+10. Inspect the final diff and real output. Remove probes, temporary files, accidental dependencies, placeholders, unjustified type escapes and needless wrappers or nesting.
+    Preserve justified trust-boundary checks and local conventions. Do not infer authorship from style.
+11. Make one stewardship pass: verify ready-to-use behaviour, add necessary use or recovery information, and leave the area maintainable.
+    Stop when the contract and fresh evidence pass; do not expand scope for optional polish.
+12. Report changed artefacts, requirement coverage, actual checks, assumptions, residual risk, relevant untouched areas, out-of-scope findings and remaining user action.
+MUST NOT weaken tests, change expected behaviour to match a bug, or publish, push, deploy or mutate production without authorisation.
+## Conditional reporting
+Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not invent mandates from advice.
+Before risky work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery.
+Explain difficult mechanisms simply. Use compliant/noncompliant contrasts only when helpful.
+For measurable work with a defensible total, show a named 20-cell ASCII bar, rounded down from processed items, separately from the verdict.
+Processed does not mean passed. Otherwise report the phase and evidence. Avoid surprise scope and leave the result usable or resumable.

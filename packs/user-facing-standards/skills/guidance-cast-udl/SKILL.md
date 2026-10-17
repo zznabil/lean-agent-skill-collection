@@ -5,7 +5,7 @@ description: "Design learning options with CAST UDL 3.0."
 # CAST UDL 3.0: remove learning barriers
 
 ## Use
-- Design a learning task, resource or assessment for varied learners. Deliver options that connect to a learning goal and observed barriers.
+- Design learning tasks, resources or assessments for varied learners. Link options to a learning goal and observed barriers.
 - First state the goal and barriers. Do not apply every option to every learner or task.
 
 ## Source and scope
@@ -23,7 +23,7 @@ description: "Design learning options with CAST UDL 3.0."
 7. Allow alternative ways to demonstrate the same learning goal if a fixed response method creates an avoidable barrier.
 8. Support planning, resource organisation and progress monitoring where learners need those supports.
 9. Identify bias or exclusion in the material, expectations and available participation routes.
-10. Observe participation and learning for the chosen options. Revise barriers that persist. Choice alone does not show that learners met the goal.
+10. Observe participation and learning with the chosen options. Revise persistent barriers. Choice alone does not demonstrate that learners met the goal.
 
 ## Keep the task contract
 - Do not infer ability, motivation or support needs from a diagnosis alone.
@@ -41,16 +41,21 @@ An assessment of causal reasoning unnecessarily requires rapid handwriting.
 Consider another response method while preserving the causal-reasoning objective and its evidence requirements.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` loads, it governs. Do not claim root activation without evidence. Apply the CAST source-specific procedure only to its task, not to every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the supported result and next action.
-- Use ISO 704-inspired stable concepts and terminology. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format.
-- Use Diátaxis purpose separation when helpful. Separate how-to guidance, reference and explanation. Do not force examples or sections on simple tasks.
-
-## Conditional execution rules
-- For unchecked results, do not claim compliance or completion.
-- In normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, use a hold point and check the safe state. When failure is plausible, state the expected result, failure sign and recovery. These controls do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Report the PASS/FAIL/BLOCKED verdict separately. Count a failed, blocked, skipped or untested item only after you classify it with evidence. If no total is defensible, report the phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- For a difficult mechanism, explain from foundations. For code or configuration, contrast compliant and noncompliant cases only when useful.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 For source editions, local files, official links and reuse limits, see [SOURCES.md](SOURCES.md).

@@ -1,9 +1,9 @@
 interface:
   display_name: Handoff
   short_description: Capture exact state for safe continuation
-  default_prompt: 'Use $handoff to record the exact state and next action for continuation. Use the communication kernel: ASD-STE100-inspired short, active technical sentences; ISO 704-inspired stable concepts and terms; and Diátaxis separation of purposes when useful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Match reply weight to the task. Start with the outcome and report verification and remaining action without replaying routine steps. Add heavier structure only when it improves understanding or action. State claims directly. Retain genuine uncertainty and meaning. Acknowledge evidenced errors and give the next safe action.'
+  default_prompt: "Use $handoff to record the exact state and next action for continuation. Use ASD-STE100-inspired short active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful. Trusted root AGENTS.md governs when loaded; otherwise use this fallback. Do not claim loading or formal conformance without evidence. Lead with the outcome. Report actual verification, uncertainty and remaining action; omit routine process narration. Keep simple replies short and preserve needed detail, meaning and requested formats. Omit routine Summary headings and closing recaps; put a useful TL;DR first only for complex replies. State supported claims directly. Correct evidenced agent errors or give the next safe action."
 policy:
   products:
-  - CHAT
-  - CODEX
+    - CHAT
+    - CODEX
   allow_implicit_invocation: false

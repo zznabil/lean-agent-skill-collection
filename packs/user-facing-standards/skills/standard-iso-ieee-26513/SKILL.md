@@ -5,8 +5,8 @@ description: "Test and review information against actual user tasks."
 # ISO/IEC/IEEE 26513: review user information
 
 ## Use
-- Use this skill to plan or perform an information review for actual user tasks. Deliver findings linked to passages and evidence from rechecks.
-- Draft, edit or review as requested. First read the delivered artifact and the information about users, product version and authorised scope.
+- Plan or perform information reviews for actual user tasks. Link findings to passages and recheck evidence.
+- Read the delivered artefact, users, product version and authorised scope before drafting, editing or reviewing.
 
 ## Source and scope
 - Target edition: ISO/IEC/IEEE 26513:2017; successor at FDIS in checked catalogue. See SOURCES.md for official access and source status.
@@ -23,7 +23,7 @@ description: "Test and review information against actual user tasks."
 6. To check user performance, ask representative intended users to find information and attempt the task when authorised.
 7. Record observed errors, assistance, missed prerequisites and recovery failures. Do not rely on stated preference.
 8. Link each finding to the exact passage, task, evidence, impact and proposed correction.
-9. Recheck corrections on the affected task. Record unresolved findings, excluded scope and the task outcome that remains uncertain.
+9. Recheck corrections on the affected task. Record unresolved findings, exclusions and uncertain task outcomes.
 
 ## Keep the task contract
 - Preserve facts, quantities, terms, permissions, prohibitions, conditions, exceptions, warnings and required links.
@@ -34,7 +34,7 @@ description: "Test and review information against actual user tasks."
 ## Verify and deliver
 - Check the actual task and a relevant failure or recovery path. Use intended-user evidence when available.
 - Distinguish source-verified clause findings, Lean design suggestions and unchecked items.
-- Return the artifact or scoped findings first. State material limits and the evidence needed to resolve them.
+- Return the artefact or scoped findings first. State material limits and the evidence needed to resolve them.
 - Do not claim formal conformance from this short routine, a readability score or an unexecuted review plan.
 
 ## Worked distinction
@@ -42,15 +42,21 @@ A reviewer approves a help page because its sentences are short.
 Also test whether users can locate the prerequisite and complete the documented task.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` is loaded, it governs. Do not claim root activation without evidence. Use this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences and familiar words. Lead with the supported result and next action.
-- Use ISO 704-inspired stable concepts and terminology. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Never call an unchecked result compliant or complete.
-- Use Diátaxis organization when helpful. Separate how-to, reference and explanation by purpose. Do not force examples or sections on simple tasks.
-
-## Conditional execution rules
-- When editing normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, use a hold point and check the safe state. When failure is plausible, give the expected result, failure sign and recovery. These controls do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Keep the PASS/FAIL/BLOCKED verdict separate. Count a failed, blocked, skipped or untested item only after classification with evidence. If no defensible total exists, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- When explaining a difficult mechanism, start from foundations. For code or configuration, use a compliant/noncompliant contrast only when useful.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

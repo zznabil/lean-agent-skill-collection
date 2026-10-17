@@ -18,10 +18,10 @@ Run when the user requests a gauntlet/red-team or when hidden-defect risk makes 
 - **Critic:** work read-only. Receive the goal, real artifact, benchmark, distinct charter and anti-charter—not the builder's conclusion. **Judge:** inspect the integrated result independently of the primary builder.
 - Prefer fresh contexts. Otherwise, mark independence reduced. Record requested/actual reviewer identity, serving family if verified, context boundary and artifact inspected. Names alone do not prove independence. Claim delegation only with live evidence.
 ## Freeze the benchmark
-Use this evidence authority order: user requirements, authoritative specifications, supplied references, required current behavior, deterministic tests, measured targets, structured rubrics, subjective judgment.
-For each gate, record ID, provenance, observable requirement, verifier or oracle, expected result, environment/entrypoint, threshold, status, evidence path, freshness, and public/holdout class. Keep the standing Definition of Done separate.
-Test a consequential oracle against a representative broken state and a positive control. Status records do not establish execution.
-For any benchmark change, record a reason, diff, authority and impact on prior evidence. Never weaken the benchmark to pass. Evaluate hard gates before soft scores. For model/simulated work, require both the history/holdout model gate and the actual integrated reality gate when applicable. For procedural tasks, require intermediate invariants. Do not claim standards conformance from unverified scope. For consequential claims, record claim, evidence, assumptions/defeaters and status.
+Use this evidence authority order: user requirements, authoritative specifications, supplied references, required current behaviour, deterministic tests, measured targets, structured rubrics, subjective judgement.
+For each gate, record ID, provenance, observable requirement, verifier or oracle, expected result, environment/entrypoint, threshold, status, evidence path, freshness and public/holdout class. Keep the standing Definition of Done separate.
+Calibrate consequential oracles with a representative broken state and a positive control. Status records do not prove execution.
+Record each benchmark change's reason, diff, authority and effect on prior evidence. Never weaken the benchmark to pass. Judge hard gates before soft scores. Where applicable, require both history/holdout model and integrated reality gates. Check intermediate procedural invariants. Conformance claims require verified scope. For consequential claims, record claim, evidence, assumptions/defeaters and status.
 ## Bounded loop
 1. Preflight scope, permission, false-pass risks, rollback and budget. Warn before hazardous action, verify the safe starting state, and pause at the authorization boundary. Create a checkpoint and acceptance ledger. Establish baselines for the real artifact, required journeys, tests and measurements.
 2. Map every required slice once. Count gaps/overlap and give coupled areas one owner before fan-out. Repair the smallest useful defect. Save the changed artifact and evidence.
@@ -39,10 +39,10 @@ Use `.gauntlet/state.md`, `benchmarks.yaml`, `defects.md`, and `evidence/` per `
 For measurable work, show named 20-cell ASCII progress from durable processed items. Round down and keep progress separate from verdict. Count a failed, blocked, skipped, or untested item only when terminally classified with evidence. Never count it as passed. Without a defensible denominator, report phase and evidence without a bar.
 Start the final report with verdict, run state, named coverage, hard-gate tally, and blocking findings. Then give before/after score, fresh evidence, limits, risks, rollback, and next action. Re-measure numeric claims. Label unsupported claims `NOT MEASURED` or `UNVERIFIED`. Separate observed failure from unknown cause. Own actual agent errors.
 **User-facing:**
-- Start with the supported result, next action, or blocker. Keep simple turns short. Report fresh verification, material uncertainty, remaining user action, and limits. Do not give routine tool narration or praise. Own actual agent errors and give a correction or next safe action.
-- Use the communication kernel and familiar words. State conclusions directly. Do not hide verified failure or evidenced responsibility.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance or legal authority from stylistic analogies.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not invent a mandate.
-- Before risky work, put the warning first. Add a hold point and safe-state check where needed. Then state the expected result, failure sign, and recovery. Use explanation or secure/insecure contrast only when useful.
-- Apply OWASP ASVS, accessibility, or Easy-to-Read guidance only to relevant domain tasks. Require intended-user review before any Easy-to-Read verification claim.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Give them distinct content.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty, limits and remaining user action. Omit routine tool narration and praise.
+- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
+- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats. Style proves neither formal conformance nor legal authority.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not invent mandates.
+- Before risky work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain or contrast only when useful.
+- Apply OWASP ASVS, accessibility and Easy-to-Read guidance only to relevant tasks. Easy-to-Read verification requires intended-user review.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

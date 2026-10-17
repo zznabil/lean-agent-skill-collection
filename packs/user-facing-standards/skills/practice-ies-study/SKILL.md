@@ -5,7 +5,7 @@ description: "Plan study with the IES learning practice guide."
 # IES: organise instruction and study
 
 ## Use
-- Use this skill when a teaching or study plan targets learning, retention or transfer. Return a practice sequence. Separate planned results from observed results.
+- Plan teaching or study for learning, retention or transfer. Return a practice sequence with planned and observed results clearly separated.
 - Identify the material, prior knowledge, retention horizon and available time before you select techniques.
 
 ## Source and scope
@@ -22,7 +22,7 @@ description: "Plan study with the IES learning practice guide."
 6. Treat pre-questions before new material as a separate recommendation with weaker evidence. Do not equate them with retrieval practice.
 7. Use delayed judgements and tests to help learners identify material that needs further study. Do not treat confidence as mastery.
 8. Ask a focused explanatory question about why a step or relationship holds. Do not ask only for repetition.
-9. Inspect actual answers and transfer attempts. Select the next example or practice item to address the observed gap.
+9. Inspect answers and transfer attempts. Select the next example or practice item from the observed gap.
 
 ## Keep the task contract
 - The guide rates spacing, worked-example interleaving, graphics/verbal pairing and concrete/abstract pairing as Moderate.
@@ -33,19 +33,28 @@ description: "Plan study with the IES learning practice guide."
 ## Verify and deliver
 - Match each technique to the learning goal. Record which result you actually observed.
 - Separate immediate performance, delayed retention and independent transfer.
-- Return the plan or lesson segment with an appropriate next practice step. Label an assessment that has not run as planned.
+- Return the plan or lesson segment and an appropriate next practice step. Label unexecuted assessments as planned.
 
 ## Worked distinction
 A learner can follow a worked solution but cannot solve a related problem unaided.
 Provide a targeted guided attempt and then another transfer check; copying the example does not prove mastery.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` is loaded, it governs. Do not claim root activation without evidence. Run this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis organization to separate how-to, reference and explanation when helpful. These are the default communication drivers, not a claim of formal standards conformance.
-- Start with the supported result and next action. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Never call an unchecked result compliant or complete.
-- When text is normative, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, include a hold point and a safe-state check. When failure is plausible, state the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Keep the PASS/FAIL/BLOCKED verdict separate. Count a failed, blocked, skipped or untested item only after you classify it with evidence. If no total is defensible, report the phase, evidence and next action without a bar. This rule does not invoke manual wait-what.
-- For a difficult mechanism, explain it from foundations. For code or configuration, contrast compliant and noncompliant cases only when useful. Do not force examples or sections on simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

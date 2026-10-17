@@ -5,21 +5,19 @@ description: "Design one bounded information job per module."
 # Modular information units
 
 ## Communication kernel
-- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If trusted root `AGENTS.md` loads, its policy governs this skill. Otherwise, you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the main point and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when useful. Keep simple replies short. These are inspired practices, not formal standards conformance.
-- Preserve actors, facts, negation, conditions, exceptions, permissions, requirement force, safety, source scope and evidence limits. Report observed results. Missing or stale evidence is not success.
-
-## Condition-triggered execution rules
-- For normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY. Preserve their force. State one actor, one action and an observable verification target.
-- For critical or risky work only, place warnings before hazards. Place hold points before critical or irreversible steps. Before destructive or hazardous work, verify the actual state.
-- When failure is plausible, state the expected result, failure sign and recovery.
-- For difficult mechanisms, explain from simple foundations. When useful for code or configuration tasks, contrast noncompliant and compliant forms.
-- For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful. Add contrast or TL;DR only when helpful.
-- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
-- These execution rules do not transfer legal or organisational authority from ANSI, WHO, OSHA, FDA or NASA. Use other domain standards only when the task requires them. They are not default communication drivers.
+- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim activation without evidence.
+- Use ASD-STE100-inspired short, active sentences and concrete words. Lead with the answer or action. Keep simple replies short.
+- Use ISO 704-inspired stable terms. Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits.
+- Use Diátaxis to separate information types when useful, not to force headings. Do not require an opening Summary or closing recap. Optional TL;DR belongs first.
+- For normative requirements, use BCP 14 (RFC 2119/8174) MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Name one actor, action and observable verification target.
+- For risky work, place warnings before hazards and hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work.
+- When failure is plausible, give the expected result, failure sign and recovery. Explain difficult mechanisms from simple foundations; contrast code or configuration when useful.
+- For critical procedures, include needed prerequisites, warnings, steps, verification, results and recovery without a fixed section template.
+- Report observed results; missing or stale evidence is not success. Where applicable, show measurable multi-step progress with a truthful named 20-cell ASCII format.
+- These practices imply neither formal conformance nor ANSI, WHO, OSHA, FDA or NASA authority. Apply other domain standards only when the task requires them.
 
 ## Purpose and boundary
-Use this routine when separable information jobs need independent reuse or maintenance. Give each module one purpose and one completion boundary. Do not split one action across hidden dependencies. This routine does not create an S1000D-conformant data module or publication.
+Use this routine for information jobs that need independent reuse or maintenance. Give each module one purpose and completion boundary. Do not split an action across hidden dependencies. This does not create an S1000D-conformant data module or publication.
 
 ## Module record
 Record the stable identifier/title, information job and intended user, type (descriptive, procedural or operational), trigger, inputs/dependencies, content, output/completion, owner/source/version and related modules/navigation.
@@ -38,6 +36,6 @@ Record the stable identifier/title, information job and intended user, type (des
 **Bounded modules:** Separate units for normative precision, safety messages, procedure rendering and verification, each with its selection condition.
 
 ## Verify and recover
-Check that each module has one job, one entry condition and one completion condition. If a required dependency is absent at an intended entry point, stop that reuse path. Bundle the dependency or revise the boundary. Then retest. Return the module map and unresolved coupling.
+Check each module's job, entry condition and completion condition. Stop reuse where a required dependency is absent. Bundle it or revise the boundary, then retest. Return the module map and unresolved coupling.
 
 For source details and access limits, see [SOURCES.md](SOURCES.md).

@@ -5,7 +5,7 @@ description: "Reduce avoidable load in a specific learning task."
 # Cognitive load: segment a learning task
 
 ## Use
-- Use this skill when unfamiliar material overwhelms learners or conceals an important dependency. Return reorganised material that retains the task’s necessary complexity.
+- Reorganise unfamiliar material that overwhelms learners or hides an important dependency. Retain the task’s necessary complexity.
 - Identify the task, prior knowledge and evidence of difficulty. Do not assume that one fixed chunk count fits every reader.
 
 ## Source and scope
@@ -14,10 +14,10 @@ description: "Reduce avoidable load in a specific learning task."
 - The bundle includes the IES guide as a supporting research source. Do not relabel it as an official cognitive-load standard.
 
 ## Procedure
-1. Identify what the reader must learn or do. Identify which parts are unfamiliar to this reader.
+1. Identify what the reader must learn or do and which parts are unfamiliar.
 2. Remove irrelevant explanation or decoration that competes with the current task. Retain facts needed for correct action.
 3. Divide the task into coherent units at meaningful dependencies. Place prerequisites before their use.
-4. Place the explanation, diagram, value and action close enough that the reader need not search distant sources.
+4. Keep explanations, diagrams, values and actions close enough to avoid searching distant sources.
 5. Before demanding unsupported performance of an unfamiliar procedure, provide a worked example.
 6. Use a relevant representation to make a complex relationship explicit. Do not add several redundant formats instead.
 7. Connect new material to supported prior knowledge. Use the same terms for the same concepts.
@@ -39,12 +39,21 @@ A procedure requires a parameter on page 1 while its effect is explained on page
 Place the needed explanation at the decision point without deleting the complete reference.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If it loads, it governs. Do not claim root activation without evidence. Run this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use familiar words. Use ISO 704-inspired stable terms for stable concepts. Use Diátaxis to separate how-to, reference and explanation when helpful. These are the default communication drivers, not formal standards conformance.
-- Lead with the supported result and next action. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Do not label an unchecked result compliant or complete.
-- When writing normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. At critical steps, use a hold point and check the safe state. When failure is plausible, state the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Report PASS/FAIL/BLOCKED separately. Count a failed, blocked, skipped or untested item only after classifying it with evidence. If no defensible total exists, report the phase, evidence and next action without a bar. This rule does not invoke manual wait-what.
-- Explain difficult mechanisms from foundations. For code or configuration, use compliant/noncompliant contrasts only when useful. Do not force examples or sections into simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

@@ -4,8 +4,8 @@ description: "Write, edit or review technical English with ASD-STE100."
 ---
 # ASD-STE100: technical-English pass
 ## Use
-- Apply this procedure to a requested STE pass or a technical passage explicitly selected for ASD-STE100. Return edited text or rule-linked findings. Do not issue a conformance certificate.
-- Choose draft, edit or review. Read the complete target and governing requirements before edits. Apply this procedure to human or agent instructions only within the selected task.
+- Apply requested STE passes or assess technical passages explicitly selected for ASD-STE100. Return edited text or rule-linked findings, not conformance certificates.
+- Choose draft, edit or review. Read the complete target and governing requirements first. Apply this procedure to human or agent instructions only within scope.
 - Edit language, not required procedural behaviour. Do not execute the procedure. Do not restyle code, identifiers, commands, exact quotations or a requested creative voice.
 ## Source and limits
 - Consult [ASD-STE100 Issue 9][standard]. Use Part 1 for writing rules and Part 2 for the dictionary.
@@ -42,7 +42,7 @@ description: "Write, edit or review technical English with ASD-STE100."
 - Replace unnecessary noun constructions with approved action verbs.
 - Use a verb's -ing form only in a permitted technical noun or its modifier. Check dictionary exceptions separately.
 ## Sentences and procedures: Sections 4 and 5
-- Write complete sentences. Expand contractions and retain necessary articles. Resolve ambiguous references only if the source identifies them. Otherwise flag the missing referent.
+- Write complete sentences with necessary articles and expanded contractions. Resolve ambiguous references only when the source identifies them. Otherwise flag the missing referent.
 - Put necessary conditions before commands. Separate each condition from its command with a comma.
 - Give imperative instructions. Present ordered work in ordered steps.
 - Give one instruction per sentence unless actions must occur together. Do not convert concurrent actions to sequential steps.
@@ -67,11 +67,11 @@ description: "Write, edit or review technical English with ASD-STE100."
 ## Verify and deliver
 - Compare the source and revision in both directions. Check for lost requirements and invented claims, conditions or permissions.
 - Check the applicable rules above. Look up unresolved dictionary entries and rule exceptions.
-- For a full STE assessment, check all 53 writing rules for applicability. Do not check only this condensed procedure.
+- For a full STE assessment, check all 53 writing rules for applicability, not only this condensed procedure.
 - For procedures, check normal, failure and exception paths. Check links and retain literal text.
 - Use linters as aids. Inspect findings in context. Do not remove meaning to improve a score.
-- Make one correction pass and recheck. If issues remain, list them for review. Do not loop.
-- For draft/edit, return the text first. Follow it with only material exceptions and the actual verification scope.
+- Correct once and recheck. List remaining issues for review. Do not loop.
+- For draft/edit, return the text first, followed only by material exceptions and actual verification scope.
 - For review, give the passage, rule, defect and proposed repair. Do not rewrite the complete document without permission.
 - Do not label unverified text STE-compliant. Identify unchecked vocabulary, intentional exceptions and required human review.
 - For safety-critical use, this language pass does not replace technical validation or qualified review.
@@ -80,13 +80,20 @@ description: "Write, edit or review technical English with ASD-STE100."
 - Preserve the recommendation, one-retry limit and prohibition. Do not substitute MUST for SHOULD to satisfy a word checker.
 - This example checks meaning preservation. It does not establish complete dictionary compliance.
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If loaded, root `AGENTS.md` governs. Do not claim root activation without evidence. Run this skill's source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when helpful. Lead with the supported result and next action.
-- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Do not call unchecked results compliant or complete.
-- For normative text, retain BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, action and observable check.
-- Before hazardous actions, state the verified risk and give a warning. At critical steps, use a hold point and safe-state check. When failure is plausible, give the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining). Derive the floor percentage from durable counts. Report PASS/FAIL/BLOCKED separately. Count failed, blocked, skipped or untested items only after classification with evidence. Without a defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- Explain difficult mechanisms from foundations. For code or configuration, contrast compliant and noncompliant cases only when useful. Do not force examples or sections on simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence. Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful. These inspirations do not establish formal standards conformance.
 [standard]: https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf
 [official access]: https://www.asd-ste100.org/STE_downloads.html
 Design input: [Chelebi's kit](https://www.chele.bi/videos/the-cure-for-ai-slop). These adaptations do not constitute STE rules.

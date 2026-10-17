@@ -388,23 +388,32 @@ def main():
         output.mkdir(parents=True, exist_ok=False)
         archive.extractall(output)
     project = output / package.stem
+    policy = output / "package-policy.txt"
+    if any(not case["standalone"] for case in cases):
+        policy.write_bytes((project / "AGENTS.md").read_bytes())
     model = args.model or corpus["model"]
     results = []
     for case in cases:
-        # Standalone runs outside repository ancestors and without collection-root files.
-        with tempfile.TemporaryDirectory(prefix="composition-standalone-") as temporary:
-            cwd = project
+        # Every live workspace excludes repository ancestors and ambient host rules.
+        with tempfile.TemporaryDirectory(prefix="composition-eval-") as temporary:
+            cwd = Path(temporary).resolve()
+            if ROOT == cwd or ROOT in cwd.parents:
+                raise ValueError("evaluation workspace must be outside the repository")
             if case["standalone"]:
-                cwd = Path(temporary)
                 for name in case["skills"]:
                     shutil.copytree(project / "skills" / name, cwd / "skills" / name)
+            else:
+                shutil.copytree(project, cwd, dirs_exist_ok=True)
             paths = {name: (cwd / "skills" / name / "SKILL.md").as_posix() for name in case["skills"]}
             sources = {name: Path(path).read_text(encoding="utf-8-sig") for name, path in paths.items()}
             config = output / f"{case['id']}.omp.yml"
             config.write_text("skills:\n  customDirectories:\n    - " + json.dumps((cwd / "skills").as_posix()) + "\n", encoding="utf-8")
             prompt = prompt_for(case, paths)
             (output / f"{case['id']}.prompt.txt").write_text(prompt, encoding="utf-8")
-            command = ["omp", "-p", "--no-session", "--mode=json", "--max-time=120", "--tools=read", "--skills=" + ",".join(case["skills"]), f"--model={model}", f"--config={config}", f"--cwd={cwd}", prompt]
+            command = ["omp", "-p", "--no-session", "--no-rules", "--no-extensions", "--mode=json", "--max-time=120", "--tools=read", "--skills=" + ",".join(case["skills"]), f"--model={model}", f"--config={config}", f"--cwd={cwd}"]
+            if not case["standalone"]:
+                command.append(f"--append-system-prompt={policy}")
+            command.append(prompt)
             try:
                 run = subprocess.run(command, cwd=cwd, text=True, encoding="utf-8", errors="replace", capture_output=True, timeout=150, check=False)
                 stdout, stderr, code = run.stdout, run.stderr, run.returncode
