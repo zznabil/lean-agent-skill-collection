@@ -1,28 +1,46 @@
 ---
 name: writing
-description: "Draft or edit instructions, UI text, errors, help, emails, documentation, reports, and other prose for purpose, evidence, clarity, terminology, audience, and task fit while preserving the requested voice."
+description: "Draft or edit instructions, UI text, errors, help, emails, documentation, reports, and other prose for clarity, accessibility, evidence, and task fit while preserving meaning and the requested voice."
 ---
 # Writing
-Choose **draft** or **edit**. Read [USER-INFORMATION.md](USER-INFORMATION.md) for substantial manuals, onboarding, embedded help, forms, UI text, warnings, errors, or recovery guidance. Read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md) for agent policies, workflows, checklists, or consequential procedures.
+
+Choose **draft** or **edit**. Help the reader find, understand, and use the information.
+
+For user-facing text, default to familiar language that does not assume technical knowledge. Respect requested expert detail and the reader's stated needs. Do not infer ability from a diagnosis or impose a universal reading age. Use respectful language for the intended audience.
+
 ## Communication kernel
-1. **Language.** Use ASD-STE100-inspired short active technical sentences. Prefer direct verbs and concrete words. Preserve exact technical meaning.
-2. **Terminology.** Use ISO 704-inspired stable terminology. Give each concept one preferred term within the artifact. Define specialised terms when ambiguity is plausible. Distinguish related concepts; do not interchange near-synonyms.
-3. **Mode.** Use Diátaxis when structure helps. Separate how-to actions, reference facts or syntax, and explanations of mechanisms.
+
+Apply this kernel to this skill, its supporting resources and examples, generated text, and the surrounding reply. For agent instructions, treat the executing agent as the reader.
+
+1. **Language — ASD-STE100-inspired.** Use short, active sentences, direct verbs, and concrete words. Keep one main idea or action per sentence when practical. Preserve technical accuracy.
+2. **Terminology — ISO 704-inspired.** Use one preferred term for each concept within the text. Distinguish related concepts. Explain necessary unfamiliar terms near first use. Keep exact UI labels, commands, identifiers, and quoted text; explain them alongside.
+3. **Structure — Diátaxis.** Separate learning through a tutorial, completing a task through a how-to, looking up reference facts, and understanding an explanation when useful. Do not force these sections into a short answer.
+
 If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
-Do not activate other communication, requirements, safety, teaching, accessibility, or engineering frameworks by default. Apply a task-specific routine only when the task or user request requires it.
+
+Other frameworks remain task-selected. Use specialised guidance when the task or user requires it.
+
 ## Draft or edit
-1. Identify the reader, task, desired result, evidence standard, and requested voice.
-2. Keep facts, exact negation, conditions, exceptions, permissions, uncertainty, quotations, and machine-sensitive text.
-3. Delete throat-clearing, generic praise, request restatement, repetition, filler, decorative complexity, and unsupported certainty.
-4. Check material facts, names, dates, calculations, quotations, citations, links, and consequential wording.
-5. Deliver the finished text. Flag only material unresolved claims, decisions, or verification limits.
-Apply the communication kernel to the surrounding reply. Do not add Summary or TL;DR to the drafted artifact unless the user requests them.
-## Agent-facing instructions
-Read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md) for skills, agent policies, prompts, workflows, checklists, or handoffs. Treat the executing agent as the intended reader. Treat the required action as the information need. Keep the source's mandates, conditions, exceptions, links, resources, and evidence.
-Apply the same terminology discipline to people and agents. Do not substitute vague phrases such as "use judgement" or "follow best practices" for precise requirements.
-**User-facing:**
-- Write short active technical sentences with ASD-STE100-inspired language.
-- Use ISO 704-inspired stable terms for distinct concepts.
-- Use Diátaxis to separate how-to, reference, and explanation when useful.
-- Keep genuine uncertainty, evidence limits, permissions, quotations, requested voice, and artifact formats.
-- Do not add unexpected scope. Leave the result ready to use or resume.
+
+1. **Identify the need.** Establish the reader, task, intended result, available evidence, medium, and requested voice. Use supplied context before asking questions.
+2. **Make the point easy to find.** Lead with the supported answer, result, or next action when the requested form allows. Remove filler, generic praise, request restatement, repetition, and decorative complexity.
+3. **Make the meaning explicit.** Prefer familiar, literal wording. Resolve unclear pronouns, unexplained abbreviations, and hidden assumptions. Name who does what. Use an example when it makes a difficult idea easier to understand.
+4. **Make action manageable.** Use short paragraphs, descriptive headings, and lists when helpful. Number steps when order matters. Give each step one main action or a tightly coupled action group. Put prerequisites, warnings, costs, and irreversible effects before the affected action. State expected results and safe recovery when needed.
+5. **Reduce memory demands.** Keep information needed for the current decision nearby. Repeat a necessary condition rather than require recall. Keep essential steps visible; place optional explanation and expert detail after them without omitting requested depth.
+6. **Preserve the contract.** Keep facts, actors, negation, numbers, conditions, exceptions, permissions, requirement strength, uncertainty, evidence limits, quotations, and machine-sensitive text. Preserve required format and voice without weakening factual or safety-critical meaning. Do not expand scope.
+
+## Check before delivery
+
+- Verify material claims, names, dates, numbers, calculations, quotations, citations, and links.
+- Compare the source and revision in both directions. Check what disappeared and what was added.
+- Check that the reader can find the point and, where relevant, identify the next action, expected result, and recovery.
+- Check consistent terms and exact labels. Do not turn an unknown outcome into a failure or success.
+- Treat readability scores and Vale checks as clues, not proof of comprehension or accessibility.
+
+Deliver the finished text. Flag only material unresolved claims, decisions, or verification limits. Do not add Summary or TL;DR to the drafted text unless requested.
+
+## Supporting references
+
+Read [USER-INFORMATION.md](USER-INFORMATION.md) for substantial manuals, onboarding, embedded help, forms, UI text, warnings, errors, or recovery guidance. Use its audience-specific design and evaluation checks. Easy-to-Read is a specialised adaptation that requires intended-reader involvement; do not claim verification or certification from this skill.
+
+Read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md) for skills, agent policies, prompts, workflows, checklists, handoffs, or consequential procedures. Preserve requirement strength, source links, resources, exceptions, and completion evidence.
