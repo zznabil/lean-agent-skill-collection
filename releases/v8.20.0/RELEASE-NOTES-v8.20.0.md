@@ -28,6 +28,12 @@ Calibration adds paired semantic variants and broken controls; it does not rerun
 
 The actual browser fixture passed two save/reset replays and rejected its wrong-result control in dedicated Chrome. This is synthetic interaction evidence, not production UI acceptance.
 
+Matched composition trials used an explicit decision/state protocol and the same 24 scenarios. V8.19.1 passed 10/24; V8.20.0 passed 7/24. Both commands exited with failure.
+
+Failures include extra deferred scope, incorrect ownership, missing browser actions and incorrect decision/state pairs. The candidate also selected PROCEED for a missing required gate. Do not treat these results as accepted composition behaviour.
+
+Earlier isolated trials passed 8/24 and 7/24 before protocol clarification. All trials remain recorded; no successful retry replaces a failure. Configured MCP servers still started, so these comparisons were not fully hermetic. Actual model identity was not independently verified.
+
 ## Verification and recovery
 
 Require fresh package, integrity, archive, licensing, installer, lint and evaluator checks on PowerShell 7 and Windows PowerShell 5.1. Require current merged-main CI before tagging. Release evidence must name the actual revisions, commands, outcomes and untested coverage.
