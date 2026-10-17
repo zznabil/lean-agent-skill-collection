@@ -13,6 +13,7 @@
 - Accept complete `skill://name/SKILL.md` reads without relaxing source-byte or read-order checks. Reject wrong companion paths and corrupted or partial reads.
 - Distinguish evaluation acceptance labels from runtime lifecycle states. Preserve blocked acceptance even when safe prerequisite actions remain available.
 - Use an explicit decision-only base prompt for composition trials. Record that prompt and the runner hash without claiming full host-context isolation.
+- Remove contradictory decision-prompt instructions. Require current blocker remedies, exclude blocked downstream execution, and retain explicit authorization deferrals without changing the oracle. Do not carry closed execution forward as pending work.
 
 ## 8.19.1 — 2026-10-13
 

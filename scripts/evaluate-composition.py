@@ -388,9 +388,14 @@ def prompt_for(case, paths):
             "HOLD/BLOCKED means that acceptance cannot be granted, even when safe prerequisite actions can proceed. "
             "PROCEED/READY permits starting requested work; it does not grant missing acceptance. "
             "DONE/COMPLETE requires the retained acceptance criteria to be satisfied. "
-            "List all required remaining actions, including dependent execution steps. "
-            "Deferred contains only in-scope work that remains unperformed. "
-            "Do not add a task merely because it was not requested or authorized. "
+            "List actions that address the stated blocker or authorized working slice, including verification of that work. "
+            "Exclude downstream execution until ownership, authorization, safe state and required capabilities permit it. "
+            "Use the most specific applicable action label; do not list a generic gate again for the same verification. "
+            "Deferred records remaining scope or withheld acceptance for the current task. "
+            "Do not treat cancelled, superseded or already performed execution as pending work. "
+            "Retain explicit authorization boundaries stated by the scenario for relevant, unperformed lifecycle stages. "
+            "Do not infer additional stages from general skill procedures. "
+            "Do not add unrelated work merely because it lacks permission. "
             "\nScenario:\n" + case["prompt"])
 
 

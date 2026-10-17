@@ -33,15 +33,21 @@ The actual browser fixture passed two save/reset replays and rejected its wrong-
 
 Matched composition trials retain all 24 scenario prompts and acceptance criteria.
 
-| Trial | V8.19.1 | V8.20.0 |
-| --- | --- | --- |
-| Initial isolated protocol | 8/24 | 7/24 |
-| Explicit decision/state protocol | 10/24 | 7/24 |
-| Explicit decision-only base prompt | 15/24 | 18/24 |
+| Trial | Requested model | V8.19.1 | V8.20.0 |
+| --- | --- | --- | --- |
+| Initial isolated protocol | `openai-codex/gpt-6-luna` | 8/24 | 7/24 |
+| Explicit decision/state protocol | `openai-codex/gpt-6-luna` | 10/24 | 7/24 |
+| Explicit decision-only base prompt | `openai-codex/gpt-6-luna` | 15/24 | 18/24 |
+| Configured default, unchanged prompt | `openai-codex/gpt-6.1-sol` | 20/24 | 19/24 |
+| Current blocker and authorization boundaries | `openai-codex/gpt-6.1-sol` | 22/24 | 22/24 |
+| Exclude cancelled and performed execution | `openai-codex/gpt-6.1-sol` | 23/24 | 23/24 |
+| Scenario-supported authorization boundaries | `openai-codex/gpt-6.1-sol` | 24/24 | 24/24 |
 
-Every command exited with failure. Every final answer was inspected. Earlier failures remain recorded; no successful retry replaces them.
+The final configured-default commands exited successfully. All 48 final answers were inspected. Earlier failed trials remain recorded as separate results.
 
-The latest candidate fails cases A, B, E, G, H and explicit-owner. Failures include incorrect ownership, extra actions or deferrals, and omitted publication deferral. Required composition acceptance remains FAIL. Do not merge, tag or publish this release.
+Configured-default composition acceptance now passes for both packages. Merge, tag and publication still require fresh local checks and exact-commit CI.
+
+The shared prompt clarifies current blockers, closed execution and scenario-supported authorization boundaries. All scenario prompts, expected fields and allowed scopes remain unchanged.
 
 The decision-only base prompt separates evaluation from runtime execution. Reports record that prompt, runner hash and inherited reasoning limitation. These observations do not establish causality or universal obedience. Configured MCP servers still started, so comparisons were not fully hermetic. Actual model identity was not independently verified.
 
