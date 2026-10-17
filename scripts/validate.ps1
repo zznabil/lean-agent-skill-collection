@@ -250,7 +250,7 @@ function Test-SkillTree([object]$Profiles) {
         }
 
         $defaultPromptRule = '(?m)^\s{2}default_prompt:\s*.*\$' + [regex]::Escape($dir.Name) + '.+$'
-        $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*.+$','(?m)^\s{2}short_description:\s*.+$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n\s{2}-\s*CHAT\s*\r?\n\s{2}-\s*CODEX\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
+        $rules = @('(?m)^interface:\s*$','(?m)^\s{2}display_name:\s*.+$','(?m)^\s{2}short_description:\s*.+$',$defaultPromptRule,'(?ms)^policy:\s*\r?\n\s{2}products:\s*\r?\n(?<productIndent> {2}| {4})-\s*CHAT\s*\r?\n\k<productIndent>-\s*CODEX\s*\r?\n\s{2}allow_implicit_invocation:\s*(true|false)\s*$')
         foreach ($rule in $rules) { if ($adapter -notmatch $rule) { Add-Failure "adapter schema failure for $($dir.Name)"; break } }
 
 

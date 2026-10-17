@@ -1,8 +1,8 @@
 {
-  "version": "8.19.1",
-  "release": "v8.19.1",
-  "release_title": "Reproducible Evidence and Complete Vale Coverage",
-  "release_summary": "Make pull request evidence reproducible. Share Vale file selection across CI and direct checks, cover contributor and companion prose plus current release notes, and calibrate scope and sentence boundaries. Preserve skill routes, profile memberships and publisher source bytes.",
+  "version": "8.20.0",
+  "release": "v8.20.0",
+  "release_title": "Concise and Complete Communication",
+  "release_summary": "Lead with the answer and keep the shortest complete response. Refactor authored skill prose and standalone fallbacks, preserve accessible Writing and expert depth, and evaluate response shape without weakening safety, evidence, source rights or routing.",
   "profiles": {
     "core": {
       "plugin_name": "lean-agent-skills-core",
@@ -122,7 +122,7 @@
   "user_facing_standards": {
     "source_root": "packs/user-facing-standards/skills",
     "source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
-    "source_manifest_sha256": "d01b17644e2464e9bb3d08ec9b112f4e80f69bb3a97b335fde9c6a7299addc16",
+    "source_manifest_sha256": "06436ddbcaf0b8d106e678acde382dcf52146312918ce0d1325e0d8723557704",
     "rights_notice_path": "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
     "rights_notice_sha256": "740590290193d280ff2b1065f3022b6a59c7e78ac2bc73fb3f8bfe94261019e8",
     "skills_expected": 27,

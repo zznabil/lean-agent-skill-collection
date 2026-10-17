@@ -5,8 +5,8 @@ description: "Review software accessibility across a complete user task."
 # ISO 9241-171: accessible software use
 
 ## Use
-- Use this routine to review software accessibility across a complete task on its actual platform. Do not limit the review to web colour or spelling. Deliver findings for each environment and list untested combinations.
-- Draft, edit or review as requested. First read the target, users, task and authorised scope.
+- Review a complete task’s software accessibility on its actual platform, not only web colour or spelling. Report each environment and untested combination.
+- Read the target, users, task and authorised scope before drafting, editing or reviewing.
 
 ## Source and scope
 - Target edition: ISO 9241-171:2025, Edition 2. See SOURCES.md for official access and source status.
@@ -22,7 +22,7 @@ description: "Review software accessibility across a complete user task."
 5. Verify that required information does not depend on a single inaccessible sensory cue.
 6. Test focus movement, navigation, data entry, errors and recovery through the complete relevant process.
 7. Check interoperability with the stated assistive technologies in the supported environment.
-8. Record the outcome for each tested platform and assistive-technology combination. List untested combinations. Do not generalise from one success.
+8. Record each tested platform and assistive-technology combination’s outcome. List untested combinations. Do not generalise from one success.
 9. After repair, recheck the affected interaction. Preserve non-accessibility functional requirements.
 
 ## Keep the task contract
@@ -34,7 +34,7 @@ description: "Review software accessibility across a complete user task."
 ## Verify and deliver
 - Check the actual task and a relevant failure or recovery path. Use intended-user evidence when available.
 - Distinguish source-verified clause findings, Lean design suggestions and unchecked items.
-- Return the artifact or scoped findings first. State material limits and the evidence needed to resolve them.
+- Return the artefact or scoped findings first. State material limits and the evidence needed to resolve them.
 - Do not claim formal conformance from this short routine, a readability score or an unexecuted review plan.
 
 ## Worked distinction
@@ -42,12 +42,21 @@ A native application announces button names but never announces validation error
 Test the complete input-and-recovery task, not only initial control discovery.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` loads, it governs. Do not claim root activation without evidence. Run this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis organization to separate how-to, reference and explanation when helpful. These are communication drivers, not claims of formal standards conformance.
-- Lead with the supported result and next action. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and requested format. Never call an unchecked result compliant or complete.
-- When editing normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, use a hold point and check the safe state. When failure is plausible, give the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Keep the PASS/FAIL/BLOCKED verdict separate. Count a failed, blocked, skipped or untested item only after classifying it with evidence. Without a defensible total, report phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- Explain difficult mechanisms from foundations. For code or configuration, use compliant/noncompliant contrasts only when useful. Do not force examples or sections on simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

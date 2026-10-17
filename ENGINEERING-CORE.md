@@ -1,10 +1,13 @@
 # Engineering core
 
-Use this core only for material engineering work. It draws practical rules from recognized standards and practices. It does not claim formal compliance or certification.
+Use this core for material engineering only. Its practical standards-inspired rules do not establish formal compliance or certification.
 
 ## Communication kernel
 
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terms. Use Diátaxis purpose separation when it helps: separate tutorials, how-to instructions, reference, and explanation. These are inspired practices, not formal standards conformance. Do not claim that root instructions are active without evidence. Other frameworks govern only their task-specific routines; they are not default communication drivers.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
+Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful, without claiming formal conformance.
+Lead with the answer or next action. Use only necessary detail. Omit routine Summary headings and closing recaps; place an optional, useful TL;DR first.
+Preserve facts, negation, conditions, exceptions, permissions, uncertainty, evidence limits, exact syntax and requested voice. Other frameworks remain task-selected.
 
 ## Standards source map
 
@@ -38,16 +41,11 @@ Use only sources that change the current decision or verification method. Source
 
 ## Accountable status and handoff
 
-State supported conclusions directly. Do not use litotes or rhetorical hedging that hides status or responsibility.
-
-- Preserve genuine uncertainty, evidence scope and degree, logical negation, quotations, and the requested artifact voice.
-- Own actual agent errors. Do not invent blame. Give the correction or next action within existing permissions.
-
-For agent-to-agent reports, retain the actual gate state, evidence, known actor, and next action.
-
-- Separate an observed failure from an unknown cause.
-- Confidence or politeness cannot turn missing evidence into a pass.
-- Apply these rules to worker summaries, durable ledgers, and the final reply.
+State supported conclusions directly. Do not hide status or responsibility with rhetorical hedging.
+Preserve uncertainty, evidence scope and degree, negation, quotations and requested artefact voice.
+Own actual errors without inventing blame. Give the correction or next action within existing permissions.
+Agent-to-agent reports, ledgers and final replies retain the actual gate state, evidence, known actor and next action.
+Separate observed failure from unknown cause. Confidence or politeness cannot turn missing evidence into a pass.
 
 ## Decision discipline
 
@@ -175,6 +173,7 @@ Hard gates MUST pass before soft polish can produce acceptance.
 
 ## Rewrite engineering instructions without changing requirements
 
-When editing this doctrine or a task procedure, keep the affected boundary, required action, failure response, and verification together. When words such as "material", "relevant" or "appropriate" could change an obligation, identify the affected requirement or risk from the task and source. Preserve project-defined thresholds. If the source does not settle the boundary, record the uncertainty. Do not invent a universal threshold.
-
-When simplifying an explanation, preserve the exact source and condition of each requirement. A list of standards does not replace the operational rules below. A shorter sentence does not weaken an obligation or create permission.
+Keep each affected boundary, required action, failure response and verification together.
+If qualifiers such as "material" or "relevant" change an obligation, identify the affected requirement or risk from the task and source.
+Preserve project thresholds. Record unresolved boundaries rather than inventing universal thresholds.
+Retain each requirement's exact source and condition. Source names do not replace operational rules; shorter wording cannot weaken obligations or grant permission.

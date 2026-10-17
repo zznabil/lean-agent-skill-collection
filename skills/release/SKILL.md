@@ -9,10 +9,10 @@ For a composed task, use one primary lifecycle owner: the explicit user-designat
 When supporting, own release evidence and the publication go/no-go decision within the owner's scope. Quick Mode MUST NOT weaken required checks, approvals, artifact integrity or public-state verification. Reduced delivery scope is not publication permission. An already explicit authorization covers only its stated target and action; still verify hold points and read back external state.
 Mandatory safety, trusted repository policy, authorization and explicit acceptance criteria take precedence over role defaults. A supporter MUST NOT claim task completion or change permissions. Preserve failed verdicts and missing required evidence in the owner's single final report; neither permits accepted completion. Presentation changes no facts, scope or verdicts.
 
-1. Define the scope, target version, supported environments, approvals, success signals, hard-block dimensions, hold conditions, rollback triggers, and rollback point.
-2. Follow repository versioning and commit conventions. Use SemVer or Conventional Commits only if adopted. Do not create churn merely to conform.
-3. Derive notes from verified diffs and user-visible impact. Do not rely on commit titles alone. Check both directions: trace every release-note claim to a change; include every breaking or material user-facing change, or explicitly exclude it.
-4. Confirm version consistency, compatibility and migration notes, dependencies, licenses, generated artifacts, and a clean working state.
+1. Define release scope, target version, supported environments, approvals, success signals, hard-block dimensions, hold conditions, rollback triggers and rollback point.
+2. Follow repository versioning and commit conventions. Use SemVer or Conventional Commits only if adopted; do not create conformity churn.
+3. Derive notes from verified diffs and user-visible impact, not commit titles alone. Trace every note to a change. Include every breaking or material user-facing change, or explicitly exclude it.
+4. Confirm version consistency, compatibility, migration notes, dependencies, licences, generated artefacts and a clean working state.
    - For public or high-assurance releases, read `SUPPLY-CHAIN.md`.
    - For a consequential AI asset, verify its current asset card and every change that invalidates evidence.
    - For migrations, verify the sequence and recovery path. Perform destructive contraction last.
@@ -29,10 +29,10 @@ Mandatory safety, trusted repository policy, authorization and explicit acceptan
 ## Communication kernel
 Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These are communication aids, not claims of formal standards conformance or legal authority.
 **User-facing:**
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Report fresh verification, material uncertainty, remaining user action, and limits. Do not replay routine tool steps or add routine praise. Own actual agent errors. State the correction or next safe action. State conclusions directly. Do not hide verified failure or evidenced responsibility.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not invent mandates.
-- Before risky work, put the risk warning first. Add a hold point and safe-state check where needed. State the expected result, failure sign, and recovery. Use explanation or contrast only when useful.
-- Apply OWASP ASVS, accessibility, or Easy-to-Read guidance only to relevant domain tasks. Obtain intended-user review before any Easy-to-Read verification claim.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Base it on processed items, round down, and keep it separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Give them distinct content.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty, limits and remaining user action. Omit routine tool narration and praise.
+- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action. Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not invent mandates.
+- Before risky work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain or contrast only when useful.
+- Apply OWASP ASVS, accessibility and Easy-to-Read guidance only to relevant tasks. Easy-to-Read verification requires intended-user review.
+- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

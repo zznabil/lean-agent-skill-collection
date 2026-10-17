@@ -1,6 +1,6 @@
 # Human-usable information
 
-Use this reference for substantial instructions, manuals, onboarding, embedded help, forms, warnings, UI text, errors, recovery guidance, or other information that users must act on. The communication kernel below remains the default. Apply the sources below to this scoped task, not to ordinary prose. This conditional detail does not justify expanding a simple reply.
+Use this reference for substantial instructions, manuals, onboarding, embedded help, forms, warnings, UI text, errors and recovery guidance. Apply the sources to these tasks, not ordinary prose. Conditional detail does not justify expanding a simple reply.
 
 ## Communication kernel
 
@@ -11,6 +11,7 @@ Apply this kernel to this reference, its examples, and the text you draft or edi
 - Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when useful. Do not force sections into a short answer.
 
 If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
+Lead with the answer or action. Keep necessary detail without arbitrary truncation. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format.
 
 ## Source roles
 

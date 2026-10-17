@@ -6,12 +6,29 @@
       "category": "anti-trigger",
       "prompt": "A teammate says the import succeeded. Acknowledge receipt only; no action is requested.",
       "required": [
-        "^(?:Received|Noted|Got it|Understood|Thanks)[.!]?$"
+        "(?i)\\b(?:received|noted|got it|understood|thanks|thank you)\\b"
       ],
       "forbidden": [
-        "(?i)summary|tl;dr|ASD-STE100"
+        "(?i)summary|tl;dr|ASD-STE100",
+        "(?i)\\b(?:I|we) (?:will|shall)\\b|\\bnot received\\b"
       ],
-      "skill": "none"
+      "skill": "none",
+      "max_words": 12,
+      "one_line": true,
+      "samples": {
+        "pass": [
+          "Received — thanks for the update.",
+          "Noted."
+        ],
+        "fail": [
+          "Summary: Received.",
+          "TL;DR: Received.",
+          "Received.\n\nNo action requested.",
+          "Received. I will now investigate the import and prepare an extensive report for you.",
+          "Received. I will investigate.",
+          "Not received."
+        ]
+      }
     },
     {
       "id": "exact-artifact",
@@ -44,12 +61,12 @@
         "(?m)^1\\.",
         "(?m)^2\\.",
         "(?m)^3\\.",
-        "(?i)(?:stop|do not proceed|pause).{0,80}(?:if|unless|when).{0,80}(?:isolat|power|energ|voltage)|(?:if|unless|when).{0,80}(?:isolat|power|energ|voltage).{0,80}(?:stop|do not proceed|pause)"
+        "(?i)(?:stop|do not proceed|pause).{0,80}(?:if|unless|when).{0,80}(?:isolat|power|energ|voltage|verify (?:it|this state))|(?:if|unless|when).{0,80}(?:isolat|power|energ|voltage).{0,80}(?:stop|do not proceed|pause)"
       ],
       "ordered": [
         "(?i)(?:isolate|disconnect).{0,45}?power|power.{0,45}?(?:isolate|disconnect)",
         "(?i)(?:verify|confirm|check).{0,90}?(?:de.?energ|power is off|zero[ -]energ|no voltage|zero voltage|absence of voltage)",
-        "(?i)(?:stop|do not proceed|pause).{0,90}(?:if|unless|when).{0,90}(?:isolat|power|energ|voltage|(?:cannot|can't|unable to)\\s+verify\\s+it)|(?:if|unless|when).{0,90}(?:isolat|power|energ|voltage|(?:cannot|can't|unable to)\\s+verify\\s+it).{0,90}(?:stop|do not proceed|pause)",
+        "(?i)(?:stop|do not proceed|pause).{0,90}(?:if|unless|when).{0,90}(?:isolat|power|energ|voltage|(?:cannot|can't|unable to)\\s+verify\\s+(?:it|this state))|(?:if|unless|when).{0,90}(?:isolat|power|energ|voltage|(?:cannot|can't|unable to)\\s+verify\\s+(?:it|this state)).{0,90}(?:stop|do not proceed|pause)",
         "(?i)replac|install",
         "(?i)LED.*green|green.*LED"
       ],
@@ -65,11 +82,28 @@
       "category": "normative",
       "prompt": "Draft three bullet requirements for API access: authorization is mandatory; an audit log is recommended except when offline; a beta banner is optional. Use the RFC 8174 convention and retain the exception. Return only the requirements.",
       "required": [
-        "(?im)^(?=[^\\n]*(?:authoriz|access))(?=[^\\n]*\\bMUST\\b)[^\\n]*$",
+        "(?im)^(?=[^\\n]*(?:authori[sz]|access))(?=[^\\n]*\\bMUST\\b)[^\\n]*$",
         "(?im)^(?=[^\\n]*(?:audit|log))(?=[^\\n]*\\bSHOULD\\b)(?=[^\\n]*(?:\\boffline\\b|\\bwhen online\\b))[^\\n]*$",
         "(?im)^(?=[^\\n]*\\bbanner\\b)(?=[^\\n]*\\bMAY\\b)[^\\n]*$"
       ],
-      "skill": "optional"
+      "forbidden": [
+        "(?i)authori[sz][^\\n]*(?:unless offline|except when offline|SHOULD|MAY)",
+        "(?i)(?:audit|log)[^\\n]*(?:always|MUST|only when offline)",
+        "(?i)banner[^\\n]*(?:MUST|SHOULD)",
+        "(?im)^(?=[^\\n]*(?:authori[sz]|access))[^\\n]*\\bMUST NOT\\b",
+        "(?i)authori[sz][^\\n]*(?:not required|optional|not mandatory)"
+      ],
+      "skill": "optional",
+      "samples": {
+        "pass": [
+          "- Authorization MUST be required.\n- Audit logging SHOULD be used except when offline.\n- A beta banner MAY be shown.",
+          "- Clients MUST obtain authorisation.\n- Audit logging SHOULD be used except when offline.\n- A beta banner MAY be shown."
+        ],
+        "fail": [
+          "- Authorization MUST NOT be required.\n- Audit logging SHOULD be used except when offline.\n- A beta banner MAY be shown.",
+          "- Clients MUST obtain authorisation, but authorisation is optional.\n- Audit logging SHOULD be used except when offline.\n- A beta banner MAY be shown."
+        ]
+      }
     },
     {
       "id": "quoted-prohibition",
@@ -138,11 +172,25 @@
       "prompt": "Explain authentication versus authorization to a new volunteer without technical background. Use one everyday example and keep it brief.",
       "required": [
         "(?i)authenticat",
-        "(?i)authoriz",
+        "(?i)authori[sz]",
         "(?i)(?:who|identity|prove)",
-        "(?i)(?:allow|permission|access)"
+        "(?i)(?:allow|permission|access|what you may do)"
       ],
-      "skill": "optional"
+      "skill": "optional",
+      "samples": {
+        "pass": [
+          "Authentication checks who you are. Authorization decides what you may do. For example, a club checks your membership card, but only staff may enter the office.",
+          "Authentication checks who you are; authorisation decides what you’re allowed to do. At a community centre, showing your volunteer ID confirms your identity. Being allowed to use the kitchen is your permission."
+        ],
+        "fail": [
+          "Authentication decides permissions. Authorization checks identity.",
+          "Authentication checks who you are. Authorization decides what you may do. They mean exactly the same thing.",
+          "Authentication decides permissions; authorisation checks identity. At a community centre, showing your volunteer ID confirms your identity. Being allowed to use the kitchen is your permission."
+        ]
+      },
+      "forbidden": [
+        "(?i)authenticat\\w* decides permissions|authori[sz]\\w* checks identity|exactly the same"
+      ]
     },
     {
       "id": "partial-evidence",
@@ -153,23 +201,35 @@
         "(?i)(?:not|yet|unknown|still).*?(?:check|confirm|verif|test|know)|(?:check|confirm|verif|test|know).*?(?:not|yet|unknown|still)"
       ],
       "forbidden": [
-        "(?i)^(?:the )?service is fully restored\\b",
+        "(?i)(?:^|[.!?;]\\s*|\\bbut\\s+|\\bhowever,?\\s+)(?:we (?:know|have (?:verified|confirmed)) that )?(?:the )?service is fully restored\\b",
         "(?i)all services (?:are|have been) restored"
       ],
-      "skill": "optional"
+      "skill": "optional",
+      "one_line": true,
+      "samples": {
+        "pass": [
+          "One endpoint responded once; other endpoints have not been checked, so full recovery is not confirmed.",
+          "One service endpoint is responding, but we have not yet verified that the service is fully restored."
+        ],
+        "fail": [
+          "One endpoint responded once; other endpoints have not been checked, but the service is fully restored.",
+          "The service is fully restored.",
+          "One endpoint responded; other endpoints have not been checked. We have confirmed that the service is fully restored."
+        ]
+      }
     },
     {
       "id": "unknown-payment-outcome",
       "category": "accessible-recovery",
       "prompt": "Use writing to draft a short payment message for a nontechnical customer. A request timed out; whether the payment went through is unknown. The customer must not pay again until the result is known. The exact control label is 'Check payment status'. Return only the message. Do not invent a failure, success, or refund.",
       "required": [
-        "(?i)(?:cannot|can['’]t|could not|don['’]t|do not).{0,30}(?:confirm|know).{0,50}(?:payment|paid)|(?:payment|paid).{0,40}(?:unknown|not confirmed)",
+        "(?i)(?:cannot|can['’]t|could not|couldn['’]t|don['’]t|do not).{0,30}(?:confirm|know).{0,50}(?:payment|paid)|(?:payment|paid).{0,40}(?:unknown|not confirmed)",
         "Check payment status",
         "(?i)\\b(?:do not|don['’]t)\\s+pay again\\b"
       ],
       "forbidden": [
         "(?im)(?:^|[.!?]\\s+)(?:your |the )?(?:payment|transaction) (?:has |was |is )?(?:failed|successful|complete|declined)",
-        "(?im)(?:^|[.!?]\\s+)(?:please\\s+|you (?:should|can|may|must)\\s+)?(?:retry|try again|try paying again|pay again)\\b|(?:payment|money) (?:has been |was |is )refunded",
+        "(?im)(?:^|[.!?;]\\s+|\\b(?:but|however|instead|then)\\s+)(?:please\\s+|you (?:should|can|may|must)\\s+)?(?:retry|try again|try paying again|pay again)\\b|(?:payment|money) (?:has been |was |is )refunded",
         "(?i)summary:|tl;dr",
         "(?i)\\b(?:do not|don['’]t)\\s+hesitate to\\s+(?:pay again|retry|try again|try paying again)\\b"
       ],
@@ -180,9 +240,12 @@
           "Your payment status is unknown. Don't pay again until the result is known. Select Check payment status.",
           "We cannot confirm whether your payment went through. Do not pay again yet. Do not retry. Select Check payment status to check the result.",
           "We can’t confirm whether your payment went through. Don’t pay again yet. Select Check payment status.",
-          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. You should not try again now."
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. You should not try again now.",
+          "We couldn’t confirm whether your payment went through. Please don’t pay again yet. Select “Check payment status” to see the result."
         ],
         "fail": [
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status, but retry the payment now.",
+          "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status; pay again now.",
           "Your payment failed. Try paying again.",
           "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. Your payment was successful.",
           "We cannot confirm whether your payment went through. Do not pay again yet. Select Check payment status. Try again.",
@@ -202,8 +265,8 @@
         "sync --dry-run",
         "Do not close this window\\.",
         "(?i)(?:saved files.{0,30}up to date|up to date.{0,30}saved files)",
-        "(?i)planned changes",
-        "(?i)(?:without changing|does not change|won\\x27t change) (?:your )?files",
+        "(?i)(?:planned changes|changes are planned|changes (?:it|the command) plans to make|what would change)",
+        "(?i)(?:without changing|does not change|won\\x27t change) (?:(?:your|any) )?files",
         "(?s)\\A- [^\\n]+\\n- [^\\n]+\\s*\\Z"
       ],
       "forbidden": [
@@ -212,13 +275,21 @@
       "skill": "writing",
       "samples": {
         "pass": [
-          "- Select Synchronize workspace to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files."
+          "- Select **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what changes are planned without changing files. “Do not close this window.”",
+          "- Select **Synchronize workspace** to bring your saved files up to date. “Synchronize” means make the files match the latest version.\n- Run `sync --dry-run` to see which file changes are planned, without changing any files. Keep the window open: “Do not close this window.”",
+          "- Select Synchronize workspace to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
+          "- **Synchronize workspace** means bring your saved files up to date.\n- `sync --dry-run` shows the changes it plans to make without changing any files. “Do not close this window.”",
+          "- Choose **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what would change without changing any files. “Do not close this window.”"
         ],
         "fail": [
+          "- Select **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what changes are planned while changing files. “Do not close this window.”",
+          "- Select **Synchronize workspace** to bring your saved files up to date. “Synchronize” means make the files match the latest version.\n- Run `sync --dry-run` to see which file changes are planned, while changing files. Keep the window open: “Do not close this window.”",
           "- Select Update files to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
           "- Select Synchronize workspace to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync to see planned changes without changing files.",
           "- Select Synchronize workspace to bring saved files up to date. The message says: 'Close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
-          "- Select Synchronize workspace. 'Do not close this window.'\n- Run sync --dry-run."
+          "- Select Synchronize workspace. 'Do not close this window.'\n- Run sync --dry-run.",
+          "- **Synchronize workspace** means bring your saved files up to date.\n- `sync --dry-run` shows the changes it plans to make while changing your files. “Do not close this window.”",
+          "- Choose **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what would change while changing your files. “Do not close this window.”"
         ]
       }
     },
@@ -292,7 +363,7 @@
       "prompt": "Use writing to rewrite this supplied drill notice in three plain bullets. Preserve requirement strength, the exception, the prohibition, and the number. Source: 'During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B. Staff MUST NOT use the lift. Staff MUST meet at assembly point 3.' Do not add instructions beyond the source.",
       "required": [
         "(?i)drill",
-        "(?m)^[^\\n]*MUST use Exit A (?:unless|except when) smoke blocks Exit A\\.",
+        "(?m)^[^\\n]*MUST use Exit A(?: during this drill)?,? (?:unless|except when) smoke blocks (?:Exit A|it)\\.",
         "(?m)^[^\\n]*[Ii]f smoke blocks Exit A,[^\\n]*MUST use Exit B\\.",
         "MUST NOT use the lift",
         "MUST meet at assembly point 3"
@@ -306,15 +377,212 @@
       "skill": "writing",
       "samples": {
         "pass": [
+          "- Staff MUST use Exit A during this drill, unless smoke blocks Exit A.\n- If smoke blocks Exit A, staff MUST use Exit B. Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
           "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
           "- During this drill, staff MUST use Exit A except when smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
-          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift, even if it is available.\n- Staff MUST meet at assembly point 3."
+          "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift, even if it is available.\n- Staff MUST meet at assembly point 3.",
+          "- During this drill, staff MUST use Exit A unless smoke blocks it.\n- If smoke blocks Exit A, staff MUST use Exit B. Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3."
         ],
         "fail": [
+          "- Staff MUST use Exit A during this drill, even if smoke blocks Exit A.\n- If smoke blocks Exit A, staff MUST use Exit B. Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
           "- During this drill, staff MUST use Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 3.",
           "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MAY use the lift.\n- Staff MUST meet at assembly point 3.",
           "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift.\n- Staff MUST meet at assembly point 2.",
           "- During this drill, staff MUST use Exit A unless smoke blocks Exit A. If smoke blocks Exit A, staff MUST use Exit B.\n- Staff MUST NOT use the lift unless it is available.\n- Staff MUST meet at assembly point 3."
+        ]
+      }
+    },
+    {
+      "id": "simple-fact",
+      "category": "answer-first",
+      "prompt": "What is the capital of France? Answer in one short sentence.",
+      "skill": "none",
+      "required": [
+        "(?i)\\bParis\\b"
+      ],
+      "forbidden": [
+        "(?i)summary|tl;dr"
+      ],
+      "one_line": true,
+      "max_words": 12,
+      "samples": {
+        "pass": [
+          "Paris is the capital of France."
+        ],
+        "fail": [
+          "Summary: Paris is the capital of France.",
+          "TL;DR: Paris.",
+          "London is the capital of France.",
+          "Paris is the capital of France. It is a very interesting city with many attractions to explore."
+        ]
+      }
+    },
+    {
+      "id": "standalone-email",
+      "category": "copy-ready-artifact",
+      "prompt": "Return exactly this standalone email, preserving its line breaks and adding nothing: Dear Sam,\n\nThe review is on Tuesday at 10:00.\n\nRegards,\nAlex",
+      "skill": "optional",
+      "required": [
+        "\\ADear Sam,\\n\\nThe review is on Tuesday at 10:00\\.\\n\\nRegards,\\nAlex\\Z"
+      ],
+      "samples": {
+        "pass": [
+          "Dear Sam,\n\nThe review is on Tuesday at 10:00.\n\nRegards,\nAlex"
+        ],
+        "fail": [
+          "Here is your email:\nDear Sam,\n\nThe review is on Tuesday at 10:00.\n\nRegards,\nAlex",
+          "Dear Sam,\n\nThe review is on Wednesday at 10:00.\n\nRegards,\nAlex"
+        ]
+      }
+    },
+    {
+      "id": "multipart-comparison",
+      "category": "helpful-opening",
+      "prompt": "Compare two migration plans for a busy engineering lead in 180–260 words. Start with one helpful TL;DR line, then explain cost, downtime, evidence and the decision. Supplied facts: Plan A costs £400, requires 2 hours of downtime and has a tested rollback. Plan B costs £700, requires 15 minutes of downtime and its rollback is untested. Both use encryption. Only A passed staging; B has not run staging. Recommend A until B's staging and rollback are verified. Do not claim either is proven safe. Do not add a closing recap or invent sources.",
+      "skill": "optional",
+      "min_words": 180,
+      "max_words": 260,
+      "required": [
+        "\\A(?:\\*\\*)?TL;DR:(?:\\*\\*)?",
+        "£400",
+        "£700",
+        "(?i)(?:2|two) hours",
+        "(?i)15 minutes",
+        "(?i)A[^\\n]*(?:tested rollback|rollback has been tested)",
+        "(?i)B[^\\n]*rollback[^\\n]*untested|B[^\\n]*untested[^\\n]*rollback",
+        "(?i)both[^\\n]*encryption",
+        "(?i)A[^\\n]*passed staging",
+        "(?i)B[^\\n]*(?:not run(?: in)? staging|staging[^\\n]*not run)",
+        "(?i)until[^\\n]*staging[^\\n]*rollback[^\\n]*(?:verified|tested)"
+      ],
+      "forbidden": [
+        "(?im)\\n(?:#+\\s*)?(?:TL;DR|Summary|In summary|In conclusion|To recap)",
+        "(?im)(?:^|[.!?]\\s+)(?:both plans|(?:plan )?[AB]|it|they|both|either) (?:is|are) proven safe\\b",
+        "https?://|\\[\\d+\\]"
+      ],
+      "samples": {
+        "pass": [
+          "**TL;DR:** Choose Plan A for now: it costs less and has stronger evidence, while Plan B’s shorter downtime comes with unverified staging and rollback.\n\nPlan A costs £400 and requires two hours of downtime. It has passed staging, and its rollback has been tested. That gives the team evidence about how the migration behaves in staging and a checked recovery path. It does not prove the plan is safe in production.\n\nPlan B costs £700 and requires 15 minutes of downtime. That is a substantial reduction in disruption, but the plan has not run in staging, and its rollback is untested. The shorter window may matter for a busy service, yet the team does not have the same evidence about the migration or its recovery.\n\nBoth plans use encryption, so that shared feature does not distinguish them on the facts provided. The decision turns on the trade-off between cost and downtime on one side, and verification on the other.\n\nI recommend Plan A until Plan B has passed staging and its rollback has been tested. If those checks succeed, we can reassess whether Plan B’s higher cost is justified by the shorter outage. Neither plan is proven safe by the evidence available.",
+          "TL;DR: Choose A for its stronger evidence; B reduces downtime but needs further verification.\n\nCost and downtime\nPlan A costs £400 and requires 2 hours of downtime. Plan B costs £700 and requires 15 minutes of downtime. B therefore offers a shorter interruption at a higher price. The supplied facts do not quantify the business cost of either interruption, so price alone cannot establish which option offers better value for this service.\n\nEvidence\nA has a tested rollback and A passed staging. B has an untested rollback; B has not run staging. Both use encryption. That shared protection does not establish readiness or remove the uncertainty about B's execution and recovery. A's evidence is stronger, but it does not prove that A is safe in every production condition.\n\nDecision\nRecommend A until B's staging and rollback are verified. The unresolved question is whether B can complete the migration and recover reliably under the intended conditions. Its shorter planned downtime does not answer that question. An engineering lead can weigh the stated interruption against operational needs, while keeping the current evidence gap visible rather than treating a plan as an observed result.",
+          "TL;DR: Choose Plan A for now; reconsider Plan B after its staging run and rollback are verified.\n\nPlan A costs £400, which is £300 less than Plan B. It requires two hours of downtime, so it may be harder to schedule for a busy engineering team or for services that need high availability. Its rollback has been tested. Plan B costs £700 and requires 15 minutes of downtime, reducing the planned service interruption by 1 hour and 45 minutes compared with A. Its rollback is untested, however, so the shorter downtime does not establish how quickly the team could recover if the migration fails.\n\nBoth plans use encryption. That shared control does not show that either migration is proven safe. The available evidence differs: A passed staging; B has not run in staging. A’s tested rollback adds evidence about recovery, while B’s untested rollback leaves an important operational uncertainty. Passing staging and testing rollback do not guarantee a safe production migration, but they provide checks that are currently missing for B.\n\nI recommend Plan A until Plan B has completed staging and its rollback has been verified. This weighs the extra downtime against stronger evidence and lower cost. If B passes staging and its rollback test, compare the updated evidence and the value of reducing downtime before deciding whether its £300 premium is justified.",
+          "TL;DR: Choose Plan A for now; reconsider Plan B after its staging run and rollback have been verified.\n\nPlan A costs £400 and needs two hours of downtime. That is the lower-cost option, but it creates a longer service interruption. Its rollback has been tested, which gives the team evidence that it can return to the previous state if the migration fails. Plan A is the only option that has passed staging.\n\nPlan B costs £700 and needs 15 minutes of downtime. It offers a much shorter interruption, but costs £300 more than Plan A. Its rollback is untested, and it has not run in staging. The shorter downtime is therefore a planned requirement, not evidence that the migration or its recovery process will work as intended.\n\nBoth plans use encryption. That shared feature does not establish that either migration is proven safe. Staging results and rollback evidence address different risks; the current evidence is stronger for A, but it does not remove all migration risk.\n\nI recommend Plan A until Plan B has completed staging and its rollback has been tested and verified. If the shorter downtime is important enough to justify the extra cost, reassess Plan B once that evidence is available. Until then, choosing B would mean accepting more uncertainty about its behaviour and recovery."
+        ],
+        "fail": [
+          "**TL;DR:** Choose Plan A for now: it costs less and has stronger evidence, while Plan B’s shorter downtime comes with unverified staging and rollback.\n\nPlan A costs £400 and requires two hours of downtime. It has passed staging, and its rollback has been tested. That gives the team evidence about how the migration behaves in staging and a checked recovery path. It does not prove the plan is safe in production.\n\nPlan B costs £700 and requires 15 minutes of downtime. That is a substantial reduction in disruption, but the plan passed staging, and its rollback is untested. The shorter window may matter for a busy service, yet the team does not have the same evidence about the migration or its recovery.\n\nBoth plans use encryption, so that shared feature does not distinguish them on the facts provided. The decision turns on the trade-off between cost and downtime on one side, and verification on the other.\n\nI recommend Plan A until Plan B has passed staging and its rollback has been tested. If those checks succeed, we can reassess whether Plan B’s higher cost is justified by the shorter outage. Neither plan is proven safe by the evidence available.",
+          "TL;DR: Choose A. It is cheaper.",
+          "Summary: Choose A; B needs verification.",
+          "TL;DR: Choose B. Both plans are proven safe.",
+          "TL;DR: Choose A for its stronger evidence; B reduces downtime but needs further verification.\n\nCost and downtime\nPlan A costs £400 and requires 2 hours of downtime. Plan B costs £700 and requires 15 minutes of downtime. B therefore offers a shorter interruption at a higher price. The supplied facts do not quantify the business cost of either interruption, so price alone cannot establish which option offers better value for this service.\n\nEvidence\nA has a tested rollback and A passed staging. B has an untested rollback; B has not run staging. Both use encryption. That shared protection does not establish readiness or remove the uncertainty about B's execution and recovery. A's evidence is stronger, but it does not prove that A is safe in every production condition.\n\nDecision\nRecommend A until B's staging and rollback are verified. The unresolved question is whether B can complete the migration and recover reliably under the intended conditions. Its shorter planned downtime does not answer that question. An engineering lead can weigh the stated interruption against operational needs, while keeping the current evidence gap visible rather than treating a plan as an observed result. Both plans are proven safe.",
+          "TL;DR: Choose A for its stronger evidence; B reduces downtime but needs further verification.\n\nCost and downtime\nPlan A costs £400 and requires 2 hours of downtime. Plan B costs £700 and requires 15 minutes of downtime. B therefore offers a shorter interruption at a higher price. The supplied facts do not quantify the business cost of either interruption, so price alone cannot establish which option offers better value for this service.\n\nEvidence\nA has a tested rollback and A passed staging. B has an untested rollback; B passed staging. Both use encryption. That shared protection does not establish readiness or remove the uncertainty about B's execution and recovery. A's evidence is stronger, but it does not prove that A is safe in every production condition.\n\nDecision\nRecommend A until B's staging and rollback are verified. The unresolved question is whether B can complete the migration and recover reliably under the intended conditions. Its shorter planned downtime does not answer that question. An engineering lead can weigh the stated interruption against operational needs, while keeping the current evidence gap visible rather than treating a plan as an observed result."
+        ]
+      }
+    },
+    {
+      "id": "requested-long-explanation",
+      "category": "explicit-depth",
+      "prompt": "Write 350–450 words explaining database isolation to an experienced engineer. Use sections for serializable transactions, snapshot isolation, a concrete two-doctor on-call write-skew example, and mitigation. Preserve: serializable outcomes are equivalent to serial execution; snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows; both doctors can go off call, violating the at-least-one-doctor rule. Explain how serializable isolation can abort a conflicting transaction and why the application must retry the entire transaction. Do not replace the requested depth with a short summary.",
+      "skill": "optional",
+      "min_words": 350,
+      "max_words": 450,
+      "required": [
+        "(?i)equivalent[^.]*serial execution",
+        "(?i)snapshot isolation",
+        "(?i)write skew",
+        "(?i)concurrent transactions",
+        "(?i)shared constraint",
+        "(?i)disjoint rows",
+        "(?i)(?:both doctors[^.]*off call|(?:has|leaves) no doctor on call|neither doctor is on call)",
+        "(?i)at.least.one(?: of (?:the )?(?:two|2))?.doctor",
+        "(?i)abort",
+        "(?i)retry[^.]*entire transaction"
+      ],
+      "forbidden": [
+        "(?i)snapshot isolation[^.]*prevents write skew",
+        "(?im)\\n(?:#+\\s*)?(?:TL;DR|Summary|In summary|In conclusion)"
+      ],
+      "samples": {
+        "pass": [
+          "Serializable transactions\nSerializable transactions produce outcomes equivalent to some serial execution. Transactions can still overlap in time; the guarantee concerns their combined observable result. A successful set of transactions must behave as though they ran one after another in some order. This property makes cross-row business rules easier to reason about when each transaction checks the rule before making its change. It does not mean that every implementation literally runs transactions one at a time.\n\nSnapshot isolation\nSnapshot isolation gives a transaction a consistent view of committed data. It can prevent transactions from observing another transaction's partly completed work. However, snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows. Each transaction can make a locally reasonable decision from its snapshot, yet the combined committed result can break the rule. A consistent read view alone is not the same guarantee as serializability.\n\nTwo-doctor example\nSuppose Alice and Ben are both on call. At least one of two doctors must remain on call. Alice's transaction reads both rows and sees Ben on call. Ben's transaction reads both rows and sees Alice on call. Alice updates her own row to go off call, while Ben updates his own row to do the same. The updates affect different rows, so checking only direct write conflicts need not reject either change. Now neither doctor is on call, even though each transaction checked that another doctor was available. There is no serial order of those two successful decisions that preserves the checks and produces that result.\n\nMitigation\nSerializable isolation can detect the conflicting dependency pattern and abort a conflicting transaction instead of allowing both decisions to commit. The application must retry the entire transaction, including the reads and the constraint check, because the original decision used a snapshot that is no longer a valid basis for that transaction. Retrying only the final update would preserve the stale decision rather than recomputing it. After one doctor's change commits, the retried transaction can observe that no other doctor remains on call and refuse the second change. Application error handling must distinguish a retryable serialization failure from an unrelated failure; successful execution still depends on implementing the business check correctly.",
+          "Serializable transactions\nSerializable transactions produce outcomes equivalent to some serial execution. Transactions can still overlap in time; the guarantee concerns their combined observable result. A successful set of transactions must behave as though they ran one after another in some order. This property makes cross-row business rules easier to reason about when each transaction checks the rule before making its change. It does not mean that every implementation literally runs transactions one at a time.\n\nSnapshot isolation\nSnapshot isolation gives a transaction a consistent view of committed data. It can prevent transactions from observing another transaction's partly completed work. However, snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows. Each transaction can make a locally reasonable decision from its snapshot, yet the combined committed result can break the rule. A consistent read view alone is not the same guarantee as serializability.\n\nTwo-doctor example\nSuppose Alice and Ben are both on call. The at-least-one-doctor rule requires one doctor to remain available. Alice's transaction reads both rows and sees Ben on call. Ben's transaction reads both rows and sees Alice on call. Alice updates her own row to go off call, while Ben updates his own row to do the same. The updates affect different rows, so checking only direct write conflicts need not reject either change. Both doctors can go off call even though each transaction checked that another doctor was available. There is no serial order of those two successful decisions that preserves the checks and produces that result.\n\nMitigation\nSerializable isolation can detect the conflicting dependency pattern and abort a conflicting transaction instead of allowing both decisions to commit. The application must retry the entire transaction, including the reads and the constraint check, because the original decision used a snapshot that is no longer a valid basis for that transaction. Retrying only the final update would preserve the stale decision rather than recomputing it. After one doctor's change commits, the retried transaction can observe that no other doctor remains on call and refuse the second change. Application error handling must distinguish a retryable serialization failure from an unrelated failure; successful execution still depends on implementing the business check correctly.",
+          "Serializable transactions\nSerializable transactions produce outcomes equivalent to some serial execution. Transactions can still overlap in time; the guarantee concerns their combined observable result. A successful set of transactions must behave as though they ran one after another in some order. This property makes cross-row business rules easier to reason about when each transaction checks the rule before making its change. It does not mean that every implementation literally runs transactions one at a time.\n\nSnapshot isolation\nSnapshot isolation gives a transaction a consistent view of committed data. It can prevent transactions from observing another transaction's partly completed work. However, snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows. Each transaction can make a locally reasonable decision from its snapshot, yet the combined committed result can break the rule. A consistent read view alone is not the same guarantee as serializability.\n\nTwo-doctor example\nSuppose Alice and Ben are both on call. The at-least-one-doctor rule requires one doctor to remain available. Alice's transaction reads both rows and sees Ben on call. Ben's transaction reads both rows and sees Alice on call. Alice updates her own row to go off call, while Ben updates his own row to do the same. The updates affect different rows, so checking only direct write conflicts need not reject either change. The resulting state has no doctor on call even though each transaction checked that another doctor was available. There is no serial order of those two successful decisions that preserves the checks and produces that result.\n\nMitigation\nSerializable isolation can detect the conflicting dependency pattern and abort a conflicting transaction instead of allowing both decisions to commit. The application must retry the entire transaction, including the reads and the constraint check, because the original decision used a snapshot that is no longer a valid basis for that transaction. Retrying only the final update would preserve the stale decision rather than recomputing it. After one doctor's change commits, the retried transaction can observe that no other doctor remains on call and refuse the second change. Application error handling must distinguish a retryable serialization failure from an unrelated failure; successful execution still depends on implementing the business check correctly."
+        ],
+        "fail": [
+          "Serializable transactions\nSerializable transactions produce outcomes equivalent to some serial execution. Transactions can still overlap in time; the guarantee concerns their combined observable result. A successful set of transactions must behave as though they ran one after another in some order. This property makes cross-row business rules easier to reason about when each transaction checks the rule before making its change. It does not mean that every implementation literally runs transactions one at a time.\n\nSnapshot isolation\nSnapshot isolation gives a transaction a consistent view of committed data. It can prevent transactions from observing another transaction's partly completed work. However, snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows. Each transaction can make a locally reasonable decision from its snapshot, yet the combined committed result can break the rule. A consistent read view alone is not the same guarantee as serializability.\n\nTwo-doctor example\nSuppose Alice and Ben are both on call. At least one of two doctors must remain on call. Alice's transaction reads both rows and sees Ben on call. Ben's transaction reads both rows and sees Alice on call. Alice updates her own row to go off call, while Ben updates his own row to do the same. The updates affect different rows, so checking only direct write conflicts need not reject either change. Now one doctor is on call, even though each transaction checked that another doctor was available. There is no serial order of those two successful decisions that preserves the checks and produces that result.\n\nMitigation\nSerializable isolation can detect the conflicting dependency pattern and abort a conflicting transaction instead of allowing both decisions to commit. The application must retry the entire transaction, including the reads and the constraint check, because the original decision used a snapshot that is no longer a valid basis for that transaction. Retrying only the final update would preserve the stale decision rather than recomputing it. After one doctor's change commits, the retried transaction can observe that no other doctor remains on call and refuse the second change. Application error handling must distinguish a retryable serialization failure from an unrelated failure; successful execution still depends on implementing the business check correctly.",
+          "Serializable transactions are equivalent to serial execution. Snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows. Both doctors go off call, violating the at-least-one-doctor rule. Serializable isolation can abort; retry the entire transaction.",
+          "Snapshot isolation prevents write skew. Both doctors can safely go off call."
+        ]
+      }
+    },
+    {
+      "id": "technician-recovery",
+      "category": "safety-recovery",
+      "prompt": "Return only a short numbered power-module procedure. Isolate power and verify zero voltage before replacement. Stop if verification fails; keep power isolated and contact the supervisor. Replace the module only after verification succeeds. If the LED is not green after replacement, stop, isolate power again and contact the supervisor. Do not invent electrical specifications.",
+      "skill": "optional",
+      "required": [
+        "(?i)zero voltage",
+        "(?i)stop",
+        "(?i)supervisor",
+        "(?i)(?:replace[^.\\n]*only (?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)|(?:only )?(?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)[^.\\n]*replace)"
+      ],
+      "ordered": [
+        "(?i)isolate power",
+        "(?i)verify zero voltage",
+        "(?i)(?:stop if verification fails|if verification fails,? stop)",
+        "(?i)keep power isolated",
+        "(?i)contact the supervisor",
+        "(?i)replace",
+        "(?i)(?:LED is not green|LED[^.\\n]*\\.[^.\\n]*if it is not green)",
+        "(?i)stop",
+        "(?i)isolate power again",
+        "(?i)contact the supervisor"
+      ],
+      "forbidden": [
+        "(?i)continue anyway|replace[^.]*before verif|\\d+\\s*N.?m",
+        "(?i)replace[^.\\n]*(?:even if|despite|regardless of|without)[^.\\n]*verif|if verification fails[^.\\n]*replace|replace[^.\\n]*verif[^.\\n]*fails"
+      ],
+      "samples": {
+        "pass": [
+          "1. Isolate power and verify zero voltage.\n2. If verification fails, stop. Keep power isolated and contact the supervisor.\n3. After verification succeeds, replace the power module.\n4. If the LED is not green after replacement, stop, isolate power again and contact the supervisor.",
+          "1. Isolate power and verify zero voltage. Stop if verification fails; keep power isolated and contact the supervisor.\n2. Replace the module only after verification succeeds.\n3. If the LED is not green, stop, isolate power again and contact the supervisor.",
+          "1. Isolate power and verify zero voltage before replacing the module. If verification fails, stop, keep power isolated, and contact the supervisor.\n2. Replace the module only after verification succeeds.\n3. Check the LED. If it is not green, stop, isolate power again, and contact the supervisor."
+        ],
+        "fail": [
+          "1. Isolate power and verify zero voltage.\n2. If verification fails, stop. Keep power isolated and contact the supervisor.\n3. After verification fails, replace the power module.\n4. If the LED is not green after replacement, stop, isolate power again and contact the supervisor.",
+          "1. Isolate power and verify zero voltage. Stop if verification fails; keep power isolated and contact the supervisor.\n2. Replace the module even if verification fails.\n3. If the LED is not green, stop, isolate power again and contact the supervisor.",
+          "1. Isolate power and verify zero voltage. Stop if verification fails; keep power isolated and contact the supervisor.\n2. Replace the module only after verification succeeds. Replace it despite verification failure.\n3. If the LED is not green, stop, isolate power again and contact the supervisor.",
+          "1. Isolate power and verify zero voltage. Stop if verification fails; keep power isolated and contact the supervisor.\n2. Replace the module.\n3. If the LED is not green, stop, isolate power again and contact the supervisor.",
+          "1. Replace the module.\n2. Isolate power and verify zero voltage.\n3. Stop and contact the supervisor.",
+          "1. Isolate power and verify zero voltage. Stop if verification fails; keep power isolated and contact the supervisor.\n2. Replace the module only after verification succeeds.\n3. If the LED is not green, continue anyway.",
+          "1. Isolate power and verify zero voltage before replacing the module. If verification fails, continue, keep power isolated, and contact the supervisor.\n2. Replace the module only after verification succeeds.\n3. Check the LED. If it is not green, stop, isolate power again, and contact the supervisor."
+        ]
+      }
+    },
+    {
+      "id": "working-slice-status",
+      "category": "ownership-and-evidence",
+      "prompt": "Write a brief working-slice report from these facts only. Owner: implement. Supporter: writing, which cannot grant acceptance. Parser unit tests: PASS. Browser journey: FAIL because saving loses the selected date. Security gate: NOT RUN. Overall: FAIL; no release acceptance. Keep exact status labels and ownership. No invented evidence or citations.",
+      "skill": "optional",
+      "required": [
+        "(?i)owner[^\\n]*implement",
+        "(?i)writing[^\\n]*cannot grant acceptance",
+        "(?i)parser unit tests[^\\n]*PASS",
+        "(?i)browser journey[^\\n]*FAIL",
+        "(?i)saving loses the selected date",
+        "(?i)security gate[^\\n]*NOT RUN",
+        "(?i)overall[^\\n]*FAIL",
+        "(?i)no release acceptance"
+      ],
+      "forbidden": [
+        "(?i)overall[^\\n]*PASS|security gate[^\\n]*PASS|release accepted",
+        "https?://|\\[\\d+\\]"
+      ],
+      "samples": {
+        "pass": [
+          "Owner: implement. Supporter: writing, which cannot grant acceptance.\nParser unit tests: PASS. Browser journey: FAIL; saving loses the selected date.\nSecurity gate: NOT RUN. Overall: FAIL; no release acceptance."
+        ],
+        "fail": [
+          "Owner: writing. Parser unit tests: PASS. Overall: PASS.",
+          "Owner: implement. Supporter: writing, which cannot grant acceptance.\nParser unit tests: PASS. Browser journey: FAIL; saving loses the selected date.\nSecurity gate: NOT RUN. Overall: FAIL; no release acceptance. Evidence: https://invented.example/report"
         ]
       }
     }

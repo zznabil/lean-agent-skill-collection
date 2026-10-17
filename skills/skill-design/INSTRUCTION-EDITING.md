@@ -1,12 +1,12 @@
 # Edit instructions without losing the contract
 
-Use this reference to draft or edit a skill, agent policy, workflow, prompt, checklist, handoff, or user procedure. The reader can be a person or an executing agent. This reference is an authoring procedure. It does not require loading three communication skills for every task.
+Use this procedure to draft or edit skills, agent policies, workflows, prompts, checklists, handoffs or user procedures. The reader can be a person or executing agent. It does not require three communication skills to load for every task.
 
 ## Before changing the words
 
-Identify the reader, task, input, expected result, and authority from the request and existing material. Inspect the current instructions and their callers. Mark unresolved requirements as unresolved. Do not silently invent a default to complete a paragraph.
+Identify reader, task, input, expected result and authority from the request and existing material. Inspect current instructions and callers. Keep unresolved requirements explicit; do not invent defaults to fill gaps.
 
-Preserve each existing rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response, and completion evidence. Keep its links, resource paths, source references, and adoption decision. Keep watched, deferred, and rejected sources in their existing states. Keep exact identifiers, commands, schemas, numbers, quoted source text, and status names unless their change is authorised.
+Preserve each rule's trigger, actor, action, object, scope, requirement strength, exception, order, failure response and completion evidence. Keep links, resource paths, source references and adoption decisions. Keep watched, deferred and rejected sources in their existing states. Retain exact identifiers, commands, schemas, numbers, quoted source text and status names unless authorised to change them.
 
 ## Rewrite a decision, not an aspiration
 
@@ -49,7 +49,8 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 ## Source roles
 
-Use only three default communication drivers: ASD-STE100-inspired short, active technical sentences; ISO 704-inspired stable concepts and terminology; and Diátaxis purpose separation when helpful. These are stylistic guides, not formal conformance claims.
+Use only three default communication drivers: ASD-STE100-inspired short, active sentences; ISO 704-inspired stable terms; and Diátaxis purpose separation when useful. These guides do not establish formal conformance. Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim root activation without evidence.
+Lead with the answer or action. Keep needed detail; omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format in copy-ready text.
 
 Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Before risky or failure-prone actions, place warnings first. Add hold points and safe-state checks where needed. State expected results, failure signs, and recovery for those actions. Explain difficult mechanisms simply. Use noncompliant/compliant pattern contrasts when useful. These are condition-triggered execution rules, not additional default prose drivers.
 

@@ -6,14 +6,14 @@ A listed skill grants no permission and proves no host activation. MUST, MUST NO
 
 ## Communication kernel (always active)
 <!-- communication-kernel:start -->
-Apply this three-part kernel to every skill and authored companion resource, including standalone installs.
-Do not claim that a host loaded root instructions without evidence. Each standalone skill retains its own fallback.
-- **Language — ASD-STE100-inspired:** Use short, active technical sentences, direct verbs and concrete wording. Keep one main action per sentence when practical.
-- **Terminology — ISO 704-inspired:** Use stable concepts and terms. Prefer one term per concept within an artifact. Define ambiguous specialised terms. Preserve precise domain terminology.
-- **Architecture — Diátaxis:** Separate how-to, reference and explanation when this helps the task. Do not force sections into a short answer.
-Preserve facts, negation, actors, conditions, exceptions, permissions, uncertainty, evidence limits, quotations and the requested voice.
-Lead with the supported result or next action. Keep simple turns short. Do not recite standards or claim formal conformance from style guidance.
-Other frameworks are task-selected, not default communication drivers. Use them only when a task requires them or the user requests them.
+Apply this kernel to every skill and authored companion, including standalone installs. Never claim root activation without evidence; retain standalone fallbacks.
+- **Language — ASD-STE100-inspired:** Use short, active sentences, direct verbs and concrete words. Keep one main action per sentence when practical.
+- **Terminology — ISO 704-inspired:** Prefer one term per concept within an artefact. Define ambiguous specialised terms; preserve precise domain and machine-sensitive terminology.
+- **Organisation — Diátaxis:** Separate tutorial, how-to, reference and explanation when helpful; do not force sections into short answers.
+Lead with the answer, result or next action. Use the shortest complete response that meets the task, audience, risk and requested depth.
+Omit routine Summary headings and closing recaps. Use TL;DR only when it helps a long response, and place it first.
+Preserve facts, actors, negation, conditions, exceptions, permissions, uncertainty, evidence limits, quotations, requested voice and exact formats.
+Use British spelling except in sources, exact strings or requested locales. Other frameworks remain task-selected; inspired prose does not establish formal conformance.
 <!-- communication-kernel:end -->
 
 ## Action and evidence
@@ -31,7 +31,7 @@ Other frameworks are task-selected, not default communication drivers. Use them 
 - Wording does not authorize workflow, permission, routing or acceptance changes. Report unresolved conflicts. Do not relabel failure as success.
 - For normative requirements, preserve BCP 14 force; clarity MUST NOT weaken a contract. Important requirements name one actor, action and observable verification target.
 - Before risky actions, put warnings before hazards and hold points before critical or irreversible steps. Verify the actual safe state before destructive or hazardous work. State the expected result, failure sign and recovery when failure is plausible.
-- For critical procedures, prefer Summary → Prerequisites → Warning → Steps → Hold/verify → Expected result → Recovery → Compliant/noncompliant example when useful → TL;DR. Omit sections that add no value.
+- For critical procedures, put prerequisites, warnings and safe-state verification before hazards. Include ordered actions, expected results, needed recovery and helpful examples; omit empty sections.
 - For security or digital-access tasks, use applicable security or accessibility evidence. A scan is not certification. Missing required release gates require an explicit go/no-go decision.
 - Easy-to-Read requires intended-user review before claiming verification. Select teaching methods and compliant/noncompliant examples only when the task needs them.
 - For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress separate from the verdict. This does not activate the manual `wait-what` skill.
@@ -50,7 +50,7 @@ Each row maps an installed skill to its task. “Manual” means explicit select
 <!-- base-skills:start -->
 - `architecture` — architecture decisions and contracts.
 - `browser-automation` — browser task execution and UI accessibility.
-- `cli-design` — command-line interface behavior and help.
+- `cli-design` — command-line interface behaviour and help.
 - `debug` — reproduce and diagnose software faults.
 - `experiment` — design and interpret controlled experiments.
 - `gauntlet-loop` (manual) — adversarial acceptance for material risk.
@@ -68,7 +68,7 @@ Each row maps an installed skill to its task. “Manual” means explicit select
 - `review` — review a concrete work product.
 - `skill-design` — author and evaluate an agent skill.
 - `teach` — teach, practise or quiz a learner.
-- `test` — design behavior-focused software tests.
+- `test` — design behaviour-focused software tests.
 - `triage` — classify and respond to incidents.
 - `wait-what` (manual) — clarify a confusing response on request.
 - `writing` — draft or edit task-facing information.
@@ -95,4 +95,4 @@ Select only when its named task applies. These 27 source-specific routines have 
 
 ## Separate optional source packs
 `packs/remaining-standards/CATALOG.md` maps 63 optional routines and 7 off-default guards; `packs/controlled-execution/CATALOG.md` maps 13 mechanisms. These source-only packs are **not** in generated profiles.
-Select a routine for a named task after reviewing its `SKILL.md`, `SOURCES.md`, adoption and rights. Do not install all entries or make gated routines universal. Preserve bundled sources and licenses.
+Select a routine for a named task after reviewing its `SKILL.md`, `SOURCES.md`, adoption and rights. Do not install all entries or make gated routines universal. Preserve bundled sources and licences.

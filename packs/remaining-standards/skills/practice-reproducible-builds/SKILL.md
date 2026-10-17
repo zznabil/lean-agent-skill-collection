@@ -1,25 +1,28 @@
 ---
 name: practice-reproducible-builds
-description: "Compare artifact bytes from independent equivalent builds."
+description: "Compare artefact bytes from independent equivalent builds."
 ---
 # Reproducible Builds definition
 
 ## Communication kernel
-- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If trusted root `AGENTS.md` is loaded, its policy governs this skill. Skill-specific rules refine the kernel. Without that root policy, you MUST apply this kernel. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the main point and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when helpful. Keep simple replies short.
-- Preserve requirement force, actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Keep normative MUST, MUST NOT, SHOULD, SHOULD NOT and MAY meanings unchanged. State the actor, action and observable verification target for each requirement.
-- These are communication patterns, not formal standards conformance or transferred legal or organisational authority. Use other domain standards only when the task requires them.
+- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim root activation without evidence.
+- Use ASD-STE100-inspired short, active sentences, direct verbs and familiar, concrete words. Use ISO 704-inspired stable terms for distinct concepts.
+- Use Diátaxis to separate tutorial, how-to, reference and explanation when useful. Do not force sections into short replies.
+- Lead with the answer, result or next action. Omit routine Summary headings. Use TL;DR only when helpful for complex material, first, without a closing recap. Preserve requested detail and format.
+- Preserve actors, facts, negation, conditions, exceptions, permissions, requirement force, safety, source scope and evidence limits.
+- These drivers do not establish formal conformance or transfer legal or organisational authority. Apply other domain standards only when the task requires them.
 
-## Conditional execution controls
-- For critical or risky work, place warnings before hazards and hold points before critical or irreversible steps. Before destructive or hazardous work, verify the actual state.
-- When failure is plausible, state the expected result, failure sign and recovery. For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful.
-- For difficult mechanisms, explain from simple foundations. Contrast noncompliant and compliant code or configuration when useful. Add a contrast or TL;DR only when helpful.
-- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable. Report observed results. Missing or stale evidence is not success.
+## Execution controls
+- For normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Specify one actor, action and observable verification target.
+- For critical or risky work, place warnings before hazards and hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work.
+- When failure is plausible, state the expected result, failure sign and recovery. Keep prerequisites and ordered steps clear; use WARNING and PAUSE/VERIFY labels when useful.
+- Explain difficult mechanisms from simple foundations. Contrast noncompliant and compliant code or configuration when useful.
+- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable. Report observed results, not assumed success.
 
 ## Task and boundary
-- Test whether the specified build produces reproducible artifacts.
+- Test whether the specified build produces reproducible artefacts.
 - Do not claim reproducibility based only on a successful rebuild, identical filenames or matching source revisions.
-- Limit work to the selected artifact or assessment. This routine grants no permission to run attacks, deploy, publish or change policy.
+- Limit work to the selected artefact or assessment. This routine grants no permission to run attacks, deploy, publish or change policy.
 
 ## Source and limits
 - Read [SOURCES.md](SOURCES.md) to identify the source, applicable edition or part, available originals, access limits and copying terms.
@@ -27,27 +30,25 @@ description: "Compare artifact bytes from independent equivalent builds."
 - Historical adoption decision: Strongly absorb. Retain this boundary unless an authorised decision explicitly changes it.
 
 ## Procedure
-1. Specify the source, build instructions, relevant environment and exact output artifacts for comparison.
+1. Specify the source, build instructions, relevant environment and exact output artefacts for comparison.
 2. Identify dependencies, toolchain versions, locale, timestamps, paths and other inputs that can affect bytes.
 3. Run the build twice under the declared conditions. Use independent clean output locations.
 4. Record each run's actual environment and commands. Include uncontrolled inputs.
-5. Compare the intended distributable artifact bytes. Do not compare only an internal file or printed success message.
+5. Compare the intended distributable artefact bytes. Do not compare only an internal file or printed success message.
 6. Use digests to compare known bytes. Inspect differences if outputs do not match.
 7. Do not remove meaningful signatures, content or metadata after the build just to create equality.
-8. If the build specification includes normalization, declare it before the experiment. Compare its intended outputs.
+8. Declare any build-specification normalisation before the experiment, then compare the intended outputs.
 9. Distinguish repetition in the same environment from reproduction by another party or in another environment.
 10. Report the scope, exact outputs, equality result, sources of variation and remaining uncontrolled conditions.
 
 ## Verify and recover
 - **Worked check (illustrative, not executed):** Two ZIPs contain similar source files but differ in timestamps and archive bytes.
-- **Expected:** Report the artifact mismatch; do not claim byte-reproducible release ZIPs.
+- **Expected:** Report the artefact mismatch; do not claim byte-reproducible release ZIPs.
 - **If blocked:** If a dependency comes from an unpinned mutable source, stop the affected assessment or action. Record the missing prerequisite and request it from the responsible owner. Continue only independent, authorised work.
-- Keep facts, identifiers, links, required checks, permissions, negation, exceptions and failure/recovery paths intact.
-- Distinguish planned work, actual evidence and unknown results. Missing or stale evidence is not a pass.
-- Do not remove requirements to improve a score or meet the line budget. Record any unresolved source or task conflict.
-- Use the smallest check that can detect the relevant defect. A schema, linter or inventory alone does not prove task success.
+- Keep planned work, observed evidence and unknown results separate. Missing or stale evidence is not a pass.
+- Do not remove requirements for a score or line budget. Record unresolved source or task conflicts.
+- Use the smallest check that detects the relevant defect. A schema, linter or inventory alone does not prove task success.
 
 ## Finish and stop
-- Return the result for the selected scope, evidence, unresolved requirements and next permitted action.
-- Make one correction pass. Recheck the affected evidence. If a required issue remains, report it. Do not loop or claim completion.
-- Identify the checked scope, source edition, evidence and limits. Do not claim formal conformance or model-behaviour improvement from this routine.
+- Make one correction pass and recheck affected evidence. If a required issue remains, report it; do not loop or claim completion.
+- Return the scoped result, source edition, evidence, limits, unresolved requirements and next permitted action. Do not claim formal conformance or model-behaviour improvement from this routine.

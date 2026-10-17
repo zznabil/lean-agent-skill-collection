@@ -4,8 +4,8 @@ description: "Review how a screen or document presents information."
 ---
 # ISO 9241-112: information presentation
 ## Use
-- Use this routine to review information arrangement and interpretation on a screen or document. Deliver presentation changes or findings based on the rendered task.
-- Draft, edit or review as requested. First read the target, users, task and authorised scope.
+- Review how a screen or document arranges information and supports interpretation. Base changes or findings on the rendered task.
+- Read the target, users, task and authorised scope before drafting, editing or reviewing.
 ## Source and scope
 - Target edition: ISO 9241-112:2025, Edition 2. See SOURCES.md for official access and source status.
 - The author did not have the full licensed normative text when authoring this prototype. This collection does not bundle that text.
@@ -17,7 +17,7 @@ description: "Review how a screen or document presents information."
 3. Group related content. Use meaningful hierarchy and consistent layout to distinguish unrelated content.
 4. Make status, actions, labels and content categories distinguishable. Do not rely on one ambiguous cue.
 5. Use consistent labels, symbols, units and formatting for the same concept within the selected scope.
-6. Place explanations near the value, diagram or decision they explain. Do not force avoidable cross-screen searches.
+6. Keep explanations near their values, diagrams or decisions. Avoid unnecessary cross-screen searches.
 7. Reduce irrelevant density. Do not hide necessary exceptions, units or context.
 8. Test resized, enlarged, error and alternate-format views that matter to the actual audience.
 9. Inspect the rendered output and users’ interpretation during the task. Source markup alone cannot prove that the presentation works.
@@ -29,17 +29,26 @@ description: "Review how a screen or document presents information."
 ## Verify and deliver
 - Check the actual task and a relevant failure or recovery path. Use intended-user evidence when available.
 - Report source-verified clause findings separately from Lean design suggestions and unchecked items.
-- Return the artifact or scoped findings first. State material limits and the evidence needed to resolve them.
-- Do not claim formal conformance based on this short routine, a readability score or a review plan that you have not executed.
+- Return the artefact or scoped findings first. State material limits and the evidence needed to resolve them.
+- Do not claim formal conformance from this routine, a readability score or an unexecuted review plan.
 ## Worked distinction
 Two visually identical numbers refer to storage used and storage remaining.
 Give each measure and its units distinct labels. A cleaner layout must preserve the distinction.
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` is loaded, it governs. Do not claim root activation without evidence. Use this skill’s source-specific procedure only for its task, not for every reply. This kernel takes inspiration from the named approaches; it does not claim formal standards conformance.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis organization to separate how-to, reference and explanation when helpful. Lead with the supported result and next action.
-- Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Never describe an unchecked result as compliant or complete.
-- In normative text, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, provide a hold point and check the safe state. When failure is plausible, give the expected result, failure sign and recovery. These controls do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Report the PASS/FAIL/BLOCKED verdict separately. Count a failed, blocked, skipped or untested item only after you classify it with evidence. If no total is defensible, report the phase, evidence and next action without a bar. This rule does not invoke manual wait-what.
-- Explain difficult mechanisms from foundations. For code or configuration, show compliant/noncompliant contrasts only when useful. Do not force examples or sections on simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

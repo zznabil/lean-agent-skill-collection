@@ -237,6 +237,29 @@ try {
         Write-Host 'PASS rejection: required Task Brief support file' -ForegroundColor Green
     } finally { $script:repoRoot = $originalRepoRoot; $failures.Clear() }
     Copy-Item -LiteralPath (Join-Path $repoRoot 'skills/project-context/TASK-BRIEF.md') -Destination (Join-Path $skillTreeFixture 'skills/project-context/TASK-BRIEF.md')
+    $adapterFixture = Join-Path $skillTreeFixture 'skills/architecture/agents/openai.yaml'
+    $adapterOriginal = [IO.File]::ReadAllBytes($adapterFixture)
+    $adapterText = [Text.Encoding]::UTF8.GetString($adapterOriginal)
+    try {
+        $script:repoRoot = $skillTreeFixture
+        foreach ($indent in @('  ', '    ')) {
+            $variant = [regex]::Replace($adapterText, '(?m)^ +- (?=CHAT|CODEX)', $indent + '- ')
+            [IO.File]::WriteAllText($adapterFixture, $variant, (New-Object Text.UTF8Encoding($false)))
+            $failures.Clear(); Test-SkillTree $profiles
+            if ($failures.Count -ne 0) { throw 'Valid YAML product sequence was rejected' }
+        }
+        foreach ($invalid in @('"true"', '"false"', '"0"', '"1"')) {
+            $variant = $adapterText.Replace('allow_implicit_invocation: true', 'allow_implicit_invocation: ' + $invalid)
+            [IO.File]::WriteAllText($adapterFixture, $variant, (New-Object Text.UTF8Encoding($false)))
+            $failures.Clear(); Test-SkillTree $profiles
+            if ($failures.Count -ne 1) { throw 'String-typed invocation Boolean was not rejected' }
+        }
+        Write-Host 'PASS: valid YAML product indentation and strict invocation Booleans' -ForegroundColor Green
+    } finally {
+        [IO.File]::WriteAllBytes($adapterFixture, $adapterOriginal)
+        $script:repoRoot = $originalRepoRoot
+        $failures.Clear()
+    }
     foreach ($relative in @('skills/architecture/SKILL.md', 'skills/architecture/agents/openai.yaml')) {
         $path = Join-Path $skillTreeFixture $relative
         $original = [IO.File]::ReadAllBytes($path)

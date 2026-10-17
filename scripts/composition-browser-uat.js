@@ -1,7 +1,7 @@
 // Run inside OMP JavaScript Eval, where the real browser helper is available.
 // Positive replay: await compositionBrowserUat(false)
 // Broken-state control: await compositionBrowserUat(true) must reject.
-async function compositionBrowserUat(broken = false, app = undefined) {
+async function compositionBrowserUat(broken = false, app = {}) {
   const page = `<!doctype html><html lang="en"><meta charset="utf-8">
 <title>Composition UAT fixture</title><h1>Working slice</h1>
 <form><label for="task">Task</label><input id="task" required>
@@ -17,8 +17,9 @@ document.querySelector('#reset').onclick = () => {
   document.querySelector('#result').textContent = 'No task saved';
 };
 </script></html>`;
-  const tab = await browser.open({name: 'composition-uat', url: 'data:text/html,' + encodeURIComponent(page), headed: false, app});
+  const tab = await browser.open({name: 'composition-uat', url: 'about:blank', headed: false, app});
   try {
+    await tab.run(async ({page}, html) => { await page.setContent(html); }, {args: [page]});
     const start = await tab.observe();
     if (await tab.text('#result') !== 'No task saved' || await tab.value('#task') !== '') {
       throw new Error('UAT_START_FAILED');

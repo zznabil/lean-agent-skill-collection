@@ -1,8 +1,8 @@
 # Supply-chain assurance
 
-Use **SLSA** to support provenance claims. Use **SPDX or CycloneDX** for inventory. Use **Reproducible Builds** for independent byte-level recreation. Each answers a different question. None alone proves correctness or security.
+Load this reference for a public, security-sensitive, distributed or regulated release, or when the user requests provenance, an SBOM, signing or reproducibility.
 
-Load this resource only for a public, security-sensitive, distributed, or regulated release, or when the user explicitly requests provenance, an SBOM, signing, or reproducibility.
+Use **SLSA** for provenance, **SPDX or CycloneDX** for inventory and **Reproducible Builds** for independent byte-level recreation. Each answers a different question. None alone proves correctness or security.
 
 ## Questions and evidence
 
@@ -34,7 +34,7 @@ Define the source, build instructions, dependency resolution, environment, and e
 
 ## Signing and publication
 
-Signing, tagging, uploading, attesting, and changing a release channel are consequential external actions. They require authorization. After publication, verify the final remote asset, digest, signature or attestation, version, and release notes. Protect signing keys. Do not expose secrets in logs or artifacts.
+Signing, tagging, uploading, attesting and changing release channels require authorisation as consequential external actions. After publication, verify the final remote asset, digest, signature or attestation, version and release notes. Protect signing keys; never expose secrets in logs or artefacts.
 
 ## Stop conditions
 

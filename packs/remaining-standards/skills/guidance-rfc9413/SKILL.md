@@ -5,19 +5,24 @@ description: "Maintain protocol clarity instead of hidden tolerance."
 # RFC 9413 protocol robustness
 
 ## Communication kernel
-- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If trusted root `AGENTS.md` loads, its policy governs this skill. Skill-specific rules refine the kernel. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short, active technical sentences. State the main point first and use familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate procedures, reference and explanation when useful. Keep simple replies short.
-- For normative requirements, preserve force. Use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY. Identify one actor, action and observable verification target for each requirement.
-- For critical or risky work, place warnings before hazards. Place hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work. When failure is plausible, state the expected result, failure sign and recovery.
-- For difficult mechanisms, explain from simple foundations. Contrast noncompliant and compliant code or configuration when useful. For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful. Add contrast or TL;DR only when helpful.
-- Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Report observed results. Missing or stale evidence is not success.
-- These execution rules do not transfer legal or organisational authority from other frameworks. Use domain standards only when the task requires them; they are not default communication drivers.
-- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
+- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim root activation without evidence.
+- Use ASD-STE100-inspired short, active sentences, direct verbs and familiar, concrete words. Use ISO 704-inspired stable terms for distinct concepts.
+- Use Diátaxis to separate tutorial, how-to, reference and explanation when useful. Do not force sections into short replies.
+- Lead with the answer, result or next action. Omit routine Summary headings. Use TL;DR only when helpful for complex material, first, without a closing recap. Preserve requested detail and format.
+- Preserve actors, facts, negation, conditions, exceptions, permissions, requirement force, safety, source scope and evidence limits.
+- These drivers do not establish formal conformance or transfer legal or organisational authority. Apply other domain standards only when the task requires them.
+
+## Execution controls
+- For normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Specify one actor, action and observable verification target.
+- For critical or risky work, place warnings before hazards and hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work.
+- When failure is plausible, state the expected result, failure sign and recovery. Keep prerequisites and ordered steps clear; use WARNING and PAUSE/VERIFY labels when useful.
+- Explain difficult mechanisms from simple foundations. Contrast noncompliant and compliant code or configuration when useful.
+- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable. Report observed results, not assumed success.
 
 ## Task scope and permissions
 - Review a parser or protocol change when tolerance, ambiguity or interoperability affects maintenance.
 - This guidance does not require universal rejection of extension fields.
-- Limit work to the selected artifact or assessment. This routine grants no permission to run attacks, deploy, publish or change policy.
+- Limit work to the selected artefact or assessment. This routine grants no permission to run attacks, deploy, publish or change policy.
 
 ## Source and assessment limits
 - Read [SOURCES.md](SOURCES.md). Identify the source, applicable edition or part, available originals, access limits and copying terms.
@@ -40,12 +45,10 @@ description: "Maintain protocol clarity instead of hidden tolerance."
 - **Worked check (illustrative, not executed):** A parser silently accepts two contradictory spellings of a field without a documented compatibility need.
 - **Expected:** Identify the ambiguity and define explicit compatibility or rejection behaviour from the maintained contract.
 - **If blocked:** If the protocol owner or normative unknown-field rule is unavailable, stop the affected assessment or action. Record the missing prerequisite and request it from the responsible owner. Continue only independent, authorised work.
-- Keep facts, identifiers, links, required checks, permissions, negation, exceptions and failure/recovery paths intact.
-- Distinguish planned work, actual evidence and unknown results. Missing or stale evidence is not a pass.
-- Do not remove requirements to improve a score or meet the line budget. Record unresolved source or task conflicts.
-- Use the smallest check that can detect the relevant defect. A schema, linter or inventory alone does not prove task success.
+- Keep planned work, observed evidence and unknown results separate. Missing or stale evidence is not a pass.
+- Do not remove requirements for a score or line budget. Record unresolved source or task conflicts.
+- Use the smallest check that detects the relevant defect. A schema, linter or inventory alone does not prove task success.
 
-## Completion and stopping rules
-- Return the scoped result, evidence, unresolved requirements and next permitted action.
-- Make one correction pass. Recheck the affected evidence. If a required issue remains, report it. Do not loop or claim completion.
-- Identify the checked scope, source edition, evidence and limits. Do not claim formal conformance or model-behaviour improvement from this routine.
+## Finish and stop
+- Make one correction pass and recheck affected evidence. If a required issue remains, report it; do not loop or claim completion.
+- Return the scoped result, source edition, evidence, limits, unresolved requirements and next permitted action. Do not claim formal conformance or model-behaviour improvement from this routine.

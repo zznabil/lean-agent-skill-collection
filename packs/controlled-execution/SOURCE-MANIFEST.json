@@ -16,12 +16,12 @@
       ],
       "mechanism": "Statement type, atomic obligation, objective verification, and informative-note boundary.",
       "overlap_boundary": "Uses BCP 14 as Lean's output dialect; it does not replace the BCP 14 skill.",
-      "skill_sha256": "d94413d9adf0efd754a8e83c47c9c885487f5f7c87f78f05fda46a284bca51a7",
+      "skill_sha256": "42d87e3d2dd1a0daac92c8bb553b3f7658ab62707e7002c2c6c9c12f17bf600d",
       "sources_sha256": "20fcc16ab4663d6e3d1d438839b9f81706f277cdbeb5b5bd0a467c95a45b85c1",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 51,
+      "skill_lines": 46,
       "sources_lines": 30
     },
     {
@@ -37,12 +37,12 @@
       ],
       "mechanism": "Accountable actor, atomic action, timing, evidence, verifier, and acceptance gate.",
       "overlap_boundary": "Generalises a requirement-quality mechanism; it does not represent NASA governance outside NASA.",
-      "skill_sha256": "13f4bc75ffbada5be76e6764f41fbec75abc816f549594d03f027135f4f1be1e",
+      "skill_sha256": "fc00e01b94e03ac06d544279c17cb0da5f14b56b1d88d664bb89481e1626ccda",
       "sources_sha256": "345bb861703bfaf6c578e74ef09db317c611abd2f33d58081192441c394f8625",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 43,
+      "skill_lines": 44,
       "sources_lines": 26
     },
     {
@@ -58,12 +58,12 @@
       ],
       "mechanism": "Rule, explanation, noncompliant example, compliant solution, bounded exceptions, and residual-risk warning.",
       "overlap_boundary": "Applies CERT's contrastive structure without claiming generic CERT compliance.",
-      "skill_sha256": "66941c21da7e6d0304416687ceb0c9817cf55a23b1d2fedd89e0b7b7e8dcd50d",
+      "skill_sha256": "643be1310fc624f4051c7c3200f76d61b989aaa056d33aa295d077e7d455f301",
       "sources_sha256": "eb74e8222fc1fac07f947c7be5717751fd1c92a3f61705098b0dfead84347b0f",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 45,
+      "skill_lines": 44,
       "sources_lines": 26
     },
     {
@@ -78,12 +78,12 @@
       ],
       "mechanism": "Task analysis, foreseeable use error, cause, consequence, prevention, detection, and recovery with a control hierarchy.",
       "overlap_boundary": "Generalises a risk-analysis pattern; medical-device application still requires the complete FDA guidance and qualified work.",
-      "skill_sha256": "bfc440074c7f695b241be6129de23a4a12c257eb01ff3d3b335ac35951a5c143",
+      "skill_sha256": "42081648569dccff175a50f9f9b6e8d4e94d0ae0c7fe0030dcbe8a59e7814485",
       "sources_sha256": "0eba5fdb0f238064eb473a8c8a4afd68fbc90f6836a925a519a96d7499939e91",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 52,
+      "skill_lines": 48,
       "sources_lines": 25
     },
     {
@@ -98,12 +98,12 @@
       ],
       "mechanism": "Ordered state change, securing, verification, hold point, work, restoration, and verification of restoration.",
       "overlap_boundary": "Extracts a state-machine pattern; it is not a substitute for the legal lockout/tagout procedure.",
-      "skill_sha256": "ed7a6890d68c49842ca18d03da7ce245589367388b2d06195dd5f76e9441eebf",
+      "skill_sha256": "6b8fd044adca58aa825bcbfc6bae2ec4396dd91d6e5eb052fd2df2c693365928",
       "sources_sha256": "d7c466c8de6092d1ef94a467fe5814f6d9bb4ab04c22ced797df16b13e720061",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 48,
+      "skill_lines": 43,
       "sources_lines": 25
     },
     {
@@ -118,12 +118,12 @@
       ],
       "mechanism": "Small confirmation checklist, named coordinator, and stop gate at a high-cost phase transition.",
       "overlap_boundary": "Extracts a checklist mechanism; it is not a surgical checklist or clinical protocol.",
-      "skill_sha256": "5579a79e6ca66b5b8b774b5b2bcb9ad33646c21ecea9704b3be8defe0be902c8",
+      "skill_sha256": "1948e4a5376b4d0dbcbfa12d02927f97fae6a9d78c5140c82065a2b5885156aa",
       "sources_sha256": "4d11836f8a53f93a86111b689cf6febbc9cc9369df49dd62fd19c25ec6568aaa",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 51,
+      "skill_lines": 47,
       "sources_lines": 25
     },
     {
@@ -139,12 +139,12 @@
       ],
       "mechanism": "Hazard, consequence, avoidance, timing, placement, prominence, and digital-state delivery.",
       "overlap_boundary": "Derived guidance only; the licensed ANSI texts are not bundled or reproduced.",
-      "skill_sha256": "b2dbe4376d27e26f4d96226dea13e611fe9ad275774f8297635d908d0cd6e9b6",
+      "skill_sha256": "dc5380aa7afaf60aa7d8bf273a8afe5486e86241382d7681123066ee30f91802",
       "sources_sha256": "caa67c4a452b82f7c5cc0b9069a3bdfe317dbcd1157d70b7799e3e3e05d7c397",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 43,
+      "skill_lines": 42,
       "sources_lines": 30
     },
     {
@@ -160,12 +160,12 @@
       ],
       "mechanism": "Safe task design, prerequisite control, correctly placed warning, observable result, and recovery.",
       "overlap_boundary": "Optional technical-procedure overlay; it does not make ordinary instructions a military technical manual.",
-      "skill_sha256": "ec9b00ce836db38d6fcb616f1b118c2794c52518b1788ed2e13052d1320d51a5",
+      "skill_sha256": "2c32ae7954184afdba422b2eeb67f33ad45e20aee01a6759f3d56bbe0e2c2e36",
       "sources_sha256": "d577468e68b39c5bf247fa55ee6e36b36017481ebb105b8b9bf6c30aa0870536",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 47,
+      "skill_lines": 46,
       "sources_lines": 30
     },
     {
@@ -181,12 +181,12 @@
       ],
       "mechanism": "Version-qualified identifier, applicability, evidence, result status, and traceable recheck.",
       "overlap_boundary": "Extracts the traceability mechanism; PR #17 contains the broader ASVS assessment routine.",
-      "skill_sha256": "210168e5298c3ee0ae5e4406661a46b91e1a488e748ebf7ec98424c54230302e",
+      "skill_sha256": "11a9e998da90458c244b6534abaf53c607b2be4ced6a6c3d8f97f04e69cbc6cf",
       "sources_sha256": "e50596b2230b8595fb795d5bf6571f25b09688f7d228092df4e4d4c309979dba",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 39,
+      "skill_lines": 40,
       "sources_lines": 30
     },
     {
@@ -202,12 +202,12 @@
       ],
       "mechanism": "Practice, task, notional implementation example, reference, chosen implementation, and evidence.",
       "overlap_boundary": "Extracts the notional-example distinction; PR #17 contains the broader SSDF routine.",
-      "skill_sha256": "7a046ff1fc7f4b0ffbb64e0b7496d2fa26a73345ec848693b70468d070af4cfd",
+      "skill_sha256": "4e74d6aa84013fa30eb3f27ff95ac5c5ca86857c404e658d093ee6a9a020e482",
       "sources_sha256": "1c614a338e40863e7ff39e457bb297a99ec506986efdd50370a43aafe2ce1011",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 46,
+      "skill_lines": 44,
       "sources_lines": 30
     },
     {
@@ -222,12 +222,12 @@
       ],
       "mechanism": "Numbered imperative steps, location before action, input-neutral verbs, completion action, and expected result.",
       "overlap_boundary": "Thin rendering profile; existing Lean documentation and accessibility requirements remain authoritative.",
-      "skill_sha256": "c02d71a6819f04efc358a8f97d48fb65d5211710954835d1c458dcc046dbe19f",
+      "skill_sha256": "617bb6f1c905fc6f4cdd77317a67f1bb8205c8a076bd4c1757cf12083604f761",
       "sources_sha256": "610fa22dae8a15a389a18043397d9080f5b459d5880f893dfca11f810b663e41",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 42,
+      "skill_lines": 43,
       "sources_lines": 25
     },
     {
@@ -242,12 +242,12 @@
       ],
       "mechanism": "Prerequisites before procedure and action-bearing steps ordered as optionality, reason/result, location, and action.",
       "overlap_boundary": "Thin structure profile; it does not replace the broader writing or documentation skills.",
-      "skill_sha256": "6a03af700f905e353a762e52f839502d8599acb59b4ee13817bfcb2420b441bd",
+      "skill_sha256": "d9b0fd54870b725705550ddcc709d906337dcac4411c8fd1d0914aa16540f133",
       "sources_sha256": "c665fe1a06614312e2c91735dca13f61a554c07425a4894edaf70c3429f2c3fb",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 41,
+      "skill_lines": 42,
       "sources_lines": 25
     },
     {
@@ -263,12 +263,12 @@
       ],
       "mechanism": "One bounded information job, stable identity, declared dependencies, independent reuse, and controlled versioning.",
       "overlap_boundary": "Borrows modular architecture without claiming an S1000D publication, data module, or common-source database.",
-      "skill_sha256": "9be7eae670bdb46289cba7688e5621c76aa8b89e3e45ce4426c236b467cd110d",
+      "skill_sha256": "d5f20324143a6205d634856609d4775034ced13e699fcabbaecbcaf66bbfd6ed",
       "sources_sha256": "fc9671188ea1fbd4a63bd2f93f9da1f7ede82f73abd300f6e5b6a1f6b4695fe1",
       "bundled_files": [],
       "formal_conformance_claimed": false,
       "behavioural_evaluation": "not_run",
-      "skill_lines": 43,
+      "skill_lines": 41,
       "sources_lines": 26
     }
   ],

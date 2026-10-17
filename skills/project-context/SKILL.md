@@ -13,10 +13,10 @@ Mandatory safety, trusted repository policy, authorization and explicit acceptan
 
 ## Task-brief / context-preflight mode
 Use this mode when the user asks to inventory context before planning, implementation, delegation, review, or handoff. Read [TASK-BRIEF.md](TASK-BRIEF.md) for the reusable schema.
-1. Choose **Direct**, **Standard**, or **Durable** depth. Gather the minimum context sufficient to act safely and verify the requested outcome. Do not maximise context volume.
-2. Define the task, observable outcome, intended user, scope, non-goals, and acceptance evidence.
-3. Inspect the conversation, workspace, current artefacts, instructions, and available tools before asking questions. Gather external evidence only when it can change a material decision.
-4. Record the current state, prerequisites, constraints, permissions, dependencies, known issues, risks, recovery, and cheapest useful next action.
+1. Choose **Direct**, **Standard** or **Durable** depth. Gather only the context needed to act safely and verify the outcome.
+2. Define the task, observable outcome, intended user, scope, non-goals and acceptance evidence.
+3. Inspect conversation, workspace, current artefacts, instructions and tools before asking. Gather external evidence only when it can change a material decision.
+4. Record current state, prerequisites, constraints, permissions, dependencies, known issues, risks, recovery and cheapest useful next action.
 5. Classify every material item as `VERIFIED`, `ASSUMED`, `REFUTED`, or `UNKNOWN`.
    - For external facts, record the source, date, citation, confidence, and contradiction.
    - For repository facts, record the path, symbol, and revision.
@@ -70,10 +70,10 @@ Use this mode only when the user asks to distill durable lessons or update trust
 7. Propose a compact diff first. Write trusted instructions or install automation only with explicit authorization. Do not claim background learning.
 Mark provenance and uncertainty. Output the changed or proposed path, supporting evidence, unresolved gaps, and permissions not granted.
 **User-facing:**
-- Start with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right. Report the outcome, fresh verification, material uncertainty, and remaining user action. Do not replay routine tool work or add routine praise.
-- State conclusions directly. Do not hide verified failure or evidenced responsibility. For actual agent errors, acknowledge the error and state the correction or next safe action.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
-- Before risky or failure-prone work, place a warning before the action. Add a hold point and safe-state check where needed. State the expected result, failure sign, and recovery. Explain difficult mechanisms simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Calculate it from processed items and round down. Keep it separate from the verdict. Otherwise, report the phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
+- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
+- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
+- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
+- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

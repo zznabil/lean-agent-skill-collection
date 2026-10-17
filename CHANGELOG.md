@@ -1,5 +1,20 @@
 # Changelog
 
+## 8.20.0 — 2026-10-17
+
+- Lead with the answer and use the shortest complete response. Remove routine Summary headings and closing recaps; place a helpful TL;DR first.
+- Refactor authored skill instructions and standalone fallbacks. Preserve task contracts, requested depth, permissions, safety, evidence, routing and source rights.
+- Retain accessible Writing: familiar language, manageable actions, exact labels, respectful adult instructions and expert detail when requested.
+- Calibrate observable response behaviour rather than pinning instruction wording. Keep live model evidence separate from structural and intended-user claims.
+- Accept equivalent YAML list layouts without accepting string Booleans. Reject contradictory safety answers and preserve semantic variants in evaluator controls.
+- Supply package policy explicitly during isolated live comparisons. Keep standalone composition runs free of root policy and ambient rules. Repair browser-fixture initialization and verify replay, reset and broken-state rejection.
+- Handle transient Windows evaluation workspace locks without suppressing persistent sharing violations or other permission errors.
+- State the decision checker's verdict/state pairs and scenario-only action scope in live prompts. Keep the existing acceptance criteria.
+- Accept complete `skill://name/SKILL.md` reads without relaxing source-byte or read-order checks. Reject wrong companion paths and corrupted or partial reads.
+- Distinguish evaluation acceptance labels from runtime lifecycle states. Preserve blocked acceptance even when safe prerequisite actions remain available.
+- Use an explicit decision-only base prompt for composition trials. Record that prompt and the runner hash without claiming full host-context isolation.
+- Remove contradictory decision-prompt instructions. Require current blocker remedies, exclude blocked downstream execution, and retain explicit authorization deferrals without changing the oracle. Do not carry closed execution forward as pending work.
+
 ## 8.19.1 — 2026-10-13
 
 - Record tested revisions, replay commands, evidence links and unverified coverage in pull requests. Preserve the existing permission and licence statements.

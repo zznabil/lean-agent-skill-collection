@@ -5,8 +5,8 @@ description: "Trace accessibility needs into requirements and evidence."
 # ISO/IEC 29138-4: apply accessibility needs
 
 ## Use
-- After identifying needs, trace them through requirements, design and evaluation. Deliver a map linked to evidence. Do not label a table complete based on its row count.
-- Draft, edit or review as requested. First read the needs map, task and authorised scope.
+- Trace identified needs through requirements, design and evaluation. Deliver an evidence-linked map. Row counts alone do not establish completeness.
+- Read the needs map, task and authorised scope before drafting, editing or reviewing.
 
 ## Source and scope
 - Use ISO/IEC 29138-4:2026 as the target edition. See SOURCES.md for official access and source status.
@@ -16,7 +16,7 @@ description: "Trace accessibility needs into requirements and evidence."
 
 ## Procedure
 1. Read the current needs map, task context, stakeholder evidence and applicable project requirements.
-2. For each in-scope need, record an observed or credible barrier. Record an explicit requirement that addresses the barrier.
+2. Record each in-scope need’s observed or credible barrier and an explicit requirement that addresses it.
 3. Link the requirement to the proposed design response. Do not treat that response as the original need.
 4. Specify an observable task outcome. Specify test conditions that would show whether the barrier remains.
 5. Record traceability from the need to the barrier, requirement, implementation and evaluation evidence.
@@ -34,23 +34,29 @@ description: "Trace accessibility needs into requirements and evidence."
 ## Verify and deliver
 - Check the actual task and a relevant failure or recovery path. Use evidence from intended users when available.
 - Distinguish source-verified clause findings, Lean design suggestions and unchecked items.
-- Return the artifact or scoped findings first. State material limits and the evidence needed to resolve them.
-- Do not claim formal conformance based on this short procedure, a readability score or a review plan that has not been executed.
+- Return the artefact or scoped findings first. State material limits and the evidence needed to resolve them.
+- Do not claim formal conformance from this procedure, a readability score or an unexecuted review plan.
 
 ## Worked distinction
 A design ticket states "accessibility done" but provides no evidence for the original need.
 Keep that need unresolved until someone verifies the named outcome or the authorised scope explicitly changes.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` loads, it governs. Do not claim root activation without evidence. Run this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the supported result and next action.
-- Use ISO 704-inspired stable concepts and terminology. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Never describe an unchecked result as compliant or complete.
-- Use Diátaxis purpose separation when helpful. Keep how-to guidance, reference and explanation distinct. Do not force examples or sections on simple tasks.
-
-## Conditional execution rules
-- When editing normative text, retain BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, identify one actor, an action and an observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, use a hold point and check the safe state. When failure is plausible, give the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Report the PASS/FAIL/BLOCKED verdict separately. Count a failed, blocked, skipped or untested item only after you classify it with evidence. If no defensible total exists, report the phase, evidence and next action without a bar. This does not invoke manual wait-what.
-- For a difficult mechanism, explain it from foundations. For code or configuration, contrast compliant and noncompliant forms only when useful.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

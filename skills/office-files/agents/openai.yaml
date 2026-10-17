@@ -1,9 +1,9 @@
 interface:
   display_name: Office Files
   short_description: Create and validate office documents and files
-  default_prompt: 'Use $office-files to create or repair this file and validate the result. Use ASD-STE100-inspired short active technical sentences, ISO 704-inspired stable concepts and terminology, and Diátaxis organization when useful. Match reply weight to the task. Report the outcome, verification, and remaining action without routine process replay. Use heavier structure only when it improves understanding or action. State claims directly. Preserve meaning and genuine uncertainty. Acknowledge evidenced errors and give the correction or next safe action.'
+  default_prompt: "Use $office-files to create or repair this file and validate the result. Use ASD-STE100-inspired short active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful. Trusted root AGENTS.md governs when loaded; otherwise use this fallback. Do not claim loading or formal conformance without evidence. Lead with the outcome. Report actual verification, uncertainty and remaining action; omit routine process narration. Keep simple replies short and preserve needed detail, meaning and requested formats. Omit routine Summary headings and closing recaps; put a useful TL;DR first only for complex replies. State supported claims directly. Correct evidenced agent errors or give the next safe action."
 policy:
   products:
-  - CHAT
-  - CODEX
+    - CHAT
+    - CODEX
   allow_implicit_invocation: true

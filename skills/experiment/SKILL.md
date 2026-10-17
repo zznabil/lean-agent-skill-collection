@@ -14,10 +14,10 @@ Apply **Goal–Question–Metric (GQM)** to experiments. Start with the decision
 - Apply the **Principles of Chaos Engineering** only to authorized resilience experiments. These experiments must have a steady state, abort conditions, and a controlled blast radius.
 Choose **product** for an A/B or behavior test. Choose **engineering** for performance, reliability, or implementation comparisons.
 ## Experiment procedure
-1. **Define the decision and hypothesis.** State the decision goal. Derive questions that settle the decision. Select decision-relevant metrics. Record workload, intervention, control, mechanism, and a falsifiable hypothesis.
-2. **Check existing evidence.** Before using a new live intervention, test the hypothesis against existing logs, traces, tests, diffs, historical outputs, or prior runs. Use a new probe only for uncertainty that the record cannot settle.
-3. **Build a disposable separating test.** When an executable artifact is the cheapest separating test, build a disposable prototype. Give it one question, one observable signal, a time box, and explicit limits on what it proves. Keep it out of production until a separate review occurs.
-4. **Define the expected result and abort.** Before a costly, irreversible, externally visible, or multi-step intervention, warn about the relevant risk. Verify the safe starting state. State the observable expected result, failure sign, and recovery. Pause for required authorization. At the first material mismatch, stop dependent steps and preserve the counterexample.
+1. **Decision and hypothesis.** State the decision goal, questions and decision-relevant metrics. Record workload, intervention, control, mechanism and a falsifiable hypothesis.
+2. **Existing evidence.** Test the hypothesis against logs, traces, tests, diffs, historical outputs or prior runs. Use a new live probe only for uncertainty those records cannot settle.
+3. **Disposable separating test.** Build a disposable prototype when execution is the cheapest way to distinguish alternatives. Give it one question, observable signal, time box and evidence limits. Keep it out of production pending separate review.
+4. **Expected result and abort.** Before costly, irreversible, external or multi-step interventions, warn about risk and verify the safe starting state. State the expected result, failure sign and recovery. Pause for required authorisation. At the first material mismatch, stop dependent steps and preserve the counterexample.
 5. **Define outcomes and guardrails.** Select one primary outcome and a few correctness or safety guardrails. Define practical significance before you see results.
 6. **Control the comparison.** Keep environment, data, build, warm-up, and measurement method constant unless one is the tested variable.
    - For product work, define assignment, randomization, exclusions, exposure, contamination, and the measurement window.
@@ -32,10 +32,10 @@ Choose **product** for an A/B or behavior test. Choose **engineering** for perfo
 11. **Set resilience limits.** For resilience work, define steady state, fault, abort conditions, and blast radius. Production fault injection requires authorization and rollback.
 Do not launch while tracking, assignment, ethics, privacy, rollback, or correctness remains unresolved. Do not describe exploratory segments, source guesses, or simulated predictions as measured real-world results.
 ## Reporting and execution rules
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right. Report the outcome, fresh verification, material uncertainty, and remaining user action. Do not narrate routine tool use or add praise.
-- State conclusions directly. Do not hide verified failure or evidenced responsibility. Acknowledge actual agent errors and give a correction or next safe action.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats. Do not claim formal standards conformance from stylistic guidance.
-- Use BCP 14 only to express normative force. For important requirements, name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
-- Before risky or failure-prone work, warn before the action. Add a hold point and check the safe state where needed. State the expected result, failure sign, and recovery. Explain difficult mechanisms simply. Contrast noncompliant and compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress. Calculate it from processed items and round down. Keep progress separate from the verdict. Otherwise report phase and evidence without a bar. Processed does not mean passed.
-- Avoid unexpected scope changes. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or when helpful for substantial chat. Each must add distinct value.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
+- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
+- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats. Style does not prove formal conformance.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
+- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
+- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "model": "openai-codex/gpt-6.1-sol",
-  "scope": "Decision behavior only. Expected fields are evaluator fixtures, not production role metadata. Browser interaction and repeatable UAT execution require separate coordinator evidence. Dependency, portability and asset drift coverage remain with existing repository validators. Temporal cases classify supplied decisions only; they do not prove cancellation propagation, late-child runtime enforcement or external-effect readback execution. Live baseline and candidate runs for the added audit cases are NOT_RUN.",
+  "scope": "Decision behavior only. Expected fields are evaluator fixtures, not production role metadata. Browser interaction and repeatable UAT execution require separate coordinator evidence. Dependency, portability and asset drift coverage remain with existing repository validators. Temporal cases classify supplied decisions only; they do not prove cancellation propagation, late-child runtime enforcement or external-effect readback execution.",
   "cases": [
     {
       "id": "A",

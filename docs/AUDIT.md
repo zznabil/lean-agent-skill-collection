@@ -1,3 +1,21 @@
+# V8.20.0 concise and complete communication acceptance
+
+Refactor all 134 source skills, their authored companions, root policies, standalone fallbacks and 24 adapters. Keep the 24 base routes, 27 integrated routines, six profiles and source-only boundaries. Preserve task contracts, permissions, safety, exact syntax, evidence, source records and publisher bytes.
+
+Require fewer than 100 lines per source skill. Validate each extracted profile and pack, including standalone policy and source access limits. Run fresh integrity, installer, rejection, reproducibility, prose-preservation and full-corpus Vale gates on both PowerShell hosts. Sentence warnings remain advisory; terminology errors block.
+
+Run `python -B scripts/evaluate-communications.py --package artifacts/<build>/user-facing-communication-mini-openai-v8.20.0.zip --out artifacts/<fresh-evaluation>` for 21 scenarios. Use the same frozen corpus, model and options for baseline and candidate trials. Inspect every failed answer before classifying an instruction, model or oracle defect. Keep failed outcomes in the evidence.
+
+The runner uses an external temporary workspace and disables unrelated host rules and extensions without changing host settings. It records prompts, commands, model, source snapshots, traces and output word counts. Saved temporary source paths expire. Source-line coverage is not byte attestation, model obedience or intended-user comprehension.
+
+The runner supplies the extracted package's exact AGENTS.md through `--append-system-prompt`. It saves that policy beside the traces. `--no-rules` must not silently remove the package policy from the comparison. Separate standalone checks omit root policy and verify skill loading.
+
+Calibrate semantic variants and broken counterparts. Required safety, permission, missing-evidence and strict Boolean controls remain blocking. Length comparisons are valid only when the response still meets its task. Regex checks cover named regressions, not general semantic correctness. Intended-user Easy-to-Read verification remains unperformed.
+
+Require current PR CI and exact merged-main CI before tagging. Build fresh assets and download/hash every published attachment. Record actual commands, revisions, outcomes and untested coverage. These instructions grant no release pass. Earlier acceptance sections below are historical.
+
+---
+
 # V8.19.1 reproducible evidence and Vale acceptance
 
 Use the shared `scripts/vale-files.py` selector for CI and direct lint checks. Cover contributor instructions, companion prose, pack instructions and current release notes. Keep publisher copies, copied licences and historical releases outside the prose gate. Require terminology errors to fail, sentence warnings to remain advisory, and omitted-file controls to reject the known coverage gaps.

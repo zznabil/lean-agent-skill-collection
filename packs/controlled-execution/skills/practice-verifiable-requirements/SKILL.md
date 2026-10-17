@@ -5,18 +5,19 @@ description: "Write atomic requirements with accountable evidence."
 # Verifiable requirements
 
 ## Communication kernel
-- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If it loads, its policy governs this skill. Otherwise, you MUST apply this kernel independently. Skill-specific rules refine it. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the main point and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when helpful. Keep simple replies short. These are the only default communication drivers, not a claim of formal standards conformance.
-- When writing normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY. Preserve their force. State one actor, one action and one observable verification target.
-- For critical or risky work only, place warnings before hazards and hold points before critical or irreversible steps. Before destructive or hazardous work, verify the actual state. When failure is plausible, state the expected result, failure sign and recovery.
-- When explaining difficult mechanisms, start from simple foundations. When useful, contrast noncompliant and compliant code or configuration.
-- For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful. Add contrast or TL;DR only when helpful.
-- Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits. Report observed results. Missing or stale evidence does not establish success.
-- These execution rules do not transfer ANSI, WHO, OSHA, FDA or NASA legal or organisational authority. Use other domain standards only when the task requires them; they are not default communication drivers.
-- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
+- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim activation without evidence.
+- Use ASD-STE100-inspired short, active sentences and concrete words. Lead with the answer or action. Keep simple replies short.
+- Use ISO 704-inspired stable terms. Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits.
+- Use Diátaxis to separate information types when useful, not to force headings. Do not require an opening Summary or closing recap. Optional TL;DR belongs first.
+- For normative requirements, use BCP 14 (RFC 2119/8174) MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Name one actor, action and observable verification target.
+- For risky work, place warnings before hazards and hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work.
+- When failure is plausible, give the expected result, failure sign and recovery. Explain difficult mechanisms from simple foundations; contrast code or configuration when useful.
+- For critical procedures, include needed prerequisites, warnings, steps, verification, results and recovery without a fixed section template.
+- Report observed results; missing or stale evidence is not success. Where applicable, show measurable multi-step progress with a truthful named 20-cell ASCII format.
+- These practices imply neither formal conformance nor ANSI, WHO, OSHA, FDA or NASA authority. Apply other domain standards only when the task requires them.
 
 ## Purpose and boundary
-Use this routine when a director, worker, reviewer or system must demonstrate completion. Produce one independently testable obligation at a time. Do not substitute an unverifiable broad responsibility. The routine generalises a requirement-quality mechanism from NASA NPR 1400.1I. It does not make a generic workflow a NASA requirement.
+Use this routine when a director, worker, reviewer or system must demonstrate completion. Write independently testable obligations, not broad, unverifiable responsibilities. This generalises NASA NPR 1400.1I's requirement-quality mechanism; it does not make generic workflows NASA requirements.
 
 ## Requirement record
 For each requirement, record `ID`, `ACTOR`, `TRIGGER / TIMING`, `REQUIRED ACTION OR INFORMATION`, `EXPECTED RESULT`, `EVIDENCE`, `VERIFIER`, `HOLD POINT`, `FAILURE CONDITION` and `RECOVERY`. Record `EXCEPTION` only when authorised.
@@ -38,6 +39,6 @@ For each requirement, record `ID`, `ACTOR`, `TRIGGER / TIMING`, `REQUIRED ACTION
 - The director MUST NOT accept the task while a required test is failed or unrun.
 
 ## Verify and recover
-Link every completion claim to observed evidence. Hold acceptance if the actor, test method or threshold is missing. Also hold acceptance if required evidence failed or was not run. Correct the requirement or defect and rerun the check. Report verified, failed and unrun obligations separately.
+Link completion claims to observed evidence. Hold acceptance for a missing actor, test method or threshold, or failed or unrun required evidence. Correct the requirement or defect, then rerun. Report verified, failed and unrun obligations separately.
 
 For source details and access limits, see [SOURCES.md](SOURCES.md).

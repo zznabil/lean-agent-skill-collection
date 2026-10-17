@@ -10,24 +10,26 @@ For user-facing text, default to familiar language that does not assume technica
 
 ## Communication kernel
 
-Apply this kernel to this skill, its supporting resources and examples, generated text, and the surrounding reply. For agent instructions, treat the executing agent as the reader.
-
-1. **Language — ASD-STE100-inspired.** Use short, active sentences, direct verbs, and concrete words. Keep one main idea or action per sentence when practical. Preserve technical accuracy.
-2. **Terminology — ISO 704-inspired.** Use one preferred term for each concept within the text. Distinguish related concepts. Explain necessary unfamiliar terms near first use. Keep exact UI labels, commands, identifiers, and quoted text; explain them alongside.
-3. **Structure — Diátaxis.** Separate learning through a tutorial, completing a task through a how-to, looking up reference facts, and understanding an explanation when useful. Do not force these sections into a short answer.
-
-If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
-
-Other frameworks remain task-selected. Use specialised guidance when the task or user requires it.
+Apply this kernel to the skill, companions, examples, generated text and surrounding reply. For agent instructions, the executing agent is the reader.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
+1. **Language — ASD-STE100-inspired.** Use short, active sentences, direct verbs and concrete words. Keep one main idea or action per sentence when practical.
+2. **Terminology — ISO 704-inspired.** Use one preferred term per concept. Distinguish related concepts and explain necessary unfamiliar terms near first use.
+   Preserve exact labels, commands, identifiers and quotations; explain them alongside.
+3. **Structure — Diátaxis.** Separate tutorial, how-to, reference and explanation when useful; do not force categories into short answers.
+Lead with the answer or action. Use only necessary detail. Omit routine Summary headings and closing recaps.
+Use TL;DR only when it helps a long response, and place it first. These influences do not establish formal conformance; other frameworks remain task-selected.
 
 ## Draft or edit
 
-1. **Identify the need.** Establish the reader, task, intended result, available evidence, medium, and requested voice. Use supplied context before asking questions.
-2. **Make the point easy to find.** Lead with the supported answer, result, or next action when the requested form allows. Remove filler, generic praise, request restatement, repetition, and decorative complexity.
-3. **Make the meaning explicit.** Prefer familiar, literal wording. Resolve unclear pronouns, unexplained abbreviations, and hidden assumptions. Name who does what. Use an example when it makes a difficult idea easier to understand.
-4. **Make action manageable.** Use short paragraphs, descriptive headings, and lists when helpful. Number steps when order matters. Give each step one main action or a tightly coupled action group. Put prerequisites, warnings, costs, and irreversible effects before the affected action. State expected results and safe recovery when needed.
-5. **Reduce memory demands.** Keep information needed for the current decision nearby. Repeat a necessary condition rather than require recall. Keep essential steps visible; place optional explanation and expert detail after them without omitting requested depth.
-6. **Preserve the contract.** Keep facts, actors, negation, numbers, conditions, exceptions, permissions, requirement strength, uncertainty, evidence limits, quotations, and machine-sensitive text. Preserve required format and voice without weakening factual or safety-critical meaning. Do not expand scope.
+1. **Identify the need.** Establish the reader, task, result, evidence, medium and requested voice. Inspect supplied context before asking.
+2. **Expose the point.** Lead with the supported answer or action when the requested form allows. Remove filler, praise, request restatement and repetition.
+3. **Make meaning explicit.** Use familiar, literal words. Resolve unclear pronouns, abbreviations and assumptions. Name actors and actions; illustrate difficult ideas when helpful.
+4. **Make action manageable.** Use short paragraphs, useful headings and lists. Number ordered steps; give each one main action or tightly coupled group.
+   Put prerequisites, warnings, costs and irreversible effects before the action. Include needed expected results and safe recovery.
+5. **Reduce memory demands.** Keep decision information nearby. Repeat necessary conditions rather than require recall.
+   Keep essential steps visible; place optional explanation afterwards without omitting requested expert depth.
+6. **Preserve the contract.** Retain facts, actors, negation, numbers, conditions, exceptions, permissions, requirement strength, uncertainty, evidence limits, quotations and exact machine-sensitive text.
+   Preserve format and voice without weakening factual or safety-critical meaning. Do not expand scope.
 
 ## Check before delivery
 

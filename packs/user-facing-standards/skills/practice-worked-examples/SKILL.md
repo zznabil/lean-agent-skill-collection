@@ -5,7 +5,7 @@ description: "Teach a procedure with worked examples and explanation."
 # Worked examples and self-explanation
 
 ## Use
-- Use this skill when learners must understand and perform an unfamiliar procedure, not look up a single fact. Return a correct example and the next useful practice step.
+- Teach learners to understand and perform an unfamiliar procedure, not look up a fact. Return a correct example and the next useful practice step.
 - First identify the learning goal, prerequisite knowledge and difficult step.
 
 ## Source and scope
@@ -14,7 +14,7 @@ description: "Teach a procedure with worked examples and explanation."
 - Lean’s guided-to-independent sequence is an application choice. Select it from observed learner needs.
 
 ## Procedure
-1. Select a small example that represents the intended procedure. State its starting facts and goal.
+1. Select a small, representative procedure example. State its starting facts and goal.
 2. Show the steps in their valid order. Include each necessary condition or exception at its decision point.
 3. Explain why the key step works. Connect the operation to the relevant principle instead of repeating the command.
 4. When learner participation is part of the task, ask one focused self-explanation question about that step.
@@ -32,19 +32,28 @@ description: "Teach a procedure with worked examples and explanation."
 ## Verify and deliver
 - Use relevant task evidence to verify the example’s calculation, commands and result.
 - Separate example-following, guided performance and independent transfer.
-- Return the example and only the next useful exercise. State untested cases and misunderstandings explicitly.
+- Return the example and only the next useful exercise. Identify untested cases and misunderstandings.
 
 ## Worked distinction
 A learner copies the subnet mask from the example but cannot explain which bits changed.
 Target that step with an explanation and a related case instead of declaring mastery from the copied answer.
 
 ## Communication kernel
-If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. If root `AGENTS.md` is loaded, it governs. Do not claim root activation without evidence. Run this skill’s source-specific procedure only for its task, not for every reply.
-- Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis organization to separate how-to, reference and explanation when helpful. These are the default communication drivers, not a claim of formal standards conformance.
-- Start with the supported result and next action. Preserve facts, exact negation, actors, conditions, exceptions, rights, permissions, uncertainty, evidence and the requested format. Never call an unchecked result compliant or complete.
-- When text is normative, preserve BCP 14 MUST/SHOULD/MAY force and exceptions. For important requirements, name one actor, action and observable check.
-- Before a hazardous action, state the verified risk and give a warning. For critical steps, include a hold point and a safe-state check. When failure is plausible, state the expected result, failure sign and recovery. These rules do not replace task-specific controls.
-- For measurable multi-step work, use a named 20-cell ASCII bar (# processed, - remaining). Calculate the floor percentage from durable counts. Keep the PASS/FAIL/BLOCKED verdict separate. Count a failed, blocked, skipped or untested item only after you classify it with evidence. If no total is defensible, report the phase, evidence and next action without a bar. This rule does not invoke manual wait-what.
-- For a difficult mechanism, explain it from foundations. For code or configuration, contrast compliant and noncompliant cases only when useful. Do not force examples or sections on simple tasks.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Apply this skill’s source-specific procedure only to its task.
+- Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
+- Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.
+- Separate tutorial, how-to, reference and explanation with Diátaxis when helpful, not forced headings.
+- Lead with the answer or action, not a required Summary. Use TL;DR only first when helpful for complex material, without a repeated conclusion.
+- Keep simple answers short, not arbitrarily truncated. Match requested voice and format. Use British spelling except for sources, syntax or requested locale.
+- Preserve facts, quantities, negation, actors, conditions, exceptions, rights, permissions, uncertainty and evidence. Never claim unchecked compliance or completion.
+- Preserve normative BCP 14 MUST/SHOULD/MAY force and exceptions. Important requirements name one actor, action and observable check.
+- Before hazards, warn with verified risks. At critical steps, hold and verify the safe state. Retain task-specific controls.
+- When failure is plausible, give expected results, failure signs and recovery.
+- For measurable multi-step work, show a named 20-cell ASCII bar (# processed, - remaining), with floor percentage from durable counts.
+- Keep PASS/FAIL/BLOCKED separate. Classify failed, blocked, skipped or untested items with evidence before counting.
+- Without a defensible total, report phase, evidence and next action. This does not invoke manual wait-what.
+- Explain difficult mechanisms from foundations. Use compliant/noncompliant code or configuration contrasts only when useful.
+These inspirations do not establish formal standards conformance.
 
 See [SOURCES.md](SOURCES.md) for source editions, local files, official links and reuse limits.

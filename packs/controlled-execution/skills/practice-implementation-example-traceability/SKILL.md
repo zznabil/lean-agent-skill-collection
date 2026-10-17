@@ -5,21 +5,19 @@ description: "Separate required tasks from implementation examples."
 # Implementation-example traceability
 
 ## Communication kernel
-- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. If trusted root `AGENTS.md` loads, its policy governs this skill. Otherwise, you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short, active technical sentences. Lead with the main point and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference and explanation when useful. Keep simple replies short. These are inspired practices, not formal standards conformance.
-- Preserve actors, facts, negation, conditions, exceptions, permissions, requirement force, safety, source scope and evidence limits. Report observed results. Missing or stale evidence is not success.
-
-## Condition-triggered execution rules
-- For normative requirements, use BCP 14 (RFC 2119/8174) uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY. Preserve their force. State one actor, one action and an observable verification target.
-- For critical or risky work only, place warnings before hazards. Place hold points before critical or irreversible steps. Before destructive or hazardous work, verify the actual state.
-- When failure is plausible, state the expected result, failure sign and recovery.
-- For difficult mechanisms, explain from simple foundations. When useful for code or configuration tasks, contrast noncompliant and compliant forms.
-- For critical procedures, use Summary, Prerequisites, WARNING, Steps, PAUSE/VERIFY, Expected Result and Recovery where useful. Add contrast or TL;DR only when helpful.
-- For measurable multi-step agent work, use a truthful named 20-cell ASCII progress format when applicable.
-- These execution rules do not transfer legal or organisational authority from ANSI, WHO, OSHA, FDA or NASA. Use other domain standards only when the task requires them. They are not default communication drivers.
+- If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise you MUST apply this standalone kernel. Skill-specific rules refine it. Do not claim activation without evidence.
+- Use ASD-STE100-inspired short, active sentences and concrete words. Lead with the answer or action. Keep simple replies short.
+- Use ISO 704-inspired stable terms. Preserve actors, facts, negation, conditions, exceptions, permissions, safety, source scope and evidence limits.
+- Use Diátaxis to separate information types when useful, not to force headings. Do not require an opening Summary or closing recap. Optional TL;DR belongs first.
+- For normative requirements, use BCP 14 (RFC 2119/8174) MUST, MUST NOT, SHOULD, SHOULD NOT and MAY without changing force. Name one actor, action and observable verification target.
+- For risky work, place warnings before hazards and hold points before critical or irreversible steps. Verify actual state before destructive or hazardous work.
+- When failure is plausible, give the expected result, failure sign and recovery. Explain difficult mechanisms from simple foundations; contrast code or configuration when useful.
+- For critical procedures, include needed prerequisites, warnings, steps, verification, results and recovery without a fixed section template.
+- Report observed results; missing or stale evidence is not success. Where applicable, show measurable multi-step progress with a truthful named 20-cell ASCII format.
+- These practices imply neither formal conformance nor ANSI, WHO, OSHA, FDA or NASA authority. Apply other domain standards only when the task requires them.
 
 ## Purpose and boundary
-Use this routine when a framework names practices and tasks but gives non-exclusive implementation examples. Separate the required outcome from a possible implementation. A notional example is not a universal MUST. This routine does not constitute complete SSDF adoption or a NIST conformity assessment.
+Use this routine when a framework distinguishes practices and tasks from non-exclusive implementation examples. Separate required outcomes from possible implementations. A notional example is not a universal MUST. This is neither complete SSDF adoption nor a NIST conformity assessment.
 
 ## Traceability record
 Record `PRACTICE`, `TASK`, `REQUIRED OUTCOME`, `NOTIONAL EXAMPLE`, `CHOSEN IMPLEMENTATION`, `WHY IT FITS`, `EVIDENCE`, `REFERENCES` and `VERSION / STATUS`.
@@ -38,9 +36,9 @@ Record `PRACTICE`, `TASK`, `REQUIRED OUTCOME`, `NOTIONAL EXAMPLE`, `CHOSEN IMPLE
 
 **Chosen implementation:** A signed change pipeline with mandatory review and a different protected integration mechanism.
 
-The chosen implementation can satisfy the task if evidence supports the required outcome. The example does not automatically restrict the permitted design to that example.
+The implementation can satisfy the task if evidence supports the required outcome. The example alone does not restrict permitted designs.
 
 ## Verify and recover
-Trace every MUST to the task or local authority, not just to an example. If the source status or required outcome remains unresolved, hold the adoption claim. Record the missing decision. Return the practice-to-evidence map and justified alternatives.
+Trace every MUST to its task or local authority, not merely an example. Hold adoption claims if source status or required outcome is unresolved. Record the missing decision. Return the practice-to-evidence map and justified alternatives.
 
 For source details and access limits, see [SOURCES.md](SOURCES.md).

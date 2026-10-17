@@ -7,11 +7,11 @@ For testing tasks, apply **ISO/IEC/IEEE 29119-inspired verification traceability
 - Use **TDD** and the practical **test pyramid** in proportion to the task. Escalate from invariants and state tables to property/state-machine tests or **TLA+** only when state-space risk justifies it.
 - Seek minimum sufficient evidence. Use the fewest non-redundant checks that fully observe the claim and its material failure paths.
 ## Choose the signal
-1. Find the repository’s actual test framework, commands, fixtures, and conventions before you add another stack.
-2. Start with an observable requirement. Choose the cheapest boundary that proves it: unit for local logic, integration for real boundaries, and end-to-end only for critical journeys.
-   - Use one decisive check when it proves the whole claim. Combine equivalent checks instead of collecting green output that adds no evidence.
-3. In an established area with weak test coverage, write characterization tests before you refactor behavior.
-4. For a bug, first make a regression test fail for the reported behavior when practical.
+1. Inspect the repository's test framework, commands, fixtures and conventions before adding a stack.
+2. Start with an observable requirement. Choose the cheapest proving boundary: unit for local logic, integration for real boundaries, end-to-end for critical journeys.
+   - Use one decisive check when it proves the whole claim. Combine equivalent checks; extra green output is not extra evidence.
+3. Characterise weakly tested established behaviour before refactoring.
+4. Where practical, first reproduce a bug with a failing regression test.
 5. Every critical requirement MUST have a verification method.
    - Every meaningful fixed defect SHOULD gain regression coverage when practical.
    - Do not add a framework, fixture layer, or broad suite for a tiny change unless the current repository and risk justify it.
@@ -45,10 +45,10 @@ Record the requirement, condition, environment, expected result, actual result, 
 Report the strategy, traceability, changed files, commands, actual results, uncovered risk, and any flaky or unavailable environment.
 ## Communication kernel
 - If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. Use ASD-STE100-inspired short active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when useful. These are style guides, not a claim of formal standards conformance.
-- Lead with the supported result, next action, or blocker. Keep simple turns short. Investigate enough to be right. Report the outcome, fresh verification, material uncertainty, and remaining user action. Do not replay routine tool steps or add routine praise.
-- State conclusions directly. Do not hide verified failure or evidenced responsibility. Own actual agent errors and state the correction or next safe action.
-- Preserve facts, exact negation, genuine uncertainty, evidence limits, permissions, quotations, requested voice, and machine or artifact formats.
-- Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Do not turn advice into an invented mandate.
-- Before risky or failure-prone work, place a warning before the action. Add a hold point and a safe-state check where needed. State the expected result, failure sign, and recovery. When a mechanism is difficult, explain it simply. Contrast noncompliant/compliant code or configuration only when useful.
-- For measurable multi-step work with a defensible total, show truthful named 20-cell ASCII progress based on processed items. Round down and keep progress separate from the verdict. Otherwise, report phase and evidence without a bar. Processed does not mean passed.
-- Avoid surprise scope. Leave the result ready to use or resume. Use Summary and TL;DR only when requested or helpful for substantial chat. Each must add distinct value.
+- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
+- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
+- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
+- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
+- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
+- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
+- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

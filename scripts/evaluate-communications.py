@@ -12,6 +12,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 import zipfile
 from pathlib import Path
 
@@ -25,6 +26,11 @@ _spec.loader.exec_module(_composition)
 
 def score_prose(case, answer):
     failures = []
+    words = len(answer.split())
+    if words < case.get("min_words", 0) or words > case.get("max_words", float("inf")):
+        failures.append(f"word count outside requested range: {words}")
+    if case.get("one_line") and len(answer.strip().splitlines()) != 1:
+        failures.append("expected one line")
     for pattern in case.get("required", []):
         if not re.search(pattern, answer):
             failures.append(f"missing: {pattern}")
@@ -83,7 +89,7 @@ def evaluate_run(case, stdout, returncode, sources, paths):
         failures.append(f"OMP exit {returncode}; final answer {'missing' if not answer else 'present'}")
     if malformed:
         failures.append(f"malformed trace lines: {malformed}")
-    return {"id": case["id"], "category": case["category"], "passed": not failures, "failures": failures, "loaded_skills": loaded, "answer": answer, "exit_code": returncode}
+    return {"id": case["id"], "category": case["category"], "passed": not failures, "failures": failures, "loaded_skills": loaded, "answer": answer, "word_count": len(answer.split()), "exit_code": returncode}
 
 
 def run_omp(command, project):
@@ -175,6 +181,9 @@ def self_test():
         "2. Replace the module.\n3. Confirm the LED is green."
     )
     assert not score_prose(procedure, pronoun_procedure)
+    state_procedure = pronoun_procedure.replace("verify it", "verify this state")
+    assert not score_prose(procedure, state_procedure)
+    assert score_prose(procedure, state_procedure.replace("Stop if you cannot verify this state.", "Continue if you cannot verify this state."))
     assert score_prose(procedure, pronoun_procedure.replace(
         "Stop if you cannot verify it.\n2. Replace the module.",
         "2. Replace the module. Stop if you cannot verify it."
@@ -219,7 +228,7 @@ def self_test():
     sample_checks = self_test_writing()
     checks = self_test_evidence()
     print(f"SELF-TEST PASS: communication prose rubric; "
-          f"{sample_checks} curated output checks; {checks} source/runner calibration checks; no OMP invocation")
+          f"{sample_checks} paired output checks; {checks} source/runner calibration checks; no OMP invocation")
 
 
 def self_test_writing():
@@ -238,6 +247,30 @@ def self_test_writing():
                 failures = score_prose(case, answer)
                 assert (not failures) == accepted, f"sample misclassified: {case['id']}: {answer}: {failures}"
                 sample_checks += 1
+        if "max_words" in case:
+            overlong = samples["pass"][0] + " Additional detail." * case["max_words"]
+            assert score_prose(case, overlong), f"overlong answer accepted: {case['id']}"
+            sample_checks += 1
+    comparison = cases["multipart-comparison"]
+    complete = comparison["samples"]["pass"][0]
+    for broken in (
+        complete.replace("TL;DR:", "Summary:", 1),
+        complete + "\nTL;DR: Choose A.",
+        complete.replace("£700", "£400"),
+        complete + " Both plans are proven safe.",
+        complete + " See https://invented.example/evidence.",
+    ):
+        assert score_prose(comparison, broken), "broken comparison accepted"
+        sample_checks += 1
+    depth = cases["requested-long-explanation"]
+    complete = depth["samples"]["pass"][0]
+    for broken in (
+        complete.replace("disjoint rows", "the same row"),
+        complete.replace("retry the entire transaction", "retry only the update"),
+        complete + " Snapshot isolation prevents write skew.",
+    ):
+        assert score_prose(depth, broken), "broken long explanation accepted"
+        sample_checks += 1
     return sample_checks
 
 
@@ -365,30 +398,42 @@ def main():
     if ROOT / "artifacts" not in output.parents or output.exists():
         parser.error("output must be a fresh directory under artifacts/")
     output.mkdir(parents=True)
-    with zipfile.ZipFile(args.package) as archive:
-        members = archive.namelist()
-        prefix = args.package.stem + "/"
-        if not members or any(not name.startswith(prefix) or ".." in Path(name).parts or "\\" in name for name in members):
-            raise ValueError("unexpected package member path")
-        archive.extractall(output)
-    project = output / args.package.stem
-    paths = {path.parent.name: path.as_posix() for path in sorted((project / "skills").glob("*/SKILL.md"))}
-    sources = {name: Path(path).read_text(encoding="utf-8-sig") for name, path in paths.items()}
-    if not {"writing", "wait-what"} <= sources.keys():
-        parser.error("communication package must contain writing and wait-what sources")
-    config = output / "omp.yml"
-    config.write_text("skills:\n  customDirectories:\n    - " + project.joinpath("skills").as_posix() + "\n", encoding="utf-8")
     results = []
-    for case in CASES["cases"]:
-        command = ["omp", "-p", "--no-session", "--mode=json", "--max-time=90", "--tools=read", "--skills=writing,wait-what", f"--model={CASES['model']}", f"--config={config}", f"--cwd={project}", case["prompt"]]
-        stdout, stderr, returncode = run_omp(command, project)
-        (output / f"{case['id']}.jsonl").write_text(stdout, encoding="utf-8")
-        (output / f"{case['id']}.stderr.txt").write_text(stderr, encoding="utf-8")
-        result = evaluate_run(case, stdout, returncode, sources, paths)
-        results.append(result)
-        failures = result["failures"]
-        print(f"{'PASS' if result['passed'] else 'FAIL'} {case['id']}: {', '.join(failures) if failures else 'rubric met'}", flush=True)
-    report = {"model": CASES["model"], "package": str(args.package.resolve()), "cases": results, "passed": sum(item["passed"] for item in results), "total": len(results), "limits": "Source loading verifies complete expected source-line coverage before the final answer, not byte identity or model obedience. Offline self-tests calibrate the oracle, not live model behavior."}
+    options = ["-p", "--no-session", "--no-extensions", "--no-rules", "--mode=json",
+               "--max-time=90", "--tools=read", "--skills=writing,wait-what", f"--model={CASES['model']}"]
+    with tempfile.TemporaryDirectory(prefix="communication-eval-") as temporary:
+        workspace = Path(temporary).resolve()
+        if ROOT == workspace or ROOT in workspace.parents:
+            raise ValueError("evaluation workspace must be outside the repository")
+        with zipfile.ZipFile(args.package) as archive:
+            members = archive.namelist()
+            prefix = args.package.stem + "/"
+            if not members or any(not name.startswith(prefix) or ".." in Path(name).parts or "\\" in name for name in members):
+                raise ValueError("unexpected package member path")
+            archive.extractall(workspace)
+        project = workspace / args.package.stem
+        paths = {path.parent.name: path.as_posix() for path in sorted((project / "skills").glob("*/SKILL.md"))}
+        sources = {name: Path(path).read_text(encoding="utf-8-sig") for name, path in paths.items()}
+        if not {"writing", "wait-what"} <= sources.keys():
+            parser.error("communication package must contain writing and wait-what sources")
+        policy = output / "package-policy.txt"
+        policy.write_bytes((project / "AGENTS.md").read_bytes())
+        options.append(f"--append-system-prompt={policy}")
+        config = output / "omp.yml"
+        config.write_text("skills:\n  customDirectories:\n    - " + project.joinpath("skills").as_posix() + "\n", encoding="utf-8")
+        (output / "sources.json").write_text(json.dumps(sources, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        for case in CASES["cases"]:
+            command = ["omp", *options, f"--config={config}", f"--cwd={project}", case["prompt"]]
+            stdout, stderr, returncode = run_omp(command, project)
+            (output / f"{case['id']}.jsonl").write_text(stdout, encoding="utf-8")
+            (output / f"{case['id']}.stderr.txt").write_text(stderr, encoding="utf-8")
+            result = evaluate_run(case, stdout, returncode, sources, paths)
+            result["command"] = command
+            result["prompt"] = case["prompt"]
+            results.append(result)
+            failures = result["failures"]
+            print(f"{'PASS' if result['passed'] else 'FAIL'} {case['id']}: {result['word_count']} words; {', '.join(failures) if failures else 'rubric met'}", flush=True)
+    report = {"harness": "OMP CLI JSON via evaluate-communications.py", "model": CASES["model"], "options": options, "package": str(args.package.resolve()), "cases": results, "passed": sum(item["passed"] for item in results), "total": len(results), "limits": CASES["sample_scope"] + " Source loading verifies complete expected source-line coverage before the final answer, not byte identity or model obedience. Extracted sources and cwd are temporary and outside the repository; saved config paths expire after the run. No retries. This report does not grant release acceptance."}
     (output / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Corpus: {report['passed']}/{report['total']} PASS; evidence: {output / 'report.json'}")
     return 0 if report["passed"] == report["total"] else 1
