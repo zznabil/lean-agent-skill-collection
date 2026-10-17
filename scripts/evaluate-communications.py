@@ -1,8 +1,8 @@
 """Run the fixed communication corpus against an extracted release profile in OMP.
 
 Offline: python scripts/evaluate-communications.py --self-test
-Offline authored-contract checks and curated output samples are textual regressions,
-not live agent or intended-reader accessibility validation.
+Curated output samples calibrate observable text regressions, not live agent
+behaviour or intended-reader accessibility.
 Source-line coverage does not prove byte identity or model obedience.
 """
 
@@ -216,77 +216,14 @@ def self_test():
     )
     polarity_failures = score_prose(reset, bad_easy_polarity)
     assert {failure.split(":", 1)[0] for failure in polarity_failures} == {"missing", "forbidden"}
-    writing_checks, sample_checks = self_test_writing()
+    sample_checks = self_test_writing()
     checks = self_test_evidence()
-    print(f"SELF-TEST PASS: communication prose rubric; {writing_checks} authored-contract checks; "
+    print(f"SELF-TEST PASS: communication prose rubric; "
           f"{sample_checks} curated output checks; {checks} source/runner calibration checks; no OMP invocation")
 
 
 def self_test_writing():
-    """Check authored wording and calibrated samples, not human comprehension."""
-    contracts = {
-        "skills/writing/SKILL.md": [
-            "this skill, its supporting resources and examples, generated text, and the surrounding reply",
-            "default to familiar language that does not assume technical knowledge",
-            "Respect requested expert detail",
-            "Do not infer ability from a diagnosis or impose a universal reading age",
-            "Keep exact UI labels, commands, identifiers, and quoted text",
-            "Do not force these sections into a short answer",
-            "Repeat a necessary condition rather than require recall",
-            "negation, numbers, conditions, exceptions, permissions, requirement strength, uncertainty",
-            "Compare the source and revision in both directions",
-            "Do not turn an unknown outcome into a failure or success",
-            "readability scores and Vale checks as clues, not proof of comprehension or accessibility",
-            "Do not add Summary or TL;DR to the drafted text unless requested",
-            "Read [USER-INFORMATION.md](USER-INFORMATION.md)",
-            "Read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md)",
-            "requires intended-reader involvement; do not claim verification or certification",
-        ],
-        "skills/writing/USER-INFORMATION.md": [
-            "this reference, its examples, and the text you draft or edit",
-            "Use respectful adult language for adults",
-            "Do not conceal required steps in optional detail",
-            "warnings, prerequisites, costs, irreversible effects, and data-loss risks before the commitment point",
-            "resolve the unknown outcome before recommending a retry",
-            "Do not pay again yet. Select Check payment status",
-            "Involve people from the intended audience in drafting or review",
-            "without the required intended-user proofreading and attribution",
-            "Readability formulas and Vale checks flag surface wording issues only",
-        ],
-        "skills/writing/INSTRUCTION-EDITING.md": [
-            "this reference, its examples, and the instructions you draft or edit",
-            "The reader can be a person or an executing agent",
-            "Do not change exact UI labels, identifiers, commands, schemas, numbers, quoted source text, or status names without authorisation",
-            "A MUST is not a SHOULD. An exception is not a default. An untested result is not a passed result",
-            "Preserve requested expert depth and respectful adult language",
-            "Keep needed information beside the current decision instead of requiring recall",
-            "Each original obligation must retain an owner and an applicable entry point",
-            "Each new obligation must have explicit authority",
-            "It does not prove comprehension, model obedience, host activation, or formal standards conformance",
-        ],
-        "skills/writing/agents/openai.yaml": [
-            "authored instructions, examples, generated text, and the surrounding reply",
-            "Default to no assumed technical knowledge",
-            "preserve requested expert depth, voice, formats, and exact UI labels",
-            "Use respectful language and do not infer ability from a diagnosis",
-            "allow_implicit_invocation: true",
-        ],
-    }
-    authored_checks = 0
-    for path, clauses in contracts.items():
-        source = (ROOT / path).read_text(encoding="utf-8")
-        if path.endswith(".md"):
-            clauses = clauses + [
-                "ASD-STE100-inspired", "ISO 704-inspired", "Diátaxis",
-                "Otherwise apply this standalone kernel", "Do not claim root activation without evidence",
-            ]
-        rubric = {"required": [re.escape(clause) for clause in clauses]}
-        failures = score_prose(rubric, source)
-        assert not failures, f"authored Writing contract drift in {path}: {failures}"
-        authored_checks += 1
-        for clause in clauses:
-            assert score_prose(rubric, source.replace(clause, "", 1)), f"lost clause accepted: {path}: {clause}"
-            authored_checks += 1
+    """Calibrate output rubrics without pinning authored instruction wording."""
 
     expected = {"unknown-payment-outcome", "exact-label-and-command", "requested-expert-depth",
                 "respectful-adult-instructions", "preserve-safety-exception"}
@@ -301,7 +238,7 @@ def self_test_writing():
                 failures = score_prose(case, answer)
                 assert (not failures) == accepted, f"sample misclassified: {case['id']}: {answer}: {failures}"
                 sample_checks += 1
-    return authored_checks, sample_checks
+    return sample_checks
 
 
 def self_test_evidence():
