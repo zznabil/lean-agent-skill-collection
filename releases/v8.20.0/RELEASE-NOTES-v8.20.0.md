@@ -23,16 +23,27 @@ One matched 21-case run used OMP 18.11.3 and `openai-codex/gpt-6-luna`, with eac
 | --- | --- | --- |
 | Original rubric | 16/21 | 16/21 |
 | Calibrated saved traces | 17/21 | 19/21 |
+| Source-URI evidence repair | 18/21 | 19/21 |
 
 Calibration adds paired semantic variants and broken controls; it does not rerun the model or erase raw failures. The candidate still missed one required Writing read and exceeded one requested word bound. Both remain FAIL. These samples do not establish general improvement, model obedience or intended-user comprehension.
 
+The final row recognizes complete `skill://name/SKILL.md` reads. It replays saved traces without new model calls or changed answers. Corrupted, partial, wrong-file and late reads remain rejected.
+
 The actual browser fixture passed two save/reset replays and rejected its wrong-result control in dedicated Chrome. This is synthetic interaction evidence, not production UI acceptance.
 
-Matched composition trials used an explicit decision/state protocol and the same 24 scenarios. V8.19.1 passed 10/24; V8.20.0 passed 7/24. Both commands exited with failure.
+Matched composition trials retain all 24 scenario prompts and acceptance criteria.
 
-Failures include extra deferred scope, incorrect ownership, missing browser actions and incorrect decision/state pairs. The candidate also selected PROCEED for a missing required gate. Do not treat these results as accepted composition behaviour.
+| Trial | V8.19.1 | V8.20.0 |
+| --- | --- | --- |
+| Initial isolated protocol | 8/24 | 7/24 |
+| Explicit decision/state protocol | 10/24 | 7/24 |
+| Explicit decision-only base prompt | 15/24 | 18/24 |
 
-Earlier isolated trials passed 8/24 and 7/24 before protocol clarification. All trials remain recorded; no successful retry replaces a failure. Configured MCP servers still started, so these comparisons were not fully hermetic. Actual model identity was not independently verified.
+Every command exited with failure. Every final answer was inspected. Earlier failures remain recorded; no successful retry replaces them.
+
+The latest candidate fails cases A, B, E, G, H and explicit-owner. Failures include incorrect ownership, extra actions or deferrals, and omitted publication deferral. Required composition acceptance remains FAIL. Do not merge, tag or publish this release.
+
+The decision-only base prompt separates evaluation from runtime execution. Reports record that prompt, runner hash and inherited reasoning limitation. These observations do not establish causality or universal obedience. Configured MCP servers still started, so comparisons were not fully hermetic. Actual model identity was not independently verified.
 
 ## Verification and recovery
 
