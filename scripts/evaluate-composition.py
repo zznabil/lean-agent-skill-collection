@@ -15,7 +15,9 @@ import stat
 import subprocess
 import sys
 import tempfile
+import time
 import zipfile
+from contextlib import contextmanager
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -30,6 +32,24 @@ ACTIONS = {
     "obtain_independent_assurance", "obtain_publication_authorization", "load_designated_owner",
 }
 DEFERRED = {"production_hardening", "completion", "acceptance", "implementation", "release", "publication", "destructive_reset", "uat_acceptance"}
+
+
+@contextmanager
+def _evaluation_workspace():
+    directory = tempfile.TemporaryDirectory(prefix="composition-eval-")
+    try:
+        yield directory.name
+    finally:
+        # Windows may retain a working-directory handle briefly after OMP exits.
+        deadline = time.monotonic() + 5
+        while True:
+            try:
+                directory.cleanup()
+                break
+            except PermissionError as exc:
+                if getattr(exc, "winerror", None) != 32 or time.monotonic() >= deadline:
+                    raise
+                time.sleep(0.05)
 
 
 def unique_object(pairs):
@@ -395,7 +415,7 @@ def main():
     results = []
     for case in cases:
         # Every live workspace excludes repository ancestors and ambient host rules.
-        with tempfile.TemporaryDirectory(prefix="composition-eval-") as temporary:
+        with _evaluation_workspace() as temporary:
             cwd = Path(temporary).resolve()
             if ROOT == cwd or ROOT in cwd.parents:
                 raise ValueError("evaluation workspace must be outside the repository")

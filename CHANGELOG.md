@@ -8,6 +8,7 @@
 - Calibrate observable response behaviour rather than pinning instruction wording. Keep live model evidence separate from structural and intended-user claims.
 - Accept equivalent YAML list layouts without accepting string Booleans. Reject contradictory safety answers and preserve semantic variants in evaluator controls.
 - Supply package policy explicitly during isolated live comparisons. Keep standalone composition runs free of root policy and ambient rules. Repair browser-fixture initialization and verify replay, reset and broken-state rejection.
+- Handle transient Windows evaluation workspace locks without suppressing persistent sharing violations or other permission errors.
 
 ## 8.19.1 — 2026-10-13
 
