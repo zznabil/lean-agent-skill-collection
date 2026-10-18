@@ -44,7 +44,7 @@ function Get-TestDigest([string]$Path)
 
 }
 
-function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$ConcurrentPolicyPath = '', [string]$ConcurrentDestination = '')
+function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$ConcurrentPolicyPath = '', [string]$ConcurrentDestination = '', [string]$Setup = '')
 
 {
 
@@ -90,6 +90,7 @@ function Invoke-Installer([string]$HomePath, [string[]]$Extra = @(), [string]$Co
 
   }
 
+  $command = $Setup + $command
   $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
 
   $output = & $engine -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encoded 2>&1 | Out-String
@@ -320,6 +321,49 @@ try
 
   }
 
+  $installerLines = [IO.File]::ReadAllLines($script:fixtureInstaller)
+  $confirmationEnd = -1
+  for ($line = 0; $line -lt $installerLines.Length; $line++) {
+    if ($installerLines[$line].Contains('$PSCmdlet.ShouldProcess(')) { $confirmationEnd = $line + 3; break }
+  }
+  Assert ($confirmationEnd -gt 0) 'Confirmation fault-injection boundary is unavailable.'
+  foreach ($boundary in @('home', 'resource')) {
+    $swapHome = Join-Path $work ('post-confirmation-' + $boundary)
+    $swapTarget = Join-Path $work ('outside-' + $boundary)
+    New-Item -ItemType Directory -Path $swapHome, $swapTarget | Out-Null
+    [IO.File]::WriteAllText((Join-Path $swapTarget 'preserve.txt'), 'Outside content')
+    $swapPath = $swapHome
+    if ($boundary -eq 'resource') { $swapPath = Join-Path $pack 'references' }
+    $movedPath = $swapPath + '.original'
+    $linkType = if ($env:OS -eq 'Windows_NT') { 'Junction' } else { 'SymbolicLink' }
+    $setup = "Set-PSBreakpoint -Script '" + $script:fixtureInstaller.Replace("'", "''") + "' -Line $($confirmationEnd + 1) -Action { [IO.Directory]::Move('" + $swapPath.Replace("'", "''") + "', '" + $movedPath.Replace("'", "''") + "'); New-Item -ItemType $linkType -Path '" + $swapPath.Replace("'", "''") + "' -Target '" + $swapTarget.Replace("'", "''") + "' | Out-Null } | Out-Null; "
+    try {
+      $result = Invoke-Installer -HomePath $swapHome -Setup $setup
+      Assert ($result.Code -ne 0 -and $result.Output.Contains('Linked paths are not supported')) "Post-confirmation $boundary swap was accepted: $($result.Output)"
+      Assert (@(Get-ChildItem -LiteralPath $swapTarget -Force).Count -eq 1 -and [IO.File]::ReadAllText((Join-Path $swapTarget 'preserve.txt')) -ceq 'Outside content') 'A post-confirmation swap wrote outside the confirmed paths.'
+    } finally {
+      if ((Get-Item -LiteralPath $swapPath -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) { [IO.Directory]::Delete($swapPath) }
+      [IO.Directory]::Move($movedPath, $swapPath)
+    }
+  }
+  foreach ($existing in @($true, $false)) {
+    $failureHome = Join-Path $work ('cleanup-failure-' + $existing)
+    New-Item -ItemType Directory -Path $failureHome | Out-Null
+    $failurePolicy = Join-Path $failureHome 'SOUL.md'
+    $personaBytes = [byte[]](239,187,191,80,101,114,115,111,110,97,32,240,159,152,128,13,10)
+    if ($existing) { [IO.File]::WriteAllBytes($failurePolicy, $personaBytes) }
+    $setup = "function Remove-Item { [CmdletBinding()]param([string]" + '$LiteralPath' + ",[switch]" + '$Recurse' + ",[switch]" + '$Force' + "); if (" + '$LiteralPath' + " -like '*lean-pack-with-spaces') { throw 'Injected payload cleanup failure' }; Microsoft.PowerShell.Management\Remove-Item @PSBoundParameters }; Set-PSBreakpoint -Script '" + $script:fixtureInstaller.Replace("'", "''") + "' -Variable policyBytes -Mode Read -Action { if (" + '$policyStream.CanWrite' + ") { " + '$policyStream.WriteByte(88); $policyStream.Dispose()' + " } } | Out-Null; "
+    $result = Invoke-Installer -HomePath $failureHome -Setup $setup
+    Assert ($result.Code -ne 0 -and $result.Output.Contains('Injected payload cleanup failure')) 'Cleanup failure injection did not reach rollback.'
+    if ($existing) {
+      Assert ([Convert]::ToBase64String([IO.File]::ReadAllBytes($failurePolicy)) -ceq [Convert]::ToBase64String($personaBytes)) 'Payload cleanup failure prevented exact persona restoration.'
+      $backups = @(Get-ChildItem -LiteralPath $failureHome -Filter 'SOUL.md.lean-backup-*')
+      Assert ($backups.Count -eq 1 -and [Convert]::ToBase64String([IO.File]::ReadAllBytes($backups[0].FullName)) -ceq [Convert]::ToBase64String($personaBytes)) 'Failure lost the persona backup.'
+    } else {
+      Assert (-not (Test-Path -LiteralPath $failurePolicy)) 'Payload cleanup failure left a new policy file.'
+    }
+  }
+
   $linkedTarget = Join-Path $work 'linked-resource-target'
 
   New-Item -ItemType Directory -Path $linkedTarget | Out-Null
@@ -382,7 +426,7 @@ try
 
   Assert (-not (Test-Path $missingHome)) 'Missing payload created a home.'
 
-  Write-Host 'HERMES_INSTALL_BOUNDARIES_PASS: preview, global, resources, companion, gated exclusion, linked payload, persona backup, declared-name collisions, project, skills-only, destination races, policy races, missing payload'
+  Write-Host 'HERMES_INSTALL_BOUNDARIES_PASS: preview, global, resources, companion, gated exclusion, linked payload, persona backup, declared-name collisions, project, skills-only, destination races, policy races, post-confirmation swaps, partial-write and cleanup recovery, missing payload'
 
 } finally
 

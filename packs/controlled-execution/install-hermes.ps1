@@ -197,6 +197,10 @@ try
   if (-not $PSCmdlet.ShouldProcess($destination, $action))
   { return
   }
+  Assert-UnlinkedPath $destination -Ancestors
+  if ($policyTarget) { Assert-UnlinkedPath $policyTarget -Ancestors }
+  Assert-UnlinkedPath $PSScriptRoot -Ancestors
+  $entries = @(Get-InstallPayload $PSScriptRoot)
   New-Item -ItemType Directory -Path $skillsHome -Force | Out-Null
   $stage = Join-Path $skillsHome ('lean-hermes-' + [guid]::NewGuid().ToString('N'))
   $installed = $false
@@ -209,6 +213,7 @@ try
     { Copy-Item -LiteralPath $entry.FullName -Destination $stage -Recurse -Force
     }
     # Rename on the same filesystem. An existing destination must fail, never nest the pack.
+    Assert-UnlinkedPath $destination -Ancestors
     [IO.Directory]::Move($stage, $destination)
     $installed = $true
     if ($policyTarget)
@@ -217,6 +222,7 @@ try
       if ($null -ne $oldPolicy)
       { $mode = [IO.FileMode]::Open
       }
+      Assert-UnlinkedPath $policyTarget -Ancestors
       $policyStream = [IO.File]::Open($policyTarget, $mode, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
       try
       {
@@ -249,19 +255,32 @@ try
     }
   } catch
   {
-    if ($installed)
-    { Remove-Item -LiteralPath $destination -Recurse -Force
-    }
-    if ($backup)
-    { [IO.File]::WriteAllBytes($policyTarget, $oldPolicy)
-    } elseif ($createdPolicy)
-    { Remove-Item -LiteralPath $policyTarget -Force
+    try
+    {
+      if ($backup)
+      {
+        Assert-UnlinkedPath $policyTarget -Ancestors
+        [IO.File]::WriteAllBytes($policyTarget, $oldPolicy)
+      } elseif ($createdPolicy)
+      {
+        Assert-UnlinkedPath $policyTarget -Ancestors
+        Remove-Item -LiteralPath $policyTarget -Force
+      }
+    } finally
+    {
+      if ($installed)
+      {
+        Assert-UnlinkedPath $destination -Ancestors
+        Remove-Item -LiteralPath $destination -Recurse -Force
+      }
     }
     throw
   } finally
   {
     if (Test-Path -LiteralPath $stage)
-    { Remove-Item -LiteralPath $stage -Recurse -Force
+    {
+      Assert-UnlinkedPath $stage -Ancestors
+      Remove-Item -LiteralPath $stage -Recurse -Force
     }
   }
   Write-Host "INSTALLED: $($skills.Count) skills in $destination"

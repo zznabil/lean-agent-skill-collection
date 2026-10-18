@@ -129,7 +129,7 @@ For project-local instructions instead:
 
 Use `-PolicyScope None` for skills only. Use `-WhatIf` to inspect the action without writing. Existing skill names, installed pack directories and project `AGENTS.md` files cause a failure before installation; they are never replaced. Use a separate home for overlapping profiles. Collision checks use declared names as well as folder names. Plain names and single- or double-quoted literal names are supported; ambiguous metadata fails closed. Review unsupported metadata or use a separate home.
 
-Policy is checked again after confirmation while the installer holds an exclusive file handle. A changed persona or newly created project policy aborts the installation without overwriting that file or creating a stale backup. Review the current policy before trying again. Failed writes remove new installer-created policy files as well as the installed payload.
+Policy is checked again after confirmation while the installer holds an exclusive file handle. A changed persona or newly created project policy aborts the installation without overwriting that file or creating a stale backup. Review the current policy before trying again. On failure, policy recovery runs before payload cleanup. It restores the original persona or removes a newly created policy file. Payload cleanup still runs if policy recovery fails. A cleanup error remains a failure; preserve the persona backup and review the printed error before removing residual payload.
 
 The home defaults to `HERMES_HOME` when set; otherwise `%LOCALAPPDATA%\hermes` on Windows and `~/.hermes` elsewhere. Pass `-HermesHome` for another profile or a host version with a different default. Skills and resources remain under `skills/lean-<pack>/`; Hermes discovers their nested `SKILL.md` files. Root `AGENTS.md` remains with the installed pack. That copy is not a global prompt: global policy uses `SOUL.md`, while project policy uses the selected project's `AGENTS.md`. When present, the engineering companion stays in the installed pack. The policy names its exact installed path so it can be read for material engineering work without bloating the global prompt. Hermes can truncate oversized context files; a large existing persona may require project policy or an explicit context-file limit in Hermes configuration.
 
@@ -150,9 +150,11 @@ skills  audit  provenance  docs  references  official  licences  licenses
 ```
 
 The same linked-path check covers payload entries and installation or policy ancestors.
-Validation runs before confirmation and rejects linked resource roots as well as linked descendants.
-The transaction still stages the complete payload, renames it atomically, and checks policy bytes under an exclusive handle.
-Policy failures roll back the installed payload.
+Validation runs before and after confirmation. It rejects linked resource roots, descendants, and changed destination or policy ancestors.
+The transaction checks destination paths again before rename and policy paths before opening the exclusive handle.
+Do not rename or replace source, home, or project directories while installation runs. These checks do not provide filesystem-wide locking against hostile concurrent changes.
+The transaction stages the complete payload, renames it atomically, and checks policy bytes under an exclusive handle.
+Policy recovery precedes payload cleanup so a cleanup failure cannot skip persona restoration.
 
 Vercel's skills CLI supports `hermes-agent`, including `HERMES_HOME`.
 Its default global home is `~/.hermes`, unlike this installer's Windows default.
@@ -188,5 +190,6 @@ foreach ($engine in @('pwsh', 'powershell.exe')) {
 
 Tests use temporary fixtures, not the real Hermes home.
 They cover resource bytes, companion paths, gated-skill exclusion, linked payload refusal, persona backups, collisions, policy scopes, and concurrent destination or policy changes.
+Post-confirmation home and resource swaps must fail without outside writes. Partial writes must recover policy even when payload cleanup also fails.
 Windows link tests use directory junctions and do not require symbolic-link privileges.
 Success requires exit code zero and `HERMES_INSTALL_BOUNDARIES_PASS`.
