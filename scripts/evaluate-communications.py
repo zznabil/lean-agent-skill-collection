@@ -276,6 +276,10 @@ def self_test_writing():
         "We mustn't stay with A until", "I would not go with A until",
         "I wouldn't recommend **Plan A** until", "Plan A is not recommended until",
         "Plan A is never preferred until",
+        "Don’t recommend A until", "I can’t recommend A until", "You shouldn’t choose A until",
+        "We mustn’t keep A until", "I wouldn’t prefer A until", "Do **not** recommend A until",
+        "Plan A is **not** recommended until", "Do `not` recommend A until",
+        "We **must not** retain A until",
     ):
         answer = decision.replace("Recommend A until", recommendation)
         failures = score_prose(comparison, answer)
