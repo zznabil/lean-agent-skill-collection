@@ -1,12 +1,14 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.20.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.21.0-2563eb)](CHANGELOG.md)
 [![Base skills](https://img.shields.io/badge/base_skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
 A compact, source-browsable collection of 24 vendor-neutral agent skills for engineering, research, communication, documents, experiments, fast-path delivery, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+
+V8.21.0 reconciles the upstream baseline and audited repairs into one Complete profile with all 51 skills. It refactors Hermes installation without replacing persona text or existing skills. Read the [release notes](releases/v8.21.0/RELEASE-NOTES-v8.21.0.md).
 
 V8.20.0 makes the shortest complete response the default. Lead with the answer, retain requested depth and use a helpful TL;DR only at the beginning. Accessible Writing preserves exact labels, safety, uncertainty and expert terminology. Read the [release notes](releases/v8.20.0/RELEASE-NOTES-v8.20.0.md).
 
@@ -24,7 +26,7 @@ V8.15.0 rewrites all 134 skills, live authored companion resources, adapter prom
 
 V8.14.0 adds a manually invoked **Task Brief / Context Preflight** mode to the existing `project-context` skill. Direct, Standard, and Durable records identify minimum sufficient context, evidence provenance, readiness, and the next action; a brief does not prove execution. Read the [release notes](releases/v8.14.0/RELEASE-NOTES-v8.14.0.md) and [schema](skills/project-context/TASK-BRIEF.md).
 
-The root `AGENTS.md` governs the 24 base skills, 27 integrated supplemental skills, and selected routines from both optional source packs when loaded; each independently loaded skill has a local lean fallback. Each generated profile includes only its base-skill rows plus the shared supplemental map. The two source-only packs retain their separate catalogs and are not release-profile inputs. The repository audit enforces fewer than 100 root-policy lines.
+The root `AGENTS.md` governs the 24 base skills, 27 integrated supplemental skills, and selected routines from both optional source packs when loaded; each independently loaded skill has a local lean fallback. The consolidated generated Complete profile includes all 24 base-skill rows plus the shared supplemental map. The two source-only packs retain their separate catalogs and are not release-profile inputs. The repository audit enforces fewer than 100 root-policy lines.
 
 The communication kernel uses **ASD-STE100-inspired language**, **ISO 704-inspired terminology** and **Diátaxis organisation** throughout authored instructions and standalone fallbacks. Omit routine Summary headings and closing recaps. Use only the detail the task needs, including all required safety, permissions, normative force, source rights and evidence. Other frameworks remain task-selected.
 
@@ -63,24 +65,17 @@ The V8.8 textual baseline is historical for this revision. Current validation pr
 
 ## Start here
 
-Choose one profile. Do not install overlapping profiles together.
+Install the consolidated Complete profile.
 
 | Profile | Base | Supplemental | Total | Best for | Generated package |
 |---|---:|---:|---:|---|---|
-| Core | 9 | 27 | 36 | Planning, research, review, Quick Mode, and long-running work | `lean-agent-skills-core-openai-v8.20.0.zip` |
-| Engineering | 20 | 27 | 47 | Software delivery, Quick Mode, and engineering operations | `lean-agent-skills-engineering-openai-v8.20.0.zip` |
-| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.20.0.zip` |
-| Communication | 3 | 27 | 30 | Clear replies, teaching, writing, and user information | `user-facing-communication-mini-openai-v8.20.0.zip` |
-| Get It Done | 6 | 27 | 33 | Quick and long-horizon execution, acceptance, and complete communication support | `get-it-done-pack-openai-v8.20.0.zip` |
-| Gauntlet Loop | 4 | 27 | 31 | High-risk adversarial review with complete communication support | `gauntlet-loop-pack-openai-v8.20.0.zip` |
+| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.21.0.zip` |
 
-The Get It Done and Gauntlet packs each include the full Communication trio. `wait-what` is included once through set union, not duplicated. Quick Mode is included in Core, Engineering, Complete, and Get It Done only.
-
-Browse the [skill catalogue](docs/SKILL-CATALOG.md) before choosing a profile.
+Browse the [skill catalogue](docs/SKILL-CATALOG.md) for all 24 base task skills and 27 supplemental routines.
 
 ## Install
 
-Extract one profile ZIP. Put its `AGENTS.md` in the trusted project root (merge with existing instructions; do not overwrite them), and configure your agent host to load the extracted `skills/` directory. A skills-only plugin install does not activate the `AGENTS.md` communication kernel by itself.
+Extract the Complete profile ZIP. Put its `AGENTS.md` in the trusted project root (merge with existing instructions; do not overwrite them), and configure your agent host to load the extracted `skills/` directory. A skills-only plugin install does not activate the `AGENTS.md` communication kernel by itself.
 
 Each package follows this layout:
 
@@ -104,7 +99,7 @@ packs/controlled-execution/ Source-only pack; excluded from generated profiles
 .codex-plugin/                Complete-profile plugin manifest
 docs/                         Catalogue, audits, history, standards, and evaluations
 dist/v7.2/                    Historical V7.2.0 release snapshot
-release-profiles.json         Canonical version and six profile inventories
+release-profiles.json         Canonical version and Complete profile inventory
 scripts/build-release.ps1     Deterministic release builder
 scripts/validate.ps1          Static source and release integrity checks
 scripts/audit-repository.ps1  Cross-file repository consistency checks
@@ -116,11 +111,11 @@ UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 Source validation requires PowerShell 7 or Windows PowerShell 5.1 and Python 3.10+ available as `python` on PATH. Installed skill profiles do not gain a Python dependency. The CI runners already provide both tools.
 
 ```powershell
-./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.20.0
-./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.20.0
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.20.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.20.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.20.0
+./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.21.0
+./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.21.0
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.21.0
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.21.0
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.21.0
 ```
 
 Run `scripts/test-build-output.ps1` and `scripts/test-workflow-gates.ps1` for build-path and CI failure controls.
@@ -129,15 +124,15 @@ For offline audit regression checks, run `python -B scripts/evaluate-communicati
 
 For executable code cases, read the [anti-pattern regression corpus](docs/evals/antipatterns/README.md). Run `python -B scripts/evaluate-antipatterns.py --self-test` to check four broken examples, reference repairs, and legitimate controls. The candidate-file checks accept alternative repairs. These results calibrate the fixtures; they do not measure live agent skill use.
 
-For composition-oracle calibration, run `python -B scripts/evaluate-composition.py --self-test`. For live decision checks, run `python -B scripts/evaluate-composition.py --package ./artifacts/v8.20.0/lean-agent-skills-complete-openai-v8.20.0.zip --out ./artifacts/composition-live`. These are decisions, not browser execution or universal model-obedience proof.
+For composition-oracle calibration, run `python -B scripts/evaluate-composition.py --self-test`. For live decision checks, run `python -B scripts/evaluate-composition.py --package ./artifacts/v8.21.0/lean-agent-skills-complete-openai-v8.21.0.zip --out ./artifacts/composition-live`. These are decisions, not browser execution or universal model-obedience proof.
 
 Live composition runs use external temporary workspaces and disable ambient rules and extensions. Collection runs receive the package policy explicitly; standalone runs omit it.
 
 In OMP JavaScript Eval, load `scripts/composition-browser-uat.js`. Replay `await compositionBrowserUat(false)` twice; `await compositionBrowserUat(true)` must reject with `UAT_RESULT_FAILED`. Pass an isolated browser executable as the optional second argument if the host default uses an unavailable relay. The artifact verifies a disposable real-browser fixture, not an arbitrary product.
 
-For a live communication check, install the OMP CLI, then run `python -B scripts/evaluate-communications.py --package ./artifacts/v8.20.0/user-facing-communication-mini-openai-v8.20.0.zip --out ./artifacts/communication-live`. The runner records 21 scenarios, source snapshots, commands, traces and answer word counts. It uses a temporary workspace and disables unrelated host rules and extensions without changing host settings. Its finite rubric is not general semantic or intended-user verification.
+For a live communication check, install the OMP CLI, then run `python -B scripts/evaluate-communications.py --package ./artifacts/v8.21.0/lean-agent-skills-complete-openai-v8.21.0.zip --out ./artifacts/communication-live`. The runner records 21 scenarios, source snapshots, commands, traces and answer word counts. It uses a temporary workspace and disables unrelated host rules and extensions without changing host settings. Its finite rubric is not general semantic or intended-user verification.
 
-The builder produces all six profiles and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
+The builder produces the consolidated Complete profile and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 
 ## Design principles
 
@@ -157,7 +152,7 @@ See the [release audit](docs/AUDIT.md) and [repository-integrity audit](docs/REP
 
 ## Release integrity
 
-The V8.13.0 release package retains strict Quick Mode metadata validation, the integrated 27-routine standards pack, and zero supplemental adapters. The V8.13.0 communication revision no longer treats the V8.8 textual snapshot as a current prose gate. The remaining-standards and controlled-execution packs are source-only, excluded from generated profiles, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, six profiles, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
+The release package retains strict Quick Mode metadata validation, the integrated 27-routine standards pack, and zero supplemental adapters. The V8.13.0 communication revision no longer treats the V8.8 textual snapshot as a current prose gate. The remaining-standards and controlled-execution packs are source-only, excluded from the generated profile, and retain their own references, licensing limits, and public-source disclaimers. Release packages are reproducibly generated from source and include SHA-256 inventories, a manifest, validation records, the licence, notices, the Complete profile, and a master archive. The committed [`dist/v7.2`](dist/v7.2) directory remains a historical V7.2.0 snapshot; new binary builds are not accumulated on `main`.
 
 ## Security
 

@@ -78,21 +78,7 @@ function Assert-CommunicationKernel([string]$Text)
 }
 function Package-Name([string]$Profile,[string]$Version)
 {
-  switch ($Profile)
-  {
-    'communication'
-    { "user-facing-communication-mini-openai-v$Version"
-    }
-    'get-it-done'
-    { "get-it-done-pack-openai-v$Version"
-    }
-    'gauntlet'
-    { "gauntlet-loop-pack-openai-v$Version"
-    }
-    default
-    { "lean-agent-skills-$Profile-openai-v$Version"
-    }
-  }
+  return "lean-agent-skills-$Profile-openai-v$Version"
 }
 function Assert-Package([string]$Path, [string]$Profile, [object]$Definition, [string]$Version)
 {
@@ -227,29 +213,29 @@ if ($ArtifactsDirectory)
     Assert-Package $path $profile.Name $profile.Value $profiles.version
   }
   $temporary=Join-Path ([IO.Path]::GetTempPath()) ('lean-prose-'+[guid]::NewGuid().ToString('N')+'.zip')
-  $original=Join-Path $artifacts ((Package-Name 'communication' $profiles.version)+'.zip')
+  $original=Join-Path $artifacts ((Package-Name 'complete' $profiles.version)+'.zip')
   try
   {
     Copy-Item -LiteralPath $original -Destination $temporary
     $archive=[IO.Compression.ZipFile]::Open($temporary,[IO.Compression.ZipArchiveMode]::Update)
     try
-    { $archive.GetEntry((Package-Name 'communication' $profiles.version)+'/skills/writing/INSTRUCTION-EDITING.md').Delete()
+    { $archive.GetEntry((Package-Name 'complete' $profiles.version)+'/skills/writing/INSTRUCTION-EDITING.md').Delete()
     } finally
     { $archive.Dispose()
     }
-    Expect-Rejection 'standalone authoring reference missing from ZIP' { Assert-Package $temporary 'communication' $profiles.profiles.communication $profiles.version }
+    Expect-Rejection 'standalone authoring reference missing from ZIP' { Assert-Package $temporary 'complete' $profiles.profiles.complete $profiles.version }
     Copy-Item -LiteralPath $original -Destination $temporary -Force
     $archive=[IO.Compression.ZipFile]::Open($temporary,[IO.Compression.ZipArchiveMode]::Update)
     try
     {
-      $entry=$archive.GetEntry((Package-Name 'communication' $profiles.version)+'/CHECKSUMS.sha256');$entry.Delete()
-      $null=$archive.CreateEntry((Package-Name 'communication' $profiles.version)+'/CHECKSUMS.sha256')
+      $entry=$archive.GetEntry((Package-Name 'complete' $profiles.version)+'/CHECKSUMS.sha256');$entry.Delete()
+      $null=$archive.CreateEntry((Package-Name 'complete' $profiles.version)+'/CHECKSUMS.sha256')
     } finally
     { $archive.Dispose()
     }
-    Expect-Rejection 'empty packaged checksum inventory' { Assert-Package $temporary 'communication' $profiles.profiles.communication $profiles.version }
-    Assert-Package $original 'communication' $profiles.profiles.communication $profiles.version
-    Write-Host 'PASS: six package inventories, source bytes, checksum coverage and communication core; restored positive control'
+    Expect-Rejection 'empty packaged checksum inventory' { Assert-Package $temporary 'complete' $profiles.profiles.complete $profiles.version }
+    Assert-Package $original 'complete' $profiles.profiles.complete $profiles.version
+    Write-Host 'PASS: Complete package inventory, source bytes, checksum coverage and communication core; restored positive control'
   } finally
   { if (Test-Path -LiteralPath $temporary)
     { Remove-Item -LiteralPath $temporary -Force

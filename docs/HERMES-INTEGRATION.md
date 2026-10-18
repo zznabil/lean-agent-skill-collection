@@ -136,3 +136,57 @@ The home defaults to `HERMES_HOME` when set; otherwise `%LOCALAPPDATA%\hermes` o
 The installer excludes `gated-skills/`. Installation does not adopt every standard or enforce OpenAI adapter routing in Hermes. Restart Hermes and run `hermes skills list` for the same home/profile. Discovery proves visibility, not model obedience.
 
 To remove a trial, stop Hermes and remove only the printed installed-pack directory after review. Remove only that pack's marked policy block from `SOUL.md`, or restore the printed backup if no later persona edits need preservation. For project scope, remove only the project instructions created by this installer.
+
+## Explanation: installer ownership and Vercel skills
+
+The four installer copies intentionally remain standalone. Extracted packs do not need the repository, Node.js, network access, or a shared helper module.
+Keep these copies identical when changing installation behavior.
+
+Each installer separates skill identity parsing, linked-path validation, payload selection, and the installation transaction.
+Payload selection includes every root file and these resource directories:
+
+```text
+skills  audit  provenance  docs  references  official  licences  licenses
+```
+
+The same linked-path check covers payload entries and installation or policy ancestors.
+Validation runs before confirmation and rejects linked resource roots as well as linked descendants.
+The transaction still stages the complete payload, renames it atomically, and checks policy bytes under an exclusive handle.
+Policy failures roll back the installed payload.
+
+Vercel's skills CLI supports `hermes-agent`, including `HERMES_HOME`.
+Its default global home is `~/.hermes`, unlike this installer's Windows default.
+The CLI installs individual skill directories and defaults to symlinks.
+Its copy mode cleans an existing skill destination before copying.
+That contract does not replace this installer's no-overwrite transaction, pack-root resources, or confirmed persona policy.
+Therefore, these installers do not invoke or depend on the CLI.
+
+Primary sources, consulted 2026-10-18:
+
+- [Vercel agent registration](https://github.com/vercel-labs/skills/blob/main/src/agents.ts): `hermes-agent` paths and home resolution.
+- [Vercel installer](https://github.com/vercel-labs/skills/blob/main/src/installer.ts): `installSkillForAgent`, default mode, and `cleanAndCreateDirectory`.
+
+## How-to: run isolated installer smoke tests
+
+Run both commands from the repository root on Windows:
+
+```powershell
+pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/test-hermes-install.ps1
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/test-hermes-install.ps1
+```
+
+Repeat for each standalone pack installer in both engines:
+
+```powershell
+foreach ($engine in @('pwsh', 'powershell.exe')) {
+    foreach ($pack in @('controlled-execution', 'user-facing-standards', 'remaining-standards')) {
+        & $engine -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/test-hermes-install.ps1 -Installer "packs/$pack/install-hermes.ps1"
+        if ($LASTEXITCODE -ne 0) { throw "Hermes smoke test failed: $engine / $pack" }
+    }
+}
+```
+
+Tests use temporary fixtures, not the real Hermes home.
+They cover resource bytes, companion paths, gated-skill exclusion, linked payload refusal, persona backups, collisions, policy scopes, and concurrent destination or policy changes.
+Windows link tests use directory junctions and do not require symbolic-link privileges.
+Success requires exit code zero and `HERMES_INSTALL_BOUNDARIES_PASS`.

@@ -4,8 +4,10 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import platform
 from pathlib import Path
+import py_compile
 import sqlite3
 import subprocess
 import sys
@@ -219,13 +221,22 @@ def digest(path):
 
 
 def check_file(case, path):
-    result = {'case': case, 'candidate_sha256': digest(path), 'oracle_sha256': digest(Path(__file__)),
+    source = path.read_bytes()
+    result = {'case': case, 'candidate_sha256': hashlib.sha256(source).hexdigest(), 'oracle_sha256': digest(Path(__file__)),
               'status': 'ERROR', 'failure_code': None}
     try:
         spec = importlib.util.spec_from_file_location('candidate', path)
         module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        result['observed'] = CHECKS[case](module)
+        previous = sys.modules.get(spec.name)
+        sys.modules[spec.name] = module
+        try:
+            exec(compile(source, str(path), 'exec'), module.__dict__)
+            result['observed'] = CHECKS[case](module)
+        finally:
+            if previous is None:
+                sys.modules.pop(spec.name, None)
+            else:
+                sys.modules[spec.name] = previous
         result['status'] = 'PASS'
     except ContractFailure as error:
         result.update(status='FAIL', failure_code=error.code, detail=str(error))
@@ -313,6 +324,37 @@ def self_test():
         require(retry_sensitivity['status'] == 'FAIL'
                 and retry_sensitivity['failure_code'] == 'UNRECONCILED_TIMEOUT',
                 'CALIBRATION', f'Unreconciled retry: {retry_sensitivity}')
+    loader_controls = []
+    policy = (CORPUS / 'policy/repair.py').read_bytes()
+    with tempfile.TemporaryDirectory() as temporary:
+        path = Path(temporary) / 'candidate.py'
+        path.write_bytes(policy)
+        timestamp = 1700000000
+        os.utime(path, (timestamp, timestamp))
+        py_compile.compile(str(path), doraise=True,
+                           invalidation_mode=py_compile.PycInvalidationMode.TIMESTAMP)
+        failure = b"raise RuntimeError('current candidate must fail')\n#"
+        path.write_bytes(failure + b' ' * (len(policy) - len(failure)))
+        os.utime(path, (timestamp, timestamp))
+        record = run_candidate('policy', path)
+        require(record['status'] == 'ERROR'
+                and record.get('candidate_sha256') == digest(path)
+                and record.get('detail') == 'RuntimeError: current candidate must fail',
+                'CALIBRATION', f'Stale bytecode accepted: {record}')
+        loader_controls.append({'control': 'stale_bytecode', **record})
+        dataclass_policy = (
+            b"from dataclasses import dataclass\n\n@dataclass\nclass Fee:\n    value: 'int'\n\n"
+            + policy.replace(b"'shipping_cents': shipping_cents(subtotal)",
+                             b"'shipping_cents': Fee(shipping_cents(subtotal)).value"))
+        path.write_bytes(dataclass_policy)
+        record = run_candidate('policy', path)
+        require(record['status'] == 'PASS', 'CALIBRATION', f'Valid dataclass rejected: {record}')
+        loader_controls.append({'control': 'dataclass', **record})
+        path.write_bytes(dataclass_policy.replace(b'Fee(shipping_cents(subtotal)).value', b'Fee(0).value'))
+        record = run_candidate('policy', path)
+        require(record['status'] == 'FAIL' and record['failure_code'] == 'POLICY_DRIFT',
+                'CALIBRATION', f'Broken dataclass accepted: {record}')
+        loader_controls.append({'control': 'broken_dataclass', **record})
     # Errors must not count as successful rejection of a broken implementation.
     with tempfile.TemporaryDirectory() as temporary:
         bad = Path(temporary) / 'candidate.py'
@@ -329,7 +371,7 @@ def self_test():
             'environment': {'python': platform.python_version(), 'platform': platform.system(),
                             'sqlite': sqlite3.sqlite_version},
             'manifest_sha256': manifest_hash, 'results': results, 'query_budget_sensitivity': sensitivity,
-            'retry_sensitivity': retry_sensitivity}
+            'retry_sensitivity': retry_sensitivity, 'loader_controls': loader_controls}
 
 
 def main():

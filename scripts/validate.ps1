@@ -48,12 +48,7 @@ function Read-ZipEntryText([IO.Compression.ZipArchiveEntry]$Entry) {
 }
 
 function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
-    switch ($ProfileDefinition) {
-        'communication' { return "user-facing-communication-mini-openai-v$Version" }
-        'get-it-done' { return "get-it-done-pack-openai-v$Version" }
-        'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
-        default { return "lean-agent-skills-$ProfileDefinition-openai-v$Version" }
-    }
+    return "lean-agent-skills-$ProfileDefinition-openai-v$Version"
 }
 
 function Test-BooleanContract([object]$Value, [bool]$Expected, [string]$Label) {
@@ -109,15 +104,15 @@ function Test-ReleaseInventoryContracts([object]$Profiles, [object]$Validation, 
     try { $inventory = Get-ReleaseUserFacingInventory $repoRoot $Profiles; $script:releaseUserFacingInventory = $inventory }
     catch { Add-Failure "supplemental inventory validation failure: $($_.Exception.Message)"; return }
     $profileNames = @($Profiles.profiles.PSObject.Properties | ForEach-Object { [string]$_.Name })
-    $expectedProfileNames = @('core','engineering','complete','communication','get-it-done','gauntlet')
+    $expectedProfileNames = @('complete')
     if ((Get-RawInventoryDuplicates $profileNames).Count -gt 0) { Add-Failure 'profile definitions contain an exact duplicate' }
     if ((Get-RawInventoryCaseDuplicates $profileNames).Count -gt 0) { Add-Failure 'profile definitions contain a case-only duplicate' }
-    if (-not (Compare-ReleaseInventorySequence $expectedProfileNames $profileNames)) { Add-Failure 'profile definitions must contain the exact six profiles in canonical order' }
+    if (-not (Compare-ReleaseInventorySequence $expectedProfileNames $profileNames)) { Add-Failure 'profile definitions must contain the exact Complete profile in canonical order' }
     try {
         $rawProfileNames = @(Get-ReleaseInventoryJsonPropertyNames $ProfileText 'profiles')
         if ((Get-RawInventoryDuplicates $rawProfileNames).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $rawProfileNames).Count -gt 0 -or -not (Compare-ReleaseInventorySequence $expectedProfileNames $rawProfileNames)) { Add-Failure 'raw profile declarations have duplicate, case-colliding, or unexpected names' }
     } catch { Add-Failure "raw profile declaration validation failure: $($_.Exception.Message)" }
-    $expectedEngineeringCore = @{ core = $true; engineering = $true; complete = $true; communication = $false; 'get-it-done' = $true; gauntlet = $false }
+    $expectedEngineeringCore = @{ complete = $true }
     foreach ($profileProperty in @($Profiles.profiles.PSObject.Properties)) {
         $profileName = [string]$profileProperty.Name
         Test-BooleanContract $profileProperty.Value.include_engineering_core $expectedEngineeringCore[$profileName] ("source profile metadata include_engineering_core in " + $profileName) | Out-Null
@@ -127,8 +122,8 @@ function Test-ReleaseInventoryContracts([object]$Profiles, [object]$Validation, 
     foreach ($name in $baseNames) { if (-not (Test-ReleaseInventoryPortableName $name)) { Add-Failure "invalid base task skill name: $name" } }
     foreach ($name in $inventory.Names) { if ($baseNames -contains $name) { Add-Failure "base and supplemental skill collision: $name" } }
     $included = @($inventory.Definition.included_profiles | ForEach-Object { [string]$_ })
-    if ($included.Count -ne 6 -or (Get-RawInventoryDuplicates $included).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $included).Count -gt 0 -or -not (Test-ReleaseInventoryMemberSet $expectedProfileNames $included)) { Add-Failure 'included_profiles must contain exactly the six profiles without duplicates' }
-    $totals = @{ core=36; engineering=47; complete=51; communication=30; 'get-it-done'=33; gauntlet=31 }
+    if ($included.Count -ne 1 -or (Get-RawInventoryDuplicates $included).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $included).Count -gt 0 -or -not (Test-ReleaseInventoryMemberSet $expectedProfileNames $included)) { Add-Failure 'included_profiles must contain exactly the Complete profile without duplicates' }
+    $totals = @{ complete=51 }
     foreach ($name in $expectedProfileNames) {
         $base = @($Profiles.profiles.PSObject.Properties[$name].Value.skills | ForEach-Object { [string]$_ })
         if ((Get-RawInventoryDuplicates $base).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $base).Count -gt 0) { Add-Failure "profile $name base inventory contains duplicate names" }
@@ -179,7 +174,7 @@ function Test-MetadataContracts {
     } catch { Add-Failure "metadata parse failure: $($_.Exception.Message)"; return $null }
 
     if ($plugin.name -ne 'lean-agent-skills-complete' -or $plugin.skills -ne './skills/' -or $plugin.version -ne $profiles.version) { Add-Failure 'root plugin manifest does not match the release definition' }
-    if ($profiles.release -ne ('v' + $profiles.version) -or @($profiles.profiles.PSObject.Properties).Count -ne 6) { Add-Failure 'release profile definition has an invalid version or profile count' }
+    if ($profiles.release -ne ('v' + $profiles.version) -or @($profiles.profiles.PSObject.Properties).Count -ne 1) { Add-Failure 'release profile definition has an invalid version or profile count' }
     if ($citation -notmatch "(?m)^version:\s*$([regex]::Escape([string]$profiles.version))\s*$" -or $citation -notmatch '(?m)^license:\s*MIT\s*$') { Add-Failure 'CITATION.cff does not match release version and license' }
     $agency = $validation.considerate_agency
     $adaptive = $validation.adaptive_prose
@@ -188,7 +183,6 @@ function Test-MetadataContracts {
     $proof = $validation.proof_integrity
     $rigor = $validation.proportional_rigor
     $delivery = $validation.outcome_first_delivery
-    $composition = $validation.profile_composition
     $maintenance = $validation.maintenance
     $preservation = $validation.prose_preservation
     $completeCount = @($profiles.profiles.complete.skills).Count
@@ -201,7 +195,6 @@ function Test-MetadataContracts {
     Test-BooleanProperties $proof @('global_principles','oracle_must_be_falsifiable','status_is_not_reexecution','required_gate_abandonment_is_not_completion','native_parallel_claim_requires_launch_barrier') @('runtime_vendored') 'source metadata.proof_integrity'
     Test-BooleanProperties $rigor @('global_principles','direct_for_single_decisive_check','extra_scrutiny_requires_distinct_evidence_gap','safety_and_correctness_floor_immutable','base_task_routing_unchanged') @() 'source metadata.proportional_rigor'
     Test-BooleanProperties $delivery @('global_principles','response_weight_matching','internal_depth_external_brevity','quiet_completion','act_or_state_blocker','no_process_replay','anti_filler','anti_sycophancy','explicit_user_or_host_style_override','summary_tldr_distinct_when_used','parallel_independent_lookups_when_supported') @('runtime_vendored') 'source metadata.outcome_first_delivery'
-    Test-BooleanProperties $composition @('communication_embedded_in_get_it_done','communication_embedded_in_gauntlet') @() 'source metadata.profile_composition'
     Test-BooleanProperties $maintenance @('windows_powershell_5_1_utf8_validation','skill_behavior_changed_from_v8_5_1','skill_behavior_changed_from_v8_6_0') @() 'source metadata.maintenance'
     Test-BooleanProperties $preservation @() @('live_host_evaluated','formal_conformance_claimed') 'source metadata.prose_preservation'
     Test-BooleanProperties $validation.release_inventory @('base_task_routing_unchanged','public_source_limitations_preserved') @() 'source metadata.release_inventory'
@@ -273,6 +266,7 @@ function Get-CanonicalUpstreamIntegrityPaths {
         'docs/VALE-AUDIT-2026-10-13.md','releases/v8.19.1/RELEASE-NOTES-v8.19.1.md',
         'scripts/test-build-output.ps1','scripts/test-workflow-gates.ps1','docs/REPOSITORY-AUDIT-2026-10-13.md','releases/v8.19.0/RELEASE-NOTES-v8.19.0.md',
         'scripts/evaluate-antipatterns.py','docs/evals/antipatterns/README.md','docs/evals/antipatterns/manifest.json','docs/evals/antipatterns/policy/broken.py','docs/evals/antipatterns/policy/control.py','docs/evals/antipatterns/policy/repair.py','docs/evals/antipatterns/query_budget/broken.py','docs/evals/antipatterns/query_budget/control.py','docs/evals/antipatterns/query_budget/repair.py','docs/evals/antipatterns/retry/broken.py','docs/evals/antipatterns/retry/control.py','docs/evals/antipatterns/retry/repair.py','docs/evals/antipatterns/test_boundary/broken.py','docs/evals/antipatterns/test_boundary/control.py','docs/evals/antipatterns/test_boundary/repair.py',
+        'scripts/compare-release-artifacts.ps1','releases/v8.20.0/RELEASE-NOTES-v8.20.0.md','releases/v8.21.0/RELEASE-NOTES-v8.21.0.md',
         'docs/HISTORY.md','docs/UPSTREAM-REAUDIT-2026-10-11.md','docs/UPSTREAM-PROVENANCE-2026-10-11.json','docs/evals/delegation-workspace-regressions.json','docs/evals/audit-counterexamples.json','docs/evals/evidence-action-regressions.json','scripts/test-audit-regression-fixtures.py','scripts/test-catalogue-provenance.py','releases/v8.18.0/RELEASE-NOTES-v8.18.0.md',
         '.vale.ini','.github/workflows/vale.yml','.github/styles/LeanAgent/SentenceLength.yml','.github/styles/LeanAgent/Terminology.yml','scripts/test-vale.ps1','scripts/vale-files.py','.github/PULL_REQUEST_TEMPLATE.md','CONTRIBUTING.md',
         '.codex-plugin/plugin.json','.gitattributes','.github/workflows/controlled-execution-pack.yml','.github/workflows/remaining-standards.yml','.github/workflows/standards-pack.yml','.github/workflows/validate.yml','.github/workflows/quick-mode.yml',
@@ -359,7 +353,7 @@ function Test-ControlledExecutionPackIntegrity {
 }
 
 function Test-RepositoryHygiene {
-    $excludedPrefixes = @('.git/','dist/','artifacts/','.audit-work/','.agent-state/','.patchloom/')
+    $excludedPrefixes = @('.git/','dist/','artifacts/','.audit-work/','.agent-state/','.patchloom/','.worktrees/','.gauntlet/','.codegraph/')
     $files = @(Get-ChildItem -LiteralPath $repoRoot -Recurse -File | Where-Object {
         $relative = Get-RelativePath $repoRoot $_.FullName; $excluded = $false
         foreach ($prefix in $excludedPrefixes) { if ($relative.StartsWith($prefix)) { $excluded = $true } }
@@ -492,8 +486,8 @@ function Test-ReleaseRootReadme([string]$Directory,[object]$Profiles) {
     foreach ($phrase in @(
         ('# Lean Agent Skill Collection ' + [string]$Profiles.release),
         [string]$Profiles.release_summary,
-        'Release inventory: 24 base task skills including Quick Mode plus 27 supplemental user-facing standards. Effective profile totals are core 36, engineering 47, complete 51, communication 30, get-it-done 33, and gauntlet 31.',
-        'Choose one profile. Verify downloads with CHECKSUMS.sha256 and read THIRD_PARTY_NOTICES.md for base collection terms and USER-FACING-STANDARDS-NOTICES.md for supplemental source terms before redistribution.',
+        'Release inventory: 24 base task skills including Quick Mode plus 27 supplemental user-facing standards. The effective Complete profile total is 51.',
+        'Install the Complete profile. Verify downloads with CHECKSUMS.sha256 and read THIRD_PARTY_NOTICES.md for base collection terms and USER-FACING-STANDARDS-NOTICES.md for supplemental source terms before redistribution.',
         'Publisher documents retain their own terms and are not relicensed by the repository MIT license. The 27 routines are scoped application aids, not complete formal standards or conformance evidence.',
         'Paid, restricted, or unavailable source documents remain linked rather than bundled; users need authorized full sources for clause-level or formal assessment. No publisher endorsement is claimed; inspect each skill-local SOURCES.md before redistribution.'
     )) { if (-not $text.Contains($phrase)) { Add-Failure "release root README generated contract mismatch" } }
@@ -640,10 +634,10 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
     $expectedArchiveNames = @($Profiles.profiles.PSObject.Properties | ForEach-Object { (Get-PackageBaseName $_.Name $Profiles.version)+'.zip' })
     try {
         $rawArchiveNames = @(Get-ReleaseInventoryJsonPropertyNames $manifestText 'archives')
-        if ((Get-RawInventoryDuplicates $rawArchiveNames).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $rawArchiveNames).Count -gt 0 -or -not (Test-ReleaseInventoryMemberSet $expectedArchiveNames $rawArchiveNames)) { Add-Failure 'release manifest archive declarations must exactly enumerate the six canonical archives' }
+        if ((Get-RawInventoryDuplicates $rawArchiveNames).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $rawArchiveNames).Count -gt 0 -or -not (Test-ReleaseInventoryMemberSet $expectedArchiveNames $rawArchiveNames)) { Add-Failure 'release manifest archive declarations must exactly enumerate the canonical Complete archive' }
     } catch { Add-Failure "release manifest archive declaration validation failure: $($_.Exception.Message)" }
     foreach ($name in @('skill_content_changed_from_v8_0_0','considerate_agency','proof_integrity','proportional_rigor','outcome_first_delivery','quick_mode','direct_claims')) { Test-BooleanContract $manifest.$name $true ("release manifest.$name") | Out-Null }
-    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 6 -or $manifest.unique_skills -ne $effectiveCount -or $manifest.release_unique_skills -ne $effectiveCount -or $manifest.base_task_skills -ne $baseCount -or $manifest.supplemental_user_facing_skills -ne 27 -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true -or $manifest.quick_mode -ne $true){Add-Failure 'release manifest contract failure'}
+    if($manifest.version -ne $Profiles.version -or $manifest.profiles -ne 1 -or $manifest.unique_skills -ne $effectiveCount -or $manifest.release_unique_skills -ne $effectiveCount -or $manifest.base_task_skills -ne $baseCount -or $manifest.supplemental_user_facing_skills -ne 27 -or $manifest.skill_content_changed_from_v8_0_0 -ne $true -or $manifest.considerate_agency -ne $true -or $manifest.proof_integrity -ne $true -or $manifest.proportional_rigor -ne $true -or $manifest.outcome_first_delivery -ne $true -or $manifest.quick_mode -ne $true){Add-Failure 'release manifest contract failure'}
     if ($manifest.direct_claims -ne $true -or $manifest.supplemental_source_manifest -ne $script:releaseUserFacingInventory.ManifestRelative -or $manifest.supplemental_catalog -ne 'packs/user-facing-standards/CATALOG.md' -or $manifest.supplemental_rights_notice -ne 'packs/user-facing-standards/THIRD-PARTY-NOTICES.md'){Add-Failure 'release manifest source inventory contract failure'}
     if ($manifest.direct_claims -ne $true) { Add-Failure 'release manifest direct-claims flag missing' }
     try {
@@ -664,7 +658,7 @@ function Test-ReleaseArtifacts([string]$Directory,[object]$Profiles) {
         if(-not(Test-Path -LiteralPath $targetPath -PathType Leaf)){Add-Failure "release checksum target missing: $target";continue}
         if((Get-FileSha256 $targetPath) -cne $hash){Add-Failure "release checksum mismatch for $target"}
     }
-    if($declaredNames.Count -ne $expectedArchiveNames.Count -or -not(Test-ReleaseInventoryMemberSet $expectedArchiveNames @($declaredNames))){Add-Failure 'release CHECKSUMS.sha256 must exactly enumerate the six profile ZIP declarations'}
+    if($declaredNames.Count -ne $expectedArchiveNames.Count -or -not(Test-ReleaseInventoryMemberSet $expectedArchiveNames @($declaredNames))){Add-Failure 'release CHECKSUMS.sha256 must exactly enumerate the Complete profile ZIP declaration'}
     foreach ($mapping in @{
         'LICENSE'=(Join-Path $repoRoot 'LICENSE')
         'THIRD_PARTY_NOTICES.md'=(Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md')

@@ -262,6 +262,56 @@ def self_test_writing():
     ):
         assert score_prose(comparison, broken), "broken comparison accepted"
         sample_checks += 1
+    decision = comparison["samples"]["pass"][1]
+    for broken in (
+        decision.replace("Choose A", "Choose B").replace("Recommend A until", "Recommend B until"),
+        decision.replace("Recommend A until", "Recommend B until"),
+    ):
+        assert score_prose(comparison, broken), "wrong migration recommendation accepted"
+        sample_checks += 1
+    for recommendation in ("Select Plan A until", "Prefer A until", "Plan A is recommended until", "Recommend **Plan A** until"):
+        answer = decision.replace("Recommend A until", recommendation)
+        assert not score_prose(comparison, answer), "valid recommendation wording rejected"
+        sample_checks += 1
+    exact = cases["exact-label-and-command"]
+    complete = exact["samples"]["pass"][0]
+    for token in ("Synchronize workspace", "sync --dry-run"):
+        for suffix in ("X", "_changed", "-changed"):
+            assert score_prose(exact, complete.replace(token, token + suffix)), "changed exact token accepted"
+            sample_checks += 1
+    for label, command in (
+        ('"Synchronize workspace"', '"sync --dry-run"'),
+        ("`Synchronize workspace`", "**sync --dry-run**"),
+        ("Synchronize workspace", "sync --dry-run"),
+    ):
+        answer = complete.replace("**Synchronize workspace**", label).replace("`sync --dry-run`", command)
+        assert not score_prose(exact, answer), "valid exact token formatting rejected"
+        sample_checks += 1
+    status = cases["working-slice-status"]
+    reordered = (
+        "Overall: FAIL; no release acceptance. Owner: implement. "
+        "Supporter: writing, which cannot grant acceptance. Parser unit tests: PASS. "
+        "Browser journey: FAIL; saving loses the selected date. Security gate: NOT RUN."
+    )
+    for answer in (
+        reordered,
+        reordered.replace("Overall: FAIL", "**Overall:** **FAIL**")
+                 .replace("Security gate: NOT RUN", "**Security gate** — **NOT RUN**"),
+        reordered.replace("Overall: FAIL", "| Overall | FAIL |")
+                 .replace("Security gate: NOT RUN", "`Security gate`: `NOT RUN`"),
+        reordered.replace(". Parser unit tests: PASS", "")
+                 .replace("Overall: FAIL;", "Security gate: NOT RUN; Parser unit tests: PASS; Overall: FAIL;"),
+    ):
+        assert not score_prose(status, answer), "valid reordered status rejected"
+        sample_checks += 1
+    for old, new in (
+        ("Overall: FAIL", "Overall: PASS"),
+        ("Security gate: NOT RUN", "Security gate: PASS"),
+        ("Browser journey: FAIL", "Browser journey: PASS"),
+        ("Parser unit tests: PASS", "Parser unit tests: FAIL"),
+    ):
+        assert score_prose(status, reordered.replace(old, new)), "changed status accepted"
+        sample_checks += 1
     depth = cases["requested-long-explanation"]
     complete = depth["samples"]["pass"][0]
     for broken in (

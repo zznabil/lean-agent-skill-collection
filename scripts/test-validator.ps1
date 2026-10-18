@@ -91,9 +91,9 @@ function New-PackageMutation([string]$Source,[string]$Destination,[string]$Prefi
 }
 function Invoke-PackageRejection([string]$Name,[scriptblock]$Mutator,[string]$Expected,[bool]$Rehash=$true) {
     $destination=Join-Path $fixtureRoot ('package-' + $Name.Replace(' ','-').Replace('/','-').Replace('\','-') + '.zip')
-    $prefix=(Get-PackageBaseName 'core' $profiles.version) + '/'
-    New-PackageMutation (Join-Path $artifactRoot ((Get-PackageBaseName 'core' $profiles.version)+'.zip')) $destination $prefix $Mutator $Rehash
-    $failures.Clear(); try { Test-ZipArchive $destination 'core' $profiles.profiles.core $profiles.version $canonicalMap } catch { $failures.Add($_.Exception.Message) }
+    $prefix=(Get-PackageBaseName 'complete' $profiles.version) + '/'
+    New-PackageMutation (Join-Path $artifactRoot ((Get-PackageBaseName 'complete' $profiles.version)+'.zip')) $destination $prefix $Mutator $Rehash
+    $failures.Clear(); try { Test-ZipArchive $destination 'complete' $profiles.profiles.complete $profiles.version $canonicalMap } catch { $failures.Add($_.Exception.Message) }
     if (-not ($failures | Where-Object { $_ -match [regex]::Escape($Expected) })) { throw "Rejection control failed: $Name (expected $Expected)" }
     Write-Host ('PASS rejection: ' + $Name) -ForegroundColor Green; Remove-Item -LiteralPath $destination -Force
 }
@@ -348,7 +348,7 @@ try {
     if ($mutationCount -ne 8) { throw 'Direct-claims metadata control count drifted' }
     Write-Host "PASS: direct-claims metadata positive control and 8 deliberate mutations" -ForegroundColor Green
     Write-Host "PASS: validator rejects unsafe paths, case collisions, executables, symlinks, and malformed master archives" -ForegroundColor Green
-    foreach ($profileName in @('core','engineering','complete','communication','get-it-done','gauntlet')) {
+    foreach ($profileName in @('complete')) {
         $packageSource=Join-Path $artifactRoot ((Get-PackageBaseName $profileName $profiles.version)+'.zip')
         $failures.Clear(); Test-ZipArchive $packageSource $profileName $profiles.profiles.PSObject.Properties[$profileName].Value $profiles.version $canonicalMap
         if ($failures.Count -ne 0) { throw "Clean package positive control failed: $profileName" }
@@ -441,10 +441,10 @@ try {
         [pscustomobject]@{Name='catalog extra row outside canonical table';Expected='unexpected table row';Mutator={param($r);Add-Content -LiteralPath (Join-Path $r 'CATALOG.md') -Value '| [rogue](skills/rogue/SKILL.md) | extra | 1 | extra |'}}
     )
     foreach($control in $manifestControls){Invoke-PackRejection $control.Name $control.Mutator $control.Expected}
-    Invoke-ProfileRejection 'profile base skill exact duplicate' {param($p);$p.profiles.core.skills=@($p.profiles.core.skills)+$p.profiles.core.skills[0]} 'base inventory contains duplicate names'
-    Invoke-ProfileRejection 'profile base skill case-only duplicate' {param($p);$p.profiles.core.skills=@($p.profiles.core.skills)+([string]$p.profiles.core.skills[0]).ToUpperInvariant()} 'base inventory contains duplicate names'
-    Invoke-ArtifactRejection 'seventh release archive declaration' {param($q);$j=Get-Content -Raw $q|ConvertFrom-Json;$j.archives|Add-Member -NotePropertyName 'rogue.zip' -NotePropertyValue ([pscustomobject]@{profile='rogue';sha256=('0'*64);bytes=0});[IO.File]::WriteAllText($q,($j|ConvertTo-Json -Depth 20),[Text.Encoding]::UTF8)} 'exactly enumerate the six canonical archives'
-    Invoke-RootRejection 'generated root README material mutation with checksum rehash' {param($q);$b=[IO.File]::ReadAllBytes($q);$old=Get-BytesHash $b;$t=[Text.Encoding]::UTF8.GetString($b).Replace('Choose one profile.','Choose multiple profiles.');$n=[Text.Encoding]::UTF8.GetBytes($t);[IO.File]::WriteAllBytes($q,$n);$c=Join-Path $artifactRoot 'CHECKSUMS.sha256';$ct=Get-Content -Raw $c;[IO.File]::WriteAllText($c,$ct.Replace($old+'  README.md',(Get-BytesHash $n)+'  README.md'),[Text.Encoding]::UTF8)} 'generated contract mismatch'
+    Invoke-ProfileRejection 'profile base skill exact duplicate' {param($p);$p.profiles.complete.skills=@($p.profiles.complete.skills)+$p.profiles.complete.skills[0]} 'base inventory contains duplicate names'
+    Invoke-ProfileRejection 'profile base skill case-only duplicate' {param($p);$p.profiles.complete.skills=@($p.profiles.complete.skills)+([string]$p.profiles.complete.skills[0]).ToUpperInvariant()} 'base inventory contains duplicate names'
+    Invoke-ArtifactRejection 'rogue release archive declaration' {param($q);$j=Get-Content -Raw $q|ConvertFrom-Json;$j.archives|Add-Member -NotePropertyName 'rogue.zip' -NotePropertyValue ([pscustomobject]@{profile='rogue';sha256=('0'*64);bytes=0});[IO.File]::WriteAllText($q,($j|ConvertTo-Json -Depth 20),[Text.Encoding]::UTF8)} 'exactly enumerate the canonical Complete archive'
+    Invoke-RootRejection 'generated root README material mutation with checksum rehash' {param($q);$b=[IO.File]::ReadAllBytes($q);$old=Get-BytesHash $b;$t=[Text.Encoding]::UTF8.GetString($b).Replace('Install the Complete profile.','Install multiple profiles.');$n=[Text.Encoding]::UTF8.GetBytes($t);[IO.File]::WriteAllBytes($q,$n);$c=Join-Path $artifactRoot 'CHECKSUMS.sha256';$ct=Get-Content -Raw $c;[IO.File]::WriteAllText($c,$ct.Replace($old+'  README.md',(Get-BytesHash $n)+'  README.md'),[Text.Encoding]::UTF8)} 'generated contract mismatch'
     Write-Host 'PASS: artifact-backed validator rejection controls and clean package positive control' -ForegroundColor Green
 }
 finally {

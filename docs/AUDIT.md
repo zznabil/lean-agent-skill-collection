@@ -1,3 +1,17 @@
+# V8.21.0 reconciliation and Hermes acceptance
+
+The generated release now has one Complete profile: 24 base skills and 27 supplemental routines. The optional reference packs remain source-only.
+
+Reconcile the V8.20.0 baseline and both audited repair sets before release. Preserve source records, publisher bytes, licensing boundaries and strict JSON Boolean validation.
+
+Require fresh source and archive validation, rejection controls, evaluator calibrations, full-corpus Vale, and reproducible builds on PowerShell 7 and Windows PowerShell 5.1. Exercise all four source installers and extracted generated and standalone packages in disposable Hermes homes. Verify exact resources, policy consent, persona backups, collisions, races and rollback.
+
+Require distinct independent critics and a fresh non-builder judge. Prior two-checkout audit results do not establish integrated acceptance. Record current commands, artifacts, outcomes and untested coverage.
+
+Require normal PR checks and exact merged-main CI before tagging. Publish only the verified commit. Download and hash every published attachment, then verify local and remote main parity. Earlier acceptance records below are historical.
+
+---
+
 # V8.20.0 concise and complete communication acceptance
 
 Refactor all 134 source skills, their authored companions, root policies, standalone fallbacks and 24 adapters. Keep the 24 base routes, 27 integrated routines, six profiles and source-only boundaries. Preserve task contracts, permissions, safety, exact syntax, evidence, source records and publisher bytes.

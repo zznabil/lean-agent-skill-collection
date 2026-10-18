@@ -261,8 +261,8 @@
       "category": "accessible-terminology",
       "prompt": "Use writing to edit this help text for nontechnical adults in exactly two bullets. Keep the exact UI label 'Synchronize workspace', command 'sync --dry-run', and quote 'Do not close this window.' The button brings saved files up to date. The command shows planned changes without changing files. Explain the unfamiliar label and command alongside their exact text. Return only the two bullets.",
       "required": [
-        "Synchronize workspace",
-        "sync --dry-run",
+        "(?<![\\w-])Synchronize workspace(?![\\w-])",
+        "(?<![\\w-])sync --dry-run(?![\\w-])",
         "Do not close this window\\.",
         "(?i)(?:saved files.{0,30}up to date|up to date.{0,30}saved files)",
         "(?i)(?:planned changes|changes are planned|changes (?:it|the command) plans to make|what would change)",
@@ -453,6 +453,7 @@
         "(?i)both[^\\n]*encryption",
         "(?i)A[^\\n]*passed staging",
         "(?i)B[^\\n]*(?:not run(?: in)? staging|staging[^\\n]*not run)",
+        "(?i)\\b(?:(?:recommend|choose|select|prefer|use|retain|keep|stay with|go with)\\s+[*`_]*(?:plan\\s+)?A\\b|(?:plan\\s+)?A[*`_]*\\s+is\\s+(?:recommended|preferred|selected))[^\\n.!?]*\\buntil\\b",
         "(?i)until[^\\n]*staging[^\\n]*rollback[^\\n]*(?:verified|tested)"
       ],
       "forbidden": [
@@ -565,15 +566,15 @@
       "required": [
         "(?i)owner[^\\n]*implement",
         "(?i)writing[^\\n]*cannot grant acceptance",
-        "(?i)parser unit tests[^\\n]*PASS",
-        "(?i)browser journey[^\\n]*FAIL",
+        "(?i)parser unit tests\\b[\\s*`:_|—–-]*PASS\\b",
+        "(?i)browser journey\\b[\\s*`:_|—–-]*FAIL\\b",
         "(?i)saving loses the selected date",
-        "(?i)security gate[^\\n]*NOT RUN",
-        "(?i)overall[^\\n]*FAIL",
+        "(?i)security gate\\b[\\s*`:_|—–-]*NOT RUN\\b",
+        "(?i)overall\\b[\\s*`:_|—–-]*FAIL\\b",
         "(?i)no release acceptance"
       ],
       "forbidden": [
-        "(?i)overall[^\\n]*PASS|security gate[^\\n]*PASS|release accepted",
+        "(?i)(?:overall|security gate)\\b[\\s*`:_|—–-]*PASS\\b|release accepted",
         "https?://|\\[\\d+\\]"
       ],
       "samples": {
