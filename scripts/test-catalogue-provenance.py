@@ -14,8 +14,7 @@ HISTORY = "docs/HISTORY.md"
 CONTROLLED = "packs/controlled-execution/CATALOG.md"
 LEDGER = "docs/UPSTREAM-PROVENANCE-2026-10-11.json"
 BASELINE = "89a96c163521e6ead8898c40d8b85eebe25716ad"
-PROFILE_COUNTS = {"core": 9, "engineering": 20, "complete": 24,
-                  "communication": 3, "get-it-done": 6, "gauntlet": 4}
+PROFILE_COUNTS = {"complete": 24}
 BASIS_COUNTS = {"EXACT_PIN": 14, "BASELINE_UNKNOWN": 20,
                 "PAPER_OR_RECONSTRUCTED_CUTOFF; REVIEWED_PIN_UNKNOWN": 11}
 SHA = re.compile(r"[0-9a-f]{40}\Z")
@@ -150,7 +149,7 @@ def self_test(root):
     cases = [
         ("omitted Quick Mode", {CATALOG: re.sub(r"^\| `quick-mode`.*\n", "", catalog, flags=re.M)}, "base catalog"),
         ("duplicate route", {CATALOG: catalog + next(line for line in catalog.splitlines(True) if line.startswith("| `quick-mode`"))}, "base catalog"),
-        ("wrong Quick Mode profiles", {CATALOG: catalog.replace("| `quick-mode` | core, engineering, complete, get-it-done", "| `quick-mode` | complete")}, "profile membership"),
+        ("wrong Quick Mode profiles", {CATALOG: catalog.replace("| `quick-mode` | complete", "| `quick-mode` | core")}, "profile membership"),
         ("implicit Quick Mode activation", {CATALOG: catalog.replace("| explicit request |", "| implicit |")}, "invocation differs"),
         ("stale CDC default", {REGISTER: register.replace("<!-- current-communication-drivers:end -->", "CDC CCI is a default communication driver.\n<!-- current-communication-drivers:end -->")}, "stale CDC"),
         ("CDC assertion outside driver block", {REGISTER: register.replace("## Rules", "CDC CCI is a default communication driver.\n\n## Rules")}, "unscoped current CDC"),

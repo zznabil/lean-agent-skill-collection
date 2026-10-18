@@ -88,39 +88,16 @@ foreach ($profileProperty in @($profiles.profiles.PSObject.Properties)) {
     if ((Get-RawInventoryDuplicates $rawProfileSkills).Count -gt 0) { Add-Failure "profile $($profileProperty.Name) contains an exact duplicate base skill" }
     if ((Get-RawInventoryCaseDuplicates $rawProfileSkills).Count -gt 0) { Add-Failure "profile $($profileProperty.Name) contains a case-only duplicate base skill" }
 }
-$communicationSkills = @($profiles.profiles.communication.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-$getItDoneSkills = @($profiles.profiles.'get-it-done'.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-$gauntletSkills = @($profiles.profiles.gauntlet.skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-if ($communicationSkills.Count -ne 3) { Add-Failure "Communication profile must contain 3 unique skills; found $($communicationSkills.Count)" }
-if ( $getItDoneSkills.Count -ne 6) { Add-Failure "Get It Done profile must contain 6 unique skills; found $($getItDoneSkills.Count)" }
-if ($gauntletSkills.Count -ne 4) { Add-Failure "Gauntlet profile must contain 4 unique skills; found $($gauntletSkills.Count)" }
-foreach ($skill in $communicationSkills) {
-    if (-not ($getItDoneSkills -contains $skill)) { Add-Failure "Get It Done profile lacks Communication skill: $skill" }
-    if (-not ($gauntletSkills -contains $skill)) { Add-Failure "Gauntlet profile lacks Communication skill: $skill" }
-}
-if (-not ($getItDoneSkills -contains 'get-it-done') -or -not ($getItDoneSkills -contains 'gauntlet-loop')) { Add-Failure 'Get It Done profile lacks a required task controller' }
-if (-not ($gauntletSkills -contains 'gauntlet-loop')) { Add-Failure 'Gauntlet profile lacks gauntlet-loop' }
-$composition = $package.profile_composition
-if ($null -eq $composition -or -not $composition.communication_embedded_in_get_it_done -or -not $composition.communication_embedded_in_gauntlet) {
-    Add-Failure 'PACKAGE-VALIDATION.json lacks the communication-complete task-pack contract'
-} else {
-    $metadataCommunication = @($composition.communication_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-    $metadataGetItDone = @($composition.get_it_done_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-    $metadataGauntlet = @($composition.gauntlet_skills | ForEach-Object { [string]$_ } | Sort-Object -Unique)
-    if ((Compare-Object $communicationSkills $metadataCommunication).Count -ne 0) { Add-Failure 'Communication profile metadata differs from release-profiles.json' }
-    if ((Compare-Object $getItDoneSkills $metadataGetItDone).Count -ne 0) { Add-Failure 'Get It Done profile metadata differs from release-profiles.json' }
-    if ((Compare-Object $gauntletSkills $metadataGauntlet).Count -ne 0) { Add-Failure 'Gauntlet profile metadata differs from release-profiles.json' }
-}
 
 
 function Test-SupplementalInventoryAudit([object]$Profiles,[object]$Package) {
     $inventory = $null
     try { $inventory = Get-ReleaseUserFacingInventory $RepositoryRoot $Profiles } catch { Add-Failure $_.Exception.Message; return }
-    $expectedNames = @('core','engineering','complete','communication','get-it-done','gauntlet')
+    $expectedNames = @('complete')
     $profileNames = @($Profiles.profiles.PSObject.Properties | ForEach-Object { [string]$_.Name })
     if (-not (Compare-ReleaseInventorySequence $profileNames $expectedNames)) { Add-Failure 'release-profiles.json profile order or membership is not canonical' }
-    if ($null -eq $Profiles.user_facing_standards.included_profiles -or -not (Compare-ReleaseInventorySequence @($Profiles.user_facing_standards.included_profiles | ForEach-Object { [string]$_ }) $expectedNames)) { Add-Failure 'included_profiles must exactly enumerate the six release profiles in canonical order' }
-    $expectedCounts = @{ core = 9; engineering = 20; complete = 24; communication = 3; 'get-it-done' = 6; gauntlet = 4 }
+    if ($null -eq $Profiles.user_facing_standards.included_profiles -or -not (Compare-ReleaseInventorySequence @($Profiles.user_facing_standards.included_profiles | ForEach-Object { [string]$_ }) $expectedNames)) { Add-Failure 'included_profiles must exactly enumerate the Complete release profile in canonical order' }
+    $expectedCounts = @{ complete = 24 }
     foreach ($name in $expectedNames) {
         $base = @($Profiles.profiles.$name.skills | ForEach-Object { [string]$_ })
         if ((Get-RawInventoryDuplicates $base).Count -gt 0 -or (Get-RawInventoryCaseDuplicates $base).Count -gt 0) { Add-Failure "profile $name contains duplicate base skills" }
@@ -335,15 +312,8 @@ $currentTextFiles += @(Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot 'do
 $currentTextFiles += @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File | ForEach-Object { $_.FullName.Substring($RepositoryRoot.Length + 1) })
 foreach ($relative in $currentTextFiles | Sort-Object -Unique) { Assert-TextFile $relative }
 function Get-AuditPackageBaseName([string]$ProfileName,[string]$Version) {
-    switch ($ProfileName) {
-        'core' { return "lean-agent-skills-core-openai-v$Version" }
-        'engineering' { return "lean-agent-skills-engineering-openai-v$Version" }
-        'complete' { return "lean-agent-skills-complete-openai-v$Version" }
-        'communication' { return "user-facing-communication-mini-openai-v$Version" }
-        'get-it-done' { return "get-it-done-pack-openai-v$Version" }
-        'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
-        default { throw "unknown profile: $ProfileName" }
-    }
+    if ($ProfileName -ceq 'complete') { return "lean-agent-skills-complete-openai-v$Version" }
+    throw "unknown profile: $ProfileName"
 }
 
 function Test-AuditProfileArchive([string]$Path,[string]$ProfileName,[object]$ProfileDefinition,[object]$SupplementalNames,[string]$Version) {
@@ -368,12 +338,7 @@ if ($ArtifactsDirectory) {
     if (-not (Test-Path -LiteralPath $artifactRoot -PathType Container)) { Add-Failure "artifact directory does not exist: $artifactRoot" }
     else {
         $expectedArchives = @(
-            "lean-agent-skills-core-openai-v$version.zip",
-            "lean-agent-skills-engineering-openai-v$version.zip",
             "lean-agent-skills-complete-openai-v$version.zip",
-            "user-facing-communication-mini-openai-v$version.zip",
-            "get-it-done-pack-openai-v$version.zip",
-            "gauntlet-loop-pack-openai-v$version.zip",
             "openai-native-skill-collections-v$version-all.zip"
         )
         foreach ($name in $expectedArchives) {

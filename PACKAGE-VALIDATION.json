@@ -1,7 +1,7 @@
 {
   "scope": "static package, policy, inventory, reference, Quick Mode, standards-explicitness, adaptive-prose, outcome-first-delivery, human-usable-information, and archive validation; not live host behaviour or formal conformance; direct-claims and Quick Mode policy presence and fixture integrity, not semantic or model-behaviour proof",
   "package": "complete",
-  "version": "8.20.0",
+  "version": "8.21.0",
   "skills_expected": 51,
   "skills_validated": 51,
   "base_task_skills_expected": 24,
@@ -37,35 +37,10 @@
     "practice-feynman"
   ],
   "effective_profile_counts": {
-    "core": {
-      "base_task_skills": 9,
-      "supplemental_user_facing_skills": 27,
-      "total": 36
-    },
-    "engineering": {
-      "base_task_skills": 20,
-      "supplemental_user_facing_skills": 27,
-      "total": 47
-    },
     "complete": {
       "base_task_skills": 24,
       "supplemental_user_facing_skills": 27,
       "total": 51
-    },
-    "communication": {
-      "base_task_skills": 3,
-      "supplemental_user_facing_skills": 27,
-      "total": 30
-    },
-    "get-it-done": {
-      "base_task_skills": 6,
-      "supplemental_user_facing_skills": 27,
-      "total": 33
-    },
-    "gauntlet": {
-      "base_task_skills": 4,
-      "supplemental_user_facing_skills": 27,
-      "total": 31
     }
   },
   "release_inventory": {
@@ -153,34 +128,10 @@
     "Named standards and project influences do not establish formal conformance.",
     "The Unlazy runtime, checker, installer, approval store, dispatch recorder, and Stop hook are not bundled.",
     "Hermes runtime continuation, tool schemas, profiles, memory, caching, and computer-use enforcement are not bundled or claimed equivalent.",
-    "Overlapping profiles must not be installed together.",
     "Direct-claims fixtures are authored expectations, not live agent outputs. String-presence guards do not prove semantic compliance."
   ],
   "errors": [],
   "passed": true,
-  "profile_composition": {
-    "communication_skills": [
-      "teach",
-      "wait-what",
-      "writing"
-    ],
-    "get_it_done_skills": [
-      "gauntlet-loop",
-      "get-it-done",
-      "quick-mode",
-      "teach",
-      "wait-what",
-      "writing"
-    ],
-    "gauntlet_skills": [
-      "gauntlet-loop",
-      "teach",
-      "wait-what",
-      "writing"
-    ],
-    "communication_embedded_in_get_it_done": true,
-    "communication_embedded_in_gauntlet": true
-  },
   "proof_integrity": {
     "global_principles": true,
     "source_project": "Leonxlnx/unlazy",
@@ -249,14 +200,8 @@
     "live_host_evaluated": false,
     "formal_conformance_claimed": false
   },
-  "effective_profile_counts/core/base_task_skills": 9,
-  "effective_profile_counts/core/total": 36,
-  "effective_profile_counts/engineering/base_task_skills": 20,
-  "effective_profile_counts/engineering/total": 47,
   "effective_profile_counts/complete/base_task_skills": 24,
   "effective_profile_counts/complete/total": 51,
-  "effective_profile_counts/get-it-done/base_task_skills": 6,
-  "effective_profile_counts/get-it-done/total": 33,
   "release_inventory/base_task_adapters": 24,
   "quick_mode": {
     "included": true,

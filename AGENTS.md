@@ -1,6 +1,6 @@
 # Collection instructions
 
-These rules govern this collection, generated profiles, and selected optional-pack skills.
+These rules govern this collection, the generated Complete profile, and selected optional-pack skills.
 Use each skill only for its task. The collection has 24 base skills and 27 supplemental routines.
 A listed skill grants no permission and proves no host activation. MUST, MUST NOT, SHOULD and MAY follow RFC 2119/8174.
 
@@ -46,7 +46,7 @@ Vale checks authored skill and companion prose. Error-level terminology rules fa
 Preservation checks cover task contracts, standalone fallbacks, source integrity and generated profiles. Neither check proves model obedience or standards conformance.
 
 ## Base task skills
-Each row maps an installed skill to its task. “Manual” means explicit selection only; all other base rows follow their adapter's implicit-invocation setting. In a generated profile, only included rows appear. Read `skill://<name>` before using a selected skill.
+Each row maps an installed skill to its task. “Manual” means explicit selection only; all other base rows follow their adapter's implicit-invocation setting. In the generated Complete profile, all 24 base rows appear. Read `skill://<name>` before using a selected skill.
 <!-- base-skills:start -->
 - `architecture` — architecture decisions and contracts.
 - `browser-automation` — browser task execution and UI accessibility.
@@ -74,7 +74,7 @@ Each row maps an installed skill to its task. “Manual” means explicit select
 - `writing` — draft or edit task-facing information.
 <!-- base-skills:end -->
 
-## Supplemental skills (all generated profiles)
+## Supplemental skills (Complete profile)
 Select only when its named task applies. These 27 source-specific routines have no OpenAI adapters; read each `SOURCES.md` and respect its access and redistribution limits. Their instructions do not confer formal conformity.
 <!-- supplemental-skills:start -->
 - `standard-asd-ste100` — controlled technical English; `standard-bcp14` — normative requirement words.
@@ -94,5 +94,5 @@ Select only when its named task applies. These 27 source-specific routines have 
 <!-- supplemental-skills:end -->
 
 ## Separate optional source packs
-`packs/remaining-standards/CATALOG.md` maps 63 optional routines and 7 off-default guards; `packs/controlled-execution/CATALOG.md` maps 13 mechanisms. These source-only packs are **not** in generated profiles.
+`packs/remaining-standards/CATALOG.md` maps 63 optional routines and 7 off-default guards; `packs/controlled-execution/CATALOG.md` maps 13 mechanisms. These source-only packs are **not** in the generated Complete profile.
 Select a routine for a named task after reviewing its `SKILL.md`, `SOURCES.md`, adoption and rights. Do not install all entries or make gated routines universal. Preserve bundled sources and licences.

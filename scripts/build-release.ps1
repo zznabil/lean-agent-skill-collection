@@ -222,12 +222,7 @@ function Get-UserFacingRightsNoticePath([object]$Config) {
     return $path
 }
 function Get-PackageBaseName([string]$ProfileDefinition, [string]$Version) {
-    switch ($ProfileDefinition) {
-        'communication' { return "user-facing-communication-mini-openai-v$Version" }
-        'get-it-done' { return "get-it-done-pack-openai-v$Version" }
-        'gauntlet' { return "gauntlet-loop-pack-openai-v$Version" }
-        default { return "lean-agent-skills-$ProfileDefinition-openai-v$Version" }
-    }
+    return "lean-agent-skills-$ProfileDefinition-openai-v$Version"
 }
 function New-ProfileReadme([object]$ProfileDefinition, [string]$Version, [string[]]$BaseSkills, [object[]]$UserFacingSkills, [string[]]$EffectiveSkills) {
     $markdownCode = [string][char]96
@@ -293,13 +288,12 @@ Manual-only skills in this package (base task skills only): $manual
 
 ## Install
 
-For Hermes on Windows, extract the ZIP and run install-hermes.bat. It installs user-global skills and asks before appending AGENTS.md policy to SOUL.md; existing persona text is preserved and backed up. Use install-hermes.ps1 -HermesHome <home> for a specific profile, -PolicyScope None for skills only, or -PolicyScope Project -ProjectDirectory <project> for project instructions. Use -WhatIf to preview. Existing skills and project instructions are never overwritten. Restart Hermes and run hermes skills list. No administrator rights or machine execution-policy changes are needed. Remove only the printed pack directory and its marked SOUL.md block to undo an installation; preserve later persona edits when using a backup. Do not install overlapping profiles in one home.
+For Hermes on Windows, extract the ZIP and run install-hermes.bat. It installs user-global skills and asks before appending AGENTS.md policy to SOUL.md; existing persona text is preserved and backed up. Use install-hermes.ps1 -HermesHome <home> for a specific profile, -PolicyScope None for skills only, or -PolicyScope Project -ProjectDirectory <project> for project instructions. Use -WhatIf to preview. Existing skills and project instructions are never overwritten. Restart Hermes and run hermes skills list. No administrator rights or machine execution-policy changes are needed. Remove only the printed pack directory and its marked SOUL.md block to undo an installation; preserve later persona edits when using a backup.
 
 Install this ZIP as a skills-only plugin where supported, or copy the directories under skills/ into a user or repository skill directory.
 
 - Keep AGENTS.md in the trusted project root.
-${engineeringLine}- Do not install overlapping profiles together.
-- Other agent hosts can ignore supplemental adapter absence and use the same SKILL.md files; task routing remains unchanged.
+${engineeringLine}- Other agent hosts can ignore supplemental adapter absence and use the same SKILL.md files; task routing remains unchanged.
 
 See PACKAGE-VALIDATION.json for static checks. Runtime activation depends on the installed host and available tools.
 "@
@@ -431,8 +425,7 @@ $implicit
     "easy_to_read_requires_intended_user_review": true
   },
   "warnings": [
-    "Live model behaviour and human satisfaction were not measured.",
-    "Overlapping profiles must not be installed together."
+    "Live model behaviour and human satisfaction were not measured."
   ],
   "errors": [],
   "passed": true
@@ -591,8 +584,8 @@ Write-Utf8File (Join-Path $outputFullPath 'README.md') @"
 
 $($definition.release_summary)
 
-Release inventory: 24 base task skills including Quick Mode plus 27 supplemental user-facing standards. Effective profile totals are core 36, engineering 47, complete 51, communication 30, get-it-done 33, and gauntlet 31.
-Choose one profile. Verify downloads with CHECKSUMS.sha256 and read THIRD_PARTY_NOTICES.md for base collection terms and USER-FACING-STANDARDS-NOTICES.md for supplemental source terms before redistribution.
+Release inventory: 24 base task skills including Quick Mode plus 27 supplemental user-facing standards. The effective Complete profile total is 51.
+Install the Complete profile. Verify downloads with CHECKSUMS.sha256 and read THIRD_PARTY_NOTICES.md for base collection terms and USER-FACING-STANDARDS-NOTICES.md for supplemental source terms before redistribution.
 
 ## Rights and limitations
 

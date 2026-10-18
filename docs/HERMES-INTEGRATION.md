@@ -129,10 +129,67 @@ For project-local instructions instead:
 
 Use `-PolicyScope None` for skills only. Use `-WhatIf` to inspect the action without writing. Existing skill names, installed pack directories and project `AGENTS.md` files cause a failure before installation; they are never replaced. Use a separate home for overlapping profiles. Collision checks use declared names as well as folder names. Plain names and single- or double-quoted literal names are supported; ambiguous metadata fails closed. Review unsupported metadata or use a separate home.
 
-Policy is checked again after confirmation while the installer holds an exclusive file handle. A changed persona or newly created project policy aborts the installation without overwriting that file or creating a stale backup. Review the current policy before trying again. Failed writes remove new installer-created policy files as well as the installed payload.
+Policy is checked again after confirmation while the installer holds an exclusive file handle. A changed persona or newly created project policy aborts the installation without overwriting that file or creating a stale backup. Review the current policy before trying again. On failure, policy recovery runs before payload cleanup. It restores the original persona or removes a newly created policy file. Payload cleanup still runs if policy recovery fails. A cleanup error remains a failure; preserve the persona backup and review the printed error before removing residual payload.
 
 The home defaults to `HERMES_HOME` when set; otherwise `%LOCALAPPDATA%\hermes` on Windows and `~/.hermes` elsewhere. Pass `-HermesHome` for another profile or a host version with a different default. Skills and resources remain under `skills/lean-<pack>/`; Hermes discovers their nested `SKILL.md` files. Root `AGENTS.md` remains with the installed pack. That copy is not a global prompt: global policy uses `SOUL.md`, while project policy uses the selected project's `AGENTS.md`. When present, the engineering companion stays in the installed pack. The policy names its exact installed path so it can be read for material engineering work without bloating the global prompt. Hermes can truncate oversized context files; a large existing persona may require project policy or an explicit context-file limit in Hermes configuration.
 
 The installer excludes `gated-skills/`. Installation does not adopt every standard or enforce OpenAI adapter routing in Hermes. Restart Hermes and run `hermes skills list` for the same home/profile. Discovery proves visibility, not model obedience.
 
 To remove a trial, stop Hermes and remove only the printed installed-pack directory after review. Remove only that pack's marked policy block from `SOUL.md`, or restore the printed backup if no later persona edits need preservation. For project scope, remove only the project instructions created by this installer.
+
+## Explanation: installer ownership and Vercel skills
+
+The four installer copies intentionally remain standalone. Extracted packs do not need the repository, Node.js, network access, or a shared helper module.
+Keep these copies identical when changing installation behavior.
+
+Each installer separates skill identity parsing, linked-path validation, payload selection, and the installation transaction.
+Payload selection includes every root file and these resource directories:
+
+```text
+skills  audit  provenance  docs  references  official  licences  licenses
+```
+
+The same linked-path check covers payload entries and installation or policy ancestors.
+Validation runs before and after confirmation. It rejects linked resource roots, descendants, and changed destination or policy ancestors.
+The transaction checks destination paths again before rename and policy paths before opening the exclusive handle.
+Do not rename or replace source, home, or project directories while installation runs. These checks do not provide filesystem-wide locking against hostile concurrent changes.
+The transaction stages the complete payload, renames it atomically, and checks policy bytes under an exclusive handle.
+Policy recovery precedes payload cleanup so a cleanup failure cannot skip persona restoration.
+
+Vercel's skills CLI supports `hermes-agent`, including `HERMES_HOME`.
+Its default global home is `~/.hermes`, unlike this installer's Windows default.
+The CLI installs individual skill directories and defaults to symlinks.
+Its copy mode cleans an existing skill destination before copying.
+That contract does not replace this installer's no-overwrite transaction, pack-root resources, or confirmed persona policy.
+Therefore, these installers do not invoke or depend on the CLI.
+
+Primary sources, consulted 2026-10-18:
+
+- [Vercel agent registration](https://github.com/vercel-labs/skills/blob/main/src/agents.ts): `hermes-agent` paths and home resolution.
+- [Vercel installer](https://github.com/vercel-labs/skills/blob/main/src/installer.ts): `installSkillForAgent`, default mode, and `cleanAndCreateDirectory`.
+
+## How-to: run isolated installer smoke tests
+
+Run both commands from the repository root on Windows:
+
+```powershell
+pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/test-hermes-install.ps1
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/test-hermes-install.ps1
+```
+
+Repeat for each standalone pack installer in both engines:
+
+```powershell
+foreach ($engine in @('pwsh', 'powershell.exe')) {
+    foreach ($pack in @('controlled-execution', 'user-facing-standards', 'remaining-standards')) {
+        & $engine -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/test-hermes-install.ps1 -Installer "packs/$pack/install-hermes.ps1"
+        if ($LASTEXITCODE -ne 0) { throw "Hermes smoke test failed: $engine / $pack" }
+    }
+}
+```
+
+Tests use temporary fixtures, not the real Hermes home.
+They cover resource bytes, companion paths, gated-skill exclusion, linked payload refusal, persona backups, collisions, policy scopes, and concurrent destination or policy changes.
+Post-confirmation home and resource swaps must fail without outside writes. Partial writes must recover policy even when payload cleanup also fails.
+Windows link tests use directory junctions and do not require symbolic-link privileges.
+Success requires exit code zero and `HERMES_INSTALL_BOUNDARIES_PASS`.

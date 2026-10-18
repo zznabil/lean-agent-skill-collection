@@ -1,54 +1,9 @@
 {
-  "version": "8.20.0",
-  "release": "v8.20.0",
-  "release_title": "Concise and Complete Communication",
-  "release_summary": "Lead with the answer and keep the shortest complete response. Refactor authored skill prose and standalone fallbacks, preserve accessible Writing and expert depth, and evaluate response shape without weakening safety, evidence, source rights or routing.",
+  "version": "8.21.0",
+  "release": "v8.21.0",
+  "release_title": "Unified Complete Pack and Hermes Installation",
+  "release_summary": "Reconcile the v8.20 upstream baseline and audited repairs. Ship one Complete profile with 24 base skills and 27 supplemental routines. Simplify Hermes installation while preserving standalone resources, policy confirmation, collision protection and rollback.",
   "profiles": {
-    "core": {
-      "plugin_name": "lean-agent-skills-core",
-      "title": "Lean Agent Skills Core",
-      "description": "Nine compact skills for communication, planning, research, review, fast-path delivery, and long-horizon execution.",
-      "include_engineering_core": true,
-      "skills": [
-        "gauntlet-loop",
-        "get-it-done",
-        "handoff",
-        "plan",
-        "quick-mode",
-        "research",
-        "review",
-        "skill-design",
-        "wait-what"
-      ]
-    },
-    "engineering": {
-      "plugin_name": "lean-agent-skills-engineering",
-      "title": "Lean Agent Skills Engineering",
-      "description": "Twenty compact skills for reliable software, fast-path delivery, and long-horizon agent work.",
-      "include_engineering_core": true,
-      "skills": [
-        "architecture",
-        "browser-automation",
-        "cli-design",
-        "debug",
-        "experiment",
-        "gauntlet-loop",
-        "get-it-done",
-        "handoff",
-        "implement",
-        "merge-conflicts",
-        "plan",
-        "project-context",
-        "quick-mode",
-        "release",
-        "research",
-        "review",
-        "skill-design",
-        "test",
-        "triage",
-        "wait-what"
-      ]
-    },
     "complete": {
       "plugin_name": "lean-agent-skills-complete",
       "title": "Lean Agent Skills Complete",
@@ -80,43 +35,6 @@
         "wait-what",
         "writing"
       ]
-    },
-    "communication": {
-      "plugin_name": "user-facing-communication-mini",
-      "title": "User-Facing Communication Mini",
-      "description": "Three compact skills for outcome-first replies, adaptive clear writing, teaching, and human-usable information.",
-      "include_engineering_core": false,
-      "skills": [
-        "teach",
-        "wait-what",
-        "writing"
-      ]
-    },
-    "get-it-done": {
-      "plugin_name": "get-it-done-pack",
-      "title": "Get It Done Pack",
-      "description": "Six compact skills for fast-path and long-horizon execution, adversarial acceptance, teaching, writing, and human-usable information.",
-      "include_engineering_core": true,
-      "skills": [
-        "gauntlet-loop",
-        "get-it-done",
-        "quick-mode",
-        "teach",
-        "wait-what",
-        "writing"
-      ]
-    },
-    "gauntlet": {
-      "plugin_name": "gauntlet-loop-pack",
-      "title": "Gauntlet Loop Pack",
-      "description": "Four compact skills for adversarial quality review plus outcome-first communication, teaching, writing, and human-usable information.",
-      "include_engineering_core": false,
-      "skills": [
-        "gauntlet-loop",
-        "teach",
-        "wait-what",
-        "writing"
-      ]
     }
   },
   "user_facing_standards": {
@@ -127,12 +45,7 @@
     "rights_notice_sha256": "740590290193d280ff2b1065f3022b6a59c7e78ac2bc73fb3f8bfe94261019e8",
     "skills_expected": 27,
     "included_profiles": [
-      "core",
-      "engineering",
-      "complete",
-      "communication",
-      "get-it-done",
-      "gauntlet"
+      "complete"
     ]
   }
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.21.0 — 2026-10-18
+
+- Consolidate generated release profiles into a single Complete pack (24 base task skills plus 27 supplemental user-facing standards). Preserve the remaining-standards and controlled-execution packs as source-only.
+- Reconcile the V8.20.0 upstream baseline and local consolidation without dropping upstream validation or evaluator safeguards.
+- Refactor all standalone Hermes installers around shared installation phases. Validate linked payload roots before reads and invoke one PowerShell engine per BAT launch.
+- Recheck linked paths after consent and before transaction writes. Restore persona bytes before payload cleanup; cleanup failure must not skip policy recovery.
+- Evaluate current anti-pattern candidate source bytes. Accept valid dataclass candidates while rejecting policy drift, stale bytecode and malformed evidence.
+- Tighten communication checks for recommendation evidence, negated decisions, ordered status labels and exact command tokens without weakening source-loading controls.
+
 ## 8.20.0 — 2026-10-17
 
 - Lead with the answer and use the shortest complete response. Remove routine Summary headings and closing recaps; place a helpful TL;DR first.
