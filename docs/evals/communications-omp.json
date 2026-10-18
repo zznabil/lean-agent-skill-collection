@@ -459,6 +459,7 @@
       "forbidden": [
         "(?im)\\n(?:#+\\s*)?(?:TL;DR|Summary|In summary|In conclusion|To recap)",
         "(?im)(?:^|[.!?]\\s+)(?:both plans|(?:plan )?[AB]|it|they|both|either) (?:is|are) proven safe\\b",
+        "(?i)\\b(?:(?:do\\s+not|don't|cannot|can't|should\\s+not|shouldn't|must\\s+not|mustn't|would\\s+not|wouldn't|never)\\s+(?:recommend|choose|select|prefer|use|retain|keep|stay\\s+with|go\\s+with)\\s+[*`_]*(?:plan\\s+)?A\\b|(?:plan\\s+)?A[*`_]*\\s+is\\s+(?:not|never)\\s+(?:recommended|preferred|selected))[^\\n.!?]*\\buntil\\b",
         "https?://|\\[\\d+\\]"
       ],
       "samples": {

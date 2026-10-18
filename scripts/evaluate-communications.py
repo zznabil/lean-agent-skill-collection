@@ -269,6 +269,18 @@ def self_test_writing():
     ):
         assert score_prose(comparison, broken), "wrong migration recommendation accepted"
         sample_checks += 1
+    for recommendation in (
+        "Do not recommend A until", "Don't choose Plan A until", "Never select A until",
+        "I cannot recommend A until", "I can't prefer A until", "You should not use A until",
+        "You shouldn't retain Plan A until", "We must not keep A until",
+        "We mustn't stay with A until", "I would not go with A until",
+        "I wouldn't recommend **Plan A** until", "Plan A is not recommended until",
+        "Plan A is never preferred until",
+    ):
+        answer = decision.replace("Recommend A until", recommendation)
+        failures = score_prose(comparison, answer)
+        assert any(failure.startswith("forbidden:") for failure in failures), "negated migration recommendation accepted"
+        sample_checks += 1
     for recommendation in ("Select Plan A until", "Prefer A until", "Plan A is recommended until", "Recommend **Plan A** until"):
         answer = decision.replace("Recommend A until", recommendation)
         assert not score_prose(comparison, answer), "valid recommendation wording rejected"

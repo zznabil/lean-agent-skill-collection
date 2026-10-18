@@ -7,7 +7,7 @@
 - Refactor all standalone Hermes installers around shared installation phases. Validate linked payload roots before reads and invoke one PowerShell engine per BAT launch.
 - Recheck linked paths after consent and before transaction writes. Restore persona bytes before payload cleanup; cleanup failure must not skip policy recovery.
 - Evaluate current anti-pattern candidate source bytes. Accept valid dataclass candidates while rejecting policy drift, stale bytecode and malformed evidence.
-- Tighten communication checks for recommendation evidence, ordered status labels and exact command tokens without weakening source-loading controls.
+- Tighten communication checks for recommendation evidence, negated decisions, ordered status labels and exact command tokens without weakening source-loading controls.
 
 ## 8.20.0 — 2026-10-17
 

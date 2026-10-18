@@ -10,7 +10,7 @@
 - Reject linked payload roots before policy reads. Retain complete resources, policy confirmation, persona backups, no-overwrite collisions, destination races and rollback checks.
 - Recheck linked paths after confirmation and before transaction writes. Recover policy before payload cleanup so cleanup failure cannot skip persona restoration.
 - Execute current anti-pattern candidate source rather than timestamp-valid cached bytecode. Support valid dataclass candidates without accepting policy drift.
-- Tighten communication evaluation for recommendation evidence, ordered status labels and exact command tokens without weakening source-loading checks.
+- Tighten communication evaluation for recommendation evidence, negated decisions, ordered status labels and exact command tokens without weakening source-loading checks.
 
 ## Installation and migration
 
