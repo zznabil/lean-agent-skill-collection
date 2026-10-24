@@ -19,7 +19,7 @@ Start with `DONE`, `PARTIAL`, or `BLOCKED`. Then report:
 Do not label unverified work complete. Remove secrets and unnecessary private data.
 For status records and handoffs, distinguish an observed failure from an unknown cause. Retain failed, untested, and partially completed states. Identify the responsible actor only when evidence supports that attribution. Record the next safe action. A prose rewrite cannot improve the verdict.
 ## Communication kernel
-If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim that root instructions are active without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim that root instructions are active without evidence.
 Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terms. Use Diátaxis to separate how-to, reference, and explanation when useful. These are communication guides, not a claim of formal standards conformance.
 **User-facing:**
 - Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.

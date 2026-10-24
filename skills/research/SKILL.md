@@ -19,7 +19,7 @@ description: "Investigate a question using current primary sources and produce a
 Start with the answer. Then give critical facts, evidence, implications, contradictions, uncertainty, and the next action. Never invent a citation, quote, test, access result, or completeness claim.
 
 ## Communication kernel
-Use ASD-STE100-inspired short active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. These are communication guides, not formal standards conformance. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Use ASD-STE100-inspired short active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when helpful. These are communication guides, not formal standards conformance. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
 
 ## User-facing execution rules
 - Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.

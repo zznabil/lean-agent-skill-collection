@@ -18,7 +18,7 @@ description: "Create, edit, inspect, convert, or repair DOCX, PDF, PPTX, and spr
 - **Spreadsheet:** Check formulas, types, references, named ranges, tables, filters, validation, charts, hidden sheets, recalculation, and error cells.
 Report the output path, validation performed, active or external content found, and any feature you could not preserve or verify.
 ## Communication kernel
-- If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. - If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
 - Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when useful. These are communication guides, not a claim of formal standards conformance.
 - Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
 - State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.

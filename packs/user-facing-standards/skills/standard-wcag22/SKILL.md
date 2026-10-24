@@ -34,7 +34,7 @@ description: "Audit web accessibility against selected WCAG 2.2 criteria."
 A modal appears correct, but it traps keyboard focus after its close button disappears.
 Test the live modal states and recovery. A static source check cannot establish keyboard completion.
 ## Communication kernel
-Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim activation without evidence.
 Apply this skill’s source-specific procedure only to its task.
 - Use ASD-STE100-inspired short, active sentences and concrete words; retain domain terms.
 - Use ISO 704-inspired stable concepts and terminology. Define unfamiliar terms when needed.

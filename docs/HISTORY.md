@@ -372,3 +372,10 @@ On 6 September 2026, the user's anti-litotes candidate was absorbed as scoped an
 The [re-audit record](UPSTREAM-REAUDIT-2026-10-11.md) pins 45 primary sources and two supporting repositories. It distinguishes 14 exact historical comparisons, 11 paper/cutoff comparisons with unknown reviewed pins, and 20 unknown historical baselines. Historical adoption and rejection decisions remain intact. Current source identities, successor locations and rights do not retroactively change those decisions. No upstream runtime or source code is imported.
 
 Current catalog and policy labels now distinguish active state from historical snapshots. Quick Mode appears in the 24-row catalog, the CDC-default passage is explicitly superseded, and controlled-execution links to the merged remaining-standards pack. These documentation corrections preserve the existing architecture.
+
+
+## Communication fusion review 2026-10-24
+
+The earlier Bro/ADHD consolidation is historical lineage, not a current pinned review. This new local candidate reviews `ayghri/i-have-adhd` at `1ecea1993b7fce257ffbd686c070948b5e07eda6` and `luchasarie/bro-skill` at `6c08e7ee5eb8ef8b9bf0588d400170654abc256b`. It absorbs selected instruction practices into the existing three-driver kernel and manual `wait-what`, with no new modes or routing changes. The 2026-10-11 45-source provenance snapshot remains unchanged and dated; these two sources are a later review, not retroactive additions to that snapshot.
+
+See [source-to-decision-to-owner-to-test trace](STANDARDS-REGISTER.md#communication-fusion-review-2026-10-24) and [complete MIT notices](../THIRD_PARTY_NOTICES.md#communication-practices-reviewed-2026-10-24). Neither upstream executable code nor runtime surfaces are imported or run. Published v8.21.0 assets and historical evidence remain untouched; current builds are local candidates until independently accepted.
