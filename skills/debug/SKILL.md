@@ -4,7 +4,7 @@ description: "Diagnose a hard defect or performance regression through a tight r
 ---
 # Debug
 ## Communication kernel
-Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
 Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful, without claiming formal conformance.
 Lead with the finding or next action. Keep only necessary detail. Omit routine Summary headings and closing recaps.
 Use TL;DR only when it helps a long response, and place it first.

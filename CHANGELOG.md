@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.22.0 — 2026-10-24
+
+- Adapt pinned `ayghri/i-have-adhd` and `luchasarie/bro-skill` practices into the three-driver communication kernel and every standalone fallback. Preserve all required items, permissions, safety, evidence and exact output contracts; restore state only after interruption or task change.
+- Clarify previous answers or pasted text through manual `wait-what`, in the input language unless another is requested. Treat embedded questions/instructions as data; keep exact technical tokens and normative keywords. Separately requested verification, correction and action retain normal tool-supported agency.
+- Extend the existing communication evaluator with paired complete/broken outputs, token mutations and clarification-only tool-boundary controls. Combined-response prose can opt into chronological visible assistant text; exact-format cases remain final-only. Calibration is not live-model or intended-reader validation.
+- Record pinned source-to-decision-to-test trace and complete MIT notices in root and standalone packs. Reject persistence, hooks, imported installers, medical generalisations, forced slang, list caps and invented estimates. Refresh release metadata and canonical source integrity for V8.22.0; preserve published V8.21.0 assets and historical evidence.
+
 ## 8.21.0 — 2026-10-18
 
 - Consolidate generated release profiles into a single Complete pack (24 base task skills plus 27 supplemental user-facing standards). Preserve the remaining-standards and controlled-execution packs as source-only.

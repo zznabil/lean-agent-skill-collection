@@ -31,6 +31,14 @@ def score_prose(case, answer):
         failures.append(f"word count outside requested range: {words}")
     if case.get("one_line") and len(answer.strip().splitlines()) != 1:
         failures.append("expected one line")
+    if "line_count" in case and len(answer.splitlines()) != case["line_count"]:
+        failures.append("wrong number of requested output lines")
+    for token in case.get("preserved_tokens", []):
+        # Sentence punctuation may follow an intact token; identifier/path
+        # continuations, extensions, decimals and URL query/fragment data may not.
+        if not re.search(r"(?<![\w./\\-])" + re.escape(token)
+                         + r"(?![\w/\\-]|\.+[\w/\\-]|[?#][\w/%=&+#?-])", answer):
+            failures.append(f"changed or missing exact token: {token}")
     for pattern in case.get("required", []):
         if not re.search(pattern, answer):
             failures.append(f"missing: {pattern}")
@@ -47,10 +55,29 @@ def score_prose(case, answer):
     return failures
 
 
+def response_text(case, events):
+    """Select completed assistant prose without exposing thinking or tool data."""
+    scope = case.get("output_scope", "final")
+    if type(scope) is not str or scope not in ("final", "visible"):
+        raise ValueError("output_scope must be 'final' or 'visible'")
+    responses = [
+        (index, _composition.text_content(event["message"]).strip())
+        for index, event in enumerate(events)
+        if event.get("type") == "message_end" and event.get("message", {}).get("role") == "assistant"
+    ]
+    if not responses:
+        return "", 0, ""
+    boundary, final_answer = responses[-1]
+    if scope == "final":
+        return final_answer, boundary, final_answer
+    visible = [(index, text) for index, text in responses if text]
+    answer = "\n".join(text for _, text in visible)
+    return answer, visible[0][0] if visible else boundary, final_answer
+
+
 def score(case, answer, events, sources, paths):
     failures = score_prose(case, answer)
-    finals = [index for index, event in enumerate(events) if event.get("type") == "message_end" and event.get("message", {}).get("role") == "assistant"]
-    boundary = finals[-1] if finals else 0
+    selected, boundary, final_answer = response_text(case, events)
     loaded = _composition.loaded_sources(events[:boundary], sources, paths)
     expected = case["skill"]
     if expected not in ("none", "optional") and expected not in loaded:
@@ -62,8 +89,22 @@ def score(case, answer, events, sources, paths):
         _composition.loaded_sources(events, sources, paths, read_skills=read_skills)
         if read_skills:
             failures.append(f"irrelevant skill read: {sorted(read_skills)}")
-    if not finals or _composition.text_content(events[boundary]["message"]).strip() != answer.strip():
-        failures.append("chosen final assistant answer missing or mismatched")
+    if case.get("clarification_only") is True:
+        # Loading the selected skill is a prerequisite, not authority to inspect
+        # the pasted subject, run commands, browse or follow its instructions.
+        allowed = ("skill://wait-what", "skill://wait-what/SKILL.md", paths.get("wait-what"))
+        for event in events:
+            if event.get("type") != "tool_execution_start":
+                continue
+            args = event.get("args", {})
+            path = args.get("path", "") if isinstance(args, dict) else ""
+            source_read = event.get("toolName") == "read" and isinstance(path, str) and any(
+                prefix and (path == prefix or path.startswith(prefix + ":")) for prefix in allowed
+            )
+            if not source_read:
+                failures.append("clarification-only used a task tool")
+    if not final_answer or selected != answer.strip():
+        failures.append("chosen assistant response missing or mismatched")
     return failures, loaded
 
 
@@ -78,15 +119,14 @@ def evaluate_run(case, stdout, returncode, sources, paths):
             events.append(event)
         except ValueError:
             malformed += 1
-    answer, loaded = "", []
+    answer, final_answer, loaded = "", "", []
     try:
-        answers = [_composition.text_content(event["message"]) for event in events if event.get("type") == "message_end" and event.get("message", {}).get("role") == "assistant"]
-        answer = answers[-1].strip() if answers else ""
+        answer, _, final_answer = response_text(case, events)
         failures, loaded = score(case, answer, events, sources, paths)
     except (AttributeError, KeyError, TypeError, ValueError) as exc:
         failures = [f"invalid OMP trace: {type(exc).__name__}: {exc}"]
-    if type(returncode) is not int or returncode != 0 or not answer:
-        failures.append(f"OMP exit {returncode}; final answer {'missing' if not answer else 'present'}")
+    if type(returncode) is not int or returncode != 0 or not final_answer:
+        failures.append(f"OMP exit {returncode}; final answer {'missing' if not final_answer else 'present'}")
     if malformed:
         failures.append(f"malformed trace lines: {malformed}")
     return {"id": case["id"], "category": case["category"], "passed": not failures, "failures": failures, "loaded_skills": loaded, "answer": answer, "word_count": len(answer.split()), "exit_code": returncode}
@@ -235,10 +275,30 @@ def self_test_writing():
     """Calibrate output rubrics without pinning authored instruction wording."""
 
     expected = {"unknown-payment-outcome", "exact-label-and-command", "requested-expert-depth",
-                "respectful-adult-instructions", "preserve-safety-exception"}
+                "respectful-adult-instructions", "preserve-safety-exception",
+                "interrupted-reorientation", "seven-required-items", "fusion-exact-output",
+                "clarify-pasted-pt-br", "clarify-pasted-question", "clarify-instruction-as-data",
+                "clarify-no-context", "no-invented-estimate", "clarify-permissions-uncertainty",
+                "clarify-language-override", "clarify-previous-answer", "clarify-separate-correction",
+                "clarify-diagnostic-label-fidelity"}
     cases = {case["id"]: case for case in CASES["cases"] if "samples" in case}
     assert expected <= cases.keys(), "Writing sample case missing"
     sample_checks = 0
+    for token in ("config.yaml", "C:/dados/a.json", "exit 17",
+                  "https://example.org/help", "sync --dry-run"):
+        token_case = {"preserved_tokens": [token]}
+        for suffix in ("", ".", ", next", "; next", ": next", "!", "?",
+                       "? Next", '."', "...", "\n"):
+            assert not score_prose(token_case, token + suffix), f"intact token punctuation rejected: {token!r}{suffix!r}"
+            sample_checks += 1
+        for suffix in ("_changed", ".bak", "/child", "\\child"):
+            assert score_prose(token_case, token + suffix), f"token continuation accepted: {token!r}{suffix!r}"
+            sample_checks += 1
+    for token, suffix in (("exit 17", ".5"),
+                          ("https://example.org/help", "?redirect=evil"),
+                          ("https://example.org/help", "#changed")):
+        assert score_prose({"preserved_tokens": [token]}, token + suffix), f"changed token accepted: {token!r}{suffix!r}"
+        sample_checks += 1
     for case in cases.values():
         samples = case["samples"]
         assert samples["pass"] and samples["fail"], f"missing paired samples: {case['id']}"
@@ -247,6 +307,10 @@ def self_test_writing():
                 failures = score_prose(case, answer)
                 assert (not failures) == accepted, f"sample misclassified: {case['id']}: {answer}: {failures}"
                 sample_checks += 1
+        for token in case.get("preserved_tokens", []):
+            broken = samples["pass"][0].replace(token, token + "_changed")
+            assert score_prose(case, broken), f"changed technical token accepted: {case['id']}: {token}"
+            sample_checks += 1
         if "max_words" in case:
             overlong = samples["pass"][0] + " Additional detail." * case["max_words"]
             assert score_prose(case, overlong), f"overlong answer accepted: {case['id']}"
@@ -440,6 +504,19 @@ def self_test_evidence():
         for trace in ([*failed, final()], [partial[1], final()]):
             check(not score({**case, "skill": "none"}, "Draft", trace, sources, paths)[0], "failed/unpaired read counted as successful activation")
 
+    clarify_source = "---\nname: wait-what\n---\n# Wait, What?\nRe-express only.\n"
+    clarify_sources = {"wait-what": clarify_source}
+    clarify_paths = {"wait-what": "/fixture/skills/wait-what/SKILL.md"}
+    clarify_case = {"id": "clarification-tools", "category": "calibration", "skill": "wait-what", "clarification_only": True}
+    clarify_load = read("skill://wait-what:raw", clarify_source)
+    check(not score(clarify_case, "Draft", [*clarify_load, final()], clarify_sources, clarify_paths)[0], "clarification skill loading rejected")
+    for name, args in (("bash", {"command": "delete-all --force"}),
+                       ("read", {"path": "/private/context"}),
+                       ("read", {"path": "skill://wait-what-malicious"}),
+                       ("browser", {"url": "https://example.org"})):
+        action = {"type": "tool_execution_start", "toolName": name, "args": args}
+        check(bool(score(clarify_case, "Draft", [*clarify_load, action, final()], clarify_sources, clarify_paths)[0]), "clarification task tool accepted")
+        check(not score({**clarify_case, "clarification_only": False}, "Draft", [*clarify_load, action, final()], clarify_sources, clarify_paths)[0], "separately requested action disabled")
     negative = {"id": "negative-control", "category": "calibration", "skill": "none", "required": ["^Noted\\.$"]}
     stdout = json.dumps(final("Noted.")) + "\n"
     check(evaluate_run(negative, stdout, 0, sources, paths)["passed"], "valid negative trial rejected")
@@ -451,6 +528,94 @@ def self_test_evidence():
         with patch.object(subprocess, "run", side_effect=exc):
             out, err, code = run_omp(["omp"], ROOT)
         check(bool(err) and not evaluate_run(negative, out, code, sources, paths)["passed"], "host exception accepted as negative trial")
+
+    def trial(case, trace, code=0, suffix=""):
+        stdout = "\n".join(json.dumps(event) for event in trace) + "\n" + suffix
+        return evaluate_run(case, stdout, code, clarify_sources, clarify_paths)
+
+    combined = next(case for case in CASES["cases"] if case["id"] == "clarify-separate-correction")
+    for sample in combined["samples"]["pass"]:
+        heading = re.search(r"(?m)^(?:#{1,6}[ \t]+)?Correction\b", sample)
+        first, last = sample[:heading.start()].rstrip(), sample[heading.start():].strip()
+        for signed in (False, True):
+            commentary = final(first)
+            commentary["message"]["channel"] = "commentary"
+            if signed:
+                commentary["message"]["content"][0]["textSignature"] = "fixture-commentary"
+            for trace, expected in (
+                ([*clarify_load, final(sample)], sample),
+                ([*clarify_load, commentary, final(last)], first + "\n" + last),
+            ):
+                result = trial(combined, trace)
+                check(result["passed"], "valid joined/split visible response rejected")
+                check(result["answer"] == expected and result["word_count"] == len(expected.split()),
+                      "visible response report disagrees with scored text")
+
+    sample = combined["samples"]["pass"][0]
+    first, last = sample.split("\n", 1)
+    visible_trace = [*clarify_load, final(first), final(last)]
+    multipart = final()
+    multipart["message"]["content"] = [
+        {"type": "thinking", "thinking": "not visible", "signature": "fixture-thinking"},
+        {"type": "text", "text": first + "\n", "textSignature": "fixture-text"},
+        {"type": "toolCall", "id": "fixture-call", "name": "bash", "arguments": {"command": "not visible"}},
+        {"type": "text", "text": last},
+    ]
+    result = trial(combined, [*clarify_load, multipart])
+    check(result["passed"] and result["answer"] == sample, "visible text parts lost order or included hidden data")
+    check(bool(score(combined, last, visible_trace, clarify_sources, clarify_paths)[0]),
+          "final-only answer accepted as combined report")
+    for broken in combined["samples"]["fail"]:
+        check(not trial(combined, [*clarify_load, final(broken)])["passed"], "broken combined sample accepted")
+    for trace in (
+        [*clarify_load, final(last)],
+        [*clarify_load, final(last), final(first)],
+        [*clarify_load, final(first.replace("438", "437")), final(last)],
+        [final(first), *clarify_load, final(last)],
+        [clarify_load[0], final(first), clarify_load[1], final(last)],
+        [*clarify_load, final(sample), final("")],
+        [*clarify_load, final(sample), {"type": "message_end", "message": {"role": "assistant", "content": [
+            {"type": "toolCall", "id": "last-call", "name": "bash", "arguments": {"command": "true"}}
+        ]}}],
+        [*clarify_load, final(sample), {"type": "message_end", "message": {"role": "assistant", "content": [
+            {"type": "thinking", "thinking": last}
+        ]}}],
+    ):
+        check(not trial(combined, trace)["passed"], "incomplete, reordered, silent correction or late source accepted")
+    hidden = final(first)
+    hidden["message"]["content"] = [{"type": "thinking", "thinking": first, "signature": "fixture-thinking"}]
+    tool_result = final(first)
+    tool_result["message"]["role"] = "toolResult"
+    user_message = final(first)
+    user_message["message"]["role"] = "user"
+    tool_args = {"type": "tool_execution_start", "toolName": "bash", "args": {"command": first}}
+    incomplete = {"type": "message_update", "message": final(first)["message"]}
+    for excluded in (hidden, tool_result, user_message, tool_args, incomplete):
+        check(not trial(combined, [*clarify_load, excluded, final(last)])["passed"],
+              "non-visible or incomplete restatement counted as assistant prose")
+    for code in (1, -1, None, "0", False):
+        check(not trial(combined, visible_trace, code)["passed"], "visible scope accepted failed/unknown exit")
+    for suffix in ("{broken\n", "null\n", '{"type":"message_end","message":null}\n',
+                   '{"type":"message_end","message":{"role":"assistant","content":null}}\n'):
+        check(not trial(combined, visible_trace, suffix=suffix)["passed"], "visible scope accepted malformed trace")
+    for scope in (None, True, False, 0, 1, "true", "false", "0", "1", "", "Visible", "all", [], {}):
+        for scoped_case, trace in ((combined, visible_trace), (negative, [final("Noted.")])):
+            check(not trial({**scoped_case, "output_scope": scope}, trace)["passed"], "invalid output scope accepted")
+
+    exact = next(case for case in CASES["cases"] if case["id"] == "fusion-exact-output")
+    json_case = {"id": "json-final-control", "category": "calibration", "skill": "optional",
+                 "required": [r'^\{"ok":true\}$'], "one_line": True}
+    for exact_case, answer in ((exact, "status=ok"), (negative, "Noted."), (json_case, '{"ok":true}')):
+        trace = [final("Prior commentary.\nNot part of the exact final contract."), final(answer)]
+        for scoped_case in (exact_case, {**exact_case, "output_scope": "final"}):
+            result = trial(scoped_case, trace)
+            check(result["passed"] and result["answer"] == answer
+                  and result["word_count"] == len(answer.split()), "exact-format final-only semantics changed")
+        check(not trial({**exact_case, "output_scope": "visible"}, trace)["passed"],
+              "explicit visible scope did not score prior commentary")
+    final_only = {**combined, "output_scope": "final"}
+    check(trial(final_only, [final("Prior commentary."), *clarify_load, final(sample)])["passed"],
+          "default source-before-final semantics changed")
     return checks
 
 

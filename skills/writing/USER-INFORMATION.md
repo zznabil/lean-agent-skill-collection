@@ -11,7 +11,7 @@ Apply this kernel to this reference, its examples, and the text you draft or edi
 - Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when useful. Do not force sections into a short answer.
 
 If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
-Lead with the answer or action. Keep necessary detail without arbitrary truncation. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language and exact tokens; never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Lead with the answer or action. Keep necessary detail without arbitrary truncation. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format.
 
 ## Source roles
 

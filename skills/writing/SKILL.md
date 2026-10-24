@@ -9,7 +9,7 @@ Choose **draft** or **edit**. Help the reader find, understand, and use the info
 For user-facing text, default to familiar language that does not assume technical knowledge. Respect requested expert detail and the reader's stated needs. Do not infer ability from a diagnosis or impose a universal reading age. Use respectful language for the intended audience.
 
 ## Communication kernel
-
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains.
 Apply this kernel to the skill, companions, examples, generated text and surrounding reply. For agent instructions, the executing agent is the reader.
 Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
 1. **Language — ASD-STE100-inspired.** Use short, active sentences, direct verbs and concrete words. Keep one main idea or action per sentence when practical.

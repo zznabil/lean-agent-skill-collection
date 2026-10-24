@@ -25,7 +25,7 @@ Mandatory safety, trusted repository policy, authorization and explicit acceptan
 10. **Journey verdict.** Report `PASS`, `FAIL`, or `BLOCKED` for each independent journey. Include the environment and evidence.
 Do not bypass access controls, anti-abuse systems, CAPTCHA, or consent. Do not purchase, publish, send, delete, or mutate production without explicit authorization.
 ## Communication kernel
-- If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. - If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
 - Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when useful. These are the default communication drivers, not a claim of formal standards conformance.
 - Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
 - State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.

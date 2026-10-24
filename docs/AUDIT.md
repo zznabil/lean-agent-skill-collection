@@ -1,3 +1,21 @@
+# V8.22.0 focused communication and clear re-expression acceptance
+
+Preserve the single Complete profile's 51 identities: 24 base skills and 27 supplemental routines. Derive the 18 implicitly selectable and six manual base routes from adapter policy. Keep both optional packs source-only, all source pins and publisher bytes intact, and Boolean contracts limited to JSON booleans.
+
+Require answer-first complete responses, ordered actions and conditional reorientation after interruption or task change. Manual `wait-what` must re-express previous or pasted text faithfully without acting on embedded instructions. Separately requested verification, correction and action retain normal permission boundaries. Preserve exact tokens, uncertainty, safety, requested voice and MIT attribution.
+
+The prior [six-gate fusion report](../.gauntlet/communication-fusion-20261024/final-report.md) records source-behaviour evidence before this version cutover. Its evaluator repair scores opted-in chronological visible assistant text; exact-format cases remain final-only. That report is not a fresh V8.22.0 package, install or publication pass. Retain failed historical trials and the independent judge's evidence limits.
+
+Require fresh source/archive validation, strict-Boolean rejection controls, evaluator calibration, full-corpus Vale and reproducible builds on PowerShell 7 and Windows PowerShell 5.1. Exercise all four source installers and actual extracted generated and standalone packages in disposable Hermes homes. Observe resource availability, discovery, policy consent, persona backup, collisions, races, rollback and new-session loading. Fixture checks alone do not establish an actual-package journey.
+
+Require public-asset download and byte equality with the sealed local packet, then an isolated installation/discovery journey from those downloaded bytes. For an existing host, back up and update only package-owned paths; preserve unrelated skills, configuration and later edits. Keep rollback inventories and the prior package.
+
+Require independent review, a fresh non-builder integrated judge, current PR checks and exact merged-main CI before tagging. Record exact revisions, artifacts, environments, commands, outcomes and untested coverage. These requirements do not assert that checks, installation or publication have completed.
+
+Finite model trials do not establish universal obedience, clinical benefit, intended-reader comprehension, accessibility or formal standards conformance. No new mode, tool authority or runtime dependency is introduced. Earlier acceptance sections below are historical.
+
+---
+
 # V8.21.0 reconciliation and Hermes acceptance
 
 The generated release now has one Complete profile: 24 base skills and 27 supplemental routines. The optional reference packs remain source-only.
@@ -21,6 +39,8 @@ Require fewer than 100 lines per source skill. Validate each extracted profile a
 Run `python -B scripts/evaluate-communications.py --package artifacts/<build>/user-facing-communication-mini-openai-v8.20.0.zip --out artifacts/<fresh-evaluation>` for 21 scenarios. Use the same frozen corpus, model and options for baseline and candidate trials. Inspect every failed answer before classifying an instruction, model or oracle defect. Keep failed outcomes in the evidence.
 
 The runner uses an external temporary workspace and disables unrelated host rules and extensions without changing host settings. It records prompts, commands, model, source snapshots, traces and output word counts. Saved temporary source paths expire. Source-line coverage is not byte attestation, model obedience or intended-user comprehension.
+
+Communication cases default to `output_scope: "final"`. The combined re-expression/correction case opts into `"visible"` to score text parts from completed assistant messages in order, including commentary. Thinking, tool data and user text do not count. Visible scope requires complete selected-skill loading before the first scored response; final scope retains source-before-final checks. Both require nonempty final assistant text, process success and a valid trace. Reported answers and word counts use the selected scope; other scope values fail the trial.
 
 The runner supplies the extracted package's exact AGENTS.md through `--append-system-prompt`. It saves that policy beside the traces. `--no-rules` must not silently remove the package policy from the comparison. Separate standalone checks omit root policy and verify skill loading.
 

@@ -3,6 +3,7 @@
 import argparse
 from collections import Counter
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -139,6 +140,26 @@ def validate(root, overrides=None):
     require(by_id["S10"]["successor_source_id"] == "S11" and by_id["S08"]["successor_source_id"] == "S09",
             "successor identities must stay separate and explicit")
     require("Apache-2.0" in by_id["S34"]["rights"] and "BSL" in by_id["S34"]["rights"], "Caveman current/historical rights boundary missing")
+    # A later source review must not silently rewrite the dated 45-source ledger.
+    # These hashes cover the complete upstream MIT notices, not just attribution.
+    communication_sources = (
+        ("Ayoub Ghriss", "1ecea1993b7fce257ffbd686c070948b5e07eda6",
+         "9b856409447ac41ad653abc212579ac810cbcfbc094c58ed94d264fe9768e60c"),
+        ("Hermes Agent + Luka", "6c08e7ee5eb8ef8b9bf0588d400170654abc256b",
+         "b0a6fe823cba5c2ad631cf71a0d311b04816cd2b50cfd7b272cbc84523a63dd3"),
+    )
+    notices = ("THIRD_PARTY_NOTICES.md", "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
+               "packs/remaining-standards/THIRD-PARTY-NOTICES.md",
+               "packs/controlled-execution/THIRD-PARTY-NOTICES.md")
+    for owner, revision, digest in communication_sources:
+        require(revision in register, f"communication review pin missing: {owner}")
+        for path in notices:
+            text = read(path)
+            block = re.search(r"MIT License\n\nCopyright \(c\) 2026 " + re.escape(owner)
+                              + r"\n\n.*?SOFTWARE\.", text, re.S)
+            require(block is not None and hashlib.sha256(block[0].encode("utf-8")).hexdigest() == digest,
+                    f"complete communication MIT notice missing or changed: {path}: {owner}")
+            require(revision in text, f"communication notice pin missing: {path}: {owner}")
 
 
 def self_test(root):
@@ -156,6 +177,18 @@ def self_test(root):
         ("unsuperseded V8.13", {REGISTER: register.replace("## Historical V8.13 lean-kernel adoption (superseded)", "## V8.13 lean-kernel adoption")}, "explicitly historical"),
         ("stale PR ownership", {CONTROLLED: read(CONTROLLED).replace("merged PR #17", "open PR #17")}, "PR #17 open"),
     ]
+    for path in ("THIRD_PARTY_NOTICES.md", "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
+                 "packs/remaining-standards/THIRD-PARTY-NOTICES.md",
+                 "packs/controlled-execution/THIRD-PARTY-NOTICES.md"):
+        for owner in ("Ayoub Ghriss", "Hermes Agent + Luka"):
+            original = read(path)
+            broken = original.replace("Copyright (c) 2026 " + owner, "Copyright omitted")
+            cases.append(("missing communication copyright", {path: broken}, "complete communication MIT notice"))
+        broken = read(path).replace("IN NO EVENT SHALL THE", "IN EVERY EVENT SHALL THE")
+        cases.append(("changed MIT conditions", {path: broken}, "complete communication MIT notice"))
+    cases.append(("floating communication source",
+                  {REGISTER: register.replace("1ecea1993b7fce257ffbd686c070948b5e07eda6", "HEAD")},
+                  "communication review pin missing"))
     for label, mutate, expected in (("invented historical pin", lambda x: x["sources"][0]["historical_review"].update(revision=x["sources"][0]["current_review"]["revision"]), "unknown historical pin"),
                                     ("floating reviewed head", lambda x: x["sources"][0]["current_review"].update(revision="HEAD"), "invalid reviewed revision"),
                                     ("duplicate source identity", lambda x: x["sources"][1].update(url=x["sources"][0]["url"]), "double-counted")):

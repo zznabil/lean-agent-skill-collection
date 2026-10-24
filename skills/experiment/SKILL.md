@@ -4,7 +4,7 @@ description: "Design a controlled product, performance, or engineering experimen
 ---
 # Experiment
 ## Communication kernel
-If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
 - Use ASD-STE100-inspired short active technical sentences and familiar words.
 - Use ISO 704-inspired stable concepts and terminology.
 - Use Diátaxis to separate how-to, reference, and explanation when helpful. These are communication guides, not formal standards conformance.

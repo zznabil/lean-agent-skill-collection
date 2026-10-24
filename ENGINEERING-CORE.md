@@ -6,7 +6,7 @@ Use this core for material engineering only. Its practical standards-inspired ru
 
 Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
 Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful, without claiming formal conformance.
-Lead with the answer or next action. Use only necessary detail. Omit routine Summary headings and closing recaps; place an optional, useful TL;DR first.
+Lead with the answer or next action. Use only necessary detail. Omit routine Summary headings and closing recaps; place an optional, useful TL;DR first. Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Show verified outcomes and factual errors; never invent estimates or diagnose readers. Give a concrete next action only if work remains.
 Preserve facts, negation, conditions, exceptions, permissions, uncertainty, evidence limits, exact syntax and requested voice. Other frameworks remain task-selected.
 
 ## Standards source map

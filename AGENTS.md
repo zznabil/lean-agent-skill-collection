@@ -11,7 +11,7 @@ Apply this kernel to every skill and authored companion, including standalone in
 - **Terminology — ISO 704-inspired:** Prefer one term per concept within an artefact. Define ambiguous specialised terms; preserve precise domain and machine-sensitive terminology.
 - **Organisation — Diátaxis:** Separate tutorial, how-to, reference and explanation when helpful; do not force sections into short answers.
 Lead with the answer, result or next action. Use the shortest complete response that meets the task, audience, risk and requested depth.
-Omit routine Summary headings and closing recaps. Use TL;DR only when it helps a long response, and place it first.
+Omit routine Summary headings and closing recaps. Use TL;DR only when it helps a long response, and place it first. Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Show verified outcomes and factual errors; never invent estimates or diagnose readers. Give a concrete next action only if work remains.
 Preserve facts, actors, negation, conditions, exceptions, permissions, uncertainty, evidence limits, quotations, requested voice and exact formats.
 Use British spelling except in sources, exact strings or requested locales. Other frameworks remain task-selected; inspired prose does not establish formal conformance.
 <!-- communication-kernel:end -->

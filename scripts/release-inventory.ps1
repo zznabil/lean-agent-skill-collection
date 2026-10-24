@@ -1,5 +1,5 @@
 $script:ReleaseInventoryPortableNamePattern = '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-$script:ExpectedSupplementalPackLedgerSha256 = '1783b9c326d0f8319d7b0e871bf3b0fd8e243c2a68b8ead33702c37c06e17f02'
+$script:ExpectedSupplementalPackLedgerSha256 = '9a91b01631f90329f3dd0dceffe54f8332cd5549e50d31a9a810ca3b8d0d9f4d'
 
 function Get-ReleaseInventorySha256([string]$Path) {
     $stream = [IO.File]::OpenRead($Path)
@@ -289,11 +289,11 @@ function Get-ReleaseChecksumLedger([string]$RepositoryRoot,[string]$PackRelative
 function Get-ReleasePackLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/user-facing-standards' $script:ExpectedSupplementalPackLedgerSha256 'supplemental pack'
 }
-$script:ExpectedRemainingStandardsPackLedgerSha256 = 'b7661fdffda46df27887b2e553dc6f5e895735d998f24353369e63e4c4e365a2'
+$script:ExpectedRemainingStandardsPackLedgerSha256 = '6ebc2f03b951c97d374370a29dda4057c12eaead21259bb921645bfe83fc6f13'
 function Get-ReleaseRemainingStandardsLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/remaining-standards' $script:ExpectedRemainingStandardsPackLedgerSha256 'remaining standards pack'
 }
-$script:ExpectedControlledExecutionPackLedgerSha256 = '56585ffbf942a6cee818bd1f7825fe9002378124ad72fd46c45005602893dc02'
+$script:ExpectedControlledExecutionPackLedgerSha256 = '844d4bcfa1038da07eec780f44aa43f2737871b36a95e3002bf3b7b9eac09742'
 function Get-ReleaseControlledExecutionLedger([string]$RepositoryRoot) {
     return Get-ReleaseChecksumLedger $RepositoryRoot 'packs/controlled-execution' $script:ExpectedControlledExecutionPackLedgerSha256 'controlled-execution pack'
 }
