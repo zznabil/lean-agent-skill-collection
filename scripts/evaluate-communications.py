@@ -440,6 +440,29 @@ def self_test_evidence():
     numbered = "\n".join(f"{index}|{line}" for index, line in enumerate(source.splitlines(), 1))
     complete = read("skill://writing", numbered)
     check(score(case, "Draft", [*complete, final()], sources, paths) == ([], ["writing"]), "complete source rejected")
+    headered = read("skill://writing", f"[Skill file: {Path(paths['writing'])}]\n{source}")
+    check(score(case, "Draft", [*headered, final()], sources, paths) == ([], ["writing"]), "headered source rejected")
+    headered_numbered = read("skill://writing", f"[Skill file: {Path(paths['writing'])}]\n{numbered}")
+    check(score(case, "Draft", [*headered_numbered, final()], sources, paths) == ([], ["writing"]), "numbered headered source rejected")
+    for mutation in ("wrong-header", "wrong-header-numbered", "mixed-numbered", "modified", "truncated", "failed", "unpaired", "late"):
+        bad = copy.deepcopy(headered)
+        result = bad[1]["message"]
+        if mutation == "wrong-header":
+            result["content"][0]["text"] = f"[Skill file: {Path(paths['writing'])}.wrong]\n{source}"
+        elif mutation == "wrong-header-numbered":
+            result["content"][0]["text"] = f"[Skill file: {Path(paths['writing'])}.wrong]\n{numbered}"
+        elif mutation == "mixed-numbered":
+            result["content"][0]["text"] = f"[Skill file: {Path(paths['writing'])}]\n{numbered}\nextra"
+        elif mutation == "modified":
+            result["content"][0]["text"] = result["content"][0]["text"].replace("Do not claim", "Always claim")
+        elif mutation == "truncated":
+            result["content"][0]["text"] = "\n".join(result["content"][0]["text"].splitlines()[:-1])
+        elif mutation == "failed":
+            result["isError"] = True
+        elif mutation == "unpaired":
+            result["toolCallId"] = "unmatched"
+        trace = [final(), *bad] if mutation == "late" else [*bad, final()]
+        check(bool(score(case, "Draft", trace, sources, paths)[0]), f"headered {mutation} source accepted")
     check(bool(score({**case, "required": ["missing phrase"]}, "Draft", [*complete, final()], sources, paths)[0]), "source evidence bypassed prose rubric")
     for base in ("skill://writing", paths["writing"]):
         for raw in (False, True):
@@ -450,7 +473,7 @@ def self_test_evidence():
             for start, end in ((1, 4), (5, 6)):
                 lines = source.splitlines()[start - 1:end]
                 text = "\n".join(lines) if raw else "\n".join(f"{index}:{line}" for index, line in enumerate(lines, start))
-                selector = f":{start}-{end}" if start == 1 else f":{start}"
+                selector = f":{start}-{end}" if start == 1 else f":{start}-" if raw else f":{start}"
                 ranged.extend(read(path + selector, text, f"range-{start}"))
             check(not score(case, "Draft", [*ranged, final()], sources, paths)[0], "complete range union rejected")
             for mutation in ("missing", "substituted", "failed", "unpaired", "late"):
@@ -493,6 +516,67 @@ def self_test_evidence():
         else:
             trace = [*bad, final("Other answer" if mutation == "mismatched-final" else "Draft")]
         check(bool(score(case, "Draft", trace, sources, paths)[0]), f"{mutation} source proof accepted")
+    truncated_lines = source.splitlines()
+    truncated_lines[1] = truncated_lines[1][:4] + "…"
+    truncated_text = "\n".join(truncated_lines) + "\n\n[Some lines truncated to 4 chars. Use :raw:2-2 to read line 2 whole]"
+    truncated = read(paths["writing"], truncated_text, "truncated")
+    reread = read(paths["writing"] + ":2:raw", source.splitlines()[1], "reread")
+    check(not score(case, "Draft", [*truncated, *reread, final()], sources, paths)[0], "complete unnumbered source with raw reread rejected")
+    check(bool(score(case, "Draft", [*truncated, final()], sources, paths)[0]), "unrepaired truncated line accepted")
+    for mutation in ("substituted", "removed", "reordered", "footer", "reread-modified", "reread-late"):
+        bad = copy.deepcopy([*truncated, *reread])
+        result = bad[1]["message"]["content"][0]
+        if mutation == "substituted":
+            result["text"] = result["text"].replace("# Writing", "# Altered")
+        elif mutation == "removed":
+            result["text"] = "\n".join(result["text"].split("\n")[1:])
+        elif mutation == "reordered":
+            lines = result["text"].split("\n")
+            lines[0], lines[3] = lines[3], lines[0]
+            result["text"] = "\n".join(lines)
+        elif mutation == "footer":
+            result["text"] = result["text"].replace("Some lines truncated", "Unknown lines truncated")
+        elif mutation == "reread-modified":
+            bad[3]["message"]["content"][0]["text"] += " altered"
+        else:
+            bad.insert(2, final())
+        trace = bad if mutation == "reread-late" else [*bad, final()]
+        check(bool(score(case, "Draft", trace, sources, paths)[0]), f"unnumbered {mutation} source accepted")
+    multiple = copy.deepcopy(truncated)
+    lines = multiple[1]["message"]["content"][0]["text"].split("\n")
+    lines[3] = lines[3][:4] + "…"
+    lines[-1] = lines[-1].replace("line 2 whole]", "line 2 whole; cut lines run to line 4, each read the same way]")
+    multiple[1]["message"]["content"][0]["text"] = "\n".join(lines)
+    reread_four = read(paths["writing"] + ":4:raw", source.splitlines()[3], "reread-four")
+    check(not score(case, "Draft", [*multiple, *reread, *reread_four, final()], sources, paths)[0], "multiple truncated lines with raw rereads rejected")
+    check(bool(score(case, "Draft", [*multiple, *reread, final()], sources, paths)[0]), "missing second truncated-line reread accepted")
+    for mutation, text in (("reordered", "\n".join(reversed(numbered.splitlines()))), ("unmatched", numbered + "\nunmatched altered content")):
+        bad = read(paths["writing"], text, mutation)
+        check(bool(score(case, "Draft", [*bad, final()], sources, paths)[0]), f"numbered {mutation} source accepted")
+    outside = read(paths["writing"] + ":1-1", numbered, "outside")
+    check(bool(score(case, "Draft", [*outside, final()], sources, paths)[0]), "numbered lines outside reader context counted")
+    context = f"[{paths['writing']}#A1B2]\n" + "\n".join(numbered.splitlines()[:4]) + "\n\n[Showing lines 1-4 of 6. Use :5 to continue]"
+    contextual = read(paths["writing"] + ":1-1", context, "context")
+    rest = read(paths["writing"] + ":5-:raw", "\n".join(source.splitlines()[4:]), "context-rest")
+    check(not score(case, "Draft", [*contextual, *rest, final()], sources, paths)[0], "numbered reader context rejected")
+    wrong_header = context.replace(paths["writing"], "/fixture/other/SKILL.md")
+    wrong_context = read(paths["writing"] + ":1-1", wrong_header, "wrong-header")
+    check(bool(score(case, "Draft", [*wrong_context, *rest, final()], sources, paths)[0]), "mismatched numbered file header accepted")
+    relative_header = context.replace(paths["writing"], "writing/SKILL.md")
+    relative_context = read(paths["writing"] + ":1-1", relative_header, "relative-header")
+    check(not score(case, "Draft", [*relative_context, *rest, final()], sources, paths)[0], "relative numbered file header rejected")
+    traversal_header = context.replace(paths["writing"], "other/../writing/SKILL.md")
+    traversal_context = read(paths["writing"] + ":1-1", traversal_header, "traversal-header")
+    check(bool(score(case, "Draft", [*traversal_context, *rest, final()], sources, paths)[0]), "traversal in numbered file header accepted")
+    unnumbered = "\n".join(source.splitlines()[:4]) + "\n\n[Showing lines 1-4 of 6. Use :5 to continue]"
+    contextual = read(paths["writing"] + ":1-1", unnumbered, "unnumbered-context")
+    check(not score(case, "Draft", [*contextual, *rest, final()], sources, paths)[0], "actual unnumbered reader context rejected")
+    spoofed_raw = read(paths["writing"] + ":1:raw", numbered, "raw-spoof")
+    check(bool(score(case, "Draft", [*spoofed_raw, final()], sources, paths)[0]), "numbered raw single-line read accepted")
+    single_raw = read(paths["writing"] + ":1:raw", source.splitlines()[0], "raw-single")
+    remaining_raw = read(paths["writing"] + ":2-:raw", "\n".join(source.splitlines()[1:]), "raw-rest")
+    check(not score(case, "Draft", [*single_raw, *remaining_raw, final()], sources, paths)[0], "raw suffix coverage rejected")
+    check(bool(score({**case, "skill": "none"}, "Draft", [*single_raw, final()], sources, paths)[0]), "raw suffix activity escaped anti-trigger")
     for skill, trace, expected in (("none", [final()], True), ("none", [*complete, final()], False), ("optional", [final()], True), ("optional", [*complete, final()], True)):
         check((not score({**case, "skill": skill}, "Draft", trace, sources, paths)[0]) == expected, f"{skill} routing changed")
     for path in ("skill://writing", "skill://writing:1-4", paths["writing"] + ":raw:1-4"):

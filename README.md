@@ -1,12 +1,14 @@
 # Lean Agent Skill Collection
 
-[![Version](https://img.shields.io/badge/version-v8.22.0-2563eb)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v8.22.1-2563eb)](CHANGELOG.md)
 [![Base skills](https://img.shields.io/badge/base_skills-24-0f766e)](skills)
 [![Validation](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml/badge.svg)](https://github.com/zznabil/lean-agent-skill-collection/actions/workflows/validate.yml)
 
 A compact, source-browsable collection of 24 vendor-neutral agent skills for engineering, research, communication, documents, experiments, fast-path delivery, and quality work. OpenAI-specific metadata lives in thin adapters beside each skill.
 
 > **AI provenance and review warning:** The collection decisions were heavily assisted by GPT-5.6 Sol Pro. Model involvement is not evidence of quality or correctness. Treat every skill as untrusted policy until you have reviewed it and tested it in your own host and project.
+
+V8.22.1 repairs OMP source-read evidence while preserving all skill routes and release gates. Read the [release notes](releases/v8.22.1/RELEASE-NOTES-v8.22.1.md).
 
 V8.22.0 adds focused, answer-first communication and faithful re-expression through manual `wait-what`. It preserves permissions, exact output contracts and all 51 Complete skills. Read [Focused Communication and Clear Re-expression](releases/v8.22.0/RELEASE-NOTES-v8.22.0.md).
 
@@ -73,7 +75,7 @@ Install the consolidated Complete profile.
 
 | Profile | Base | Supplemental | Total | Best for | Generated package |
 |---|---:|---:|---:|---|---|
-| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.22.0.zip` |
+| Complete | 24 | 27 | 51 | The full collection | `lean-agent-skills-complete-openai-v8.22.1.zip` |
 
 Browse the [skill catalogue](docs/SKILL-CATALOG.md) for all 24 base task skills and 27 supplemental routines.
 
@@ -81,7 +83,7 @@ Browse the [skill catalogue](docs/SKILL-CATALOG.md) for all 24 base task skills 
 
 Extract the Complete profile ZIP. Put its `AGENTS.md` in the trusted project root (merge with existing instructions; do not overwrite them), and configure your agent host to load the extracted `skills/` directory. A skills-only plugin install does not activate the `AGENTS.md` communication kernel by itself.
 
-For an upgrade, back up the prior collection-owned paths and their absence state. Update only the extracted package's owned files and 51 skill directories; preserve extra host skills and configuration. Do not mirror or delete the whole destination. Keep the prior package for rollback and start a new host session after updating. See the [current release's upgrade and isolated Hermes journey](releases/v8.22.0/RELEASE-NOTES-v8.22.0.md#installation-and-upgrade).
+For an upgrade, back up the prior collection-owned paths and their absence state. Update only the extracted package's owned files and 51 skill directories; preserve extra host skills and configuration. Do not mirror or delete the whole destination. Keep the prior package for rollback and start a new host session after updating. See the [current release's upgrade and isolated Hermes journey](releases/v8.22.1/RELEASE-NOTES-v8.22.1.md#installation-and-upgrade).
 
 Each package follows this layout:
 
@@ -117,11 +119,11 @@ UPSTREAM-CHECKSUMS.sha256     Canonical source hashes used by validation
 Source validation requires PowerShell 7 or Windows PowerShell 5.1 and Python 3.10+ available as `python` on PATH. Installed skill profiles do not gain a Python dependency. The CI runners already provide both tools.
 
 ```powershell
-./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.22.0
-./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.22.0
-./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.22.0
-./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.22.0
-./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.22.0
+./scripts/build-release.ps1 -OutputDirectory ./artifacts/v8.22.1
+./scripts/test-validator.ps1 -ArtifactsDirectory ./artifacts/v8.22.1
+./scripts/test-prose-preservation.ps1 -ArtifactsDirectory ./artifacts/v8.22.1
+./scripts/validate.ps1 -ArtifactsDirectory ./artifacts/v8.22.1
+./scripts/audit-repository.ps1 -ArtifactsDirectory ./artifacts/v8.22.1
 ```
 
 Run `scripts/test-build-output.ps1` and `scripts/test-workflow-gates.ps1` for build-path and CI failure controls.
@@ -130,13 +132,13 @@ For offline audit regression checks, run `python -B scripts/evaluate-communicati
 
 For executable code cases, read the [anti-pattern regression corpus](docs/evals/antipatterns/README.md). Run `python -B scripts/evaluate-antipatterns.py --self-test` to check four broken examples, reference repairs, and legitimate controls. The candidate-file checks accept alternative repairs. These results calibrate the fixtures; they do not measure live agent skill use.
 
-For composition-oracle calibration, run `python -B scripts/evaluate-composition.py --self-test`. For live decision checks, run `python -B scripts/evaluate-composition.py --package ./artifacts/v8.22.0/lean-agent-skills-complete-openai-v8.22.0.zip --out ./artifacts/composition-live`. These are decisions, not browser execution or universal model-obedience proof.
+For composition-oracle calibration, run `python -B scripts/evaluate-composition.py --self-test`. For live decision checks, run `python -B scripts/evaluate-composition.py --package ./artifacts/v8.22.1/lean-agent-skills-complete-openai-v8.22.1.zip --out ./artifacts/composition-live`. These are decisions, not browser execution or universal model-obedience proof.
 
 Live composition runs use external temporary workspaces and disable ambient rules and extensions. Collection runs receive the package policy explicitly; standalone runs omit it.
 
 In OMP JavaScript Eval, load `scripts/composition-browser-uat.js`. Replay `await compositionBrowserUat(false)` twice; `await compositionBrowserUat(true)` must reject with `UAT_RESULT_FAILED`. Pass an isolated browser executable as the optional second argument if the host default uses an unavailable relay. The artifact verifies a disposable real-browser fixture, not an arbitrary product.
 
-For a live communication check, install the OMP CLI, then run `python -B scripts/evaluate-communications.py --package ./artifacts/v8.22.0/lean-agent-skills-complete-openai-v8.22.0.zip --out ./artifacts/communication-live`. The runner records the fixed corpus, source snapshots, commands, traces and answer word counts. It uses a temporary workspace and disables unrelated host rules and extensions without changing host settings. Its finite rubric is not general semantic or intended-user verification.
+For a live communication check, install the OMP CLI, then run `python -B scripts/evaluate-communications.py --package ./artifacts/v8.22.1/lean-agent-skills-complete-openai-v8.22.1.zip --out ./artifacts/communication-live`. The runner records the fixed corpus, source snapshots, commands, traces and answer word counts. It uses a temporary workspace and disables unrelated host rules and extensions without changing host settings. Its finite rubric is not general semantic or intended-user verification.
 
 The builder produces the consolidated Complete profile and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 

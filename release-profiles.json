@@ -1,8 +1,8 @@
 {
-  "version": "8.22.0",
-  "release": "v8.22.0",
-  "release_title": "Focused Communication and Clear Re-expression",
-  "release_summary": "Lead with the answer, order actions and restore task state after interruptions. Clarify previous answers or pasted text faithfully through manual wait-what while preserving permissions, evidence and exact output contracts. Repair visible-response evaluation and retain MIT source attribution, all 51 Complete skills and existing routing.",
+  "version": "8.22.1",
+  "release": "v8.22.1",
+  "release_title": "OMP Source-read Evidence Repair",
+  "release_summary": "Repair OMP source-read evidence for headered, raw, truncated and contextual reads. Reject mismatched paths, reordered or altered content, and failed or late reads while preserving communication rubrics and all skill routes.",
   "profiles": {
     "complete": {
       "plugin_name": "lean-agent-skills-complete",
