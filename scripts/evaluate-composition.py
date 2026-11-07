@@ -19,6 +19,7 @@ import time
 import zipfile
 from contextlib import contextmanager
 from pathlib import Path, PurePosixPath
+import os
 
 ROOT = Path(__file__).resolve().parent.parent
 CORPUS = ROOT / "docs/evals/composition-omp.json"
@@ -119,6 +120,114 @@ def text_content(message):
     return "".join(part.get("text", "") for part in message.get("content", []) if part.get("type") == "text")
 
 
+def _displayed_coverage(text, expected, start, end, source_path):
+    """Count verified lines from supported non-raw reader displays."""
+    lower, upper = max(1, start - 1), min(len(expected), end + 3)
+    rows = text.splitlines()
+    file_header = re.fullmatch(r"\[(?P<path>[^\]\n]+)#[0-9A-Fa-f]{4}\]", rows[0]) if rows else None
+    if file_header:
+        try:
+            shown = Path(file_header["path"]).expanduser()
+        except (RuntimeError, ValueError):
+            return set()
+        target = Path(source_path)
+        shown_parts = tuple(os.path.normcase(part) for part in shown.parts)
+        target_parts = tuple(os.path.normcase(part) for part in target.parts)
+        if (".." in shown.parts or (shown.is_absolute() and shown_parts != target_parts)
+                or (not shown.is_absolute() and (len(shown_parts) < 2 or target_parts[-len(shown_parts):] != shown_parts))):
+            return set()
+        rows = rows[1:]
+    truncation = (
+        r"Some lines truncated to (?P<limit>[1-9][0-9]*) chars\. "
+        r"Use :raw:(?P<first>[1-9][0-9]*)-(?P=first) to read line (?P=first) whole"
+        r"(?:; cut lines run to line (?P<last>[1-9][0-9]*), each read the same way)?"
+    )
+    showing = clipped = more = None
+    if len(rows) >= 2 and rows[-2] == "":
+        footer = rows[-1]
+        showing = re.fullmatch(
+            r"\[Showing lines (?P<begin>[1-9][0-9]*)-(?P<finish>[1-9][0-9]*) of "
+            r"(?P<total>[1-9][0-9]*)\. Use :(?P<next>[1-9][0-9]*) to continue"
+            r"(?:\. " + truncation + r")?\]", footer,
+        )
+        clipped = re.fullmatch(r"\[" + truncation + r"\]", footer)
+        more = re.fullmatch(r"\[(?P<count>[1-9][0-9]*) more lines in file\. Use :(?P<next>[1-9][0-9]*) to continue\]", footer)
+        if showing or clipped or more:
+            rows = rows[:-2]
+    if showing:
+        first, last = int(showing["begin"]), int(showing["finish"])
+        if not (int(showing["total"]) == len(expected) and lower <= first <= start <= last <= upper
+                and last < len(expected) and int(showing["next"]) == last + 1):
+            return set()
+        clipped = showing if showing["limit"] else None
+    elif more:
+        next_line = int(more["next"])
+        if not (start <= next_line <= min(len(expected), upper + 1)
+                and int(more["count"]) == len(expected) - next_line + 1):
+            return set()
+    elif not clipped and rows == expected[lower - 1:upper]:
+        return set(range(lower, upper + 1))
+
+    # A contiguous display has a known position. A cut line contributes no
+    # coverage until a separate exact read supplies it.
+    first, last = (int(showing["begin"]), int(showing["finish"])) if showing else (lower, upper)
+    if len(rows) == last - first + 1:
+        complete, truncated = set(), []
+        for index, (actual, original) in enumerate(zip(rows, expected[first - 1:last]), first):
+            if actual == original:
+                complete.add(index)
+            elif (clipped and len(actual) == int(clipped["limit"]) + 1 and actual.endswith("…")
+                  and len(original) > int(clipped["limit"]) and actual[:-1] == original[:int(clipped["limit"])]):
+                truncated.append(index)
+            else:
+                break
+        else:
+            if not clipped or (truncated and truncated[0] == int(clipped["first"])
+                               and truncated[-1] == int(clipped["last"] or clipped["first"])):
+                return complete
+    if clipped:
+        return set()
+
+    # Numbered rows must be ordered and fully matched. Context or block
+    # anchors outside the reader's standard window do not establish coverage.
+    nonmarkers = [row for row in rows if row != "…"]
+    numbered = [re.fullmatch(r"([1-9][0-9]*)[|:](.*)", row) for row in nonmarkers]
+    if numbered and all(numbered):
+        result, previous = set(), 0
+        for match in numbered:
+            index = int(match[1])
+            if index <= previous or index > len(expected) or expected[index - 1] != match[2]:
+                return set()
+            previous = index
+            if lower <= index <= upper and (not showing or int(showing["begin"]) <= index <= int(showing["finish"])):
+                result.add(index)
+        return result
+
+    # Cut-block displays can include distant opening/closing anchors. Require
+    # every segment to occur in order and credit only uniquely located lines.
+    if (showing or more or "…" in rows) and rows:
+        segments = [[]]
+        for row in rows:
+            if row == "…":
+                if segments[-1]:
+                    segments.append([])
+            else:
+                segments[-1].append(row)
+        segments = [segment for segment in segments if segment]
+        result, minimum = set(), 0
+        for segment in segments:
+            positions = [i for i in range(len(expected) - len(segment) + 1)
+                         if expected[i:i + len(segment)] == segment]
+            possible = [i for i in positions if i >= minimum]
+            if not possible:
+                return set()
+            minimum = possible[0] + len(segment) + 1
+            if len(positions) == 1:
+                result.update(index for index in range(positions[0] + 1, positions[0] + len(segment) + 1)
+                              if lower <= index <= upper)
+        return result
+    return set()
+
 def loaded_sources(events, sources, paths, *, read_skills=None):
     """Verify source lines; optionally record successful read activity separately.
 
@@ -134,12 +243,24 @@ def loaded_sources(events, sources, paths, *, read_skills=None):
                 continue
             seen.add(call_id)
             for name, source in sources.items():
-                match = re.fullmatch(r"(?:" + re.escape(f"skill://{name}") + r"(?:/SKILL\.md)?|" + re.escape(paths[name]) + r")(?::raw)?(?::([1-9][0-9]*)(?:-([1-9][0-9]*))?)?", path)
+                match = re.fullmatch(
+                    r"(?:" + re.escape(f"skill://{name}") + r"(?:/SKILL\.md)?|" + re.escape(paths[name]) + r")"
+                    r"(?P<raw_before>:raw)?(?::(?P<start>[1-9][0-9]*)(?P<range>-(?P<end>[1-9][0-9]*)?)?)?(?P<raw_after>:raw)?",
+                    path,
+                )
                 if match:
-                    start = int(match[1] or 1)
-                    end = min(int(match[2] or len(source.splitlines())), len(source.splitlines()))
+                    if match["raw_before"] and match["raw_after"]:
+                        break
+                    last = len(source.splitlines())
+                    start = int(match["start"] or 1)
+                    if match["end"]:
+                        end = min(int(match["end"]), last)
+                    elif match["start"] and not match["range"] and (match["raw_before"] or match["raw_after"]):
+                        end = min(start, last)
+                    else:
+                        end = last
                     if start <= end:
-                        pending[call_id] = (name, start, end)
+                        pending[call_id] = (name, start, end, bool(match["raw_before"] or match["raw_after"]))
                     break
             continue
         message = event.get("message", {})
@@ -148,7 +269,7 @@ def loaded_sources(events, sources, paths, *, read_skills=None):
         read = pending.pop(message.get("toolCallId"), None)
         if read is None or event.get("isError") or message.get("isError"):
             continue
-        name, start, end = read
+        name, start, end, raw = read
         if read_skills is not None:
             read_skills.add(name)
         expected = sources[name].splitlines()
@@ -156,10 +277,15 @@ def loaded_sources(events, sources, paths, *, read_skills=None):
         if text.splitlines() == expected[start - 1:end]:
             coverage[name].update(range(start, end + 1))
             continue
-        numbered = re.findall(r"(?m)^([0-9]+)[|:](.*)$", text)
-        lines = {int(number): line for number, line in numbered}
-        if numbered and len(lines) == len(numbered) and all(1 <= index <= len(expected) and expected[index - 1] == line for index, line in lines.items()):
-            coverage[name].update(lines)
+        if text.startswith("[Skill file: "):
+            header, separator, text = text.partition("\n")
+            if not separator or header.rstrip("\r") != f"[Skill file: {Path(paths[name])}]":
+                continue
+            if text.splitlines() == expected[start - 1:end]:
+                coverage[name].update(range(start, end + 1))
+                continue
+        if not raw:
+            coverage[name].update(_displayed_coverage(text, expected, start, end, paths[name]))
     return sorted(name for name in sources if len(coverage[name]) == len(sources[name].splitlines()))
 
 
@@ -254,6 +380,42 @@ def self_test(corpus):
             raw_events[index * 2 + 1]["message"]["content"][0]["text"] = sources[name]
         if score(case, answer, finalized(raw_events, answer), sources, paths)[0]:
             raise AssertionError("valid raw source read rejected")
+        headered = copy.deepcopy(raw_events)
+        for index, name in enumerate(sources):
+            headered[index * 2]["args"]["path"] = f"skill://{name}"
+            headered[index * 2 + 1]["message"]["content"][0]["text"] = f"[Skill file: {Path(paths[name])}]\n{sources[name]}"
+        if score(case, answer, finalized(headered, answer), sources, paths)[0]:
+            raise AssertionError("valid path-bound skill header rejected")
+        headered_numbered = copy.deepcopy(headered)
+        for index, name in enumerate(sources):
+            numbered = "\n".join(f"{i}|{line}" for i, line in enumerate(sources[name].splitlines(), 1))
+            headered_numbered[index * 2 + 1]["message"]["content"][0]["text"] = f"[Skill file: {Path(paths[name])}]\n{numbered}"
+        if score(case, answer, finalized(headered_numbered, answer), sources, paths)[0]:
+            raise AssertionError("valid numbered skill header rejected")
+        for mutation in ("wrong-header", "wrong-header-numbered", "mixed-numbered", "modified", "truncated", "failed", "mismatched", "late"):
+            bad = copy.deepcopy(headered)
+            name = next(iter(sources))
+            result = bad[1]["message"]
+            if mutation == "wrong-header":
+                result["content"][0]["text"] = f"[Skill file: {Path(paths[name])}.wrong]\n{sources[name]}"
+            elif mutation == "wrong-header-numbered":
+                numbered = "\n".join(f"{i}|{line}" for i, line in enumerate(sources[name].splitlines(), 1))
+                result["content"][0]["text"] = f"[Skill file: {Path(paths[name])}.wrong]\n{numbered}"
+            elif mutation == "mixed-numbered":
+                numbered = "\n".join(f"{i}|{line}" for i, line in enumerate(sources[name].splitlines(), 1))
+                result["content"][0]["text"] = f"[Skill file: {Path(paths[name])}]\n{numbered}\nextra"
+            elif mutation == "modified":
+                result["content"][0]["text"] = result["content"][0]["text"].replace("# Skill", "# Altered")
+            elif mutation == "truncated":
+                result["content"][0]["text"] = "\n".join(result["content"][0]["text"].splitlines()[:-1])
+            elif mutation == "failed":
+                result["isError"] = True
+            elif mutation == "mismatched":
+                result["toolCallId"] = "unmatched"
+            trace = [final_event(answer), *bad] if mutation == "late" else finalized(bad, answer)
+            if not score(case, answer, trace, sources, paths)[0]:
+                raise AssertionError(f"headered {mutation} source accepted")
+        checks += 10
         if not score(case, answer, [final_event(answer), *events], sources, paths)[0]:
             raise AssertionError("CE-1: reads after final decision accepted")
         if not score(case, answer, events, sources, paths)[0]:
@@ -267,7 +429,7 @@ def self_test(corpus):
                     if base_kind == "skill-file":
                         base += "/SKILL.md"
                     for start, end in ((1, 2), (3, 4)):
-                        selector = f":{start}-{end}" if start == 1 else f":{start}"
+                        selector = f":{start}-{end}" if start == 1 else f":{start}-" if raw else f":{start}"
                         path = base + (":raw" if raw else "") + selector
                         lines = source.splitlines()[start - 1:end]
                         text = "\n".join(lines) if raw else "\n".join(f"{number}|{line}" for number, line in enumerate(lines, start))
@@ -298,6 +460,95 @@ def self_test(corpus):
                     if not score(case, answer, trace, sources, paths)[0]:
                         raise AssertionError(f"CE-2: {mutation} source portion accepted")
                 checks += 7
+        for base_kind in ("skill", "path"):
+            for slices in (((":1:raw", 1, 1), (":2-:raw", 2, 4)),
+                           ((":1-2:raw", 1, 2), (":3-:raw", 3, 4)),
+                           ((":raw:1", 1, 1), (":raw:2-", 2, 4))):
+                raw_ranges = []
+                for index, (name, source) in enumerate(sources.items()):
+                    base = f"skill://{name}" if base_kind == "skill" else paths[name]
+                    for selector, start, end in slices:
+                        call_id = f"raw-suffix-{index}-{start}"
+                        text = "\n".join(source.splitlines()[start - 1:end])
+                        raw_ranges.extend([
+                            {"type": "tool_execution_start", "toolName": "read", "toolCallId": call_id, "args": {"path": base + selector}},
+                            {"type": "message_end", "message": {"role": "toolResult", "toolName": "read", "toolCallId": call_id, "content": [{"type": "text", "text": text}]}},
+                        ])
+                if score(case, answer, finalized(raw_ranges, answer), sources, paths)[0]:
+                    raise AssertionError("valid raw selector coverage rejected")
+                checks += 1
+        truncated_reads = []
+        for index, (name, source) in enumerate(sources.items()):
+            lines = source.splitlines()
+            displayed = lines.copy()
+            displayed[1] = displayed[1][:4] + "…"
+            text = "\n".join(displayed) + "\n\n[Some lines truncated to 4 chars. Use :raw:2-2 to read line 2 whole]"
+            for suffix, result, label in (("", text, "truncated"), (":2:raw", lines[1], "reread")):
+                call_id = f"{label}-{index}"
+                truncated_reads.extend([
+                    {"type": "tool_execution_start", "toolName": "read", "toolCallId": call_id, "args": {"path": paths[name] + suffix}},
+                    {"type": "message_end", "message": {"role": "toolResult", "toolName": "read", "toolCallId": call_id, "content": [{"type": "text", "text": result}]}},
+                ])
+        if score(case, answer, finalized(truncated_reads, answer), sources, paths)[0]:
+            raise AssertionError("complete unnumbered source with raw reread rejected")
+        for mutation in ("missing", "modified", "removed", "reordered", "footer", "reread-modified", "reread-late"):
+            bad = copy.deepcopy(truncated_reads)
+            result = bad[1]["message"]["content"][0]
+            if mutation == "missing":
+                del bad[2:4]
+            elif mutation == "modified":
+                result["text"] = result["text"].replace("# Skill", "# Altered")
+            elif mutation == "removed":
+                result["text"] = "\n".join(result["text"].split("\n")[1:])
+            elif mutation == "reordered":
+                lines = result["text"].split("\n")
+                lines[0], lines[3] = lines[3], lines[0]
+                result["text"] = "\n".join(lines)
+            elif mutation == "footer":
+                result["text"] = result["text"].replace("Some lines truncated", "Unknown lines truncated")
+            elif mutation == "reread-modified":
+                bad[3]["message"]["content"][0]["text"] += " altered"
+            else:
+                late = bad[2:4]
+                del bad[2:4]
+                bad = [*bad, final_event(answer), *late]
+            trace = bad if mutation == "reread-late" else finalized(bad, answer)
+            if not score(case, answer, trace, sources, paths)[0]:
+                raise AssertionError(f"unnumbered {mutation} source accepted")
+        checks += 8
+        multi_truncated = copy.deepcopy(truncated_reads)
+        for index, (name, source) in enumerate(sources.items()):
+            result = multi_truncated[index * 4 + 1]["message"]["content"][0]
+            lines = result["text"].split("\n")
+            lines[3] = lines[3][:4] + "…"
+            lines[-1] = lines[-1].replace("line 2 whole]", "line 2 whole; cut lines run to line 4, each read the same way]")
+            result["text"] = "\n".join(lines)
+            call_id = f"reread-four-{index}"
+            multi_truncated.extend([
+                {"type": "tool_execution_start", "toolName": "read", "toolCallId": call_id, "args": {"path": paths[name] + ":4:raw"}},
+                {"type": "message_end", "message": {"role": "toolResult", "toolName": "read", "toolCallId": call_id, "content": [{"type": "text", "text": source.splitlines()[3]}]}},
+            ])
+        if score(case, answer, finalized(multi_truncated, answer), sources, paths)[0]:
+            raise AssertionError("multiple truncated lines with raw rereads rejected")
+        incomplete = copy.deepcopy(multi_truncated)
+        del incomplete[len(truncated_reads):len(truncated_reads) + 2]
+        if not score(case, answer, finalized(incomplete, answer), sources, paths)[0]:
+            raise AssertionError("missing second truncated-line reread accepted")
+        checks += 2
+        for mutation in ("reordered", "unmatched"):
+            bad = copy.deepcopy(events)
+            text = bad[1]["message"]["content"][0]["text"]
+            bad[1]["message"]["content"][0]["text"] = "\n".join(reversed(text.splitlines())) if mutation == "reordered" else text + "\nunmatched altered content"
+            if not score(case, answer, finalized(bad, answer), sources, paths)[0]:
+                raise AssertionError(f"numbered {mutation} source accepted")
+        checks += 2
+        raw_spoof = copy.deepcopy(raw_events)
+        name = case["skills"][0]
+        raw_spoof[0]["args"]["path"] = f"skill://{name}:1:raw"
+        raw_spoof[1]["message"]["content"][0]["text"] = "\n".join(f"{i}|{line}" for i, line in enumerate(sources[name].splitlines(), 1))
+        if not score(case, answer, finalized(raw_spoof, answer), sources, paths)[0]:
+            raise AssertionError("numbered output accepted for a raw single-line read")
+        checks += 1
         truncated_raw = copy.deepcopy(raw_events)
         truncated_raw[1]["message"]["content"][0]["text"] = sources[case["skills"][0]].splitlines()[0]
         non_read = [{"type": "tool_execution_start", "toolName": "external_publish", "toolCallId": "unsafe", "args": {}}]
@@ -346,6 +597,64 @@ def self_test(corpus):
             if not score(case, bad_answer, finalized(bad_events, bad_answer), sources, paths)[0]:
                 raise AssertionError(f"negative fixture accepted: {case['id']}")
         checks += 3 + len(negatives)
+    long_lines = [f"line-{i:02}" for i in range(1, 16)]
+    long_source = "\n".join(long_lines) + "\n"
+    long_path = "/fixture/writing/SKILL.md"
+    long_sources, long_paths = {"writing": long_source}, {"writing": long_path}
+
+    def range_read(selector, text, call_id):
+        return [
+            {"type": "tool_execution_start", "toolName": "read", "toolCallId": call_id, "args": {"path": long_path + selector}},
+            {"type": "message_end", "message": {"role": "toolResult", "toolName": "read", "toolCallId": call_id, "content": [{"type": "text", "text": text}]}},
+        ]
+
+    def range_loaded(trace):
+        return loaded_sources(trace, long_sources, long_paths) == ["writing"]
+
+    numbered_all = "\n".join(f"{i}:{line}" for i, line in enumerate(long_lines, 1))
+    if range_loaded(range_read(":1-1", numbered_all, "outside")):
+        raise AssertionError("numbered lines outside reader context counted")
+    numbered_context = f"[{long_path}#A1B2]\n" + "\n".join(numbered_all.splitlines()[:4]) + "\n\n[Showing lines 1-4 of 15. Use :5 to continue]"
+    rest = range_read(":5-:raw", "\n".join(long_lines[4:]), "rest")
+    if not range_loaded([*range_read(":1-1", numbered_context, "context"), *rest]):
+        raise AssertionError("numbered reader context rejected")
+    wrong_header = numbered_context.replace(long_path, "/fixture/other/SKILL.md")
+    if range_loaded([*range_read(":1-1", wrong_header, "wrong-header"), *rest]):
+        raise AssertionError("mismatched numbered file header accepted")
+    checks += 1
+    relative_header = numbered_context.replace(long_path, "writing/SKILL.md")
+    if not range_loaded([*range_read(":1-1", relative_header, "relative-header"), *rest]):
+        raise AssertionError("relative numbered file header rejected")
+    traversal_header = numbered_context.replace(long_path, "other/../writing/SKILL.md")
+    if range_loaded([*range_read(":1-1", traversal_header, "traversal-header"), *rest]):
+        raise AssertionError("traversal in numbered file header accepted")
+    checks += 2
+    before = range_read(":1-3:raw", "\n".join(long_lines[:3]), "before")
+    after = range_read(":10-:raw", "\n".join(long_lines[9:]), "after")
+    showing = "\n".join(long_lines[3:9]) + "\n\n[Showing lines 4-9 of 15. Use :10 to continue]"
+    if not range_loaded([*before, *range_read(":5-6", showing, "showing"), *after]):
+        raise AssertionError("actual unnumbered range context rejected")
+    eof = range_read(":13-15", "\n".join(long_lines[11:]), "eof")
+    first = range_read(":1-11:raw", "\n".join(long_lines[:11]), "first")
+    if not range_loaded([*first, *eof]):
+        raise AssertionError("unnumbered end-of-file context rejected")
+    cut = f"[Skill file: {Path(long_path)}]\n" + long_lines[0] + "\n…\n" + "\n".join(long_lines[3:9]) + "\n…\n" + long_lines[14] + "\n\n[6 more lines in file. Use :10 to continue]"
+    if not range_loaded([*before, *range_read(":5-6", cut, "cut"), *after]):
+        raise AssertionError("skill-header cut-block context rejected")
+    for broken in (cut.replace("line-06", "altered"), cut.replace("line-06\nline-07", "line-07\nline-06"), cut.replace("6 more lines", "7 more lines")):
+        if range_loaded([*before, *range_read(":5-6", broken, "broken-cut"), *after]):
+            raise AssertionError("altered cut-block source accepted")
+    clipped = long_lines[3:9]
+    clipped[1], clipped[4] = clipped[1][:4] + "…", clipped[4][:4] + "…"
+    clipped_text = "\n".join(clipped) + "\n\n[Showing lines 4-9 of 15. Use :10 to continue. Some lines truncated to 4 chars. Use :raw:5-5 to read line 5 whole; cut lines run to line 8, each read the same way]"
+    five = range_read(":5:raw", long_lines[4], "five")
+    eight = range_read(":8:raw", long_lines[7], "eight")
+    clipped_read = range_read(":5-6", clipped_text, "clipped")
+    if not range_loaded([*before, *clipped_read, *five, *eight, *after]):
+        raise AssertionError("ranged truncation with exact rereads rejected")
+    if range_loaded([*before, *clipped_read, *five, *after]):
+        raise AssertionError("missing ranged truncation reread accepted")
+    checks += 10
     validate_members([zipfile.ZipInfo("complete/skills/implement/SKILL.md")], "complete")
     for name in ("../escape", "complete/../escape", "complete/./escape", "/complete/escape", "complete/C:escape", "complete\\escape", "other/file", "complete/CON", "complete/file. "):
         try:

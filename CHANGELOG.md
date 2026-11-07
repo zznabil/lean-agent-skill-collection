@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.22.1 — 2026-11-08
+
+- Repair OMP source-read evidence for exact skill headers, raw selectors, contextual reads and separately reread truncated lines. Reject wrong paths, reordered or unmatched numbered content, failed reads and late evidence.
+- Calibrate both composition and communication consumers against valid and broken source-read traces. Preserve the seven live decision cases, earlier failed evidence and the limits of source-line coverage.
+- Keep all skill identities, routes, standalone boundaries, licences and release gates unchanged. The evaluator update lives in the repository, not installed skill-only packages.
+
 ## 8.22.0 — 2026-10-24
 
 - Adapt pinned `ayghri/i-have-adhd` and `luchasarie/bro-skill` practices into the three-driver communication kernel and every standalone fallback. Preserve all required items, permissions, safety, evidence and exact output contracts; restore state only after interruption or task change.

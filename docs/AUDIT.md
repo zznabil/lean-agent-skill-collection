@@ -1,3 +1,13 @@
+# V8.22.1 OMP source-read evidence acceptance
+
+Recognise the expected packaged source in valid headered, raw, contextual and truncated OMP reads. Reject wrong paths, unpaired or failed results, reordered or altered content, unrequested source coverage and reads after the applicable decision. Retain the earlier failed traces and independent review findings.
+
+Require both evaluator self-tests and the seven live Complete-package decision cases. Verify current source and report hashes. Source-line coverage does not establish byte attestation, skill obedience, real browser execution or full host enforcement.
+
+All V8.22.0 source, package, installer, actual Hermes journey, independent judgement, exact PR and merged-main CI, release and public-download gates below remain required. This section records requirements, not completed acceptance.
+
+---
+
 # V8.22.0 focused communication and clear re-expression acceptance
 
 Preserve the single Complete profile's 51 identities: 24 base skills and 27 supplemental routines. Derive the 18 implicitly selectable and six manual base routes from adapter policy. Keep both optional packs source-only, all source pins and publisher bytes intact, and Boolean contracts limited to JSON booleans.
