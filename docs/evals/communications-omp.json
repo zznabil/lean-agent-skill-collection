@@ -72,14 +72,14 @@
         "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
         "(?i)\\bunit tests? (?:passed|pass)\\b",
         "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
-        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass)\\b(?=\\s*(?:[.!;]|$))"
+        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?))\\b(?=\\s*(?:[.!;]|$))"
       ],
       "forbidden": [
         "(?i)summary|tl;dr|all tests passed|ready to release|release approved",
         "(?i)fix.{0,15}(?:not|never|isn't|isn’t).{0,15}(?:implemented|complete|done)",
         "(?i)unit tests?.{0,15}(?:not|never|haven't|haven’t).{0,15}(?:passed|pass)",
         "(?i)release.{0,15}(?:not|never|isn't|isn’t).{0,15}(?:blocked|held|on hold)",
-        "(?i)integration (?:testing|tests?).{0,15}(?:not|never|isn't|isn’t).{0,15}pending",
+        "(?i)integration (?:testing|tests?)[^.;\\n]{0,15}(?:not|never|isn't|isn’t)[^.;\\n]{0,15}pending",
         "(?i)integration (?:testing|tests?).{0,15}(?:do not|don't|don’t|must not|never|fail to) pass",
         "(?i)\\bpass\\s+or\\s+fail\\b",
         "(?i)\\brelease\\s+(?:(?:may|can|should|must)\\s+(?:proceed|ship|start)|(?:is\\s+)?(?:approved|authori[sz]ed|ready))(?:\\s+(?:now|immediately))?\\s*(?:[.!;]|$)"
@@ -336,7 +336,7 @@
         "(?<![\\w-])sync --dry-run(?![\\w-])",
         "Do not close this window\\.",
         "(?i)(?:saved files.{0,30}up to date|up to date.{0,30}saved files)",
-        "(?i)(?:planned changes|changes are planned|changes (?:it|the command) plans to make|what would change|changes that would be made)",
+        "(?i)(?:planned changes|changes are planned|changes (?:it|the command) plans to make|what would change|changes (?:(?:that|which) )?would be made)",
         "(?i)(?:without changing|does not change|won\\x27t change) (?:(?:your|any) )?files",
         "(?s)\\A- [^\\n]+\\n- [^\\n]+\\s*\\Z"
       ],
@@ -522,7 +522,7 @@
         "(?i)(?:2|two) hours",
         "(?i)15 minutes",
         "(?i)A[^\\n]*(?:tested rollback|rollback has been tested)",
-        "(?i)B[^\\n]*rollback[^\\n]*untested|B[^\\n]*untested[^\\n]*rollback",
+        "(?i)B[^\\n]*rollback[^\\n]*(?:untested|has not been tested)|B[^\\n]*untested[^\\n]*rollback",
         "(?i)both[^\\n]*encryption",
         "(?i)A[^\\n]*passed staging",
         "(?i)B[^\\n]*(?:not run(?: in)? staging|staging[^\\n]*not run)",
@@ -894,7 +894,7 @@
       "prompt": "Use $wait-what to re-express only: \"A zero scan count does not prove safety. Operators MUST NOT deploy without approval. They SHOULD log access unless offline and MAY show beta. The cause may be unknown.\" Keep the prohibition, modal strengths, exception and uncertainty; do not verify or act.",
       "skill": "wait-what",
       "required": [
-        "(?i)(?:zero scan count|zero findings|scan[^\\n.]*zero)[^\\n.]*does not (?:prove safety|show that the system is safe)",
+        "(?i)(?:zero scan count|zero findings|scan[^\\n.]*zero)[^\\n.]*does not (?:prove (?:safety|that (?:it|the system) is safe)|show that the system is safe)",
         "Operators MUST NOT deploy without approval",
         "(?i)SHOULD[^\\n.]*log[^\\n.]*\\b(?:unless offline|except when offline)",
         "MAY[^\\n.]*beta",

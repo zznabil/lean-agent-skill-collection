@@ -438,6 +438,33 @@ def self_test_writing():
     ):
         assert score_prose(cases[case_id], clarified[case_id].replace(good, bad)), f"changed clarification meaning accepted: {case_id}"
         sample_checks += 1
+    status = cases["concise-stakeholder-status"]
+    pending = "Fix implemented; unit tests passed. Integration testing not run. Release pending passing integration tests."
+    assert not score_prose(status, pending), "cross-sentence release dependency rejected"
+    sample_checks += 1
+    for broken in (
+        pending.replace("pending passing", "pending finishing"),
+        pending.replace("pending passing", "not pending passing"),
+        pending.replace("passing integration tests", "passing integration tests or failing them"),
+        pending + " Release is approved.",
+        pending.replace("Integration testing not run", "Integration testing not pending"),
+    ):
+        assert score_prose(status, broken), "broken release dependency accepted"
+        sample_checks += 1
+    preview = exact["samples"]["pass"][0].replace("the changes that would be made", "which changes would be made")
+    assert not score_prose(exact, preview), "planned-change paraphrase rejected"
+    assert score_prose(exact, preview.replace("does not change any files", "changes your files")), "file-changing dry run accepted"
+    sample_checks += 2
+    rollback = comparison["samples"]["pass"][0].replace("its rollback is untested", "its rollback has not been tested")
+    assert not score_prose(comparison, rollback), "untested-rollback paraphrase rejected"
+    assert score_prose(comparison, rollback.replace("its rollback has not been tested", "its rollback has been tested")), "invented rollback evidence accepted"
+    sample_checks += 2
+    uncertainty = cases["clarify-permissions-uncertainty"]
+    cautious = "A scan count of zero does not prove that it is safe. Operators MUST NOT deploy without approval. They SHOULD log access, except when offline. They MAY show beta. The cause may be unknown."
+    assert not score_prose(uncertainty, cautious), "scan evidence-limit paraphrase rejected"
+    assert score_prose(uncertainty, cautious.replace("does not prove that it is safe", "proves that it is safe")), "unsupported scan safety accepted"
+    assert score_prose(uncertainty, cautious.replace("except when offline", "except when online")), "changed offline exception accepted"
+    sample_checks += 3
     return sample_checks
 
 
