@@ -73,7 +73,7 @@
         "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
         "(?i)\\bunit tests? (?:passed|pass)\\b",
         "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
-        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|must\\s+pass\\s+before\\s+release)\\b(?=\\s*(?:[.!;]|$))"
+        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|integration\\s+(?:testing|tests?)\\s+(?:has\\s+)?not\\s+run;\\s+must\\s+pass\\s+before\\s+release)\\b(?=\\s*(?:[.!;]|$))"
       ],
       "forbidden": [
         "(?i)summary|tl;dr|all tests passed|ready to release|release approved",
@@ -962,7 +962,7 @@
       "required": [
         "(?i)import (?:failed|was unsuccessful)",
         "exit 17",
-        "(?i)(?:(?:cause|reason)[^\\n.]*unknown|(?:we )?do not know why(?: it failed)?)",
+        "(?i)(?:(?:cause|reason)[^\\n.]*unknown|(?:we )?do not know why it failed)",
         "(?i)approval[^\\n.]*(?:required|needed)[^\\n.]*before[^\\n.]*(?:retry|trying again)"
       ],
       "forbidden": [

@@ -516,6 +516,7 @@ def self_test_writing():
     for broken in (
         before_release.replace("must pass", "must finish"),
         before_release.replace("must pass", "must not pass"),
+        before_release.replace("must pass", "unit tests must pass"),
         before_release + " Release is approved.",
     ):
         assert score_prose(status, broken), "broken release prerequisite accepted"
@@ -534,7 +535,8 @@ def self_test_writing():
     unknown_en = clarified["clarify-previous-answer"].replace("The reason is unknown", "We do not know why it failed")
     assert not score_prose(cases["clarify-previous-answer"], unknown_en), "faithful unknown-cause explanation rejected"
     assert score_prose(cases["clarify-previous-answer"], unknown_en.replace("do not know why", "know why")), "invented explanation accepted"
-    sample_checks += 2
+    assert score_prose(cases["clarify-previous-answer"], unknown_en.replace("why it failed", "why approval is required")), "unrelated unknown accepted"
+    sample_checks += 3
     return sample_checks
 
 
