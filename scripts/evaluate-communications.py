@@ -511,6 +511,30 @@ def self_test_writing():
         assert not score_prose(cases["clarify-diagnostic-label-fidelity"], faithful), "faithful Portuguese prohibition rejected"
         assert score_prose(cases["clarify-diagnostic-label-fidelity"], faithful.replace(prohibition, prohibition[4:])), "publication/command permission reversal accepted"
         sample_checks += 2
+    before_release = "Fix implemented; unit tests passed. Integration testing not run; must pass before release."
+    assert not score_prose(status, before_release), "antecedent-bound release prerequisite rejected"
+    for broken in (
+        before_release.replace("must pass", "must finish"),
+        before_release.replace("must pass", "must not pass"),
+        before_release + " Release is approved.",
+    ):
+        assert score_prose(status, broken), "broken release prerequisite accepted"
+        sample_checks += 1
+    sample_checks += 1
+    overlap = depth["samples"]["pass"][0].replace(
+        "However, snapshot isolation can permit write skew when concurrent transactions read a shared constraint and update disjoint rows.",
+        "Transactions may overlap. Under snapshot isolation, they can read a shared constraint and update disjoint rows, permitting write skew.")
+    assert not score_prose(depth, overlap), "explicit overlapping-transaction explanation rejected"
+    assert score_prose(depth, overlap.replace("Transactions may overlap", "Transactions never overlap")), "missing concurrency accepted"
+    sample_checks += 2
+    unknown_pt = clarified["clarify-pasted-pt-br"].replace("A causa é desconhecida", "Não se sabe a causa")
+    assert not score_prose(cases["clarify-pasted-pt-br"], unknown_pt), "faithful Portuguese unknown cause rejected"
+    assert score_prose(cases["clarify-pasted-pt-br"], unknown_pt.replace("Não se sabe a causa", "A causa é conhecida")), "invented known cause accepted"
+    sample_checks += 2
+    unknown_en = clarified["clarify-previous-answer"].replace("The reason is unknown", "We do not know why it failed")
+    assert not score_prose(cases["clarify-previous-answer"], unknown_en), "faithful unknown-cause explanation rejected"
+    assert score_prose(cases["clarify-previous-answer"], unknown_en.replace("do not know why", "know why")), "invented explanation accepted"
+    sample_checks += 2
     return sample_checks
 
 

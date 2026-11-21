@@ -73,7 +73,7 @@
         "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
         "(?i)\\bunit tests? (?:passed|pass)\\b",
         "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
-        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?))\\b(?=\\s*(?:[.!;]|$))"
+        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|must\\s+pass\\s+before\\s+release)\\b(?=\\s*(?:[.!;]|$))"
       ],
       "forbidden": [
         "(?i)summary|tl;dr|all tests passed|ready to release|release approved",
@@ -566,7 +566,7 @@
         "(?i)equivalent[^.]*serial execution",
         "(?i)snapshot isolation",
         "(?i)write skew",
-        "(?i)concurrent transactions",
+        "(?i)(?:concurrent transactions|transactions may overlap)",
         "(?i)shared constraint",
         "(?i)(?:disjoint rows|update different rows[^.]*\\.[^.]*writes do not overlap)",
         "(?i)(?:both doctors[^.]*off call|(?:has|leaves) no doctor on call|neither doctor is on call)",
@@ -758,7 +758,7 @@
       "skill": "wait-what",
       "required": [
         "(?i)pode falhar",
-        "(?i)causa[^\\n.]*desconhecida",
+        "(?i)(?:causa[^\\n.]*desconhecida|não se sabe a causa)",
         "(?i)(?:NÃO|não) publicar",
         "(?i)aprovação[^\\n.]*obrigatória"
       ],
@@ -962,7 +962,7 @@
       "required": [
         "(?i)import (?:failed|was unsuccessful)",
         "exit 17",
-        "(?i)(?:cause|reason)[^\\n.]*unknown",
+        "(?i)(?:(?:cause|reason)[^\\n.]*unknown|(?:we )?do not know why(?: it failed)?)",
         "(?i)approval[^\\n.]*(?:required|needed)[^\\n.]*before[^\\n.]*(?:retry|trying again)"
       ],
       "forbidden": [

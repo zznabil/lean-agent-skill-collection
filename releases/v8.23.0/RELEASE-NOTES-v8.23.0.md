@@ -8,7 +8,7 @@ Release date: 2026-11-21.
 - Use five flexible phases: Explore → Propose → Apply → Verify/Review → Archive. Routine work goes straight to Apply → Verify. Archive means closeout, not automatic publication or paperwork.
 - Make generic plans, ledgers, reports, progress bars and checkpoints conditional on the requested deliverable, continuity, collaboration, risk or required acceptance. Preserve task-specific records and release gates.
 - Require extremely concise user-facing prose. Prefer familiar words and useful fragments; sacrifice grammar, not meaning. Preserve requested depth, safety, uncertainty, normative force and exact formats.
-- Compact 169 instruction files by 10,073 whitespace-separated words and 44,212 UTF-8 bytes against V8.22.1. These source-size figures do not measure runtime token use or latency.
+- Compact 169 instruction files by 10,059 whitespace-separated words and 44,134 UTF-8 bytes against V8.22.1. These source-size figures do not measure runtime token use or latency.
 - Keep engineering-companion loading conditional in all four Hermes installers. Preserve confirmation, collisions, backups, linked-path checks and rollback.
 - Strengthen calibrated policy and release-status controls, including contradictions appended to otherwise correct text. Finite checks are not general semantic verification.
 - Check requested length, relevant state, scope and intact technical fragments before delivery. Calibrate faithful paraphrases against paired broken answers; keep safety, exact-token and word-count failures blocking.
