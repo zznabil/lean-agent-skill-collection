@@ -602,18 +602,22 @@ def self_test_writing():
     for faithful in (
         unqualified.replace("A causa não foi confirmada", "A causa ainda não foi confirmada"),
         unqualified + " A regra não é opcional.",
+        unqualified + " A repetição sem autorização não é permitida.",
     ):
         assert not score_prose(diagnostic, faithful), "faithful temporal uncertainty or mandatory rule rejected"
         sample_checks += 1
     for broken in (
         unqualified.replace("A causa não foi confirmada", "Esses registros não confirmam a causa"),
         unqualified.replace("A causa não foi confirmada", "A causa não foi confirmada pelos registros"),
+        unqualified.replace("A causa não foi confirmada", "Apenas nesses registros, a causa não foi confirmada"),
+        unqualified.replace("A causa não foi confirmada", "Segundo esses registros, a causa não foi confirmada"),
         unqualified.replace("A causa não foi confirmada", "A causa não foi confirmada pelos registros, mas o fornecedor a confirmou"),
         unqualified + " O fornecedor confirmou a causa.",
         unqualified + " A causa foi confirmada.",
         unqualified.replace("Não o repita sem autorização", "Repita sem autorização"),
         unqualified.replace("Não o repita sem autorização", "Não o repita sem autorização, mas essa regra é opcional"),
         unqualified + " A regra é opcional.",
+        unqualified + " A repetição sem autorização é permitida.",
     ):
         assert score_prose(diagnostic, broken), "narrowed uncertainty or weakened diagnostic rule accepted"
         sample_checks += 1
