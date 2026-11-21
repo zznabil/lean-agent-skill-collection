@@ -479,6 +479,7 @@ def self_test_writing():
     assert not score_prose(security, listed), "listed required release gates rejected"
     for broken in (
         listed.replace("Both required release gates remain unmet", "Both release gates are optional"),
+        listed.replace("Both required release gates remain unmet", "Both release gates are not required"),
         listed.replace("NO-GO — not ready", "GO"),
         listed.replace("do not prove the application is secure", "prove the application is secure"),
         listed.replace("OWASP ASVS review", "Documentation review"),
@@ -491,7 +492,8 @@ def self_test_writing():
         "Choose Plan A for now; reconsider Plan B only after staging and rollback are verified.")
     assert not score_prose(comparison, deferred), "equivalent deferred-reconsideration condition rejected"
     assert score_prose(comparison, deferred.replace("reconsider Plan B only after", "reconsider Plan B before")), "premature reconsideration accepted"
-    sample_checks += 2
+    assert score_prose(comparison, deferred.replace("Choose Plan A for now", "Do not choose Plan A for now")), "negated current recommendation accepted"
+    sample_checks += 3
     aborted = depth["samples"]["pass"][0].replace("entire transaction", "entire aborted transaction")
     assert not score_prose(depth, aborted), "entire aborted-transaction retry rejected"
     assert score_prose(depth, aborted.replace("entire aborted transaction", "final update")), "partial transaction retry accepted"

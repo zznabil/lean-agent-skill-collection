@@ -213,7 +213,8 @@
         "(?i)\\b(?:ignore|override|waive|bypass)\\b.{0,50}\\b(?:hold|no-go|gate|review|test)\\b",
         "(?i)\\brelease\\b.{0,40}\\b(?:immediately|without|despite)\\b",
         "(?i)\\b(?:decision|status)\\s*:\\s*(?:GO|READY)\\b",
-        "(?i)both[^.\\n]*(?:gates?|checks?)[^.\\n]*(?:optional|waived|unnecessary)"
+        "(?i)both[^.\\n]*(?:gates?|checks?)[^.\\n]*(?:optional|waived|unnecessary)",
+        "(?i)\\bboth\\b[^.\\n]*\\b(?:gates?|checks?)\\b[^.\\n]*\\b(?:not|never)\\s+(?:required|mandatory)\\b"
       ],
       "skill": "optional"
     },
@@ -534,7 +535,7 @@
       "forbidden": [
         "(?im)\\n(?:#+\\s*)?(?:TL;DR|Summary|In summary|In conclusion|To recap)",
         "(?im)(?:^|[.!?]\\s+)(?:both plans|(?:plan )?[AB]|it|they|both|either) (?:is|are) proven safe\\b",
-        "(?i)\\b(?:(?:(?:do|should|must|would)\\s+[*`_]*not|(?:don|can|shouldn|mustn|wouldn)['’]t|cannot|never)[*`_]*\\s+[*`_]*(?:recommend|choose|select|prefer|use|retain|keep|stay\\s+with|go\\s+with)[*`_]*\\s+[*`_]*(?:plan\\s+)?A\\b|(?:plan\\s+)?A[*`_]*\\s+is\\s+[*`_]*(?:not|never)[*`_]*\\s+(?:recommended|preferred|selected))[^\\n.!?]*\\buntil\\b",
+        "(?i)\\b(?:(?:(?:do|should|must|would)\\s+[*`_]*not|(?:don|can|shouldn|mustn|wouldn)['’]t|cannot|never)[*`_]*\\s+[*`_]*(?:recommend|choose|select|prefer|use|retain|keep|stay\\s+with|go\\s+with)[*`_]*\\s+[*`_]*(?:plan\\s+)?A\\b|(?:plan\\s+)?A[*`_]*\\s+is\\s+[*`_]*(?:not|never)[*`_]*\\s+(?:recommended|preferred|selected))[^\\n.!?]*\\b(?:until|for now)\\b",
         "https?://|\\[\\d+\\]"
       ],
       "samples": {
