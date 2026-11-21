@@ -596,6 +596,32 @@ def self_test_writing():
         assert score_prose(cases["clarify-diagnostic-label-fidelity"], faithful.replace(prohibition, prohibition[4:])), "publication/command permission reversal accepted"
         sample_checks += 2
     diagnostic = cases["clarify-diagnostic-label-fidelity"]
+    technician = cases["technician-recovery"]
+    confirmed_voltage = (
+        "1. Isolate power.\n"
+        "2. Verify zero voltage. If verification fails or is inconclusive, stop, keep power isolated and contact the supervisor.\n"
+        "3. Replace the power module only after zero voltage is confirmed. Keep power isolated during replacement.\n"
+        "4. Restore power and check the LED. If it is not green, stop, isolate power again and contact the supervisor.")
+    assert not score_prose(technician, confirmed_voltage), "mandatory confirmed-voltage procedure rejected"
+    sample_checks += 1
+    for broken in (
+        confirmed_voltage.replace("zero voltage is confirmed", "nonzero voltage is confirmed"),
+        confirmed_voltage.replace("zero voltage is confirmed", "zero voltage is not confirmed"),
+        confirmed_voltage.replace("zero voltage is confirmed", "zero voltage is confirmed or the check is skipped"),
+        confirmed_voltage.replace("inconclusive, stop", "inconclusive, continue"),
+        confirmed_voltage.replace("inconclusive, stop", "inconclusive, stop only if the supervisor is available"),
+        confirmed_voltage.replace("Verify zero voltage.", "Verify zero voltage on a different device."),
+        confirmed_voltage.replace("Verify zero voltage.", "Verify zero voltage if convenient."),
+        confirmed_voltage + " Verification is optional.",
+        confirmed_voltage.replace("not green, stop", "not green, continue"),
+        confirmed_voltage.replace("inconclusive, stop, keep", "inconclusive, keep"),
+        confirmed_voltage.replace("stop, keep power isolated and contact", "stop and contact"),
+        confirmed_voltage.replace(" and contact the supervisor", ""),
+        confirmed_voltage.replace("only after zero voltage is confirmed", "even if verification is inconclusive"),
+        "\n".join(confirmed_voltage.splitlines()[2:3] + confirmed_voltage.splitlines()[:2] + confirmed_voltage.splitlines()[3:]),
+    ):
+        assert score_prose(technician, broken), "weakened confirmed-voltage procedure accepted"
+        sample_checks += 1
     unqualified = clarified["clarify-diagnostic-label-fidelity"]
     assert not score_prose(diagnostic, unqualified), "unqualified diagnostic uncertainty rejected"
     sample_checks += 1

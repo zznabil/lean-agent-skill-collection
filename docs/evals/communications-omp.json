@@ -599,12 +599,12 @@
         "(?i)zero voltage",
         "(?i)stop",
         "(?i)supervisor",
-        "(?i)(?:replace[^.\\n]*only (?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)|(?:only )?(?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)[^.\\n]*replace)"
+        "(?i)(?:replace[^.\\n]*only (?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)|(?:only )?(?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)[^.\\n]*replace|(?:\\A|\\n)2\\.[ \\t]+Verify zero voltage\\. If verification fails or is inconclusive, stop, keep power isolated and contact the supervisor\\.\\n3\\.[ \\t]+Replace the power module only after zero voltage is confirmed\\. Keep power isolated during replacement\\.(?:\\n|\\Z))"
       ],
       "ordered": [
         "(?i)isolate power",
         "(?i)verify zero voltage",
-        "(?i)(?:stop if verification fails|if verification fails,? stop)",
+        "(?i)(?:stop if verification fails|if verification fails(?: or is inconclusive)?,? stop)",
         "(?i)keep power isolated",
         "(?i)contact the supervisor",
         "(?i)replace",
@@ -615,7 +615,8 @@
       ],
       "forbidden": [
         "(?i)continue anyway|replace[^.]*before verif|\\d+\\s*N.?m",
-        "(?i)replace[^.\\n]*(?:even if|despite|regardless of|without)[^.\\n]*verif|if verification fails[^.\\n]*replace|replace[^.\\n]*verif[^.\\n]*fails"
+        "(?i)replace[^.\\n]*(?:even if|despite|regardless of|without)[^.\\n]*verif|if verification fails[^.\\n]*replace|replace[^.\\n]*verif[^.\\n]*fails",
+        "(?i)(?:verification|verifying zero voltage|the zero-voltage check) (?:is optional|may be skipped)"
       ],
       "samples": {
         "pass": [
