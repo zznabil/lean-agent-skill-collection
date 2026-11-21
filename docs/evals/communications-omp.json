@@ -73,7 +73,7 @@
         "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
         "(?i)\\bunit tests? (?:passed|pass)\\b",
         "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
-        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|integration\\s+(?:testing|tests?)\\s+(?:has\\s+)?not\\s+run;\\s+must\\s+pass\\s+before\\s+release)\\b(?=\\s*(?:[.!;]|$))"
+        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+integration\\s+(?:testing|tests?)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+integration\\s+(?:testing|tests?)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|integration\\s+(?:testing|tests?)\\s+(?:(?:has\\s+)?not\\s+run|not\\s+tested|pending)[.;]\\s*(?:must\\s+pass\\s+before\\s+release|(?:hold\\s+(?:the\\s+)?release\\s+until|do\\s+not\\s+release\\s+until|release\\s+(?:is\\s+)?(?:blocked|held|on\\s+hold)\\s+until)\\s+they\\s+pass|release\\s+(?:requires|needs)\\s+(?:it|them)\\s+to\\s+pass))\\b(?=\\s*(?:[.!;]|$))"
       ],
       "forbidden": [
         "(?i)summary|tl;dr|all tests passed|ready to release|release approved",
@@ -83,6 +83,7 @@
         "(?i)integration (?:testing|tests?)[^.;\\n]{0,15}(?:not|never|isn't|isn’t)[^.;\\n]{0,15}pending",
         "(?i)integration (?:testing|tests?).{0,15}(?:do not|don't|don’t|must not|never|fail to) pass",
         "(?i)\\bpass\\s+or\\s+fail\\b",
+        "(?i)\\b(?:they|it|them)\\s+(?:are|is|refer to|means?)\\s+(?:the\\s+)?unit tests?\\b",
         "(?i)\\brelease\\s+(?:(?:may|can|should|must)\\s+(?:proceed|ship|start)|(?:is\\s+)?(?:approved|authori[sz]ed|ready))(?:\\s+(?:now|immediately))?\\s*(?:[.!;]|$)"
       ],
       "skill": "optional",
@@ -198,8 +199,6 @@
         "(?i)(?:zero|no) critical",
         "(?i)penetration test",
         "(?i)ASVS",
-        "(?is)(?:penetration test.*(?:required|gate)|(?:required|gate).*penetration test)",
-        "(?is)(?:ASVS.*(?:required|gate)|(?:required|gate).*ASVS)",
         "(?i)\\b(?:HOLD|NO[- ]GO|not ready)\\b",
         "(?i)(?:not|cannot|doesn't|do not).*(?:prove|establish|confirm|verify|show).*secur"
       ],
@@ -673,12 +672,14 @@
         "(?i)export[^\\n.]*complete",
         "(?i)(?:current[^\\n.]*hash|hash[^\\n.]*current|1\\. Verify the hashes)",
         "(?i)(?:import[^\\n.]*pending|pending import)",
+        "(?i)(?:(?:hash verification|verification)[^.\\n]*not run|not run[^.\\n]*(?:hash verification|verification))",
         "(?m)^1\\.",
         "(?m)^2\\.",
         "(?i)(?:only if|only after)[^\\n.]*hash[^\\n.]*match|(?is:verify the hashes.*if they match, run the pending import\\. if they do not match, stop; do not import)"
       ],
       "forbidden": [
         "(?i)hash[^\\n.]*PASS|verification (?:passed|complete)|\\b\\d+ (?:minutes?|hours?)\\b",
+        "(?i)\\b(?:hash verification|verification)\\s+(?:has\\s+|is\\s+)?(?:succeeded|passed|completed|complete|successful)\\b",
         "(?i)import[^\\n.]*before[^\\n.]*verif"
       ],
       "samples": {
@@ -758,7 +759,7 @@
       "skill": "wait-what",
       "required": [
         "(?i)pode falhar",
-        "(?i)(?:causa[^\\n.]*desconhecida|não se sabe a causa)",
+        "(?i)(?:causa[^\\n.]*desconhecida|não se sabe a causa(?=\\s*(?:[.!;]|$)))",
         "(?i)(?:NÃO|não) publicar",
         "(?i)aprovação[^\\n.]*obrigatória"
       ],

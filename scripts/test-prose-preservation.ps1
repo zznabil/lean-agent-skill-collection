@@ -109,7 +109,7 @@ function Assert-ActionFirstPolicy([string]$Text)
   foreach ($rule in @(
     'inspect, decide, act, verify and repair',
     'Do not request approval already granted',
-    'Destructive, irreversible, costly, permission-sensitive or consequential external actions require explicit authorisation; retain required holds.',
+    'Destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions require explicit authorisation; retain required holds.',
     'Do not expand scope speculatively',
     'Respect plan-only, review-only and read-only requests',
     'evidence and reversible defaults',
@@ -123,6 +123,11 @@ function Assert-ActionFirstPolicy([string]$Text)
     { throw "PRESERVATION: action-first contract missing: $rule"
     }
   }
+}
+function Assert-PermissionTriggers([string]$Text)
+{
+  if (-not $Text.Contains('permission-sensitive, external, consequential or surprising'))
+  { throw 'PRESERVATION: independent permission triggers missing' }
 }
 function Assert-WorkflowPolicy([string]$Text)
 {
@@ -284,7 +289,10 @@ Expect-Rejection 'routine work requires proposal approval' { Assert-WorkflowPoli
 Expect-Rejection 'archive requires tracker publication' { Assert-WorkflowPolicy ($agents.Replace('Archive means close out; persist only useful continuity or required records.', 'Archive requires tracker publication.')) }
 Expect-Rejection 'read-only requires publication' { Assert-ActionFirstPolicy ($agents.Replace('Respect plan-only, review-only and read-only requests.', 'Read-only work requires tracker publication.')) }
 Expect-Rejection 'requested expansion forbidden' { Assert-ConcisePolicy ($agents.Replace('Expand only when requested', 'Never expand when requested')) }
-Expect-Rejection 'permission boundary narrowed' { Assert-ActionFirstPolicy ($agents.Replace('Destructive, irreversible, costly, permission-sensitive or consequential external actions', 'Costly external actions')) }
+Expect-Rejection 'permission boundary narrowed' { Assert-ActionFirstPolicy ($agents.Replace('Destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions', 'Costly external actions')) }
+Expect-Rejection 'external permission trigger removed' { Assert-ActionFirstPolicy ($agents.Replace('permission-sensitive, external, consequential or surprising actions', 'permission-sensitive, consequential or surprising actions')) }
+Expect-Rejection 'consequential local permission trigger removed' { Assert-ActionFirstPolicy ($agents.Replace('permission-sensitive, external, consequential or surprising actions', 'permission-sensitive, external or surprising actions')) }
+Expect-Rejection 'surprising permission trigger removed' { Assert-ActionFirstPolicy ($agents.Replace('permission-sensitive, external, consequential or surprising actions', 'permission-sensitive, external or consequential actions')) }
 Expect-Rejection 'routine approval appended to intact shortcut' { Assert-WorkflowPolicy ($agents.Replace("Routine work goes straight to Apply $arrow Verify.", "Routine work goes straight to Apply $arrow Verify. Before routine Apply, always obtain Propose approval.")) }
 Expect-Rejection 'publication appended to intact read-only scope' { Assert-ActionFirstPolicy ($agents.Replace('Respect plan-only, review-only and read-only requests.', 'Respect plan-only, review-only and read-only requests. Read-only requests must publish changes before finishing.')) }
 Expect-Rejection 'prohibition appended to intact depth exception' { Assert-ConcisePolicy ($agents.Replace('Expand only when requested or needed for understanding, safety or the task contract.', 'Expand only when requested or needed for understanding, safety or the task contract. Never expand when requested.')) }
@@ -300,7 +308,7 @@ foreach ($rule in @(
 }
 foreach ($rule in @(
   'inspect, decide, act, verify and repair', 'Do not request approval already granted',
-  'Destructive, irreversible, costly, permission-sensitive or consequential external actions require explicit authorisation; retain required holds.', 'Do not expand scope speculatively',
+  'Destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions require explicit authorisation; retain required holds.', 'Do not expand scope speculatively',
   'Respect plan-only, review-only and read-only requests',
   'evidence and reversible defaults', 'Keep working notes in context and evidence in tool output by default',
   'Retain required acceptance and release evidence', 'not task-specific deliverables, safety controls or acceptance gates',
@@ -319,10 +327,20 @@ foreach ($file in $portablePolicies)
 {
   try { Assert-ConcisePolicy (Read-Utf8 $file.FullName) }
   catch { throw "PRESERVATION: $($file.FullName): $($_.Exception.Message)" }
+  if ($file.Name -eq 'SKILL.md') { Assert-PermissionTriggers (Read-Utf8 $file.FullName) }
 }
 $standalone = Read-Utf8 (Join-Path $root 'skills/implement/SKILL.md')
 Expect-Rejection 'standalone requested depth prohibited' { Assert-ConcisePolicy ($standalone.Replace('Keep requested depth', 'Never keep requested depth')) }
 Assert-ConcisePolicy $standalone
+Assert-PermissionTriggers $standalone
+foreach ($target in @('skills/implement/SKILL.md', 'packs/controlled-execution/skills/practice-normative-precision/SKILL.md'))
+{
+  $text = Read-Utf8 (Join-Path $root $target)
+  foreach ($trigger in @('external, ', 'consequential or ', ' or surprising'))
+  {
+    Expect-Rejection "standalone permission trigger removed: $target : $trigger" { Assert-PermissionTriggers ($text.Replace($trigger, '')) }
+  }
+}
 Write-Host "PASS: action-first root and $($portablePolicies.Count) portable concise-prose contracts; missing safeguards rejected; live behaviour not inferred"
 
 if ($ArtifactsDirectory)
