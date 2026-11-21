@@ -1,3 +1,17 @@
+# V8.23.0 action-first release acceptance
+
+Retain the 51 Complete identities and 83 source-only optional routines. Verify autonomous routine work, conditional generic records and extremely concise prose without weakening permissions, holds, task-specific evidence or requested depth.
+
+All inherited V8.22.1 and V8.22.0 release gates below remain required: both supported PowerShell hosts, reproducible builds, calibrated rejection controls, current live package trials, actual isolated installation journeys, independent review and a fresh non-builder judge, exact PR and merged-main CI, and downloaded public-asset verification.
+
+The earlier source-candidate review and source-size measurements are not versioned release or live-host acceptance. Record fresh outcomes against the exact commit and assets. Neither checksums nor finite trials establish general model obedience or standards conformance.
+
+The release owner approved Sol-scoped validation on 2026-11-21. Predeclare `openai-codex/gpt-6.1-sol` for all 35 communication cases; every case remains required. Preserve Luna's failed trials and the separate Sol diagnostic run. Neither counts as fresh acceptance. Any baseline comparison must still use the same frozen corpus, model and options.
+
+The owner also approved a neutral temporal clarification of composition case I and a second invocation, with unchanged assertions. Keep its original failed trial distinct from the revised-input result. One bounded `normative-strength` evidence-recovery invocation is authorised after runner repair if the original native exit cannot be recovered; correct text alone remains insufficient.
+
+---
+
 # V8.22.1 OMP source-read evidence acceptance
 
 Recognise the expected packaged source in valid headered, raw, contextual and truncated OMP reads. Reject wrong paths, unpaired or failed results, reordered or altered content, unrequested source coverage and reads after the applicable decision. Retain the earlier failed traces and independent review findings.

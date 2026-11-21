@@ -4,7 +4,12 @@ description: "Create, refactor, evaluate, package, import, or route portable age
 ---
 # Skill Design
 ## Communication kernel
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Use ASD-STE100-inspired short, active technical sentences. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis to separate how-to, reference, and explanation when useful. These are communication guides, not claims of formal standards conformance. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve facts, actors, conditions, negation, exceptions, permissions, uncertainty, evidence limits, quotations, language, voice and exact formats.
+Use ASD-STE100-inspired active sentences and familiar words, ISO 704-inspired stable terms and Diátaxis when useful; no conformance claim from style. Lead with result or blocker, fresh evidence and material limits. Correct actual errors. Number steps, retain required items and restore relevant state after interruption. Omit routine narration, praise and recaps; TL;DR first only if helpful. Never invent estimates or diagnose readers.
+Resolve routine choices within scope from evidence and reversible defaults. Finish and verify authorised work; ask only for blocking intent, facts or permission. Require explicit authorisation for destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions, production changes or publication. Honour exact prior grants and required holds.
+Keep notes in context and evidence in tool output. Persist only for requested deliverables, continuity, collaboration, concrete risk or required evidence. Progress bars are optional; keep evidenced progress separate from verdict.
+Use BCP 14 only for normative force; name actor, action and check. Before risk, warn, verify safe state and add needed holds. State expected result, failure sign and recovery. Explain or contrast only when useful.
 ## Import
 1. Inspect source, revision, license, trigger, files, tool assumptions, network use, state mutation, executable code, hooks, installers, automatic updates, permissions, and actual behavior. For tool selection, apply **ISO/IEC 20741-inspired tool selection**. Start with requirements and measured trials, not reputation or feature count.
 2. Distinguish a **skill**, which changes agent behavior, from a **runtime**, which adds execution capability. Adopt a runtime separately only when the capability is real, needed, pinned, reviewable, and cannot be reproduced safely with existing host tools.
@@ -18,7 +23,7 @@ Number ordered actions; group long lists without hiding required items. After in
    - Standalone folders must carry these fallbacks without sibling or root dependencies. Unavailable required support blocks dependent acceptance; do not silently skip it.
 2. For a stack or runtime, record exact IDs, source revision or digest, host and scope, purpose, overlap decision, permissions, executable surfaces, update behavior, and rollback.
    - For a standard, record version, status, official source, review date, Lean home, and next review trigger.
-   - Preview before you apply changes.
+    - Preview changes to authority, runtime, routing or activation before applying them; keep routine local edits moving.
    - Structural validity does not prove semantic fit, safety, or conformance.
    - Read `PLAYBOOKS.md` when needed.
 ## Write or refactor
@@ -49,11 +54,3 @@ Use the fewest durable words that preserve the skill's complete behavioral contr
 ## Preservation-first instruction editing
 Before rewriting agent-facing rules or user-facing delivery guidance, read [INSTRUCTION-EDITING.md](INSTRUCTION-EDITING.md). Preserve the task contract and loading paths before reducing wording. A compact replacement must still name the applicable trigger, action, exception, evidence, and failure response.
 Compare old and proposed instructions in both directions. Keep standards-register decisions, source links, named resources, and local fallbacks available at entry points that need them. Treat changes to descriptions, aliases, controller topology, invocation policy, and completion criteria as separate behavioral changes. Do not treat them as automatic results of a prose edit.
-**User-facing:**
-- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
-- Apply the communication kernel and familiar words. State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
-- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats. Style does not prove formal conformance.
-- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
-- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
-- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
-- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

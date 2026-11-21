@@ -183,7 +183,7 @@ try
 
   Assert ($globalPolicy.Contains([IO.File]::ReadAllText((Join-Path $pack 'AGENTS.md')))) 'Global AGENTS policy is missing.'
 
-  Assert ($globalPolicy.Contains((Join-Path $installed 'ENGINEERING-CORE.md'))) 'Global policy omitted the installed companion path.'
+  Assert ($globalPolicy.Contains('For an unresolved engineering decision or evidence gap, read only relevant sections of this companion: ' + (Join-Path $installed 'ENGINEERING-CORE.md'))) 'Global policy forces routine engineering companion loading.'
 
   $backups = @(Get-ChildItem -LiteralPath $homePath -Filter 'SOUL.md.lean-backup-*')
 
@@ -233,7 +233,7 @@ try
 
   Assert ($projectPolicy.StartsWith([IO.File]::ReadAllText((Join-Path $pack 'AGENTS.md')))) 'Project instructions differ.'
 
-  Assert ($projectPolicy.Contains((Join-Path $projectHome 'skills/lean-pack-with-spaces/ENGINEERING-CORE.md'))) 'Project policy omitted the installed companion path.'
+  Assert ($projectPolicy.Contains('For an unresolved engineering decision or evidence gap, read only relevant sections of this companion: ' + (Join-Path $projectHome 'skills/lean-pack-with-spaces/ENGINEERING-CORE.md'))) 'Project policy forces routine engineering companion loading.'
 
   Assert (-not (Test-Path (Join-Path $projectHome 'SOUL.md'))) 'Project scope wrote global policy.'
 
@@ -441,4 +441,3 @@ try
 }
 
 exit 0
-

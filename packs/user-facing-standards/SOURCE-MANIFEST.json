@@ -12,7 +12,7 @@
       "kind": "controlled-language standard",
       "description": "Write, edit or review technical English with ASD-STE100.",
       "lines": 99,
-      "words": 1462,
+      "words": 1445,
       "complete_normative_assessment_performed": false,
       "source_basis": "Previously reviewed official Issue 9; original pilot hash retained as historical provenance. Current skill has task-specific clarity edits and the standalone fallback; full normative assessment remains unperformed. No approval assertion is made.",
       "official_urls": [
@@ -23,7 +23,7 @@
       "pdf_status": "Link only: free official PDF; redistribution permission not established.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "9f6df864791f57a95e221515122df25c07b8cc45c07b34ddab977ea386c17d33"
+      "current_sha256": "a1401dc1b6a832af36255af133688affc1ae05a5de8806923020fac7c936e7d5"
     },
     {
       "name": "standard-bcp14",
@@ -31,8 +31,8 @@
       "register_index": 1,
       "kind": "RFC convention",
       "description": "Write or review normative requirements using BCP 14.",
-      "lines": 50,
-      "words": 706,
+      "lines": 57,
+      "words": 675,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -46,7 +46,7 @@
       "pdf_status": "The official plain-text RFCs are bundled. No verified official PDF was retrieved; these are not PDF conversions.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "727ec73ef511e5a5296c6fb8f1d31e74c112b9fe1dbb3e9a050fc27bad7f2e30"
+      "current_sha256": "d501bbba05f3c63b82963b20a9f2318c874761a96f46b4112e667bbcacf6a258"
     },
     {
       "name": "standard-wcag22",
@@ -54,8 +54,8 @@
       "register_index": 8,
       "kind": "W3C Recommendation",
       "description": "Audit web accessibility against selected WCAG 2.2 criteria.",
-      "lines": 53,
-      "words": 744,
+      "lines": 60,
+      "words": 713,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -69,7 +69,7 @@
       "pdf_status": "Full official Recommendation bundled in native HTML bytes. No publisher-issued PDF located; no unofficial conversion labelled as official.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "815baee7ffaffe4ca37400d130b42b4dd8156e6a85993fefbc07543af5ed340c"
+      "current_sha256": "150f14f26cd5e7637da325fbb78fa4b1addf378ecaecfd61103c78b3b2600bc2"
     },
     {
       "name": "guidance-w3c-coga",
@@ -77,8 +77,8 @@
       "register_index": 20,
       "kind": "supplemental W3C guidance",
       "description": "Find cognitive barriers using W3C COGA guidance.",
-      "lines": 52,
-      "words": 739,
+      "lines": 59,
+      "words": 708,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -92,7 +92,7 @@
       "pdf_status": "Official full Working Group Note bundled as native HTML bytes; no verified official PDF located.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "5892297a8251778b1f173337e6c2b93b70332ac2fbb9d958205ed138a09bd150"
+      "current_sha256": "cbd37af4e23ca775fe5e0fc1cbcfe483e72123c69c776992a74826f45f1179fe"
     },
     {
       "name": "practice-diataxis",
@@ -100,8 +100,8 @@
       "register_index": 21,
       "kind": "documentation framework",
       "description": "Structure documentation with the four Diataxis forms.",
-      "lines": 59,
-      "words": 734,
+      "lines": 66,
+      "words": 703,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -121,7 +121,7 @@
       "pdf_status": "Five official native HTML pages bundled. No official PDF located.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "b1b61ffcbe72a66a3e5743cfc6ffd56764bf6f26be45f09ce543095952b81454"
+      "current_sha256": "0ca5ac6878c0291ee94de1e0fa58e184ec705de32fee9710c3cdb874dab6f346"
     },
     {
       "name": "guidance-wai-aria-apg",
@@ -129,8 +129,8 @@
       "register_index": 54,
       "kind": "W3C authoring guide",
       "description": "Apply WAI-ARIA patterns to a specific web interaction.",
-      "lines": 61,
-      "words": 752,
+      "lines": 68,
+      "words": 721,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -149,7 +149,7 @@
       "pdf_status": "Four official HTML pages bundled, not the full set of widget patterns. No official PDF located.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "8546c17f680267b37cff7754da96471deb8f8d6bc1340901a44a20fc4eff3d82"
+      "current_sha256": "78b692d11a6960bed6d77a47a4afb867da6d1aa1be784750581806c764a11de9"
     },
     {
       "name": "standard-iso-24495-1",
@@ -157,8 +157,8 @@
       "register_index": 19,
       "kind": "licensed-standard application",
       "description": "Apply a plain-language pass for ISO 24495-1.",
-      "lines": 54,
-      "words": 822,
+      "lines": 61,
+      "words": 791,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -168,7 +168,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "a51aa146848939426a3ac586dea95323b0455735ba1f03455d286018aa1585a7"
+      "current_sha256": "e49623ea9390b8d1ad714ca790dea7dc4f3093f3748f37a0d83d0c35589d4b6c"
     },
     {
       "name": "standard-iso-9241-110",
@@ -176,8 +176,8 @@
       "register_index": 51,
       "kind": "licensed-standard application",
       "description": "Review interaction principles for a specific user task.",
-      "lines": 54,
-      "words": 778,
+      "lines": 61,
+      "words": 747,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -187,7 +187,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "b1b724f7d8b42b1f7090f577f3988722c58a9b79685a842589e1f1bf647287e8"
+      "current_sha256": "316f5668e5d3085184ac5554e80216c43c73f875aab516620c46b7b0512b11a4"
     },
     {
       "name": "standard-iso-9241-210",
@@ -195,8 +195,8 @@
       "register_index": 52,
       "kind": "licensed-standard application",
       "description": "Plan a human-centred design cycle for an interactive system.",
-      "lines": 62,
-      "words": 770,
+      "lines": 69,
+      "words": 739,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -206,7 +206,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "c0913df0939bd576576b8b76d6a4050e7053276233a8d25c544a949eac61315e"
+      "current_sha256": "c975df6f7efd3157503ea944374f98dbff6b138f5306e1f95b76db56a952a3b9"
     },
     {
       "name": "standard-iso-9241-112",
@@ -214,8 +214,8 @@
       "register_index": 53,
       "kind": "licensed-standard application",
       "description": "Review how a screen or document presents information.",
-      "lines": 54,
-      "words": 771,
+      "lines": 61,
+      "words": 740,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -225,7 +225,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "f32fffb2b63a6bc4805e1da62efb6b8be3c0003bd205c7beceb2a268b9fcb6ac"
+      "current_sha256": "88a439a2d1ad1aeca6343f2efc3d0f8e30faaa08a46bc3e8048aafa000563090"
     },
     {
       "name": "standard-iec-ieee-82079-1",
@@ -233,8 +233,8 @@
       "register_index": 80,
       "kind": "licensed-standard application",
       "description": "Design information that supports safe product use.",
-      "lines": 63,
-      "words": 810,
+      "lines": 70,
+      "words": 779,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -244,7 +244,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "df749f4d472c2ddece79054b16068e2a5e56e7769657e5701692cd83dcae81e1"
+      "current_sha256": "970002a131241df5edabda188d300cde9967a1059973f52269bb98116684c37b"
     },
     {
       "name": "standard-iso-ieee-26514",
@@ -252,8 +252,8 @@
       "register_index": 81,
       "kind": "licensed-standard application",
       "description": "Create task-based information for software users.",
-      "lines": 62,
-      "words": 761,
+      "lines": 69,
+      "words": 730,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -263,7 +263,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "0fbf74dc20696b2235a55eb4cbfbd849b27698eebadfd153add2356d9b260300"
+      "current_sha256": "4ff4e22768b8c0eadae2e3610381c4b0c2625ac185e639cd6ccf34353dda5fb9"
     },
     {
       "name": "standard-iso-ieee-26513",
@@ -271,8 +271,8 @@
       "register_index": 82,
       "kind": "licensed-standard application",
       "description": "Test and review information against actual user tasks.",
-      "lines": 62,
-      "words": 764,
+      "lines": 69,
+      "words": 733,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -282,7 +282,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "0365d11c32159dfe9ca372ada0b369f3533cde8dfb4a664d9626f458ecf88dfa"
+      "current_sha256": "312286a57d8894a8197843e54b22402f100d4619c23019b4b685b2a557a20eb1"
     },
     {
       "name": "standard-iso-23859",
@@ -290,8 +290,8 @@
       "register_index": 83,
       "kind": "licensed-standard application",
       "description": "Create or adapt easy-to-understand user-interface text.",
-      "lines": 54,
-      "words": 804,
+      "lines": 61,
+      "words": 773,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -301,7 +301,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "331d3e4a03c59450ac5b6249b4b985b7ce03267079ad062931c2a4ed328f7001"
+      "current_sha256": "b18e051dbd492a5dd41a3a3d9e4e01aa64f75547f2f0aa6c1cf15a618d96fe05"
     },
     {
       "name": "standard-iso-21801-1",
@@ -309,8 +309,8 @@
       "register_index": 84,
       "kind": "licensed-standard application",
       "description": "Review cognitive accessibility in a bounded user journey.",
-      "lines": 62,
-      "words": 784,
+      "lines": 69,
+      "words": 753,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -320,7 +320,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "e81f941a3a840daf66ae176fea57495490d32a71b4fe049a3c3446add2e66344"
+      "current_sha256": "97d19484dce2b4ca5fd118a3c87ccd3db0ece7037519b2f2da17da10078b7aa7"
     },
     {
       "name": "standard-iso-9241-171",
@@ -328,8 +328,8 @@
       "register_index": 85,
       "kind": "licensed-standard application",
       "description": "Review software accessibility across a complete user task.",
-      "lines": 62,
-      "words": 763,
+      "lines": 69,
+      "words": 732,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -339,7 +339,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "61a96c24032c4ca666095d81fa0d39e5120b0d8cd16cc429601cccf3f968c126"
+      "current_sha256": "5899246c57ec40da76a06aa08272ea76a8772752deccf2bd2057429068cecaa4"
     },
     {
       "name": "standard-iso-29138-1",
@@ -347,8 +347,8 @@
       "register_index": 86,
       "kind": "licensed-standard application",
       "description": "Map user accessibility needs before choosing solutions.",
-      "lines": 62,
-      "words": 789,
+      "lines": 69,
+      "words": 758,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -358,7 +358,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "8b192dcb0925be4f72a2bd965c8f48845f15a1145d16c5ca4024f2eff6e09486"
+      "current_sha256": "2656a205ab521b3493a97d41b6689e0a2ab84e4baf312529ac2cb96f1c7b50b5"
     },
     {
       "name": "standard-iso-29138-4",
@@ -366,8 +366,8 @@
       "register_index": 87,
       "kind": "licensed-standard application",
       "description": "Trace accessibility needs into requirements and evidence.",
-      "lines": 62,
-      "words": 789,
+      "lines": 69,
+      "words": 758,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -377,7 +377,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "3629cc10a12e8e9f9f54780913743ef8201bd4f88b903a7fded20861123e2e97"
+      "current_sha256": "fa074a94e45aae8ef6be5584648fbbeb34ccd7997e29205bbe784b9335e4749e"
     },
     {
       "name": "standard-iso-704",
@@ -385,8 +385,8 @@
       "register_index": 88,
       "kind": "licensed-standard application",
       "description": "Keep concepts, terms and definitions consistent.",
-      "lines": 54,
-      "words": 780,
+      "lines": 61,
+      "words": 749,
       "complete_normative_assessment_performed": false,
       "source_basis": "Official publisher catalogue scope plus the independently summarised application guidance in Lean V8.8.0 skills/writing/USER-INFORMATION.md and the owning skills. No complete normative text or clause-level verification. https://github.com/zznabil/lean-agent-skill-collection/blob/58b4369205d7689b2c46cdf4b4ac3801164e95ed/skills/writing/USER-INFORMATION.md",
       "official_urls": [
@@ -396,7 +396,7 @@
       "pdf_status": "Official purchase/access link only. Full licensed PDF not obtained or redistributed; public scope is not the full standard.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "c7986cf394eb9b85e607acc8bfcdcc8c2eceb0001a2d9dcac1b7d427f7ceb98d"
+      "current_sha256": "a81cfd43478c4f6da5ed9d72784216a7d389b8cf5d8053fc56880b1ef7bfc8fa"
     },
     {
       "name": "guidance-cast-udl",
@@ -404,8 +404,8 @@
       "register_index": 89,
       "kind": "learning-design guidance",
       "description": "Design learning options with CAST UDL 3.0.",
-      "lines": 61,
-      "words": 734,
+      "lines": 68,
+      "words": 703,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -417,7 +417,7 @@
       "pdf_status": "Link only in public repository: official one-page UDL 3.0 organiser; public redistribution permission not established.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "ce88633a51044fdad80f14c9a30505dd47465a0e4851296d9452c9aab107fc36"
+      "current_sha256": "717637f9a59af70466116e1f67a05a2964dc9ec23f42137f69b5d6dcc86857f0"
     },
     {
       "name": "practice-ies-study",
@@ -425,8 +425,8 @@
       "register_index": 90,
       "kind": "government research practice guide",
       "description": "Plan study with the IES learning practice guide.",
-      "lines": 60,
-      "words": 751,
+      "lines": 67,
+      "words": 720,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -439,7 +439,7 @@
       "pdf_status": "Complete original official 63-page PDF bundled, with its public-domain and attribution statement intact.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "8d9d29fae5c653878e6ce1f55aca5c2e779a93ce59c9ff4f0b2f80acfcf272e6"
+      "current_sha256": "575e1a452304b8efa76891b9f78dcdfc5c7d8051393c56c76b5774d3e65e5770"
     },
     {
       "name": "practice-cognitive-load",
@@ -447,8 +447,8 @@
       "register_index": 91,
       "kind": "research-informed practice",
       "description": "Reduce avoidable load in a specific learning task.",
-      "lines": 59,
-      "words": 724,
+      "lines": 66,
+      "words": 693,
       "complete_normative_assessment_performed": false,
       "source_basis": "Existing Lean cognitive-load practice, AERO institutional research explainer and the IES guide. Application to agent prose is an explicit adaptation, not a human-cognition claim.",
       "official_urls": [
@@ -462,7 +462,7 @@
       "pdf_status": "Supporting official IES PDF bundled. AERO’s own official PDF linked but not downloaded successfully; no substitute labelled as the AERO PDF.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "a5b12e219faf8fcd1fadee478be544286fd207fc66b14e382ebf97f875b02742"
+      "current_sha256": "f7ffe7d605797213b7c7c873ae2de8e94c75266645ef500cbe262f7966249066"
     },
     {
       "name": "practice-worked-examples",
@@ -470,8 +470,8 @@
       "register_index": 92,
       "kind": "research-informed teaching pattern",
       "description": "Teach a procedure with worked examples and explanation.",
-      "lines": 59,
-      "words": 713,
+      "lines": 66,
+      "words": 682,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -484,7 +484,7 @@
       "pdf_status": "Complete official IES research guide bundled as support. No distinct official “worked examples” standard PDF exists in the register.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "e1e9a01da7ed723c718df1a86128c6eeea5dd4b9e7475cf1ddecce8a89adb056"
+      "current_sha256": "263134812b9e7273c6c6947b54af245e69f5a59e7eca7a8e7c982515f89356c7"
     },
     {
       "name": "guidance-easy-to-read",
@@ -492,8 +492,8 @@
       "register_index": 93,
       "kind": "specialised accessibility guidance",
       "description": "Prepare Easy-to-Read material with intended-user review.",
-      "lines": 53,
-      "words": 765,
+      "lines": 60,
+      "words": 734,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -504,7 +504,7 @@
       "pdf_status": "Official 40-page booklet located and studied, but linked rather than copied because redistribution permission was not established.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "b343d9bccb5efcedfc0195bd722eb79ef2354d3f2eaf089d00a9d3a3eae8aab4"
+      "current_sha256": "38276c57001e274f27c8c8920ef396b534769e6374ec9655eeec3cd787850788"
     },
     {
       "name": "diagnostic-cdc-cci",
@@ -512,8 +512,8 @@
       "register_index": 94,
       "kind": "public-communication diagnostic",
       "description": "Assess public information with the CDC communication index.",
-      "lines": 60,
-      "words": 752,
+      "lines": 67,
+      "words": 721,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -525,7 +525,7 @@
       "pdf_status": "Official user-guide and score-sheet PDFs located; binary retrieval returned HTTP 403. Direct official access links supplied; no substitute PDF generated.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "67bcbbc1d82087f22b69daeaf347e0679667c2a7a71ac17d737884c8d91a30ae"
+      "current_sha256": "b52a12814c790ecb64aa56a7233222b09c5fb24fd519c278f07fdaa94c17d805"
     },
     {
       "name": "diagnostic-ahrq-pemat",
@@ -533,8 +533,8 @@
       "register_index": 95,
       "kind": "patient-information diagnostic",
       "description": "Assess patient materials with the AHRQ PEMAT.",
-      "lines": 60,
-      "words": 739,
+      "lines": 67,
+      "words": 708,
       "complete_normative_assessment_performed": false,
       "source_basis": "official source and scoped Lean safeguards",
       "official_urls": [
@@ -546,7 +546,7 @@
       "pdf_status": "Official 67-page guide and included forms located; binary retrieval returned HTTP 403. Official PDF link supplied.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "329148350476ae98b9ec44c586d580d720d0c816eaad1d486ffb0e3725eec9d8"
+      "current_sha256": "bc0bb238b48f60e343a2a99b28c8399796894e1f8291a19a711c756eb70a732e"
     },
     {
       "name": "practice-feynman",
@@ -554,8 +554,8 @@
       "register_index": 96,
       "kind": "informal heuristic",
       "description": "Explain a difficult idea with a mechanism and example.",
-      "lines": 59,
-      "words": 708,
+      "lines": 66,
+      "words": 677,
       "complete_normative_assessment_performed": false,
       "source_basis": "The existing Lean register expressly labels this an informal heuristic. This skill preserves that status rather than inventing a canonical published system.",
       "official_urls": [
@@ -567,7 +567,7 @@
       "pdf_status": "Not applicable: no canonical official standard or official PDF is claimed.",
       "behavioural_evaluation": "not_run",
       "formal_conformance_claimed": false,
-      "current_sha256": "bc4d9dedf186cfad31919d938e360ebb3cab28f67beade4814f7c4437256643e"
+      "current_sha256": "fa88b38bcfbfd0b3472916f8676963d8ce238d3a94f1b0e13c75ec47fcc41428"
     }
   ],
   "bundled_publisher_files": [

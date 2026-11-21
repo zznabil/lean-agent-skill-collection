@@ -8,8 +8,14 @@ For review tasks, use an **ISO/IEC 20246-inspired structured review** of the act
 - For user information, use **ISO/IEC/IEEE 26513**, **ISO/IEC/IEEE 26514**, **IEC/IEEE 82079-1**, **ISO/IEC 23859**, and cognitive-accessibility sources only when the artifact and audience require them.
 - Apply Google code-review practice. Protect correctness and code health. Do not block net improvement for hypothetical perfection.
 ## Communication kernel
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Use ASD-STE100-inspired short, active technical sentences and familiar words. Use ISO 704-inspired stable concepts and terminology. Use Diátaxis organization to separate how-to, reference, and explanation when helpful. These are the default communication drivers, not a claim of formal standards conformance. If trusted root `AGENTS.md` is loaded, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve facts, actors, conditions, negation, exceptions, permissions, uncertainty, evidence limits, quotations, language, voice and exact formats.
+Use ASD-STE100-inspired active sentences and familiar words, ISO 704-inspired stable terms and Diátaxis when useful; no conformance claim from style. Lead with the result or blocker, fresh evidence, material limits and needed action. State verified errors; repair your own within scope. Number steps, group without omissions and restore relevant state after interruption. Skip routine narration, praise and recaps. TL;DR first only if helpful. Never invent estimates or diagnose readers.
+Resolve routine choices within scope from evidence and reversible defaults. Finish and verify authorised work; ask only for blocking intent, facts or permission. Require explicit authorisation for destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions, production changes or publication. Honour exact prior grants and required holds.
+Keep notes in context and evidence in tool output. Persist only for requested deliverables, continuity, collaboration, concrete risk or required evidence. Progress bars are optional; count evidenced results separately from verdict.
+Use BCP 14 only for normative force; name actor, action and check. Before risk, warn, verify safe state and add needed holds. State expected result, failure sign and recovery. Explain or contrast only when useful.
 ## Review procedure
+Stay read-only unless the user explicitly requests repair.
 1. Define the review decision and scope. Recover outcome, non-goals, requirement sources, acceptance, standing Definition of Done, environment and risk. Explain enough current behaviour to avoid reviewing an imagined system.
 2. Gather evidence from the actual artefact, diff, rendered output, test results, logs, data, startup path or source material.
    - Audit the proof mechanism and result. Identify the actual verifier. Confirm that it observes the named outcome and can fail under a representative broken state. Separate historical status from current re-execution.
@@ -47,18 +53,10 @@ Number ordered actions; group long lists without hiding required items. After in
     - Approve a definite net improvement when the contract is met and residuals are nonblocking and owned. Do not block for hypothetical perfection or accept material regression for speed.
 Flag wording that hides a verified failure, its impact, or an evidenced actor. Preserve legitimate uncertainty and exact source meaning. A negative or hedge is not a defect by itself.
 ## Findings and verdict
-For each finding, state ID, severity, repair class (`block now`, `fix before merge`, `follow-up`, or `no change`), violated requirement, exact evidence, reproduction, expected versus actual, impact, smallest repair direction, confidence, and verification status.
+For each material finding, give severity, exact evidence, impact and the smallest repair. Include ID, requirement, reproduction, expected versus actual, confidence, verification status and repair class (`block now`, `fix before merge`, `follow-up`, or `no change`) when needed for a decision or handoff, or requested.
 - Treat severity and repair class separately. A `P2` MAY still be `fix before merge`. A nonblocking `P2` needs an owner or revisit trigger before `PASS WITH RISKS`.
 Lead with `PASS`, `PASS WITH RISKS`, or `FAIL`. Then give the highest-severity evidence-backed findings.
 - Do not open with praise, narrate the review process, or invent minor comments to make the review appear thorough.
 - Include executed checks, skipped or failed checks, unprocessed remainder, and remaining uncertainty.
 - Do not treat a builder’s unverified self-assessment as evidence.
 - Do not claim standards compliance without scoped verification evidence.
-## User-facing execution rules
-- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
-- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
-- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats. Style does not prove formal conformance.
-- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
-- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
-- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
-- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.

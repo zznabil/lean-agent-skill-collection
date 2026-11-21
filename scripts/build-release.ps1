@@ -263,7 +263,7 @@ This profile includes $(@($BaseSkills).Count) base task skills and $(@($UserFaci
 
 $packageShape
 
-Original task adapters and policies remain unchanged. Supplemental user-facing standards carry SOURCES.md and any bundled references/; they do not add OpenAI adapters.
+Base task routing remains unchanged; adapter prompts and policies include this release's revisions. Supplemental user-facing standards carry SOURCES.md and any bundled references/; they do not add OpenAI adapters.
 
 ## Rights and limitations
 

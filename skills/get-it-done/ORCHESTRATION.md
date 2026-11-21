@@ -5,7 +5,7 @@ Use this procedure only when the task has several meaningful stages or genuinely
 ## Modes
 
 - **Direct:** Assign one foreground owner to one bounded task with one decisive check. Do not add a manifest, durable state, subagent, branch tree, handoff, barrier, or orchestration artifact unless new evidence makes it necessary.
-- **Staged:** Execute several dependent phases in sequence. Keep durable state and explicit checkpoints.
+- **Staged:** Execute dependent phases in sequence. Keep state in context unless acceptance, continuity, collaboration or risk needs durable state or a checkpoint.
 - **Delegated:** Use native agents or a trusted workflow runtime for independent packets. The parent retains the critical path, integration, and final verification.
 
 ## Roles

@@ -1,8 +1,8 @@
 {
-  "version": "8.22.1",
-  "release": "v8.22.1",
-  "release_title": "OMP Source-read Evidence Repair",
-  "release_summary": "Repair OMP source-read evidence for headered, raw, truncated and contextual reads. Reject mismatched paths, reordered or altered content, and failed or late reads while preserving communication rubrics and all skill routes.",
+  "version": "8.23.0",
+  "release": "v8.23.0",
+  "release_title": "Action-first Autonomy, Less Ceremony",
+  "release_summary": "Own routine decisions and verified delivery through five flexible phases. Make generic records and progress optional, require extremely concise user-facing prose, and preserve task-specific safety, permissions, evidence, routes and source rights.",
   "profiles": {
     "complete": {
       "plugin_name": "lean-agent-skills-complete",
@@ -40,7 +40,7 @@
   "user_facing_standards": {
     "source_root": "packs/user-facing-standards/skills",
     "source_manifest": "packs/user-facing-standards/SOURCE-MANIFEST.json",
-    "source_manifest_sha256": "26aadfa4b9eb6645a745185531a40542ffa20c9ee6474babcb4355449476414d",
+    "source_manifest_sha256": "09226613057665651f37fd04e97a8de6a9748b40130f6d6e0de41faa9db09e58",
     "rights_notice_path": "packs/user-facing-standards/THIRD-PARTY-NOTICES.md",
     "rights_notice_sha256": "7e46d11d0b4f303fb9f0655eaf00fd895c649de0b4a02f91f5038c591035ab75",
     "skills_expected": 27,

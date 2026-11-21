@@ -1,13 +1,13 @@
 # Engineering core
 
-Use this core for material engineering only. Its practical standards-inspired rules do not establish formal compliance or certification.
+Reference for material engineering. Load only sections needed for a current decision or evidence gap. These standards-inspired rules do not establish formal compliance or certification.
 
 ## Communication kernel
 
-Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
-Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful, without claiming formal conformance.
-Lead with the answer or next action. Use only necessary detail. Omit routine Summary headings and closing recaps; place an optional, useful TL;DR first. Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Show verified outcomes and factual errors; never invent estimates or diagnose readers. Give a concrete next action only if work remains.
-Preserve facts, negation, conditions, exceptions, permissions, uncertainty, evidence limits, exact syntax and requested voice. Other frameworks remain task-selected.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim activation without evidence.
+Use ASD-STE100-inspired language, ISO 704 terminology and Diátaxis when useful; no formal conformance claim. Other frameworks remain task-selected.
+User-facing prose MUST be extremely concise. Use familiar words, fragments and bullets; sacrifice grammar, not meaning. Expand for requested depth, understanding, safety or the task contract. Lead with the result; omit routine narration, Summary headings and recaps. Use TL;DR only first and when helpful. Number ordered actions; retain required items. Restore relevant state after interruption, not every turn. Report verified results and factual errors; never invent estimates or diagnose readers. Give next actions only when work remains.
+Preserve facts, negation, conditions, exceptions, permissions, uncertainty, evidence limits, exact syntax and requested voice.
 
 ## Standards source map
 
@@ -30,9 +30,9 @@ Use only sources that change the current decision or verification method. Source
 ## Contract
 
 - Apply **ISO/IEC/IEEE 29148-inspired traceability**: `source → requirement → acceptance check → implementation → verification → evidence`.
-- For each material requirement, record an ID, source, observable statement, method, environment, pass threshold, and evidence location.
+- Map material requirements to observable checks. Keep the mapping in context and evidence in tool output by default. Record IDs, sources, methods, environments, thresholds and evidence locations when required for acceptance, handoff or recovery; do not create a ledger merely because work spans files.
 - MUST NOT turn an inferred preference into a user requirement.
-- Report each check as `NOT TESTED`, `FAIL`, or `PASS`. “No issue seen” is not `PASS`.
+- In acceptance records, distinguish `NOT TESTED`, `FAIL` and `PASS`. “No issue seen” is not `PASS`; user replies need only the decisive results and material gaps.
 - Separate work completion, evidence coverage, and acceptance verdict. A complete verification run can produce `FAIL`. Processing or blocking a check does not make it pass.
 - A claim MUST NOT exceed its evidence.
   - Record the tested artifact or revision, verifier or rubric, environment, entrypoint, authentication context, time, and coverage when they affect validity.
@@ -61,6 +61,7 @@ Separate observed failure from unknown cause. Confidence or politeness cannot tu
 - In DIRECT mode, one foreground owner inspects, acts, checks, and reports. Do not create durable state, a plan file, delegation, critics, broad research, repeated checkpoints, or a progress bar merely because the host supports them.
 - Use the narrowest current evidence that fully proves the claim. One check is sufficient only if it observes the complete outcome and has a credible failure path. Combine equivalent checks. Broaden checks only when another boundary or risk remains unproved.
 - Resolve ordinary ambiguity from current code, documentation, behavior, tests, and reversible defaults. Ask at most one consolidated question when a consequential preference, permission, or unavailable fact remains unresolved.
+- Own routine decisions and complete safe work without approval checkpoints. Honour existing authorisation; ask only at unresolved intent or permission boundaries. Create durable plans, reports or state only for requested deliverables, continuity, collaboration or a concrete risk; retain required acceptance and release evidence.
 - When evidence identifies a root cause, fix it at the shared owning location. Do not fix one symptom while leaving the same defect in equivalent callers.
 - After repeated failures from the same hypothesis or strategy, change the hypothesis, boundary, instrumentation, or representation. Parameter changes within the same failed mechanism do not form a new strategy.
 - Stop when fresh evidence shows that the contract is met and no material unresolved risk remains. “Already exists,” “already lean,” and “no change needed” are valid outcomes.
@@ -77,7 +78,7 @@ Separate observed failure from unknown cause. Confidence or politeness cannot tu
 ## Evidence-guided action and memory
 
 - When practical, keep raw evidence append-only and queryable. Treat a summary, playbook, or model as a revisable view, not ground truth.
-- Label material beliefs `VERIFIED`, `ASSUMED`, `REFUTED`, or `UNKNOWN`. Include supporting evidence and a revisit condition.
+- Distinguish verified facts, assumptions, refuted beliefs and unknowns. Use `VERIFIED`, `ASSUMED`, `REFUTED` or `UNKNOWN` labels in durable records when needed; retain supporting evidence and a revisit condition.
 - Before a costly, irreversible, externally visible, or multi-step action, state the observable expected result.
 - Immediately compare the actual result with the expected result. If they differ, stop dependent actions, preserve the counterexample, and revise the plan or model.
 - Test hypotheses against existing logs, tests, traces, diffs, and outputs before taking a new live action. Only unresolved questions justify a new probe.
@@ -89,7 +90,7 @@ Separate observed failure from unknown cause. Confidence or politeness cannot tu
 
 ## Proof integrity and verified orchestration
 
-- For each material gate, record a stable ID, observable outcome, verifier or oracle, expected result, environment, current status, evidence, and freshness condition. A checked box, cached status, or worker claim does not prove execution.
+- For each material gate, retain its observed result and decisive evidence. Add a stable ID, verifier, expected result, environment, status and freshness condition when acceptance, handoff or recovery requires them. A checked box, cached status or worker claim does not prove execution.
 - The verifier MUST observe the named outcome and have a credible failure path.
   - When matching output, require process exit success and a marker that the process emits only after every assertion passes.
   - Exit `0`, `ok`, `done`, or similar weak text alone is not decisive evidence.
@@ -167,7 +168,7 @@ Hard gates MUST pass before soft polish can produce acceptance.
 
 ## Decisions and contracts
 
-- Record a consequential or hard-to-reverse choice as an **ADR/MADR**. Include context, options, decision, consequences, evidence, and revisit trigger.
+- Retain consequential or hard-to-reverse decisions, options, context, consequences, evidence and revisit triggers. Use an **ADR/MADR** when required by the project, continuity, collaboration or acceptance; otherwise context or an existing record suffices.
 - Use machine-checkable contracts such as **OpenAPI**, **JSON Schema**, **AsyncAPI**, or **CloudEvents** when they reduce ambiguity and can be validated.
 - Follow the repository's versioning and commit conventions. Use **Semantic Versioning** or **Conventional Commits** only when the project adopts them. Do not impose churn.
 

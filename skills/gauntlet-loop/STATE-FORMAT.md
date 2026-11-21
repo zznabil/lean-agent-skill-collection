@@ -1,6 +1,6 @@
 # Gauntlet state format
 
-Record these fields:
+Keep the evidence needed for independent judgement and safe recovery. Reuse existing records. When durable state is needed, use applicable fields below; do not create empty ledgers.
 
 - Record the mission, scope, non-goals, assumptions, permissions, and current phase.
 - Record the benchmark version, task-gate status, and standing Definition of Done if one exists.
@@ -14,7 +14,7 @@ Record these fields:
 - Maintain an evidence index. Include the tested artifact or revision, command or rubric, verifier, environment, entrypoint, authentication context, coverage, result, artifact path, confidence, time, and current or stale state.
 - Keep run state and artifact verdict in separate fields.
 - Record the iteration count, used budget, remaining budget, semantic no-progress count, last resolved gate/contract/defect/coverage state change, and stop trigger.
-- For every displayed progress bar, record the track name, denominator definition, planned, processed/adjudicated, passed, failed, blocked, skipped, and not-tested counts.
+- If displaying an optional progress bar, verify the track, denominator and evidenced processed counts. Keep passed, failed, blocked, skipped and not tested distinct.
 - Record critic reports, identity receipts, live-topology evidence, uncertainty bias, independence level, failed or skipped critics, and preserved dissent.
 - Record known risks, the exact stop reason, rollback, and one exact next action.
 

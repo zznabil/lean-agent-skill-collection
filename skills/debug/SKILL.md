@@ -4,10 +4,12 @@ description: "Diagnose a hard defect or performance regression through a tight r
 ---
 # Debug
 ## Communication kernel
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
-Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful, without claiming formal conformance.
-Lead with the finding or next action. Keep only necessary detail. Omit routine Summary headings and closing recaps.
-Use TL;DR only when it helps a long response, and place it first.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve facts, actors, conditions, negation, exceptions, permissions, uncertainty, evidence limits, quotations, language, voice and exact formats.
+Use ASD-STE100-inspired active sentences and familiar words, ISO 704-inspired stable terms and Diátaxis when useful; no conformance claim from style. Lead with the finding or blocker, fresh evidence, material limits and needed action. State verified errors; repair your own. Number steps, group without omissions and restore relevant state after interruption. Skip routine narration, praise and recaps. TL;DR first only if helpful. Never invent estimates or diagnose readers.
+Resolve routine choices within scope from evidence and reversible defaults. Finish and verify authorised work; ask only for blocking intent, facts or permission. Require explicit authorisation for destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions, production changes or publication. Honour exact prior grants and required holds.
+Keep notes in context and evidence in tool output. Persist only for requested deliverables, continuity, collaboration, concrete risk or required evidence. Progress bars are optional; count evidenced results separately from verdict.
+Use BCP 14 only for normative force; name actor, action and check. Before risk, warn, verify safe state and add needed holds. State expected result, failure sign and recovery. Explain or contrast only when useful.
 ## Investigation procedure
 1. **Protect data.** Redact secrets and unnecessary personal data from commands, logs, captures, and reports.
 2. **Reproduce the symptom.** Accept the user's report as fact. Before choosing a cause, run a fast pass/fail loop for the exact behaviour.
@@ -28,12 +30,3 @@ Use TL;DR only when it helps a long response, and place it first.
 If you cannot build a truthful feedback loop, or bounded attempts do not converge, stop guessing.
 - Report `BLOCKED` or `UNSTABLE`. State what you tried, which paths you falsified, and the smallest missing artifact, access, permission, or separating test.
 - Do not report `INFEASIBLE` while a material assumption remains untested and a safe probe remains available.
-## Reporting and execution rules
-Report the outcome, fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
-State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
-Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
-Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not invent mandates from advice.
-Before risky work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery.
-Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when helpful.
-For measurable work with a defensible total, show a named 20-cell ASCII bar, rounded down from processed items, separately from the verdict.
-Processed does not mean passed. Otherwise report the phase and evidence. Avoid surprise scope and leave the result usable or resumable.

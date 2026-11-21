@@ -41,7 +41,7 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 **Vague:** "Check everything and finish."
 
-**Operational:** "Before declaring completion, read the task's acceptance ledger and standing Definition of Done. Execute their applicable checks on the current revision. A failed or unrun required check prevents completion unless an authorised scope change removes that requirement. Report the actual result and next permitted action."
+**Operational:** "Before declaring completion, run the required checks on the current revision, including standing Definition of Done checks when present. A failed or unrun required check prevents completion unless an authorised scope change removes it. Report the result and any next permitted action."
 
 **Why:** The second version names the requirement sources, timing, observable evidence, and exception. It does not require every repository test for every task.
 
@@ -49,8 +49,9 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 ## Source roles
 
-Use only three default communication drivers: ASD-STE100-inspired short, active sentences; ISO 704-inspired stable terms; and Diátaxis purpose separation when useful. These guides do not establish formal conformance. Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Do not claim root activation without evidence.
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language and exact tokens; never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Lead with the answer or action. Keep needed detail; omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format in copy-ready text.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve language, voice, exact tokens and formats.
+Use ASD-STE100-inspired active sentences and familiar words, ISO 704-inspired stable terms and Diátaxis when useful. Lead with the answer or action, decisive evidence and material limits. Number ordered actions, retain required items and restore relevant state after interruption. Omit routine recaps; TL;DR first only if useful. Never invent estimates or diagnose readers.
 
 Use BCP 14 only for normative force. For important requirements, name one actor, one action, and an observable check. Before risky or failure-prone actions, place warnings first. Add hold points and safe-state checks where needed. State expected results, failure signs, and recovery for those actions. Explain difficult mechanisms simply. Use noncompliant/compliant pattern contrasts when useful. These are condition-triggered execution rules, not additional default prose drivers.
 

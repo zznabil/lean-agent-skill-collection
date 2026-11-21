@@ -4,10 +4,12 @@ description: "Design a controlled product, performance, or engineering experimen
 ---
 # Experiment
 ## Communication kernel
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence.
-- Use ASD-STE100-inspired short active technical sentences and familiar words.
-- Use ISO 704-inspired stable concepts and terminology.
-- Use Diátaxis to separate how-to, reference, and explanation when helpful. These are communication guides, not formal standards conformance.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve facts, actors, conditions, negation, exceptions, permissions, uncertainty, evidence limits, quotations, language, voice and exact formats.
+Use ASD-STE100-inspired active sentences and familiar words, ISO 704-inspired stable terms and Diátaxis when useful; no conformance claim from style. Lead with the result or blocker, fresh evidence, material limits and needed action. State verified errors; repair your own. Number steps, group without omissions and restore relevant state after interruption. Skip routine narration, praise and recaps. TL;DR first only if helpful. Never invent estimates or diagnose readers.
+Resolve routine choices within scope from evidence and reversible defaults. Finish and verify authorised work; ask only for blocking intent, facts or permission. Require explicit authorisation for destructive, irreversible, costly, permission-sensitive, external, consequential or surprising actions, production changes or publication. Honour exact prior grants and required holds.
+Keep notes in context and evidence in tool output. Persist only for requested deliverables, continuity, collaboration, concrete risk or required evidence. Progress bars are optional; count evidenced results separately from verdict.
+Use BCP 14 only for normative force; name actor, action and check. Before risk, warn, verify safe state and add needed holds. State expected result, failure sign and recovery. Explain or contrast only when useful.
 ## Experiment method
 Apply **Goal–Question–Metric (GQM)** to experiments. Start with the decision goal. Derive the questions. Then select metrics that answer those questions.
 - Use **ISO 31000-inspired risk treatment** where needed.
@@ -31,11 +33,3 @@ Choose **product** for an A/B or behavior test. Choose **engineering** for perfo
 10. **Record failed attempts.** Record failed, neutral, and contradicted attempts. Do not repeat them without new evidence.
 11. **Set resilience limits.** For resilience work, define steady state, fault, abort conditions, and blast radius. Production fault injection requires authorization and rollback.
 Do not launch while tracking, assignment, ethics, privacy, rollback, or correctness remains unresolved. Do not describe exploratory segments, source guesses, or simulated predictions as measured real-world results.
-## Reporting and execution rules
-- Lead with the supported result, action or blocker. Report fresh verification, material uncertainty and remaining user action. Omit routine tool narration and praise.
-- State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action.
-- Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats. Style does not prove formal conformance.
-- Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not turn advice into mandates.
-- Before risky or failure-prone work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery. Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when useful.
-- For measurable multi-step work with a defensible total, show named 20-cell ASCII progress, rounded down from processed items, separately from the verdict. Processed does not mean passed. Otherwise report phase and evidence.
-- Avoid surprise scope; leave results usable or resumable. Keep simple replies short without truncating needed detail. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first.
