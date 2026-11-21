@@ -529,7 +529,7 @@
         "(?i)A[^\\n]*passed staging",
         "(?i)B[^\\n]*(?:not run(?: in)? staging|staging[^\\n]*not run)",
         "(?i)\\b(?:(?:recommend|choose|select|prefer|use|retain|keep|stay with|go with)\\s+[*`_]*(?:plan\\s+)?A\\b|(?:plan\\s+)?A[*`_]*\\s+is\\s+(?:recommended|preferred|selected))[^\\n.!?]*\\b(?:until|for now)\\b",
-        "(?i)(?:until|reconsider (?:plan )?B only after)[^\\n]*staging[^\\n]*rollback[^\\n]*(?:verified|tested)"
+        "(?i)(?:(?:until|reconsider (?:plan )?B only after)[^\\n]*staging[^\\n]*rollback[^\\n]*(?:verified|tested)|(?:\\A|[.!]\\s+|\\n)(?:\\*\\*)?(?:TL;DR:(?:\\*\\*)?[ \\t]+)?(?:choose|select|recommend|prefer|use|retain|keep) (?:plan )?A for now(?:: it costs less and has stronger (?:verification )?evidence)?; reconsider (?:plan )?B once (?:its )?staging and (?:its )?rollback (?:are|have been) (?:verified|tested)(?:[.!](?=\\s|\\Z)|[ \\t]*(?:\\n|\\Z)))"
       ],
       "forbidden": [
         "(?im)\\n(?:#+\\s*)?(?:TL;DR|Summary|In summary|In conclusion|To recap)",

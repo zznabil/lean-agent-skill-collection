@@ -552,6 +552,32 @@ def self_test_writing():
     assert score_prose(comparison, deferred.replace("reconsider Plan B only after", "reconsider Plan B before")), "premature reconsideration accepted"
     assert score_prose(comparison, deferred.replace("Choose Plan A for now", "Do not choose Plan A for now")), "negated current recommendation accepted"
     sample_checks += 3
+    once_verified = deferred.replace(
+        "reconsider Plan B only after staging and rollback are verified",
+        "reconsider B once its staging and rollback are verified")
+    assert not score_prose(comparison, once_verified), "equivalent once-verified condition rejected"
+    sample_checks += 1
+    reasoned_once = once_verified.replace(
+        "Choose Plan A for now; reconsider B",
+        "Choose Plan A for now: it costs less and has stronger verification evidence; reconsider B")
+    assert not score_prose(comparison, reasoned_once), "affirmative evidence-bound comparison rejected"
+    sample_checks += 1
+    for broken in (
+        once_verified.replace("once its", "before its"),
+        once_verified.replace("are verified", "are not verified"),
+        once_verified.replace("are verified", "are unverified"),
+        once_verified.replace("staging and rollback", "staging"),
+        once_verified.replace("staging and rollback", "rollback"),
+        once_verified.replace("reconsider B", "reconsider A"),
+        once_verified.replace("reconsider B", "do not reconsider B"),
+        once_verified.replace("Choose Plan A for now", "Do not choose Plan A for now"),
+        once_verified.replace("are verified", "are verified or skipped"),
+        once_verified.replace("reconsider B", "do not apply this requirement: reconsider B"),
+        once_verified.replace("reconsider B", "do not apply this requirement; reconsider B"),
+        once_verified.replace("reconsider B", "the verification requirement is optional; reconsider B"),
+    ):
+        assert score_prose(comparison, broken), "broken once-verified comparison accepted"
+        sample_checks += 1
     aborted = depth["samples"]["pass"][0].replace("entire transaction", "entire aborted transaction")
     assert not score_prose(depth, aborted), "entire aborted-transaction retry rejected"
     assert score_prose(depth, aborted.replace("entire aborted transaction", "final update")), "partial transaction retry accepted"
