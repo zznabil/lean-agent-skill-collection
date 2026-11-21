@@ -72,8 +72,8 @@
       "required": [
         "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
         "(?i)\\bunit tests? (?:passed|pass)\\b",
-        "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
-        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+integration\\s+(?:testing|tests?)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+integration\\s+(?:testing|tests?)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|integration\\s+(?:testing|tests?)\\s+(?:(?:has\\s+)?not\\s+run|not\\s+tested|pending)[.;]\\s*(?:must\\s+pass\\s+before\\s+release|(?:hold\\s+(?:the\\s+)?release\\s+until|do\\s+not\\s+release\\s+until|release\\s+(?:is\\s+)?(?:blocked|held|on\\s+hold)\\s+until)\\s+they\\s+pass|release\\s+(?:requires|needs)\\s+(?:it|them)\\s+to\\s+pass))\\b(?=\\s*(?:[.!;]|$))"
+        "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not (?:yet )?run|not tested|pending)\\b",
+        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+integration\\s+(?:testing|tests?)\\s+pass(?:es)?|release\\s+(?:requires|needs)\\s+integration\\s+(?:testing|tests?)\\s+to\\s+pass|release\\s+(?:is\\s+)?pending\\s+passing\\s+integration\\s+(?:testing|tests?)|integration\\s+(?:testing|tests?)\\s+(?:(?:has\\s+)?not\\s+(?:yet\\s+)?run|not\\s+tested|pending)[.;]\\s*(?:must\\s+pass\\s+before\\s+release|(?:hold\\s+(?:the\\s+)?release\\s+until|do\\s+not\\s+release\\s+until|release\\s+(?:is\\s+)?(?:blocked|held|on\\s+hold)\\s+until)\\s+(?:they\\s+pass|it\\s+passes)|release\\s+(?:requires|needs)\\s+(?:it|them)\\s+to\\s+pass))\\b(?=\\s*(?:[.!;]|$))"
       ],
       "forbidden": [
         "(?i)summary|tl;dr|all tests passed|ready to release|release approved",

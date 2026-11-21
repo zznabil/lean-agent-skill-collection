@@ -600,6 +600,17 @@ def self_test_writing():
     wrong_subject = "Fix implemented. Integration testing pending. Unit tests passed. Hold release until they pass. They are the unit tests."
     assert score_prose(status, wrong_subject), "unit-test release prerequisite accepted"
     sample_checks += 2
+    singular_pronoun = "Fix implemented; unit tests passed. Integration testing not yet run; release blocked until it passes."
+    assert not score_prose(status, singular_pronoun), "closest-integration singular pronoun rejected"
+    for broken in (
+        singular_pronoun.replace("it passes", "it fails"),
+        singular_pronoun.replace("it passes", "it passes or fails"),
+        singular_pronoun + " It is the unit tests.",
+        singular_pronoun.replace("Integration testing not yet run;", "Integration testing not yet run. Unit tests passed;"),
+    ):
+        assert score_prose(status, broken), "unbound or reversed singular release gate accepted"
+        sample_checks += 1
+    sample_checks += 1
     assert score_prose(cases["clarify-pasted-pt-br"], unknown_pt.replace("Não se sabe a causa", "Não se sabe a causa do atraso da aprovação")), "unrelated Portuguese unknown accepted"
     sample_checks += 1
     reorientation = cases["interrupted-reorientation"]
