@@ -8,6 +8,8 @@ The earlier source-candidate review and source-size measurements are not version
 
 The release owner approved Sol-scoped validation on 2026-11-21. Predeclare `openai-codex/gpt-6.1-sol` for all 35 communication cases; every case remains required. Preserve Luna's failed trials and the separate Sol diagnostic run. Neither counts as fresh acceptance. Any baseline comparison must still use the same frozen corpus, model and options.
 
+The owner also approved a neutral temporal clarification of composition case I and a second invocation, with unchanged assertions. Keep its original failed trial distinct from the revised-input result. One bounded `normative-strength` evidence-recovery invocation is authorised after runner repair if the original native exit cannot be recovered; correct text alone remains insufficient.
+
 ---
 
 # V8.22.1 OMP source-read evidence acceptance

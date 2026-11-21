@@ -30,6 +30,8 @@ Apply the [release audit](../../docs/AUDIT.md). Source-candidate reviews do not 
 
 Release validation targets `openai-codex/gpt-6.1-sol`, explicitly approved by the release owner. Earlier Luna trials omitted required scope and exact technical fragments; retain those failures. This is model-scoped evidence, not a pass for Luna or every host/model. All 35 communication cases remain required; no safety or fidelity gate is waived.
 
+The owner approved a neutral temporal clarification of composition case I after its original failed trial. Assertions remain unchanged; acceptance of the revised input does not turn the original failure into a pass. Retain post-observation rubric repairs and any incomplete-process recoveries in the release evidence.
+
 Checksums establish integrity, not signed provenance, security certification, accessibility conformance or universal model behaviour. Record failures and untested coverage; never turn missing evidence into a pass.
 
 Keep V8.22.1 for rollback. Stop the host before restoring backed-up collection-owned paths and their recorded absence state. Preserve unrelated and later edits. Do not overwrite historical tags or published assets.
