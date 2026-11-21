@@ -672,7 +672,7 @@
         "(?i)export[^\\n.]*complete",
         "(?i)(?:current[^\\n.]*hash|hash[^\\n.]*current|1\\. Verify the hashes)",
         "(?i)(?:import[^\\n.]*pending|pending import)",
-        "(?i)(?:(?:hash verification|verification)[^.\\n]*not run|not run[^.\\n]*(?:hash verification|verification))",
+        "(?i)(?:(?:hash verification|verification)[^.\\n]*not (?:yet )?run|not (?:yet )?run[^.\\n]*(?:hash verification|verification))",
         "(?m)^1\\.",
         "(?m)^2\\.",
         "(?i)(?:only if|only after)[^\\n.]*hash[^\\n.]*match|(?is:verify the hashes.*if they match, run the pending import\\. if they do not match, stop; do not import)"

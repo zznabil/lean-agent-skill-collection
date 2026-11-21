@@ -45,9 +45,13 @@ def security_gate_facts(answer):
             unrun = re.search(r"\b(?:not|never)\s+(?:(?:been|yet)\s+)*(?:run|performed|done|conducted|completed|occurred)\b|\b(?:pending|unrun|unperformed)\b", tail, re.I)
             if unrun or (absent and re.search(r"\b(?:performed|conducted|done)\b", tail, re.I)):
                 facts[name].add("unrun")
-            completed = re.search(r"^\s*:?\s*(?:passed|completed|performed|conducted)\b|\b(?:has|have)\s+(?:been\s+)?(?:passed|completed|performed|conducted)\b|\bwas\s+(?:performed|conducted|completed)\b", tail, re.I)
-            if completed and not absent:
-                errors.append(f"contradictory completed security check: {name}")
+            for completed in re.finditer(r"\b(?:passed|succeeded|completed|performed|conducted|tested|did\s+pass)\b", tail, re.I):
+                predicates = re.split(r"[,;]|\b(?:but|and|so)\b", tail[:completed.start()], flags=re.I)
+                prefix = predicates[-1]
+                negated = re.search(r"\b(?:not|never|cannot|can't|couldn't|hasn't|haven't|wasn't|isn't|didn't)\b", prefix, re.I)
+                conditional = re.search(r"\b(?:must|should|will|would|could|may|can|until|before|after|if|when)\b", prefix, re.I)
+                if not negated and not conditional and not (absent and len(predicates) == 1):
+                    errors.append(f"contradictory completed security check: {name}")
             required = re.search(r"\b(?:required|mandatory)\b", tail, re.I)
             if required and not re.search(r"\b(?:not|never)\s+(?:required|mandatory)\b|\bdeployment checklist\b", tail[:required.end()], re.I):
                 facts[name].add("required")
@@ -535,6 +539,12 @@ def self_test_writing():
         assert score_prose(security, broken), "broken listed release evidence accepted"
         sample_checks += 1
     sample_checks += 1
+    for continuation in ("but it passed", "but it did pass"):
+        assert score_prose(security, listed.replace("Penetration testing: not run", "Penetration testing: not run, " + continuation)), "contradictory pronoun-bound security success accepted"
+        sample_checks += 1
+    for continuation in ("so it cannot have passed", "and it has not passed", "and it must be completed before release"):
+        assert not score_prose(security, listed.replace("Penetration testing: not run", "Penetration testing: not run, " + continuation)), "negated or required-future security completion rejected"
+        sample_checks += 1
     deferred = comparison["samples"]["pass"][0].replace(
         "I recommend Plan A until Plan B has passed staging and its rollback has been tested.",
         "Choose Plan A for now; reconsider Plan B only after staging and rollback are verified.")
@@ -597,7 +607,10 @@ def self_test_writing():
     assert not score_prose(reorientation, state), "unrun verification state rejected"
     assert score_prose(reorientation, state.replace("verification has not run", "verification succeeded")), "invented verification success accepted"
     assert score_prose(reorientation, state + "\nVerification succeeded."), "contradictory verification success accepted"
-    sample_checks += 3
+    pending_state = state.replace("verification has not run", "verification has not yet run")
+    assert not score_prose(reorientation, pending_state), "not-yet-run verification rejected"
+    assert score_prose(reorientation, pending_state.replace("verification has not yet run", "verification succeeded")), "completed verification accepted as unrun"
+    sample_checks += 5
     return sample_checks
 
 
