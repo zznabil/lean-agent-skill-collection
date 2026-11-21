@@ -6,6 +6,8 @@ All inherited V8.22.1 and V8.22.0 release gates below remain required: both supp
 
 The earlier source-candidate review and source-size measurements are not versioned release or live-host acceptance. Record fresh outcomes against the exact commit and assets. Neither checksums nor finite trials establish general model obedience or standards conformance.
 
+The release owner approved Sol-scoped validation on 2026-11-21. Predeclare `openai-codex/gpt-6.1-sol` for all 35 communication cases; every case remains required. Preserve Luna's failed trials and the separate Sol diagnostic run. Neither counts as fresh acceptance. Any baseline comparison must still use the same frozen corpus, model and options.
+
 ---
 
 # V8.22.1 OMP source-read evidence acceptance

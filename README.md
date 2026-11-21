@@ -158,6 +158,8 @@ In OMP JavaScript Eval, load `scripts/composition-browser-uat.js`. Replay `await
 
 For a live communication check, install the OMP CLI, then run `python -B scripts/evaluate-communications.py --package ./artifacts/v8.23.0/lean-agent-skills-complete-openai-v8.23.0.zip --out ./artifacts/communication-live`. The runner records the fixed corpus, source snapshots, commands, traces and answer word counts. It uses a temporary workspace and disables unrelated host rules and extensions without changing host settings. Its finite rubric is not general semantic or intended-user verification.
 
+V8.23.0 validation targets owner-approved `openai-codex/gpt-6.1-sol`. Earlier Luna trials failed scope and exact-fragment requirements. Keep those failures; passing one model does not establish obedience in another.
+
 The builder produces the consolidated Complete profile and a master archive with fixed entry order and timestamps. Supplemental standards carry their own rights notice and are not relicensed by the repository MIT license. The validators check metadata, profile inventories, licensing, source hashes, user-facing and considerate-agency contracts, Quick Mode routing and validation-mode contracts, human-usable information, evaluation mirrors, package checksums, text hygiene, temporary scaffolds, duplicate and case-colliding ZIP members, traversal, symlinks, executables, local links, placeholders, and common secret patterns. They do not install or execute any skill or interaction tool.
 
 ## Design principles

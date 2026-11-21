@@ -27,6 +27,8 @@ For an isolated Hermes journey, use an explicit disposable `-HermesHome`. Previe
 
 Apply the [release audit](../../docs/AUDIT.md). Source-candidate reviews do not replace fresh versioned package tests, actual host journeys, independent judgement, exact-commit CI or public-download verification.
 
+Release validation targets `openai-codex/gpt-6.1-sol`, explicitly approved by the release owner. Earlier Luna trials omitted required scope and exact technical fragments; retain those failures. This is model-scoped evidence, not a pass for Luna or every host/model. All 35 communication cases remain required; no safety or fidelity gate is waived.
+
 Checksums establish integrity, not signed provenance, security certification, accessibility conformance or universal model behaviour. Record failures and untested coverage; never turn missing evidence into a pass.
 
 Keep V8.22.1 for rollback. Stop the host before restoring backed-up collection-owned paths and their recorded absence state. Preserve unrelated and later edits. Do not overwrite historical tags or published assets.

@@ -8,6 +8,7 @@
 - Compact 169 instruction files by 10,073 whitespace-separated words and 44,212 UTF-8 bytes against V8.22.1. These are source-size measurements, not runtime token or latency results.
 - Keep installed engineering-companion guidance conditional. Strengthen calibrated source-policy and release-status controls without changing permissions, installer transactions, routes or publisher bytes.
 - Check requested length, relevant state, scope and intact technical fragments before delivery. Accept calibrated faithful paraphrases without relaxing safety, exact-token or word-count gates.
+- Target owner-approved Sol-scoped release validation. Retain failed Luna trials; do not claim universal model obedience or remove any required communication case.
 
 ## 8.22.1 — 2026-11-08
 

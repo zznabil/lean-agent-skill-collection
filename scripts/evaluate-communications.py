@@ -465,6 +465,50 @@ def self_test_writing():
     assert score_prose(uncertainty, cautious.replace("does not prove that it is safe", "proves that it is safe")), "unsupported scan safety accepted"
     assert score_prose(uncertainty, cautious.replace("except when offline", "except when online")), "changed offline exception accepted"
     sample_checks += 3
+    singular = pending.replace("Release pending passing integration tests", "Release blocked until integration testing passes")
+    assert not score_prose(status, singular), "singular passing-test condition rejected"
+    assert score_prose(status, singular.replace("testing passes", "testing fails")), "failed-test release condition accepted"
+    sample_checks += 2
+    security = next(case for case in CASES["cases"] if case["id"] == "security-evidence")
+    listed = ("Release decision: NO-GO — not ready.\n\n"
+              "- Automated scan: zero critical findings.\n"
+              "- Penetration testing: not run.\n"
+              "- OWASP ASVS review: not performed.\n\n"
+              "Both required release gates remain unmet. Hold release until both pass.\n"
+              "Zero critical findings do not prove the application is secure.")
+    assert not score_prose(security, listed), "listed required release gates rejected"
+    for broken in (
+        listed.replace("Both required release gates remain unmet", "Both release gates are optional"),
+        listed.replace("NO-GO — not ready", "GO"),
+        listed.replace("do not prove the application is secure", "prove the application is secure"),
+        listed.replace("OWASP ASVS review", "Documentation review"),
+    ):
+        assert score_prose(security, broken), "broken listed release evidence accepted"
+        sample_checks += 1
+    sample_checks += 1
+    deferred = comparison["samples"]["pass"][0].replace(
+        "I recommend Plan A until Plan B has passed staging and its rollback has been tested.",
+        "Choose Plan A for now; reconsider Plan B only after staging and rollback are verified.")
+    assert not score_prose(comparison, deferred), "equivalent deferred-reconsideration condition rejected"
+    assert score_prose(comparison, deferred.replace("reconsider Plan B only after", "reconsider Plan B before")), "premature reconsideration accepted"
+    sample_checks += 2
+    aborted = depth["samples"]["pass"][0].replace("entire transaction", "entire aborted transaction")
+    assert not score_prose(depth, aborted), "entire aborted-transaction retry rejected"
+    assert score_prose(depth, aborted.replace("entire aborted transaction", "final update")), "partial transaction retry accepted"
+    sample_checks += 2
+    operator_list = ("A scan count of zero does not prove safety. Operators:\n"
+                     "- MUST NOT deploy without approval.\n"
+                     "- SHOULD log access unless offline.\n"
+                     "- MAY show beta.\n\nThe cause may be unknown.")
+    assert not score_prose(uncertainty, operator_list), "operator-owned requirement list rejected"
+    assert score_prose(uncertainty, operator_list.replace("Operators:", "Customers:")), "changed actor accepted"
+    assert score_prose(uncertainty, operator_list.replace("MUST NOT deploy", "MAY deploy")), "weakened list prohibition accepted"
+    sample_checks += 3
+    for prohibition in ("Não repita o comando sem autorização", "Não execute o comando novamente sem autorização"):
+        faithful = clarified["clarify-diagnostic-label-fidelity"].replace("Não o repita sem autorização", prohibition)
+        assert not score_prose(cases["clarify-diagnostic-label-fidelity"], faithful), "faithful Portuguese prohibition rejected"
+        assert score_prose(cases["clarify-diagnostic-label-fidelity"], faithful.replace(prohibition, prohibition[4:])), "publication/command permission reversal accepted"
+        sample_checks += 2
     return sample_checks
 
 
