@@ -148,7 +148,7 @@ try
   if (Test-Path -LiteralPath $engineeringPath -PathType Leaf)
   {
     $companion = Join-Path $destination 'ENGINEERING-CORE.md'
-    $policy += "`n`nFor material engineering work, read the relevant sections of the engineering companion at: $companion`n"
+    $policy += "`n`nFor an unresolved engineering decision or evidence gap, read only relevant sections of this companion: $companion`n"
   }
   $policyTarget = $null
   $oldPolicy = $null

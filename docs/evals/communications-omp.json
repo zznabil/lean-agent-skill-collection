@@ -51,7 +51,69 @@
       "forbidden": [
         "(?i)summary:|tl;dr|certified"
       ],
-      "skill": "writing"
+      "skill": "writing",
+      "max_words": 25,
+      "samples": {
+        "pass": [
+          "Upload failed. No file was saved. Check your connection and retry."
+        ],
+        "fail": [
+          "Upload failed. Check your connection and retry.",
+          "Upload failed. Your file was saved. Check your connection and retry.",
+          "Unfortunately, your upload could not be completed at this particular time. No file was saved. Please take a moment to check your connection and then try again."
+        ]
+      }
+    },
+    {
+      "id": "concise-stakeholder-status",
+      "category": "concise-user-facing",
+      "prompt": "Give stakeholders a very short status. The fix is implemented; unit tests passed; integration testing has not run. Release needs integration testing to pass. Return only the status. Fragments are fine.",
+      "required": [
+        "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
+        "(?i)\\bunit tests? (?:passed|pass)\\b",
+        "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
+        "(?i)\\b(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass\\b(?=\\s*(?:[.!;]|$))"
+      ],
+      "forbidden": [
+        "(?i)summary|tl;dr|all tests passed|ready to release|release approved",
+        "(?i)fix.{0,15}(?:not|never|isn't|isn’t).{0,15}(?:implemented|complete|done)",
+        "(?i)unit tests?.{0,15}(?:not|never|haven't|haven’t).{0,15}(?:passed|pass)",
+        "(?i)release.{0,15}(?:not|never|isn't|isn’t).{0,15}(?:blocked|held|on hold)",
+        "(?i)integration (?:testing|tests?).{0,15}(?:not|never|isn't|isn’t).{0,15}pending",
+        "(?i)integration (?:testing|tests?).{0,15}(?:do not|don't|don’t|must not|never|fail to) pass",
+        "(?i)\\bpass\\s+or\\s+fail\\b",
+        "(?i)\\brelease\\s+(?:(?:may|can|should|must)\\s+(?:proceed|ship|start)|(?:is\\s+)?(?:approved|authori[sz]ed|ready))(?:\\s+(?:now|immediately))?\\s*(?:[.!;]|$)"
+      ],
+      "skill": "optional",
+      "max_words": 25,
+      "samples": {
+        "pass": [
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass.",
+          "Fix implemented. Unit tests passed. Integration tests not run. Hold release until they pass.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release must not proceed now.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release may proceed after they pass."
+        ],
+        "fail": [
+          "Fix implemented. Unit tests passed. Ready to release.",
+          "Fix implemented. All tests passed. Release approved.",
+          "Fix implemented. Unit tests passed. Integration testing pending.",
+          "Fix not implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release not blocked until integration tests pass.",
+          "Fix implemented. Unit tests not passed. Integration testing pending. Release blocked until integration tests pass.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests finish.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests do not pass.",
+          "Fix unimplemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release unblocked until integration tests pass.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests need not pass.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests finish, pass or fail.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass or fail.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release may proceed now.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release can proceed.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release should ship now.",
+          "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release is approved.",
+          "The fix is implemented and unit tests passed. Integration testing has not run, so release is blocked. We are providing this update to keep every stakeholder informed."
+        ]
+      }
     },
     {
       "id": "technical-procedure",

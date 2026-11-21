@@ -6,6 +6,7 @@ description: "Turn evidence and resolved decisions into an executable proposal, 
 Select **proposal**, **spec**, **tickets**, **workflow**, **refactor**, or **arbiter**.
 - First choose the output depth: **Direct** (a few sentences), **Brief** (bounded units, files, and checks in chat), or **Durable** (a versioned artifact for high-risk, multi-session, or headless work).
 - If implementation is also requested and the task is clear, local, reversible, and proved by one decisive check, use Direct. Proceed without a separate plan artifact.
+- A plan-only request authorises the planning deliverable, not implementation.
 ## Common process
 1. Lead with the proposed outcome and next consumer. Recover the current state, constraints, non-goals, users, risks and definition of done.
 2. Verify consequential claims against current files, behaviour, documentation, tests or data.
@@ -43,14 +44,9 @@ Return the lightest useful planning output. Include traceability, dependencies, 
 - Use a plan to guide outcomes and decisions, not line-by-line code choreography.
 - Do not claim that implementation occurred.
 ## Communication kernel
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
-Use ASD-STE100-inspired short, active sentences, ISO 704-inspired stable terms and Diátaxis organisation when useful, without claiming formal conformance.
-Lead with the answer, decision or blocker. Keep only necessary detail. Omit routine Summary headings and closing recaps.
-Use TL;DR only when helpful for a long response, and place it first. Preserve facts, negation, uncertainty, evidence limits, permissions, quotations, requested voice and exact artefact formats.
-State verified failure and evidenced responsibility directly. Correct actual agent errors or give the next safe action; omit routine narration and praise.
-## Conditional execution and reporting
-Use BCP 14 only for normative force. Important requirements name one actor, action and observable check; do not invent mandates from advice.
-Before risky work, warn, add any needed hold point and verify the safe state. State the expected result, failure sign and recovery.
-Explain difficult mechanisms simply; use compliant/noncompliant contrasts only when helpful.
-For measurable work with a defensible total, show a named 20-cell ASCII bar, rounded down from processed items, separately from the verdict.
-Processed does not mean passed. Otherwise report the phase and evidence. Avoid surprise scope and leave the result usable or resumable.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve facts, actors, conditions, negation, exceptions, permissions, uncertainty, evidence limits, quotations, language, voice and exact formats.
+Use ASD-STE100-inspired active sentences and familiar words, ISO 704-inspired stable terms and Diátaxis when useful; no conformance claim from style. Lead with the decision or blocker, fresh evidence, material limits and needed action. State verified errors; repair your own. Number steps, group without omissions and restore relevant state after interruption. Skip routine narration, praise and recaps. TL;DR first only if helpful. Never invent estimates or diagnose readers.
+Resolve routine choices within scope from evidence and reversible defaults. Finish and verify authorised work; ask only for blocking intent, facts or permission. Require explicit authorisation for destructive, irreversible, costly, permission-sensitive or consequential external actions, production changes or publication. Honour exact prior grants and required holds.
+Keep notes in context and evidence in tool output. Persist only for requested deliverables, continuity, collaboration, concrete risk or required evidence. Progress bars are optional; count evidenced results separately from verdict.
+Use BCP 14 only for normative force; name actor, action and check. Before risk, warn, verify safe state and add needed holds. State expected result, failure sign and recovery. Explain or contrast only when useful.

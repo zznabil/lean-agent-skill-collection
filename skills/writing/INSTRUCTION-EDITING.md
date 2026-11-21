@@ -45,7 +45,7 @@ For consequential changes, obtain the independent review and intended-reader tas
 
 **Vague:** "Check everything and finish."
 
-**Operational:** "Before declaring completion, read the task's acceptance ledger and standing Definition of Done. Execute their applicable checks on the current revision. A failed or unrun required check prevents completion unless an authorised scope change removes that requirement. Report the actual result and next permitted action."
+**Operational:** "Before declaring completion, run the required checks on the current revision, including standing Definition of Done checks when present. A failed or unrun required check prevents completion unless an authorised scope change removes it. Report the result and any next permitted action."
 
 **Why:** The operational version identifies requirement sources, timing, observable evidence, and the exception. It does not require every repository test for every task.
 
@@ -65,5 +65,6 @@ Apply this kernel to this reference, its examples, and the instructions you draf
 - Use ISO 704-inspired terminology: keep one preferred term for each concept within a scope and distinguish related concepts. Explain unfamiliar terms near first use.
 - Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when that separation helps. Do not force sections into a short answer.
 
-If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language and exact tokens; never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Lead with the answer or action. Keep needed detail; omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format in copy-ready text.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence. Style proves no conformance.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve language, voice, exact tokens and formats.
+Lead with the answer or action, decisive evidence and material limits. Number ordered actions, retain required items and restore relevant state after interruption. Omit routine recaps; TL;DR first only if useful. Never invent estimates or diagnose readers.

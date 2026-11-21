@@ -1,3 +1,13 @@
+# V8.23.0 action-first release acceptance
+
+Retain the 51 Complete identities and 83 source-only optional routines. Verify autonomous routine work, conditional generic records and extremely concise prose without weakening permissions, holds, task-specific evidence or requested depth.
+
+All inherited V8.22.1 and V8.22.0 release gates below remain required: both supported PowerShell hosts, reproducible builds, calibrated rejection controls, current live package trials, actual isolated installation journeys, independent review and a fresh non-builder judge, exact PR and merged-main CI, and downloaded public-asset verification.
+
+The earlier source-candidate review and source-size measurements are not versioned release or live-host acceptance. Record fresh outcomes against the exact commit and assets. Neither checksums nor finite trials establish general model obedience or standards conformance.
+
+---
+
 # V8.22.1 OMP source-read evidence acceptance
 
 Recognise the expected packaged source in valid headered, raw, contextual and truncated OMP reads. Reject wrong paths, unpaired or failed results, reordered or altered content, unrequested source coverage and reads after the applicable decision. Retain the earlier failed traces and independent review findings.

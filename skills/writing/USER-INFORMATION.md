@@ -10,8 +10,9 @@ Apply this kernel to this reference, its examples, and the text you draft or edi
 - Use ISO 704-inspired stable terms for distinct concepts. Explain unfamiliar terms near first use. Keep exact UI labels, commands, identifiers, and quotations; explain them alongside.
 - Use Diátaxis to separate tutorials, how-to actions, reference facts, and explanations when useful. Do not force sections into a short answer.
 
-If trusted root AGENTS.md loads, its policy governs. Otherwise apply this standalone kernel. Do not claim root activation without evidence. These influences do not establish formal standards conformance.
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language and exact tokens; never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains. Lead with the answer or action. Keep necessary detail without arbitrary truncation. Omit routine Summary headings and closing recaps. Use TL;DR only when helpful for a complex response, and place it first. Preserve the requested voice and format.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence. Style proves no conformance.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve language, voice, exact tokens and formats.
+Lead with the answer or action, decisive evidence and material limits. Number ordered actions, retain required items and restore relevant state after interruption. Omit routine recaps; TL;DR first only if useful. Never invent estimates or diagnose readers.
 
 ## Source roles
 
@@ -74,6 +75,8 @@ Next
 Each step should give one main action or one tightly coupled action group. Place warnings, prerequisites, costs, irreversible effects, and data-loss risks before the commitment point.
 
 ## Error and recovery template
+
+Use only the fields the error and recovery need.
 
 ```text
 What happened

@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.23.0 — 2026-11-21
+
+- Default to autonomous, authorised action and decisive verification. Make generic plans, ledgers, reports and progress bars conditional; preserve required safeguards and acceptance evidence.
+- Present Explore → Propose → Apply → Verify/Review → Archive as a flexible loop. Routine work starts at Apply → Verify; no new skills or commands.
+- Mandate extremely concise user-facing prose. Prefer familiar words and useful fragments; preserve meaning, requested depth, safety and exact contracts.
+- Compact 169 instruction files by 10,155 whitespace-separated words and 44,818 UTF-8 bytes against V8.22.1. These are source-size measurements, not runtime token or latency results.
+- Keep installed engineering-companion guidance conditional. Strengthen calibrated source-policy and release-status controls without changing permissions, installer transactions, routes or publisher bytes.
+
 ## 8.22.1 — 2026-11-08
 
 - Repair OMP source-read evidence for exact skill headers, raw selectors, contextual reads and separately reread truncated lines. Reject wrong paths, reordered or unmatched numbered content, failed reads and late evidence.

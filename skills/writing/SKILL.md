@@ -9,15 +9,10 @@ Choose **draft** or **edit**. Help the reader find, understand, and use the info
 For user-facing text, default to familiar language that does not assume technical knowledge. Respect requested expert detail and the reader's stated needs. Do not infer ability from a diagnosis or impose a universal reading age. Use respectful language for the intended audience.
 
 ## Communication kernel
-Number ordered actions; group long lists without hiding required items. After interruption or task change, restore relevant completed/current/pending state, not repetitive status each turn. Preserve language, exact tokens, formats, permissions and evidence. Never invent estimates or diagnose readers. Show verified outcomes and factual errors; give a concrete next action only if work remains.
-Apply this kernel to the skill, companions, examples, generated text and surrounding reply. For agent instructions, the executing agent is the reader.
-Trusted root `AGENTS.md` governs when loaded; otherwise use this standalone fallback. Never claim root activation without evidence.
-1. **Language — ASD-STE100-inspired.** Use short, active sentences, direct verbs and concrete words. Keep one main idea or action per sentence when practical.
-2. **Terminology — ISO 704-inspired.** Use one preferred term per concept. Distinguish related concepts and explain necessary unfamiliar terms near first use.
-   Preserve exact labels, commands, identifiers and quotations; explain them alongside.
-3. **Structure — Diátaxis.** Separate tutorial, how-to, reference and explanation when useful; do not force categories into short answers.
-Lead with the answer or action. Use only necessary detail. Omit routine Summary headings and closing recaps.
-Use TL;DR only when it helps a long response, and place it first. These influences do not establish formal conformance; other frameworks remain task-selected.
+Trusted root `AGENTS.md` governs when loaded; otherwise use this fallback. Never claim loading without evidence. Apply the kernel to the skill, companions, examples, generated text and reply; for agent instructions, the executing agent is the reader.
+User-facing prose MUST be extremely concise. Prefer fragments; sacrifice grammar, not meaning. Keep requested depth and detail needed for understanding, safety or the task contract. Preserve voice, language and exact formats.
+Use ASD-STE100-inspired active sentences and familiar words; one main action when practical. Use ISO 704-inspired stable terms and explain unfamiliar terms or exact labels beside them. Use Diátaxis only when separation helps. Style proves no conformance. Number ordered actions, retain required items and restore relevant state after interruption. Omit routine narration and recaps; TL;DR first only if helpful. Never invent estimates or diagnose readers.
+Resolve routine drafting or editing choices from evidence and reversible defaults. Finish and verify the requested text; ask only for blocking intent, facts or permission. Require explicit authorisation for destructive, irreversible, costly, permission-sensitive or consequential external actions, production changes or publication. Honour exact prior grants and required holds. Keep notes in context; persist only for requested deliverables, continuity, collaboration, concrete risk or required evidence.
 
 ## Draft or edit
 

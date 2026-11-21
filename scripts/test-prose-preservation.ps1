@@ -76,6 +76,73 @@ function Assert-CommunicationKernel([string]$Text)
     }
   }
 }
+function Assert-ConcisePolicy([string]$Text)
+{
+  # Check the stated contract and calibrated conflicts, not arbitrary English semantics.
+  if ($Text -match '(?i)\b(?:never|do not|must not)\s+expand\s+(?:when|if)\s+requested\b')
+  { throw 'PRESERVATION: requested expansion prohibited'
+  }
+  $clause = [regex]::Match($Text, '(?m)^(?:- )?User-facing prose MUST be extremely concise\.[^\r\n]*').Value
+  foreach ($rule in @(
+    'User-facing prose MUST be extremely concise',
+    'sacrifice grammar, not meaning',
+    'requested',
+    'understanding',
+    'safety',
+    'task contract'
+  ))
+  {
+    if ($clause.IndexOf($rule, [StringComparison]::OrdinalIgnoreCase) -lt 0)
+    { throw "PRESERVATION: concise prose contract missing: $rule"
+    }
+  }
+  $exception = '(?i)(?:^|[.!?]\s+)(?:Expand(?: only)? for requested depth, understanding, safety or the task contract|Expand only when requested or needed for understanding, safety or the task contract|Keep requested depth and detail needed for understanding, safety or the task contract)\.'
+  if ($clause -notmatch $exception)
+  { throw 'PRESERVATION: operative expansion exceptions missing or reversed'
+  }
+}
+function Assert-ActionFirstPolicy([string]$Text)
+{
+  if ($Text -match '(?i)\bread-only\s+requests?\s+(?:must|shall|have to)\s+(?:publish|release|deploy)\b')
+  { throw 'PRESERVATION: read-only work requires external effects'
+  }
+  foreach ($rule in @(
+    'inspect, decide, act, verify and repair',
+    'Do not request approval already granted',
+    'Destructive, irreversible, costly, permission-sensitive or consequential external actions require explicit authorisation; retain required holds.',
+    'Do not expand scope speculatively',
+    'Respect plan-only, review-only and read-only requests',
+    'evidence and reversible defaults',
+    'Keep working notes in context and evidence in tool output by default',
+    'Retain required acceptance and release evidence',
+    'not task-specific deliverables, safety controls or acceptance gates',
+    'Progress bars are optional unless requested'
+  ))
+  {
+    if (-not $Text.Contains($rule))
+    { throw "PRESERVATION: action-first contract missing: $rule"
+    }
+  }
+}
+function Assert-WorkflowPolicy([string]$Text)
+{
+  if ($Text -match '(?i)\b(?:before\s+routine\s+Apply[,;:]?\s+(?:always\s+)?(?:obtain|require)\s+Propose\s+approval|routine\s+Apply\s+(?:requires?|needs?|must obtain)\s+Propose\s+approval)\b')
+  { throw 'PRESERVATION: routine work requires proposal approval'
+  }
+  $match = [regex]::Match($Text, '(?m)^- Use (?<phases>[^\r\n]*?) as a flexible loop, not mandatory gates or documents\.')
+  if (-not $match.Success) { throw 'PRESERVATION: flexible workflow list missing' }
+  $phases = @($match.Groups['phases'].Value -split [string][char]0x2192 | ForEach-Object { $_.Trim() })
+  Assert-SameSequence @('Explore', 'Propose', 'Apply', 'Verify/Review', 'Archive') $phases 'workflow phase list'
+  foreach ($rule in @(
+    ('Routine work goes straight to Apply ' + [char]0x2192 + ' Verify.'),
+    'Archive means close out; persist only useful continuity or required records.',
+    'The agent owns routing.',
+    'These defaults replace generic ceremony, not task-specific deliverables, safety controls or acceptance gates.'
+  ))
+  {
+    if (-not $Text.Contains($rule)) { throw "PRESERVATION: workflow clause missing or reversed: $rule" }
+  }
+}
 function Package-Name([string]$Profile,[string]$Version)
 {
   return "lean-agent-skills-$Profile-openai-v$Version"
@@ -203,6 +270,60 @@ foreach ($driver in @('ASD-STE100','ISO 704',('Di'+[char]0x00e1+'taxis')))
 {
   Expect-Rejection "kernel driver missing: $driver" { Assert-CommunicationKernel ($agents.Replace($driver,'')) }
 }
+Assert-ConcisePolicy $agents
+Assert-ActionFirstPolicy $agents
+Assert-WorkflowPolicy $agents
+foreach ($phase in @('Explore', 'Propose', 'Apply', 'Verify/Review', 'Archive'))
+{
+  Expect-Rejection "workflow phase missing: $phase" { Assert-WorkflowPolicy ($agents.Replace($phase,'')) }
+}
+Expect-Rejection 'workflow made mandatory' { Assert-WorkflowPolicy ($agents.Replace('not mandatory gates or documents','mandatory gates and documents')) }
+$arrow = [string][char]0x2192
+Expect-Rejection 'archive missing only from phase list' { Assert-WorkflowPolicy ($agents.Replace("Verify/Review $arrow Archive as", 'Verify/Review as')) }
+Expect-Rejection 'routine work requires proposal approval' { Assert-WorkflowPolicy ($agents.Replace("Routine work goes straight to Apply $arrow Verify.", 'Routine work requires proposal approval.')) }
+Expect-Rejection 'archive requires tracker publication' { Assert-WorkflowPolicy ($agents.Replace('Archive means close out; persist only useful continuity or required records.', 'Archive requires tracker publication.')) }
+Expect-Rejection 'read-only requires publication' { Assert-ActionFirstPolicy ($agents.Replace('Respect plan-only, review-only and read-only requests.', 'Read-only work requires tracker publication.')) }
+Expect-Rejection 'requested expansion forbidden' { Assert-ConcisePolicy ($agents.Replace('Expand only when requested', 'Never expand when requested')) }
+Expect-Rejection 'permission boundary narrowed' { Assert-ActionFirstPolicy ($agents.Replace('Destructive, irreversible, costly, permission-sensitive or consequential external actions', 'Costly external actions')) }
+Expect-Rejection 'routine approval appended to intact shortcut' { Assert-WorkflowPolicy ($agents.Replace("Routine work goes straight to Apply $arrow Verify.", "Routine work goes straight to Apply $arrow Verify. Before routine Apply, always obtain Propose approval.")) }
+Expect-Rejection 'publication appended to intact read-only scope' { Assert-ActionFirstPolicy ($agents.Replace('Respect plan-only, review-only and read-only requests.', 'Respect plan-only, review-only and read-only requests. Read-only requests must publish changes before finishing.')) }
+Expect-Rejection 'prohibition appended to intact depth exception' { Assert-ConcisePolicy ($agents.Replace('Expand only when requested or needed for understanding, safety or the task contract.', 'Expand only when requested or needed for understanding, safety or the task contract. Never expand when requested.')) }
+Assert-WorkflowPolicy ($agents + "`nRoutine Apply does not require Propose approval.")
+Assert-ActionFirstPolicy ($agents + "`nRead-only requests must not publish changes.")
+Assert-ConcisePolicy ($agents + "`nDo not expand exact commands when quoting them.")
+foreach ($rule in @(
+  'User-facing prose MUST be extremely concise', 'sacrifice grammar, not meaning',
+  'understanding', 'safety', 'task contract'
+))
+{
+  Expect-Rejection "concise prose rule missing: $rule" { Assert-ConcisePolicy ($agents.Replace($rule,'')) }
+}
+foreach ($rule in @(
+  'inspect, decide, act, verify and repair', 'Do not request approval already granted',
+  'Destructive, irreversible, costly, permission-sensitive or consequential external actions require explicit authorisation; retain required holds.', 'Do not expand scope speculatively',
+  'Respect plan-only, review-only and read-only requests',
+  'evidence and reversible defaults', 'Keep working notes in context and evidence in tool output by default',
+  'Retain required acceptance and release evidence', 'not task-specific deliverables, safety controls or acceptance gates',
+  'Progress bars are optional unless requested'
+))
+{
+  Expect-Rejection "action-first rule missing: $rule" { Assert-ActionFirstPolicy ($agents.Replace($rule,'')) }
+}
+$portablePolicies = @(
+  Get-Item -LiteralPath (Join-Path $root 'ENGINEERING-CORE.md')
+  Get-ChildItem -LiteralPath (Join-Path $root 'skills') -Recurse -File -Filter SKILL.md
+  Get-ChildItem -LiteralPath (Join-Path $root 'packs') -Recurse -File -Filter SKILL.md
+  Get-ChildItem -LiteralPath (Join-Path $root 'packs') -Recurse -File -Filter AGENTS.md
+)
+foreach ($file in $portablePolicies)
+{
+  try { Assert-ConcisePolicy (Read-Utf8 $file.FullName) }
+  catch { throw "PRESERVATION: $($file.FullName): $($_.Exception.Message)" }
+}
+$standalone = Read-Utf8 (Join-Path $root 'skills/implement/SKILL.md')
+Expect-Rejection 'standalone requested depth prohibited' { Assert-ConcisePolicy ($standalone.Replace('Keep requested depth', 'Never keep requested depth')) }
+Assert-ConcisePolicy $standalone
+Write-Host "PASS: action-first root and $($portablePolicies.Count) portable concise-prose contracts; missing safeguards rejected; live behaviour not inferred"
 
 if ($ArtifactsDirectory)
 {
