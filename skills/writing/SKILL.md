@@ -30,6 +30,7 @@ Resolve routine drafting or editing choices from evidence and reversible default
 
 - Verify material claims, names, dates, numbers, calculations, quotations, citations, and links.
 - Compare the source and revision in both directions. Check what disappeared and what was added.
+- Check requested length and format. Retain scope qualifiers, explicit stop conditions and relevant completed/current/pending state; repair omissions before delivery.
 - Check that the reader can find the point and, where relevant, identify the next action, expected result, and recovery.
 - Check consistent terms and exact labels. Do not turn an unknown outcome into a failure or success.
 - Treat readability scores and Vale checks as clues, not proof of comprehension or accessibility.

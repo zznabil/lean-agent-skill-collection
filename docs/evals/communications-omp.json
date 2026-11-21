@@ -72,7 +72,7 @@
         "(?i)\\bfix\\b.{0,15}\\b(?:implemented|complete|done)\\b|\\bimplemented\\b.{0,15}\\bfix\\b",
         "(?i)\\bunit tests? (?:passed|pass)\\b",
         "(?i)\\bintegration (?:testing|tests?)\\b.{0,20}\\b(?:not run|not tested|pending)\\b",
-        "(?i)\\b(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass\\b(?=\\s*(?:[.!;]|$))"
+        "(?i)\\b(?:(?:release\\s+(?:is\\s+)?(?:blocked|held|on hold)\\s+until|hold\\s+(?:the\\s+)?release\\s+until|do not release\\s+until)\\s+(?:integration\\s+(?:testing|tests?)|they)\\s+pass|release\\s+(?:requires|needs)\\s+(?:integration\\s+(?:testing|tests?)|it|them)\\s+to\\s+pass)\\b(?=\\s*(?:[.!;]|$))"
       ],
       "forbidden": [
         "(?i)summary|tl;dr|all tests passed|ready to release|release approved",
@@ -88,12 +88,21 @@
       "max_words": 25,
       "samples": {
         "pass": [
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to pass.",
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to pass.",
           "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass.",
           "Fix implemented. Unit tests passed. Integration tests not run. Hold release until they pass.",
           "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release must not proceed now.",
           "Fix implemented. Unit tests passed. Integration testing pending. Release blocked until integration tests pass. Release may proceed after they pass."
         ],
         "fail": [
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to fail.",
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to pass or fail.",
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to pass. Release may proceed now.",
+          "Fix implemented; unit tests passed. Integration testing not run; release does not require it to pass.",
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to finish.",
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to pass or fail.",
+          "Fix implemented; unit tests passed. Integration testing not run; release requires it to pass. Release is approved.",
           "Fix implemented. Unit tests passed. Ready to release.",
           "Fix implemented. All tests passed. Release approved.",
           "Fix implemented. Unit tests passed. Integration testing pending.",
@@ -327,7 +336,7 @@
         "(?<![\\w-])sync --dry-run(?![\\w-])",
         "Do not close this window\\.",
         "(?i)(?:saved files.{0,30}up to date|up to date.{0,30}saved files)",
-        "(?i)(?:planned changes|changes are planned|changes (?:it|the command) plans to make|what would change)",
+        "(?i)(?:planned changes|changes are planned|changes (?:it|the command) plans to make|what would change|changes that would be made)",
         "(?i)(?:without changing|does not change|won\\x27t change) (?:(?:your|any) )?files",
         "(?s)\\A- [^\\n]+\\n- [^\\n]+\\s*\\Z"
       ],
@@ -337,6 +346,7 @@
       "skill": "writing",
       "samples": {
         "pass": [
+          "- **Synchronize workspace** means update your saved files so they are up to date. “Do not close this window.”\n- **sync --dry-run** means preview the changes that would be made; it does not change any files.",
           "- Select **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what changes are planned without changing files. “Do not close this window.”",
           "- Select **Synchronize workspace** to bring your saved files up to date. “Synchronize” means make the files match the latest version.\n- Run `sync --dry-run` to see which file changes are planned, without changing any files. Keep the window open: “Do not close this window.”",
           "- Select Synchronize workspace to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
@@ -344,6 +354,7 @@
           "- Choose **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what would change without changing any files. “Do not close this window.”"
         ],
         "fail": [
+          "- **Synchronize workspace** means update your saved files so they are up to date. “Do not close this window.”\n- **sync --dry-run** means preview the changes that would be made; it changes your files.",
           "- Select **Synchronize workspace** to bring your saved files up to date.\n- Run `sync --dry-run` to see what changes are planned while changing files. “Do not close this window.”",
           "- Select **Synchronize workspace** to bring your saved files up to date. “Synchronize” means make the files match the latest version.\n- Run `sync --dry-run` to see which file changes are planned, while changing files. Keep the window open: “Do not close this window.”",
           "- Select Update files to bring saved files up to date. The message says: 'Do not close this window.'\n- Run sync --dry-run to see planned changes without changing files.",
@@ -554,7 +565,7 @@
         "(?i)write skew",
         "(?i)concurrent transactions",
         "(?i)shared constraint",
-        "(?i)disjoint rows",
+        "(?i)(?:disjoint rows|update different rows[^.]*\\.[^.]*writes do not overlap)",
         "(?i)(?:both doctors[^.]*off call|(?:has|leaves) no doctor on call|neither doctor is on call)",
         "(?i)at.least.one(?: of (?:the )?(?:two|2))?.doctor",
         "(?i)abort",
@@ -657,11 +668,11 @@
       "skill": "optional",
       "required": [
         "(?i)export[^\\n.]*complete",
-        "(?i)(?:current[^\\n.]*hash|hash[^\\n.]*current)",
-        "(?i)import[^\\n.]*pending",
+        "(?i)(?:current[^\\n.]*hash|hash[^\\n.]*current|1\\. Verify the hashes)",
+        "(?i)(?:import[^\\n.]*pending|pending import)",
         "(?m)^1\\.",
         "(?m)^2\\.",
-        "(?i)(?:only if|only after)[^\\n.]*hash[^\\n.]*match"
+        "(?i)(?:only if|only after)[^\\n.]*hash[^\\n.]*match|(?is:verify the hashes.*if they match, run the pending import\\. if they do not match, stop; do not import)"
       ],
       "forbidden": [
         "(?i)hash[^\\n.]*PASS|verification (?:passed|complete)|\\b\\d+ (?:minutes?|hours?)\\b",
@@ -669,10 +680,13 @@
       ],
       "samples": {
         "pass": [
+          "Export complete.\n1. Verify the hashes; verification has not run.\n2. If they match, run the pending import. If they do not match, stop; do not import.",
           "Export: complete. Current: hash verification, not run. Import: pending.\n1. Verify the hashes.\n2. Import only if the hashes match.",
           "Export complete; hash verification is current and not run; import pending.\n1. Compare the hashes.\n2. Import only after the hashes match."
         ],
         "fail": [
+          "1. Verify the hashes; verification has not run.\n2. If they match, run the pending import. If they do not match, stop; do not import.",
+          "Export complete.\n1. Verify the hashes; verification has not run.\n2. If they match, run the pending import. If they do not match, import anyway.",
           "Export complete.\n1. Import the data.",
           "Export: complete. Current: hash verification PASS. Import: pending.\n1. Verify the hashes.\n2. Import only if the hashes match."
         ]
@@ -740,7 +754,6 @@
       "prompt": "Use $wait-what to re-express this text in PT-BR, keeping its facts and technical tokens: \"Luka: o comando sync --dry-run em C:/dados/a.json pode falhar com erro 401 e exit 17. A causa é desconhecida. Consulte https://example.org/help. Decisão: NÃO publicar; a aprovação continua obrigatória.\" Do not verify or correct it.",
       "skill": "wait-what",
       "required": [
-        "(?i)comando",
         "(?i)pode falhar",
         "(?i)causa[^\\n.]*desconhecida",
         "(?i)(?:NÃO|não) publicar",
@@ -881,9 +894,9 @@
       "prompt": "Use $wait-what to re-express only: \"A zero scan count does not prove safety. Operators MUST NOT deploy without approval. They SHOULD log access unless offline and MAY show beta. The cause may be unknown.\" Keep the prohibition, modal strengths, exception and uncertainty; do not verify or act.",
       "skill": "wait-what",
       "required": [
-        "(?i)(?:zero scan count|zero findings|scan[^\\n.]*zero)[^\\n.]*does not prove safety",
+        "(?i)(?:zero scan count|zero findings|scan[^\\n.]*zero)[^\\n.]*does not (?:prove safety|show that the system is safe)",
         "Operators MUST NOT deploy without approval",
-        "(?i)SHOULD[^\\n.]*log[^\\n.]*unless offline",
+        "(?i)SHOULD[^\\n.]*log[^\\n.]*\\b(?:unless offline|except when offline)",
         "MAY[^\\n.]*beta",
         "(?i)cause may be unknown"
       ],
@@ -893,9 +906,13 @@
       ],
       "samples": {
         "pass": [
+          "A zero scan count does not show that the system is safe. Operators MUST NOT deploy without approval. They SHOULD log access, except when offline. They MAY show beta. The cause may be unknown.",
           "A zero scan count does not prove safety. Operators MUST NOT deploy without approval. They SHOULD log access unless offline and MAY show beta. The cause may be unknown."
         ],
         "fail": [
+          "A zero scan count shows that the system is safe. Operators MUST NOT deploy without approval. They SHOULD log access, except when offline. They MAY show beta. The cause may be unknown.",
+          "A zero scan count does not show that the system is safe. Operators MUST NOT deploy without approval. They SHOULD log access when offline. They MAY show beta. The cause may be unknown.",
+          "A zero scan count does not show that the system is safe. Operators MUST NOT deploy without approval. They MUST log access, except when offline. They MAY show beta. The cause may be unknown.",
           "A zero scan count proves safety. Operators MUST deploy without approval. They SHOULD always log access and MAY show beta. The cause is known.",
           "A zero scan count does not prove safety. Operators MUST NOT deploy without approval. They SHOULD log access unless offline and MAY show beta. The cause may be unknown. Deploy now; approval is optional."
         ]
@@ -940,10 +957,10 @@
       "prompt": "Conversation context: the previous assistant answer was \"The import failed with exit 17. The cause is unknown; approval is still required before retrying.\" Use $wait-what to clarify that previous answer, with no pasted replacement text and no verification or correction.",
       "skill": "wait-what",
       "required": [
-        "(?i)import failed",
+        "(?i)import (?:failed|was unsuccessful)",
         "exit 17",
-        "(?i)cause[^\\n.]*unknown",
-        "(?i)approval[^\\n.]*required[^\\n.]*before[^\\n.]*retry"
+        "(?i)(?:cause|reason)[^\\n.]*unknown",
+        "(?i)approval[^\\n.]*(?:required|needed)[^\\n.]*before[^\\n.]*(?:retry|trying again)"
       ],
       "forbidden": [
         "(?i)retry now|approval is optional|cause is known"
@@ -1013,7 +1030,7 @@
       ],
       "required": [
         "(?i)causa[^\\n.]*não foi confirmada",
-        "(?i)não repetir sem autorização"
+        "(?i)(?:não repetir|não o repita) sem autorização"
       ],
       "forbidden": [
         "(?i)causa confirmada|repita agora"

@@ -11,7 +11,7 @@ Apply this kernel to every skill and authored companion, including standalone in
 - **Organisation — Diátaxis:** Separate tutorial, how-to, reference and explanation when helpful; do not force sections into short answers.
 User-facing prose MUST be extremely concise. Prefer fragments and bullets; sacrifice grammar, not meaning, for brevity. Expand only when requested or needed for understanding, safety or the task contract. Lead with the answer, result or next action.
 Omit routine narration, praise, Summary headings and closing recaps. Use TL;DR only first and when useful. Number ordered actions; retain required list items. After interruptions or task changes, restore relevant state, not every turn. Report verified results and factual errors; never invent estimates or diagnose readers. Give next actions only when work remains.
-Preserve facts, actors, negation, conditions, exceptions, permissions, uncertainty, evidence limits, quotations, requested voice and exact formats.
+Preserve facts, actors, negation, conditions, exceptions, permissions, uncertainty, evidence limits, quotations, requested voice and exact formats. Before sending, check requested length and retained scope, stop conditions and exact technical fragments; repair omissions. After interruption, retain relevant completed, current and pending state.
 Use British spelling except in sources, exact strings or requested locales. Other frameworks remain task-selected; inspired prose does not establish formal conformance.
 <!-- communication-kernel:end -->
 

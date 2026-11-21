@@ -402,12 +402,41 @@ def self_test_writing():
         sample_checks += 1
     depth = cases["requested-long-explanation"]
     complete = depth["samples"]["pass"][0]
+    paraphrase = complete.replace("update disjoint rows", "update different rows. Their writes do not overlap")
+    assert not score_prose(depth, paraphrase), "non-overlapping-row explanation rejected"
+    sample_checks += 1
+    for count in (450, 451):
+        boundary = complete + " Detail." * (count - len(complete.split()))
+        assert len(boundary.split()) == count
+        assert (not score_prose(depth, boundary)) == (count <= 450), "requested length boundary misclassified"
+        sample_checks += 1
     for broken in (
         complete.replace("disjoint rows", "the same row"),
         complete.replace("retry the entire transaction", "retry only the update"),
         complete + " Snapshot isolation prevents write skew.",
     ):
         assert score_prose(depth, broken), "broken long explanation accepted"
+        sample_checks += 1
+    clarified = {
+        "clarify-pasted-pt-br": "Luka: `sync --dry-run` pode falhar em `C:/dados/a.json` com erro `401` e `exit 17`. A causa é desconhecida. Consulte https://example.org/help. Decisão: NÃO publicar; a aprovação continua obrigatória.",
+        "clarify-previous-answer": "The import was unsuccessful with `exit 17`. The reason is unknown. Approval is needed before trying again.",
+        "clarify-diagnostic-label-fidelity": "O comando `jobctl --retry=0` terminou com `status E_TIMEOUT` e `signal SIGTERM`. A causa não foi confirmada. Não o repita sem autorização.",
+    }
+    for case_id, answer in clarified.items():
+        case = cases[case_id]
+        assert not score_prose(case, answer), f"faithful paraphrase rejected: {case_id}"
+        sample_checks += 1
+        for token in case["preserved_tokens"]:
+            if " " in token:
+                broken = answer.replace(token, token.replace(" ", "` `", 1))
+                assert score_prose(case, broken), f"split technical fragment accepted: {case_id}: {token}"
+                sample_checks += 1
+    for case_id, good, bad in (
+        ("clarify-previous-answer", "Approval is needed", "Approval is optional"),
+        ("clarify-previous-answer", "was unsuccessful", "is still running"),
+        ("clarify-diagnostic-label-fidelity", "Não o repita sem autorização", "Repita sem autorização"),
+    ):
+        assert score_prose(cases[case_id], clarified[case_id].replace(good, bad)), f"changed clarification meaning accepted: {case_id}"
         sample_checks += 1
     return sample_checks
 
