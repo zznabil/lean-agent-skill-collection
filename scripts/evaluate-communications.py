@@ -595,6 +595,28 @@ def self_test_writing():
         assert not score_prose(cases["clarify-diagnostic-label-fidelity"], faithful), "faithful Portuguese prohibition rejected"
         assert score_prose(cases["clarify-diagnostic-label-fidelity"], faithful.replace(prohibition, prohibition[4:])), "publication/command permission reversal accepted"
         sample_checks += 2
+    diagnostic = cases["clarify-diagnostic-label-fidelity"]
+    unqualified = clarified["clarify-diagnostic-label-fidelity"]
+    assert not score_prose(diagnostic, unqualified), "unqualified diagnostic uncertainty rejected"
+    sample_checks += 1
+    for faithful in (
+        unqualified.replace("A causa não foi confirmada", "A causa ainda não foi confirmada"),
+        unqualified + " A regra não é opcional.",
+    ):
+        assert not score_prose(diagnostic, faithful), "faithful temporal uncertainty or mandatory rule rejected"
+        sample_checks += 1
+    for broken in (
+        unqualified.replace("A causa não foi confirmada", "Esses registros não confirmam a causa"),
+        unqualified.replace("A causa não foi confirmada", "A causa não foi confirmada pelos registros"),
+        unqualified.replace("A causa não foi confirmada", "A causa não foi confirmada pelos registros, mas o fornecedor a confirmou"),
+        unqualified + " O fornecedor confirmou a causa.",
+        unqualified + " A causa foi confirmada.",
+        unqualified.replace("Não o repita sem autorização", "Repita sem autorização"),
+        unqualified.replace("Não o repita sem autorização", "Não o repita sem autorização, mas essa regra é opcional"),
+        unqualified + " A regra é opcional.",
+    ):
+        assert score_prose(diagnostic, broken), "narrowed uncertainty or weakened diagnostic rule accepted"
+        sample_checks += 1
     before_release = "Fix implemented; unit tests passed. Integration testing not run; must pass before release."
     assert not score_prose(status, before_release), "antecedent-bound release prerequisite rejected"
     for broken in (
