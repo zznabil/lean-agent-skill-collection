@@ -599,7 +599,7 @@
         "(?i)zero voltage",
         "(?i)stop",
         "(?i)supervisor",
-        "(?i)(?:replace[^.\\n]*only (?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)|(?:only )?(?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)[^.\\n]*replace|(?:\\A|\\n)2\\.[ \\t]+Verify zero voltage\\. If verification fails or is inconclusive, stop, keep power isolated and contact the supervisor\\.\\n3\\.[ \\t]+Replace the power module only after zero voltage is confirmed\\. Keep power isolated during replacement\\.(?:\\n|\\Z))"
+        "(?i)(?:replace[^.\\n]*only (?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)|(?:only )?(?:after|if)[^.\\n]*verif[^.\\n]*(?:succeed|successful|pass)[^.\\n]*replace|\\A1\\. Isolate power\\.\\n2\\. Verify zero voltage\\. If verification fails or is inconclusive, stop, keep power isolated and contact the supervisor\\.\\n3\\. Replace the power module only after zero voltage is confirmed\\. Keep power isolated during replacement\\.\\n4\\. Restore power and check the LED\\. If it is not green, stop, isolate power again and contact the supervisor\\.\\Z)"
       ],
       "ordered": [
         "(?i)isolate power",

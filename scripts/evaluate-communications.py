@@ -619,6 +619,10 @@ def self_test_writing():
         confirmed_voltage.replace(" and contact the supervisor", ""),
         confirmed_voltage.replace("only after zero voltage is confirmed", "even if verification is inconclusive"),
         "\n".join(confirmed_voltage.splitlines()[2:3] + confirmed_voltage.splitlines()[:2] + confirmed_voltage.splitlines()[3:]),
+        confirmed_voltage.replace("1. Isolate power.", "1. Do not isolate power."),
+        confirmed_voltage.replace("1. Isolate power.", "1. Isolate power. Step 2 is optional."),
+        confirmed_voltage.replace("1. Isolate power.", "1. Isolate power. If there is no time to verify zero voltage, skip step 2 and go straight to step 3."),
+        confirmed_voltage + " If there is no time, skip verification.",
     ):
         assert score_prose(technician, broken), "weakened confirmed-voltage procedure accepted"
         sample_checks += 1
